@@ -15,21 +15,21 @@ public class FaqController {
 	private FaqService service;
 	
 	//faq 리스트 
-	@RequestMapping("/board/faqList")
+	@RequestMapping("/faq/faqList")
 	public ModelAndView selectfaqList(ModelAndView mv) {
 		mv.addObject("list",service.selectFaqList());
-		mv.setViewName("board/faqList");
+		mv.setViewName("faq/faqList");
 		return mv;
 	}
 	
 	//faq 수정/등록 창으로 전환
-	@RequestMapping("board/faq")
+	@RequestMapping("faq/faq")
 	public String faq() {
-		return "board/faq";
+		return "faq/faq";
 	}
 	
 	//faq등록
-	@RequestMapping("/board/insertFaq")
+	@RequestMapping("/faq/insertFaq")
 	public ModelAndView insertFaq(Faq f,ModelAndView mv) {
 		int result=service.insertFaq(f);
 		String msg="";
@@ -37,11 +37,11 @@ public class FaqController {
 		String icon="";
 		if(result>0) {
 			msg="자주묻는 질문 등록 성공";
-			loc="board/faqList";
+			loc="faq/faqList";
 			icon="success"; //success,error,warning
 		}else {
 			msg="자주묻는 질문 등록 실패";
-			loc="board/faq";	
+			loc="faq/faq";	
 			icon="warning";
 		}
 		mv.addObject("msg",msg);
@@ -52,7 +52,7 @@ public class FaqController {
 	}
 	
 	//faq삭제
-	@RequestMapping("board/deleteFaq")
+	@RequestMapping("faq/deleteFaq")
 	public ModelAndView deleteFaq(String faqNo, ModelAndView mv) {
 		int result=service.deleteFaq(faqNo);
 		String msg="";
@@ -60,10 +60,10 @@ public class FaqController {
 		String icon="";
 		if(result>0) {
 			msg="자주묻는 질문 삭제 성공";
-			loc="board/faqList";
+			loc="faq/faqList";
 		}else {
 			msg="자주묻는 질문 삭제 실패";
-			loc="board/faq";	
+			loc="faq/faq";	
 			icon="warning";
 		}
 		mv.addObject("msg",msg);
@@ -74,15 +74,15 @@ public class FaqController {
 	}
 	
 	//faq 수정
-	@RequestMapping("board/updateFaq")
+	@RequestMapping("faq/updateFaq")
 	public ModelAndView selectFaqOne(String faqNo, ModelAndView mv) {
 		Faq f=service.selectFaqOne(faqNo);
 		mv.addObject("faq",f);
-		mv.setViewName("board/faq");
+		mv.setViewName("faq/faq");
 		return mv;	
 	}
 	
-	@RequestMapping("/board/updateFaqEnd")
+	@RequestMapping("/faq/updateFaqEnd")
 	public ModelAndView updateFaq(Faq f, ModelAndView mv) {
 		int result=service.updateFaq(f);
 		String msg="";
@@ -90,10 +90,10 @@ public class FaqController {
 		String icon="";
 		if(result>0) {
 			msg="자주묻는 질문 수정 성공";
-			loc="board/faqList";
+			loc="faq/faqList";
 		}else {
 			msg="자주묻는 질문 수정 실패";
-			loc="board/updateFaq?faqNo="+f.getFaqNo();	
+			loc="faq/updateFaq?faqNo="+f.getFaqNo();	
 			icon="warning";
 		}
 		mv.addObject("msg",msg);

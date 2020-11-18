@@ -56,7 +56,7 @@
                 <nav>
                     <ul id="menu_ul" class="nav justify-content-center pt-3">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">다시:봄 소개</a></li>
+                            <a class="nav-link" href="${path }/intro/moveIntro">다시:봄 소개</a></li>
                         <li class="nav-item dropdown">
                             <a id="menuNav-product" class="nav-link" href="#">제품</a>
                             <ul class="">
