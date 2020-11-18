@@ -29,10 +29,10 @@
 		<div id="faq-container">
 		<!-- faq값이 없을 때는 등록, faq 값이 넘어왔을떄는  수정 -->
 		<c:if test="${empty faq }">
-			<form name="faqFrm" action="${path }/board/insertFaq" onsubmit="return fn_check()">
+			<form name="faqFrm" action="${path }/faq/insertFaq" onsubmit="return fn_check()">
 		</c:if>
 		<c:if test="${not empty faq }">
-			<form name="faqFrm" action="${path }/board/updateFaqEnd" onsubmit="return fn_check()">
+			<form name="faqFrm" action="${path }/faq/updateFaqEnd" onsubmit="return fn_check()">
 		</c:if>
 			<c:if test="${not empty faq }">
 				<input type="hidden" value="${faq.faqNo }" name="faqNo">
@@ -65,7 +65,7 @@
 				<br>
 				<div id="btn-box">
 					
-					<input type="button" class="btn btn-outline-success" value="목록으로" onclick="location.replace('${path }/board/faqList')">&nbsp;&nbsp;
+					<input type="button" class="btn btn-outline-success" value="목록으로" onclick="location.replace('${path }/faq/faqList')">&nbsp;&nbsp;
 					
 					<c:if test="${empty faq }">
 						<input type="submit" class="btn btn-success" value="등록">

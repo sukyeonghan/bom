@@ -73,7 +73,7 @@
                             <a class="nav-link" href="#">게시판</a>
                             <ul class="">
                                 <li><a class="" href="#">공지사항</a></li>
-                                <li><a class="" href="${path }/board/faqList">자주묻는질문</a></li>
+                                <li><a class="" href="${path }/faq/faqList">자주묻는질문</a></li>
                             </ul>
                         </li>
                     </ul>

@@ -38,13 +38,13 @@
 		      <a class="nav-link" href="#">공지사항</a>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link " href="${path }/board/faqList">자주묻는질문</a>
+		      <a class="nav-link " href="${path }/faq/faqList">자주묻는질문</a>
 		    </li>
 		  </ul>
 		</div>
 		
 		<!--좌측메뉴선택시 화면 -->
-		<div id="board-container" class="col-sm-9">
+		<div id="faq-container" class="col-sm-9">
 			<h3>자주묻는 질문</h3> 
 			<br>
 			<div class="d-flex justify-content-between">
@@ -69,7 +69,7 @@
 					  </ul>
 				  </div>
 				  <div class="text-right">
-				  	<button class="btn btn-success" id="faqAddbtn" onclick="location.replace('${path}/board/faq')">글쓰기</button>     
+				  	<button class="btn btn-success" id="faqAddbtn" onclick="location.replace('${path}/faq/faq')">글쓰기</button>     
 				  </div>
 			</div>
 		 	<hr>
@@ -112,12 +112,12 @@
 <script>
 	function fn_updateFaq(){
 		let faqNo=$(event.target).parent().children('input[name=faqNo]').val();		
-		location.replace("${path}/board/updateFaq?faqNo="+faqNo);
+		location.replace("${path}/faq/updateFaq?faqNo="+faqNo);
 	} 
 		
 	function fn_deleteFaq(){
 		let faqNo=$(event.target).parent().children('input[name=faqNo]').val();
-		location.replace("${path}/board/deleteFaq?faqNo="+faqNo);
+		location.replace("${path}/faq/deleteFaq?faqNo="+faqNo);
 	}; 
 
 
