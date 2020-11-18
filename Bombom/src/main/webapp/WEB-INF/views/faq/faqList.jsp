@@ -9,13 +9,14 @@
 	<jsp:param name="title" value=" "/>
 </jsp:include>
 <style>
-	section{margin-top:220px;}
+	
 	/*게시판 메뉴*/
 /*  	#board-nav{
 		min-width: 180px;
 		width: 180px;
 		padding:0;
 	}  */
+	#board-nav{padding-right:100px;}
 	#board-nav a{color:black;font-weight:bolder;}
 	#board-nav a:hover{color: #45A663;}
 	
@@ -28,23 +29,23 @@
 	
 
 </style>
-<section id="content" class="container">
+<section id="container" class="container">
 	
-	<div class="row">
+	<div class="media">
 		<!-- 좌측 메뉴 -->
-		<div id="board-nav" class="col-sm-3">
+		<div id="board-nav" class=" mr-3">
 		  <ul class="nav flex-column">
 		    <li class="nav-item">
 		      <a class="nav-link" href="#">공지사항</a>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link " href="${path }/faq/faqList">자주묻는질문</a>
+		      <a class="nav-link " href="/bom/faq/faqList">자주묻는질문</a>
 		    </li>
 		  </ul>
 		</div>
 		
 		<!--좌측메뉴선택시 화면 -->
-		<div id="faq-container" class="col-sm-9">
+		<div id="faq-container" class="media-body">
 			<h3>자주묻는 질문</h3> 
 			<br>
 			<div class="d-flex justify-content-between">
