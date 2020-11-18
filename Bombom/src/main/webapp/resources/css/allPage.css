@@ -156,6 +156,7 @@ div#menuNav {
 
 /* 햄버거메뉴css 끝 */
 
+/* header만큼 top 주기 */
 section#container {
     padding-top: 160px;
 }
