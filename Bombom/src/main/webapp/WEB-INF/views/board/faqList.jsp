@@ -35,7 +35,7 @@
 		<div id="board-nav" class="col-sm-3">
 		  <ul class="nav flex-column">
 		    <li class="nav-item">
-		      <a class="nav-link" href="#">공지사항</a>
+		      <a class="nav-link" href="${path }/notice/noticeList">공지사항</a>
 		    </li>
 		    <li class="nav-item">
 		      <a class="nav-link " href="${path }/board/faqList">자주묻는질문</a>

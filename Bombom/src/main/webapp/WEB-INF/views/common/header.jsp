@@ -72,7 +72,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">게시판</a>
                             <ul class="">
-                                <li><a class="" href="#">공지사항</a></li>
+                                <li><a class="" href="${path }/notice/noticeList">공지사항</a></li>
                                 <li><a class="" href="${path }/board/faqList">자주묻는질문</a></li>
                             </ul>
                         </li>
