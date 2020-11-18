@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="faq">
+ 	<resultMap type="faq" id="faqMap">
+ 		<result property="faqNo" column="faq_no"/>
+ 		<result property="faqTitle" column="faq_title"/>
+ 		<result property="faqContent" column="faq_content"/>
+ 		<result property="faqCategory" column="faq_category"/>
+ 	</resultMap>
+ 	<select id="selectFaqList" resultMap="faqMap">
+	 	SELECT* FROM FAQ ORDER BY TO_NUMBER(SUBSTR(FAQ_NO,2)) DESC
+ 	</select>
+ 	
+ 	<insert id="insertFaq" parameterType="faq">
+ 		INSERT INTO FAQ VALUES('F'||SEQ_FAQ_NO.NEXTVAL,#{faqCategory},#{faqTitle},#{faqContent}) 		
+ 	</insert>
+ 	
+ 	<delete id="deleteFaq" parameterType="string">
+ 		DELETE FROM FAQ WHERE FAQ_NO=#{faqNo}
+ 	</delete>
+ 	
+ 	<select id="selectFaqOne" parameterType="string" resultMap="faqMap">
+ 		SELECT * FROM FAQ WHERE FAQ_NO=#{faqNo}
+ 	</select>
+ 	
+ 	<update id="updateFaq" parameterType="faq">
+ 		UPDATE FAQ SET FAQ_CATEGORY=#{faqCategory},FAQ_TITLE=#{faqTitle},FAQ_CONTENT=#{faqContent}
+ 		WHERE FAQ_NO=#{faqNo}
+ 	</update>
+</mapper>
