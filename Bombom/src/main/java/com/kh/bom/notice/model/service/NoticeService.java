@@ -9,6 +9,12 @@ public interface NoticeService {
 	List<Notice> selectNoticeList();
 	
 	Notice selectNoticeOne(String noticeNo);
+	
+	int insertNotice(Notice notice);
+	
+	int deleteNotice(String noticeNo);
+	
+	int updateNotice(Notice notice);
 
 
 }

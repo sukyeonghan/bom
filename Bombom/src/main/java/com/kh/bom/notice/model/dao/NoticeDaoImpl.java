@@ -17,11 +17,30 @@ public class NoticeDaoImpl implements NoticeDao {
 	}
 
 	@Override
+	public int insertNotice(SqlSession session, Notice notice) {
+		// TODO Auto-generated method stub
+		return session.insert("notice.insertNotice",notice);
+	}
+
+	@Override
+	public int deleteNotice(SqlSession session, String noticeNo) {
+		// TODO Auto-generated method stub
+		return session.delete("notice.deleteNotice",noticeNo);
+	}
+
+	@Override
 	public Notice selectNoticeOne(SqlSession session, String noticeNo) {
 		// TODO Auto-generated method stub
 		return session.selectOne("notice.selectNoticeOne",noticeNo);
 	}
+	
+	@Override
+	public int updateNotice(SqlSession session, Notice notice) {
+		// TODO Auto-generated method stub
+		return session.update("notice.updateNotice",notice);
+	}
 
+	
 	
 	
 }

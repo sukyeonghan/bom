@@ -25,9 +25,27 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
+	public int insertNotice(Notice notice) {
+		// TODO Auto-generated method stub
+		
+		return dao.insertNotice(session, notice);
+	}
+
+	@Override
+	public int deleteNotice(String noticeNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteNotice(session,noticeNo);
+	}
+	
+	@Override
 	public Notice selectNoticeOne(String noticeNo) {
 		// TODO Auto-generated method stub
 		return dao.selectNoticeOne(session,noticeNo);
+	}
+	@Override
+	public int updateNotice(Notice notice) {
+		// TODO Auto-generated method stub
+		return dao.updateNotice(session,notice);
 	}
 
 	

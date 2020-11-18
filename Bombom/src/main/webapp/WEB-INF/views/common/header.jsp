@@ -12,7 +12,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MainTest</title>
-    <link rel="stylesheet" href="${path }/resources/css/allPage.css">
+    <link rel="stylesheet" href="${path }/resources/css/common/allPage.css">
     <!-- <link rel="stylesheet" href="css/header1440.css"> -->
     <!-- <link rel="stylesheet" href="css/header768.css"> -->
     
@@ -73,7 +73,7 @@
                             <a class="nav-link" href="#">게시판</a>
                             <ul class="">
                                 <li><a class="" href="${path }/notice/noticeList">공지사항</a></li>
-                                <li><a class="" href="${path }/board/faqList">자주묻는질문</a></li>
+                                <li><a class="" href="${path }/faq/faqList">자주묻는질문</a></li>
                             </ul>
                         </li>
                     </ul>

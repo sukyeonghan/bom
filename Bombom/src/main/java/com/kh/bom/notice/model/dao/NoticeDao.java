@@ -11,5 +11,11 @@ public interface NoticeDao {
 	List<Notice> selectNoticeList(SqlSession session);
 	
 	Notice selectNoticeOne(SqlSession session,String noticeNo);
+	
+	int insertNotice(SqlSession session, Notice notice);
+	
+	int deleteNotice(SqlSession session,String noticeNo);
+	
+    int updateNotice(SqlSession session, Notice notice);
 
 }
