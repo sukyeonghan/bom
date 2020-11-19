@@ -29,7 +29,7 @@ a.card-link {
 
 /* 공지사항 div */
 div#notice-container {
-	width: 400px;
+	width: 800px;
 	margin: 0 auto;
 	text-align: center;
 }
@@ -37,7 +37,11 @@ div#notice-container {
 div#notice-container input {
 	margin-bottom: 15px;
 }
+.table{
+width: 800px;
+}
 </style>
+
 <section id="container" class="container">
 
 
@@ -50,8 +54,8 @@ div#notice-container input {
 				href="/bom/faq/faqList">자주묻는질문</a></li>
 		</ul>
 	</div>
-	<div id="notice-container" class="media-body">
-		<table id="notice-container" class="table table-striped table-hover">
+	<div id="notice-container" class="container">
+		<table id="notice-container" class="table table-hover">
 			<tr>
 				<th>번호</th>
 				<th>제목</th>
@@ -66,30 +70,32 @@ div#notice-container input {
 							<c:out value="${n.NOTICE_TITLE }" />
 					</a></td>
 					<td><c:out value="${n.NOTICE_DATE }" /></td>
-					<td><input type="hidden" value="${n.NOTICE_NO }" name="noticeNo" />
-						<button class="btn btn-outline-success" onclick="fn_updateNotice();">수정</button>
+					<td><input type="hidden" value="${n.NOTICE_NO }"
+						name="noticeNo" />
+						<button class="btn btn-outline-success"
+							onclick="fn_updateNotice();">수정</button>
 						<button class="btn btn-outline-secondary"
 							onclick="fn_deleteNotice();">삭제</button></td>
 				</tr>
 			</c:forEach>
 		</table>
+		</div>
 		<div class="text-right">
 			<button class="btn btn-success" id="noticeAddbtn"
 				onclick="location.replace('${path}/notice/noticeForm.do')">글쓰기</button>
 		</div>
-	</div>
 </section>
 <script>
-	function fn_updateNotice(){
-		let noticeNo=$(event.target).parent().children('input[name=noticeNo]').val();		
-		location.replace("${path}/notice/updateNotice?noticeNo="+noticeNo);
-	} 
-		
-	function fn_deleteNotice(){
-		let noticeNo=$(event.target).parent().children('input[name=noticeNo]').val();
-		location.replace("${path}/notice/deleteNotice?noticeNo="+noticeNo);
-	}; 
+	function fn_updateNotice() {
+		let noticeNo = $(event.target).parent()
+				.children('input[name=noticeNo]').val();
+		location.replace("${path}/notice/updateNotice?noticeNo=" + noticeNo);
+	}
 
-
+	function fn_deleteNotice() {
+		let noticeNo = $(event.target).parent()
+				.children('input[name=noticeNo]').val();
+		location.replace("${path}/notice/deleteNotice?noticeNo=" + noticeNo);
+	};
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
