@@ -12,7 +12,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MainTest</title>
-    <link rel="stylesheet" href="${path }/resources/css/allPage.css">
+    <link rel="stylesheet" href="${path }/resources/css/common/allPage.css">
     <!-- <link rel="stylesheet" href="css/header1440.css"> -->
     <!-- <link rel="stylesheet" href="css/header768.css"> -->
     
@@ -45,6 +45,10 @@
                 <ul class="nav">
                     <li class="nav-item"><a class="nav-link" href="#">로그인</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">회원가입</a></li>
+                    
+                    <!-- 로그인시  나올 메뉴-->
+                    <li class="nav-item"><a class="nav-link" href="${path }/mypage/orderStatus">마이페이지</a></li>
+                  
                     <li class="nav-item"><a class="nav-link" href="#">장바구니</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">검색</a></li>
                 </ul>
@@ -56,7 +60,7 @@
                 <nav>
                     <ul id="menu_ul" class="nav justify-content-center pt-3">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">다시:봄 소개</a></li>
+                            <a class="nav-link" href="${path }/intro/moveIntro">다시:봄 소개</a></li>
                         <li class="nav-item dropdown">
                             <a id="menuNav-product" class="nav-link" href="#">제품</a>
                             <ul class="">
@@ -72,7 +76,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">게시판</a>
                             <ul class="">
-                                <li><a class="" href="#">공지사항</a></li>
+                                <li><a class="" href="${path }/notice/noticeList">공지사항</a></li>
                                 <li><a class="" href="${path }/faq/faqList">자주묻는질문</a></li>
                             </ul>
                         </li>

@@ -18,10 +18,19 @@ public class FaqServiceImpl implements FaqService {
 	private SqlSession session;
 	
 	@Override
-	public List<Faq> selectFaqList() {
+	public List<Faq> selectFaqList(int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return dao.selectFaqList(session);
+		return dao.selectFaqList(session,cPage,numPerpage);
 	}
+
+
+	@Override
+	public int selectFaqCount() {
+		// TODO Auto-generated method stub
+		return dao.selectFaqCount(session);
+	}
+
+
 
 	@Override
 	public int insertFaq(Faq f) {

@@ -7,9 +7,11 @@ import org.apache.ibatis.session.SqlSession;
 import com.kh.bom.faq.model.vo.Faq;
 
 public interface FaqDao {
-	List<Faq> selectFaqList(SqlSession session);
+	List<Faq> selectFaqList(SqlSession session,int cPage,int numPerpage);
 		
-	int insertFaq(SqlSession session,Faq f);
+	int selectFaqCount(SqlSession session);
+	
+	int insertFaq(SqlSession session,Faq f);	
 	
 	int deleteFaq(SqlSession session,String faqNo);
 	

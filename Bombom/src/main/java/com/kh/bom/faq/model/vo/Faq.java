@@ -12,5 +12,5 @@ public class Faq {
 	String faqCategory;
 	String faqTitle;
 	String faqContent;
-	
+	int rownum;
 }
