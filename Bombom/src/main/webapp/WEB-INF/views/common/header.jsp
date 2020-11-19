@@ -50,7 +50,7 @@
                 </ul>
             </div>
             <div id="logo-wrap">
-                <img id="logo" class="img-responsive center-block" src="${path }/resources/images/springAgainLogo.png" alt="">
+            <a href="${path }"><img id="logo" class="img-responsive center-block" src="${path }/resources/images/springAgainLogo.png" alt="mainLogo"></a>
             </div>
             <div id="menuNav" class="dropmenu">
                 <nav>
