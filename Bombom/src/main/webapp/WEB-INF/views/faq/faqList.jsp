@@ -9,29 +9,28 @@
 	<jsp:param name="title" value=" "/>
 </jsp:include>
 <style>
-	
-	/*게시판 메뉴*/
-/*  	#board-nav{
-		min-width: 180px;
-		width: 180px;
-		padding:0;
-	}  */
+	/*좌측메뉴*/
 	#board-nav{padding-right:100px;}
 	#board-nav a{color:black;font-weight:bolder;}
 	#board-nav a:hover{color: #45A663;}
-	
-	a.card-link{font-weight:bolder; color:black;}
-	
+
 	/*아코디언 타이틀*/
+	a.card-link{font-weight:bolder; color:black;} 
+	.card-header{background-color: #F2FFED;border:1px #E0FFDB solid;}
 	.card-header div{display: inline-block;}
 	.card-header div:nth-of-type(1){width: 50px;}
 	.card-header div:nth-of-type(2){width: 100px;color:#45A663;}
+	.card-header div:nth-of-type(3){width: 450px;}
 	
-
+	/*최소 컨텐츠 크기*/
+	.media{min-width: 768px;} 
+	
+	/*버튼 가운데정렬*/
+	.btn-box{text-align: center;}
 </style>
 <section id="container" class="container">
-	
 	<div class="media">
+	
 		<!-- 좌측 메뉴 -->
 		<div id="board-nav" class=" mr-3">
 		  <ul class="nav flex-column">
@@ -39,7 +38,7 @@
 		      <a class="nav-link" href="${path }/notice/noticeList">공지사항</a>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link " href="/bom/faq/faqList">자주묻는질문</a>
+		      <a class="nav-link " href="${path }/faq/faqList">자주묻는질문</a>
 		    </li>
 		  </ul>
 		</div>
@@ -73,7 +72,9 @@
 				  	<button class="btn btn-success" id="faqAddbtn" onclick="location.replace('${path}/faq/faq')">글쓰기</button>     
 				  </div>
 			</div>
+			
 		 	<hr>
+		 	
 			 <div id="accordion">
 				  <c:forEach items="${list}" var="f" varStatus="vs">
 				  
@@ -81,7 +82,7 @@
 						<!-- 타이틀부분 -->
 					    <div class="card-header">
 					      <a class="collapsed card-link" data-toggle="collapse" href="#collapse${vs.index}">
-					         <div><c:out value="${list.size() - vs.index}"/></div>
+					         <div><c:out value="${f.rownum }"/></div>
 					         <div><c:out value="${f.faqCategory }"/></div> 
 					         <div><c:out value="${f.faqTitle}"/></div>
 					      </a>
@@ -96,7 +97,7 @@
 							<br>
 							<div class="btn-box">
 								<input type="hidden" value="${f.faqNo }" name="faqNo"/>
-								<button class="btn btn-outline-success" onclick="fn_updateFaq();">수정</button>
+								<button class="btn btn-outline-success" onclick="fn_updateFaq();">수정</button>&nbsp;&nbsp;
 								<button class="btn btn-outline-secondary" onclick="fn_deleteFaq();">삭제</button>
 							</div> 
 							
@@ -107,6 +108,12 @@
 					  
 			   	</c:forEach>
 			</div>
+			<br>
+			<br>
+			<div id="pageBar">
+				${pageBar }
+	        </div> 
+	        
 		</div>
 	</div>
 </section>
@@ -121,6 +128,9 @@
 		location.replace("${path}/faq/deleteFaq?faqNo="+faqNo);
 	}; 
 
+	$(function(){
+		$("")
+	});
 
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

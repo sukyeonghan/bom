@@ -2,6 +2,7 @@ package com.kh.bom.faq.model.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -11,10 +12,20 @@ import com.kh.bom.faq.model.vo.Faq;
 public class FaqDaoImpl implements FaqDao {
 
 	@Override
-	public List<Faq> selectFaqList(SqlSession session) {
+	public List<Faq> selectFaqList(SqlSession session,int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return session.selectList("faq.selectFaqList");
+		return session.selectList("faq.selectFaqList",null,new RowBounds((cPage-1)*numPerpage,numPerpage));
 	}
+
+	
+	
+	@Override
+	public int selectFaqCount(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("faq.selectFaqCount");
+	}
+
+
 
 	@Override
 	public int insertFaq(SqlSession session, Faq f) {

@@ -13,6 +13,7 @@
 
 a {
     text-decoration: none;
+    color:black;
 }
 
 a, button {
@@ -72,6 +73,7 @@ img#logo {
 div#menuNav {
     width: 100%;
     color: #45A663;
+    height:100px;
 }
 
 .dropmenu ul ul {
@@ -156,8 +158,9 @@ div#menuNav {
 
 /* 햄버거메뉴css 끝 */
 
+/* header만큼 top 주기 */
 section#container {
-    padding-top: 160px;
+    padding-top: 250px;
 }
 
 .carousel-inner {
@@ -192,4 +195,5 @@ div#spring-main-footer>p{
     text-align: center;
     font-size: 20px;
     color: #ffffff;
+    margin-top: 200px;
 }

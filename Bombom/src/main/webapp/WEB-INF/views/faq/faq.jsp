@@ -10,7 +10,6 @@
 </jsp:include>
 <style>
 	h3{text-align: center;}
-	section{margin-top:220px;}
 	div#faq-container{
 		width:80%;
 		padding:20px;
@@ -18,11 +17,12 @@
 		border:1px #45A663 solid ;
 		border-radius: 10px;
 	}
-	div#btn-box{
-		text-align: center;
-	}
+	/*버튼 가운데정렬*/
+	.btn-box{text-align: center;}
+	/*버튼크기고정*/
+	.btn{width: 100px;}
 </style>
-<section id="content" class="container">
+<section id="container" class="container">
 	
 	<h3>자주묻는 질문 등록/수정</h3>
 	<br>
@@ -63,7 +63,7 @@
 				<br>
 				<textarea class="form-control" rows="10" name="faqContent" placeholder="내용을 입력해주세요" required><c:out value="${faq.faqContent }"/></textarea>
 				<br>
-				<div id="btn-box">
+				<div class="btn-box">
 					
 					<input type="button" class="btn btn-outline-success" value="목록으로" onclick="location.replace('${path }/faq/faqList')">&nbsp;&nbsp;
 					
@@ -71,7 +71,7 @@
 						<input type="submit" class="btn btn-success" value="등록">
 					</c:if>
 					<c:if test="${not empty faq }">
-						<input type="submit" class="btn btn-success" value="수정">
+						<input type="submit" class="btn btn-success" value="수정 ">
 					</c:if>
 
 				</div>
