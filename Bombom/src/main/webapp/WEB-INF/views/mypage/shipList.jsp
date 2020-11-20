@@ -15,15 +15,15 @@
 	#mypage-nav a:hover{color: #45A663;}
 
 	/*최소 컨텐츠 크기*/
+	.media{min-width: 768px;} 
+	
 	.table th,.table td{text-align:center; }  
+	.table td{vertical-align: middle;}
 	.table td[class=addressTd]{text-align:left; } 
 	.sm{font-size: 0.8em; color:gray;}
-	.media{min-width: 768px;} 
-	.md-cell{vertical-align:middle;}
 </style>
 <section id="container" class="container">
 	<div class="media">
-	
 		<!-- 좌측 메뉴 -->
 		<div id="mypage-nav" class=" mr-3">
 		  <ul class="nav flex-column">
@@ -90,7 +90,6 @@
 				        	<c:out value="${s.shipAddress }"/><br>
 				        	<c:out value="${s.shipDetailAddress}"/>
 				        	<c:out value="${s.shipExtraAddress }"/><br>
-				        	
 				        </td>
 				        <td><c:out value="${s.shipPhone }"/></td>
 				        <td>
@@ -104,6 +103,7 @@
 			</div>
 		</div>
 	</div>
+	
 </section>
 <script>
 	$("#addBtn").on("click",e=>{

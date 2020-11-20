@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.bom.common.page.FaqAjaxPageBarFactory;
 import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.faq.model.service.FaqService;
 import com.kh.bom.faq.model.vo.Faq;
@@ -19,7 +20,7 @@ public class FaqController {
 	@Autowired
 	private FaqService service;
 	
-	//faq 리스트 
+	//faq 자주묻는 질문 처음 갈때 
 	@RequestMapping("/faq/faqList")
 	public ModelAndView selectFaqList(ModelAndView mv,
 			@RequestParam(value="cPage",defaultValue="1") int cPage,
@@ -35,10 +36,10 @@ public class FaqController {
 		return mv;
 	}
 	
+	//카테고리를 눌렀을떄.
 	@RequestMapping("/faq/faqListAjax")
 	@ResponseBody
-	public ModelAndView faqListAjax(ModelAndView mv,
-			@RequestParam(value="cPage",defaultValue="1") int cPage,
+	public ModelAndView faqListAjax(ModelAndView mv,int cPage,
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage,
 			@RequestParam(value="category",defaultValue="전체")String category) {
 		
@@ -46,12 +47,12 @@ public class FaqController {
 		int totalData=service.selectFaqCount(category);
 		mv.addObject("cPage",cPage);
 		mv.addObject("category",category);
-		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "faqListAjax"));
-		
-		
+		mv.addObject("pageBar",FaqAjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "faqListAjax",category));
+		mv.setViewName("faq/faqListAjax");
+			
 		return mv;
 	}
-	
+
 	
 	//faq 수정/등록 창으로 전환
 	@RequestMapping("/faq/faq")

@@ -56,7 +56,7 @@
 	</header>
 	<section class="container">
 		
-		<form action="">
+		<form action="" >
 		<table>
 			
 			<tr>
@@ -84,7 +84,7 @@
 			<tr>
 				<th>연락처 <span class="red">*</span></th>
 				<td>
-					<select name="phone1" class="form-control phone">
+					<select name="phone1" class="form-control phone" size="1">
 					    <option disabled selected>선택</option>
 					    <option value="010">010</option>
 					    <option value="011">011</option>

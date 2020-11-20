@@ -43,8 +43,4 @@
 	<div id="pageBar">
 		${pageBar }
     </div> 
-<!--     <script>
-	function fn_paging(cPage){
-		location.href='${path}/faq/faqListAjax?cPage=${cPage}&category=${category}';
-	};
-    </script> -->
+    

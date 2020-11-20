@@ -136,7 +136,7 @@
 			console.log($(e.target).html());
 			$.ajax({
 				url:"${path}/faq/faqListAjax",
-				data:{category:$(e.target).html()},
+				data:{category:$(e.target).html(),cPage:1,numPerpage:"${numPerpage}"},
 			   	type:"get",
 			   	dataType:"html",
 				success:data=>{
@@ -144,7 +144,7 @@
 					$("#result").html("");
 					$("#result").html(data);
 				}
-			}) 
+			})
 		});
 		
 	});	
