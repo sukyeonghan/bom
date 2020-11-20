@@ -55,7 +55,7 @@
                     <!-- 로그인시  나올 메뉴-->
                     <li class="nav-item"><a class="nav-link" href="${path }/mypage/orderStatus">마이페이지</a></li>
                   
-                    <li class="nav-item"><a class="nav-link" href="#">장바구니</a></li>
+                    <li class="nav-item"><a class="nav-link" href="${path }/order/basket">장바구니</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">검색</a></li>
                 </ul>
             </div>
