@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ship">
+
+	<resultMap type="ship" id="shipMap">
+		<result property="shipNo" column="ship_no"/>
+		<result property="memNo" column="mem_no"/>
+		<result property="shipLocalName" column="ship_localname"/>
+		<result property="shipAddress" column="ship_address"/>
+		<result property="shipPhone" column="ship_phone"/>
+		<result property="shipRecipient" column="ship_recipient"/>
+		<result property="shipYn" column="ship_yn"/>
+		<result property="shipZipCode" column="ship_zipcode"/>
+		<result property="shipDetailAddress" column="ship_detailaddress"/>
+		<result property="shipExtraAddress" column="ship_extraaddress"/>
+	</resultMap>
+
+	<select id="selectShipList" parameterType="string" resultMap="shipMap">
+		SELECT * FROM SHIP 
+		WHERE MEM_NO=#{memNo}
+		ORDER BY TO_NUMBER(SUBSTR(SHIP_NO,2)) DESC 
+	</select>
+</mapper>

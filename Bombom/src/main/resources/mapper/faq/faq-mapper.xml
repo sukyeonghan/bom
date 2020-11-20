@@ -10,13 +10,19 @@
  		<result property="rownum" column="ROWNUM"/>
  	</resultMap>
  	
- 	<select id="selectFaqList" resultMap="faqMap">
+ 	<select id="selectFaqList" parameterType="map" resultMap="faqMap">
 	 	SELECT ROWNUM,FAQ.* FROM FAQ
+	 	<if test="category != '전체'">
+	 		WHERE FAQ_CATEGORY=#{category}
+	 	</if> 
 	 	ORDER BY TO_NUMBER(SUBSTR(FAQ_NO,2)) DESC
  	</select>
  	
  	<select id="selectFaqCount" resultType="_int">
- 	  	SELECT COUNT(*) FROM FAQ
+ 	  	SELECT COUNT(*) FROM FAQ 
+ 	  	<if test="category !='전체'">
+ 	  		WHERE FAQ_CATEGORY=#{category}
+ 	  	</if>
  	</select>
  	
  	<insert id="insertFaq" parameterType="faq">

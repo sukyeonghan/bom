@@ -1,6 +1,8 @@
 package com.kh.bom.faq.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -12,17 +14,21 @@ import com.kh.bom.faq.model.vo.Faq;
 public class FaqDaoImpl implements FaqDao {
 
 	@Override
-	public List<Faq> selectFaqList(SqlSession session,int cPage,int numPerpage) {
+	public List<Faq> selectFaqList(SqlSession session,int cPage,int numPerpage,String category) {
 		// TODO Auto-generated method stub
-		return session.selectList("faq.selectFaqList",null,new RowBounds((cPage-1)*numPerpage,numPerpage));
+		Map<String,String> param=new HashMap();
+		param.put("category", category);
+		return session.selectList("faq.selectFaqList",param,new RowBounds((cPage-1)*numPerpage,numPerpage));
 	}
 
 	
 	
 	@Override
-	public int selectFaqCount(SqlSession session) {
+	public int selectFaqCount(SqlSession session,String category) {
 		// TODO Auto-generated method stub
-		return session.selectOne("faq.selectFaqCount");
+		Map<String,String> param=new HashMap();
+		param.put("category", category);
+		return session.selectOne("faq.selectFaqCount",param);
 	}
 
 

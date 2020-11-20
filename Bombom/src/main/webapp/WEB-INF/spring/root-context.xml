@@ -9,9 +9,9 @@
 	<bean id="realDataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-		<property name="url" value="jdbc:oracle:thin:@rclass.iptime.org:8877:xe"/>
-		<property name="username" value="ge"/>
-		<property name="password" value="ge"/>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+		<property name="username" value="bom"/>
+		<property name="password" value="bom"/>
 	</bean>
 	
 	<!-- log4j관련 proxy가상 객체 생성-->
