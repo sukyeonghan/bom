@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="notice">
+	<resultMap type="notice" id="noticeMap">
+		<result property="noticeNo" column="NOTICE_NO"/>
+		<result property="noticeTitle" column="NOTICE_TITLE"/>
+		<result property="noticeContent" column="NOTICE_CONTENT"/>
+		<result property="noticeDate" column="NOTICE_DATE"/>
+	</resultMap>
+	<select id="selectNoticeList" resultType="map">
+	SELECT * FROM NOTICE 
+	</select>
+	
+	<insert id="insertNotice" parameterType="notice">
+	INSERT INTO NOTICE VALUES
+	('N'||SEQ_NOTICE_NO.NEXTVAL,#{noticeTitle},#{noticeContent},
+default)
+	</insert>
+	
+	<delete id="deleteNotice" parameterType="string">
+	DELETE FROM NOTICE WHERE NOTICE_NO=#{noticeNo}
+	</delete>
+	
+	<select id="selectNoticeOne" parameterType="string" resultMap="noticeMap">
+	SELECT * FROM NOTICE WHERE NOTICE_NO=#{noticeNo}
+	</select>
+	
+	<update id="updateNotice" parameterType="notice">
+	UPDATE NOTICE SET NOTICE_TITLE=#{noticeTitle},NOTICE_CONTENT=#{noticeContent}
+	WHERE NOTICE_NO=#{noticeNo}
+	</update>
+
+</mapper>

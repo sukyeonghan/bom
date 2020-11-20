@@ -1,10 +1,15 @@
 package com.kh.bom.faq.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.faq.model.service.FaqService;
 import com.kh.bom.faq.model.vo.Faq;
 
@@ -16,14 +21,40 @@ public class FaqController {
 	
 	//faq 리스트 
 	@RequestMapping("/faq/faqList")
-	public ModelAndView selectfaqList(ModelAndView mv) {
-		mv.addObject("list",service.selectFaqList());
+	public ModelAndView selectFaqList(ModelAndView mv,
+			@RequestParam(value="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage,
+			@RequestParam(value="category",defaultValue="전체")String category) {
+		
+		mv.addObject("list",service.selectFaqList(cPage,numPerpage,category));
+		int totalData=service.selectFaqCount(category);
+		mv.addObject("cPage",cPage);
+		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "faqList"));
 		mv.setViewName("faq/faqList");
+		
 		return mv;
 	}
 	
+	@RequestMapping("/faq/faqListAjax")
+	@ResponseBody
+	public ModelAndView faqListAjax(ModelAndView mv,
+			@RequestParam(value="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage,
+			@RequestParam(value="category",defaultValue="전체")String category) {
+		
+		mv.addObject("list",service.selectFaqList(cPage,numPerpage,category));
+		int totalData=service.selectFaqCount(category);
+		mv.addObject("cPage",cPage);
+		mv.addObject("category",category);
+		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "faqListAjax"));
+		
+		
+		return mv;
+	}
+	
+	
 	//faq 수정/등록 창으로 전환
-	@RequestMapping("faq/faq")
+	@RequestMapping("/faq/faq")
 	public String faq() {
 		return "faq/faq";
 	}
@@ -37,11 +68,11 @@ public class FaqController {
 		String icon="";
 		if(result>0) {
 			msg="자주묻는 질문 등록 성공";
-			loc="faq/faqList";
-			icon="success"; //success,error,warning
+			loc="/faq/faqList";
+			icon="success"; //icon 종류 : success,error,warning
 		}else {
 			msg="자주묻는 질문 등록 실패";
-			loc="faq/faq";	
+			loc="/faq/faq";	
 			icon="warning";
 		}
 		mv.addObject("msg",msg);
@@ -52,7 +83,7 @@ public class FaqController {
 	}
 	
 	//faq삭제
-	@RequestMapping("faq/deleteFaq")
+	@RequestMapping("/faq/deleteFaq")
 	public ModelAndView deleteFaq(String faqNo, ModelAndView mv) {
 		int result=service.deleteFaq(faqNo);
 		String msg="";
@@ -60,10 +91,10 @@ public class FaqController {
 		String icon="";
 		if(result>0) {
 			msg="자주묻는 질문 삭제 성공";
-			loc="faq/faqList";
+			loc="/faq/faqList";
 		}else {
 			msg="자주묻는 질문 삭제 실패";
-			loc="faq/faq";	
+			loc="/faq/faq";	
 			icon="warning";
 		}
 		mv.addObject("msg",msg);
@@ -74,7 +105,7 @@ public class FaqController {
 	}
 	
 	//faq 수정
-	@RequestMapping("faq/updateFaq")
+	@RequestMapping("/faq/updateFaq")
 	public ModelAndView selectFaqOne(String faqNo, ModelAndView mv) {
 		Faq f=service.selectFaqOne(faqNo);
 		mv.addObject("faq",f);
@@ -90,10 +121,10 @@ public class FaqController {
 		String icon="";
 		if(result>0) {
 			msg="자주묻는 질문 수정 성공";
-			loc="faq/faqList";
+			loc="/faq/faqList";
 		}else {
 			msg="자주묻는 질문 수정 실패";
-			loc="faq/updateFaq?faqNo="+f.getFaqNo();	
+			loc="/faq/updateFaq?faqNo="+f.getFaqNo();	
 			icon="warning";
 		}
 		mv.addObject("msg",msg);

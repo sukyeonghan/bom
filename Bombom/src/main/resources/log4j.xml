@@ -26,12 +26,16 @@
 			<param name="ConversionPattern" value="%-5p: %m%n"/>
 		</layout>
 	</appender>
-	<!-- 등록 예시 
+	
 	<logger name="jdbc.sqlonly" additivity="false">
 		<level value="INFO"/>
 		<appender-ref ref="sqlLogger"/>
-	</logger>  -->
+	</logger> 
 	
+	<logger name="jdbc.resultsettable" additivity="false">
+		<level value="INFO"/>
+		<appender-ref ref="sqlLogger"/>
+	</logger>
 	
 	<!-- Application Loggers -->
 	<logger name="com.kh.bom">

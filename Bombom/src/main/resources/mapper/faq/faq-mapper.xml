@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="faq">
+
  	<resultMap type="faq" id="faqMap">
  		<result property="faqNo" column="faq_no"/>
  		<result property="faqTitle" column="faq_title"/>
  		<result property="faqContent" column="faq_content"/>
  		<result property="faqCategory" column="faq_category"/>
+ 		<result property="rownum" column="ROWNUM"/>
  	</resultMap>
- 	<select id="selectFaqList" resultMap="faqMap">
-	 	SELECT* FROM FAQ ORDER BY TO_NUMBER(SUBSTR(FAQ_NO,2)) DESC
+ 	
+ 	<select id="selectFaqList" parameterType="map" resultMap="faqMap">
+	 	SELECT ROWNUM,FAQ.* FROM FAQ
+	 	<if test="category != '전체'">
+	 		WHERE FAQ_CATEGORY=#{category}
+	 	</if> 
+	 	ORDER BY TO_NUMBER(SUBSTR(FAQ_NO,2)) DESC
+ 	</select>
+ 	
+ 	<select id="selectFaqCount" resultType="_int">
+ 	  	SELECT COUNT(*) FROM FAQ 
+ 	  	<if test="category !='전체'">
+ 	  		WHERE FAQ_CATEGORY=#{category}
+ 	  	</if>
  	</select>
  	
  	<insert id="insertFaq" parameterType="faq">

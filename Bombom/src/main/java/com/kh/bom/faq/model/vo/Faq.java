@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Faq {
-	String faqNo;
-	String faqCategory;
-	String faqTitle;
-	String faqContent;
-	
+	private String faqNo;
+	private String faqCategory;
+	private String faqTitle;
+	private String faqContent;
+	private int rownum;
 }

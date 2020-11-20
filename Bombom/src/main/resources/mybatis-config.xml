@@ -3,5 +3,7 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.kh.bom.faq.model.vo.Faq" alias="faq"/>
+		<typeAlias type="com.kh.bom.notice.model.vo.Notice" alias="notice"/>
+		<typeAlias type="com.kh.bom.ship.model.vo.Ship" alias="ship"/>
 	</typeAliases>
 </configuration>

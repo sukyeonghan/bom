@@ -6,7 +6,9 @@ import com.kh.bom.faq.model.vo.Faq;
 
 public interface FaqService {
 	
-	List<Faq> selectFaqList();
+	List<Faq> selectFaqList(int cPage,int numPerpage,String category);
+	
+	int selectFaqCount(String category);
 	
 	int insertFaq(Faq f);
 	
@@ -15,4 +17,6 @@ public interface FaqService {
 	Faq selectFaqOne(String faqNo);
 	
 	int updateFaq(Faq f);
+	
+	
 }

@@ -5,6 +5,34 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
+<!-- swiper css -->
+<style>
+    .swiper-container {
+        height: 500px;
+        width: 1000px;
+        min-width: 550px;
+    }
+
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+    }
+</style>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" >
 	<jsp:param name="title" value="Welcom springAgain" />
@@ -98,8 +126,70 @@
         <!-- 상품 카테고리 홍보 끝 -->
 
         <!-- 제품추천 슬라이드 -->
-        <div>
-            
+        <div id="BestProduct-container" class="container-fluid">
+            <div class="media">
+                <div id="BestProduct-title" class="mr-3">
+                    <h3>Best Product</h3>
+                    <h2>베스트제품</h2>
+                    <div id="BestProduct-href">
+                        <!-- 제품 탭으로 이동 -->
+                        <a href="#">확인하러 가기</a>
+                    </div>
+                </div>
+                <div id="BestProduct-list" class="media-body">
+                    <!-- Swiper -->
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="col-md-4">
+                                    <a href="#"><img class="productAd" src="피그마이미지/제품홍보배너/전체상품.png" alt=""></a>
+                                    <div id="productAd-text">
+                                        <h4>전체상품</h4>
+                                        <a href="#">GO</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">Slide 2</div>
+                            <div class="swiper-slide">Slide 3</div>
+                            <div class="swiper-slide">Slide 4</div>
+                            <div class="swiper-slide">Slide 5</div>
+                            <div class="swiper-slide">Slide 6</div>
+                        </div>
+                        <!-- Add Pagination -->
+                        <!-- <div class="swiper-pagination"></div> -->
+                        <!-- Add Arrows -->
+                        <!-- <div class="swiper-button-next"></div> -->
+                        <!-- <div class="swiper-button-prev"></div> -->
+                    </div>
+
+
+                    <!-- Initialize Swiper -->
+                    <script>
+                        var swiper = new Swiper('.swiper-container', {
+                        	slidesPerView: 3,
+                            spaceBetween: 30,
+                            slidesPerGroup: 2,
+                            loop: true,
+                            loopFillGroupWithBlank: true,
+                            pagination: {
+                                el: '.swiper-pagination',
+                                clickable: true,
+                            },
+                            navigation: {
+                                nextEl: '.swiper-button-next',
+                                prevEl: '.swiper-button-prev',
+                            },
+                            autoplay: {
+                                delay: 3000,
+                            },
+                            mousewheel: {
+                                invert: true,
+                            },
+                        });
+                    </script>
+
+                </div>
+            </div>
         </div>
 
     </section>

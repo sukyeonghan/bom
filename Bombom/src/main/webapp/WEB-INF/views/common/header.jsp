@@ -16,6 +16,12 @@
     <!-- <link rel="stylesheet" href="css/header1440.css"> -->
     <!-- <link rel="stylesheet" href="css/header768.css"> -->
     
+    <!-- swiper -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    
     <!-- 부트스트랩 -->
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -45,12 +51,16 @@
                 <ul class="nav">
                     <li class="nav-item"><a class="nav-link" href="#">로그인</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">회원가입</a></li>
+                    
+                    <!-- 로그인시  나올 메뉴-->
+                    <li class="nav-item"><a class="nav-link" href="${path }/mypage/orderStatus">마이페이지</a></li>
+                  
                     <li class="nav-item"><a class="nav-link" href="#">장바구니</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">검색</a></li>
                 </ul>
             </div>
             <div id="logo-wrap">
-                <img id="logo" class="img-responsive center-block" src="${path }/resources/images/springAgainLogo.png" alt="">
+            <a href="${path }"><img id="logo" class="img-responsive center-block" src="${path }/resources/images/springAgainLogo.png" alt="mainLogo"></a>
             </div>
             <div id="menuNav" class="dropmenu">
                 <nav>
@@ -72,7 +82,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">게시판</a>
                             <ul class="">
-                                <li><a class="" href="#">공지사항</a></li>
+                                <li><a class="" href="${path }/notice/noticeList">공지사항</a></li>
                                 <li><a class="" href="${path }/faq/faqList">자주묻는질문</a></li>
                             </ul>
                         </li>

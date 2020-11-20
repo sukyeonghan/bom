@@ -1,190 +1,207 @@
 @charset "UTF-8";
+
 @font-face {
-    font-family: 'NIXGONM-Vb';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/NIXGONM-Vb.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'Cafe24Simplehae';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Simplehae.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
 
 * {
-    font-family: 'NIXGONM-Vb';
-    box-sizing: border-box;
+	font-family: 'Cafe24Simplehae';
+	box-sizing: border-box;
 }
 
 a {
-    text-decoration: none;
+	text-decoration: none;
+	color: black;
 }
 
 a, button {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 /* header */
-
 header#spring-main-header {
-    background-color: #ffffff;
+	background-color: #ffffff;
 }
 
 div#header-container {
-    position: relative;
-    display: block;
+	position: relative;
+	display: block;
 }
 
 .term {
-    margin: 30px 10px 0 10px;
+	margin: 30px 10px 0 10px;
 }
 
 /* 로그인div */
-
 div#loginJoin {
-    float: right;
-    width: 100%;
+	float: right;
+	width: 100%;
 }
 
 div#loginJoin ul {
-    float: right;
+	float: right;
 }
 
 div#loginJoin ul li {
-    list-style-type: none;
-    margin: 0 5px;
+	list-style-type: none;
+	margin: 0 5px;
 }
 
 div#loginJoin ul li a {
-    text-decoration: none;
-    color: black;
+	text-decoration: none;
+	color: black;
 }
 
 /* 로고div */
-
 div#logo-wrap {
-    text-align: center;
-    height: 100px;
+	text-align: center;
+	height: 100px;
 }
 
 img#logo {
-    height: 80px;
-    width: auto;
+	height: 80px;
+	width: auto;
 }
 
 /* 메뉴nav div */
-
 div#menuNav {
+<<<<<<< HEAD
     width: 100%;
     color: #45A663;
     height:100px;
+=======
+	width: 100%;
+	color: #45A663;
+	height: 100px;
+>>>>>>> branch 'develop' of https://github.com/sukyeonghan/bombom.git
 }
 
 .dropmenu ul ul {
-    position: absolute;
-    display: none;
-    padding: 0px;
-    background-color: #ffffff;
-    box-shadow: 0px 3px 5px -1px #ccc;
-    min-width: 150px;
+	position: absolute;
+	display: none;
+	padding: 0px;
+	background-color: #ffffff;
+	box-shadow: 0px 3px 5px -1px #ccc;
+	min-width: 150px;
 }
 
 .dropmenu ul ul li {
-    display: block;
-    color: #45A663;
-    min-width: 100px;
-    padding-left: 10px;
+	display: block;
+	color: #45A663;
+	min-width: 100px;
+	padding-left: 10px;
 }
 
 .dropmenu ul li {
-    display: inline-block;
-    margin-left: 0px;
+	display: inline-block;
+	margin-left: 0px;
 }
 
 .dropmenu ul li a {
-    display: block;
-    color: #45A663;
-    text-decoration: none;
-    line-height: 43px;
+	display: block;
+	color: #45A663;
+	text-decoration: none;
+	line-height: 43px;
 }
 
 .dropmenu ul li a:hover {
-    color: #3b9156;
+	color: #3b9156;
 }
 
 .dropmenu ul ul li a {
-    display: block;
-    color: #45A663;
-    text-decoration: none;
-    line-height: 35px;
-    padding: 0;
-    margin-left: 15px;
+	display: block;
+	color: #45A663;
+	text-decoration: none;
+	line-height: 35px;
+	padding: 0;
+	margin-left: 15px;
 }
 
 .dropmenu ul ul li a:hover {
-    color: #1f472c;
+	color: #1f472c;
 }
 
 /* 햄버거메뉴 css */
-
 .menu-trigger, .menu-trigger span {
-    display: inline-block;
-    transition: all .4s;
-    box-sizing: border-box;
+	display: inline-block;
+	transition: all .4s;
+	box-sizing: border-box;
 }
 
 .menu-trigger {
-    position: relative;
-    width: 50px;
-    height: 44px;
+	position: relative;
+	width: 50px;
+	height: 44px;
 }
 
 .menu-trigger span {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background-color: #fff;
-    border-radius: 4px;
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 4px;
+	background-color: #fff;
+	border-radius: 4px;
 }
 
 .menu-trigger span:nth-of-type(1) {
-    top: 0;
+	top: 0;
 }
 
 .menu-trigger span:nth-of-type(2) {
-    top: 20px;
+	top: 20px;
 }
 
 .menu-trigger span:nth-of-type(3) {
-    bottom: 0;
+	bottom: 0;
 }
 
 /* 햄버거메뉴css 끝 */
 
+/* header만큼 top 주기 */
 section#container {
     padding-top: 250px;
+
 }
 
 .carousel-inner {
-    height: 400px;
+	height: 400px;
 }
 
 .carousel-inner img {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
 }
 
 img.productAd {
-    height: 200px;
-    width: 200px;
-    overflow: hidden;
+	height: 200px;
+	width: 200px;
+	overflow: hidden;
 }
 
 #productAd-text {
-    display: flex;
+	display: flex;
+}
+
+/* 제품추천 */
+#BestProduct-container {
+	margin: 150px 0;
+}
+
+#BestProduct-title {
+	margin: 70px;
+	min-width: 200px;
 }
 
 div#spring-main-footer {
-    bottom: 0;
-    height: 150px;
-    background-color: #45A663;
+	bottom: 0;
+	height: 150px;
+	background-color: #45A663;
 }
 
 div#spring-main-footer>p{
@@ -194,4 +211,5 @@ div#spring-main-footer>p{
     font-size: 20px;
     color: #ffffff;
     margin-top:200px;
+
 }
