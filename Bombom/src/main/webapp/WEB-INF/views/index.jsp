@@ -156,7 +156,7 @@
                             <div class="swiper-slide">Slide 6</div>
                         </div>
                         <!-- Add Pagination -->
-                        <!-- <div class="swiper-pagination"></div> -->
+                        <div class="swiper-pagination"></div>
                         <!-- Add Arrows -->
                         <!-- <div class="swiper-button-next"></div> -->
                         <!-- <div class="swiper-button-prev"></div> -->
@@ -182,9 +182,9 @@
                             autoplay: {
                                 delay: 3000,
                             },
-                            mousewheel: {
+                            /* mousewheel: {
                                 invert: true,
-                            },
+                            }, */
                         });
                     </script>
 

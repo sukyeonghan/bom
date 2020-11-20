@@ -55,7 +55,7 @@
                     <!-- 로그인시  나올 메뉴-->
                     <li class="nav-item"><a class="nav-link" href="${path }/mypage/orderStatus">마이페이지</a></li>
                   
-                    <li class="nav-item"><a class="nav-link" href="#">장바구니</a></li>
+                    <li class="nav-item"><a class="nav-link" href="${path }/order/basket">장바구니</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">검색</a></li>
                 </ul>
             </div>
@@ -68,14 +68,16 @@
                         <li class="nav-item">
                             <a class="nav-link" href="${path }/intro/moveIntro">다시:봄 소개</a></li>
                         <li class="nav-item dropdown">
-                            <a id="menuNav-product" class="nav-link" href="#">제품</a>
+                            <a id="menuNav-product" class="nav-link" href="${path }/product/productAll">제품</a>
                             <ul class="">
+                            	<li><a class="" href="${path }/product/productAll">전체보기</a></li>
+                            	<li><a class="" href="#">식품</a></li>
                                 <li><a class="" href="#">잡화</a></li>
                                 <li><a class="" href="#">주방</a></li>
                                 <li><a class="" href="#">욕실</a></li>
                                 <li><a class="" href="#">여성</a></li>
                                 <li><a class="" href="#">반려동물</a></li>
-                                <li><a class="" href="#">SALE</a></li>
+                                <li><a class="" href="#">할인상품</a></li>
                             </ul>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="#">커뮤니티</a></li>
