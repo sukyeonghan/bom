@@ -6,7 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class memberController {
-	
+    
 	@RequestMapping("/mypage/orderStatus")
 	public ModelAndView order(ModelAndView mv) {
 		

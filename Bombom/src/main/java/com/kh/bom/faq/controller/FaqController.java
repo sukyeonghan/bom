@@ -1,9 +1,12 @@
 package com.kh.bom.faq.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.common.page.PageBarFactory;
@@ -18,17 +21,37 @@ public class FaqController {
 	
 	//faq 리스트 
 	@RequestMapping("/faq/faqList")
-	public ModelAndView selectfaqList(ModelAndView mv,
+	public ModelAndView selectFaqList(ModelAndView mv,
 			@RequestParam(value="cPage",defaultValue="1") int cPage,
-			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage) {
-		mv.addObject("list",service.selectFaqList(cPage,numPerpage));
-		int totalData=service.selectFaqCount();
+			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage,
+			@RequestParam(value="category",defaultValue="전체")String category) {
+		
+		mv.addObject("list",service.selectFaqList(cPage,numPerpage,category));
+		int totalData=service.selectFaqCount(category);
+		mv.addObject("cPage",cPage);
 		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "faqList"));
-		mv.addObject("totalData",totalData);
 		mv.setViewName("faq/faqList");
 		
 		return mv;
 	}
+	
+	@RequestMapping("/faq/faqListAjax")
+	@ResponseBody
+	public ModelAndView faqListAjax(ModelAndView mv,
+			@RequestParam(value="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage,
+			@RequestParam(value="category",defaultValue="전체")String category) {
+		
+		mv.addObject("list",service.selectFaqList(cPage,numPerpage,category));
+		int totalData=service.selectFaqCount(category);
+		mv.addObject("cPage",cPage);
+		mv.addObject("category",category);
+		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "faqListAjax"));
+		
+		
+		return mv;
+	}
+	
 	
 	//faq 수정/등록 창으로 전환
 	@RequestMapping("/faq/faq")

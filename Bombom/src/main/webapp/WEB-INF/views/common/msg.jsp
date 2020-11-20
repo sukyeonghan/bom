@@ -15,11 +15,11 @@
 	swal({
 		  title: "${title}",
 		  text: "${msg}",
-		  closeOnClickOutside: false,
-		  button:"확인",
 		  icon:"${icon}",
+		  button:"확인",
+		  closeOnClickOutside: false,
 		}).then(function(){
-			location.replace("${pageContext.request.contextPath}/${loc}");
+			location.replace("${pageContext.request.contextPath}${loc}");
 		});
 		
 	</script>
