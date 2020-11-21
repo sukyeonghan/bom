@@ -70,12 +70,12 @@
                         <li class="nav-item dropdown">
                             <a id="menuNav-product" class="nav-link" href="${path }/product/productAll">제품</a>
                             <ul class="">
-                            	<li><a class="" href="${path }/product/productAll">전체보기</a></li>
+                            	<li><a class="" href="${path }/product/productAll">전체상품</a></li>
                             	<li><a class="" href="#">식품</a></li>
                                 <li><a class="" href="#">잡화</a></li>
                                 <li><a class="" href="#">주방</a></li>
                                 <li><a class="" href="#">욕실</a></li>
-                                <li><a class="" href="#">여성</a></li>
+                                <li><a class="" href="#">여성용품</a></li>
                                 <li><a class="" href="#">반려동물</a></li>
                                 <li><a class="" href="#">할인상품</a></li>
                             </ul>
