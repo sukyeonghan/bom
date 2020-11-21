@@ -92,7 +92,7 @@
 					    <!-- body부분 -->
 					    <div id="collapse${vs.index}" class="collapse" data-parent="#accordion">
 					      <div class="card-body">
-					        <c:out value="${f.faqContent }"/> 
+					        <pre><c:out value="${f.faqContent }"/></pre> 
 							<br>
 							<br>
 					        <!-- 관리자일때만 뜰 버튼 -->
@@ -133,7 +133,6 @@
 
 	$(function(){
 		$(".cate-list").click(e=>{
-			console.log($(e.target).html());
 			$.ajax({
 				url:"${path}/faq/faqListAjax",
 				data:{category:$(e.target).html(),cPage:1,numPerpage:"${numPerpage}"},
@@ -144,7 +143,7 @@
 					$("#result").html("");
 					$("#result").html(data);
 				}
-			})
+			});
 		});
 		
 	});	

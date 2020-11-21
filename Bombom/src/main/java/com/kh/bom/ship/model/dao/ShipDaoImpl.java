@@ -15,4 +15,10 @@ public class ShipDaoImpl implements ShipDao {
 		return session.selectList("ship.selectShipList",memNo);
 	}
 
+	@Override
+	public int insertShip(SqlSession session, Ship s) {
+		// TODO Auto-generated method stub
+		return session.insert("ship.insertShip",s);
+	}
+
 }
