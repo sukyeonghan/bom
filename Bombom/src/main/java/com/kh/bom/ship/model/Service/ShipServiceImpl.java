@@ -21,4 +21,10 @@ public class ShipServiceImpl implements ShipService {
 		return dao.selectShipList(session,memNo);
 	}
 
+	@Override
+	public int insertShip(Ship s) {
+		// TODO Auto-generated method stub
+		return dao.insertShip(session,s);
+	}
+	
 }

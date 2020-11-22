@@ -9,10 +9,16 @@
 	<jsp:param name="title" value=" "/>
 </jsp:include>
 <style>
+	#left-nav{padding-right:100px;}
+	#left-nav a{color:black;font-weight:bolder;}
+	#left-nav a:hover{color: #45A663;}
+	
+	/*최소 컨텐츠 크기*/
+	.media{min-width: 768px;} 
 	h3{text-align: center;}
-	div#faq-container{
+	div#main-container{
 		width:80%;
-		padding:20px;
+		padding:40px;
 		margin:auto;
 		border:1px #45A663 solid ;
 		border-radius: 10px;
@@ -24,9 +30,24 @@
 </style>
 <section id="container" class="container">
 	
-	<h3>자주묻는 질문 등록/수정</h3>
-	<br>
-		<div id="faq-container">
+	<div class="media">
+	
+		<!-- 좌측 메뉴 -->
+		<div id="left-nav" class=" mr-3">
+		  <ul class="nav flex-column">
+		    <li class="nav-item">
+		      <a class="nav-link" href="${path }/notice/noticeList">공지사항</a>
+		    </li>
+		    <li class="nav-item">
+		      <a class="nav-link " href="${path }/faq/faqList">자주묻는질문</a>
+		    </li>
+		  </ul>
+		</div>
+	
+
+	<div id="main-container" class="media-body">
+		<h3>자주묻는 질문 등록/수정</h3>
+		<br>
 		<!-- faq값이 없을 때는 등록, faq 값이 넘어왔을떄는  수정 -->
 		<c:if test="${empty faq }">
 			<form name="faqFrm" action="${path }/faq/insertFaq" onsubmit="return fn_check()">
@@ -78,7 +99,7 @@
 				
 			</form>
 		</div>
-		
+	</div>
 </section>
 <script>
 	

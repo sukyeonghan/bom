@@ -15,15 +15,15 @@
 	#mypage-nav a:hover{color: #45A663;}
 
 	/*최소 컨텐츠 크기*/
+	.media{min-width: 768px;} 
+	
 	.table th,.table td{text-align:center; }  
+	.table td{vertical-align: middle;}
 	.table td[class=addressTd]{text-align:left; } 
 	.sm{font-size: 0.8em; color:gray;}
-	.media{min-width: 768px;} 
-	.md-cell{vertical-align:middle;}
 </style>
 <section id="container" class="container">
 	<div class="media">
-	
 		<!-- 좌측 메뉴 -->
 		<div id="mypage-nav" class=" mr-3">
 		  <ul class="nav flex-column">
@@ -58,7 +58,7 @@
 		<div id="mypage-container" class="media-body">
 			<h3>배송지관리</h3> 
 			<div class="text-right">
-				<button class="btn btn-success" id="addBtn">배송지 등록</button>
+				<button class="btn btn-success" onclick="fn_addShip();">배송지 등록</button>
 			</div>
 			<br>
 			<br>
@@ -90,7 +90,6 @@
 				        	<c:out value="${s.shipAddress }"/><br>
 				        	<c:out value="${s.shipDetailAddress}"/>
 				        	<c:out value="${s.shipExtraAddress }"/><br>
-				        	
 				        </td>
 				        <td><c:out value="${s.shipPhone }"/></td>
 				        <td>
@@ -104,17 +103,27 @@
 			</div>
 		</div>
 	</div>
+	<form action="" name="insertShip" method="post">
+		<%-- <input type="hidden" name="memNo" value="${loginMember.memNo }"> --%>
+		<input type="hidden" name="memNo" value="M1000">
+	</form>
+	
 </section>
 <script>
-	$("#addBtn").on("click",e=>{
-		
-        const url="${path}/ship/insertShip"; 
-        const title="";
-        const status="width=480px, height=640px, top=100px, left=500px";
-        open(url,title,status);
+	function fn_addShip(){
+		var memNo=$("input[name=memNo]").val();
+		const url="${path}/ship/insertShip"; 
+        const title="insertShip";
+        const status="width=480px,height=605px,top=100px,left=500px";
+        window.open(url,title,status);
         
+        insertShip.target=title;
+        insertShip.action=url;
+        insertShip.memNo.value=memNo;
+        insertShip.submit();
+	
+	}
 
-	});
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

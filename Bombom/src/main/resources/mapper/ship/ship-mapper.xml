@@ -20,4 +20,8 @@
 		WHERE MEM_NO=#{memNo}
 		ORDER BY TO_NUMBER(SUBSTR(SHIP_NO,2)) DESC 
 	</select>
+	
+	<insert id="insertShip" parameterType="ship">
+		INSERT INTO SHIP VALUES(SEQ_SHIP_NO.NEXTVAL,#{memNo},#{shipLocalName},#{shipAddress},#{shipPhone},#{shipRecipient},#{shipYn},#{shipZipCode},#{shipDetailAddress},#{shipExtraAddress})
+	</insert>
 </mapper>
