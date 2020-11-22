@@ -12,4 +12,12 @@ public class OrderController {
 	public String goBasket() {
 		return "order/basket";
 	}
+	
+	
+	//결제화면으로 전환
+	@RequestMapping("/order/doOrder")
+	public String doOrder() {
+		return "order/order";
+	}
+	
 }
