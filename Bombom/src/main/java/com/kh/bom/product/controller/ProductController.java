@@ -16,7 +16,7 @@ public class ProductController {
 	@RequestMapping("/product/productAll") 
 	public String allProduct() { 
 		
-		return "product/productList/AllList";
+		return "product/productList/allList";
 	}
 	 
 	
