@@ -12,6 +12,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MainTest</title>
+    <script src="${path}/resources/js/jquery-3.5.1.min.js"></script>
+    
     <link rel="stylesheet" href="${path }/resources/css/common/allPage.css">
     <!-- <link rel="stylesheet" href="css/header1440.css"> -->
     <!-- <link rel="stylesheet" href="css/header768.css"> -->
@@ -25,8 +27,6 @@
     <!-- 부트스트랩 -->
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->

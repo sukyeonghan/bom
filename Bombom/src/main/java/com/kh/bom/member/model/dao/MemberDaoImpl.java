@@ -14,6 +14,12 @@ public class MemberDaoImpl implements MemberDao {
 		return session.selectOne("member.selectMemberOne", memEmail);
 	}
 
+	@Override
+	public int deleteMember(SqlSession session, String memNo) {
+		// TODO Auto-generated method stub
+		return session.update("member.deleteMember",memNo);
+	}
+
 
 
 	

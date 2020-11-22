@@ -54,4 +54,19 @@ public class memberController {
 		return loc;
 		
 	}
+	@RequestMapping("/member/deleteMember")
+	public String deleteMember(String memNo,Model m) {
+		int result=service.deleteMember(memNo);
+		String loc="";
+		if(result>0) {
+			loc="redirect:/";
+		}else {
+			m.addAttribute("msg","회원탈퇴 실패");
+			m.addAttribute("icon","warning");
+			m.addAttribute("loc","/mypage/updateMember");
+			loc="common/msg";
+		}
+		return loc;
+	}
+	
 }

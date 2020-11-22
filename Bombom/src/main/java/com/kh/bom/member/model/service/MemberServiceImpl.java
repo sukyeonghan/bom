@@ -19,6 +19,12 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.selectMemberOne(session,memEmail);
 	}
+
+	@Override
+	public int deleteMember(String memNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteMember(session,memNo);
+	}
 	
 	
 }
