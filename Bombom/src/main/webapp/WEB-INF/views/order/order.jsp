@@ -14,8 +14,9 @@
     <div class="order_header">
         <h1>결제하기</h1>
     </div>
+    <form action="${path }/order/insertOrder" method="post">
     <!-- 주문상품 -->
-    <div class="order_">
+    <div class="mb-5">
         <h3>주문상품</h3>
         <table>
             <tr>
@@ -27,82 +28,112 @@
         </table>
     </div>
     <!-- 배송지 -->
-    <div>
+    <div class="mb-5">
         <h3>배송지</h3>
         <hr>
-        <div>
-            <span>우편번호</span>
-            <input type="text">
+        <div class="form-group d-flex">
+            <label for="postal" class="mr-3">우편번호</label>
+            <input type="text" class="form-control mr-3" id="postal" style="width: 150px;" required>
             <input type="button" class="btn btn-success" value="배송지변경">
         </div><br>
-        <div>
-            <span>주소</span>
-            <input type="text"><br>
-            <input type="text">
+        <div class="form-group mb-3">
+            <label for="addr">주소</label>
+            <input type="text" id="addr" class="form-control" name="ordDeliAddr" required><br>
+            <input type="text" class="form-control" name="ordDeliAddr" required placeholder="상세주소">
         </div>
-        <div>
-            <span>휴대전화</span>
-            <input type="text">
+        <div class="form-group">
+            <label for="phone">휴대전화</label>
+            <input type="text" id="phone" class="form-control" required>
         </div>
-        <div>
-            <span>배송 메모</span>
-            <input type="text">
+        <div class="form-group">
+            <label for="deli_memo">배송 메모</label>
+            <select name="ordMemo" id="deli_memo" class="form-control mb-3" required>
+                <option selected disabled>배송시 요청사항</option>
+                <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
+                <option value="배송 전,연락주세요.">배송 전,연락주세요.</option>
+                <option value="부재 시,휴대폰으로 연락주세요.">부재 시,휴대폰으로 연락주세요.</option>
+                <option value="부재 시,경비실에 맡겨주세요.">부재 시,경비실에 맡겨주세요.</option>
+                <option value="경비실이 없습니다.배송 전 연락주세요.">경비실이 없습니다.배송 전,연락주세요.</option>
+                <option value="배송 전,연락주세요.">배송 전,연락주세요.</option>
+                <option value="직접입력">직접입력</option>
+            </select>
+            <div id="direct_input"></div>
         </div>
     </div>
     <!-- 주문자 -->
-    <div>
+    <div class="mb-5">
         <h3>주문자</h3>
         <hr>
-        <div>
+        <div class="form-group">
             <span>이름</span>
-            <input type="text">
+            <input type="text" class="form-control" required>
         </div>
-        <div>
+        <div class="form-group">
             <span>이메일</span>
-            <input type="text">
+            <input type="email" class="form-control" required>
         </div>
-        <div>
+        <div class="form-group">
             <span>휴대전화</span>
-            <input type="text"><br>
+            <input type="text" class="form-control" required><br>
             <label class="form-check-label">
                 <input type="checkbox" class="form-check-input">SMS 수신동의 (배송 정보를 SMS로 보내드립니다.)
             </label>
         </div>
     </div>
     <!-- 적립금 -->
-    <div>
+    <div class="form-group mb-5">
         <h3>적립금</h3>
         <hr>
-        <p>3만원이상 결제시 포인트 사용이 가능합니다.</p><br>
-        <input type="number" name="" id=""><span>P</span><br>
+        <label for="point">3만원이상 결제시 포인트 사용이 가능합니다.</label><br>
+        <div class="form-group d-flex"><input type="number" name="" id="point" class="form-control mr-3" style="width: 100px;"><label for="point">P</label></div>
         <p>사용 가능한 포인트 <span>1,236P</span></p>
-        <label for=""><input type="checkbox" class="form-check-input">전액사용</label>
+        <label for="allPoint"><input type="checkbox" id="allPoint" class="form-check-input">전액사용</label>
 
     </div>
     <!-- 예상적립금 -->
-    <div>
+    <div class="form-group mb-5">
         <h3>예상적립금</h3>
         <hr>
-        <p><span>1,236P</span>적립예정</p>
+        <p><span class="mr-1">1,236P</span>적립예정</p>
 
     </div>
     <!-- 최종 결제금액 -->
-    <div>
+    <div class="form-group mb-5">
         <h3>최종 결제금액</h3>
         <hr>
-        <h5>총 상품 금액</h5><span>194,000</span><br>
-        <h5>배송비</h5><span>0</span><br>
-        <h5>적립금 사용</h5><span>0</span><br>
-        <span>194,000원</span>
+        <div class="d-flex"><h5>총 상품 금액</h5><span>194,000</span></div>
+        <div class="d-flex"><h5>배송비</h5><span name="ordDeliPrice">0</span></div>
+        <div class="d-flex"><h5>적립금 사용</h5><span name="ordUsePoint">0</span></div>
+        <div class="d-flex"><span name="ordAmount">194,000원</span></div>
 
 
     </div>
     <!-- 결제버튼 -->
-    <div>
-        <button type="button" class="btn btn-outline-success" style="width: 500px;">결제하기</button>
+    <div class="mb-5" style="text-align: center;">
+        <button type="submit" class="btn btn-outline-success" style="width: 500px;">결제하기</button>
     </div>
+    </form>
 </section>
 
+
+
+
+<script>
+    $(function () { //배송메모 직접입력 선택시 input태그 보이게 하기
+    	
+	    //배송메모 직접입력 input
+        let addInput = $("<input>").attr({"type":"text", "name":"ordMemo", "id":"o_memo","class":"form-control"});
+        $("#deli_memo").change(e=> {
+            let memo = $("#deli_memo").val();
+            if (memo == '직접입력') {
+                $("#direct_input").append(addInput);//input태그 추가
+	            //selectbox name속성 없애기
+	           	$("#deli_memo").attr("name","");
+            }
+        })
+    });
+
+</script>
 
 <style>
 .order_header>h1 {

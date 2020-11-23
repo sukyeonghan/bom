@@ -56,11 +56,26 @@
                     <table class="table">
                         <tbody>
                             <tr>
-                                <td><img src="../제품이미지/욕실/친환경대나무칫솔/1.jpg" style="width: 100px;height: 100px;"></td>
-                                <td>친환경 대나무 칫솔</td>
-                                <td>16,500원</td>
-                                <td>3</td>
-                                <td>변경</td>
+                                <td>
+                                	<img src="../제품이미지/욕실/친환경대나무칫솔/1.jpg" style="width: 100px;height: 100px;">
+                                	<input type="hidden" name="thumb" value="대나무칫솔">
+                                </td>
+                                <td>
+                                	친환경 대나무 칫솔
+                                	<input type="hidden" name="thumb" value="대나무칫솔">
+                                </td>
+                                <td>
+                                	16,500원
+                                	<input type="hidden" name="thumb" value="대나무칫솔">
+                                </td>
+                                <td>
+                                	3
+                                	<input type="hidden" name="thumb" value="대나무칫솔">
+								</td>
+                                <td>
+                                	변경
+                                	<input type="hidden" name="thumb" value="대나무칫솔">
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -75,9 +90,9 @@
                 <p>상품금액 : 68,500 원</p>
                 <p>배송비 : 2,500원</p>
                 <hr>
-                <p>결제금액 : <span>71,500원</span></p>
+                <p>결제금액 : <span id="price">71,500</span>원</p>
                 <div class="btn-contain">
-                    <input type="button" class="btn btn-outline-success btn-block" value="결제하기" >
+                    <input type="button" class="btn btn-outline-success btn-block" onclick="fn_goOrder();" value="결제하기" >
                     <div class="btn-particles"></div>
                 </div>
             </div>
@@ -85,6 +100,17 @@
     </div>
 
 </section>
+
+<script>
+	var oriPrice = $("#price").html(); //총 결제금액
+	var price; //db에 넘길 금액 변수
+	price = oriPrice.replace(",",""); //,제거 작업
+	
+	
+	function fn_goOrder(){
+		location.assign("${path}/order/doOrder");
+	}
+</script>
 
     
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
