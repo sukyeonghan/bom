@@ -15,10 +15,31 @@
 	
 	</resultMap>
 	<select id="selectMemberOne" parameterType="string" resultMap="memberMap">
-		SELECT * FROM MEMBER WHERE MEM_Email=#{memEmail}
+		SELECT * FROM MEMBER WHERE MEM_NO=#{memNo}
 	</select>
 
 	<update id="deleteMember" parameterType="string">
 		UPDATE MEMBER SET MEM_STATUS='Y' WHERE MEM_NO=#{memNo}
+	</update>
+	
+	<select id="selectMemberNick" parameterType="string" resultMap="memberMap">
+		SELECT * FROM MEMBER MEMBER WHERE MEM_NICK=#{memNick}
+	</select>
+	
+	<update id="updateMember" parameterType="member">
+		UPDATE MEMBER
+		<set>
+			<if test="memPwd!=null and !memPwd.equals('')">
+				MEM_PWD=#{memPwd},
+			</if>
+			<if test="memPro!=null and !memPro.equals('')">
+				MEM_PRO=#{memPro},
+			</if>
+			<if test="memNick!=null and !memNick.equals('')">
+				MEM_NICK=#{memNick},
+			</if>
+			MEM_STATUS='N'
+		</set>
+		 WHERE MEM_NO=#{memNo}
 	</update>
 </mapper>

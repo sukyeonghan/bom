@@ -32,11 +32,14 @@
    	/*프로필*/
     img#profileImg{margin: 50px;}
     /*사용가능 가이드*/
-    .guide-ok{color:green; text-align: left; margin:3px;}
-    .guide-error{color:red; text-align: left; margin:3px;}
-   
-    .left{text-align:left};
+    .pwOk,.nickOk{color:green; margin:3px;}
+    .pwError,.nickError{color:red; margin:3px;}
+    .left{text-align:left;}
+    input[type=password] {font-family: "NanumSquare";}
+ 
 </style>
+<!-- sweet alert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 $(function(){
 	//이미지 클릭시 파일업로드실행함수 실행
@@ -44,7 +47,7 @@ $(function(){
 		fn_upload();
 	});
 	//파일 업로드시 이미지 체인지
-	$("#upload").on("change",e =>{ 
+	$("#memPro").on("change",e =>{ 
 		$("#imgDiv").html("");
 		let reader=new FileReader();
 		reader.onload=e=>{
@@ -54,16 +57,103 @@ $(function(){
 		}
 		reader.readAsDataURL($(e.target)[0].files[0]);
 	}); 
+	
+	//가이드 가려두기
+	$(".guide").hide();
+	//닉네임중복체크 가이드
+	$("#memNick").keyup(e=>{
+		const memNick=$(e.target).val().trim();
+		if(memNick=="${logimMember.memNick}"){
+			$(".guide.nickError").hide();
+			$(".guide.nickOk").show();
+		}
+		$.ajax({
+			url:"${path}/member/checkDuplicateNick",
+			data:{memNick:memNick},
+			success:data=>{
+				if(data===true||memNick=="${loginMember.memNick}"){
+					$(".guide.nickError").hide();
+					$(".guide.nickOk").show();
+				}else{
+					$(".guide.nickError").show();
+					$(".guide.nickOk").hide();
+				}
+			}
+		});
+	});
+
+	//패스워드 일치여부 확인가이드
+	$("#memPwdCk").keyup(e=>{
+		var memPwd=$("#memPwd").val().trim();
+		var memPwdCk=$("#memPwdCk").val().trim();
+		if(memPwd==memPwdCk){
+			$(".guide.pwOk").show();
+			$(".guide.pwError").hide();
+		}else{
+			$(".guide.pwOk").hide();
+			$(".guide.pwError").show();
+		}
+	});
+	//비밀번호 유효성검사
+	$("#memPwd").keyup(e=>{
+		$(".guide.pwpw").show();
+		var memPwd=$("#memPwd").val().trim();
+		var memPwdCk=$("#memPwdCk").val().trim();
+		var pwReg=/^.*(?=^.{8,15})(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%%^&*()]).*$/;
+		if(pwReg.test(memPwd)){
+			$(".guide.pwpw").hide();	
+		}else{
+			$(".guide.pwpw").show();	
+					
+		}
+	});
 })
 //파일업로드 실행함수
 function fn_upload(){
-	$("#upload").click();
+	$("#memPro").click();
 }
-function fn_submit(){
+//업데이트전 확인사항 체크
+function fn_updateMember(){
+	var memPwd=$("#memPwd").val().trim();
+	var memPwdCk=$("#memPwdCk").val().trim();
+	var memNick=$("#memNick").val().trim();
+
+	if(memNick.length<1){
+		swal("닉네임을 입력해주세요");
+		return false;
+	}else{
+		if("${loginMember.memNick}"==memNick){
+			
+			$.ajax({
+				url:"${path}/member/checkDuplicateNick",
+				data:{memNick:memNick},
+				success:data=>{
+					swal("되라되라 제발!");
+					return false; 
+					if(data===false){
+						swal("닉네임이 중복됩니다. 확인해주세요");
+						return false;
+					}
+				}	
+			});
+		}
 		
-}
-function fn_withdrawal(){
+		if((memPwd.length>0) || (membPwdCk.length>0)){
+			if(memPwd!=memPwdCk){
+				swal("비밀번호가 일치하지 않습니다.");
+				return false;
+			}
+			var pwReg=/^.*(?=^.{8,15})(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%%^&*()]).*$/;
+			if(!pwReg.test(memPwd)){
+				swal("비밀번호 양식이 올바르지 않습니다.");
+				return false;
+			}
+		}
+	}
 	
+	
+
+
 }
 </script>
 <section id="container" class="container">
@@ -104,26 +194,27 @@ function fn_withdrawal(){
         
       	<div id="update-container">
 	        <h3 id="sub-title">회원정보수정</h3> 
-	        	<form action="${path }/member/updateMember" method="post">
+	        	<form action="${path }/member/updateMemberEnd" method="post" name="updateFrm" enctype="multipart/form-data">
 		     		<input type="hidden" name="memNo" class="form-control" value="${loginMember.memNo }">
 					<div id="imgDiv">        	
-			        	<img src="${path }/resources/images/기본프로필.png" class="rounded-circle" id="profileImg"  alt="기본프로필" width="150" height="150"><br> 
+			        	<img src="${path }/resources/upload/profile/${loginMember.memPro}" class="rounded-circle" id="profileImg"  alt="기본프로필" width="150" height="150"><br> 
 		     		</div>
-	      			<input type="file" id="upload" name="memPro" accept="image/gif, image/jpeg, image/png" style="display:none;">
+	      			<input type="file" id="memPro" name="upload" accept="image/gif, image/jpeg, image/png" style="display:none;">
 		     		<input type="text" name="memEmail" class="form-control" value="${loginMember.memEmail }" readonly>
 		     		<br>
-		     		<input type="password" name="memPwd" class="form-control" placeholder="비밀번호를 변경하는 경우 입력해주세요">
-		     		<input type="password" name="memPWdCk" class="form-control" placeholder="비밀번호 확인">
-		     		<p class="guide-ok left">두 비밀번호가 일치합니다.</p>
-					<p class="guide-error left">두 비밀번호가 일치하지 않습니다.</p>
+		     		<input type="password" name="memPwd" id="memPwd" class="form-control" placeholder="비밀번호를 변경하는 경우 입력해주세요">
+		     		<p class="guide pwpw left">영문 숫자/특수문자 조합 8자 이상 입력해주세요</p>
+		     		<input type="password" name="memPWdCk" id="memPwdCk" class="form-control" placeholder="비밀번호 확인">
+		     		<p class="guide pwOk left ">비밀번호가 일치합니다.</p>
+					<p class="guide pwError left">비밀번호가 일치하지 않습니다.</p>
 					<br>
 		     		<p class="left">닉네임:</p>
-		    		<input type="text" name="memNick" class="form-control" value="${loginMember.memNick }" placeholder="${loginMember.memNick }">
-					<p class="guide-ok left">이 닉네임은 사용이 가능합니다.</p>
-					<p class="guide-error left">이 닉네임 사용이 불가능합니다.</p>
+		    		<input type="text" name="memNick" id="memNick" class="form-control" value="${loginMember.memNick }">
+					<p class="guide nickOk left">멋진 닉네임이네요. 사용이 가능합니다.</p>
+					<p class="guide nickError left">안타깝네요. 이미 있는 닉네임입니다.</p>
 					<div class="btn-box">
-						<input type="button" class="btn btn-danger" onclick="fn_withdrawal();" data-toggle="modal" data-target="#withdrawalModal" value="탈퇴"/>
-						<input type="button" class="btn btn-success" onclick="fn_submit();" value="수정"/>
+						<input type="button" class="btn btn-danger" data-toggle="modal" data-target="#withdrawalModal" value="탈퇴"/>
+						<input type="submit" class="btn btn-success" onclick="return fn_updateMember();" id="updateBtn" value="수정"/>
 					</div> 
 	     		</form>
 		</div> 
@@ -140,7 +231,7 @@ function fn_withdrawal(){
 	          	<h3 class="modal-title" id="modalLabel">탈퇴하기</h3>
 			 	<button type="button" class="close" data-dismiss="modal">&times;</button>
 	        </div>
-	        <form action="${path }/member/deleteMember" method="post">
+	        <form action="${path }/member/deleteMember" method="post" name="deleteFrm" id="deleteFrm">
 		        <!-- Modal body -->
 		        <div class="modal-body">
 		          	가입된 회원정보가 삭제됩니다. 작성하신 게시물은 삭제되지 않습니다.<br>
@@ -149,8 +240,8 @@ function fn_withdrawal(){
 		        </div>
 		        <!-- Modal footer -->
 		        <div class="modal-footer btn-box">
-		          <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-		          <button type="submit" class="btn btn-danger">탈퇴하기</button>
+		          <input type="button" class="btn btn-secondary" data-dismiss="modal" value="취소">
+		          <input type="submit" class="btn btn-danger" id="deleteBtn" value="탈퇴">
 		        </div>
 	        </form>
 	        </div>

@@ -15,15 +15,27 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDao dao;
 	
 	@Override
-	public Member selectMemberOne(String memEmail) {
+	public Member selectMemberOne(String memNo) {
 		// TODO Auto-generated method stub
-		return dao.selectMemberOne(session,memEmail);
+		return dao.selectMemberOne(session,memNo);
 	}
 
 	@Override
 	public int deleteMember(String memNo) {
 		// TODO Auto-generated method stub
 		return dao.deleteMember(session,memNo);
+	}
+
+	@Override
+	public Member selectMemberNick(String memNick) {
+		// TODO Auto-generated method stub
+		return dao.selectMemberNick(session, memNick);
+	}
+
+	@Override
+	public int updateMember(Member m) {
+		// TODO Auto-generated method stub
+		return dao.updateMember(session,m);
 	}
 	
 	

@@ -33,4 +33,24 @@
 		</beans:property>
 	</beans:bean>
 	
+	<!-- 파일데이터 처리하는 bean등록하기 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="10485760"/>
+	</beans:bean>
+	
+	
+	
+	<interceptors>
+		<!--redirect:/시 뒤로가도 정보 없도록 캐쉬지우기 ??  -->
+		<interceptor>
+		    <mapping path="/*/member/deleteMember" />
+		    <beans:bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+				<beans:property name="cacheSeconds" value="0" />
+				<beans:property name="useExpiresHeader" value="true" />
+				<beans:property name="useCacheControlHeader" value="true" />
+				<beans:property name="useCacheControlNoStore" value="true" />
+		    </beans:bean>
+		</interceptor>	
+	</interceptors>
+	
 </beans:beans>

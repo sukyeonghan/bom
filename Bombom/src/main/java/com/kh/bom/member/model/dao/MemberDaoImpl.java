@@ -9,9 +9,9 @@ import com.kh.bom.member.model.vo.Member;
 public class MemberDaoImpl implements MemberDao {
 
 	@Override
-	public Member selectMemberOne(SqlSession session, String memEmail) {
+	public Member selectMemberOne(SqlSession session, String memNo) {
 		// TODO Auto-generated method stub
-		return session.selectOne("member.selectMemberOne", memEmail);
+		return session.selectOne("member.selectMemberOne", memNo);
 	}
 
 	@Override
@@ -20,7 +20,21 @@ public class MemberDaoImpl implements MemberDao {
 		return session.update("member.deleteMember",memNo);
 	}
 
+	@Override
+	public Member selectMemberNick(SqlSession session, String memNick) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.selectMemberNick",memNick);
+	}
 
+	@Override
+	public int updateMember(SqlSession session, Member m) {
+		// TODO Auto-generated method stub
+		System.out.println(m);
+		return session.update("member.updateMember",m);
+	}
+
+	
+	
 
 	
 

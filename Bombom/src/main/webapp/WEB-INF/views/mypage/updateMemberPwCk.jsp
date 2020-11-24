@@ -74,9 +74,9 @@
 				<div id="pwCheckDiv">
 					<h4>비밀번호 확인</h4>
 					<br>
-					<form action="${path}/member/updateMemberpwdCk" method="post">
+					<form action="${path}/member/updateMemberView" method="post">
 						<input type="password" id="pwCk" name="memPwd" placeholder="비밀번호를 입력해주세요">&nbsp;&nbsp;
-						<input type="hidden" value="${loginMember.Email }"/>
+						<input type="hidden" name="memNo" value="${loginMember.memNo }"/>
 						<button type="submit" class="btn btn-success" id="pwCkBtn" onclick="return fn_check();">확인</button>
 					</form>
 				</div>
@@ -87,9 +87,8 @@
 </section>
 <script>
 	function fn_check(){
-		let memPwd=$("input[name=memPwd]").val();
-		if(memPwd.size<1){
-			alert("비밀번호를 입력해주세요.");
+	 	if($("input[name=memPwd]").val()==""){
+			swal("비밀번호를 입력해주세요.");
 			return false;
 		}
 	}
