@@ -49,9 +49,11 @@
         <div id="header-container">
             <div id="loginJoin" class="d-flex flex-row-reverse">
                 <ul class="nav">
-                    <li class="nav-item"><a class="nav-link" href="#">로그인</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">회원가입</a></li>
-                    
+                    <li class="nav-item">
+                    <a class="nav-link"  data-toggle="modal"data-target="#loginModal">로그인</a></li>
+                    <li class="nav-item">
+                    <a class="nav-link"  data-toggle="modal"data-target="#myModal">회원가입</a>
+                    </li>
                     <!-- 로그인시  나올 메뉴-->
                     <li class="nav-item"><a class="nav-link" href="${path }/mypage/orderStatus">마이페이지</a></li>
                   
