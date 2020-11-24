@@ -20,4 +20,5 @@ public class AdminController {
 	public String moveProductUpdatePage() {
 		return "admin/updateProduct";
 	}
+	
 }

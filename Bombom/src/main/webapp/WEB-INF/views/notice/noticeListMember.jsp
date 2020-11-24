@@ -49,7 +49,7 @@ width: 800px;
 	<div id="board-nav" class="col-sm-3">
 		<ul class="nav flex-column">
 			<li class="nav-item"><a class="nav-link"
-				href="${path }/notice/noticeList">공지사항</a></li>
+				href="${path }/notice/noticeListMember">공지사항</a></li>
 			<li class="nav-item"><a class="nav-link "
 				href="/bom/faq/faqList">자주묻는질문</a></li>
 		</ul>
@@ -63,7 +63,6 @@ width: 800px;
 				<th>번호</th>
 				<th>제목</th>
 				<th>작성일</th>
-				<th>관리자권한</th>
 			</tr>
 			<c:forEach items="${list }" var="n">
 				<tr>
@@ -73,33 +72,11 @@ width: 800px;
 							<c:out value="${n.NOTICE_TITLE }" />
 					</a></td>
 				<%-- 	<td><c:out value="${n.NOTICE_DATE }" /></td> --%>
-				<td><fmt:formatDate pattern="yyyy-MM-dd" value="${n.NOTICE_DATE }"/></td>
-					<td><input type="hidden" value="${n.NOTICE_NO }"
-						name="noticeNo" />
-						<button class="btn btn-outline-success"
-							onclick="fn_updateNotice();">수정</button>
-						<button class="btn btn-outline-secondary"
-							onclick="fn_deleteNotice();">삭제</button></td>
+				<td><fmt:formatDate pattern="yyyy-MM-dd" value="${n.NOTICE_DATE }"/></td>		
 				</tr>
 			</c:forEach>
 		</table>
 		</div>
-		<div class="text-right">
-			<button class="btn btn-success" id="noticeAddbtn"
-				onclick="location.replace('${path}/notice/noticeForm.do')">글쓰기</button>
-		</div>
 </section>
-<script>
-	function fn_updateNotice() {
-		let noticeNo = $(event.target).parent()
-				.children('input[name=noticeNo]').val();
-		location.replace("${path}/notice/updateNotice?noticeNo=" + noticeNo);
-	}
 
-	function fn_deleteNotice() {
-		let noticeNo = $(event.target).parent()
-				.children('input[name=noticeNo]').val();
-		location.replace("${path}/notice/deleteNotice?noticeNo=" + noticeNo);
-	};
-</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
