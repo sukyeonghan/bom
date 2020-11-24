@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -133,6 +134,25 @@ public class memberController {
 		mv.addObject("icon",icon);
 		mv.setViewName("common/msg");
 		return mv;
+	}
+	
+	
+	//회원가입
+	@RequestMapping("/member/enrollMember")
+	public String enrollMember(Member mem,
+			@RequestParam(value="nick") String nick,
+			@RequestParam(value="email") String email,
+			@RequestParam(value="password") String password,
+			Model m) {
+		mem.setMemNick(nick);
+		mem.setMemEmail(email);
+		mem.setMemPwd(password);
+		int result=service.insertMember(mem);
+		m.addAttribute("msg",result>0?"다시:봄 회원이 되셨습니다.":"회원가입 실패!!!!!!");
+		m.addAttribute("loc","/");
+		
+		
+		return "common/msg";
 	}
 	
 	

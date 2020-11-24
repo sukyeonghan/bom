@@ -143,7 +143,7 @@
                   </label>
                 </div>
                 <button type="submit" class="btn btn-success btn-block">
-                  로그인
+                 회원가입
                 </button>
               </div>
 

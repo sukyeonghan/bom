@@ -12,4 +12,6 @@ public interface MemberDao {
 	Member selectMemberNick(SqlSession session, String memNick);
 
 	int updateMember(SqlSession session, Member m);
+
+	int insertMember(SqlSession session, Member m);
 }

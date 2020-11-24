@@ -42,4 +42,8 @@
 		</set>
 		 WHERE MEM_NO=#{memNo}
 	</update>
+	
+	<select id="insertMember" parameterType="member">
+		INSERT INTO MEMBER VALUES('M'||SEQ_MEM_NO.NEXTVAL,#{memNick},#{memPwd},#{memEmail},null,0,0,default,default,default)
+	</select>
 </mapper>

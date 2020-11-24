@@ -33,6 +33,12 @@ public class MemberDaoImpl implements MemberDao {
 		return session.update("member.updateMember",m);
 	}
 
+	@Override
+	public int insertMember(SqlSession session, Member m) {
+		// TODO Auto-generated method stub
+		return session.insert("member.insertMember",m);
+	}
+
 	
 	
 
