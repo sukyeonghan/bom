@@ -139,7 +139,7 @@
             </div>
 
             <!-- Modal body -->
-            <form action="${path}/member/enrollMember.do" method="post">
+            <form action="${path}/member/enrollMember" method="post">
               <div class="modal-body">
                 <div class="form-group">
                   <input
@@ -221,14 +221,14 @@
             </div>
 
             <!-- Modal body -->
-            <form action="" method="">
+            <form action="${path}/member/loginMember.do" method="post">
               <div class="modal-body">
                 <div class="form-group">
                   <input
                     type="email"
                     class="form-control"
                     placeholder="이메일주소"
-                    id="email"
+                    name="email"
                     required
                   />
                   <label for="email">ajax 이메일 주소를 입력해주세요.</label>
@@ -238,7 +238,7 @@
                     type="password"
                     class="form-control"
                     placeholder="비밀번호"
-                    id="pwd"
+                    name="password"
                     required
                   />
                   <label for="pwd"
@@ -409,6 +409,7 @@
                     재설정 완료
                   </button>
                 </div>
+              </form>
           </div>
         </div>
       </div>
