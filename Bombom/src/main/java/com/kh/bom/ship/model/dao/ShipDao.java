@@ -10,4 +10,6 @@ public interface ShipDao {
 
 	List<Ship> selectShipList(SqlSession session, String memNo);
 
+	int insertShip(SqlSession session, Ship s);
+
 }

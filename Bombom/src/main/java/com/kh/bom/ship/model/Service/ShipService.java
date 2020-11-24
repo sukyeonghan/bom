@@ -8,4 +8,6 @@ public interface ShipService {
 
 	List<Ship> selectShipList(String memNo);
 
+	int insertShip(Ship s);
+
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="member">
+	<resultMap type="member" id="memberMap">
+		<result property="memNo" column="mem_no"/>
+		<result property="memNick" column="mem_nick"/>
+		<result property="memPwd" column="mem_pwd"/>
+		<result property="memEmail" column="mem_email"/>
+		<result property="memPro" column="mem_pro"/>
+		<result property="memBuyCount" column="mem_buy_count"/>
+		<result property="memWarnCount" column="mem_warn_count"/>
+		<result property="memManagerYn" column="mem_manager_yn"/>
+		<result property="memStatus" column="mem_status"/>
+		<result property="memPoint" column="mem_point"/>
+	
+	</resultMap>
+	<select id="selectMemberOne" parameterType="string" resultMap="memberMap">
+		SELECT * FROM MEMBER WHERE MEM_NO=#{memNo}
+	</select>
+
+	<update id="deleteMember" parameterType="string">
+		UPDATE MEMBER SET MEM_STATUS='Y' WHERE MEM_NO=#{memNo}
+	</update>
+	
+	<select id="selectMemberNick" parameterType="string" resultMap="memberMap">
+		SELECT * FROM MEMBER MEMBER WHERE MEM_NICK=#{memNick}
+	</select>
+	
+	<update id="updateMember" parameterType="member">
+		UPDATE MEMBER
+		<set>
+			<if test="memPwd!=null and !memPwd.equals('')">
+				MEM_PWD=#{memPwd},
+			</if>
+			<if test="memPro!=null and !memPro.equals('')">
+				MEM_PRO=#{memPro},
+			</if>
+			<if test="memNick!=null and !memNick.equals('')">
+				MEM_NICK=#{memNick},
+			</if>
+			MEM_STATUS='N'
+		</set>
+		 WHERE MEM_NO=#{memNo}
+	</update>
+	
+	<select id="insertMember" parameterType="member">
+		INSERT INTO MEMBER VALUES('M'||SEQ_MEM_NO.NEXTVAL,#{memNick},#{memPwd},#{memEmail},null,0,0,default,default,default)
+	</select>
+</mapper>

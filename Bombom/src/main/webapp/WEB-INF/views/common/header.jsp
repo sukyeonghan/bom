@@ -12,6 +12,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MainTest</title>
+    <script src="${path}/resources/js/jquery-3.5.1.min.js"></script>
     <link rel="stylesheet" href="${path }/resources/css/common/allPage.css">
     <!-- <link rel="stylesheet" href="css/header1440.css"> -->
     <!-- <link rel="stylesheet" href="css/header768.css"> -->
@@ -25,12 +26,11 @@
     <!-- 부트스트랩 -->
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
 	<!-- sweet alert -->
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
@@ -49,9 +49,11 @@
         <div id="header-container">
             <div id="loginJoin" class="d-flex flex-row-reverse">
                 <ul class="nav">
-                    <li class="nav-item"><a class="nav-link" href="#">로그인</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">회원가입</a></li>
-                    
+                    <li class="nav-item">
+                    <a class="nav-link"  data-toggle="modal"data-target="#loginModal">로그인</a></li>
+                    <li class="nav-item">
+                    <a class="nav-link"  data-toggle="modal"data-target="#myModal">회원가입</a>
+                    </li>
                     <!-- 로그인시  나올 메뉴-->
                     <li class="nav-item"><a class="nav-link" href="${path }/mypage/orderStatus">마이페이지</a></li>
                   
