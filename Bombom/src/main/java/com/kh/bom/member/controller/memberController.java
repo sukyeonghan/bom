@@ -155,5 +155,21 @@ public class memberController {
 		return "common/msg";
 	}
 	
+	//로그인
+	@RequestMapping("/member/loginMember")
+	public String loginMember(String email, String password, HttpSession session) {
+		
+		Member login=service.selectOneMember(email);
+		
+		if(login.getMemPwd().equals(password)) {
+			session.setAttribute("loginMember", login);
+		}else {
+			//로그인 실패
+		}
+		
+		
+		return "redirect:/";
+				
+	}
 	
 }
