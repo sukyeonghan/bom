@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="order">
+	<resultMap type="order" id="orderMap">
+		<result property="orderNo" column="order_no"/>
+		<result property="memNo" column="mem_no"/>
+		<result property="ordAmount" column="ord_amount"/>
+		<result property="ordUsePoint" column="ord_use_point"/>
+		<result property="ordDeliAddr" column="ord_deli_addr"/>
+		<result property="ordMemo" column="ord_memo"/>
+		<result property="ordDeliPrice" column="ord_deli_price"/>
+		<result property="ordStatus" column="ord_status"/>
+	</resultMap>
+	
+	<insert id="insertOrder" parameterType="order">
+		INSERT INTO "ORDER" 
+		VALUES (#{orderNo},
+				'1',
+				1500,
+				#{ordUsePoint},
+				#{ordDeliAddr},
+				#{ordMemo},
+				#{ordDeliPrice},
+				'주문대기')
+	</insert>
+
+</mapper>

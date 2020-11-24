@@ -6,5 +6,7 @@
 		<typeAlias type="com.kh.bom.notice.model.vo.Notice" alias="notice"/>
 		<typeAlias type="com.kh.bom.ship.model.vo.Ship" alias="ship"/>
 		<typeAlias type="com.kh.bom.member.model.vo.Member" alias="member"/>
+		<typeAlias type="com.kh.bom.order.model.vo.Order" alias="order"/>
+		<typeAlias type="com.kh.bom.order.model.vo.Inorder" alias="inorder"/>
 	</typeAliases>
 </configuration>
