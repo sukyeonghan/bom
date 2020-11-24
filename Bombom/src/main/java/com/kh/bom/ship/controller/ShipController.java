@@ -20,7 +20,7 @@ public class ShipController {
 	
 	@RequestMapping("/mypage/shipList")
 	public ModelAndView shipList(ModelAndView mv,String memNo ) {
-		memNo="M1000";//더미
+		memNo="M4";//더미
 		
 		List<Ship> list=service.selectShipList(memNo);
 		mv.addObject("list",list);
