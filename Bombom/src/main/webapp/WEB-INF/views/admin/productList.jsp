@@ -108,10 +108,10 @@
 		<div id="" class=" mr-3 admin-nav">
 		  <ul class="nav flex-column">
 		    <li class="nav-item">
-      			<a class="nav-link non-select" href="${path }/s">회원관리</a>
+      			<a class="nav-link non-select" href="${path }/">회원관리</a>
 		    </li>
 		    <li class="nav-item">
-		      	<a class="nav-link select" href="${path }/">제품관리</a>
+		      	<a class="nav-link select" href="${path }/admin/moveProduct">제품관리</a>
 		    </li>
 		    <li class="nav-item">
 		     	 <a class="nav-link non-select" href="${path }/">주문관리</a>
@@ -168,7 +168,7 @@
 					<tr>
 						<td><input type="checkbox" name="check" value="check"></td>
 						<td>욕실</td>
-						<td><a class="product-update" href="${path}/product/productUpdate">유기농 온몸비누 제주</a></td>
+						<td><a class="product-update" href="${path}/admin/productUpdate">유기농 온몸비누 제주</a></td>
 						<td>유기농 온몸비누 by 제주</td>
 						<td>8000원</td>
 						<td>N</td>
@@ -179,7 +179,7 @@
 					<tr>
 						<td><input type="checkbox" name="check" value="check"></td>
 						<td>욕실</td>
-						<td><a class="product-update" href="${path}/product/productUpdate">유기농 온몸비누 제주</a></td>
+						<td><a class="product-update" href="${path}/admin/productUpdate">유기농 온몸비누 제주</a></td>
 						<td>유기농 온몸비누 by 제주</td>
 						<td>8000원</td>
 						<td>N</td>
@@ -190,7 +190,7 @@
 					<tr>
 						<td><input type="checkbox" name="check" value="check"></td>
 						<td>욕실</td>
-						<td><a class="product-update" href="${path}/product/productUpdate">유기농 온몸비누 제주</a></td>
+						<td><a class="product-update" href="${path}/admin/productUpdate">유기농 온몸비누 제주</a></td>
 						<td>유기농 온몸비누 by 제주</td>
 						<td>8000원</td>
 						<td>N</td>
@@ -199,7 +199,7 @@
 						<td>2020/11/23</td>
 					</tr>
 				</table>
-				<button class="btn btn-success" id="insertPro" onclick="location.href='${path}/product/productInsert'">제품 등록</button>
+				<button class="btn btn-success" id="insertPro" onclick="location.href='${path}/admin/productInsert'">제품 등록</button>
 			</div>
 			
 			<!-- 페이징바 -->

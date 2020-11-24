@@ -87,7 +87,7 @@
       			<a class="nav-link non-select" href="${path }/">회원관리</a>
 		    </li>
 		    <li class="nav-item">
-		      	<a class="nav-link select" href="${path }/">제품관리</a>
+		      	<a class="nav-link select" href="${path }/admin/moveProduct">제품관리</a>
 		    </li>
 		    <li class="nav-item">
 		     	 <a class="nav-link non-select" href="${path }/">주문관리</a>

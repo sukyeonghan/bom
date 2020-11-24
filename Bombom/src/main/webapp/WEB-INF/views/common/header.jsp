@@ -409,6 +409,7 @@
                     재설정 완료
                   </button>
                 </div>
+                </form>
           </div>
         </div>
       </div>

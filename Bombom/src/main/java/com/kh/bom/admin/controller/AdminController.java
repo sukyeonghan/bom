@@ -11,12 +11,12 @@ public class AdminController {
 		return "admin/productList";
 	}
 	
-	@RequestMapping("/product/productInsert")
+	@RequestMapping("/admin/productInsert")
 	public String moveProductinsertPage() {
 		return "admin/insertProduct";
 	}
 	
-	@RequestMapping("/product/productUpdate")
+	@RequestMapping("/admin/productUpdate")
 	public String moveProductUpdatePage() {
 		return "admin/updateProduct";
 	}
