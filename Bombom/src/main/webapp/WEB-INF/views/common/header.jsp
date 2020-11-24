@@ -110,7 +110,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">게시판</a>
                             <ul class="">
-                                <li><a class="" href="${path }/notice/noticeList">공지사항</a></li>
+                                <li><a class="" href="${path }/notice/noticeListMember">공지사항</a></li>
                                 <li><a class="" href="${path }/faq/faqList">자주묻는질문</a></li>
                             </ul>
                         </li>
@@ -124,6 +124,7 @@
                                 <li><a class="" href="#">1:1문의 관리</a></li>
                                 <li><a class="" href="#">이벤트관리</a></li>
                                 <li><a class="" href="#">커뮤니티관리</a></li>
+                                <li><a class="" href="${path }/notice/noticeList">공지사항 관리</a></li>
                             </ul>
                         </li>
                     </ul>
