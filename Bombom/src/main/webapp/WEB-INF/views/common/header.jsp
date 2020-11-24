@@ -21,6 +21,7 @@
         background-color: #e9ecef;
         text-align: center;
       }
+      input[type=password] {font-family: "NanumSquare";}
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,7 +68,12 @@
             <div id="loginJoin" class="d-flex flex-row-reverse">
                 <ul class="nav">
                     <li class="nav-item">
+                    <c:if test="${loginMember == null }">
                     <a class="nav-link"  data-toggle="modal"data-target="#loginModal">로그인</a></li>
+                    </c:if>
+                    <c:if test="${loginMember!=null }">
+                    <a class="nav-link"  onclick="location.replace('${path}/member/logout');">로그아웃</a></li>
+                    </c:if>
                     <li class="nav-item">
                     <a class="nav-link"  data-toggle="modal"data-target="#myModal">회원가입</a>
                     </li>

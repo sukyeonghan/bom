@@ -39,6 +39,13 @@ public class MemberDaoImpl implements MemberDao {
 		return session.insert("member.insertMember",m);
 	}
 
+	//로그인
+	@Override
+	public Member selectOneMember(SqlSession session, String email) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.selectOneMember",email);
+	}
+
 	
 	
 
