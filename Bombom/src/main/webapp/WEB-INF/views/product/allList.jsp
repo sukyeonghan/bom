@@ -4,7 +4,112 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
-<link rel="stylesheet" href="${path }/resources/css/product/allList.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+	/*내비바*/
+	.product-nav{padding-right:100px;font-size: 18px;line-height: 1.8;}
+	.product-nav ul{list-style:none;}
+	.product-nav ul a{text-decoration: none;font-weight:bolder;}
+	.product-nav a:hover{color: #45A663;}
+	.select{color:#45A663;}
+	.non-select{color:black;}
+	
+	/*최소 ,최대 컨텐츠 크기,여백*/
+   .media{min-width: 768px;max-width:1300px; margin: 0 80px;} 
+	
+	/*카테고리 및 필터*/
+	.category-sort{
+		display:flex;
+		justify-content:space-between;
+	}
+	/*해당 페이지 카테고리*/
+	.item-count{
+		display:flex;
+	}
+	.count{
+		color:#45A663;
+		font-weight:bold;
+	}
+	/*정렬*/
+	.sort{
+		border:none;
+		outline:none;
+		
+	}
+	
+	/*각 상품*/
+	.item-wrap{
+		margin:10px;
+	}
+	/*이미지 크기*/
+     .item-img{
+        width:250px;
+        height: 250px;
+        margin-bottom:10px;
+    }
+
+    /*상품 설명*/
+    .item-intro{
+        text-align: center;
+        width:250px;
+    }
+    /*상품명*/
+	.title-link{
+		color:black;
+        font-weight: bold;
+    }
+    .title-link:hover{
+    	color:#265c37;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    
+    /*가격 및 아이콘*/
+	.sale{
+        color:rgb(170, 170, 170);
+        text-decoration: line-through;
+	}
+    .item-price,.item-icon{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+       font-size:15px;
+    }
+    .item-icon{
+    	font-size:13px;
+    }
+    .sale-price,.sale-icon,.soldout-icon{
+        margin-left:5%;
+    }
+    .new-icon{
+        background-color:#45A663;
+        color: white;
+        padding: 1px 5px;
+
+    }
+    .sale-icon{
+        background-color:#e04545;
+        color: white;
+        padding: 1px 5px;
+    }
+    .soldout-icon{
+    	background-color:gray;
+        color: white;
+        padding: 1px 5px;
+    }
+    /*페이지바*/
+    .pagebar{
+    	margin-top:100px;
+    	color:black;
+    }
+    
+    .pagebar a:hover{
+    	text-decoration:none;
+    	color:black;
+    }
+    
+</style>
+
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="소개" />
@@ -14,7 +119,7 @@
 
 	<div class="media">
 		<!-- 상품 내비게이션바 -->
-		<div class="product-nav mr-3" style="min-width: 200px;">
+		<div class="product-nav mr-3" style="min-width: 210px;">
 			<ul>
         		<li><a class="select" href="${path }/product/productAll">전체상품</a></li>
 	        	<li><a class="non-select" href="#">식품</a></li>
@@ -56,7 +161,7 @@
 		  	</div> --%>
 		  	
 		  	<!-- 상품목록 -->
-		  	<div class="all-item-wrap"  style="display: flex;">
+		  	<div class="all-item-wrap"  style="display: flex;min-width: 1000px;">
 		  	
 		  		<div class="item-wrap">
                 <div class="" >
@@ -159,10 +264,20 @@
             
            
 		  </div>
-		  	
-            
+		  
+		  <!-- 페이징바 -->
+		 <div class="w3-center pagebar">	
+			<div class="w3-bar">
+				<a href="#" class="w3-button w3-hover-black"> < </a>
+				<a href="#" class="w3-button w3-hover-black">1</a>
+				<a href="#" class="w3-button w3-hover-black">2</a>
+				<a href="#" class="w3-button w3-hover-black">3</a>
+				<a href="#" class="w3-button w3-hover-black">4</a>
+				<a href="#" class="w3-button w3-hover-black"> > </a>
+			</div>
 		</div>
 	</div>
+</div>
 		
 
 </section>
