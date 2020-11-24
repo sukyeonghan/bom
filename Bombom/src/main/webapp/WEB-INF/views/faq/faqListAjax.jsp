@@ -22,15 +22,13 @@
 			    <div id="collapse${vs.index}" class="collapse" data-parent="#accordion">
 			      <div class="card-body">
 			        <c:out value="${f.faqContent }"/> 
-					<br>
-					<br>
-			        <!-- 관리자일때만 뜰 버튼 -->
+			       	<c:if test="${loginMember.memManagerYn=='Y' }">
 					<div class="btn-box">
 						<input type="hidden" value="${f.faqNo }" name="faqNo"/>
 						<button class="btn btn-outline-success" onclick="fn_updateFaq();">수정</button>&nbsp;&nbsp;
 						<button class="btn btn-outline-secondary" onclick="fn_deleteFaq();">삭제</button>
 					</div> 
-					
+					</c:if>
 			      </div>
 			    </div>
 			    
