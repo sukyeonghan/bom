@@ -21,6 +21,7 @@
         background-color: #e9ecef;
         text-align: center;
       }
+      input[type=password] {font-family: "NanumSquare";}
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,7 +68,12 @@
             <div id="loginJoin" class="d-flex flex-row-reverse">
                 <ul class="nav">
                     <li class="nav-item">
+                    <c:if test="${loginMember == null }">
                     <a class="nav-link"  data-toggle="modal"data-target="#loginModal">로그인</a></li>
+                    </c:if>
+                    <c:if test="${loginMember!=null }">
+                    <a class="nav-link"  onclick="location.replace('${path}/member/logout');">로그아웃</a></li>
+                    </c:if>
                     <li class="nav-item">
                     <a class="nav-link"  data-toggle="modal"data-target="#myModal">회원가입</a>
                     </li>
@@ -152,7 +158,7 @@
             </div>
 
             <!-- Modal body -->
-            <form action="${path}/member/enrollMember.do" method="post">
+            <form action="${path}/member/enrollMember" method="post">
               <div class="modal-body">
                 <div class="form-group">
                   <input
@@ -234,14 +240,14 @@
             </div>
 
             <!-- Modal body -->
-            <form action="" method="">
+            <form action="${path}/member/loginMember" method="post">
               <div class="modal-body">
                 <div class="form-group">
                   <input
                     type="email"
                     class="form-control"
                     placeholder="이메일주소"
-                    id="email"
+                    name="email"
                     required
                   />
                   <label for="email">ajax 이메일 주소를 입력해주세요.</label>
@@ -251,7 +257,7 @@
                     type="password"
                     class="form-control"
                     placeholder="비밀번호"
-                    id="pwd"
+                    name="password"
                     required
                   />
                   <label for="pwd"

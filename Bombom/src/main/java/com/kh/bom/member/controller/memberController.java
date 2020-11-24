@@ -44,7 +44,7 @@ public class memberController {
 	//회원정보수정 접근시 비밀번호 체크
 	@RequestMapping("/member/updateMemberView")
 	public ModelAndView updateMemberPwCk(Member mem,ModelAndView mv){
-		mem.setMemNo("M1000");
+		mem.setMemNo("M4");
 		String memNo=mem.getMemNo();
 		//회원번호로 회원정보가져오기
 		Member m=service.selectMemberOne(memNo);
@@ -155,5 +155,21 @@ public class memberController {
 		return "common/msg";
 	}
 	
+	//로그인
+	@RequestMapping("/member/loginMember")
+	public String loginMember(String email, String password, HttpSession session) {
+		
+		Member login=service.selectOneMember(email);
+		
+		if(login.getMemPwd().equals(password)) {
+			session.setAttribute("loginMember", login);
+		}else {
+			//로그인 실패
+		}
+		
+		
+		return "redirect:/";
+				
+	}
 	
 }

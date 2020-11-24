@@ -14,4 +14,6 @@ public interface MemberService {
 
 	int insertMember(Member mem);
 
+	Member selectOneMember(String email);
+
 }
