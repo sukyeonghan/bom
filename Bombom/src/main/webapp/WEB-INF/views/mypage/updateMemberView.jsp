@@ -128,6 +128,10 @@ function fn_updateMember(){
 	       success:data=>{
 	          if(data===false){
 	             swal("닉네임이 중복됩니다. 확인해주세요");
+	             
+	             
+	             
+	             
 	             flag=data;
 	          }else{
 	        	  if((memPwd.length>0) || (membPwdCk.length>0)){

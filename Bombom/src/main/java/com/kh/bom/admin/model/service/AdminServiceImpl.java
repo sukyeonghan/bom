@@ -21,4 +21,9 @@ public class AdminServiceImpl implements AdminService {
 		return dao.selectEvent(session);
 	}
 
+	@Override
+	public int eventDelete(String eventNo) {
+		return dao.eventDelete(session, eventNo);
+	}
+
 }

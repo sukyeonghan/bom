@@ -34,10 +34,43 @@ public class AdminController {
 	@RequestMapping("/admin/moveEvent")
 	public ModelAndView moveEventList(ModelAndView m) {
 		List<Event> list = service.selectEvent();
-		System.out.println(list);
 		m.addObject("list", service.selectEvent());
-		m.setViewName("admin/eventList");
+		m.setViewName("admin/event/eventList");
 		
 		return m;
 	}
+	
+	//이벤트 한개row삭제
+	@RequestMapping("/admin/eventDelete")
+	public ModelAndView eventDelete(ModelAndView mv,String eventNo) {
+		System.out.println(eventNo);
+		int result = service.eventDelete(eventNo);
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		if(result>0) {
+			msg = "삭제가 완료되었습니다!";
+			loc = "/admin/moveEvent";
+			icon = "success";
+		}else {
+			msg = "삭제가 실패했어요:(";
+			loc = "/admin/moveEvent";
+			icon = "error";
+		}
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon", icon);
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
+	//이벤트등록
+	@RequestMapping("/admin/insertEvent")
+	public String moveEventWriteForm() {
+		return "admin/event/eventWrite";
+	}
+	
+	
+	
+	
 }

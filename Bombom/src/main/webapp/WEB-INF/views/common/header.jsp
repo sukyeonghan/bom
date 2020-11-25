@@ -103,7 +103,6 @@
                                 <li><a class="" href="#">여성용품</a></li>
                                 <li><a class="" href="#">반려동물</a></li>
                                 <li><a class="" href="#">할인상품</a></li>
-                                <li><a class="" href="${path }/admin/moveProduct">관리자테스트</a></li>
                             </ul>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="#">커뮤니티</a></li>

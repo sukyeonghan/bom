@@ -46,17 +46,14 @@ public class memberController {
 	}
 	//회원정보수정 접근시 비밀번호 체크
 	@RequestMapping("/member/updateMemberView")
-	public ModelAndView updateMemberPwCk(Member mem,ModelAndView mv){
-		mem.setMemNo("M4");
-		String memNo=mem.getMemNo();
+	public ModelAndView updateMemberPwCk(String memPwd,String memNo,ModelAndView mv){
+		
 		//회원번호로 회원정보가져오기
-		Member m=service.selectMemberOne(memNo);
+		Member login=service.selectMemberOne(memNo);
 		String msg="";
 		String loc=""; 
 		//회원비밀번호와 매개변수 비밀번호가 일치하면 true,일치하지 않으면  false
-		//if(pwEncoder.matches(mem.getMemPwd(), m.getMemPwd())) {//암호화처리시 사용할것
-		if(m.getMemPwd().equals(mem.getMemPwd())) {
-			mv.addObject("loginMember",m);//로그인 구현시 삭제할것
+		if(pwEncoder.matches(login.getMemPwd(), memPwd)) {
 			mv.setViewName("mypage/updateMemberView");
 			
 		}else {
@@ -118,8 +115,8 @@ public class memberController {
 		}
 		
 		//비밀번호 암호화처리 - 회원가입 후에 살릴것
-//		String oriPw=m.getMemPwd();
-//		m.setMemPwd(pwEncoder.encode(oriPw));
+		String oriPw=m.getMemPwd();
+		m.setMemPwd(pwEncoder.encode(oriPw));
 		
 		int result=service.updateMember(m);
 		String msg="";
@@ -150,6 +147,12 @@ public class memberController {
 		mem.setMemNick(nick);
 		mem.setMemEmail(email);
 		mem.setMemPwd(password);
+		
+		//패스워드 암호화처리
+		String oriPw=mem.getMemPwd();
+		
+		mem.setMemPwd(pwEncoder.encode(oriPw));
+		
 		int result=service.insertMember(mem);
 		m.addAttribute("msg",result>0?"다시:봄 회원이 되셨습니다.":"회원가입 실패!!!!!!");
 		m.addAttribute("loc","/");
@@ -163,8 +166,8 @@ public class memberController {
 	public String loginMember(String email, String password, Model m) {
 		
 		Member login=service.selectOneMember(email);
-			
-		if(login.getMemPwd().equals(password)) {
+		//암호화된 비번 비교 
+		if(pwEncoder.matches(password, login.getMemPwd())) {
 			m.addAttribute("loginMember",login);
 		}else {
 			//로그인 실패

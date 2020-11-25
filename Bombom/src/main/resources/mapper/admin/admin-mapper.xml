@@ -13,6 +13,9 @@
 	<select id="selectEvent" resultMap="eventMap">
 		SELECT * FROM EVENT
 	</select>
-
+	
+	<delete id="eventDelete" parameterType="string">
+		DELETE FROM EVENT WHERE EVENT_NO = #{evetNo}
+	</delete>
 
 </mapper>
