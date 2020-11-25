@@ -35,11 +35,12 @@ public class AdminController {
 	public ModelAndView moveEventList(ModelAndView m) {
 		List<Event> list = service.selectEvent();
 		m.addObject("list", service.selectEvent());
-		m.setViewName("admin/eventList");
+		m.setViewName("admin/event/eventList");
 		
 		return m;
 	}
 	
+	//이벤트 한개row삭제
 	@RequestMapping("/admin/eventDelete")
 	public ModelAndView eventDelete(ModelAndView mv,String eventNo) {
 		System.out.println(eventNo);
@@ -61,6 +62,12 @@ public class AdminController {
 		mv.addObject("icon", icon);
 		mv.setViewName("common/msg");
 		return mv;
+	}
+	
+	//이벤트등록
+	@RequestMapping("/admin/insertEvent")
+	public String moveEventWriteForm() {
+		return "admin/event/eventWrite";
 	}
 	
 	
