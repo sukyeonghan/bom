@@ -8,6 +8,8 @@ public interface NoticeService {
 	
 	List<Notice> selectNoticeList();
 	
+	List<Notice> selectNoticeList2();
+	
 	Notice selectNoticeOne(String noticeNo);
 	
 	int insertNotice(Notice notice);

@@ -21,6 +21,7 @@
         background-color: #e9ecef;
         text-align: center;
       }
+      input[type=password] {font-family: "NanumSquare";}
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,7 +68,12 @@
             <div id="loginJoin" class="d-flex flex-row-reverse">
                 <ul class="nav">
                     <li class="nav-item">
+                    <c:if test="${loginMember == null }">
                     <a class="nav-link"  data-toggle="modal"data-target="#loginModal">로그인</a></li>
+                    </c:if>
+                    <c:if test="${loginMember!=null }">
+                    <a class="nav-link"  onclick="location.replace('${path}/member/logout');">로그아웃</a></li>
+                    </c:if>
                     <li class="nav-item">
                     <a class="nav-link"  data-toggle="modal"data-target="#myModal">회원가입</a>
                     </li>
@@ -104,20 +110,20 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">게시판</a>
                             <ul class="">
-                                <li><a class="" href="${path }/notice/noticeList">공지사항</a></li>
+                                <li><a class="" href="${path }/notice/noticeListMember">공지사항</a></li>
                                 <li><a class="" href="${path }/faq/faqList">자주묻는질문</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a id="menuNav-product" class="nav-link" href="${path }/product/productAll">관리자페이지</a>
                             <ul class="">
-                            	<li><a class="" href="${path }/product/productAll">전체상품</a></li>
                             	<li><a class="" href="#">회원관리</a></li>
                                 <li><a class="" href="#">상품관리</a></li>
                                 <li><a class="" href="${path }/admin/moveProduct">주문관리</a></li>
                                 <li><a class="" href="#">1:1문의 관리</a></li>
-                                <li><a class="" href="#">이벤트관리</a></li>
+                                <li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
                                 <li><a class="" href="#">커뮤니티관리</a></li>
+                                <li><a class="" href="${path }/notice/noticeList">공지사항 관리</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -151,7 +157,7 @@
             </div>
 
             <!-- Modal body -->
-            <form action="${path}/member/enrollMember.do" method="post">
+            <form action="${path}/member/enrollMember" method="post">
               <div class="modal-body">
                 <div class="form-group">
                   <input
@@ -233,14 +239,14 @@
             </div>
 
             <!-- Modal body -->
-            <form action="" method="">
+            <form action="${path}/member/loginMember" method="post">
               <div class="modal-body">
                 <div class="form-group">
                   <input
                     type="email"
                     class="form-control"
                     placeholder="이메일주소"
-                    id="email"
+                    name="email"
                     required
                   />
                   <label for="email">ajax 이메일 주소를 입력해주세요.</label>
@@ -250,7 +256,7 @@
                     type="password"
                     class="form-control"
                     placeholder="비밀번호"
-                    id="pwd"
+                    name="password"
                     required
                   />
                   <label for="pwd"
