@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,6 +22,7 @@ import com.kh.bom.member.model.service.MemberService;
 import com.kh.bom.member.model.vo.Member;
 
 @Controller
+@SessionAttributes("loginMember")
 public class memberController {
     @Autowired
     private MemberService service;
@@ -157,12 +160,12 @@ public class memberController {
 	
 	//로그인
 	@RequestMapping("/member/loginMember")
-	public String loginMember(String email, String password, HttpSession session) {
+	public String loginMember(String email, String password, Model m) {
 		
 		Member login=service.selectOneMember(email);
-		
+			
 		if(login.getMemPwd().equals(password)) {
-			session.setAttribute("loginMember", login);
+			m.addAttribute("loginMember",login);
 		}else {
 			//로그인 실패
 		}
@@ -171,5 +174,15 @@ public class memberController {
 		return "redirect:/";
 				
 	}
+	
+	@RequestMapping("/member/logout")
+	public String logout(SessionStatus ss) {
+		//세션이 살아있으면, 
+		if(!ss.isComplete()) {
+			ss.setComplete();
+		}
+		return "redirect:/";		
+	}
+	
 	
 }
