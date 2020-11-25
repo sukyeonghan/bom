@@ -135,48 +135,42 @@
 	</section>
 </body>
 <script>
-		
-	function fn_check(){
-		System.out.println("함수실행된다");
-		console.log("함수실행");
-		
-		let phoneCheck =/[0-9]/g;
-		
-		/* let phone1=$("select[name=phone1]>option:selected").val();
-		let phone2 = $("input[name=phone2]").val();
-		let phone3 = $("input[name=phone3]").val(); */
-		
-		let phone1=document.getElementById("phone1");
-		let phone2 =document.getElementById("phone2");
-		let phone3 =document.getElementById("phone3");
-		
-		if(phone1==" ") {
-			alert("연락처를 확인해주세요.");
-			return false;
-		}
 
-		if(!phoneCheck.test(phone2)){		
-			alert("잘못된 연락처 형식입니다. 확인해주세요");
-			return false;
-		}
+function fn_check(){	
+	var phoneCheck =/^[0-9]*$/;
+	var phone1 = $("select[name=phone1]>option:selected").val();
+	var phone2 = $("input[name=phone2]").val();
+	var phone3 = $("input[name=phone3]").val(); 
+	var phone="";
+	
+	if(phone1==" "){
+		alert("연락처를 확인해주세요.");
+		return false;
+	}
+	
+	if(!phoneCheck.test(phone2)){		
+		alert("잘못된 연락처 형식입니다.[연락처 두번째칸]을 확인해주세요");
+		return false;
+	}
+	
+	if(!phoneCheck.test(phone3)){		
+		alert("잘못된 연락처 형식입니다.[연락처 세번째칸]을 확인해주세요");
+		return false;
 		
-		if(!phoneCheck.test(phone3)){		
-			alert("잘못된 연락처 형식입니다. 확인해주세요");
-			return false;
-		}
+	}else{
 		
-		let phone=phone1+"-"+phone2+"-"+phon3;
-		$("input[name=shipPhone]").value(phone);
+		phone=phone1+"-"+phone2+"-"+phone3;
+	
+		$("input[name=shipPhone]").val(phone);
 		
-		if($("input[name=shipAddress]").val()==null){
+		if($("input[name=shipAddress]").val().length<1){
 			alert("주소를 입력해주세요");
 			return false;
 		} 
 		
-		
-		
-	};
-
+	}
+	
+};
 
 	
 	//우편번호, 주소검색
