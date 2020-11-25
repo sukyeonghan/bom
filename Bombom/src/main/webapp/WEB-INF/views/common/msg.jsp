@@ -19,6 +19,8 @@
 		  button:"확인",
 		  closeOnClickOutside: false,
 		}).then(function(){
+			/* "${opener}";
+			"${script}"; */
 			location.replace("${pageContext.request.contextPath}${loc}");
 		});
 		
