@@ -47,7 +47,7 @@ public class memberController {
 	//회원정보수정 접근시 비밀번호 체크
 	@RequestMapping("/member/updateMemberView")
 	public ModelAndView updateMemberPwCk(Member mem,ModelAndView mv){
-		mem.setMemNo("M1000");
+		mem.setMemNo("M4");
 		String memNo=mem.getMemNo();
 		//회원번호로 회원정보가져오기
 		Member m=service.selectMemberOne(memNo);

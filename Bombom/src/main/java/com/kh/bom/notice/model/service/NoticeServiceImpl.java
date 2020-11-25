@@ -23,6 +23,12 @@ public class NoticeServiceImpl implements NoticeService {
 		// TODO Auto-generated method stub
 		return dao.selectNoticeList(session);
 	}
+	
+	@Override
+	public List<Notice> selectNoticeList2() {
+		// TODO Auto-generated method stub
+		return dao.selectNoticeList2(session);
+	}
 
 	@Override
 	public int insertNotice(Notice notice) {

@@ -11,6 +11,10 @@
 	SELECT * FROM NOTICE 
 	</select>
 	
+	<select id="selectNoticeList2" resultType="map">
+	SELECT * FROM NOTICE 
+	</select>
+	
 	<insert id="insertNotice" parameterType="notice">
 	INSERT INTO NOTICE VALUES
 	('N'||SEQ_NOTICE_NO.NEXTVAL,#{noticeTitle},#{noticeContent},
