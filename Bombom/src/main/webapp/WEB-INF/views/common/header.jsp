@@ -106,11 +106,11 @@
                                 <li><a class="" href="${path }/admin/moveProduct">관리자테스트</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="#">커뮤니티</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${path }/community/communityList">커뮤니티</a></li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">게시판</a>
                             <ul class="">
-                                <li><a class="" href="${path }/notice/noticeListMember">공지사항</a></li>
+                                <li><a class="" href="${path }/notice/noticeList">공지사항</a></li>
                                 <li><a class="" href="${path }/faq/faqList">자주묻는질문</a></li>
                             </ul>
                         </li>
