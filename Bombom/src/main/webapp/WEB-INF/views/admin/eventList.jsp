@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
+
 <style>
 	/*좌측메뉴*/
 	.admin-nav{padding-right:100px;}
@@ -158,18 +159,19 @@
 						<th>할인품목</th>
 						<th>할인율</th>
 						<th>이벤트기간</th>
-						<th></th>
+						<th></th> <!-- 삭제버튼용 -->
 					</tr>
 					<c:forEach items="${list }" var="e">
 					<tr>
 						<td><input type="checkbox" name="check" value="check"></td>
-						<td><c:out value="${e.eventNo}" /></td>
+						<td><p class="eventNo"><c:out value="${e.eventNo}"/></p></td>
 						<td><c:out value="${e.eventTitle }" /></td>
 						<td><a class="direct-product" href="${path}/product/productAll">상품명---</a></td>
 						<td><c:out value="${e.eventSalePer }" />%</td>
 						<td><fmt:formatDate value="${e.eventStartDate }" /> ~ <fmt:formatDate value="${e.eventEndDate }" /></td>
-						<td><button id="event-delte" class="btn btn-sm btn-outline-danger">삭제</button></td>
+						<td><button id="event-delete" class="btn btn-sm btn-outline-danger" onclick="fn_delete('${e.eventNo}');">삭제</button></td>
 					</tr>
+						
 					</c:forEach>
 				</table>
 				<button class="btn btn-success" id="" onclick="location.href='${path}/admin/'">이벤트 등록</button>
@@ -206,8 +208,9 @@
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 <script>
+
 	var checkAll = 'false';
-	
+
 	function selectAll() {
 		let items = document.getElementsByName("check");
 	
@@ -223,5 +226,15 @@
 			checkAll = "false";
 		}
 	}
+	
+	//삭제버튼 구현
+	function fn_delete(eventNo){
+		var url = "${path}/admin/eventDelete";
+		var no = {eventNo : eventNo};
+		var ck = confirm("정말로 삭제하시겠습니까?");
+		if(ck){
+			window.location = url+'?'+$.param(no);
+		}
+	}
+	
 </script>
-

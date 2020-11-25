@@ -15,7 +15,7 @@
 	swal({
 		  title: "${title}",
 		  text: "${msg}",
-		  icon:"${icon}",
+		  icon:"${icon}", //icon 종류 : success,error,warning
 		  button:"확인",
 		  closeOnClickOutside: false,
 		}).then(function(){
