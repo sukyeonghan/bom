@@ -44,12 +44,12 @@ public class memberController {
 	//회원정보수정 접근시 비밀번호 체크
 	@RequestMapping("/member/updateMemberView")
 	public ModelAndView updateMemberPwCk(Member mem,ModelAndView mv){
-		mem.setMemNo("M1000");
+		mem.setMemNo("M4");
 		String memNo=mem.getMemNo();
 		//회원번호로 회원정보가져오기
 		Member m=service.selectMemberOne(memNo);
 		String msg="";
-		String loc="";
+		String loc=""; 
 		//회원비밀번호와 매개변수 비밀번호가 일치하면 true,일치하지 않으면  false
 		//if(pwEncoder.matches(mem.getMemPwd(), m.getMemPwd())) {//암호화처리시 사용할것
 		if(m.getMemPwd().equals(mem.getMemPwd())) {
