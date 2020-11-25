@@ -147,6 +147,12 @@ public class memberController {
 		mem.setMemNick(nick);
 		mem.setMemEmail(email);
 		mem.setMemPwd(password);
+		
+		//패스워드 암호화처리
+		String oriPw=mem.getMemPwd();
+		
+		mem.setMemPwd(pwEncoder.encode(oriPw));
+		
 		int result=service.insertMember(mem);
 		m.addAttribute("msg",result>0?"다시:봄 회원이 되셨습니다.":"회원가입 실패!!!!!!");
 		m.addAttribute("loc","/");
@@ -160,8 +166,8 @@ public class memberController {
 	public String loginMember(String email, String password, Model m) {
 		
 		Member login=service.selectOneMember(email);
-			
-		if(login.getMemPwd().equals(password)) {
+		//암호화된 비번 비교 
+		if(pwEncoder.matches(password, login.getMemPwd())) {
 			m.addAttribute("loginMember",login);
 		}else {
 			//로그인 실패
