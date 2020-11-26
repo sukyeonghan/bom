@@ -60,7 +60,7 @@ div#notice-container input {
 		<div id="notice-container" class="container">
 		<h3>공지사항</h3>
 		<div class="text-right">
-		<c:if test="${loginMemer.memManagerYn == 'Y' }">
+		<c:if test="${loginMember.memManagerYn == 'Y' }">
 			<button class="btn btn-success" id="noticeAddbtn"
 				onclick="location.replace('${path}/notice/noticeForm.do')">글쓰기</button>
 				</c:if>
@@ -71,7 +71,7 @@ div#notice-container input {
 					<th>번호</th>
 					<th>제목</th>
 					<th>작성일</th>
-					<th><c:if test="${loginMemer.memManagerYn == 'Y' }">관리자권한</c:if></th>
+					<th><c:if test="${loginMember.memManagerYn == 'Y' }">관리자권한</c:if></th>
 				</tr>
 				<c:forEach items="${list }" var="n">
 					<tr>
@@ -85,7 +85,7 @@ div#notice-container input {
 								value="${n.NOTICE_DATE }" /></td>
 						<td><input type="hidden" value="${n.NOTICE_NO }"
 							name="noticeNo" />
-							<c:if test="${loginMemer.memManagerYn == 'Y' }">
+							<c:if test="${loginMember.memManagerYn == 'Y' }">
 							<button class="btn btn-outline-success"
 								onclick="fn_updateNotice();">수정</button>
 							<button class="btn btn-outline-secondary"

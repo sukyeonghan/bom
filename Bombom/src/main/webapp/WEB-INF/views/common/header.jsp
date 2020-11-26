@@ -123,7 +123,6 @@
                                 <li><a class="" href="#">1:1문의 관리</a></li>
                                 <li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
                                 <li><a class="" href="#">커뮤니티관리</a></li>
-                                <li><a class="" href="${path }/notice/noticeList">공지사항 관리</a></li>
                             </ul>
                         </li>
                     </ul>
