@@ -125,7 +125,7 @@
 		
 		<div id="admin-container" class="media-body">
 			<!-- 페이지 타이틀 -->
-			<h3 class="page-title">이벤트목록</h3> 
+			<h3 class="page-title">이벤트관리</h3><hr>
 			<div class="btns-category">
 				<!-- 전체 선택, 선택 삭제 버튼 -->
 				<div class="buttons">
