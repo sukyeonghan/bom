@@ -166,8 +166,8 @@
 		  		<div class="item-wrap">
                 <div class="" >
                     <a href="#" class="">
-                        <img alt="" src="${path}/resources/images/product/soap1.jpg" class="item-img" style="display: inline;"
-                         onmouseout="this.src='${path}/resources/images/product/soap1.jpg'" onmouseover="this.src='${path}/resources/images/product/soap2.jpg'">
+                        <img alt="" src="${path}/resources/upload/product/soap1.jpg" class="item-img" style="display: inline;"
+                         onmouseout="this.src='${path}/resources/upload/product/soap1.jpg'" onmouseover="this.src='${path}/resources/upload/product/soap2.jpg'">
                    	</a>
                 </div>
                 <div class="item-intro">
@@ -191,8 +191,8 @@
             <div class="item-wrap">
                 <div class="" >
                     <a href="#" class="">
-                        <img alt="" src="${path}/resources/images/product/som1.jpg" class="item-img" style="display: inline;"
-                         onmouseout="this.src='${path}/resources/images/product/som1.jpg'" onmouseover="this.src='${path}/resources/images/product/som2.jpg'">
+                        <img alt="" src="${path}/resources/upload/product/som1.jpg" class="item-img" style="display: inline;"
+                         onmouseout="this.src='${path}/resources/upload/product/som1.jpg'" onmouseover="this.src='${path}/resources/upload/product/som2.jpg'">
                    	</a>
                 </div>
                 <div class="item-intro">
@@ -216,8 +216,8 @@
              <div class="item-wrap">
                 <div class="" >
                     <a href="#" class="">
-                        <img alt="" src="${path}/resources/images/product/coffee1.jpg" class="item-img" style="display: inline;"
-                         onmouseout="this.src='${path}/resources/images/product/coffee1.jpg'" onmouseover="this.src='${path}/resources/images/product/coffee2.jpg'">
+                        <img alt="" src="${path}/resources/upload/product/coffee1.jpg" class="item-img" style="display: inline;"
+                         onmouseout="this.src='${path}/resources/upload/product/coffee1.jpg'" onmouseover="this.src='${path}/resources/upload/product/coffee2.jpg'">
                    	</a>
                 </div>
                 <div class="item-intro">
@@ -240,8 +240,8 @@
             <div class="item-wrap">
                 <div class="" >
                     <a href="#" class="">
-                        <img alt="" src="${path}/resources/images/product/woman1.jpg" class="item-img" style="display: inline;"
-                         onmouseout="this.src='${path}/resources/images/product/woman1.jpg'" onmouseover="this.src='${path}/resources/images/product/woman2.jpg'">
+                        <img alt="" src="${path}/resources/upload/product/woman1.jpg" class="item-img" style="display: inline;"
+                         onmouseout="this.src='${path}/resources/upload/product/woman1.jpg'" onmouseover="this.src='${path}/resources/upload/product/woman2.jpg'">
                    	</a>
                 </div>
                 <div class="item-intro">
