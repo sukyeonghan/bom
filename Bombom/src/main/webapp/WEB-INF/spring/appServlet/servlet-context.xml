@@ -40,8 +40,8 @@
 	
 	
 	
-	<interceptors>
-		<!--redirect:/시 뒤로가도 정보 없도록 캐쉬지우기 ??  -->
+	<!-- <interceptors>
+		redirect:/시 뒤로가도 정보 없도록 캐쉬지우기 ?? 
 		<interceptor>
 		    <mapping path="/*/member/deleteMember" />
 		    <beans:bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
@@ -51,6 +51,6 @@
 				<beans:property name="useCacheControlNoStore" value="true" />
 		    </beans:bean>
 		</interceptor>	
-	</interceptors>
+	</interceptors> -->
 	
 </beans:beans>

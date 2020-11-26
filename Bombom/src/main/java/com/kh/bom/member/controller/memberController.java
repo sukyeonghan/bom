@@ -63,11 +63,15 @@ public class memberController {
 		return mv;
 		
 	}
-	//회원삭제
+	//회원탈퇴
 	@RequestMapping("/member/deleteMember")
-	public ModelAndView deleteMember(String memNo,ModelAndView mv) {
+	public ModelAndView deleteMember(String memNo,ModelAndView mv,SessionStatus ss) {
 		int result=service.deleteMember(memNo);
 		if(result>0) {
+			//회원탈퇴시 세션닫기
+			if(!ss.isComplete()) {
+				ss.setComplete();
+			}
 			mv.setViewName("redirect:/");
 		}else {
 			mv.addObject("msg","회원탈퇴 실패");

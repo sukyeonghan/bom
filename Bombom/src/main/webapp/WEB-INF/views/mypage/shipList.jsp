@@ -94,8 +94,9 @@
 					        </td>
 					        <td><c:out value="${s.shipPhone }"/></td>
 					        <td>
-					        	<button class="btn btn-outline-success" id="updateBtn">수정</button>
-					        	<button class="btn btn-outline-secondary" id="deleteBtn">삭제</button>
+					        	<input type="hidden" value="${s.shipNo }" name="shipNo">
+					        	<button class="btn btn-outline-success updateBtn">수정</button>
+					        	<button class="btn btn-outline-secondary" onclick="location.replace('${path}/ship/deleteShip?shipNo=${s.shipNo }')">삭제</button>
 					        </td>
 					      </tr>
 				      	</c:forEach>
@@ -130,14 +131,19 @@
         insertShip.submit();
 	
 	}
-	$(function(){
-		$("#updateBtn").click(e=>{
-			
-		});
-		
-	})
 	
+$(function(){
+	$(".updateBtn").click(e=>{
+		var shipNo=$(e.target).parent().children("input[name=shipNo]").val();
+		const url="${path}/ship/updateShip?shipNo="+shipNo;
+		const status="width=480px,height=605px,top=100px,left=500px";
+        window.open(url,"",status);
 
+	});
+});
+
+
+	
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
