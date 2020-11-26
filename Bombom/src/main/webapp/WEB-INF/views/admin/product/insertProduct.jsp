@@ -112,6 +112,10 @@
     .test{
     	display:flex;
     }
+    
+    .insertPro,.goList{
+    	display:flex;
+    }
 </style>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -242,12 +246,12 @@
 				</div>
 				
 				<div id="bottom-btns">
-					<input type="submit" class="btn btn-success" value="등록하기">
-					
+					<input type="submit" class="btn btn-success insertPro" value="등록하기">
+					<input type="button" class="btn btn-success goList" onclick="location.href='${path}/admin/moveProduct'" value="목록">
 				</div>
 				
 			</form>
-				<button class="btn btn-success" onclick="location.href='${path}/admin/moveProduct'">목록</button>
+				
 		</div>
 	</div>
 </section>
@@ -294,12 +298,9 @@
 	      var files = e.target.files;
 	      var arr =Array.prototype.slice.call(files);
 	      
-	      
-	      
 	      preview(arr);
 	      
-	      
-	    });//file change
+	    });
 	    
 	
 	    
@@ -327,9 +328,8 @@
 	          } 
 	          reader.readAsDataURL(f);
 	        }
-	      });//arr.forEach
+	      });
 	    }
 	  });
-	</script>
-	
 </script>
+	

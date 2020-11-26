@@ -95,7 +95,7 @@
                         <li class="nav-item dropdown">
                             <a id="menuNav-product" class="nav-link" href="${path }/product/productAll">제품</a>
                             <ul class="">
-                            	<li><a class="" href="${path }/product/productAll">전체상품</a></li>
+                            	<li><a class="" href="${path }/product/productAll">전체제품</a></li>
                             	<li><a class="" href="#">식품</a></li>
                                 <li><a class="" href="#">잡화</a></li>
                                 <li><a class="" href="#">주방</a></li>
@@ -117,8 +117,8 @@
                             <a id="menuNav-product" class="nav-link" href="${path }/product/productAll">관리자페이지</a>
                             <ul class="">
                             	<li><a class="" href="#">회원관리</a></li>
-                                <li><a class="" href="#">상품관리</a></li>
-                                <li><a class="" href="${path }/admin/moveProduct">주문관리</a></li>
+                                <li><a class="" href="${path }/admin/moveProduct">제품관리</a></li>
+                                <li><a class="" href="#">주문관리</a></li>
                                 <li><a class="" href="#">1:1문의 관리</a></li>
                                 <li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
                                 <li><a class="" href="#">커뮤니티관리</a></li>
