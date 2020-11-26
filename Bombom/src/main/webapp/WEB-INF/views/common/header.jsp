@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <style>
  /*모달 창  */
@@ -173,6 +174,7 @@
                     class="form-control"
                     placeholder="이메일주소"
                     name="email"
+                    
                   />
                   <label for="email">ajax 이메일 주소를 입력해주세요.</label>
                 </div>
@@ -241,14 +243,21 @@
             <form action="${path}/member/loginMember" method="post">
               <div class="modal-body">
                 <div class="form-group">
+                
                   <input
                     type="email"
                     class="form-control"
                     placeholder="이메일주소"
                     name="email"
                     required
+					
+                    
                   />
+      
                   <label for="email">ajax 이메일 주소를 입력해주세요.</label>
+                  
+
+
                 </div>
                 <div class="form-group">
                   <input
@@ -263,9 +272,8 @@
                   </label>
                 </div>
                 <div class="form-group form-check">
-                  <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" /> ID저장
-                  </label>
+                    <input class="form-check-input" type="checkbox" name="saveId" <c:if test='${cookie.saveId!=null}'>checked</c:if> />
+                    ID저장
                 </div>
                 <button type="submit" class="btn btn-success btn-block">
                   로그인
