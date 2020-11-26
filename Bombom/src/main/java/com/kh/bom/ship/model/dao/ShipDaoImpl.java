@@ -18,7 +18,17 @@ public class ShipDaoImpl implements ShipDao {
 	@Override
 	public int insertShip(SqlSession session, Ship s) {
 		// TODO Auto-generated method stub
-		return session.insert("ship.insertShip",s);
+		System.out.println(s);
+		if(s.getShipYn().equals("on")) {
+			int result=session.update("ship.updateShipYn",s.getMemNo());
+			if(result>0) {
+				return session.insert("ship.insertShip",s);
+			}else {
+				return 0;
+			}
+		}else {	
+			return session.insert("ship.insertShip",s);
+		}		
 	}
 
 }

@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<c:set var="path" value="${pageContext.request.contextPath}" />
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+
 <style>
 	/*좌측메뉴*/
 	.admin-nav{padding-right:100px;}
@@ -120,7 +121,7 @@
 		     	 <a class="nav-link non-select" href="${path }/">1:1문의관리</a>
 		    </li>
 		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="${path }/admin/moveEvent">이벤트관리</a>
+		      	<a class="nav-link non-select" href="${path }/admin/event/moveEvent">이벤트관리</a>
 		    </li>
 		    <li class="nav-item">
 		      	<a class="nav-link non-select" href="${path }/">커뮤니티관리</a>
@@ -158,21 +159,22 @@
 						<th>할인품목</th>
 						<th>할인율</th>
 						<th>이벤트기간</th>
-						<th></th>
+						<th></th> <!-- 삭제버튼용 -->
 					</tr>
 					<c:forEach items="${list }" var="e">
 					<tr>
 						<td><input type="checkbox" name="check" value="check"></td>
-						<td><c:out value="${e.eventNo}" /></td>
+						<td><p class="eventNo"><c:out value="${e.eventNo}"/></p></td>
 						<td><c:out value="${e.eventTitle }" /></td>
 						<td><a class="direct-product" href="${path}/product/productAll">상품명---</a></td>
 						<td><c:out value="${e.eventSalePer }" />%</td>
 						<td><fmt:formatDate value="${e.eventStartDate }" /> ~ <fmt:formatDate value="${e.eventEndDate }" /></td>
-						<td><button id="event-delte" class="btn btn-sm btn-outline-danger">삭제</button></td>
+						<td><button id="event-delete" class="btn btn-sm btn-outline-danger" onclick="fn_delete('${e.eventNo}');">삭제</button></td>
 					</tr>
+						
 					</c:forEach>
 				</table>
-				<button class="btn btn-success" id="" onclick="location.href='${path}/admin/'">이벤트 등록</button>
+				<button class="btn btn-success" id="" onclick="location.href='${path}/admin/insertEvent'">이벤트 등록</button>
 			</div>
 			
 			<!-- 페이징바 -->
@@ -204,24 +206,3 @@
 	</div>
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
-
-<script>
-	var checkAll = 'false';
-	
-	function selectAll() {
-		let items = document.getElementsByName("check");
-	
-		if (checkAll == 'false') {
-			for (let i = 0; i < items.length; i++) {
-				items[i].checked = true;
-			}
-			checkAll = "true";
-		} else {
-			for (let i = 0; i < items.length; i++) {
-				items[i].checked = false;
-			}
-			checkAll = "false";
-		}
-	}
-</script>
-

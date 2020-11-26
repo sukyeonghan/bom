@@ -29,7 +29,6 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public int updateMember(SqlSession session, Member m) {
 		// TODO Auto-generated method stub
-		System.out.println(m);
 		return session.update("member.updateMember",m);
 	}
 

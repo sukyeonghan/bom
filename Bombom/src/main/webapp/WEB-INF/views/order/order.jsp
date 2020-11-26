@@ -119,6 +119,9 @@
 
 
 <script>
+
+	$(function(){$(".point").text(0)});
+
     $(function () { //배송메모 직접입력 선택시 input태그 보이게 하기
     	
 	    //배송메모 직접입력 input
@@ -141,6 +144,10 @@
 	margin: 50px 0;
 }
 </style>
+
+<!-- 배송지/결제 api -->
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
