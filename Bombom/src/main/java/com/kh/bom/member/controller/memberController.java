@@ -4,12 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,8 +50,9 @@ public class memberController {
 	}
 	//회원정보수정 접근시 비밀번호 체크
 	@RequestMapping("/member/updateMemberView")
+
 	public ModelAndView updateMemberPwCk(String memPwd,String memNo,ModelAndView mv){
-		
+
 		//회원번호로 회원정보가져오기
 		Member login=service.selectMemberOne(memNo);
 		//암호화처리한 회원비밀번호와 매개변수 비밀번호가 일치하면 true,일치하지 않으면  false
@@ -177,8 +182,18 @@ public class memberController {
 	
 	//로그인
 	@RequestMapping("/member/loginMember")
-	public String loginMember(String email, String password, Model m) {
-		
+	public String loginMember(String email, String password,
+							Model m, String saveId, HttpServletResponse response) {
+		if(saveId!=null) {
+			Cookie c=new Cookie("saveId",email);
+			c.setMaxAge(24*60*60);
+			response.addCookie(c);
+			
+		}else {
+			Cookie cookie=new Cookie("saveId","");
+			cookie.setMaxAge(24*60*60);
+			response.addCookie(cookie);
+		}
 		Member login=service.selectOneMember(email);
 		//암호화된 비번 비교 
 		if(pwEncoder.matches(password, login.getMemPwd())) {

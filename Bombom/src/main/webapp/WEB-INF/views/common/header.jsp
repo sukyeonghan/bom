@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <style>
  /*모달 창  */
@@ -96,7 +97,7 @@
                         <li class="nav-item dropdown">
                             <a id="menuNav-product" class="nav-link" href="${path }/product/productAll">제품</a>
                             <ul class="">
-                            	<li><a class="" href="${path }/product/productAll">전체상품</a></li>
+                            	<li><a class="" href="${path }/product/productAll">전체제품</a></li>
                             	<li><a class="" href="#">식품</a></li>
                                 <li><a class="" href="#">잡화</a></li>
                                 <li><a class="" href="#">주방</a></li>
@@ -106,11 +107,11 @@
                                 <li><a class="" href="#">할인상품</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="#">커뮤니티</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${path }/community/communityList">커뮤니티</a></li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">게시판</a>
                             <ul class="">
-                                <li><a class="" href="${path }/notice/noticeListMember">공지사항</a></li>
+                                <li><a class="" href="${path }/notice/noticeList">공지사항</a></li>
                                 <li><a class="" href="${path }/faq/faqList">자주묻는질문</a></li>
                             </ul>
                         </li>
@@ -118,12 +119,11 @@
                             <a id="menuNav-product" class="nav-link" href="${path }/product/productAll">관리자페이지</a>
                             <ul class="">
                             	<li><a class="" href="#">회원관리</a></li>
-                                <li><a class="" href="#">상품관리</a></li>
-                                <li><a class="" href="${path }/admin/moveProduct">주문관리</a></li>
+                                <li><a class="" href="${path }/admin/moveProduct">제품관리</a></li>
+                                <li><a class="" href="#">주문관리</a></li>
                                 <li><a class="" href="#">1:1문의 관리</a></li>
                                 <li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
                                 <li><a class="" href="#">커뮤니티관리</a></li>
-                                <li><a class="" href="${path }/notice/noticeList">공지사항 관리</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -174,6 +174,7 @@
                     class="form-control"
                     placeholder="이메일주소"
                     name="email"
+                    
                   />
                   <label for="email">ajax 이메일 주소를 입력해주세요.</label>
                 </div>
@@ -242,14 +243,21 @@
             <form action="${path}/member/loginMember" method="post">
               <div class="modal-body">
                 <div class="form-group">
+                
                   <input
                     type="email"
                     class="form-control"
                     placeholder="이메일주소"
                     name="email"
                     required
+					
+                    
                   />
+      
                   <label for="email">ajax 이메일 주소를 입력해주세요.</label>
+                  
+
+
                 </div>
                 <div class="form-group">
                   <input
@@ -264,9 +272,8 @@
                   </label>
                 </div>
                 <div class="form-group form-check">
-                  <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" /> ID저장
-                  </label>
+                    <input class="form-check-input" type="checkbox" name="saveId" <c:if test='${cookie.saveId!=null}'>checked</c:if> />
+                    ID저장
                 </div>
                 <button type="submit" class="btn btn-success btn-block">
                   로그인
