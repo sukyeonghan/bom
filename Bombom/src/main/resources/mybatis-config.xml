@@ -8,5 +8,8 @@
 		<typeAlias type="com.kh.bom.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.bom.order.model.vo.Order" alias="order"/>
 		<typeAlias type="com.kh.bom.order.model.vo.Inorder" alias="inorder"/>
+		<typeAlias type="com.kh.bom.community.model.vo.Community" alias="community"/>
+		<typeAlias type="com.kh.bom.admin.model.vo.Event" alias="event"/>
+
 	</typeAliases>
 </configuration>

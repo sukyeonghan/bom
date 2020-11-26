@@ -29,7 +29,6 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public int updateMember(SqlSession session, Member m) {
 		// TODO Auto-generated method stub
-		System.out.println(m);
 		return session.update("member.updateMember",m);
 	}
 
@@ -37,6 +36,13 @@ public class MemberDaoImpl implements MemberDao {
 	public int insertMember(SqlSession session, Member m) {
 		// TODO Auto-generated method stub
 		return session.insert("member.insertMember",m);
+	}
+
+	//로그인
+	@Override
+	public Member selectOneMember(SqlSession session, String email) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.selectOneMember",email);
 	}
 
 	

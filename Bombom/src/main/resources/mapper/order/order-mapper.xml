@@ -15,7 +15,7 @@
 	<insert id="insertOrder" parameterType="order">
 		INSERT INTO "ORDER" 
 		VALUES (#{orderNo},
-				'1',
+				'M1',
 				1500,
 				#{ordUsePoint},
 				#{ordDeliAddr},

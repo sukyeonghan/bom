@@ -21,12 +21,13 @@
 	.card-header div:nth-of-type(1){width: 50px;}
 	.card-header div:nth-of-type(2){width: 100px;color:#45A663;}
 	.card-header div:nth-of-type(3){width: 450px;}
-	
+	/*아코디언 바디  줄바꿈 적용*/
+	.card-body{ white-space: pre-line;}
 	/*최소 컨텐츠 크기*/
 	.media{min-width: 768px;} 
 	
 	/*버튼 가운데정렬*/
-	.btn-box{text-align: center;}
+	.btn-box{text-align: center;white-space:normal;}
 	/*faq 카테고리*/
 	ul#category-nav{padding:0px;}
 	ul#category-nav>li{
@@ -46,7 +47,7 @@
 		<div id="board-nav" class=" mr-3">
 		  <ul class="nav flex-column">
 		    <li class="nav-item">
-		      <a class="nav-link" href="${path }/notice/noticeList">공지사항</a>
+		      <a class="nav-link" href="${path }/notice/noticeListMember">공지사항</a>
 		    </li>
 		    <li class="nav-item">
 		      <a class="nav-link " href="${path }/faq/faqList">자주묻는질문</a>
@@ -69,9 +70,11 @@
 					  </ul>
 				  </div>
 				  <!-- 관리자일때만 뜰 버튼 -->
-				  <div class="text-right">
-				  	<button class="btn btn-success" id="faqAddbtn" onclick="location.replace('${path}/faq/faq')">글쓰기</button>     
-				  </div>
+				  <c:if test="${loginMember.memManagerYn=='Y' }">
+					  <div class="text-right">
+					  	<button class="btn btn-success" id="faqAddbtn" onclick="location.replace('${path}/faq/faq')">글쓰기</button>     
+					  </div>
+				  </c:if>
 			</div>
 			
 		 	<hr>
@@ -92,16 +95,14 @@
 					    <!-- body부분 -->
 					    <div id="collapse${vs.index}" class="collapse" data-parent="#accordion">
 					      <div class="card-body">
-					        <pre><c:out value="${f.faqContent }"/></pre> 
-							<br>
-							<br>
-					        <!-- 관리자일때만 뜰 버튼 -->
-							<div class="btn-box">
-								<input type="hidden" value="${f.faqNo }" name="faqNo"/>
-								<button class="btn btn-outline-success" onclick="fn_updateFaq();">수정</button>&nbsp;&nbsp;
-								<button class="btn btn-outline-secondary" onclick="fn_deleteFaq();">삭제</button>
-							</div> 
-							
+					        <c:out value="${f.faqContent }"/>
+					        <c:if test="${loginMember.memManagerYn=='Y' }">
+								<div class="btn-box">
+									<input type="hidden" value="${f.faqNo }" name="faqNo"/>
+									<button class="btn btn-outline-success" onclick="fn_updateFaq();">수정</button>&nbsp;&nbsp;
+									<button class="btn btn-outline-secondary" onclick="fn_deleteFaq();">삭제</button>
+								</div> 
+							</c:if>
 					      </div>
 					    </div>
 					    

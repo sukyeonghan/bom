@@ -43,6 +43,13 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.insertMember(session,m);
 	}
+
+//로그인
+	@Override
+	public Member selectOneMember(String email) {
+		// TODO Auto-generated method stub
+		return dao.selectOneMember(session,email);
+	}
 	
 	
 	
