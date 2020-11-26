@@ -23,32 +23,26 @@
 	color: #45A663;
 }
 
-a.card-link {
-	font-weight: bolder;
-	color: black;
-}
-
-h3 {
-	text-align: center;
-}
-
-section {
-	margin-top: 220px;
-}
-
-div#notice-container {
-	width: 80%;
-	padding: 20px;
-	margin: auto;
-	border: 1px #45A663 solid;
-	border-radius: 10px;
-}
-
-div#btn-box {
-	text-align: center;
-}
+/*최소 컨텐츠 크기*/
+	.media{min-width: 768px;} 
+	h3{text-align: center;}
+	div#notice-container{
+		width:80%;
+		padding:40px;
+		margin:auto;
+		border:1px #45A663 solid ;
+		border-radius: 10px;
+	}
+	/*버튼 가운데정렬*/
+	.btn-box{text-align: center;}
+	/*버튼크기고정*/
+	.btn{width: 100px;}
 </style>
-<section id="content" class="container">
+
+<section id="container" class="container">
+
+
+<div class="media">
 	<!-- 좌측 메뉴 -->
 	<div id="board-nav" class="col-sm-3">
 		<ul class="nav flex-column">
@@ -58,10 +52,11 @@ div#btn-box {
 				href="/bom/faq/faqList">자주묻는질문</a></li>
 		</ul>
 	</div>
-	<br>
-	<h3>공지사항</h3>
-	<br>
-	<div id="notice-container">
+	        	
+     <!-- 공지사항 리스트  -->
+	<div id="notice-container" class="container">
+	 <h3>공지사항</h3>
+	 <br><br>
 		<input type="text" class="form-control" placeholder="제목"
 			name="noticeTitle" id="noticeTitle" value="${notice.noticeTitle }"
 			required> <br>
@@ -69,13 +64,12 @@ div#btn-box {
 			readonly> <br>
 		<textarea class="form-control" name="noticeContent" placeholder="내용"
 			required><c:out value="${notice.noticeContent }" /></textarea>
-	</div>
-	<br><br>
-	<div id="btn-box">
-
+			<br><br>
+			<div class="btn-box">
 		<input type="button" class="btn btn-outline-success" value="목록으로"
 			onclick="location.replace('${path }/notice/noticeList')">&nbsp;&nbsp;
 	</div>
+	</div>
 	<br>
 	<br>
 	<br>
@@ -83,6 +77,7 @@ div#btn-box {
 	<br>
 	<br>
 	<br>
+	</div>
 </section>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
