@@ -50,7 +50,6 @@ public class memberController {
 		
 		//회원번호로 회원정보가져오기
 		Member login=service.selectMemberOne(memNo);
-		
 		//암호화처리한 회원비밀번호와 매개변수 비밀번호가 일치하면 true,일치하지 않으면  false
 		if(pwEncoder.matches(memPwd.trim(),login.getMemPwd())) {
 			mv.addObject("loginMember",login);

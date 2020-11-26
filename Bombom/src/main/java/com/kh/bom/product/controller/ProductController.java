@@ -18,6 +18,11 @@ public class ProductController {
 		
 		return "product/allList";
 	}
+	
+	@RequestMapping("/product/productOne")
+	public String productOne() {
+		return "product/productOne";
+	}
 	 
 	
 }
