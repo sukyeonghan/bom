@@ -16,19 +16,20 @@ public class AdminController {
 	@Autowired
 	private AdminService service;
 
+	//제품 관리페이지
 	@RequestMapping("/admin/moveProduct")
 	public String moveProductListPage() {
-		return "admin/productList";
+		return "admin/product/productList";
 	}
 	
 	@RequestMapping("/admin/productInsert")
 	public String moveProductinsertPage() {
-		return "admin/insertProduct";
+		return "admin/product/insertProduct";
 	}
 	
 	@RequestMapping("/admin/productUpdate")
 	public String moveProductUpdatePage() {
-		return "admin/updateProduct";
+		return "admin/product/updateProduct";
 	}
 	
 	@RequestMapping("/admin/moveEvent")

@@ -94,8 +94,8 @@
 					        </td>
 					        <td><c:out value="${s.shipPhone }"/></td>
 					        <td>
-					        	<button class="btn btn-outline-success" onclick="fn_updateShip();">수정</button>
-					        	<button class="btn btn-outline-secondary" onclick="fn_deleteShip();">삭제</button>
+					        	<button class="btn btn-outline-success" id="updateBtn">수정</button>
+					        	<button class="btn btn-outline-secondary" id="deleteBtn">삭제</button>
 					        </td>
 					      </tr>
 				      	</c:forEach>
@@ -116,6 +116,7 @@
 	
 </section>
 <script>
+	
 	function fn_addShip(){
 		var memNo=$("input[name=memNo]").val();
 		const url="${path}/ship/insertShip"; 
@@ -129,6 +130,13 @@
         insertShip.submit();
 	
 	}
+	$(function(){
+		$("#updateBtn").click(e=>{
+			
+		});
+		
+	})
+	
 
 </script>
 

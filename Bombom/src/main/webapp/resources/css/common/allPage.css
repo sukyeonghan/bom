@@ -22,7 +22,8 @@ a {
 a, button {
 	cursor: pointer;
 }
-
+<!--패스워드 빈칸처리-->
+input[type=password] {font-family: "NanumSquare";} 
 /* header */
 header#spring-main-header {
 	background-color: #ffffff;
