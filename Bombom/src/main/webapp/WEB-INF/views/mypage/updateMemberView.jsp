@@ -96,7 +96,7 @@ $(function(){
      
 
    //패스워드 일치여부 확인가이드
-   $("#memPwdCk").keyup(e=>{
+   $("input[type=password]").keyup(e=>{
       var memPwd=$("#memPwd").val().trim();
       var memPwdCk=$("#memPwdCk").val().trim();
       if(memPwd==memPwdCk){
@@ -130,9 +130,19 @@ function fn_updateMember(){
    	var memPwd=$("#memPwd").val().trim();
    	var memPwdCk=$("#memPwdCk").val().trim();
    	var memNick=$("#memNick").val().trim();
-   	var pwReg=/^.*(?=^.{8,16})(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%%^&*()]).*$/;
+   	var pwReg=/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
    	var nickReg=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{2,10}$/;
+	var spaceCk=/\s/;
+   	
+   	if(spaceCk.test($("#memPwd").val())){
+   		swal("비밀번호에 띄어쓰기는 하실수 업습니다.");
+   		return false;
+   	}
 	
+   	if(spaceCk.test($("#memNick").val())){
+   		swal("닉네임에 띄어쓰기는 하실수 업습니다.");
+   		return false;
+   	}
    	if(memNick.length>0){
 	   var flag=true;
    	   if(!nickReg.test(memNick)){
@@ -144,7 +154,7 @@ function fn_updateMember(){
 	       data:{memNick:memNick},
 	       async:false, 
 	       success:data=>{
-	          if(data===false){
+	          if(data===false && memNick != "${loginMember.memNick}"){
 	             swal("닉네임이 중복됩니다. 확인해주세요");
 	             flag=data;
 	          }else{
