@@ -33,10 +33,10 @@
     img#profileImg{margin: 50px;}
     /*사용가능 가이드*/
     .pwOk,.nickOk{color:green; margin:3px;}
-    .pwError,.nickError{color:red; margin:3px;}
+    .pwError,.nickError,.nickError2,.pwpw{color:red; margin:3px;}
     .left{text-align:left;}
     input[type=password] {font-family: "NanumSquare";}
- 
+ 	
 </style>
 <!-- sweet alert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -60,27 +60,40 @@ $(function(){
    
    //가이드 가려두기
    $(".guide").hide();
+   
    //닉네임중복체크 가이드
    $("#memNick").keyup(e=>{
+	  var nickReg=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{2,10}$/;
       const memNick=$(e.target).val().trim();
-      if(memNick=="${logimMember.memNick}"){
-         $(".guide.nickError").hide();
-         $(".guide.nickOk").show();
+
+      if(memNick.length<2){
+    	  $(".guide").hide();
+    	  return;
+      }else{ 
+    	  $.ajax({
+   	         url:"${path}/member/checkDuplicateNick",
+   	         data:{memNick:memNick},
+   	         success:data=>{
+   	            if(data===true||memNick=="${loginMember.memNick}"){
+	  	            if(!nickReg.test(memNick)){
+	  	            	$(".guide.nickError2").show();
+	  	            	$(".guide.nickError").hide();
+	  	            	$(".guide.nickOk").hide(); 
+	  	            }else{
+	  	            	$(".guide.nickError2").hide();
+	  	            	$(".guide.nickError").hide();
+	    	            $(".guide.nickOk").show(); 
+	  	            }
+   	            }else{
+   	               $(".guide.nickError2").hide();
+   	               $(".guide.nickError").show();
+   	               $(".guide.nickOk").hide();
+   	            }
+   	         }
+	   	  });
       }
-      $.ajax({
-         url:"${path}/member/checkDuplicateNick",
-         data:{memNick:memNick},
-         success:data=>{
-            if(data===true||memNick=="${loginMember.memNick}"){
-               $(".guide.nickError").hide();
-               $(".guide.nickOk").show();
-            }else{
-               $(".guide.nickError").show();
-               $(".guide.nickOk").hide();
-            }
-         }
-      });
-   });
+   });  
+     
 
    //패스워드 일치여부 확인가이드
    $("#memPwdCk").keyup(e=>{
@@ -117,10 +130,15 @@ function fn_updateMember(){
    	var memPwd=$("#memPwd").val().trim();
    	var memPwdCk=$("#memPwdCk").val().trim();
    	var memNick=$("#memNick").val().trim();
-   	var pwReg=/^.*(?=^.{8,15})(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%%^&*()]).*$/;
-
+   	var pwReg=/^.*(?=^.{8,16})(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%%^&*()]).*$/;
+   	var nickReg=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{2,10}$/;
+	
    	if(memNick.length>0){
 	   var flag=true;
+   	   if(!nickReg.test(memNick)){
+   		 swal("닉네임 양식이 올바르지 않습니다.영문,숫자,한글로만 2자이상 10자이하로 입력해주세요.");  
+   		 flag=false;
+   	   }
 	   $.ajax({
 	       url:"${path}/member/checkDuplicateNick",
 	       data:{memNick:memNick},
@@ -128,10 +146,6 @@ function fn_updateMember(){
 	       success:data=>{
 	          if(data===false){
 	             swal("닉네임이 중복됩니다. 확인해주세요");
-	             
-	             
-	             
-	             
 	             flag=data;
 	          }else{
 	        	  if((memPwd.length>0) || (membPwdCk.length>0)){
@@ -159,7 +173,7 @@ function fn_updateMember(){
 	        swal("비밀번호 양식이 올바르지 않습니다.");
 	        return false;
 	    }
-	}
+	} 
  
 }
 
@@ -212,7 +226,7 @@ function fn_updateMember(){
                  <input type="text" name="memEmail" class="form-control" value="${loginMember.memEmail }" readonly>
                  <br>
                  <input type="password" name="memPwd" id="memPwd" class="form-control" placeholder="비밀번호를 변경하는 경우 입력해주세요">
-                 <p class="guide pwpw left">영문 숫자/특수문자 조합 8자 이상 입력해주세요</p>
+                 <p class="guide pwpw left">영문,숫자,특수문자 조합 8자 이상 16자 이하로 입력해주세요</p>
                  <input type="password" name="memPWdCk" id="memPwdCk" class="form-control" placeholder="비밀번호 확인">
                  <p class="guide pwOk left ">비밀번호가 일치합니다.</p>
                <p class="guide pwError left">비밀번호가 일치하지 않습니다.</p>
@@ -221,6 +235,7 @@ function fn_updateMember(){
                 <input type="text" name="memNick" id="memNick" class="form-control" placeholder="${loginMember.memNick }">
                <p class="guide nickOk left">멋진 닉네임이네요. 사용이 가능합니다.</p>
                <p class="guide nickError left">안타깝네요. 이미 있는 닉네임입니다.</p>
+               <p class="guide nickError2 left">닉네임은 한글,영문,숫자만 가능합니다</p>
                <div class="btn-box">
                   <input type="button" class="btn btn-danger" data-toggle="modal" data-target="#withdrawalModal" value="탈퇴"/>
                   <input type="submit" class="btn btn-success" onclick="return fn_updateMember();" id="updateBtn" value="수정"/>
