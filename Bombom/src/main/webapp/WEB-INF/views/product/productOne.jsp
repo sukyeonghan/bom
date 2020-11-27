@@ -176,7 +176,7 @@
 
     .tab_box {
         display: none;
-        padding: 20px;
+        padding: 25px;
     }
 
     .tab_box.on {
@@ -195,7 +195,7 @@
     .swiper-container {
     	/* width:1100px; */
     	width:100%;
-        height: 290px;
+        height: 300px;
     }
     .swiper-slide {
         font-size: 13px;
@@ -222,6 +222,10 @@
         max-height:100%; 
         object-fit: contain;
     }
+    .slideImg{
+    	padding-top:10px;
+    }
+    
     
     /*상품문의 박스 스타일*/
     div.wrap-category{
@@ -233,8 +237,9 @@
         padding:8px;
         width:auto;
         border:lightslategray 1px solid;
+        border-radius: 4px;
         display: inline-block;
-        width:90%;
+        width:100%;
         height:250px;
     }
     textarea{
@@ -250,10 +255,10 @@
 </style>
 
 <section id="container" class="container">
-    <h5><small><a href="#">홈</a> > <a href="#">제품</a> > <a href="#">욕실</a></small></h5>
+    <h5><small><a href="${path}">홈</a> > <a href="${path}/product/productAll">제품</a> > <a href="#">욕실</a></small></h5>
     <div class="row">
     	<!-- 썸네일 -->
-        <div class="col-6" style="border:blueviolet 1px solid">
+        <div class="col-6">
             <!-- <div class="goods_thumbs" id="main_image"> -->
                 <img alt="" class="img-fluid" id="main_image" style="padding-bottom:7px;" src="${path }/resources/upload/product/천연목욕수세미1.jpg"/>
             <!-- </div> -->
@@ -269,7 +274,7 @@
             </div>
         </div>
         <!-- 제품 info -->
-        <div class="col-6 info-container" style="border:orange 1px solid">
+        <div class="col-6 info-container">
         	<div class="inner_goods_form container">
         		<div class="head" style="margin-top:0px;">
         			<div class="information size-up" style="padding-top:10px;">제품명&nbsp;&nbsp;<img src="${path}/resources/images/product/sale.jpg" width="50px"></div>
@@ -332,22 +337,29 @@
                     		</div>
                     	</div>
                     </div>        			
-                    <!-- 버튼 3개 -->        			
+                    <!-- 버튼 3개,로그인 안 할 경우 클릭 못하게 방지 -->        			
                     <div class="information container">
-	                    <button type="button" href="#" class="btn btn-success custom">구매하기</button>
-	                    <button type="button" href="#" class="btn btn-outline-success custom">장바구니</button>
-	                    <button type="button" href="#" class="btn btn-outline-success custom">찜하기</button>
+                    	<c:if test="${loginMember!=null }">
+		                    <button type="button" href="#" class="btn btn-success custom">구매하기</button>
+		                    <button type="button" href="#" class="btn btn-outline-success custom">장바구니</button>
+		                    <button type="button" href="#" class="btn btn-outline-success custom">찜하기</button>
+	                    </c:if>
+	                    <c:if test="${loginMember==null }">
+		                    <button type="button" href="#" class="btn btn-success custom loginCheck">구매하기</button>
+		                    <button type="button" href="#" class="btn btn-outline-success custom loginCheck">장바구니</button>
+		                    <button type="button" href="#" class="btn btn-outline-success custom loginCheck">찜하기</button>
+	                    </c:if>
                     </div>                            			     			
         		</div><!-- class="head" 끝 -->
         	</div>
-        </div><!-- 제품 div끝 -->      
-
+        </div><!-- 제품 div끝 -->
+ 
 		<!-- 네비바 -->
 		<div class="tab_wrap container">
 		    <div class="tab_menu_container container">
 			    <button class="tab_menu_btn on" type="button">상품상세</button>
 			    <button class="tab_menu_btn" type="button">구매평(숫자)</button>
-			    <button class="tab_menu_btn" type="button">상품문의(숫자)</button>
+			    <button class="tab_menu_btn" type="button">상품문의(<c:out value="${count }"/>)</button>
 		    </div> <!-- tab_menu_container e -->
 		    <div class="tab_box_container">
 		    	<!-- 상품상세 시작 -->
@@ -396,18 +408,44 @@
 		    	<!-- 상품문의 시작 -->
 				<div class="tab_box">
 			        <!--상품문의 작성창-->
-			        <div class="writebox_wrap container">
-			            <button type="button" id="showBox" class="btn btn-success">상품문의</button>
-			            <div class="wrap-category" style="display:none;">
-			                <span class="span_textarea">
-			                    <textarea name="" id="" placeholder="문의내용을 입력해주세요"></textarea>
-			                    <!-- <img src=""> -->
-			                    <button type="button" class="btn btn-success" style="right:0;">작성</button>
-			                </span>
-			            </div>
-			        </div>
+			        <form name="" action="${path}/product/insertInquiry">
+				        <div class="writebox_wrap container col-lg-10" style="float:none; margin:0 auto;">
+				            <button type="button" id="showBox" class="btn btn-success">상품문의</button>
+					        <div class="wrap-category" style="display:none;">
+						        <span class="span_textarea">
+							        <textarea name="inqContent" id="" placeholder="문의내용을 입력해주세요"></textarea>
+									<div style="float:right;">
+								        <label>
+								        	<img id="lockUnlock" src="${path}/resources/images/product/unlock.png" name="inqSecret" style="width:25px;height:25px;">
+								        	<input type="hidden" id="secret" name="inqSecret" value="N">
+								        </label>
+								        <c:if test="${loginMember!=null }">
+								        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
+								        	<input type="submit" class="btn btn-success" value="등록" style="right:0;">
+								        </c:if>
+								        <c:if test="${loginMember==null }">
+								        	<input type="button" class="btn btn-success loginCheck" value="등록" style="right:0;">
+								        </c:if>
+						        	</div>
+						        </span>
+					        </div>
+				        </div>
+			        </form><!-- 상품문의 작성창 끝 -->
+					<c:forEach items="${list}" var="i">
+			        <table class="table table-hover">
+			        	<tbody>
+			        		<tr>
+			        			<td><c:out value="${i.inqContent }"/></td>
+			        			<td><c:out value="${i.inqDate }"/></td>
+			        			<td><c:out value="${i.memNo}"/></td>
+			        			<td><c:out value="${i.inqAnswerYn}"/></td>
+			        		</tr>
+			        	</tbody>
+			        </table>
+			        </c:forEach>
 				</div>
-			</div>
+							
+			</div><!-- tab_box_container -->
 		</div><!--네비바 끝 -->
 		
 		<!--연관상품 스와이프-->
@@ -419,8 +457,7 @@
 						<div>
 							<img src="${path}/resources/images/product/coffee1.jpg">
 						</div>
-						<div>제품명1</div>
-						<div>제품가격</div>
+						<div class="slideImg"><span>제품명1</span><br><span>제품가격</span></div>
 						<div>
 							<img src="${path}/resources/images/product/sale.jpg" width="50px">
 						</div>
@@ -429,36 +466,31 @@
 						<div>
 							<img src="${path}/resources/images/product/soap1.jpg">
 						</div>
-						<div>제품명2</div>
-						<div>제품가격</div>
+						<div class="slideImg"><span>제품명2</span><br><span>제품가격</span></div>
 					</div>
 					<div class="swiper-slide" style="display: block">
 						<div>
 							<img src="${path}/resources/images/product/som1.jpg">
 						</div>
-						<div>제품명3</div>
-						<div>제품가격</div>
+						<div class="slideImg"><span>제품명3</span><br><span>제품가격</span></div>
 					</div>
 					<div class="swiper-slide" style="display: block">
 						<div>
 							<img src="${path}/resources/images/product/woman1.jpg">
 						</div>
-						<div>제품명4</div>
-						<div>제품가격</div>
+						<div class="slideImg"><span>제품명4</span><br><span>제품가격</span></div>
 					</div>
 					<div class="swiper-slide" style="display: block">
 						<div>
 							<img src="${path}/resources/images/product/coffee1.jpg">
 						</div>
-						<div>제품명5</div>
-						<div>제품가격</div>
+						<div class="slideImg"><span>제품명5</span><br><span>제품가격</span></div>
 					</div>
 					<div class="swiper-slide" style="display: block">
 						<div>
 							<img src="${path}/resources/images/product/coffee1.jpg">
 						</div>
-						<div>제품명6</div>
-						<div>제품가격</div>
+						<div class="slideImg"><span>제품명6</span><br><span>제품가격</span></div>
 					</div>
 				</div>
 				<!-- Add Pagination -->
@@ -573,6 +605,41 @@
 			}
 		});
 	});
+	
+	//상품문의 자물쇠그림바꾸기 + 비밀글 파라미터값 넘기기
+	$("#lockUnlock").click(function() {
+		$(this).attr("src", function(index, attr) {
+			if(attr.match("unlock")) {
+				$("#secret").attr("value",function(index,attr){
+					if(attr.match("N")){
+						console.log("Y");
+						return attr.replace("N","Y");
+					}
+				});
+				return attr.replace("unlock.png", "lock.png");
+			} else {
+				$("#secret").attr("value",function(index,attr){
+					if(attr.match("Y")){
+						console.log("N");
+						return attr.replace("Y","N");
+					}
+				});
+				return attr.replace("lock.png", "unlock.png");
+			}
+		});
+	});
+	
+	//구매하기,장바구니,찜하기,상품문의 클릭 시 로그인 체크
+	$(function() {
+		$(".loginCheck").click(function() {
+			alert("로그인을 먼저 해주세요");
+		});
+	});
+	
+	
+	
+	
+	
 </script>
     
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
