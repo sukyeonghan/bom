@@ -4,12 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -64,11 +68,15 @@ public class memberController {
 		return mv;
 		
 	}
-	//회원삭제
+	//회원탈퇴
 	@RequestMapping("/member/deleteMember")
-	public ModelAndView deleteMember(String memNo,ModelAndView mv) {
+	public ModelAndView deleteMember(String memNo,ModelAndView mv,SessionStatus ss) {
 		int result=service.deleteMember(memNo);
 		if(result>0) {
+			//회원탈퇴시 세션닫기
+			if(!ss.isComplete()) {
+				ss.setComplete();
+			}
 			mv.setViewName("redirect:/");
 		}else {
 			mv.addObject("msg","회원탈퇴 실패");
@@ -174,8 +182,18 @@ public class memberController {
 	
 	//로그인
 	@RequestMapping("/member/loginMember")
-	public String loginMember(String email, String password, Model m) {
-		
+	public String loginMember(String email, String password,
+							Model m, String saveId, HttpServletResponse response) {
+		if(saveId!=null) {
+			Cookie c=new Cookie("saveId",email);
+			c.setMaxAge(24*60*60);
+			response.addCookie(c);
+			
+		}else {
+			Cookie cookie=new Cookie("saveId","");
+			cookie.setMaxAge(24*60*60);
+			response.addCookie(cookie);
+		}
 		Member login=service.selectOneMember(email);
 		//암호화된 비번 비교 
 		if(pwEncoder.matches(password, login.getMemPwd())) {

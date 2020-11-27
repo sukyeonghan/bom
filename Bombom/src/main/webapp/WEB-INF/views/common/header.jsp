@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <style>
  /*모달 창  */
@@ -67,20 +68,21 @@
         <div id="header-container">
             <div id="loginJoin" class="d-flex flex-row-reverse">
                 <ul class="nav">
-                    <li class="nav-item">
                     <c:if test="${loginMember == null }">
-                    <a class="nav-link"  data-toggle="modal"data-target="#loginModal">로그인</a></li>
+	                    <li class="nav-item">
+	                    <a class="nav-link"  data-toggle="modal"data-target="#loginModal">로그인</a></li>
+	                    <li class="nav-item">
+	                    <a class="nav-link"  data-toggle="modal"data-target="#myModal">회원가입</a>
+	                    </li>
                     </c:if>
+                    
                     <c:if test="${loginMember!=null }">
-                    <a class="nav-link"  onclick="location.replace('${path}/member/logout');">로그아웃</a></li>
-                    </c:if>
-                    <li class="nav-item">
-                    <a class="nav-link"  data-toggle="modal"data-target="#myModal">회원가입</a>
-                    </li>
-                    <!-- 로그인시  나올 메뉴-->
-                    <li class="nav-item"><a class="nav-link" href="${path }/mypage/orderStatus">마이페이지</a></li>
-                  
-                    <li class="nav-item"><a class="nav-link" href="${path }/order/basket">장바구니</a></li>
+	                    <li class="nav-item">
+	                    <a class="nav-link"  onclick="location.replace('${path}/member/logout');">로그아웃</a></li>
+	                    
+	                    <li class="nav-item"><a class="nav-link" href="${path }/mypage/orderStatus">마이페이지</a></li>
+                    	<li class="nav-item"><a class="nav-link" href="${path }/order/basket">장바구니</a></li>
+                  	</c:if>
                     <li class="nav-item"><a class="nav-link" href="#">검색</a></li>
                 </ul>
             </div>
@@ -172,6 +174,7 @@
                     class="form-control"
                     placeholder="이메일주소"
                     name="email"
+                    
                   />
                   <label for="email">ajax 이메일 주소를 입력해주세요.</label>
                 </div>
@@ -240,14 +243,21 @@
             <form action="${path}/member/loginMember" method="post">
               <div class="modal-body">
                 <div class="form-group">
+                
                   <input
                     type="email"
                     class="form-control"
                     placeholder="이메일주소"
                     name="email"
                     required
+					
+                    
                   />
+      
                   <label for="email">ajax 이메일 주소를 입력해주세요.</label>
+                  
+
+
                 </div>
                 <div class="form-group">
                   <input
@@ -262,9 +272,8 @@
                   </label>
                 </div>
                 <div class="form-group form-check">
-                  <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" /> ID저장
-                  </label>
+                    <input class="form-check-input" type="checkbox" name="saveId" <c:if test='${cookie.saveId!=null}'>checked</c:if> />
+                    ID저장
                 </div>
                 <button type="submit" class="btn btn-success btn-block">
                   로그인

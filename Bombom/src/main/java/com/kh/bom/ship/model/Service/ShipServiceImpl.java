@@ -26,5 +26,24 @@ public class ShipServiceImpl implements ShipService {
 		// TODO Auto-generated method stub
 		return dao.insertShip(session,s);
 	}
+
+	@Override
+	public int deleteShip(String shipNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteShip(session,shipNo);
+	}
+
+	@Override
+	public Ship selectShipOne(String shipNo) {
+		// TODO Auto-generated method stub
+		return dao.selectShipOne(session,shipNo);
+	}
+
+	@Override
+	public int updateShip(Ship s) {
+		// TODO Auto-generated method stub
+		return dao.updateShip(session,s);
+	}
+	
 	
 }
