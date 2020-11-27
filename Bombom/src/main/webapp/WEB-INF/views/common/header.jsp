@@ -344,6 +344,7 @@
                 class="form-control"
                 placeholder="이메일주소"
                 id="email"
+                required
               />
               <label for="email">ajax 이메일 주소를 입력해주세요.</label>
 
@@ -360,6 +361,7 @@
                 class="form-control"
                 placeholder="인증번호"
                 id="verification"
+                required
               />
               <label for="email">ajax 인증 시간:4분 59초</label>
               <div class="row">
@@ -376,9 +378,6 @@
                 </div>
                 <div class="col">
                   <button
-                   
-             	
-                  
                     type="button"
                     class="btn btn-success btn-block"
                     onclick=""
@@ -560,24 +559,59 @@
 	
 		 //로그인 비밀번호 유효성
 	   $("#loginPw").keyup(e=>{
-	      $(".guide.pw").show();
+	      $(".login.pw").show();
 	      var memPwd=$(".memPw").val().trim();
 	      var pwReg=/^.*(?=^.{8,15})(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%%^&*()]).*$/;
 	      if(pwReg.test(memPwd)){
-	         $(".guide.pw").hide();
-	         $(".guide.pwOk").show(); 
+	         $(".login.pw").hide();
+	         $(".login.pwOk").show(); 
 	      }else{
-	         $(".guide.pw").show();
-	         $(".guide.pwOk").hide();
+	         $(".login.pw").show();
+	         $(".login.pwOk").hide();
 	               
 	      }
 	   });
-		
-		
-		
-		
+			
  })
  
+ //회원가입전 확인사항 체크
+function fn_signUp(){
+   	var memPwd=$("#memPw").val().trim();
+   	var memNick=$("#memNick").val().trim();
+   	var pwReg=/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
+   	var nickReg=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{2,10}$/;
+	var spaceCk=/\s/;
+   	
+   	if(spaceCk.test($("#memPw").val())){
+   		swal("비밀번호에 띄어쓰기는 하실수 없습니다.");
+   		return false;
+   	}
+	
+   	if(spaceCk.test($("#memNick").val())){
+   		swal("닉네임에 띄어쓰기는 하실수 없습니다.");
+   		return false;
+   	}
+   	if(memNick.length>0){
+	   var flag=true;
+   	   if(!nickReg.test(memNick)){
+   		 swal("닉네임 양식이 올바르지 않습니다.영문,숫자,한글로만 2자이상 10자이하로 입력해주세요.");  
+   		 flag=false;
+   	   }
+	   $.ajax({
+	       url:"${path}/member/checkDuplicateNick",
+	       data:{memNick:memNick},
+	       async:false, 
+	       success:data=>{
+	          if(data===false){
+	             swal("닉네임이 중복됩니다. 확인해주세요");
+	             flag=data;
+	          }
+	       }   
+	    });
+	    return flag;
+	}
+
  
+}
 
  </script>
