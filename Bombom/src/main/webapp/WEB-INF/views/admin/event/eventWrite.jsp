@@ -45,50 +45,50 @@
             <!-- 이벤트 작성 폼 -->
             <div id="event-container-wrap">
                 <h4>이벤트 작성</h4>
-                <form class="form-horizontal" role="form" action="">
+                <form class="form-horizontal" role="form" action="${path }/admin/insertEvent">
                     <div class="form-group d-flex">
-                        <label for="title" class="col-sm-2 control-label">제목</label>
-                        <div class="con-sm-10">
+                        <label for="title" class="col-2 control-label">제목</label>
+                        <div class="col-10">
                             <input type="text" id="title" class="form-control" placeholder="제목입력">
                         </div>
                     </div>
                     <div class="form-group d-flex">
-                        <div class="mr-5">
-                            <label for="e_term">이벤트기간</label>
+                        <div class="col-2">
+                            <label for="e_term" class="control-label">이벤트기간</label>
                         </div>
-                        <div id="e_term" class="d-flex">
-                            <div>
+                        <div id="e_term" class="d-flex col-10">
+                            <div class="col-5">
                                 <h6><label for="start"><small>시작일</small></label></h6>
                                 <div class="d-flex" id="start">
                                     <input type="number" name="year" id="year_" placeholder="YYYY"
-                                        class="form-control col-xs-2" max="2050" min="1900" required>
+                                        class="form-control" max="2050" min="1900" required>
                                     <input type="number" name="month" id="month_" placeholder="MM"
-                                        class="form-control col-xs-1" max="12" min="1" required>
+                                        class="form-control" max="12" min="1" required>
                                     <input type="number" name="date" id="date_" placeholder="DD"
-                                        class="form-control col-xs-1" max="31" min="1" required><br>
+                                        class="form-control" max="31" min="1" required><br>
                                 </div>
                             </div>
-                            <div>
+                            <div class="col-2">
                                 <p>
                                 <h3> ~ </h3>
                                 </p>
                             </div>
-                            <div>
+                            <div class="col-5">
                                 <h6><label for="end"><small>종료일</small></label></h6>
                                 <div class="d-flex" id="end">
                                     <input type="number" name="year" id="year_" placeholder="YYYY"
-                                        class="form-control col-xs-2" max="2050" min="1900" required>
+                                        class="form-control" max="2050" min="1900" required>
                                     <input type="number" name="month" id="month_" placeholder="MM"
-                                        class="form-control col-xs-1" max="12" min="1" required>
+                                        class="form-control" max="12" min="1" required>
                                     <input type="number" name="date" id="date_" placeholder="DD"
-                                        class="form-control col-xs-1" max="31" min="1" required><br>
+                                        class="form-control" max="31" min="1" required><br>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group d-flex">
-                        <label for="title" class="col-sm-2 control-label">할인율</label>
-                        <div class="con-sm-10">
+                        <label for="title" class="col-2 control-label">할인율</label>
+                        <div class="col-10">
                             <input type="number"><span>%</span>
                         </div>
                     </div>

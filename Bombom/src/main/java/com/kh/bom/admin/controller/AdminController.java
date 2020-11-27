@@ -66,11 +66,10 @@ public class AdminController {
 	}
 	
 	//이벤트등록페이지로 이동
-	@RequestMapping("/admin/insertEvent")
+	@RequestMapping("/admin/moveInsertEvent")
 	public String moveEventWriteForm() {
 		return "admin/event/eventWrite";
 	}
-	
 	
 	
 	
