@@ -16,4 +16,6 @@ public interface MemberDao {
 	int insertMember(SqlSession session, Member m);
 
 	Member selectOneMember(SqlSession session, String email);
+
+	Member selectMemberEmail(SqlSession session, String email);
 }

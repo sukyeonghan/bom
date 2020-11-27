@@ -58,27 +58,16 @@
 			<c:if test="${not empty faq }">
 				<input type="hidden" value="${faq.faqNo }" name="faqNo">
 			</c:if>
-			<c:if test="${empty faq }">
-				<select id="cate" name="faqCategory" class="form-control"  required> 
-					<option value=" " disabled selected>카테고리선택</option>
-					<option value="주문/결제">주문/결제</option>
-					<option value="배송">배송</option>
-					<option value="취소/환불">취소/환불</option>
-					<option value="기타">기타</option>
-				</select>
-			</c:if>
 			
-			<!-- 수정시 카테고리 선택되어 출력하게 하기 -->
-			<c:if test="${not empty faq }">
-				<select id="cate" name="faqCategory" class="form-control"  required> 
+
+			<select id="cate" name="faqCategory" class="form-control"  required> 
+					<option value=" " disabled selected>카테고리선택</option>
 					<option value="주문/결제" ${faq.faqCategory eq "주문결제"?"selected":""} >주문/결제</option>
 					<option value="배송" ${faq.faqCategory eq "배송"?"selected":""}>배송</option>
 					<option value="취소/환불" ${faq.faqCategory eq "취소/환불"?"selected":""}>취소/환불</option>
 					<option value="기타" ${faq.faqCategory eq "기타"?"selected":""}>기타</option>
-				</select>
-			</c:if>
-			
-			
+			</select>
+	
 				<br>
 				<input type="text" class="form-control" name="faqTitle" placeholder="제목을 입력해주세요" value='<c:out value="${faq.faqTitle }"/>' required>
 				<br>

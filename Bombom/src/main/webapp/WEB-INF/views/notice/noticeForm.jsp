@@ -30,9 +30,8 @@ section {
 	color: #45A663;
 }
 
-a.card-link {
-	font-weight: bolder;
-	color: black;
+.media{
+min-width:768;
 }
 
 
@@ -48,7 +47,9 @@ div#btn-box {
 	text-align: center;
 }
 </style>
-<section id="content" class="container">
+<section id="container" class="container">
+
+<div class="media">
 
 <!-- 좌측 메뉴 -->
 	<div id="board-nav" class="col-sm-3">
@@ -60,7 +61,6 @@ div#btn-box {
 		</ul>
 	</div>
 
-	<h3>공지사항 등록/수정/삭제(관리자용)</h3>
 	<br>
 		<div id="notice-container">
 		<!-- faq값이 없을 때는 등록, faq 값이 넘어왔을떄는  수정 -->
@@ -94,7 +94,7 @@ div#btn-box {
 				
 			</form>
 		</div>
-		
+		</div>
 </section>
 <script>
 	

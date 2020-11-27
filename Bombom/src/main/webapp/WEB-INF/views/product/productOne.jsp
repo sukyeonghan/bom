@@ -409,7 +409,7 @@
 				<div class="tab_box">
 			        <!--상품문의 작성창-->
 			        <form name="" action="${path}/product/insertInquiry">
-				        <div class="writebox_wrap container col-lg-10" style="float:none; margin:0 auto;">
+				        <div class="writebox_wrap container col-lg-11" style="float:none; margin:0 auto;">
 				            <button type="button" id="showBox" class="btn btn-success">상품문의</button>
 					        <div class="wrap-category" style="display:none;">
 						        <span class="span_textarea">
@@ -431,33 +431,38 @@
 					        </div>
 				        </div>
 			        </form><!-- 상품문의 작성창 끝 -->
-			        <table class="table table-hover">
-			        	<tr>
-			        		<th>내용</th>
-			        		<th>문의날짜</th>
-			        		<th>작성자</th>
-			        		<th>상태</th>
-			        	</tr>
-					<c:forEach items="${list}" var="i">
-			        	<tbody>
-			        		<tr>
-			        			<td><c:out value="${i.inqContent }"/></td>
-			        			<td><c:out value="${i.inqDate }"/></td>
-			        			<td><c:out value="${i.memNo}"/></td>
-			        			<td>
-			        				<c:if test="${i.inqAnswerYn ==N}">
-			        					답변대기
-			        				</c:if>
-			        				<c:if test="${i.inqAnswerYn==Y }">
-			        					답변완료
-			        				</c:if>
-			        			</td>
-			        		</tr>
-			        	</tbody>
-			        </c:forEach>
-			        </table>
+			        <!-- 상품문의 게시글 -->
+			        <div class="container col-lg-11">
+				        <table class="table">
+					        <thead>
+					        	<tr>
+					        		<td scope="col">내용</td>
+					        		<td scope="col">문의날짜</td>
+					        		<td scope="col">작성자</td>
+					        		<td scope="col">상태</td>
+					        	</tr>
+					        </thead>	
+						<c:forEach items="${list}" var="i">
+				        	<thead>
+				        		<tr>
+				        			<td scope="col"><c:out value="${i.inqContent }"/></td>
+				        			<td scope="col"><c:out value="${i.inqDate }"/></td>
+				        			<td scope="col"><c:out value="${i.memNo}"/></td>
+				        			<td scope="col">
+				        				<c:if test="${i.inqAnswerYn=='N'}">
+				        					답변대기
+				        				</c:if>
+				        				<c:if test="${i.inqAnswerYn=='Y'}">
+				        					답변완료
+				        				</c:if>
+				        			</td>
+				        		</tr>
+				        	</thead>
+				        </c:forEach>
+				        </table>
+			        </div>
+
 				</div>
-							
 			</div><!-- tab_box_container -->
 		</div><!--네비바 끝 -->
 		
