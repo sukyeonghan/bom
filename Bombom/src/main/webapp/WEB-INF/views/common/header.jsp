@@ -525,7 +525,7 @@
 	   //비밀번호 유효성검사
 	   $("#memPw").keyup(e=>{
 	      $(".guide.pw").show();
-	      var memPwd=$(".memPw").val().trim();
+	      var memPwd=$("#memPw").val().trim();
 	      var pwReg=/^.*(?=^.{8,15})(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%%^&*()]).*$/;
 	      if(pwReg.test(memPwd)){
 	         $(".guide.pw").hide();
@@ -560,7 +560,7 @@
 		 //로그인 비밀번호 유효성
 	   $("#loginPw").keyup(e=>{
 	      $(".login.pw").show();
-	      var memPwd=$(".memPw").val().trim();
+	      var memPwd=$("#loginPw").val().trim();
 	      var pwReg=/^.*(?=^.{8,15})(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%%^&*()]).*$/;
 	      if(pwReg.test(memPwd)){
 	         $(".login.pw").hide();

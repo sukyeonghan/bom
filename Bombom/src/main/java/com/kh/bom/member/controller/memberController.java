@@ -198,8 +198,11 @@ public class memberController {
 		//암호화된 비번 비교 
 		if(pwEncoder.matches(password, login.getMemPwd())) {
 			m.addAttribute("loginMember",login);
+		
 		}else {
-			//로그인 실패
+			m.addAttribute("msg","잘못된 이메일 또는 비밀번호를 입력하셨습니다.");
+			m.addAttribute("loc","/");
+			return "common/msg";
 		}
 		
 		
