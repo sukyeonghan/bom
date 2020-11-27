@@ -168,7 +168,7 @@
 						
 					</c:forEach>
 				</table>
-				<button class="btn btn-success" id="" onclick="location.href='${path}/admin/moveEvent'">이벤트 등록</button>
+				<button class="btn btn-success" id="" onclick="location.href='${path}/admin/moveInsertEvent'">이벤트 등록</button>
 			</div>
 			
 			<!-- 페이징바 -->
