@@ -71,20 +71,21 @@
         <div id="header-container">
             <div id="loginJoin" class="d-flex flex-row-reverse">
                 <ul class="nav">
-                    <li class="nav-item">
                     <c:if test="${loginMember == null }">
-                    <a class="nav-link"  data-toggle="modal"data-target="#loginModal">로그인</a></li>
+	                    <li class="nav-item">
+	                    <a class="nav-link"  data-toggle="modal"data-target="#loginModal">로그인</a></li>
+	                    <li class="nav-item">
+	                    <a class="nav-link"  data-toggle="modal"data-target="#myModal">회원가입</a>
+	                    </li>
                     </c:if>
+                    
                     <c:if test="${loginMember!=null }">
-                    <a class="nav-link"  onclick="location.replace('${path}/member/logout');">로그아웃</a></li>
-                    </c:if>
-                    <li class="nav-item">
-                    <a class="nav-link"  data-toggle="modal"data-target="#myModal">회원가입</a>
-                    </li>
-                    <!-- 로그인시  나올 메뉴-->
-                    <li class="nav-item"><a class="nav-link" href="${path }/mypage/orderStatus">마이페이지</a></li>
-                  
-                    <li class="nav-item"><a class="nav-link" href="${path }/order/basket">장바구니</a></li>
+	                    <li class="nav-item">
+	                    <a class="nav-link"  onclick="location.replace('${path}/member/logout');">로그아웃</a></li>
+	                    
+	                    <li class="nav-item"><a class="nav-link" href="${path }/mypage/orderStatus">마이페이지</a></li>
+                    	<li class="nav-item"><a class="nav-link" href="${path }/order/basket">장바구니</a></li>
+                  	</c:if>
                     <li class="nav-item"><a class="nav-link" href="#">검색</a></li>
                 </ul>
             </div>

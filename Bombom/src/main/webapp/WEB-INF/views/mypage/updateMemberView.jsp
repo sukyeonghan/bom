@@ -135,12 +135,12 @@ function fn_updateMember(){
 	var spaceCk=/\s/;
    	
    	if(spaceCk.test($("#memPwd").val())){
-   		swal("비밀번호에 띄어쓰기는 하실수 업습니다.");
+   		swal("비밀번호에 띄어쓰기는 하실수 없습니다.");
    		return false;
    	}
 	
    	if(spaceCk.test($("#memNick").val())){
-   		swal("닉네임에 띄어쓰기는 하실수 업습니다.");
+   		swal("닉네임에 띄어쓰기는 하실수 없습니다.");
    		return false;
    	}
    	if(memNick.length>0){
@@ -196,29 +196,29 @@ function fn_updateMember(){
       <div id="mypage-nav" class=" mr-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-               <a class="nav-link" href="#">주문내역</a>
-          </li>
-          <li class="nav-item">
-               <a class="nav-link" href="#">1:1문의</a>
-          </li>
-          <li class="nav-item">
-               <a class="nav-link" href="#">나의 활동</a>
-          </li>
-          <li class="nav-item">
-               <a class="nav-link" href="${path }/member/stamp">스탬프</a>
-          </li>
-          <li class="nav-item">
-               <a class="nav-link" href="${path }/member/zzimList">찜목록</a>
-          </li>
-          <li class="nav-item">
-               <a class="nav-link" href="${path }/member/updateMember">회원정보수정</a>
-          </li>
-          <li class="nav-item">
-               <a class="nav-link" href="${path }/member/shipList">배송지관리</a>
-          </li>
-          <li class="nav-item">
-               <a class="nav-link" href="${path }/member/pointList">적립금</a>
-          </li>
+      			<a class="nav-link" href="${path }/mypage/orderStatus">주문내역</a>
+		    </li>
+		    <li class="nav-item">
+		      	<a class="nav-link" href="${path }/mypage/qna">1:1문의</a>
+		    </li>
+		    <li class="nav-item">
+		     	 <a class="nav-link" href="${path }/mypage/myActivity">나의 활동</a>
+		    </li>
+		    <li class="nav-item">
+		     	 <a class="nav-link" href="${path }/mypage/stamp">스탬프</a>
+		    </li>
+		    <li class="nav-item">
+		      	<a class="nav-link" href="${path }/mypage/zzimList">찜목록</a>
+		    </li>
+		    <li class="nav-item">
+		      	<a class="nav-link" href="${path }/mypage/updateMember">회원정보수정</a>
+		    </li>
+		    <li class="nav-item">
+		      	<a class="nav-link" href="${path }/mypage/shipList">배송지관리</a>
+		    </li>
+		    <li class="nav-item">
+		      	<a class="nav-link" href="${path }/mypage/myPointList">적립금</a>
+		    </li>
         </ul>
       </div>
       

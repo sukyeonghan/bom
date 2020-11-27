@@ -12,4 +12,10 @@ public interface ShipDao {
 
 	int insertShip(SqlSession session, Ship s);
 
+	int deleteShip(SqlSession session, String shipNo);
+
+	Ship selectShipOne(SqlSession session,String shipNo);
+
+	int updateShip(SqlSession session, Ship s);
+
 }

@@ -54,80 +54,97 @@
 		<h3>배송지 등록/수정</h3>
 	</header>
 	<section class="container">
-		
-		<form name="shipFrm" action="${path }/ship/insertShipEnd">
+		<c:if test="${ship == null }">
+			<form name="shipFrm" action="${path }/ship/insertShipEnd">
+		</c:if>
+		<c:if test="${ship != null }">
+			<form name="shipFrm2" action="${path }/ship/updateShipEnd">
+		</c:if>
 			<table>
 				<tr>
 					<th>배송지명 <span class="red">*</span></th>
-					<td><input type="text" class="form-control" name="shipLocalName" required></td>
+					<td><input type="text" class="form-control" name="shipLocalName" value="${ship.shipLocalName }" required></td>
 				</tr>
 				<tr>
 					<th>수령인 <span class="red">*</span></th>
-					<td><input type="text" class="form-control" name="shipRecipient" required></td>
+					<td><input type="text" class="form-control" name="shipRecipient" value="${ship.shipRecipient }" required></td>
 				</tr>
 				<tr>
 					<th>주소 <span class="red">*</span></th>
 					<td>
-						<input type="text" id="sample4_postcode" class="form-control input-sm" name="shipZipCode" placeholder="우편번호"  readonly>
+						<input type="text" id="sample4_postcode" class="form-control input-sm" name="shipZipCode" placeholder="우편번호" value="${ship.shipZipCode }" readonly>
 						<input type="button" onclick="sample4_execDaumPostcode()" class="btn btn-outline-success" 
 							style="margin-bottom:6px;" value="주소검색">
-						<input type="text" id="sample4_roadAddress" class="form-control input-sm" placeholder="도로명주소" name="shipAddress" readonly>
+						<input type="text" id="sample4_roadAddress" class="form-control input-sm" placeholder="도로명주소" name="shipAddress"  value="${ship.shipAddress }" readonly>
 						<input type="hidden" id="sample4_jibunAddress" class="form-control input-sm" placeholder="지번주소">
 						<span id="guide" style="color:#999;display:none"></span>
-						<input type="text" id="sample4_detailAddress" class="form-control input-sm" name="shipDetailAddress" placeholder="상세주소를 입력해주세요">
-						<input type="text" id="sample4_extraAddress" class="form-control input-sm" name="shipExtraAddress" placeholder="참고항목">
+						<input type="text" id="sample4_detailAddress" class="form-control input-sm" name="shipDetailAddress" placeholder="상세주소를 입력해주세요" value="${ship.shipDetailAddress }">
+						<input type="text" id="sample4_extraAddress" class="form-control input-sm" name="shipExtraAddress" placeholder="참고항목" value="${ship.shipExtraAddress }" readonly>
 					</td>
 				</tr>
 				<tr>
 					<th>연락처 <span class="red">*</span></th>
 					<td>
+					<c:forTokens items="${ship.shipPhone}" var="p" delims="-" varStatus="vs">
+						<c:if test="${vs.index == 0 }">
+							<c:set var="phone1" value="${p }"/>
+						</c:if>
+						<c:if test="${vs.index == 1 }">
+							<c:set var="phone2" value="${p }"/>
+						</c:if>
+						<c:if test="${vs.index == 2 }">
+							<c:set var="phone3" value="${p }"/>
+						</c:if>
+					</c:forTokens>
 						<select name="phone1" id="phone1" class="form-control phone" required="required">
-						    <option value=" "disabled selected>선택</option>
-						    <option value="010">010</option>
-						    <option value="011">011</option>
-						    <option value="016">016</option>
-						    <option value="017">017</option>
-						    <option value="018">018</option>
-						    <option value="019">019</option>
-						    <!-- <option value="02">02</option>
-						    <option value="031">031</option>
-						    <option value="032">032</option>
-						    <option value="033">033</option>
-						    <option value="041">041</option>
-						    <option value="042">042</option>
-						    <option value="043">043</option>
-						    <option value="044">044</option>
-						    <option value="051">051</option>
-						    <option value="052">052</option>
-						    <option value="053">053</option>
-						    <option value="054">054</option>
-						    <option value="055">055</option>
-						    <option value="061">061</option>
-						    <option value="062">062</option>
-						    <option value="063">063</option>
-						    <option value="064">064</option>
-						    <option value="070">070</option>
-						    <option value="080">080</option>
-						    <option value="050">050</option>
-						    <option value="012">012</option>
-						    <option value="059">059</option> -->
+						    <option value=" " disabled selected>선택</option>
+						    <option value="010" ${phone1 eq "010"? "selected":"" }>010</option>
+						    <option value="011" ${phone1 eq "011"? "selected":"" }>011</option>
+						    <option value="016" ${phone1 eq "016"? "selected":"" }>016</option>
+						    <option value="017" ${phone1 eq "017"? "selected":"" }>017</option>
+						    <option value="018" ${phone1 eq "018"? "selected":"" }>018</option>
+						    <option value="019" ${phone1 eq "019"? "selected":"" }>019</option>
+						    <option value="02"  ${phone1 eq "02"? "selected":"" }>02</option>
+						    <option value="031" ${phone1 eq "031"? "selected":"" }>031</option>
+						    <option value="032" ${phone1 eq "032"? "selected":"" }>032</option>
+						    <option value="033" ${phone1 eq "033"? "selected":"" }>033</option>
+						 <!--<option value="041" ${phone1 eq "041"? "selected":"" }>041</option>
+						    <option value="042" ${phone1 eq "042"? "selected":"" }>042</option>
+						    <option value="043" ${phone1 eq "043"? "selected":"" }>043</option>
+						    <option value="044" ${phone1 eq "044"? "selected":"" }>044</option>
+						    <option value="051" ${phone1 eq "051"? "selected":"" }>051</option>
+						    <option value="052" ${phone1 eq "052"? "selected":"" }>052</option>
+						    <option value="053" ${phone1 eq "053"? "selected":"" }>053</option>
+						    <option value="054" ${phone1 eq "054"? "selected":"" }>054</option>
+						    <option value="055" ${phone1 eq "055"? "selected":"" }>055</option>
+						    <option value="061" ${phone1 eq "061"? "selected":"" }>061</option>
+						    <option value="062" ${phone1 eq "062"? "selected":"" }>062</option>
+						    <option value="063" ${phone1 eq "063"? "selected":"" }>063</option>
+						    <option value="064" ${phone1 eq "064"? "selected":"" }>064</option>
+						    <option value="070" ${phone1 eq "070"? "selected":"" }>070</option>
+						    <option value="080" ${phone1 eq "080"? "selected":"" }>080</option>
+						    <option value="050" ${phone1 eq "050"? "selected":"" }>050</option>
+						    <option value="012" ${phone1 eq "012"? "selected":"" }>012</option>
+						    <option value="059" ${phone1 eq "059"? "selected":"" }>059</option> -->
 					  	</select>
-					  	&nbsp;-&nbsp;<input type="text" class="form-control phone" name="phone2" required>
-						&nbsp;-&nbsp;<input type="text" class="form-control phone" name="phone3" required>
+					
+					  	&nbsp;-&nbsp;<input type="text" class="form-control phone" name="phone2" value="${phone2 }" required>
+						&nbsp;-&nbsp;<input type="text" class="form-control phone" name="phone3" value="${phone3 }" required>
 						<input type="hidden" name="shipPhone"/>
 					</td>
 				</tr>
 				<tr>
 					<th>기본배송지</th>
 					<td>
-						<input type="checkbox" class="form-check-input" id="yn" name="shipYn">
+						<input type="checkbox" class="form-check-input" id="yn" name="shipYn" ${ship.shipYn eq "Y"?"checked":"" }>
 						<label class="form-check-label" for="yn">기본배송지로 설정</label>
 					</td>
 				</tr>
 			</table>
 			<br>
 			<div class="btn-box">
-				<input type="hidden" name="memNo" value="${memNo }"/>
+				<input type="hidden" name="shipNo" value="${ship.shipNo}"/>
+				<input type="hidden" name="memNo" value="${loginMember.memNo }"/>
 				<input type="button" class="btn btn-outline-success last-btns" value="닫기" onclick="self.close();"/>
 				<input type="submit" class="btn btn-success last-btns" value="등록" onclick="return fn_check();">
 			</div>
