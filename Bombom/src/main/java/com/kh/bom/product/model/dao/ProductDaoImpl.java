@@ -18,8 +18,8 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public int selectInquiryCount(SqlSession session) {
-		return session.selectOne("inquiry.selectInquiryCount");
+	public int inquiryCount(SqlSession session) {
+		return session.selectOne("inquiry.inquiryCount");
 	}
 
 	

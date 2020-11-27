@@ -22,7 +22,7 @@
 		SELECT * FROM INQUIRY ORDER BY INQ_DATE DESC
 	</select>
 	
-	<select id="selectInquiryCount" resultType="_int">
+	<select id="inquiryCount" resultType="_int">
 		SELECT COUNT(*) FROM INQUIRY
 	</select>
 

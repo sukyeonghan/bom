@@ -25,9 +25,9 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public int selectInquiryCount() {
+	public int inquiryCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return dao.inquiryCount(session);
 	}
 
 	

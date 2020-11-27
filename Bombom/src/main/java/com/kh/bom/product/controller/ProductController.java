@@ -28,7 +28,7 @@ public class ProductController {
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage) {
 		
 		mv.addObject("list", service.inquiryList(cPage,numPerpage));
-		mv.addObject("count", service.selectInquiryCount());
+		mv.addObject("count", service.inquiryCount());
 		mv.setViewName("product/productOne");
 		return mv;
 	}

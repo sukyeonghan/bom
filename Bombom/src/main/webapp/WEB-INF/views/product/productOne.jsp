@@ -431,18 +431,31 @@
 					        </div>
 				        </div>
 			        </form><!-- 상품문의 작성창 끝 -->
-					<c:forEach items="${list}" var="i">
 			        <table class="table table-hover">
+			        	<tr>
+			        		<th>내용</th>
+			        		<th>문의날짜</th>
+			        		<th>작성자</th>
+			        		<th>상태</th>
+			        	</tr>
+					<c:forEach items="${list}" var="i">
 			        	<tbody>
 			        		<tr>
 			        			<td><c:out value="${i.inqContent }"/></td>
 			        			<td><c:out value="${i.inqDate }"/></td>
 			        			<td><c:out value="${i.memNo}"/></td>
-			        			<td><c:out value="${i.inqAnswerYn}"/></td>
+			        			<td>
+			        				<c:if test="${i.inqAnswerYn ==N}">
+			        					답변대기
+			        				</c:if>
+			        				<c:if test="${i.inqAnswerYn==Y }">
+			        					답변완료
+			        				</c:if>
+			        			</td>
 			        		</tr>
 			        	</tbody>
-			        </table>
 			        </c:forEach>
+			        </table>
 				</div>
 							
 			</div><!-- tab_box_container -->

@@ -10,6 +10,6 @@ public interface ProductDao {
 	
 	List<Inquiry> inquiryList(SqlSession session,int cPage,int numPerpage);
 	
-	int selectInquiryCount(SqlSession session);
+	int inquiryCount(SqlSession session);
 
 }

@@ -8,7 +8,7 @@ public interface ProductService {
 	
 	List<Inquiry> inquiryList(int cPage, int numPerpage);
 	
-	int selectInquiryCount();
+	int inquiryCount();
 	
 	
 
