@@ -187,7 +187,7 @@ public class memberController {
 			
 		}else {
 			Cookie cookie=new Cookie("saveId","");
-			cookie.setMaxAge(24*60*60);
+			cookie.setMaxAge(0);
 			response.addCookie(cookie);
 		}
 		Member login=service.selectOneMember(email);
@@ -212,5 +212,13 @@ public class memberController {
 		return "redirect:/";		
 	}
 	
+	//이메일 중복검사
+		@RequestMapping("/member/checkDuplicateEmail")
+		@ResponseBody
+		public boolean checkDuplicateEmail(String memEmail) {
+			Member m=service.selectMemberEmail(memEmail);
+			//이메일이 있으면 false,없으면 true
+			return m!=null?false:true;
+		}
 	
 }

@@ -23,6 +23,9 @@
         text-align: center;
       }
       input[type=password] {font-family: "NanumSquare";}
+ /*유효성 검사*/
+  .pwOk,.nickOk,.emailOk {color:green; margin:3px;}
+  .nickError,.nickError2,.emailError,.emailError2{color:red; margin:3px;}
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -164,8 +167,13 @@
                     class="form-control"
                     placeholder="닉네임"
                     name="nick"
+                    id="newNick"
+                    required
                   />
-                  <label for="email">ajax 당신의 닉네임을 입력해주세요.</label>
+                  <label class="guide nickOk" >멋진 닉네임이네요.</label>
+                  <label class="guide nickError" >사용할 수 없는 닉네임입니다.</label>
+                  <label class="guide nickError2" >닉네임은 한글,영문,숫자만 가능합니다.</label>
+               
                 </div>
                 <div class="form-group">
                   <input
@@ -173,9 +181,13 @@
                     class="form-control"
                     placeholder="이메일주소"
                     name="email"
+                    id="newEmail"
+                    required
                     
                   />
-                  <label for="email">ajax 이메일 주소를 입력해주세요.</label>
+                  <label class="guide emailOk" >GOOD</label>
+                  <label class="guide emailError" >이미 가입된 이메일입니다.</label>
+                  <label class="guide emailError2" >올바른 이메일 형식이 아닙니다.</label>
                 </div>
                 <div class="form-group">
                   <input
@@ -183,20 +195,21 @@
                     class="form-control"
                     placeholder="비밀번호"
                     name="password"
+                    id="newPw"
+                    required
                   />
-                  <label for="pwd"
-                    >ajax 8~16자리 비밀번호를 입력해주세요.
-                  </label>
+                  <label class="guide pw">영문,숫자,특수문자 조합 8자 이상 16자 이하로 입력해주세요.</label>
+                  <label class="guide pwOk">GOOD</label>
                 </div>
                 <div class="form-group form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" />
+                    <input class="form-check-input" type="checkbox" required/>
                     다시:봄 이용 약관 및 개인정보 취급방침에 대한 내용을 모두
                     <br />
                     확인하였으며, 이에 동의합니다.
                   </label>
                 </div>
-                <button type="submit" class="btn btn-success btn-block">
+                <button type="submit" class="btn btn-success btn-block" onclick="return fn_signUp();">
                  회원가입
                 </button>
               </div>
@@ -438,3 +451,93 @@
         </div>
       </div>
  </div>	<!--container div 모달끝  -->
+ <script>
+ $(function(){
+	 $(".guide").hide(); 
+
+	 //닉네임중복체크 가이드
+	   $("#newNick").keyup(e=>{
+		  const nickReg=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{2,10}$/;
+	      const memNick=$(e.target).val().trim();
+
+	      if(memNick.length<2){
+	    	  $(".guide").hide();
+	    	  return;
+	      }else{ 
+	    	  $.ajax({
+	   	         url:"${path}/member/checkDuplicateNick",
+	   	         data:{memNick:memNick},
+	   	         success:data=>{
+	   	            if(data===true){
+	   	            	if(!nickReg.test(memNick)){
+		  	            	$(".guide.nickError2").show();
+		  	            	$(".guide.nickError").hide();
+		  	            	$(".guide.nickOk").hide(); 
+		  	            }else{
+		  	            	$(".guide.nickError2").hide();
+		  	            	$(".guide.nickError").hide();
+		    	            $(".guide.nickOk").show(); 
+		  	            }
+	   	            }else{
+	   	               $(".guide.nickError2").hide();
+	   	               $(".guide.nickError").show();
+	   	               $(".guide.nickOk").hide();
+	   	            }
+	   	         }
+		   	  });
+	      }
+	   }); 
+	 //이메일 중복체크
+	 $("#newEmail").keyup(e=>{
+		const emailReg= /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+		const memEmail=$(e.target).val().trim();
+		
+		if(memEmail.length<2){
+	    	  $(".guide").hide();
+	    	  return;
+		}else{
+			$.ajax({
+	   	         url:"${path}/member/checkDuplicateEmail",
+	   	         data:{memEmail:memEmail},
+	   	         success:data=>{
+	   	            if(data===true){
+	   	            	if(!emailReg.test(memEmail)){
+		  	            	$(".guide.emailError2").show();
+		  	            	$(".guide.emailError").hide();
+		  	            	$(".guide.emailOk").hide(); 
+		  	            }else{
+		  	            	$(".guide.emailError2").hide();
+		  	            	$(".guide.emailError").hide();
+		    	            $(".guide.emailOk").show(); 
+		  	            }
+	   	            }else{
+	   	               $(".guide.emailError2").hide();
+	   	               $(".guide.emailError").show();
+	   	               $(".guide.emailOk").hide();
+	   	            }  
+	   	         }
+		   	  });
+		}
+	 })
+	 
+
+	   //비밀번호 유효성검사
+	   $("#newPw").keyup(e=>{
+	      $(".guide.pw").show();
+	      var memPwd=$("#newPw").val().trim();
+	      var pwReg=/^.*(?=^.{8,15})(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%%^&*()]).*$/;
+	      if(pwReg.test(memPwd)){
+	         $(".guide.pw").hide();
+	         $(".guide.pwOk").show(); 
+	      }else{
+	         $(".guide.pw").show();
+	         $(".guide.pwOk").hide();
+	               
+	      }
+	   });
+	 
+ })
+ 
+ 
+
+ </script>
