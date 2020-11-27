@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -216,5 +214,15 @@ public class memberController {
 		return "redirect:/";		
 	}
 	
+	
+	//스탬프 페이지로 이동
+	@RequestMapping("/mypage/stamp")
+	public ModelAndView stamp(ModelAndView mv) {
+		mv.setViewName("mypage/stamp");
+		return mv;
+	}
+	
+	
+
 	
 }
