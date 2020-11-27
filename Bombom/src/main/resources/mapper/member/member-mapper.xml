@@ -50,4 +50,9 @@
 	<select id="selectOneMember" parameterType="string" resultMap="memberMap">
 		SELECT * FROM MEMBER WHERE MEM_EMAIL=#{memEmail}
 	</select>
+	<!--이메일중복확인  -->
+	<select id="selectMemberEmail" parameterType="string" resultMap="memberMap">
+		SELECT * FROM MEMBER MEMBER WHERE MEM_EMAIL=#{memEmail}
+	</select>
+	
 </mapper>
