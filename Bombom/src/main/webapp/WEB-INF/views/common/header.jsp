@@ -25,7 +25,7 @@
       input[type=password] {font-family: "NanumSquare";}
  /*유효성 검사*/
   .pwOk,.nickOk,.emailOk {color:green; margin:3px;}
-  .nickError,.nickError2,.emailError,.emailError2{color:red; margin:3px;}
+  .pw, .nickError,.nickError2,.emailError,.emailError2,.emailSize{color:red; margin:3px;}
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -168,7 +168,7 @@
                     class="form-control"
                     placeholder="닉네임"
                     name="nick"
-                    id="newNick"
+                    id="memNick"
                     required
                   />
                   <label class="guide nickOk" >멋진 닉네임이네요.</label>
@@ -182,7 +182,7 @@
                     class="form-control"
                     placeholder="이메일주소"
                     name="email"
-                    id="newEmail"
+                    id="memEmail"
                     required
                     
                   />
@@ -196,7 +196,7 @@
                     class="form-control"
                     placeholder="비밀번호"
                     name="password"
-                    id="newPw"
+            		id="memPw"
                     required
                   />
                   <label class="guide pw">영문,숫자,특수문자 조합 8자 이상 16자 이하로 입력해주세요.</label>
@@ -262,14 +262,14 @@
                     class="form-control"
                     placeholder="이메일주소"
                     name="email"
+                    id="loginEmail"
                     required
 					
                     
                   />
-      
-                  <label for="email">ajax 이메일 주소를 입력해주세요.</label>
-                  
-
+                  <label class="login emailSize" >이메일을 입력해주세요.</label>
+                  <label class="login emailOk" >GOOD</label>
+                  <label class="login emailError" >올바른 이메일 형식이 아닙니다.</label>
 
                 </div>
                 <div class="form-group">
@@ -278,11 +278,11 @@
                     class="form-control"
                     placeholder="비밀번호"
                     name="password"
+      				id="loginPw"
                     required
                   />
-                  <label for="pwd"
-                    >ajax 8~16자리 비밀번호를 입력해주세요.
-                  </label>
+                 <label class="login pw">영문,숫자,특수문자 조합 8자 이상 16자 이하로 입력해주세요.</label>
+                 <label class="login pwOk">GOOD</label>
                 </div>
                 <div class="form-group form-check">
                     <input class="form-check-input" type="checkbox" name="saveId" <c:if test='${cookie.saveId!=null}'>checked</c:if> />
@@ -454,10 +454,11 @@
  </div>	<!--container div 모달끝  -->
  <script>
  $(function(){
-	 $(".guide").hide(); 
+	 $(".guide").hide();
+	 $(".login").hide();
 
 	 //닉네임중복체크 가이드
-	   $("#newNick").keyup(e=>{
+	   $("#memNick").keyup(e=>{
 		  const nickReg=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{2,10}$/;
 	      const memNick=$(e.target).val().trim();
 
@@ -489,7 +490,7 @@
 	      }
 	   }); 
 	 //이메일 중복체크
-	 $("#newEmail").keyup(e=>{
+	 $("#memEmail").keyup(e=>{
 		const emailReg= /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
 		const memEmail=$(e.target).val().trim();
 		
@@ -523,9 +524,9 @@
 	 
 
 	   //비밀번호 유효성검사
-	   $("#newPw").keyup(e=>{
+	   $("#memPw").keyup(e=>{
 	      $(".guide.pw").show();
-	      var memPwd=$("#newPw").val().trim();
+	      var memPwd=$(".memPw").val().trim();
 	      var pwReg=/^.*(?=^.{8,15})(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%%^&*()]).*$/;
 	      if(pwReg.test(memPwd)){
 	         $(".guide.pw").hide();
@@ -537,6 +538,44 @@
 	      }
 	   });
 	 
+		//로그인 이메일 유효성
+	   $("#loginEmail").keyup(e=>{
+		   $(".login.emailSize").show();
+	      const emailReg= /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+		  const memEmail=$(e.target).val().trim();
+		 
+	      if(emailReg.test(memEmail)){
+	         $(".login.emailOk").show();
+	         $(".login.emailError").hide();
+	         $(".login.emailSize").hide();
+	 
+	      }else{
+	         $(".login.emailOk").hide();
+	         $(".login.emailError").show();
+	         $(".login.emailSize").hide();
+
+	               
+	      }
+	   });
+	
+		 //로그인 비밀번호 유효성
+	   $("#loginPw").keyup(e=>{
+	      $(".guide.pw").show();
+	      var memPwd=$(".memPw").val().trim();
+	      var pwReg=/^.*(?=^.{8,15})(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%%^&*()]).*$/;
+	      if(pwReg.test(memPwd)){
+	         $(".guide.pw").hide();
+	         $(".guide.pwOk").show(); 
+	      }else{
+	         $(".guide.pw").show();
+	         $(".guide.pwOk").hide();
+	               
+	      }
+	   });
+		
+		
+		
+		
  })
  
  
