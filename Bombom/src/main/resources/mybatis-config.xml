@@ -12,5 +12,7 @@
 		<typeAlias type="com.kh.bom.admin.model.vo.Event" alias="event"/>
 		<typeAlias type="com.kh.bom.inquiry.model.vo.Inquiry" alias="inquiry"/>
 		<typeAlias type="com.kh.bom.point.model.vo.Point" alias="point"/>
+		<typeAlias type="com.kh.bom.common.typehandler.DateStringTypeHandler" alias="dateStr"/>
+		
 	</typeAliases>
 </configuration>
