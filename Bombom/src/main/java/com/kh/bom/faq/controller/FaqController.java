@@ -1,4 +1,4 @@
-package com.kh.bom.faq.controller;
+	package com.kh.bom.faq.controller;
 
 import java.util.List;
 

@@ -18,5 +18,10 @@ public class AdminDaoImpl implements AdminDao {
 	public int eventDelete(SqlSession session, String eventNo) {
 		return session.delete("admin.eventDelete", eventNo);
 	}
+
+	@Override
+	public int insertEvent(SqlSession session, Event e) {
+		return session.insert("admin.insertEvent",e);
+	}
 	
 }

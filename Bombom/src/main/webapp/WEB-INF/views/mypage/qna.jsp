@@ -114,7 +114,7 @@
           </table>
           <div id="page-bar">${pageBar }</div>
           <div id="btn-container">
-            <button type="button" class="btn btn-success">문의작성</button>
+            <button type="button" class="btn btn-success" onclick="location.replace('${path}/mypage/qnaWrite')">문의작성</button>
           </div>
         </div>
 	</div>

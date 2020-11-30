@@ -31,7 +31,6 @@
 	}
 	
 	/*제품 등록 테이블*/
-
 	#insert-table{
 		width:100%;
 		margin:20px 0;
@@ -40,67 +39,71 @@
 	tr,th,td{
 		padding:15px;
 	}
-	/*상품 수정,삭제페이지로 넘어가는 a태그 */
-	/*클릭 안 했을 때*/
-	.product-update:link{
-		text-decoration:none;
-		color:#45A663;
-	}
-	/*방문했을 때*/
-	.product-update:visited{
-		text-decoration:none;
-		color:#45A663;
-	}
-	/*마우스 올렸을 때*/
-	.product-update:hover{
-		text-decoration:none;
-		color:black;
-	}
-	/*상품등록 버튼*/
-	#insertPro{
-		float:right;
-	}
 	
-    /*상품 설명*/
+    /*제품 설명*/
+     #middle-div{
+    	margin-left:15px;
+    	margin-bottom:20px;
+    }
     .title{
     	font-weight:bold;
     }
     #intro-text{
     	resize:none;
     }
-    #middle-div{
-    	margin-left:15px;
-    	margin-bottom:20px;
-    }
+   
+   /* 제품 썸네일,상세 이미지 등록*/
     #bottom-div{
     	margin-left:15px;
+    	margin-top: 40px;
     }
-    /*썸네일 등록 div*/
+    
+    /*썸네일*/
+    /*썸네일 이미지 전체 div*/
+    #thumbWrap{
+    	overflow:hidden;
+    }
+    /*바깥 div*/
+    .test{
+    	width:150px;
+    	height:170px;
+    	float:left;
+    	margin:35px;
+    	position:relative;
+   	}
+   	/*썸네일1,썸네일2.. 타이틀*/
+   	.sumTitle{
+   		margin:0;
+   	}
+   	/*사진 미리보기 div*/
     .proDiv{
     	border:1px solid black;
     	width:150px;
     	height:150px;
     	position:relative;
+    	float:left;
     }
+    /*썸네일 사진*/
     .proImg{
  		position:absolute;
-        max-width:50%; 
-        max-height:50%;
+        max-width:100%; 
+        max-height:100%;
         width:auto; 
         height:auto;
         margin:auto;
         top:0; bottom:0; left:0; right:0;
     }
+    /*이미지 삭제 버튼*/
+    .close{border:none;}
+ 
+   
     /*상세 이미지 등록 div*/
     #detail-image{
     	margin-top:20px;
     	width:88%;
     }
     
-    #bottom-btns{
-    	text-align:center;
-    	margin-top:100px;
-    }
+  
     /*옵션*/
     .trOption{
     	margin-left:10px;
@@ -109,10 +112,12 @@
     .delBtn{
     	margin-left:10px;
     }
-    .test{
-    	display:flex;
-    }
     
+    /*등록하기,목록 버튼*/
+    #bottom-btns{
+    	text-align:center;
+    	margin-top:100px;
+    }
     .insertPro,.goList{
     	display:flex;
     }
@@ -153,16 +158,16 @@
 			<!-- 페이지 타이틀 -->
 			<h3 class="page-title">제품등록</h3> 
 			
+			<!-- 제품 등록 -->
 			<form>
-				<!-- 제품 등록 -->
 				<table id="insert-table">
 					<tr>
 						<th>카테고리</th>
-						<td colspan="3">
+						<td>
 						<!-- 검색 카테고리 -->
 							<div class="select-box">
 								<select class="sort">
-									<option>카테고리 선택</option>
+									<option selected disabled hidden>카테고리 선택</option>
 									<option>식품</option>
 									<option>잡화</option>
 									<option>주방</option>
@@ -172,46 +177,48 @@
 								</select>
 							</div>
 						</td>
-					</tr>
-					<tr>
-						<th>상품명</th>
-						<td><input type="text"></td>
-						<th>상품기본가격</th>
-						<td>
-							<input type="text">
-						</td>
-					</tr>
-					<tr>
-						<th>이벤트</th>
-							<td>
-							<!-- 이벤트 카테고리 -->
-								<div class="select-box">
-									<select class="sort">
-										<option>이벤트 선택</option>
-									
-									</select>
-								</div>
-							</td>
 						<th>판매 상태</th>
 						<td>
 							<!-- 판매상태 카테고리 -->
 							<div class="select-box">
 								<select class="sort">
-									<option>판매상태 선택</option>
+									<option selected disabled hidden>판매상태 선택</option>
 									<option>Y</option>
 									<option>N</option>
 								</select>
 							</div>
 						</td>
 					</tr>
-					<!-- <tr>
-						<th>추가 옵션</th>
-						<td colspan="3"><button class="btn btn-success">옵션 추가하기</button></td>
-					</tr>	 -->
+					<tr>
+						<th>제품명</th>
+						<td><input type="text"></td>
+						<th>제품기본가격</th>
+						<td>
+							<input type="text">
+						</td>
+					</tr>
+					<tr>
+						<th>이벤트</th>
+						<td colspan=3">
+						<!-- 이벤트 카테고리 -->
+							<div class="select-box">
+								<select class="sort">
+									<option>이벤트 선택</option>
+									<c:if test="${not empty list}">
+										<c:forEach var="e" items="${list}">
+											<option><c:out value="${e.eventTitle }"/></option>
+										</c:forEach>
+									</c:if>
+								</select>
+							</div>
+						</td>
+						
+					</tr>
 					<tr>
                         <th>추가 옵션</th>
-                        <td colspan="3"><input type="button" class="btn btn-success" id="add-option" value="옵션 추가하기"></td>
-                        <!-- <button class="btn btn-success" id="add-option" name="addOption" onclick="">옵션 추가하기</button></td> -->
+                        <td colspan="3">
+                        	<input type="button" class="btn btn-success" id="add-option" value="옵션 추가하기">
+                        </td>
                     </tr>
                     <tr class="trOption" name="trOption">
                         <th>&nbsp&nbsp옵션 내용</th>
@@ -229,18 +236,78 @@
 				
 				<!-- 제품 썸네일,상세 이미지 등록 -->
 				<div id="bottom-div">
-					<p class="title">제품 썸네일 이미지</p>
+					<p class="title">제품 썸네일 이미지(최대 6장)</p>
+					<div id="thumbWrap">
+						<div class="test" > 
+			     			<div>
+			     				<p class="sumTitle">썸네일1(메인)</p>
+			     			</div>
+							<div class="proDiv" id="1"> 
+								<img class="proImg" src="${path }/resources/images/product/plus2.png">
+								<input type="file" class="proPic" id="input1" accept="image/gif, image/jpeg, image/png" style="display:none;">
+								<input type="button" class="close" value="x">
+				     		</div>
+			     		</div>
+			     				
+			     		<div class="test" > 
+			     			<div>
+			     				<p class="sumTitle">썸네일2</p>
+			     			</div>
+			     			<div class="proDiv" id="2">
+				     			<img class="proImg" src="${path }/resources/images/product/plus2.png">
+								<input type="file" class="proPic" id="input2" accept="image/gif, image/jpeg, image/png" style="display:none;">
+								<input type="button" class="close" value="x">
+							</div>
+			     		</div>
+			     		
+			     		<div class="test" > 
+			     			<div>
+			     				<p class="sumTitle">썸네일3</p>
+			     			</div>
+				     		<div class="proDiv" id="3"> 
+								<img class="proImg" src="${path }/resources/images/product/plus2.png">
+								<input type="file"  class="proPic" id="input3"  accept="image/gif, image/jpeg, image/png" style="display:none;">
+								<input type="button" class="close" value="x">
+				     		</div>
+				     	</div>
+			     		
+			     		<div class="test" > 
+			     			<div>
+			     				<p class="sumTitle">썸네일4</p>
+			     			</div>
+				     		<div class="proDiv" style="float:left" id="4"> 
+								<img class="proImg" src="${path }/resources/images/product/plus2.png">
+								<input type="file"  class="proPic" id="input4"  accept="image/gif, image/jpeg, image/png" style="display:none;">
+								<input type="button" class="close" value="x">
+				     		</div>
+				     	</div>
+			     		
+			     		<div class="test" > 
+			     			<div>
+			     				<p class="sumTitle">썸네일5</p>
+			     			</div>
+				     		<div class="proDiv" style="float:left" id="5"> 
+								<img class="proImg" src="${path }/resources/images/product/plus2.png">
+								<input type="file"  class="proPic" id="input5"  accept="image/gif, image/jpeg, image/png" style="display:none;">
+								<input type="button" class="close" value="x">
+				     		</div>
+				     	</div>
+			     		
+			     		<div class="test" > 
+			     			<div>
+			     				<p class="sumTitle">썸네일6</p>
+			     			</div>
+				     		<div class="proDiv" style="float:left" id="6"> 
+								<img class="proImg" src="${path }/resources/images/product/plus2.png">
+								<input type="file"  class="proPic" id="input6"  accept="image/gif, image/jpeg, image/png" style="display:none;">
+								<input type="button" class="close" value="x">
+				     		</div>
+				     	</div>
+			     	
+					</div>
 					
-					<!-- <input type="file" class="form-control-file border" multiple id="proImage"> -->
-					<input type="file" class="form-control-file border" id="upload" multiple>
-					<div class="proDiv"> 
-						<%-- <img src="${path }/resources/upload/product/plus.png" class="proImg" id=""  alt="기본" width="50" height="50"><br>  --%>
-						 <img class="profile" id="img">
-	
-			     	</div>
-			     	<!-- <input type="file" id="memPro" name="upload" accept="image/gif, image/jpeg, image/png" style="display:none;">  -->
 		      		<div id="detail-image">
-			      		<p class="title">제품 상세 이미지</p>
+			      		<p class="title">제품 상세 이미지(총 1장)</p>
 			      		<input type="file" class="form-control-file border">
 		      		</div>
 				</div>
@@ -256,7 +323,17 @@
 	</div>
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+
 <script>
+	//간단한 설명 - 글자 수 제한
+	$(document).ready(function(){
+		$("#intro-text").on('keyup',function(){
+			if($(this).val().length>50){
+				$(this).val($(this).val().substring(0,50));
+				swal("50자를 초과하였습니다.");
+			}
+		});
+	});
 	//옵션 추가하기 
 	$("#add-option").click(function(){
 		var addOption="";
@@ -277,59 +354,34 @@
 	    trHtml.remove();
 	});
 	
-	//이지미 미리보기
-/* 	var proImage;
-	$(document).ready(function(){
-		$("#proImage").on("change",fileSelect);
+	//이미지 업로드 
+	$(function(){
+		   //div 클릭시 파일업로드실행함수 실행
+		   $("#1,#2,#3,#4,#5,#6").on("click",e=>{
+			  
+			   $(e.target).next().click();
+		   });
+		   //파일 업로드시 이미지 체인지
+		   $("#input1,#input2,#input3,#input4,#input5,#input6").on("change",e =>{ 
+			   console.log(e.target);
+			   console.log($(e.target).prev().attr("src"));
+			 
+		      let reader=new FileReader();
+		      let img=  $(e.target).prev();
+		      reader.onload=e=>{
+		       
+		       img.attr("src",e.target.result); 
+		      }
+		      reader.readAsDataURL($(e.target)[0].files[0]);
+		   }); 
 	});
 	
-	function fileSelect(e){
-		var files= e.target.files;
-		var filesArr=
-	}
-	 */
-	
-	$(document).ready(function (e){
-	    $("input[type='file']").change(function(e){
-
-	      //div 내용 비워주기
-	      $('.proDiv').empty();
-
-	      var files = e.target.files;
-	      var arr =Array.prototype.slice.call(files);
-	      
-	      preview(arr);
-	      
-	    });
-	    
-	
-	    
-	    function preview(arr){
-	      arr.forEach(function(f){
-	        
-	        //파일명이 길면 파일명...으로 처리
-	       /*  var fileName = f.name;
-	        if(fileName.length > 10){
-	          fileName = fileName.substring(0,7)+"...";
-	        } */
-	        
-	        //div에 이미지 추가
-	        var str = '<div class="test" style="display:flex; padding: 10px;">';
-	       /*  str += '<span>'+fileName+'</span><br>'; */
-	        
-	        //이미지 파일 미리보기
-	        if(f.type.match('image.*')){
-	          var reader = new FileReader(); //파일을 읽기 위한 FileReader객체 생성
-	          reader.onload = function (e) { //파일 읽어들이기를 성공했을때 호출되는 이벤트 핸들러
-	            //str += '<button type="button" class="delBtn" value="'+f.name+'" style="background: red">x</button><br>';
-	            str += '<img src="'+e.target.result+'" title="'+f.name+'" width=150 height=150 />';
-	            str += '</div>';
-	            $(str).appendTo('.proDiv');
-	          } 
-	          reader.readAsDataURL(f);
-	        }
-	      });
-	    }
-	  });
+	//이미지 삭제 버튼
+	$(function(){
+		$(".close").on("click",e=>{	  
+			   let chImg=$(e.target).prev().prev();
+			   chImg.attr("src","${path }/resources/images/product/plus2.png");
+		   });
+	});
 </script>
 	

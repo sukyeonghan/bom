@@ -71,15 +71,9 @@ img#logo {
 
 /* 메뉴nav div */
 div#menuNav {
-<<<<<<< HEAD
     width: 100%;
     color: #45A663;
     height:100px;
-=======
-	width: 100%;
-	color: #45A663;
-	height: 100px;
->>>>>>> branch 'develop' of https://github.com/sukyeonghan/bombom.git
 }
 
 .dropmenu ul ul {

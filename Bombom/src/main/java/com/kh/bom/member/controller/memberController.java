@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -180,18 +181,21 @@ public class memberController {
 	
 	//로그인
 	@RequestMapping("/member/loginMember")
-	public String loginMember(String email, String password,
+	public String loginMember(String email, String password, 
 							Model m, String saveId, HttpServletResponse response) {
-		if(saveId!=null) {
-			Cookie c=new Cookie("saveId",email);
-			c.setMaxAge(24*60*60);
-			response.addCookie(c);
-			
+		
+		if(saveId!=null){
+		Cookie c = new Cookie("saveId",email);
+		c.setMaxAge(24*60*60);
+		c.setPath("/bom");
+		response.addCookie(c);
+	
 		}else {
-			Cookie cookie=new Cookie("saveId","");
-			cookie.setMaxAge(0);
-			response.addCookie(cookie);
-		}
+		Cookie c=new Cookie("saveId","");
+		c.setMaxAge(0);
+		response.addCookie(c);
+	}
+		
 		Member login=service.selectOneMember(email);
 		//암호화된 비번 비교 
 		if(pwEncoder.matches(password, login.getMemPwd())) {
