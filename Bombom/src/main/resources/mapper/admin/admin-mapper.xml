@@ -17,5 +17,12 @@
 	<delete id="eventDelete" parameterType="string">
 		DELETE FROM EVENT WHERE EVENT_NO = #{evetNo}
 	</delete>
+	
+	<insert id="insertEvent" parameterType="event">
+		INSERT INTO EVENT 
+		VALUES('E'||TO_CHAR(SEQ_EVENT_NO.NEXTVAL),
+			#{eventTitle},#{eventStartDate},#{eventEndDate},
+			#{eventCategory},#{eventSalePer})
+	</insert>
 
 </mapper>

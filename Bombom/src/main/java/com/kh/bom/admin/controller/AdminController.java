@@ -1,8 +1,12 @@
 package com.kh.bom.admin.controller;
 
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,19 +20,23 @@ public class AdminController {
 	@Autowired
 	private AdminService service;
 
+	//제품 관리페이지
 	@RequestMapping("/admin/moveProduct")
 	public String moveProductListPage() {
-		return "admin/productList";
+		return "admin/product/productList";
 	}
-	
+	//제품 등록 페이지
 	@RequestMapping("/admin/productInsert")
-	public String moveProductinsertPage() {
-		return "admin/insertProduct";
+	public ModelAndView moveProductinsertPage(ModelAndView m) {
+		List<Event> selectEvent =service.selectEvent();
+		m.addObject("list",selectEvent );
+		m.setViewName("admin/product/insertProduct");
+		return m;
 	}
-	
+	//제품 수정 및 삭제 페이지
 	@RequestMapping("/admin/productUpdate")
 	public String moveProductUpdatePage() {
-		return "admin/updateProduct";
+		return "admin/product/updateProduct";
 	}
 	
 	@RequestMapping("/admin/moveEvent")
@@ -64,13 +72,47 @@ public class AdminController {
 		return mv;
 	}
 	
-	//이벤트등록
-	@RequestMapping("/admin/insertEvent")
+	//이벤트등록페이지로 이동
+	@RequestMapping("/admin/moveInsertEvent")
 	public String moveEventWriteForm() {
 		return "admin/event/eventWrite";
 	}
 	
-	
-	
-	
+	@RequestMapping("/admin/insertEvent")
+	public ModelAndView insertEvent(ModelAndView mv, String eventTitle, 
+			@DateTimeFormat(pattern = "yyyyMMdd") String eventStartDate,
+			@DateTimeFormat(pattern = "yyyyMMdd") String eventEndDate,
+			String eventCategory, int eventSalePer) throws ParseException {	
+		
+		System.out.println(eventStartDate); //2020-11-11
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		Date d = (Date) sf.parse(eventStartDate);
+		Date d2 = (Date) sf.parse(eventEndDate);
+		
+		Event e = new Event();
+		e.setEventTitle(eventTitle);
+		e.setEventStartDate(d);
+		e.setEventEndDate(d2);
+		e.setEventCategory(eventCategory);
+		e.setEventSalePer(eventSalePer);
+		int result = service.insertEvent(e);
+		
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		if(result>0) {
+			msg = "이벤트가 생성되었습니다!:)";
+			loc = "/admin/moveEvent";
+			icon = "success";
+		}else {
+			msg = "생성이 실패했어요:(";
+			loc = "/admin/moveEvent";
+			icon = "error";
+		}
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon", icon);
+		mv.setViewName("common/msg");
+		return mv;
+	}
 }
