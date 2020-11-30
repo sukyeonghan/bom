@@ -144,7 +144,7 @@
         </div>
     </header>  
 
-    <!--모달 회원가입/로그인  -->
+    <!--모달 회원가입 -->
 <div class="container"> 
 
       <!-- The Modal -->
@@ -264,7 +264,7 @@
                     name="email"
                     id="loginEmail"
                     required
-					
+					value="${cookie.saveId.value }"
                     
                   />
                   <label class="login emailSize" >이메일을 입력해주세요.</label>
@@ -285,7 +285,7 @@
                  <label class="login pwOk">GOOD</label>
                 </div>
                 <div class="form-group form-check">
-                    <input class="form-check-input" type="checkbox" name="saveId" <c:if test='${cookie.saveId!=null}'>checked</c:if> />
+                    <input class="form-check-input" type="checkbox" name="saveId" <c:if test="${cookie.saveId.value ne null}">checked</c:if> />
                     ID저장
                 </div>
                 <button type="submit" class="btn btn-success btn-block">
