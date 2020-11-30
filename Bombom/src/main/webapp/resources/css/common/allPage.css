@@ -22,7 +22,8 @@ a {
 a, button {
 	cursor: pointer;
 }
-
+<!--패스워드 빈칸처리-->
+input[type=password] {font-family: "NanumSquare";} 
 /* header */
 header#spring-main-header {
 	background-color: #ffffff;
@@ -70,15 +71,9 @@ img#logo {
 
 /* 메뉴nav div */
 div#menuNav {
-<<<<<<< HEAD
     width: 100%;
     color: #45A663;
     height:100px;
-=======
-	width: 100%;
-	color: #45A663;
-	height: 100px;
->>>>>>> branch 'develop' of https://github.com/sukyeonghan/bombom.git
 }
 
 .dropmenu ul ul {

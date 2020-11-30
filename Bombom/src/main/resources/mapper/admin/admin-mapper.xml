@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="admin">
+	<resultMap type="event" id="eventMap">
+		<result property="eventNo" column="event_no"/>
+		<result property="eventTitle" column="event_title"/>
+		<result property="eventStartDate" column="event_start_date"/>
+		<result property="eventEndDate" column="event_end_date"/>
+		<result property="eventCategory" column="event_category"/>
+		<result property="eventSalePer" column="event_sale_per"/>
+	</resultMap>
+	
+	<select id="selectEvent" resultMap="eventMap">
+		SELECT * FROM EVENT
+	</select>
+	
+	<delete id="eventDelete" parameterType="string">
+		DELETE FROM EVENT WHERE EVENT_NO = #{evetNo}
+	</delete>
+	
+	<insert id="insertEvent" parameterType="event">
+		INSERT INTO EVENT 
+		VALUES('E'||TO_CHAR(SEQ_EVENT_NO.NEXTVAL),
+			#{eventTitle},#{eventStartDate},#{eventEndDate},
+			#{eventCategory},#{eventSalePer})
+	</insert>
+
+</mapper>

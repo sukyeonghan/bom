@@ -1,5 +1,8 @@
 package com.kh.bom.member.model.dao;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -29,7 +32,6 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public int updateMember(SqlSession session, Member m) {
 		// TODO Auto-generated method stub
-		System.out.println(m);
 		return session.update("member.updateMember",m);
 	}
 
@@ -39,6 +41,30 @@ public class MemberDaoImpl implements MemberDao {
 		return session.insert("member.insertMember",m);
 	}
 
+	//로그인
+	@Override
+	public Member selectOneMember(SqlSession session, String email) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.selectOneMember",email);
+	}
+
+	//이메일중복확인
+	@Override
+	public Member selectMemberEmail(SqlSession session, String email) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.selectMemberEmail",email);
+	}
+
+	@Override
+	public int updateMemBuyCount(SqlSession session, String memNo) {
+		// TODO Auto-generated method stub
+		Map param=new HashMap();
+		param.put("memNo",memNo);
+		return session.update("member.updateMemBuyCount",param);
+	}
+
+
+	
 	
 	
 

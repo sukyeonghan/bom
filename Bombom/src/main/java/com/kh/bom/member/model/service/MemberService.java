@@ -14,4 +14,8 @@ public interface MemberService {
 
 	int insertMember(Member mem);
 
+	Member selectOneMember(String email);
+	//이메일 중복체크
+	Member selectMemberEmail(String email);
+
 }

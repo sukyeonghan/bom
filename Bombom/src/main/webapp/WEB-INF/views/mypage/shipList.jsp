@@ -73,43 +73,51 @@
 			      </tr>
 			    </thead>
 			    <tbody>
-			    	<c:forEach items="${list}" var="s">
-				      <tr class="">
-				        <td class="">
-					        <strong><c:out value="${s.shipLocalName }"/></strong><br>
-					        
-					        <c:out value="${s.shipRecipient}"/><br>
-					        
-					        <c:if test="${s.shipYn == 'Y'}">
-						        <span class="badge badge-pill badge-success">기본배송지</span>
-				        	</c:if>
-				        	
-				        </td>
-				        <td class="addressTd">
-				        	<span class="sm">(우) <c:out value="${s.shipZipCode }"/></span><br>
-				        	<c:out value="${s.shipAddress }"/><br>
-				        	<c:out value="${s.shipDetailAddress}"/>
-				        	<c:out value="${s.shipExtraAddress }"/><br>
-				        </td>
-				        <td><c:out value="${s.shipPhone }"/></td>
-				        <td>
-				        	<button class="btn btn-outline-success" onclick="fn_updateShip();">수정</button>
-				        	<button class="btn btn-outline-secondary" onclick="fn_deleteShip();">삭제</button>
-				        </td>
-				      </tr>
-			      	</c:forEach>
+			    	<c:if test="${!empty list}">
+				    	<c:forEach items="${list}" var="s">
+					      <tr class="">
+					        <td class="">
+						        <strong><c:out value="${s.shipLocalName }"/></strong><br>
+						        
+						        <c:out value="${s.shipRecipient}"/><br>
+						        
+						        <c:if test="${s.shipYn == 'Y'}">
+							        <span class="badge badge-pill badge-success">기본배송지</span>
+					        	</c:if>
+					        	
+					        </td>
+					        <td class="addressTd">
+					        	<span class="sm">(우) <c:out value="${s.shipZipCode }"/></span><br>
+					        	<c:out value="${s.shipAddress }"/><br>
+					        	<c:out value="${s.shipDetailAddress}"/>
+					        	<c:out value="${s.shipExtraAddress }"/><br>
+					        </td>
+					        <td><c:out value="${s.shipPhone }"/></td>
+					        <td>
+					        	<input type="hidden" value="${s.shipNo }" name="shipNo">
+					        	<button class="btn btn-outline-success updateBtn">수정</button>
+					        	<button class="btn btn-outline-secondary" onclick="location.replace('${path}/ship/deleteShip?shipNo=${s.shipNo }')">삭제</button>
+					        </td>
+					      </tr>
+				      	</c:forEach>
+			      	</c:if>
+			      	<c:if test="${empty list }">
+			      		<tr>
+			      			<td colspan="4">등록된 배송지가 없습니다.</td>
+			      		<tr>
+			      	</c:if>
 			    </tbody>
 			  </table>
 			</div>
 		</div>
 	</div>
 	<form action="" name="insertShip" method="post">
-		<%-- <input type="hidden" name="memNo" value="${loginMember.memNo }"> --%>
-		<input type="hidden" name="memNo" value="M1000">
+		<input type="hidden" name="memNo" value="${loginMember.memNo }">
 	</form>
 	
 </section>
 <script>
+	
 	function fn_addShip(){
 		var memNo=$("input[name=memNo]").val();
 		const url="${path}/ship/insertShip"; 
@@ -123,7 +131,19 @@
         insertShip.submit();
 	
 	}
+	
+$(function(){
+	$(".updateBtn").click(e=>{
+		var shipNo=$(e.target).parent().children("input[name=shipNo]").val();
+		const url="${path}/ship/updateShip?shipNo="+shipNo;
+		const status="width=480px,height=605px,top=100px,left=500px";
+        window.open(url,"",status);
 
+	});
+});
+
+
+	
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

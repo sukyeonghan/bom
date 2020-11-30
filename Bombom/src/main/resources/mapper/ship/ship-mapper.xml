@@ -18,10 +18,36 @@
 	<select id="selectShipList" parameterType="string" resultMap="shipMap">
 		SELECT * FROM SHIP 
 		WHERE MEM_NO=#{memNo}
-		ORDER BY TO_NUMBER(SUBSTR(SHIP_NO,2)) DESC 
+		ORDER BY SHIP_YN DESC, TO_NUMBER(SUBSTR(SHIP_NO,2)) DESC
 	</select>
 	
 	<insert id="insertShip" parameterType="ship">
-		INSERT INTO SHIP VALUES(SEQ_SHIP_NO.NEXTVAL,#{memNo},#{shipLocalName},#{shipAddress},#{shipPhone},#{shipRecipient},#{shipYn},#{shipZipCode},#{shipDetailAddress},#{shipExtraAddress})
+		INSERT INTO SHIP VALUES('S'||SEQ_SHIP_NO.NEXTVAL,#{memNo},#{shipLocalName},#{shipAddress},#{shipPhone},#{shipRecipient},
+		<if test='shipYn !=null'>'Y',</if>
+		<if test='shipYn ==null'>DEFAULT,</if>
+		#{shipZipCode},#{shipDetailAddress},#{shipExtraAddress})
 	</insert>
+	<!--해당 회원의 기본배송지 모두 n으로 변경 -->
+	<update id="updateShipYn" parameterType="string">
+		UPDATE SHIP SET SHIP_YN='N' WHERE MEM_NO=#{memNo}
+	</update>
+	
+	<delete id="deleteShip" parameterType="string">
+		DELETE FROM SHIP WHERE SHIP_NO=#{shipNo}
+	</delete>
+	
+	<!-- 배송지번호로 배송지 하나만 가져오기 -->
+	<select id="selectShipOne" parameterType="string" resultMap="shipMap">
+		SELECT * FROM SHIP WHERE SHIP_NO=#{shipNo}
+	</select>
+	
+	<update id="updateShip" parameterType="ship">
+		UPDATE SHIP SET 
+		SHIP_LOCALNAME=#{shipLocalName},SHIP_ADDRESS=#{shipAddress},
+		SHIP_PHONE=#{shipPhone},SHIP_RECIPIENT=#{shipRecipient},
+		<if test='shipYn !=null'>SHIP_YN='Y',</if>
+		<if test='shipYn ==null'>SHIP_YN='N',</if>
+		SHIP_ZIPCODE=#{shipZipCode},SHIP_DETAILADDRESS=#{shipDetailAddress},
+		SHIP_EXTRAADDRESS=#{shipExtraAddress} WHERE SHIP_NO=#{shipNo}
+	</update>
 </mapper>

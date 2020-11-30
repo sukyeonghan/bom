@@ -16,6 +16,24 @@ h3 {
 section {
 	margin-top: 220px;
 }
+/* 좌측메뉴  */
+#board-nav {
+	padding-right: 100px;
+}
+
+#board-nav a {
+	color: black;
+	font-weight: bolder;
+}
+
+#board-nav a:hover {
+	color: #45A663;
+}
+
+.media{
+min-width:768;
+}
+
 
 div#notice-container {
 	width: 80%;
@@ -29,11 +47,22 @@ div#btn-box {
 	text-align: center;
 }
 </style>
-<section id="content" class="container">
+<section id="container" class="container">
 
-	<h3>공지사항 등록/수정/삭제(관리자용)</h3>
+<div class="media">
+
+<!-- 좌측 메뉴 -->
+	<div id="board-nav" class="col-sm-3">
+		<ul class="nav flex-column">
+			<li class="nav-item"><a class="nav-link"
+				href="${path }/notice/noticeList">공지사항</a></li>
+			<li class="nav-item"><a class="nav-link "
+				href="/bom/faq/faqList">자주묻는질문</a></li>
+		</ul>
+	</div>
+
 	<br>
-		<div id="faq-container">
+		<div id="notice-container">
 		<!-- faq값이 없을 때는 등록, faq 값이 넘어왔을떄는  수정 -->
 		<c:if test="${empty notice }">
 			<form name="noticeFrm" action="${path }/notice/insertNotice" onsubmit="return fn_check()">
@@ -65,7 +94,7 @@ div#btn-box {
 				
 			</form>
 		</div>
-		
+		</div>
 </section>
 <script>
 	

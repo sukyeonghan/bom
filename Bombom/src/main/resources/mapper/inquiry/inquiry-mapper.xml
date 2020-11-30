@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="inquiry">
+
+	<resultMap id="inquiryMap" type="inquiry">
+		<result property="inqNo" column="inq_no"/>
+		<result property="pdtNo" column="pdt_no"/>
+		<result property="memNo" column="mem_no"/>
+		<result property="inqContent" column="inq_content"/>
+		<result property="inqDate" column="inq_date"/>
+		<result property="inqSecret" column="inq_secret"/>
+		<result property="inqAnswerYn" column="inq_answer_yn"/>
+		<result property="inqAnswer" column="inq_answer"/>
+		<result property="inqAnswerDate" column="inq_answerdate"/>
+	</resultMap>
+
+	<insert id="insertInquiry" parameterType="inquiry">
+		INSERT INTO INQUIRY VALUES('I'||SEQ_INQ_NO.NEXTVAL,'P16',#{memNo},#{inqContent},DEFAULT,#{inqSecret},DEFAULT,NULL,NULL)
+	</insert>
+	
+	<select id="inquiryList" resultMap="inquiryMap">
+		SELECT I.*, M.MEM_NICK AS MEMNICK 
+		FROM INQUIRY I
+		JOIN MEMBER M ON M.MEM_NO=I.MEM_NO
+		ORDER BY INQ_DATE DESC
+	</select>
+	
+	<select id="inquiryCount" resultType="_int">
+		SELECT COUNT(*) FROM INQUIRY
+	</select>
+
+</mapper>
