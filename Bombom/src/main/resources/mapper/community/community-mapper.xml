@@ -2,37 +2,56 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="community">
 
-<resultMap type="community" id="communityMap">
- 		<result property="cmNo" column="CM_NO"/>
- 		<result property="cmWriter" column="CM_WRITER"/>
- 		<result property="cmLike" column="CM_LIKE"/>
- 		<result property="cmView" column="CM_VIEW"/>
- 		<result property="cmDate" column="CM_DATE"/>
- 		<result property="cmTitle" column="CM_TITLE"/>
- 		<result property="cmContent" column="CM_CONTENT"/>
- 		<result property="cmThumbnail" column="CM_THUMBNAIL"/>
- 	</resultMap>
+	<resultMap type="community" id="communityMap">
+		<result property="cmNo" column="CM_NO" />
+		<result property="cmWriter" column="CM_WRITER" />
+		<result property="cmLike" column="CM_LIKE" />
+		<result property="cmView" column="CM_VIEW" />
+		<result property="cmDate" column="CM_DATE" />
+		<result property="cmTitle" column="CM_TITLE" />
+		<result property="cmContent" column="CM_CONTENT" />
+		<result property="cmThumbnail" column="CM_THUMBNAIL" />
+	</resultMap>
 
 	<insert id="insertCommunity" parameterType="community">
 		INSERT INTO COMMUNITY
 		VALUES('CM'||SEQ_CM_NO.NEXTVAL,#{cmWriter},#{cmLike},#{cmView},SYSDATE,#{cmTitle},#{cmContent},#{cmThumbnail})
 	</insert>
-	
+
 	<select id="selectCommunityList" resultType="map">
-	SELECT * FROM COMMUNITY
+		SELECT * FROM COMMUNITY
 	</select>
-	
-	<select id="selectCommunityOne" parameterType="string" resultMap="communityMap">
-	SELECT * FROM COMMUNITY WHERE CM_NO=#{cmNo}
+
+	<select id="selectCommunityOne" parameterType="string"
+		resultMap="communityMap">
+		SELECT * FROM COMMUNITY WHERE CM_NO=#{cmNo}
 	</select>
-	
+
 	<delete id="deleteCommunity" parameterType="string">
-	DELETE FROM COMMUNITY WHERE CM_NO=#{cmNo}
+		DELETE FROM COMMUNITY WHERE CM_NO=#{cmNo}
 	</delete>
-	
+
 	<update id="updateCommunity" parameterType="community">
-	UPDATE COMMUNITY SET CM_TITLE=#{cmTitle},CM_CONTENT=#{cmContent},
-	WHERE CM_NO=#{cmNo}
+		UPDATE COMMUNITY SET CM_TITLE=#{cmTitle},CM_CONTENT=#{cmContent},
+		WHERE CM_NO=#{cmNo}
+	</update>
+
+	<update id="communityView" parameterType="string">
+		UPDATE COMMUNITY SET
+		CM_VIEW = CM_VIEW +1
+		WHERE CM_NO =#{cmNo}
+	</update>
+
+	<update id="like_check" parameterType="HashMap">
+		UPDATE COMMUNITY
+		SET CM_LIKE = CM_LIKE + 1
+		WHERE WHERE MEM_NO={memNo} AND CM_NO = #{cmNo}
+	</update>
+
+	<update id="like_check_cancel" parameterType="HashMap">
+		UPDATE COMMUNITY
+		SET CM_LIKE = 0
+		WHERE WHERE MEM_NO={memNo} AND CM_NO = #{cmNo}
 	</update>
 
 </mapper>

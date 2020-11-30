@@ -49,16 +49,28 @@ width: 800px;
 					<td><fmt:formatDate pattern="yyyy-MM-dd" value="${c.CM_DATE }"/></td>
 					<td><c:out value="${c.CM_THUMBNAIL }" /></td>
 					<td><c:out value="${c.CM_WRITER }" /></td>
-					<td><c:out value="${c.CM_VIEW }" /><c:out value="${c.CM_LIKE }" /></td>		
+					<td><c:out value="${c.CM_VIEW }" /></td>
+					<td><img class="rotate_images" src="${path }/resources/images/dislike.png" height="25" width="25"><c:out value="${c.CM_LIKE }" /></td>		
 				</tr>
 			</c:forEach>
 		</table>
-		</div>
-		
 		
 		<div class="text-right">
 			<button class="btn btn-success" id="communityAddbtn"
 				onclick="location.replace('${path }/community/communityForm')">글쓰기</button>
 		</div>
 </section>
+<script>
+	$('.rotate_images').on({
+		'click':function(){
+			var origsrc = $(this).attr('src');
+			var src = '';
+			if(origsrc == 'likeheart.png') src = '${path }/resources/images/like.png';
+			$(this).attr('src',src);
+			
+		}
+	});
+	
+</script>
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
