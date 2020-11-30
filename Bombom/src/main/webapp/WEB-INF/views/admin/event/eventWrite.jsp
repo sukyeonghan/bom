@@ -49,7 +49,7 @@
                     <div class="form-group d-flex">
                         <label for="title" class="col-2 control-label">제목</label>
                         <div class="col-10">
-                            <input type="text" id="title" class="form-control" placeholder="제목입력">
+                            <input type="text" id="title" name="eventTitle" class="form-control" placeholder="제목입력">
                         </div>
                     </div>
                     <div class="form-group d-flex">
@@ -60,47 +60,68 @@
                             <div class="col-5">
                                 <h6><label for="start"><small>시작일</small></label></h6>
                                 <div class="d-flex" id="start">
-                                    <input type="number" name="year" id="year_" placeholder="YYYY"
-                                        class="form-control" max="2050" min="1900" required>
-                                    <input type="number" name="month" id="month_" placeholder="MM"
+                                    <input type="date" name="eventStartDate" id="eventStartDate" placeholder="YYYY"
+                                        class="form-control" max="2100" min="1900" required>
+                                    <!-- <input type="number" name="month_s" id="month_" placeholder="MM"
                                         class="form-control" max="12" min="1" required>
-                                    <input type="number" name="date" id="date_" placeholder="DD"
-                                        class="form-control" max="31" min="1" required><br>
+                                    <input type="number" name="date_s" id="date_" placeholder="DD"
+                                        class="form-control" max="31" min="1" required><br> -->
                                 </div>
                             </div>
                             <div class="col-2">
-                                <p>
-                                <h3> ~ </h3>
-                                </p>
+                               	<h3> ~ </h3>
                             </div>
                             <div class="col-5">
                                 <h6><label for="end"><small>종료일</small></label></h6>
                                 <div class="d-flex" id="end">
-                                    <input type="number" name="year" id="year_" placeholder="YYYY"
-                                        class="form-control" max="2050" min="1900" required>
-                                    <input type="number" name="month" id="month_" placeholder="MM"
+                                    <input type="date" name="eventEndDate" id="eventEndDate" placeholder="YYYY"
+                                        class="form-control" max="2100" min="1900" required>
+                                    <!-- <input type="number" name="month_e" id="month_" placeholder="MM"
                                         class="form-control" max="12" min="1" required>
-                                    <input type="number" name="date" id="date_" placeholder="DD"
-                                        class="form-control" max="31" min="1" required><br>
+                                    <input type="number" name="date_e" id="date_" placeholder="DD"
+                                        class="form-control" max="31" min="1" required><br> -->
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group d-flex">
-                        <label for="title" class="col-2 control-label">할인율</label>
-                        <div class="col-10">
-                            <input type="number"><span>%</span>
-                        </div>
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-success" style="text-align:center;">이벤트 등록하기</button>
-                    </div>
+                      <label for="category" class="col-2 control-label">카테고리</label>
+                      <div class="col-10">
+                          <select name="eventCategory" id="category" class="form-control" required> 
+                              <option selected disabled>카테고리를 선택해주세요</option>
+                              <option value="할인">할인</option>
+                              <option value="커뮤니티">커뮤니티</option>
+                              <option value="기타">기타</option>
+
+                          </select>
+                      </div>
+                  </div>
+                  <div class="form-group d-flex">
+                      <label for="sale" class="col-2 control-label">할인율</label>
+                      <div class="col-10 d-flex">
+                          <input type="number" id="sale" name="eventSalePer" class="form-control" required><span>%</span>
+                      </div>
+                  </div>
+                  <div>
+                      <button type="submit" class="btn btn-success" style="text-align:center;">이벤트 등록하기</button>
+                  </div>
                 </form>
             </div>
 
         </div>
     </div>
 </section>
+
+<script>
+	$(function(){
+		var startDate = $("#eventStartDate").val();
+		var endDate = $("#eventEndDate").val();
+		console.log(startDate);
+		console.log(endDate);
+		
+		
+	});
+</script>
 
 
 <style>
@@ -186,9 +207,6 @@
 	margin-top: 20px;
 }
 
-#search-text {
-	margin: 0 15px;
-}
 </style>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

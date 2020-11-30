@@ -9,4 +9,5 @@ import com.kh.bom.admin.model.vo.Event;
 public interface AdminDao {
 	List<Event> selectEvent(SqlSession session);
 	int eventDelete(SqlSession session, String eventNo);
+	int insertEvent(SqlSession session, Event e);
 }
