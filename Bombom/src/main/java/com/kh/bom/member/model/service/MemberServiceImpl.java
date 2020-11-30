@@ -50,6 +50,13 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.selectOneMember(session,email);
 	}
+
+	@Override
+	public Member selectMemberEmail(String email) {
+		// TODO Auto-generated method stub
+		return dao.selectMemberEmail(session, email);
+	}
+	
 	
 	
 	

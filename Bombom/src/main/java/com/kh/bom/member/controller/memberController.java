@@ -4,12 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -64,11 +67,15 @@ public class memberController {
 		return mv;
 		
 	}
-	//회원삭제
+	//회원탈퇴
 	@RequestMapping("/member/deleteMember")
-	public ModelAndView deleteMember(String memNo,ModelAndView mv) {
+	public ModelAndView deleteMember(String memNo,ModelAndView mv,SessionStatus ss) {
 		int result=service.deleteMember(memNo);
 		if(result>0) {
+			//회원탈퇴시 세션닫기
+			if(!ss.isComplete()) {
+				ss.setComplete();
+			}
 			mv.setViewName("redirect:/");
 		}else {
 			mv.addObject("msg","회원탈퇴 실패");
@@ -174,14 +181,30 @@ public class memberController {
 	
 	//로그인
 	@RequestMapping("/member/loginMember")
-	public String loginMember(String email, String password, Model m) {
+	public String loginMember(String email, String password, 
+							Model m, String saveId, HttpServletResponse response) {
+		
+		if(saveId!=null){
+		Cookie c = new Cookie("saveId",email);
+		c.setMaxAge(24*60*60);
+		c.setPath("/bom");
+		response.addCookie(c);
+	
+		}else {
+		Cookie c=new Cookie("saveId","");
+		c.setMaxAge(0);
+		response.addCookie(c);
+	}
 		
 		Member login=service.selectOneMember(email);
 		//암호화된 비번 비교 
 		if(pwEncoder.matches(password, login.getMemPwd())) {
 			m.addAttribute("loginMember",login);
+		
 		}else {
-			//로그인 실패
+			m.addAttribute("msg","잘못된 이메일 또는 비밀번호를 입력하셨습니다.");
+			m.addAttribute("loc","/");
+			return "common/msg";
 		}
 		
 		
@@ -198,5 +221,23 @@ public class memberController {
 		return "redirect:/";		
 	}
 	
+	//이메일 중복검사
+		@RequestMapping("/member/checkDuplicateEmail")
+		@ResponseBody
+		public boolean checkDuplicateEmail(String memEmail) {
+			Member m=service.selectMemberEmail(memEmail);
+			//이메일이 있으면 false,없으면 true
+			return m!=null?false:true;
+		}
+	
+	//스탬프 페이지로 이동
+	@RequestMapping("/mypage/stamp")
+	public ModelAndView stamp(ModelAndView mv) {
+		mv.setViewName("mypage/stamp");
+		return mv;
+	}
+	
+	
+
 	
 }
