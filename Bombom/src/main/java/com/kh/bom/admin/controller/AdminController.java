@@ -21,12 +21,15 @@ public class AdminController {
 	public String moveProductListPage() {
 		return "admin/product/productList";
 	}
-	
+	//제품 등록 페이지
 	@RequestMapping("/admin/productInsert")
-	public String moveProductinsertPage() {
-		return "admin/product/insertProduct";
+	public ModelAndView moveProductinsertPage(ModelAndView m) {
+		List<Event> selectEvent =service.selectEvent();
+		m.addObject("list",selectEvent );
+		m.setViewName("admin/product/insertProduct");
+		return m;
 	}
-	
+	//제품 수정 및 삭제 페이지
 	@RequestMapping("/admin/productUpdate")
 	public String moveProductUpdatePage() {
 		return "admin/product/updateProduct";

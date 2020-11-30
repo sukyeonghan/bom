@@ -23,6 +23,6 @@ public class ProductController {
 	public String productOne() {
 		return "product/productOne";
 	}
-	 
+	
 	
 }
