@@ -11,5 +11,6 @@
 		<typeAlias type="com.kh.bom.community.model.vo.Community" alias="community"/>
 		<typeAlias type="com.kh.bom.admin.model.vo.Event" alias="event"/>
 		<typeAlias type="com.kh.bom.inquiry.model.vo.Inquiry" alias="inquiry"/>
+		<typeAlias type="com.kh.bom.point.model.vo.Point" alias="point"/>
 	</typeAliases>
 </configuration>
