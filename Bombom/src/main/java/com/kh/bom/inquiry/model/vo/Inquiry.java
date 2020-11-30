@@ -20,6 +20,7 @@ public class Inquiry {
 	private String inqAnswerYn;
 	private String inqAnswer;
 	private Date inqAnswerDate;
+	private String memNick;
 	
 
 }
