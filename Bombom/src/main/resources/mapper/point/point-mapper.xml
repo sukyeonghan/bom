@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="point">
+	<resultMap type="point" id="pointMap">
+		<result property="memNo" column="mem_no"/>
+		<result property="orderNo" column="order_no"/>
+		<result property="pointDate" column="point_date"/>
+		<result property="pointContent" column="point_content"/>
+		<result property="pointChange" column="point_change"/>
+	</resultMap>
+	
+	<update id="stamp10" parameterType="map">
+		
+	</update>
+	
+
+	<select id="selectPointList" parameterType="string">
+		SELECT * FROM POINT MEM_NO=#{memNo}
+	</select>
+</mapper>

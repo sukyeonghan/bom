@@ -102,12 +102,36 @@
 		        	<br>
 		        	<h4><strong class="nickColor"><c:out value="${loginMember.memNick }"/></strong>님 축하합니다!</h4>
 		        	<br>
-		        	<img id="stamp-modal-img" src="${path }/resources/images/stamp/stamp10ok.png" alt="축하합니다. 5000봄 지급됩니다.">
+		        	<%
+		        		int bom=0;
+		        		int r=(int)(Math.random() *100*100);
+		        		if(r<=20){
+		        			bom=1000;
+		        		}else if(20<r&&r<=70){
+		        			bom=3000;
+		        		}else{
+		        			bom=5000;
+		        		}
+		        	
+		        	%>
+		        	<c:if test="<%=bom=1000 %>">
+		        		<img id="stamp-modal-img" src="${path }/resources/images/stamp/stamp10ok1.png" alt="축하합니다. 1000봄 지급됩니다.">
+		        	</c:if>
+		        		<c:if test="<%=bom=3000 %>">
+		        	<img id="stamp-modal-img" src="${path }/resources/images/stamp/stamp10ok2.png" alt="축하합니다. 3000봄 지급됩니다.">
+		        		</c:if>
+		        	<c:if test="<%=bom=5000 %>">
+		        		<img id="stamp-modal-img" src="${path }/resources/images/stamp/stamp10ok3.png" alt="축하합니다. 5000봄 지급됩니다.">
+		        	</c:if>
 		        </div>
 		        
 		        <!-- Modal footer -->
 		        <div class="modal-footer">
-		          <button type="submit" id="StampCheckBtn" class="btn btn-success btn-block" onclick="location.replace('${path }/mypage/stamp10');">확인</button>
+		          <form action="/mypage/stamp10" method="post">
+		          	<input type="hidden" value="<%=bom %>" name="pointChange">
+		          	<input type="hidden" value="${loginMember.memNo }" name="memNo">
+		          	<button type="submit" id="StampCheckBtn" class="btn btn-success btn-block">확인</button>
+		          </form>
 		        </div>
 		        
 		      </div>
