@@ -45,6 +45,14 @@ public class MemberDaoImpl implements MemberDao {
 		return session.selectOne("member.selectOneMember",email);
 	}
 
+	//이메일중복확인
+	@Override
+	public Member selectMemberEmail(SqlSession session, String email) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.selectMemberEmail",email);
+	}
+
+	
 	
 	
 
