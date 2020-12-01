@@ -78,8 +78,13 @@
 				      </tr>
 			      	</c:forEach>
 			    </tbody>
-			  </table>
+			</table>
+			<div id="pageBar">
+				${pageBar }
+	    	</div> 
 		</div>
+		
+		
 		
 	</div>
 </section>

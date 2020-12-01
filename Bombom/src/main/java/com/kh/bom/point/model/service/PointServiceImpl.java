@@ -15,29 +15,41 @@ import com.kh.bom.point.model.vo.Point;
 public class PointServiceImpl implements PointService {
 	
 	@Autowired
-	SqlSession session;
+	private SqlSession session;
 	
 	@Autowired
-	PointDao dao;
+	private PointDao dao;
 	@Autowired
-	MemberDao memberDao;
+	private MemberDao memberDao;
 
 	@Override
-	public List<Point> selectPointList(String memNo) {
+	public List<Point> selectPointList(String memNo,int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return dao.selectPointList(session,memNo);
+		return dao.selectPointList(session,memNo,cPage,numPerpage);
 	}
 
+	@Override
+	@Transactional(rollbackFor =Exception.class)
+	public int insertStampPoint(Point p) throws Exception{
+		// TODO Auto-generated method stub
+		int result=0;
+		try {
+			
+			result = dao.insertStampPoint(session, p);
+			result = memberDao.updateMemBuyCount(session,p.getMemNo());
+			result = 0;
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception();
+		}
+	
+		return result;
+	}
 
 	@Override
-	@Transactional
-	public int stampInsertPoint(Point p) {
+	public int selectCount(String memNo) {
 		// TODO Auto-generated method stub
-		int result = dao.stampInsertPoint(session, p);
-		if(result>0) {
-			result=memberDao.updateMemBuyCount(session,p.getMemNo());
-		}
-		return result;
+		return dao.selectCount(session,memNo);
 	}
 	
 	
