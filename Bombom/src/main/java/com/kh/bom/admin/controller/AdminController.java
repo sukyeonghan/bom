@@ -1,5 +1,6 @@
 package com.kh.bom.admin.controller;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -20,8 +21,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.admin.model.vo.Event;
+import com.kh.bom.common.page.PageBarFactory;
+import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductThumb;
+
+
 
 @Controller
 public class AdminController {
@@ -175,6 +180,19 @@ public class AdminController {
 		mv.addObject("loc", loc);
 		mv.addObject("icon", icon);
 		mv.setViewName("common/msg");
+		return mv;
+	}
+	//회원관리
+	@RequestMapping("/admin/memberList")
+	public ModelAndView memberList(ModelAndView mv,
+			@RequestParam(value="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage) {
+		List<Member> list=service.selectMemberList(cPage, numPerpage);
+		int totalData=service.selectMemberCount();
+		mv.addObject("list",list);
+		mv.addObject("cPage", cPage);
+		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "memberList"));
+		mv.setViewName("admin/member/memberList");
 		return mv;
 	}
 }

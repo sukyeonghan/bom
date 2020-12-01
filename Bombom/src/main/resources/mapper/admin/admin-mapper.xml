@@ -9,6 +9,7 @@
 		<result property="eventCategory" column="event_category"/>
 		<result property="eventSalePer" column="event_sale_per"/>
 	</resultMap>
+
 	<resultMap type="product" id="productMap">
 		<result property="pdtNo" column="pdt_no"/>
 		<result property="pdtCategory" column="pdt_category"/>
@@ -30,6 +31,19 @@
 		<result property="pdtThumbNo" column="pdt_thumb_no"/>
 		<result property="pdtNo" column="pdt_no_ref"/>
 		<result property="pdtThumbImage" column="pdt_thumb_image"/>
+	</resultMap>
+	
+	<resultMap type="member" id="memberMap">
+		<result property="memNo" column="mem_no"/>
+		<result property="memNick" column="mem_nick"/>
+		<result property="memPwd" column="mem_pwd"/>
+		<result property="memEmail" column="mem_email"/>
+		<result property="memPro" column="mem_pro"/>
+		<result property="memBuyCount" column="mem_buy_count"/>
+		<result property="memWarnCount" column="mem_warn_count"/>
+		<result property="memManagerYn" column="mem_manager_yn"/>
+		<result property="memStatus" column="mem_status"/>
+		<result property="memPoint" column="mem_point"/>
 	</resultMap>
 	
 	<select id="selectEvent" resultMap="eventMap">
@@ -61,4 +75,11 @@
 			VALUES('PT'||SEQ_PDT_THUMB_NO.NEXTVAL,#{pdtNo},#{renamedFileName});
 	</insert>
 
+	<select id="selectMemberList" resultMap="memberMap">
+		SELECT * FROM MEMBER
+	</select>
+	
+	<select id="selectMemberCount" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER
+	</select>
 </mapper>

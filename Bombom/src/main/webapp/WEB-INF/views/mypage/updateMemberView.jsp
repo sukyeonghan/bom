@@ -62,7 +62,7 @@ $(function(){
    $(".guide").hide();
    
    //닉네임중복체크 가이드
-   $("#memNick").keyup(e=>{
+   $("#myMemNick").keyup(e=>{
 	  var nickReg=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{2,10}$/;
       const memNick=$(e.target).val().trim();
 
@@ -129,7 +129,7 @@ function fn_upload(){
 function fn_updateMember(){
    	var memPwd=$("#memPwd").val().trim();
    	var memPwdCk=$("#memPwdCk").val().trim();
-   	var memNick=$("#memNick").val().trim();
+   	var memNick=$("#myMemNick").val().trim();
    	var pwReg=/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
    	var nickReg=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{2,10}$/;
 	var spaceCk=/\s/;
@@ -139,7 +139,7 @@ function fn_updateMember(){
    		return false;
    	}
 	
-   	if(spaceCk.test($("#memNick").val())){
+   	if(spaceCk.test($("#myMemNick").val())){
    		swal("닉네임에 띄어쓰기는 하실수 없습니다.");
    		return false;
    	}
@@ -242,7 +242,7 @@ function fn_updateMember(){
                <p class="guide pwError left">비밀번호가 일치하지 않습니다.</p>
                <br>
                  <p class="left">닉네임:</p>
-                <input type="text" name="memNick" id="memNick" class="form-control" placeholder="${loginMember.memNick }">
+                <input type="text" name="memNick" id="myMemNick" class="form-control" placeholder="${loginMember.memNick }">
                <p class="guide nickOk left">멋진 닉네임이네요. 사용이 가능합니다.</p>
                <p class="guide nickError left">안타깝네요. 이미 있는 닉네임입니다.</p>
                <p class="guide nickError2 left">닉네임은 한글,영문,숫자만 가능합니다</p>
