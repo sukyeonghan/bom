@@ -1,18 +1,21 @@
 package com.kh.bom.admin.controller;
 
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.admin.model.vo.Event;
+import com.kh.bom.common.page.PageBarFactory;
+import com.kh.bom.member.model.vo.Member;
 
 @Controller
 public class AdminController {
@@ -113,6 +116,18 @@ public class AdminController {
 		mv.addObject("loc", loc);
 		mv.addObject("icon", icon);
 		mv.setViewName("common/msg");
+		return mv;
+	}
+	//회원관리
+	@RequestMapping("/admin/memberList")
+	public ModelAndView memberList(ModelAndView mv,
+			@RequestParam(value="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage) {
+		List<Member> list=service.selectMemberList();
+		int totalData=service.selectMemberCount();
+		mv.addObject("list",list);
+		mv.addObject("pagebar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "memberList"));
+		mv.setViewName("admin/member/memberList");
 		return mv;
 	}
 }

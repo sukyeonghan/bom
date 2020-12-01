@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.bom.admin.model.vo.Event;
+import com.kh.bom.member.model.vo.Member;
 @Repository
 public class AdminDaoImpl implements AdminDao {
 
@@ -23,5 +24,19 @@ public class AdminDaoImpl implements AdminDao {
 	public int insertEvent(SqlSession session, Event e) {
 		return session.insert("admin.insertEvent",e);
 	}
+
+	@Override
+	public List<Member> selectMemberList(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectMemberList");
+	}
+
+	@Override
+	public int selectMemberCount(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectMemberCount");
+	}
+	
+	
 	
 }

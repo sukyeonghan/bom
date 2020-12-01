@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.bom.admin.model.dao.AdminDao;
 import com.kh.bom.admin.model.vo.Event;
+import com.kh.bom.member.model.vo.Member;
 @Service
 public class AdminServiceImpl implements AdminService {
 	
@@ -30,5 +31,20 @@ public class AdminServiceImpl implements AdminService {
 	public int insertEvent(Event e) {
 		return dao.insertEvent(session, e);
 	}
+
+	@Override
+	public List<Member> selectMemberList() {
+		// TODO Auto-generated method stub
+		return dao.selectMemberList(session);
+	}
+
+	@Override
+	public int selectMemberCount() {
+		// TODO Auto-generated method stub
+		return dao.selectMemberCount(session);
+	}
+	
+	
+	
 
 }
