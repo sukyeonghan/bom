@@ -400,13 +400,13 @@
 					</div>
 				</div>
 				
-		    	<!-- 상품평 시작 -->
+		    	<!-- 구매평평 시작 -->
 		    	<div class="tab_box">
-		    		상품평 블라블라
+		    		 구매평 어쩌구저쩌구
 		    	</div>
 		    	
 		    	<!-- 상품문의 시작 -->
-				<div class="tab_box">
+				<div class="tab_box" id="inquiryAjax">
 			        <!--상품문의 작성창-->
 			        <form name="" action="${path}/product/insertInquiry">
 				        <div class="writebox_wrap container col-lg-11" style="float:none; margin:0 auto;">
@@ -416,7 +416,7 @@
 							        <textarea name="inqContent" id="" placeholder="문의내용을 입력해주세요"></textarea>
 									<div style="float:right;">
 								        <label>
-								        	<img id="lockUnlock" src="${path}/resources/images/product/unlock.png" name="inqSecret" style="width:25px;height:25px;">
+						 		        	<img id="lockUnlock" src="${path}/resources/images/product/unlock.png" name="inqSecret" style="width:25px;height:25px;">
 								        	<input type="hidden" id="secret" name="inqSecret" value="N">
 								        </label>
 								        <c:if test="${loginMember!=null }">
@@ -432,35 +432,73 @@
 				        </div>
 			        </form><!-- 상품문의 작성창 끝 -->
 			        <!-- 상품문의 게시글 -->
+			        <div id="result">
 			        <div class="container col-lg-11">
 				        <table class="table">
 					        <thead>
 					        	<tr>
-					        		<td scope="col">내용</td>
-					        		<td scope="col">문의날짜</td>
-					        		<td scope="col">작성자</td>
-					        		<td scope="col">상태</td>
+					        		<td style="width:60%;">내용</td>
+					        		<td style="width:15%;">문의날짜</td>
+					        		<td style="width:15%;">작성자</td>
+					        		<td style="width:10%;">상태</td>
 					        	</tr>
-					        </thead>	
-						<c:forEach items="${list}" var="i">
+					        </thead>
+					    <c:if test="${not empty list }">	
+							<c:forEach items="${list}" var="i">
+					        	<thead>
+					        		<tr>
+					        			<td>
+					        				<c:if test="${i.inqSecret=='N'}">
+					        					<a href="${path}/product/inquiryView?inqNo=${i.inqNo}" onclick="open(this.href,'','top=100px,left=300px,width=600px,height=400px,scollbars=no');return false;">
+					        						<c:out value="${i.inqContent }"/>
+					        					</a>
+					        				</c:if>
+					        				<c:if test="${i.inqSecret=='Y'}">
+					        					<img src="${path}/resources/images/product/lock.png" style="width:20px;height:20px;"> 
+					        					비밀글입니다
+					        				</c:if>
+					        			</td>
+					        			<script>
+					        			
+						        			//상품문의 상세창
+						        			function inquiry_view(){
+						        				const url="${path}/product/inquiryView?inqNo=${i.inqNo}";
+						        				const status = "top=100px, left=300px, widht=600px; height=400px";
+						        				open(url,"",status);
+						        			}
+					        			
+					        			</script>
+					        			
+					        			
+					        			<td><c:out value="${i.inqDate }"/></td>
+					        			<td>
+					        				<c:out value="${i.memNick}"/>
+					        			</td>
+					        			<td>
+					        				<c:if test="${i.inqAnswerYn=='N'}">
+					        					답변대기
+					        				</c:if>
+					        				<c:if test="${i.inqAnswerYn=='Y'}">
+					        					답변완료
+					        				</c:if>
+					        			</td>
+					        		</tr>
+					        	</thead>
+					        </c:forEach>
+				        </c:if>
+				        <c:if test="${empty list }">
 				        	<thead>
 				        		<tr>
-				        			<td scope="col"><c:out value="${i.inqContent }"/></td>
-				        			<td scope="col"><c:out value="${i.inqDate }"/></td>
-				        			<td scope="col"><c:out value="${i.memNo}"/></td>
-				        			<td scope="col">
-				        				<c:if test="${i.inqAnswerYn=='N'}">
-				        					답변대기
-				        				</c:if>
-				        				<c:if test="${i.inqAnswerYn=='Y'}">
-				        					답변완료
-				        				</c:if>
-				        			</td>
+				        			<td colspan="4">등록된 문의가 없습니다</td>
 				        		</tr>
 				        	</thead>
-				        </c:forEach>
+				        </c:if>
 				        </table>
-			        </div>
+			        </div><!-- 상품문의 게시글 끝 -->
+			        <div class="pageBar">
+						<span>${pageBar }</span>
+			    	</div>
+			    	</div>
 
 				</div>
 			</div><!-- tab_box_container -->
@@ -473,7 +511,7 @@
 				<div class="swiper-wrapper">
 					<div class="swiper-slide" style="display: block">
 						<div>
-							<img src="${path}/resources/images/product/coffee1.jpg">
+							<img src="${path}/resources/upload/product/coffee1.jpg">
 						</div>
 						<div class="slideImg"><span>제품명1</span><br><span>제품가격</span></div>
 						<div>
@@ -482,31 +520,31 @@
 					</div>
 					<div class="swiper-slide" style="display: block">
 						<div>
-							<img src="${path}/resources/images/product/soap1.jpg">
+							<img src="${path}/resources/upload/product/soap1.jpg">
 						</div>
 						<div class="slideImg"><span>제품명2</span><br><span>제품가격</span></div>
 					</div>
 					<div class="swiper-slide" style="display: block">
 						<div>
-							<img src="${path}/resources/images/product/som1.jpg">
+							<img src="${path}/resources/upload/product/som1.jpg">
 						</div>
 						<div class="slideImg"><span>제품명3</span><br><span>제품가격</span></div>
 					</div>
 					<div class="swiper-slide" style="display: block">
 						<div>
-							<img src="${path}/resources/images/product/woman1.jpg">
+							<img src="${path}/resources/upload/product/woman1.jpg">
 						</div>
 						<div class="slideImg"><span>제품명4</span><br><span>제품가격</span></div>
 					</div>
 					<div class="swiper-slide" style="display: block">
 						<div>
-							<img src="${path}/resources/images/product/coffee1.jpg">
+							<img src="${path}/resources/upload/product/coffee1.jpg">
 						</div>
 						<div class="slideImg"><span>제품명5</span><br><span>제품가격</span></div>
 					</div>
 					<div class="swiper-slide" style="display: block">
 						<div>
-							<img src="${path}/resources/images/product/coffee1.jpg">
+							<img src="${path}/resources/upload/product/coffee1.jpg">
 						</div>
 						<div class="slideImg"><span>제품명6</span><br><span>제품가격</span></div>
 					</div>
@@ -523,7 +561,8 @@
 	</div><!-- class="row"끝 -->
 
 </section>
-<script>
+
+<script type="text/javascript">
 	//썸네일 바꾸기 스크립트
 	$(function() {
 		$(".small_image a").click(function() {
@@ -628,7 +667,7 @@
 	$("#lockUnlock").click(function() {
 		$(this).attr("src", function(index, attr) {
 			if(attr.match("unlock")) {
-				$("#secret").attr("value",function(index,attr){
+				$("#secret").attr("value",function(index,attr){ 
 					if(attr.match("N")){
 						console.log("Y");
 						return attr.replace("N","Y");
@@ -647,12 +686,30 @@
 		});
 	});
 	
+	
 	//구매하기,장바구니,찜하기,상품문의 클릭 시 로그인 체크
 	$(function() {
 		$(".loginCheck").click(function() {
 			alert("로그인을 먼저 해주세요");
 		});
 	});
+	
+	//상품문의 페이징
+	$(function(){
+		$("#inquiryAjax").click(e=>{
+			console.log("이거 클릭");
+			$.ajax({
+				url:"${path}/product/productOneAjax",
+				data:{cPage:1,numPerpage:"${numPerPage}"},
+				type:"get",
+				success:data=>{
+					console.log(data);
+					$("#result").html("");
+					$("#result").html(data);
+				}
+			});
+		});
+	});	
 	
 	
 	

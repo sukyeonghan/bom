@@ -18,4 +18,7 @@ public interface MemberDao {
 	Member selectOneMember(SqlSession session, String email);
 
 	Member selectMemberEmail(SqlSession session, String email);
+
+	int updateMemBuyCount(SqlSession session, String memNo);
+
 }

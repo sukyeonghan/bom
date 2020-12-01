@@ -15,5 +15,7 @@
 		<typeAlias type="com.kh.bom.product.model.vo.Product" alias="product"/>
 		<typeAlias type="com.kh.bom.product.model.vo.ProductOption" alias="option"/>
 		<typeAlias type="com.kh.bom.product.model.vo.ProductThumb" alias="thumb"/>
+		<typeAlias type="com.kh.bom.common.typehandler.DateStringTypeHandler" alias="dateStr"/>
+
 	</typeAliases>
 </configuration>

@@ -7,10 +7,21 @@
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <style>
+/*모달차 내 로고  */
+.logoimg{
+	width:auto;
+	height:40px;
+}
+.logo-box{
+	text-align:center;
+	width:440px;
+	margin-left:29px;
+}
  /*모달 창  */
     .social-container {
         text-align: center;
         padding: 16px;
+       
       }
       p.p-info {
         margin: 1rem 0 1rem 0;
@@ -23,6 +34,7 @@
         text-align: center;
       }
       input[type=password] {font-family: "NanumSquare";}
+    
  /*유효성 검사*/
   .pwOk,.nickOk,.emailOk {color:green; margin:3px;}
   .pw, .nickError,.nickError2,.emailError,.emailError2,.emailSize{color:red; margin:3px;}
@@ -153,10 +165,13 @@
           <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-              <h4 class="modal-title">다시:봄으로 회원가입</h4>
-              <button type="button" class="close" data-dismiss="modal">
-               X
-              </button>
+             <div class="logo-box">
+            	<img class="logoimg" src="${path }/resources/images/springAgainLogo.png" alt="mainLogo">
+              	<h4 class="modal-title">회원가입</h4>
+              </div>
+  				 <button type="button" class="close" data-dismiss="modal">
+              		  X
+             	 </button>
             </div>
 
             <!-- Modal body -->
@@ -226,7 +241,7 @@
                 <br />
                 <p class="p-class">이미 회원이신가요?</p>
                 <a
-                  class="login"
+                  class="login-link"
                   data-toggle="modal"
                   data-target="#loginModal"
                   data-dismiss="modal"
@@ -242,14 +257,18 @@
       <!--로그인창  -->
           <!-- The Modal -->
       <div class="modal fade" id="loginModal">
+      
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-              <h4 class="modal-title">다시:봄으로 로그인</h4>
-              <button type="button" class="close" data-dismiss="modal">
-                X
-              </button>
+             <div class="logo-box">
+            	<img class="logoimg" src="${path }/resources/images/springAgainLogo.png" alt="mainLogo">
+              	<h4 class="modal-title">로그인</h4>
+              </div>
+  				 <button type="button" class="close" data-dismiss="modal">
+              		  X
+             	 </button>
             </div>
 
             <!-- Modal body -->
@@ -308,7 +327,7 @@
                   data-dismiss="modal">비밀번호를 잊어 버렸어요.</a>
                 <p class="p-class">아직 회원이 아니신가요?</p>
                 <a href="#"
-                class="signUp"
+               	class="signUp"
                   data-toggle="modal"
                   data-target="#myModal"
                   data-dismiss="modal"
@@ -325,10 +344,13 @@
           <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-              <h4 class="modal-title">다시:봄 비밀번호 찾기</h4>
-              <button type="button" class="close" data-dismiss="modal">
-                X
-              </button>
+             <div class="logo-box">
+            	<img class="logoimg" src="${path }/resources/images/springAgainLogo.png" alt="mainLogo">
+              	<h4 class="modal-title">비밀번호 찾기</h4>
+              </div>
+  				 <button type="button" class="close" data-dismiss="modal">
+              		  X
+             	 </button>
             </div>
 
             <!-- Modal body -->
@@ -392,7 +414,7 @@
             <div class="social-container">
               <p class="p-class">비밀번호가 기억나셨다고요?</p>
               <a 
-             	 class="login"
+             	 class="login-link"
                   data-toggle="modal"
                   data-target="#loginModal"
                   data-dismiss="modal"
@@ -407,10 +429,13 @@
           <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-              <h4 class="modal-title">다시:봄 비밀번호 찾기</h4>
-              <button type="button" class="close" data-dismiss="modal">
-                X
-              </button>
+            <div class="logo-box">
+            	<img class="logoimg" src="${path }/resources/images/springAgainLogo.png" alt="mainLogo">
+              	<h4 class="modal-title">비밀번호 재설정</h4>
+              </div>
+  				 <button type="button" class="close" data-dismiss="modal">
+              		  X
+             	 </button>
             </div>
 
             <!-- Modal body -->
