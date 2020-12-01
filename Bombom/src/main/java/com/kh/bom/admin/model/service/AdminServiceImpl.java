@@ -33,9 +33,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<Member> selectMemberList() {
+	public List<Member> selectMemberList(int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return dao.selectMemberList(session);
+		return dao.selectMemberList(session,cPage, numPerpage);
 	}
 
 	@Override

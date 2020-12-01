@@ -2,6 +2,7 @@ package com.kh.bom.admin.model.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -26,9 +27,9 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public List<Member> selectMemberList(SqlSession session) {
+	public List<Member> selectMemberList(SqlSession session,int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
-		return session.selectList("admin.selectMemberList");
+		return session.selectList("admin.selectMemberList","",new RowBounds((cPage-1)*numPerpage,numPerpage));
 	}
 
 	@Override

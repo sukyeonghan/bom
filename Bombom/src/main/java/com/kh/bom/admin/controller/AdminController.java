@@ -123,10 +123,11 @@ public class AdminController {
 	public ModelAndView memberList(ModelAndView mv,
 			@RequestParam(value="cPage",defaultValue="1") int cPage,
 			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage) {
-		List<Member> list=service.selectMemberList();
+		List<Member> list=service.selectMemberList(cPage, numPerpage);
 		int totalData=service.selectMemberCount();
 		mv.addObject("list",list);
-		mv.addObject("pagebar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "memberList"));
+		mv.addObject("cPage", cPage);
+		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "memberList"));
 		mv.setViewName("admin/member/memberList");
 		return mv;
 	}

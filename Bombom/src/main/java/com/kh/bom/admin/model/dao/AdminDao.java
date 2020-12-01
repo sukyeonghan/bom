@@ -12,6 +12,6 @@ public interface AdminDao {
 	int eventDelete(SqlSession session, String eventNo);
 	int insertEvent(SqlSession session, Event e);
 	
-	List<Member> selectMemberList(SqlSession session);
+	List<Member> selectMemberList(SqlSession session, int cPage, int numPerpage);
 	int selectMemberCount(SqlSession session);
 }

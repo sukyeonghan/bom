@@ -10,6 +10,6 @@ public interface AdminService {
 	int eventDelete(String eventNo);
 	int insertEvent(Event e);
 	
-	List<Member> selectMemberList();
+	List<Member> selectMemberList(int cPage, int numPerpage);
 	int selectMemberCount();
 }
