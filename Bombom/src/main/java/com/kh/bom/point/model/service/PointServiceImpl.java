@@ -37,7 +37,7 @@ public class PointServiceImpl implements PointService {
 			
 			result = dao.insertStampPoint(session, p);
 			result = memberDao.updateMemBuyCount(session,p.getMemNo());
-			result = 0;
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 			throw new Exception();
