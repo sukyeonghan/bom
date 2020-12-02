@@ -72,7 +72,7 @@
 	
 	<insert id="insertThumb" parameterType="thumb">
 		INSERT INTO PRODUCT_THUMB
-			VALUES('PT'||SEQ_PDT_THUMB_NO.NEXTVAL,#{pdtNo},#{renamedFileName});
+			VALUES('PT'||SEQ_PDT_THUMB_NO.NEXTVAL,#{pdtNo},#{renamedFileName})
 	</insert>
 
 	<select id="selectMemberList" resultMap="memberMap">

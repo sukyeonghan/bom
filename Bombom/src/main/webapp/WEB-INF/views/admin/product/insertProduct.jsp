@@ -37,12 +37,12 @@
 		padding:5px;
 	}
 	tr,th,td{
-		padding:15px;
+		padding:10px;
 	}
 	
     /*제품 설명*/
      #middle-div{
-    	margin-left:15px;
+    	margin-left:10px;
     	margin-bottom:20px;
     }
     .title{
@@ -54,21 +54,21 @@
    
    /* 제품 썸네일,상세 이미지 등록*/
     #bottom-div{
-    	margin-left:15px;
+    	margin-left:10px;
     	margin-top: 40px;
     }
     
     /*썸네일*/
     /*썸네일 이미지 전체 div*/
-    #thumbWrap{
+    #thumbContainer{
     	overflow:hidden;
     }
     /*바깥 div*/
-    .test{
+    .thumbWrap{
     	width:150px;
     	height:170px;
     	float:left;
-    	margin:35px;
+    	margin:45px;
     	position:relative;
    	}
    	/*썸네일1,썸네일2.. 타이틀*/
@@ -96,7 +96,6 @@
     /*이미지 삭제 버튼*/
     .close{border:none;}
  
-   
     /*상세 이미지 등록 div*/
     #detail-image{
     	margin-top:20px;
@@ -112,6 +111,9 @@
     .delBtn{
     	margin-left:10px;
     }
+    .delBtn2{
+    	margin-left:15px;
+    }
     
     /*등록하기,목록 버튼*/
     #bottom-btns{
@@ -120,6 +122,7 @@
     }
     .insertPro,.goList{
     	display:flex;
+    	margin:5px;
     }
 </style>
 
@@ -216,7 +219,7 @@
 					<tr>
                         <th>추가 옵션</th>
                         <td colspan="3">
-                        	<input type="button" class="btn btn-success" id="add-option" value="옵션 추가하기">
+                        	<input type="button" class="btn btn-success btn-sm" id="add-option" value="옵션 추가하기">
                         </td>
                     </tr>
                     <tr class="trOption" name="trOption">
@@ -225,7 +228,7 @@
                         <th>추가 요금</th>
                         <td>
                         	<input type="text" name="pdtOptionAddprice">
-                        	<button class="btn btn-success delBtn" name="delBtn" >삭제</button>
+                        	<button class="btn btn-success btn-sm delBtn" name="delBtn" >삭제</button>
                         </td>
                     </tr>
 				</table>
@@ -239,8 +242,8 @@
 				<!-- 제품 썸네일,상세 이미지 등록 -->
 				<div id="bottom-div">
 					<p class="title">제품 썸네일 이미지(최대 6장)</p>
-					<div id="thumbWrap">
-						<div class="test" > 
+					<div id="thumbContainer">
+						<div class="thumbWrap" > 
 			     			<div>
 			     				<p class="sumTitle">썸네일1(메인)</p>
 			     			</div>
@@ -251,7 +254,7 @@
 				     		</div>
 			     		</div>
 			     				
-			     		<div class="test" > 
+			     		<div class="thumbWrap" > 
 			     			<div>
 			     				<p class="sumTitle">썸네일2</p>
 			     			</div>
@@ -262,7 +265,7 @@
 							</div>
 			     		</div>
 			     		
-			     		<div class="test" > 
+			     		<div class="thumbWrap" > 
 			     			<div>
 			     				<p class="sumTitle">썸네일3</p>
 			     			</div>
@@ -273,7 +276,7 @@
 				     		</div>
 				     	</div>
 			     		
-			     		<div class="test" > 
+			     		<div class="thumbWrap" > 
 			     			<div>
 			     				<p class="sumTitle">썸네일4</p>
 			     			</div>
@@ -284,7 +287,7 @@
 				     		</div>
 				     	</div>
 			     		
-			     		<div class="test" > 
+			     		<div class="thumbWrap" > 
 			     			<div>
 			     				<p class="sumTitle">썸네일5</p>
 			     			</div>
@@ -295,7 +298,7 @@
 				     		</div>
 				     	</div>
 			     		
-			     		<div class="test" > 
+			     		<div class="thumbWrap" > 
 			     			<div>
 			     				<p class="sumTitle">썸네일6</p>
 			     			</div>
@@ -343,7 +346,8 @@
         addOption+='<th>&nbsp&nbsp옵션 내용</th>';
         addOption+='<td><input type="text" name="pdtOptionContent"></td>';
         addOption+='<th>추가 요금</th>';
-        addOption+='<td><input type="text" name="pdtOptionAddprice"><button class="btn btn-success delBtn" name="delBtn" onclick="">삭제</button></td>';
+        addOption+='<td><input type="text" name="pdtOptionAddprice">';
+        addOption+='<button class="btn btn-success btn-sm delBtn2" name="delBtn">삭제</button></td>';
         addOption+='</tr>';
 
    		$("#insert-table").append(addOption);
@@ -365,13 +369,12 @@
 		   });
 		   //파일 업로드시 이미지 체인지
 		   $("#input1,#input2,#input3,#input4,#input5,#input6").on("change",e =>{ 
-			   console.log(e.target);
-			   console.log($(e.target).prev().attr("src"));
+/* 			   console.log(e.target);
+			   console.log($(e.target).prev().attr("src")); */
 			 
 		      let reader=new FileReader();
 		      let img=  $(e.target).prev();
 		      reader.onload=e=>{
-		       
 		       img.attr("src",e.target.result); 
 		      }
 		      reader.readAsDataURL($(e.target)[0].files[0]);

@@ -34,12 +34,12 @@ public class AdminController {
 	@Autowired
 	private AdminService service;
 
-	//제품 관리페이지 전환
+	//by수경-제품 관리페이지 전환
 	@RequestMapping("/admin/moveProduct")
 	public String moveProductListPage() {
 		return "admin/product/productList";
 	}
-	//제품 등록 페이지 전환
+	//by수경-제품 등록 페이지 전환
 	@RequestMapping("/admin/productInsert")
 	public ModelAndView moveProductinsertPage(ModelAndView m) {
 		List<Event> selectEvent =service.selectEvent();
@@ -47,7 +47,7 @@ public class AdminController {
 		m.setViewName("admin/product/insertProduct");
 		return m;
 	}
-	//제품 등록
+	//by수경-제품 등록-201202수정
 	@RequestMapping("/admin/productInsertEnd")
 	public ModelAndView insertProduct(Product p,ModelAndView m,
 			@RequestParam(value="pdtOptionAddprice", required = false,defaultValue="0") int addPrice, 
@@ -98,9 +98,23 @@ public class AdminController {
 			p.setPdtDetailImage(reName);
 		}
 		int result=service.insertProduct(p,files);
+		String msg="";
+		String icon = "";
+		if(result>0) {
+			msg="제품 등록이 완료되었습니다.";
+			icon = "success";
+		}else {
+			msg="제품 등록에 실패하였습니다.";
+			icon = "error";
+		}
+		m.addObject("msg", msg);
+		m.addObject("loc","/admin/moveProduct");
+		m.addObject("icon", icon);
+		m.setViewName("common/msg");
 		return m;
 	}
-	//제품 수정 및 삭제 페이지 전환
+	
+	//by수경-제품 수정 및 삭제 페이지 전환
 	@RequestMapping("/admin/productUpdate")
 	public String moveProductUpdatePage() {
 		return "admin/product/updateProduct";
