@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zzim">
+	<resultMap type="zzim" id="zzimMap">
+		<result property="zzimNo" column="zzim_no"/>
+		<result property="memNo" column="mem_no"/>
+		<result property="zzimName" column="zzim_name"/>
+	</resultMap>
+	<resultMap type="zzimContent" id="zzimContentMap">
+		<result property="pdtNo" column="pdt_no"/>
+		<result property="zzimNo" column="zzim_no"/>
+		<result property="zzimDate" column="zzim_date"/>	
+	</resultMap>
+	
+	
+</mapper>
