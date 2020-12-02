@@ -51,6 +51,13 @@ public class CommunityServiceImpl implements CommunityService {
 		// TODO Auto-generated method stub
 		return dao.updateCommunity(session,community);
 	}
+
+
+	@Override
+	public int communityView(String cmNo) {
+		// TODO Auto-generated method stub
+		return dao.communityView(session, cmNo);
+	}
 	
 	
 

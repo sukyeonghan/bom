@@ -40,6 +40,12 @@ public class CommunityDaoImpl implements CommunityDao {
 		return session.update("community.updateCommunity",community);
 	}
 
+	@Override
+	public int communityView(SqlSession session, String cmNo) {
+		// TODO Auto-generated method stub
+		return session.update("community.communityView",cmNo);
+	}
+
 	
 	
 

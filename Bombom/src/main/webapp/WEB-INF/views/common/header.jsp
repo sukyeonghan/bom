@@ -60,6 +60,7 @@
     <!-- 부트스트랩 -->
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
@@ -67,6 +68,11 @@
     
 	<!-- sweet alert -->
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	
+	<!-- icon -->
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
 </head>
 
 <body>
@@ -92,13 +98,18 @@
                     </c:if>
                     
                     <c:if test="${loginMember!=null }">
+                    	<li><c:out value="${loginMember.memNick }"/></li>
 	                    <li class="nav-item">
 	                    <a class="nav-link"  onclick="location.replace('${path}/member/logout');">로그아웃</a></li>
 	                    
 	                    <li class="nav-item"><a class="nav-link" href="${path }/mypage/orderStatus">마이페이지</a></li>
                     	<li class="nav-item"><a class="nav-link" href="${path }/order/basket">장바구니</a></li>
                   	</c:if>
-                    <li class="nav-item"><a class="nav-link" href="#">검색</a></li>
+                    <li class="nav-item">
+                    	<a class="nav-link" data-toggle="modal"data-target="#searchModal">
+                    		<i class="fa fa-search w3-text-green"></i>
+                    	</a>
+                    </li>
                 </ul>
             </div>
             <div id="logo-wrap">
@@ -122,7 +133,11 @@
                                 <li><a class="" href="#">할인상품</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="${path }/community/communityList">커뮤니티</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${path }/community/communityList">커뮤니티</a>
+                        <c:if test="${loginMember == null }">
+                        
+                        </c:if>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">게시판</a>
                             <ul class="">
@@ -478,6 +493,31 @@
         </div>
       </div>
  </div>	<!--container div 모달끝  -->
+ 
+<!-- 검색모달 -->
+<div id="search-container">
+	<!-- The Modal -->
+	<div class="modal fade" id="searchModal">
+	  <div class="modal-dialog modal-xl">
+	    <div class="modal-content">
+	
+	      <!-- Modal body -->
+	      <div class="modal-body">
+	        	<span>검색</span> <input type="text" placeholder="검색어를 입력하세요" class="col-xl-10 search_input" >
+	      </div>
+	      
+	    </div>
+	  </div>
+	</div>
+
+	</div>
+<style>
+.search_input {
+	border: none;
+}
+
+</style><!-- 검색모달 종료  -->
+	
  <script>
  $(function(){
 	 $(".guide").hide();

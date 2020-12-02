@@ -17,5 +17,7 @@
 		<typeAlias type="com.kh.bom.product.model.vo.ProductThumb" alias="thumb"/>
 		<typeAlias type="com.kh.bom.common.typehandler.DateStringTypeHandler" alias="dateStr"/>
 		<typeAlias type="com.kh.bom.common.typehandler.intTypeHandler" alias="intArr"/>
+		<typeAlias type="com.kh.bom.zzim.model.vo.Zzim" alias="zzim"/>
+		<typeAlias type="com.kh.bom.zzim.model.vo.ZzimContent" alias="zzimContent"/>
 	</typeAliases>
 </configuration>
