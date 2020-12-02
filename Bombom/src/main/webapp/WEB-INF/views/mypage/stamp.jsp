@@ -28,9 +28,10 @@
 	@keyframes bounce {100% {top: -5px;}}
 	#giftBtn{margin-top: 30px; padding: 10px; font-size: 20px;}
 	/*모달창*/
-	img#stamp-modal-img{width:80%;}
+	img.stamp-modal-img{width:80%;}
 	.nickColor{color:#45A663; font-size: 1.2em; }
-	#StampCheckBtn{margin:0; padding: 10px;}
+	#eventSubmit{margin-top: 20px;width: 100%; }
+}
 </style>
 <section id="container" class="container">
 	<div class="media">
@@ -68,7 +69,7 @@
 		<!--좌측메뉴선택시 화면 -->
 		<div id="mypage-container" class="media-body">
 			
-			<img alt="스탬프안내사항" src="${path }/resources/images/stamp/stampInfo.png" width="100%">
+			<img alt="스탬프안내사항" src="${path }/resources/images/stamp/stampInfo.jpg" width="100%">
 			<c:if test="${loginMember.memBuyCount >= 10}">
 				<div style="text-align:center;">
 					<button id="giftBtn" class="btn btn-success btn-block" data-toggle="modal" data-target="#stampModal">선물받으러 가자!</button>
@@ -76,13 +77,31 @@
 			</c:if>
 			<!-- 스탬프칸 -->
 			<div id="stampBigdiv">
-				<c:forEach begin="1" end="${loginMember.memBuyCount }" step="1" varStatus="vs">
-					<td><img class="stamp up" alt="엣헴이도장" src="${path }/resources/images/stamp/stamp${vs.index}.png"></td>
-				</c:forEach>
-				<c:forEach begin="1" end="${10-loginMember.memBuyCount }" step="1">
-					<td><img class="stamp" alt="잠금도장" src="${path }/resources/images/stamp/stamp0.png"></td>
-				</c:forEach>
+				<c:choose>
+				<c:when test="${loginMember.memBuyCount >= 10}">
+					<c:forEach begin="1" end="10" step="1" varStatus="vs">
+						<td><img class="stamp up" alt="엣헴이도장" src="${path }/resources/images/stamp/stamp${vs.index}.png"></td>
+					</c:forEach>
+				</c:when>
+				<c:when test="${loginMember.memBuyCount == 0}">
+					<c:forEach begin="1" end="10" step="1">
+						<td><img class="stamp" alt="잠금도장" src="${path }/resources/images/stamp/stamp0.png"></td>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<c:forEach begin="1" end="${loginMember.memBuyCount }" step="1" varStatus="vs">
+						<td><img class="stamp up" alt="엣헴이도장" src="${path }/resources/images/stamp/stamp${vs.index}.png"></td>
+					</c:forEach>
+					<c:forEach begin="1" end="${10-loginMember.memBuyCount }" step="1">
+						<td><img class="stamp" alt="잠금도장" src="${path }/resources/images/stamp/stamp0.png"></td>
+					</c:forEach>
+				</c:otherwise>
+				
+				</c:choose>
 			</div>
+			<br>
+			<hr>
+			<strong>&#128151; 10,000원이상 구매시 엣헴이가 도장을 드립니다.</strong>
 			
 		</div>
 		
@@ -102,42 +121,39 @@
 		        	<br>
 		        	<h4><strong class="nickColor"><c:out value="${loginMember.memNick }"/></strong>님 축하합니다!</h4>
 		        	<br>
+		        	<!-- 적립금 랜덤 발생기 -->
 		        	<%
 		        		int bom=0;
-		        		int r=(int)(Math.random() *100*100);
-		        		if(r<=20){
+		        		int r=(int)(Math.random()*100);
+		        		if(r<=30){
 		        			bom=1000;
-		        		}else if(20<r&&r<=70){
+		        		}else if(30<r && r<=80){
 		        			bom=3000;
 		        		}else{
 		        			bom=5000;
 		        		}
-		        	
 		        	%>
-		        	<c:if test="<%=bom=1000 %>">
-		        		<img id="stamp-modal-img" src="${path }/resources/images/stamp/stamp10ok1.png" alt="축하합니다. 1000봄 지급됩니다.">
+		        	<c:set var="bom" value="<%=bom %>"/>
+		        	<c:if test="${bom  == 1000}">
+		        		<img class="stamp-modal-img" src="${path }/resources/images/stamp/stamp10ok1.png" alt="축하합니다. 1000봄 지급됩니다.">
 		        	</c:if>
-		        		<c:if test="<%=bom=3000 %>">
-		        	<img id="stamp-modal-img" src="${path }/resources/images/stamp/stamp10ok2.png" alt="축하합니다. 3000봄 지급됩니다.">
-		        		</c:if>
-		        	<c:if test="<%=bom=5000 %>">
-		        		<img id="stamp-modal-img" src="${path }/resources/images/stamp/stamp10ok3.png" alt="축하합니다. 5000봄 지급됩니다.">
+		        	<c:if test="${bom  == 3000}">
+		        		<img class="stamp-modal-img" src="${path }/resources/images/stamp/stamp10ok2.png" alt="축하합니다. 3000봄 지급됩니다.">
 		        	</c:if>
+		        	<c:if test="${bom  == 5000}">
+		        		<img class="stamp-modal-img" src="${path }/resources/images/stamp/stamp10ok3.png" alt="축하합니다. 5000봄 지급됩니다.">
+		        	</c:if>
+		        	
+		        	<form action="${path }/mypage/stamp10" method="post">
+		          		<input type="hidden" value="${bom }" name="pointChange">
+		          		<input type="hidden" value="${loginMember.memNo }" name="memNo">
+		          		<input type="submit" id="eventSubmit" class="btn btn-success btn-block" value="확인">
+		      		</form>
 		        </div>
-		        
-		        <!-- Modal footer -->
-		        <div class="modal-footer">
-		          <form action="/mypage/stamp10" method="post">
-		          	<input type="hidden" value="<%=bom %>" name="pointChange">
-		          	<input type="hidden" value="${loginMember.memNo }" name="memNo">
-		          	<button type="submit" id="StampCheckBtn" class="btn btn-success btn-block">확인</button>
-		          </form>
-		        </div>
-		        
+
 		      </div>
 		    </div>
 		  </div>
-		
 		
 	</div>
 </section>

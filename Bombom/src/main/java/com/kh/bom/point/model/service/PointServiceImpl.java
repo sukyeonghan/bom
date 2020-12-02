@@ -1,12 +1,13 @@
 package com.kh.bom.point.model.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.bom.member.model.dao.MemberDao;
 import com.kh.bom.point.model.dao.PointDao;
 import com.kh.bom.point.model.vo.Point;
 
@@ -14,22 +15,44 @@ import com.kh.bom.point.model.vo.Point;
 public class PointServiceImpl implements PointService {
 	
 	@Autowired
-	SqlSession session;
+	private SqlSession session;
 	
 	@Autowired
-	PointDao dao;
+	private PointDao dao;
+	@Autowired
+	private MemberDao memberDao;
 
 	@Override
-	public int stamp10(Map param) {
+	public List<Point> selectPointList(String memNo,int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return dao.stamp10(session,param);
+		return dao.selectPointList(session,memNo,cPage,numPerpage);
 	}
 
 	@Override
-	public List<Point> selectPointList(String memNo) {
+	@Transactional(rollbackFor =Exception.class)
+	public int insertStampPoint(Point p) throws Exception{
 		// TODO Auto-generated method stub
-		return dao.selectPointList(session,memNo);
+		int result=0;
+		try {
+			
+			result = dao.insertStampPoint(session, p);
+			result = memberDao.updateMemBuyCount(session,p.getMemNo());
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception();
+		}
+	
+		return result;
 	}
+
+	@Override
+	public int selectCount(String memNo) {
+		// TODO Auto-generated method stub
+		return dao.selectCount(session,memNo);
+	}
+	
+	
 	
 	
 }
