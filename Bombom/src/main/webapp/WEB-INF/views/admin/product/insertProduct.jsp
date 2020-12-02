@@ -159,21 +159,22 @@
 			<h3 class="page-title">제품등록</h3> 
 			
 			<!-- 제품 등록 -->
-			<form>
+			<form action="${path }/admin/productInsertEnd" method="post"
+         enctype="multipart/form-data">
 				<table id="insert-table">
 					<tr>
 						<th>카테고리</th>
 						<td>
 						<!-- 검색 카테고리 -->
 							<div class="select-box">
-								<select class="sort">
+								<select class="sort" name="pdtCategory" required>
 									<option selected disabled hidden>카테고리 선택</option>
-									<option>식품</option>
-									<option>잡화</option>
-									<option>주방</option>
-									<option>욕실</option>
-									<option>여성용품</option>
-									<option>반려동물</option>
+									<option value="식품">식품</option>
+									<option value="잡화">잡화</option>
+									<option value="주방">주방</option>
+									<option value="욕실">욕실</option>
+									<option value="여성용품">여성용품</option>
+									<option value="반려동물">반려동물</option>
 								</select>
 							</div>
 						</td>
@@ -181,32 +182,30 @@
 						<td>
 							<!-- 판매상태 카테고리 -->
 							<div class="select-box">
-								<select class="sort">
+								<select class="sort" name="pdtStatus" required>
 									<option selected disabled hidden>판매상태 선택</option>
-									<option>Y</option>
-									<option>N</option>
+									<option value="Y">Y</option>
+									<option value="N">N</option>
 								</select>
 							</div>
 						</td>
 					</tr>
 					<tr>
 						<th>제품명</th>
-						<td><input type="text"></td>
+						<td><input type="text" name="pdtName" required></td>
 						<th>제품기본가격</th>
-						<td>
-							<input type="text">
-						</td>
+						<td><input type="text" name="pdtPrice" required></td>
 					</tr>
 					<tr>
 						<th>이벤트</th>
-						<td colspan=3">
+						<td colspan="3">
 						<!-- 이벤트 카테고리 -->
 							<div class="select-box">
-								<select class="sort">
-									<option>이벤트 선택</option>
+								<select class="sort" name="eventNoRef">
+									<option value="">이벤트 선택</option>
 									<c:if test="${not empty list}">
 										<c:forEach var="e" items="${list}">
-											<option><c:out value="${e.eventTitle }"/></option>
+											<option><c:out value="${e.eventNo }"/></option>
 										</c:forEach>
 									</c:if>
 								</select>
@@ -222,16 +221,19 @@
                     </tr>
                     <tr class="trOption" name="trOption">
                         <th>&nbsp&nbsp옵션 내용</th>
-                        <td><input type="text"></td>
+                        <td><input type="text" name="pdtOptionContent"></td>
                         <th>추가 요금</th>
-                        <td><input type="text"><button class="btn btn-success delBtn" name="delBtn" >삭제</button></td>
+                        <td>
+                        	<input type="text" name="pdtOptionAddprice">
+                        	<button class="btn btn-success delBtn" name="delBtn" >삭제</button>
+                        </td>
                     </tr>
 				</table>
 				
-				<!-- 제품 설명-50자 이내로 받기 -->
+				<!-- 제품 설명 -->
 				<div id="middle-div">
 					<p class="title" id="product-intro">간단한 제품 설명</p>
-					<textarea id="intro-text" rows="5" cols="100" placeholder="50자 이내로 적어주세요"></textarea>
+					<textarea id="intro-text" rows="5" cols="100" placeholder="50자 이내로 적어주세요" name="pdtIntro" required></textarea>
 				</div>
 				
 				<!-- 제품 썸네일,상세 이미지 등록 -->
@@ -244,7 +246,7 @@
 			     			</div>
 							<div class="proDiv" id="1"> 
 								<img class="proImg" src="${path }/resources/images/product/plus2.png">
-								<input type="file" class="proPic" id="input1" accept="image/gif, image/jpeg, image/png" style="display:none;">
+								<input type="file" class="proPic" name="thumbImgs" id="input1" accept="image/gif, image/jpeg, image/png" style="display:none;">
 								<input type="button" class="close" value="x">
 				     		</div>
 			     		</div>
@@ -255,7 +257,7 @@
 			     			</div>
 			     			<div class="proDiv" id="2">
 				     			<img class="proImg" src="${path }/resources/images/product/plus2.png">
-								<input type="file" class="proPic" id="input2" accept="image/gif, image/jpeg, image/png" style="display:none;">
+								<input type="file" class="proPic" name="thumbImgs" id="input2" accept="image/gif, image/jpeg, image/png" style="display:none;">
 								<input type="button" class="close" value="x">
 							</div>
 			     		</div>
@@ -266,7 +268,7 @@
 			     			</div>
 				     		<div class="proDiv" id="3"> 
 								<img class="proImg" src="${path }/resources/images/product/plus2.png">
-								<input type="file"  class="proPic" id="input3"  accept="image/gif, image/jpeg, image/png" style="display:none;">
+								<input type="file"  class="proPic" name="thumbImgs" id="input3"  accept="image/gif, image/jpeg, image/png" style="display:none;">
 								<input type="button" class="close" value="x">
 				     		</div>
 				     	</div>
@@ -277,7 +279,7 @@
 			     			</div>
 				     		<div class="proDiv" style="float:left" id="4"> 
 								<img class="proImg" src="${path }/resources/images/product/plus2.png">
-								<input type="file"  class="proPic" id="input4"  accept="image/gif, image/jpeg, image/png" style="display:none;">
+								<input type="file"  class="proPic" name="thumbImgs" id="input4"  accept="image/gif, image/jpeg, image/png" style="display:none;">
 								<input type="button" class="close" value="x">
 				     		</div>
 				     	</div>
@@ -288,7 +290,7 @@
 			     			</div>
 				     		<div class="proDiv" style="float:left" id="5"> 
 								<img class="proImg" src="${path }/resources/images/product/plus2.png">
-								<input type="file"  class="proPic" id="input5"  accept="image/gif, image/jpeg, image/png" style="display:none;">
+								<input type="file"  class="proPic" name="thumbImgs" id="input5"  accept="image/gif, image/jpeg, image/png" style="display:none;">
 								<input type="button" class="close" value="x">
 				     		</div>
 				     	</div>
@@ -299,7 +301,7 @@
 			     			</div>
 				     		<div class="proDiv" style="float:left" id="6"> 
 								<img class="proImg" src="${path }/resources/images/product/plus2.png">
-								<input type="file"  class="proPic" id="input6"  accept="image/gif, image/jpeg, image/png" style="display:none;">
+								<input type="file"  class="proPic" name="thumbImgs" id="input6"  accept="image/gif, image/jpeg, image/png" style="display:none;">
 								<input type="button" class="close" value="x">
 				     		</div>
 				     	</div>
@@ -308,7 +310,7 @@
 					
 		      		<div id="detail-image">
 			      		<p class="title">제품 상세 이미지(총 1장)</p>
-			      		<input type="file" class="form-control-file border">
+			      		<input type="file" class="form-control-file border" name="detailImg">
 		      		</div>
 				</div>
 				
@@ -339,9 +341,9 @@
 		var addOption="";
         addOption+='<tr class="trOption" name="trOption">';
         addOption+='<th>&nbsp&nbsp옵션 내용</th>';
-        addOption+='<td><input type="text"></td>';
+        addOption+='<td><input type="text" name="pdtOptionContent"></td>';
         addOption+='<th>추가 요금</th>';
-        addOption+='<td><input type="text"><button class="btn btn-success delBtn" name="delBtn" onclick="">삭제</button></td>';
+        addOption+='<td><input type="text" name="pdtOptionAddprice"><button class="btn btn-success delBtn" name="delBtn" onclick="">삭제</button></td>';
         addOption+='</tr>';
 
    		$("#insert-table").append(addOption);

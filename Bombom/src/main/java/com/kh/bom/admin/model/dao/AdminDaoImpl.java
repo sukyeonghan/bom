@@ -7,7 +7,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.bom.admin.model.vo.Event;
+import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.product.model.vo.ProductOption;
+import com.kh.bom.product.model.vo.ProductThumb;
 import com.kh.bom.member.model.vo.Member;
+
 @Repository
 public class AdminDaoImpl implements AdminDao {
 
@@ -37,6 +41,29 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectMemberCount");
 	}
+	
+	
+	
+	//상품등록
+	@Override
+	public int insertProduct(SqlSession session, Product p) {
+		// TODO Auto-generated method stub
+		return session.insert("admin.insertProduct",p);
+	}
+	//옵션 등록
+	@Override
+	public int insertOption(SqlSession session,Product p) {
+		return session.insert("admin.insertOption",p);
+	}
+	
+	//썸네일 등록
+	@Override
+	public int insertThumb(SqlSession session, ProductThumb th) {
+		// TODO Auto-generated method stub
+		return session.insert("admin.insertThumb",th);
+	}
+	
+	
 	
 	
 	

@@ -9,6 +9,30 @@
 		<result property="eventCategory" column="event_category"/>
 		<result property="eventSalePer" column="event_sale_per"/>
 	</resultMap>
+
+	<resultMap type="product" id="productMap">
+		<result property="pdtNo" column="pdt_no"/>
+		<result property="pdtCategory" column="pdt_category"/>
+		<result property="pdtPrice" column="pdt_price"/>
+		<result property="pdtName" column="pdt_name"/>
+		<result property="pdtIntro" column="pdt_intro"/>
+		<result property="pdtStatus" column="pdt_status"/>
+		<result property="pdtDate" column="pdt_date"/>
+		<result property="pdtDetailImage" column="pdt_detail_image"/>
+		<result property="eventNoRef" column="event_no_ref"/>
+	</resultMap>
+	<resultMap type="option" id="optionMap">
+		<result property="pdtOptionNo" column="pdt_option_no"/>
+		<result property="pdtNo" column="pdt_no_ref"/>
+		<result property="pdtOptionContent" column="pdt_option_content"/>
+		<result property="pdtOptionAddprice" column="pdt_option_addprice"/>
+	</resultMap>
+	<resultMap type="thumb" id="thumbMap">
+		<result property="pdtThumbNo" column="pdt_thumb_no"/>
+		<result property="pdtNo" column="pdt_no_ref"/>
+		<result property="pdtThumbImage" column="pdt_thumb_image"/>
+	</resultMap>
+	
 	<resultMap type="member" id="memberMap">
 		<result property="memNo" column="mem_no"/>
 		<result property="memNick" column="mem_nick"/>
@@ -30,11 +54,25 @@
 		DELETE FROM EVENT WHERE EVENT_NO = #{evetNo}
 	</delete>
 	
-	<insert id="insertEvent" parameterType="event">
-		INSERT INTO EVENT 
-		VALUES('E'||TO_CHAR(SEQ_EVENT_NO.NEXTVAL),
-			#{eventTitle},#{eventStartDate},#{eventEndDate},
-			#{eventCategory},#{eventSalePer})
+	<insert id="insertProduct" parameterType="product">
+		INSERT INTO PRODUCT 
+			VALUES('P'||TO_CHAR(SEQ_PDT_NO.NEXTVAL),
+				#{pdtCategory},#{pdtPrice},#{pdtName},
+				#{pdtIntro},#{pdtStatus},SYSDATE,#{pdtDetailImage},#{eventNoRef})
+		
+		<selectKey keyProperty="pdtNo" resultType="string" order="AFTER">
+			SELECT PDT_NO FROM PRODUCT WHERE PDT_NAME=#{pdtName}
+		</selectKey>
+	</insert>
+	
+	<insert id="insertOption" parameterType="product">
+		INSERT INTO PRODUCT_OPTION
+			VALUES('PO'||SEQ_PDT_OPTION_NO.NEXTVAL,#{pdtNo},#{pdtOptionContent},#{pdtOptionAddprice})
+	</insert>
+	
+	<insert id="insertThumb" parameterType="thumb">
+		INSERT INTO PRODUCT_THUMB
+			VALUES('PT'||SEQ_PDT_THUMB_NO.NEXTVAL,#{pdtNo},#{renamedFileName});
 	</insert>
 
 	<select id="selectMemberList" resultMap="memberMap">

@@ -131,7 +131,9 @@
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
+
                             <a id="menuNav-admin" class="nav-link" href="${path }/admin/memberList">관리자페이지</a>
+
                             <ul class="">
                             	<li><a class="" href="${path }/admin/memberList">회원관리</a></li>
                                 <li><a class="" href="${path }/admin/moveProduct">제품관리</a></li>

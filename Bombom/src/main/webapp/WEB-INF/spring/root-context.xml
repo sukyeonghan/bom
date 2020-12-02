@@ -18,7 +18,7 @@
 		<property name="password" value="bom"/>
 	</bean>
 	
-	<!-- log4j관련 proxy가상 객체 생성-->
+	<!-- log4j관련 proxy가상 객체 생성-->                   
 	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
 		<constructor-arg ref="realDataSource"/>
 		<property name="logFormatter">
@@ -46,7 +46,5 @@
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
 	<tx:annotation-driven transaction-manager="transactionManager"/>
-
-	
 </beans>
 
