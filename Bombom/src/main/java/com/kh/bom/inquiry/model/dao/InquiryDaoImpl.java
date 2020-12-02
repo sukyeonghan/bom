@@ -13,5 +13,10 @@ public class InquiryDaoImpl implements InquiryDao {
 		return session.insert("inquiry.insertInquiry", i);
 	}
 
+	@Override
+	public Inquiry selectInquiryOne(SqlSession session, String inqNo) {
+		return session.selectOne("inquiry.selectInquiryOne", inqNo);
+	}
+
 
 }

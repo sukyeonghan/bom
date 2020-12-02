@@ -406,14 +406,14 @@
 		    	</div>
 		    	
 		    	<!-- 상품문의 시작 -->
-				<div class="tab_box" id="inquiryAjax">
+				<div class="tab_box">
 			        <!--상품문의 작성창-->
-			        <form name="" action="${path}/product/insertInquiry">
-				        <div class="writebox_wrap container col-lg-11" style="float:none; margin:0 auto;">
+			        <form name="frm_inquiry" action="${path}/product/insertInquiry" onsubmit="return fn_check()">
+				        <div class="writebox_wrap container" style="float:none; margin:0 auto;">
 				            <button type="button" id="showBox" class="btn btn-success">상품문의</button>
 					        <div class="wrap-category" style="display:none;">
 						        <span class="span_textarea">
-							        <textarea name="inqContent" id="" placeholder="문의내용을 입력해주세요"></textarea>
+							        <textarea name="inqContent" id="inqContent" placeholder="문의내용을 입력해주세요"></textarea>
 									<div style="float:right;">
 								        <label>
 						 		        	<img id="lockUnlock" src="${path}/resources/images/product/unlock.png" name="inqSecret" style="width:25px;height:25px;">
@@ -433,14 +433,14 @@
 			        </form><!-- 상품문의 작성창 끝 -->
 			        <!-- 상품문의 게시글 -->
 			        <div id="result">
-			        <div class="container col-lg-11">
-				        <table class="table">
+			        <div class="container">
+				        <table class="table" style=" table-layout: fixed;">
 					        <thead>
 					        	<tr>
-					        		<td style="width:60%;">내용</td>
-					        		<td style="width:15%;">문의날짜</td>
-					        		<td style="width:15%;">작성자</td>
 					        		<td style="width:10%;">상태</td>
+					        		<td style="width:70%;">내용</td>
+					        		<td style="width:17%;">문의날짜</td>
+					        		<td style="width:13%;">작성자</td>
 					        	</tr>
 					        </thead>
 					    <c:if test="${not empty list }">	
@@ -448,39 +448,49 @@
 					        	<thead>
 					        		<tr>
 					        			<td>
-					        				<c:if test="${i.inqSecret=='N'}">
-					        					<a href="${path}/product/inquiryView?inqNo=${i.inqNo}" onclick="open(this.href,'','top=100px,left=300px,width=600px,height=400px,scollbars=no');return false;">
-					        						<c:out value="${i.inqContent }"/>
-					        					</a>
-					        				</c:if>
-					        				<c:if test="${i.inqSecret=='Y'}">
-					        					<img src="${path}/resources/images/product/lock.png" style="width:20px;height:20px;"> 
-					        					비밀글입니다
-					        				</c:if>
-					        			</td>
-					        			<script>
-					        			
-						        			//상품문의 상세창
-						        			function inquiry_view(){
-						        				const url="${path}/product/inquiryView?inqNo=${i.inqNo}";
-						        				const status = "top=100px, left=300px, widht=600px; height=400px";
-						        				open(url,"",status);
-						        			}
-					        			
-					        			</script>
-					        			
-					        			
-					        			<td><c:out value="${i.inqDate }"/></td>
-					        			<td>
-					        				<c:out value="${i.memNick}"/>
-					        			</td>
-					        			<td>
 					        				<c:if test="${i.inqAnswerYn=='N'}">
 					        					답변대기
 					        				</c:if>
 					        				<c:if test="${i.inqAnswerYn=='Y'}">
 					        					답변완료
 					        				</c:if>
+					        			</td>					        		
+					        			<td style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+					        				<!-- 비밀글 아닐경우 모두 열람 가능 -->
+					        				<%-- <c:if test="${i.inqSecret=='N'}">
+					        					<a href="${path}/inquiry/inquiryView?inqNo=${i.inqNo}" onclick="open(this.href,'','top=100px,left=300px,width=600px,height=400px,scollbars=no');return false;">
+					        						<c:out value="${i.inqContent }" />
+					        					</a>
+					        				</c:if> --%>
+					        				<!-- 비밀글일경우 관리자와 작성한 글쓰기만 보기 가능 -->
+					        				<%-- <c:if test="${i.inqSecret=='Y'}">
+						        					<img src="${path}/resources/images/product/lock.png" style="width:20px;height:20px;">
+					        					<c:if test="${loginMember.memNo ne i.memNo}">
+						        					<a id="idCheck"> 
+						        						비밀글입니다
+						        					</a>	
+					        					</c:if>
+					        					<c:if test="${loginMember.memNo eq i.memNo}">
+					        						<a href="${path}/inquiry/inquiryView?inqNo=${i.inqNo}" onclick="open(this.href,'','top=100px,left=300px,width=600px,height=400px,scollbars=no');return false;"> 
+						        						<c:out value="비밀글입니다"/>
+						        					</a>
+					        					</c:if>
+					        				</c:if> --%>
+					        				<c:if test="${i.inqSecret=='N'}">
+					        					<a href="${path}/inquiry/inquiryView?inqNo=${i.inqNo}&memNick=${i.memNick}" onclick="open(this.href,'','top=100px,left=400px,width=600px,height=400px');return false;">
+					        						<c:out value="${i.inqContent }"/>
+					        					</a>
+					        				</c:if>
+					        				<c:if test="${i.inqSecret=='Y' }">
+					        					<img src="${path}/resources/images/product/lock.png" style="width:20px;height:20px;">
+					        					<a href="${path}/inquiry/inquiryView?inqNo=${i.inqNo}&memNick=${i.memNick}" onclick="open(this.href,'','top=100px,left=400px,width=600px,height=400px');return false;">
+					        						<c:out value="${i.inqContent }"/>
+					        					</a>
+					        				</c:if>
+					        			</td>
+					        			<td><c:out value="${i.inqDate }"/></td>
+					        			<td>
+					        				<c:out value="${i.memNick}"/>
 					        			</td>
 					        		</tr>
 					        	</thead>
@@ -685,22 +695,29 @@
 			}
 		});
 	});
-	
-	
+
 	//구매하기,장바구니,찜하기,상품문의 클릭 시 로그인 체크
 	$(function() {
 		$(".loginCheck").click(function() {
-			alert("로그인을 먼저 해주세요");
+			swal("로그인을 먼저 해주세요");
 		});
 	});
 	
+	//상품문의 클릭 시 입력확인
+	function fn_check(){
+		if(frm_inquiry.inqContent.value==""){
+			swal("문의내용을 입력해주세요");
+			return false;
+		}
+		return true;
+	}	
+	
 	//상품문의 페이징
 	$(function(){
-		$("#inquiryAjax").click(e=>{
-			console.log("이거 클릭");
+		$(".pageBar").click(e=>{
 			$.ajax({
 				url:"${path}/product/productOneAjax",
-				data:{cPage:1,numPerpage:"${numPerPage}"},
+				data:{cPage:"${cPage}",numPerpage:"${numPerPage}"},
 				type:"get",
 				success:data=>{
 					console.log(data);
