@@ -110,7 +110,11 @@
                                 <li><a class="" href="#">할인상품</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="${path }/community/communityList">커뮤니티</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${path }/community/communityList">커뮤니티</a>
+                        <c:if test="${loginMember == null }">
+                        
+                        </c:if>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">게시판</a>
                             <ul class="">

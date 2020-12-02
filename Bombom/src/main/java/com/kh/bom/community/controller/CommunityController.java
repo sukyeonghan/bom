@@ -1,5 +1,6 @@
 package com.kh.bom.community.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,7 @@ public class CommunityController {
 	@Autowired
 	private CommunityService service;
 
-	// communityList
+	// communityList, 로그인 후 접근 가능
 	@RequestMapping("/community/communityList")
 	public ModelAndView selectCommunityList(ModelAndView mv) {
 		mv.addObject("list", service.selectCommunityList());
@@ -121,5 +122,4 @@ public class CommunityController {
 		return mv;
 
 	}
-
 }

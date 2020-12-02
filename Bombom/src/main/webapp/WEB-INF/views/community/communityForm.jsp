@@ -54,34 +54,25 @@ div#community-container {
 		<form name="communityFrm" action="${path }/community/insertCommunity"
 			onsubmit="return fn_check()">
 			<br> <input type="text" class="form-control" name="cmTitle"
-				placeholder="제목을 입력해주세요"
-				value='<c:out value="${community.cmTitle }"/>' required><br>
-			<%-- <input type="hidden" class="form-control" name="cmDate" value="${community.cmDate }"> <br> --%>
-			<%-- <input type="hidden" name="cmWriter" value="${loginMember.memNo }">   --%>
-			<input type="hidden" class="form-control" name="cmLike"
-				value="${community.cmView }"> <br> <input type="number"
-				class="form-control" name="cmView" placeholder="조회" required>
+				placeholder="제목을 입력해주세요" required><br> <input
+				type="hidden" class="form-control" name="cmLike"
+				value="0"> <br> <input type="hidden"
+				value="0" name="cmView" placeholder="조회" required>
 			<br> <input type="text" class="form-control" name="cmThumbnail"
-				placeholder="썸네일" required> <br> <input type="text"
+				placeholder="썸네일" required> <br> <%-- <input type="text"
 				class="form-control" name="cmWriter" placeholder="닉네임"
-				value="${loginMember.memNo }" readonly> <br>
+				value="${loginMember.memNick }" readonly> --%>
+				<input type="text" class="form-control" name="cmWriter" value="${loginMember.memNo }"> <br>
 			<div class="input-group-prepend" style="padding: 0px;">
 				<span class="input-group-text">썸네일</span>
 			</div>
 			<br> <br>
 			<p>다시봄 내용</p>
 			<br>
-			<textarea name="description" id="description" rows="5" cols="60"></textarea>
+			<textarea name="cmContent" id="cmContent" rows="5" cols="60"></textarea>
 			<script>
 				//ckeditor 적용
-
-				var ckeditor_config = {
-					resize_enaleb : false,
-					enterMode : CKEDITOR.ENTER_BR,
-					shiftEnterMode : CKEDITOR.ENTER_P,
-					filebrowserUploadUrl : "${path}/webapp/resources/ckUpload"
-				};
-				CKEDITOR.replace("description", ckeditor_config);
+				CKEDITOR.replace("cmContent");
 			</script>
 			<div id="btn-box">
 				<input type="button" class="btn btn-outline-success" value="목록으로"
