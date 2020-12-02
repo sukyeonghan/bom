@@ -4,17 +4,26 @@
 	<resultMap type="point" id="pointMap">
 		<result property="memNo" column="mem_no"/>
 		<result property="orderNo" column="order_no"/>
-		<result property="pointDate" column="point_date"/>
+		<result property="pointDate" column="point_date" typeHandler="dateStr"/>
 		<result property="pointContent" column="point_content"/>
 		<result property="pointChange" column="point_change"/>
 	</resultMap>
 	
-	<update id="stamp10" parameterType="map">
-		
-	</update>
-	
 
-	<select id="selectPointList" parameterType="string">
-		SELECT * FROM POINT MEM_NO=#{memNo}
+	<select id="selectPointList" parameterType="string" resultMap="pointMap">
+		SELECT MEM_NO,ORDER_NO,TO_CHAR(POINT_DATE,'YYYY-MM-DD HH24:MI:SS') AS POINT_DATE,POINT_CONTENT,POINT_CHANGE FROM POINT P WHERE MEM_NO=#{memNo} ORDER BY POINT_DATE DESC
 	</select>
+	
+	<!-- 포인트 적립 , 포인트적립시에 자동으로 트리거 작동 회원의 총적립금에 합계됨-->
+	<insert id="insertPoint" parameterType="point">
+		INSERT INTO POINT VALUES(#{memNo},
+		<if test="orderNo != null">#{orderNo},</if>
+		<if test="orderNo == null">null,</if>
+		SYSDATE,#{pointContent},#{pointChange})
+	</insert>
+	
+	<select id="selectCount" resultType="_int">
+		SELECT COUNT(*) FROM POINT
+	</select>
+	
 </mapper>

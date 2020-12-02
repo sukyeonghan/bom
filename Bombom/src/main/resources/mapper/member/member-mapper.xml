@@ -55,4 +55,11 @@
 		SELECT * FROM MEMBER MEMBER WHERE MEM_EMAIL=#{memEmail}
 	</select>
 	
+	<!--스탬프10개 달성시 현재 회원의 구매횟수에서  10회차감해서  업데이트 -->
+	<update id="updateMemBuyCount" parameterType="map">
+		 <selectKey resultType="_int" keyProperty="memBuyCount" order="BEFORE">
+	        SELECT MEM_BUY_COUNT FROM MEMBER WHERE MEM_NO=#{memNo}  
+	    </selectKey> 
+		UPDATE MEMBER SET MEM_BUY_COUNT=${memBuyCount-10} WHERE MEM_NO=#{memNo}
+	</update>
 </mapper>

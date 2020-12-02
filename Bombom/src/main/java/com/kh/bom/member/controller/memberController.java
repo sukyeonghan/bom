@@ -232,7 +232,10 @@ public class memberController {
 	
 	//스탬프 페이지로 이동
 	@RequestMapping("/mypage/stamp")
-	public ModelAndView stamp(ModelAndView mv) {
+	public ModelAndView stamp(ModelAndView mv,HttpSession session) {
+		Member m=(Member)session.getAttribute("loginMember");
+		Member login=service.selectMemberOne(m.getMemNo());
+		mv.addObject("loginMember",login);
 		mv.setViewName("mypage/stamp");
 		return mv;
 	}

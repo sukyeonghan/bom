@@ -20,4 +20,8 @@ public class Product {
 	private Date pdtDate;
 	private String pdtDetailImage;
 	private String eventNoRef;
+	private String pdtOptionNo;
+	private String pdtOptionContent;
+	private int pdtOptionAddprice;
+
 }

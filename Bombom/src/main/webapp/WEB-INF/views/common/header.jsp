@@ -7,10 +7,21 @@
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <style>
+/*모달차 내 로고  */
+.logoimg{
+	width:auto;
+	height:40px;
+}
+.logo-box{
+	text-align:center;
+	width:440px;
+	margin-left:29px;
+}
  /*모달 창  */
     .social-container {
         text-align: center;
         padding: 16px;
+       
       }
       p.p-info {
         margin: 1rem 0 1rem 0;
@@ -23,6 +34,7 @@
         text-align: center;
       }
       input[type=password] {font-family: "NanumSquare";}
+    
  /*유효성 검사*/
   .pwOk,.nickOk,.emailOk {color:green; margin:3px;}
   .pw, .nickError,.nickError2,.emailError,.emailError2,.emailSize{color:red; margin:3px;}
@@ -48,6 +60,7 @@
     <!-- 부트스트랩 -->
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
@@ -55,6 +68,11 @@
     
 	<!-- sweet alert -->
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	
+	<!-- icon -->
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
 </head>
 
 <body>
@@ -80,13 +98,18 @@
                     </c:if>
                     
                     <c:if test="${loginMember!=null }">
+                    	<li><c:out value="${loginMember.memNick }"/></li>
 	                    <li class="nav-item">
 	                    <a class="nav-link"  onclick="location.replace('${path}/member/logout');">로그아웃</a></li>
 	                    
 	                    <li class="nav-item"><a class="nav-link" href="${path }/mypage/orderStatus">마이페이지</a></li>
                     	<li class="nav-item"><a class="nav-link" href="${path }/order/basket">장바구니</a></li>
                   	</c:if>
-                    <li class="nav-item"><a class="nav-link" href="#">검색</a></li>
+                    <li class="nav-item">
+                    	<a class="nav-link" data-toggle="modal"data-target="#searchModal">
+                    		<i class="fa fa-search w3-text-green"></i>
+                    	</a>
+                    </li>
                 </ul>
             </div>
             <div id="logo-wrap">
@@ -123,14 +146,16 @@
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
-                            <a id="menuNav-product" class="nav-link" href="${path }/product/productAll">관리자페이지</a>
+
+                            <a id="menuNav-admin" class="nav-link" href="${path }/admin/memberList">관리자페이지</a>
+
                             <ul class="">
-                            	<li><a class="" href="#">회원관리</a></li>
+                            	<li><a class="" href="${path }/admin/memberList">회원관리</a></li>
                                 <li><a class="" href="${path }/admin/moveProduct">제품관리</a></li>
                                 <li><a class="" href="#">주문관리</a></li>
                                 <li><a class="" href="#">1:1문의 관리</a></li>
                                 <li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
-                                <li><a class="" href="#">커뮤니티관리</a></li>
+                              
                             </ul>
                         </li>
                     </ul>
@@ -157,10 +182,13 @@
           <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-              <h4 class="modal-title">다시:봄으로 회원가입</h4>
-              <button type="button" class="close" data-dismiss="modal">
-               X
-              </button>
+             <div class="logo-box">
+            	<img class="logoimg" src="${path }/resources/images/springAgainLogo.png" alt="mainLogo">
+              	<h4 class="modal-title">회원가입</h4>
+              </div>
+  				 <button type="button" class="close" data-dismiss="modal">
+              		  X
+             	 </button>
             </div>
 
             <!-- Modal body -->
@@ -230,7 +258,7 @@
                 <br />
                 <p class="p-class">이미 회원이신가요?</p>
                 <a
-                  class="login"
+                  class="login-link"
                   data-toggle="modal"
                   data-target="#loginModal"
                   data-dismiss="modal"
@@ -246,14 +274,18 @@
       <!--로그인창  -->
           <!-- The Modal -->
       <div class="modal fade" id="loginModal">
+      
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-              <h4 class="modal-title">다시:봄으로 로그인</h4>
-              <button type="button" class="close" data-dismiss="modal">
-                X
-              </button>
+             <div class="logo-box">
+            	<img class="logoimg" src="${path }/resources/images/springAgainLogo.png" alt="mainLogo">
+              	<h4 class="modal-title">로그인</h4>
+              </div>
+  				 <button type="button" class="close" data-dismiss="modal">
+              		  X
+             	 </button>
             </div>
 
             <!-- Modal body -->
@@ -312,7 +344,7 @@
                   data-dismiss="modal">비밀번호를 잊어 버렸어요.</a>
                 <p class="p-class">아직 회원이 아니신가요?</p>
                 <a href="#"
-                class="signUp"
+               	class="signUp"
                   data-toggle="modal"
                   data-target="#myModal"
                   data-dismiss="modal"
@@ -329,10 +361,13 @@
           <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-              <h4 class="modal-title">다시:봄 비밀번호 찾기</h4>
-              <button type="button" class="close" data-dismiss="modal">
-                X
-              </button>
+             <div class="logo-box">
+            	<img class="logoimg" src="${path }/resources/images/springAgainLogo.png" alt="mainLogo">
+              	<h4 class="modal-title">비밀번호 찾기</h4>
+              </div>
+  				 <button type="button" class="close" data-dismiss="modal">
+              		  X
+             	 </button>
             </div>
 
             <!-- Modal body -->
@@ -396,7 +431,7 @@
             <div class="social-container">
               <p class="p-class">비밀번호가 기억나셨다고요?</p>
               <a 
-             	 class="login"
+             	 class="login-link"
                   data-toggle="modal"
                   data-target="#loginModal"
                   data-dismiss="modal"
@@ -411,10 +446,13 @@
           <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-              <h4 class="modal-title">다시:봄 비밀번호 찾기</h4>
-              <button type="button" class="close" data-dismiss="modal">
-                X
-              </button>
+            <div class="logo-box">
+            	<img class="logoimg" src="${path }/resources/images/springAgainLogo.png" alt="mainLogo">
+              	<h4 class="modal-title">비밀번호 재설정</h4>
+              </div>
+  				 <button type="button" class="close" data-dismiss="modal">
+              		  X
+             	 </button>
             </div>
 
             <!-- Modal body -->
@@ -455,6 +493,31 @@
         </div>
       </div>
  </div>	<!--container div 모달끝  -->
+ 
+<!-- 검색모달 -->
+<div id="search-container">
+	<!-- The Modal -->
+	<div class="modal fade" id="searchModal">
+	  <div class="modal-dialog modal-xl">
+	    <div class="modal-content">
+	
+	      <!-- Modal body -->
+	      <div class="modal-body">
+	        	<span>검색</span> <input type="text" placeholder="검색어를 입력하세요" class="col-xl-10 search_input" >
+	      </div>
+	      
+	    </div>
+	  </div>
+	</div>
+
+	</div>
+<style>
+.search_input {
+	border: none;
+}
+
+</style><!-- 검색모달 종료  -->
+	
  <script>
  $(function(){
 	 $(".guide").hide();

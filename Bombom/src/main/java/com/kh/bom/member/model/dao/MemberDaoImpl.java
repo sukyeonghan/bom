@@ -1,5 +1,8 @@
 package com.kh.bom.member.model.dao;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -51,6 +54,15 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("member.selectMemberEmail",email);
 	}
+
+	@Override
+	public int updateMemBuyCount(SqlSession session, String memNo) {
+		// TODO Auto-generated method stub
+		Map param=new HashMap();
+		param.put("memNo",memNo);
+		return session.update("member.updateMemBuyCount",param);
+	}
+
 
 	
 	
