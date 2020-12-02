@@ -17,5 +17,6 @@ public interface CommunityService {
 	
 	int updateCommunity(Community community);
 	
+	int communityView(String cmNo);
 
 }

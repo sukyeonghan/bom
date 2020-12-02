@@ -10,9 +10,11 @@ import com.kh.bom.point.model.vo.Point;
 public interface PointDao {
 
 
-	List<Point> selectPointList(SqlSession session, String memNo);
+	List<Point> selectPointList(SqlSession session, String memNo, int cPage, int numPerpage);
 
-	int stampInsertPoint(SqlSession session, Point p);
+	int insertStampPoint(SqlSession session, Point p);
+
+	int selectCount(SqlSession session, String memNo);
 
 
 }

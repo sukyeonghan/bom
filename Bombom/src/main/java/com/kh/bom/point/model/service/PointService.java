@@ -8,8 +8,10 @@ import com.kh.bom.point.model.vo.Point;
 public interface PointService {
 
 	
-	List<Point> selectPointList(String memNo);
+	List<Point> selectPointList(String memNo, int cPage, int numPerpage);
 
-	int stampInsertPoint(Point p);
+	int insertStampPoint(Point p) throws Exception ;
+
+	int selectCount(String memNo);
 
 }
