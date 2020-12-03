@@ -133,37 +133,15 @@
 <section id="container" class="container">
 	<div class="media">
 	
-		<!--관리자 내비게이션바 -->
-		<div id="" class=" mr-3 admin-nav">
-		  <ul class="nav flex-column">
-		    <li class="nav-item">
-      			<a class="nav-link non-select" href="${path }/">회원관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link select" href="${path }/admin/moveProduct">제품관리</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="${path }/">주문관리</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="${path }/">1:1문의관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="${path }/">이벤트관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="${path }/">커뮤니티관리</a>
-		    </li>
-		  </ul>
-		</div>
+		<!--제품 관리 내비게이션바 -->
+		<jsp:include page="/WEB-INF/views/admin/product/productNav.jsp"/>
 		
 		<div id="admin-container" class="media-body">
 			<!-- 페이지 타이틀 -->
 			<h3 class="page-title">제품등록</h3> 
 			
 			<!-- 제품 등록 -->
-			<form action="${path }/admin/productInsertEnd" method="post"
-         enctype="multipart/form-data">
+			<form action="${path }/admin/productInsertEnd" method="post" enctype="multipart/form-data">
 				<table id="insert-table">
 					<tr>
 						<th>카테고리</th>
