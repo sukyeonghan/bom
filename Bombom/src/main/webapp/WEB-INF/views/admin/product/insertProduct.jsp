@@ -219,7 +219,7 @@
 					<tr>
                         <th>추가 옵션</th>
                         <td colspan="3">
-                        	<input type="button" class="btn btn-success btn-sm" id="add-option" value="옵션 추가하기">
+                        	<input type="button" class="btn btn-success btn-sm" id="add-option" value="옵션 추가">
                         </td>
                     </tr>
                     <tr class="trOption" name="trOption">
@@ -231,7 +231,10 @@
                         	<button class="btn btn-success btn-sm delBtn" name="delBtn" >삭제</button>
                         </td>
                     </tr>
+                    
 				</table>
+				<input type="hidden" name="test[]" id="test_list">
+                <input type="hidden" name="test2[]" id="test_list2">
 				
 				<!-- 제품 설명 -->
 				<div id="middle-div">
@@ -318,7 +321,7 @@
 				</div>
 				
 				<div id="bottom-btns">
-					<input type="submit" class="btn btn-success insertPro" value="등록하기">
+					<input type="submit" class="btn btn-success insertPro" value="등록하기" onclick="insertOption()">
 					<input type="button" class="btn btn-success goList" onclick="location.href='${path}/admin/moveProduct'" value="목록">
 				</div>
 				
@@ -341,6 +344,7 @@
 	});
 	//옵션 추가하기 
 	$("#add-option").click(function(){
+		
 		var addOption="";
         addOption+='<tr class="trOption" name="trOption">';
         addOption+='<th>&nbsp&nbsp옵션 내용</th>';
@@ -359,6 +363,36 @@
 	    var trHtml=$(this).parent().parent();
 	    trHtml.remove();
 	});
+	
+	//옵션등록하기
+	function insertOption(){
+		var list=new Array();
+		var list2=new Array();
+		//var map=new HashMap();
+		
+	 	//var table = document.getElementById("insert-table");
+        //테이블 row길이 구하기
+        //var length=table.rows.length;
+        
+        //for(var i=4; i <= table.rows.length-1 ; i++){
+		    
+        	//옵션 내용 넣기    
+			$("input[name=pdtOptionContent]").each(function(index,item1){
+				list.push($(item1).val());
+			});
+			$("#test_list").val(list);
+			
+			//옵션 가격 넣기
+			$("input[name=pdtOptionAddprice]").each(function(index,item2){
+				list2.push($(item2).val());
+			});
+			$("#test_list2").val(list2);
+			
+        //};
+        console.log(list);
+        console.log(list2);
+        alert(list2);
+	};
 	
 	//이미지 업로드 
 	$(function(){

@@ -20,12 +20,14 @@
 		<result property="pdtDate" column="pdt_date"/>
 		<result property="pdtDetailImage" column="pdt_detail_image"/>
 		<result property="eventNoRef" column="event_no_ref"/>
+		<result property="pdtOptionNo" column="pdt_option_no"/>
 	</resultMap>
 	<resultMap type="option" id="optionMap">
 		<result property="pdtOptionNo" column="pdt_option_no"/>
 		<result property="pdtNo" column="pdt_no_ref"/>
 		<result property="pdtOptionContent" column="pdt_option_content"/>
-		<result property="pdtOptionAddprice" column="pdt_option_addprice"/>
+		<result property="pdtOptionAddprice" column="pdt_option_addprice" />
+		<!--<result property="pdtOptionAddprice" column="pdt_option_addprice" typeHandler="intArr"/>  -->
 	</resultMap>
 	<resultMap type="thumb" id="thumbMap">
 		<result property="pdtThumbNo" column="pdt_thumb_no"/>
@@ -53,7 +55,14 @@
 	<delete id="eventDelete" parameterType="string">
 		DELETE FROM EVENT WHERE EVENT_NO = #{evetNo}
 	</delete>
-	
+	<!-- 제품목록출력 -->
+	<select id="selectProductList" resultMap="productMap">
+		SELECT * 
+		FROM PRODUCT 
+			LEFT JOIN PRODUCT_OPTION ON(PDT_NO=PDT_NO_REF) 
+		ORDER BY PDT_DATE DESC 
+	</select>
+	<!-- 제품 등록 -->
 	<insert id="insertProduct" parameterType="product">
 		INSERT INTO PRODUCT 
 			VALUES('P'||TO_CHAR(SEQ_PDT_NO.NEXTVAL),
@@ -64,12 +73,12 @@
 			SELECT PDT_NO FROM PRODUCT WHERE PDT_NAME=#{pdtName}
 		</selectKey>
 	</insert>
-	
+	<!-- 옵션 등록 -->
 	<insert id="insertOption" parameterType="product">
 		INSERT INTO PRODUCT_OPTION
 			VALUES('PO'||SEQ_PDT_OPTION_NO.NEXTVAL,#{pdtNo},#{pdtOptionContent},#{pdtOptionAddprice})
 	</insert>
-	
+	<!-- 썸네일 이미지 등록 -->
 	<insert id="insertThumb" parameterType="thumb">
 		INSERT INTO PRODUCT_THUMB
 			VALUES('PT'||SEQ_PDT_THUMB_NO.NEXTVAL,#{pdtNo},#{renamedFileName})

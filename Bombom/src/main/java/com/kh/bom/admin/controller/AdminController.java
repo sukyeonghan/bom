@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,10 +25,13 @@ import com.kh.bom.admin.model.vo.Event;
 import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.product.model.vo.ProductThumb;
 
+import lombok.extern.slf4j.Slf4j;
 
 
+@Slf4j
 @Controller
 public class AdminController {
 	
@@ -36,8 +40,11 @@ public class AdminController {
 
 	//by수경-제품 관리페이지 전환
 	@RequestMapping("/admin/moveProduct")
-	public String moveProductListPage() {
-		return "admin/product/productList";
+	public ModelAndView moveProductListPage(ModelAndView m) {
+		List<Product> list=service.selectProductList();
+		m.addObject("list",list);
+		m.setViewName("admin/product/productList");
+		return m;
 	}
 	//by수경-제품 등록 페이지 전환
 	@RequestMapping("/admin/productInsert")
@@ -49,12 +56,16 @@ public class AdminController {
 	}
 	//by수경-제품 등록-201202수정
 	@RequestMapping("/admin/productInsertEnd")
-	public ModelAndView insertProduct(Product p,ModelAndView m,
-			@RequestParam(value="pdtOptionAddprice", required = false,defaultValue="0") int addPrice, 
+	public ModelAndView insertProduct(Product p,ProductOption o,ModelAndView m,
+			
+			@RequestParam(value="test[]",required = false) List<String> optContent,
+			@RequestParam(value="test2[]", required = false) List<String> optPrice,
 			@RequestParam(value="thumbImgs",required=false) MultipartFile[] thumbImgs,
 			@RequestParam(value="detailImg",required=false) MultipartFile[] detailImg,
 			HttpSession session) {
-		
+	/*	@RequestParam(value="pdtOptionContent",required = false) List<String> optContent,
+		@RequestParam(value="pdtOptionAddprice", required = false) List<String> optPrice,*/
+	
 		String path=session.getServletContext().getRealPath("/resources/upload/product");
 		File dir=new File(path);
 		
@@ -97,6 +108,7 @@ public class AdminController {
 			}
 			p.setPdtDetailImage(reName);
 		}
+		
 		int result=service.insertProduct(p,files);
 		String msg="";
 		String icon = "";
@@ -111,6 +123,9 @@ public class AdminController {
 		m.addObject("loc","/admin/moveProduct");
 		m.addObject("icon", icon);
 		m.setViewName("common/msg");
+	
+		
+		//redirectAttributes.addFlashAttribute("/admin/productUpdate",p);
 		return m;
 	}
 	

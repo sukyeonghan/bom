@@ -16,7 +16,7 @@ public interface AdminDao {
 	int insertEvent(SqlSession session, Event e);
 	
 
-	//상품등록
+	List<Product> selectProductList(SqlSession session);
 	int insertProduct(SqlSession session,Product p);
 	int insertThumb(SqlSession session,ProductThumb th);
 	int insertOption(SqlSession session,Product p);

@@ -42,7 +42,12 @@ public class AdminDaoImpl implements AdminDao {
 		return session.selectOne("admin.selectMemberCount");
 	}
 	
-	
+	//상품 목록 
+	@Override
+	public List<Product> selectProductList(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectProductList");
+	}
 	
 	//상품등록
 	@Override

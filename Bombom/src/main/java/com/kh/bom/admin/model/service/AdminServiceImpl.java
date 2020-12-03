@@ -36,6 +36,12 @@ public class AdminServiceImpl implements AdminService {
 		return dao.insertEvent(session, e);
 	}
 	
+	//상품목록 출력
+	@Override
+	public List<Product> selectProductList() {
+		
+		return dao.selectProductList(session);
+	}
 	//상품등록
 	@Override
 	@Transactional

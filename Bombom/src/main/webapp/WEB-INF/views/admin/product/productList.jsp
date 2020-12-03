@@ -44,7 +44,7 @@
 	}
 	th,td{
 		border:1px solid black;
-		padding:5px;
+		padding:10px;
 	}
 	/*상품 수정,삭제페이지로 넘어가는 a태그 */
 	/*클릭 안 했을 때*/
@@ -135,7 +135,7 @@
 				<!-- 전체 선택, 선택 삭제 버튼 -->
 				<div class="buttons">
 					<button class="btn btn-success" id="selectAll" onclick="selectAll();">전체 선택</button>
-					<button class="btn btn-success" id="selectDel" onclick="">선택 삭제</button>
+					<button class="btn btn-success" id="selectDel" onclick="deletePro()">선택 삭제</button>
 				</div>
 				<!--카테고리 정렬  -->
 				<div class="select-box">
@@ -165,39 +165,56 @@
 						<th>판매상태</th>
 						<th>등록날짜</th>
 					</tr>
-					<tr>
-						<td><input type="checkbox" name="check" value="check"></td>
-						<td>욕실</td>
-						<td><a class="product-update" href="${path}/admin/productUpdate">유기농 온몸비누 제주</a></td>
-						<td>유기농 온몸비누 by 제주</td>
-						<td>8000원</td>
-						<td>N</td>
-						<td>N</td>
-						<td>Y</td>
-						<td>2020/11/23</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" name="check" value="check"></td>
-						<td>욕실</td>
-						<td><a class="product-update" href="${path}/admin/productUpdate">유기농 온몸비누 제주</a></td>
-						<td>유기농 온몸비누 by 제주</td>
-						<td>8000원</td>
-						<td>N</td>
-						<td>N</td>
-						<td>Y</td>
-						<td>2020/11/23</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" name="check" value="check"></td>
-						<td>욕실</td>
-						<td><a class="product-update" href="${path}/admin/productUpdate">유기농 온몸비누 제주</a></td>
-						<td>유기농 온몸비누 by 제주</td>
-						<td>8000원</td>
-						<td>N</td>
-						<td>N</td>
-						<td>Y</td>
-						<td>2020/11/23</td>
-					</tr>
+					<c:if test="${not empty list}">
+						<c:forEach var="e" items="${list }">
+							<tr>
+								<td><input type="checkbox" name="check" value="check"></td>
+								<td><c:out value="${e.pdtCategory}"/></td>
+								<td>
+									<a class="product-update" href="${path}/admin/productUpdate">
+										<c:out value="${e.pdtName}"/>
+									</a>
+								</td>
+								<td>
+									<c:choose>
+										
+										<c:when test="${fn:length(e.pdtIntro)>9}">
+											<c:out value="${fn:substring(e.pdtIntro,0,8) }"/>...
+										</c:when>
+										<c:otherwise>
+											<c:out value="${e.pdtIntro}"/>
+										</c:otherwise>
+									</c:choose>
+									</td>
+								<td>
+									<fmt:formatNumber value="${e.pdtPrice}" type="currency" />
+								</td>
+								<td>
+									<c:choose>
+										<c:when test="${not empty e.eventNoRef }">
+											<c:out value="${e.eventNoRef}"/>
+										</c:when>
+										<c:otherwise>
+											N
+										</c:otherwise>
+									</c:choose>
+								</td>
+								<td>
+									<c:choose>
+										<c:when test="${not empty e.pdtOptionNo }">
+											Y
+										</c:when>
+										<c:otherwise>
+											N
+										</c:otherwise>
+									</c:choose>
+								</td>
+								<td><c:out value="${e.pdtStatus}"/></td>
+								<td><fmt:formatDate value="${e.pdtDate}" pattern="yyyy-MM-dd"/></td>
+								
+							</tr>
+						</c:forEach>
+					</c:if>
 				</table>
 				<button class="btn btn-success" id="insertPro" onclick="location.href='${path}/admin/productInsert'">제품 등록</button>
 			</div>
@@ -233,12 +250,11 @@
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 <script>
-	var checkAll = 'false';
-	
+	var checkAll = "false";
+	var items = document.getElementsByName("check");
 	function selectAll() {
-		let items = document.getElementsByName("check");
-	
-		if (checkAll == 'false') {
+		
+		if (checkAll == "false") {
 			for (let i = 0; i < items.length; i++) {
 				items[i].checked = true;
 			}
@@ -249,6 +265,16 @@
 			}
 			checkAll = "false";
 		}
+	}
+	
+	function deletePro(){
+		var obj = $("input[name=check]");
+	       
+        for (var i=0; i<items.length; i++){
+            if(obj.eq(i).is(":checked")){
+                obj.eq(i).parent().parent().remove()
+            }
+        }
 	}
 </script>
 
