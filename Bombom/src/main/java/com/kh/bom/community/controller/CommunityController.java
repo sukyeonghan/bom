@@ -1,22 +1,12 @@
 package com.kh.bom.community.controller;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.security.Provider.Service;
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
+
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.community.model.vo.Community;
@@ -28,7 +18,7 @@ public class CommunityController {
 	@Autowired
 	private CommunityService service;
 
-	// communityList
+	// communityList, 로그인 후 접근 가능
 	@RequestMapping("/community/communityList")
 	public ModelAndView selectCommunityList(ModelAndView mv) {
 		mv.addObject("list", service.selectCommunityList());
@@ -41,6 +31,8 @@ public class CommunityController {
 	@RequestMapping("/community/communityForm")
 	public String community() {
 		return "/community/communityForm";
+		
+		
 	}
 
 	// community 등록
@@ -65,15 +57,16 @@ public class CommunityController {
 		mv.addObject("icon", icon);
 		mv.setViewName("common/msg");
 		return mv;
-		
+
 	}
 
 	// 게시글 상세보기
 	@RequestMapping("/community/communityView.do")
 	public ModelAndView commmunityView(String cmNo, ModelAndView mv) {
+		mv.addObject("community", service.communityView(cmNo));
 		mv.addObject("community", service.selectCommunityOne(cmNo));
 		mv.setViewName("community/communityView");
-
+		
 		return mv;
 	}
 
@@ -127,8 +120,6 @@ public class CommunityController {
 		mv.addObject("icon", icon);
 		mv.setViewName("common/msg");
 		return mv;
-		
-	}
-	
 
+	}
 }

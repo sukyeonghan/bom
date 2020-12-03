@@ -17,4 +17,6 @@ public interface CommunityDao {
 	int deleteCommunity(SqlSession session, String cmNo);
 	
 	int updateCommunity(SqlSession session, Community community);
+	
+	int communityView(SqlSession session, String cmNo);
 }
