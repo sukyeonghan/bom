@@ -371,6 +371,7 @@
             </div>
 
             <!-- Modal body -->
+            
             <div class="info">
               <p class="p-info">
                 가입한 이메일 주소로 인증번호를 알려드립니다. <br />
@@ -382,17 +383,19 @@
                 type="email"
                 class="form-control"
                 placeholder="이메일주소"
-                id="email"
+                name="email"
+                id="email-find"
                 required
               />
-              <label for="email">ajax 이메일 주소를 입력해주세요.</label>
+              <input type="hidden" id="oriCode" name="oriCode" value="${veriCode}">
 
               <button
                 type="button"
                 class="btn btn-success btn-block"
-                onclick=""
+                id="emailSend"
+              	
               >
-                인증하기
+                이메일발송
               </button>
 
               <input
@@ -400,7 +403,8 @@
                 class="form-control"
                 placeholder="인증번호"
                 id="verification"
-                required
+                name="code"
+             
               />
               <label for="email">ajax 인증 시간:4분 59초</label>
               <div class="row">
@@ -409,23 +413,25 @@
                   type="button"
                   class="btn btn-success btn-block"
                   data-toggle="modal"
-                  data-target="#resetModal"
+                  data-target=""
                   data-dismiss="modal"
+                  id="confirmBtn"
                   >
                     인증확인
                   </button>
                 </div>
                 <div class="col">
                   <button
-                    type="button"
+                    type="submit"
                     class="btn btn-success btn-block"
-                    onclick=""
+                    onclick=
                   >
                     재전송
                   </button>
                 </div>
               </div>
             </div>
+            
 
             <!-- Modal footer -->
             <div class="social-container">
@@ -519,6 +525,8 @@
 </style><!-- 검색모달 종료  -->
 	
  <script>
+
+ 
  $(function(){
 	 $(".guide").hide();
 	 $(".login").hide();
@@ -680,5 +688,46 @@ function fn_signUp(){
 
  
 }
+ 
+ //이메일 전송
+ 	 $("#emailSend").click(e=>{
+ 		 const email=$("#email-find").val().trim();
+ 		 if(email==null){
+ 			 swal('이메일을 입력해주세요.')
+ 		 }
+		 $.ajax({
+			 url:"${path}/email/auth",
+			 data:{email,email},
+			 type:"post",
+			 success:data=> {
+				 if(data!=0){
+					 swal('인증번호를 발송하였습니다.');
+					 console.log(data);
+				 }else{
+					 swal('가입이력이 없는 이메일입니다.');
+				 }
+			 }
+		 });
+	 }); 
+
+ //인증확인
+  	$("#confirmBtn").click(e=>{
+ 		const code=$("#verification").val().trim();
+ 		$.ajax({
+ 			url:"${path}/email/confirm",
+ 			data:{"code":code},
+ 			type:"post",
+ 			success:data=>{
+ 				if(data===true){
+ 					console(code);
+ 	 				console(data);
+ 	 				$("confirmBtn").attr("data-target","#resetModal");
+ 				}else{
+ 					console(data);
+ 				}
+ 				
+ 			}
+ 		});
+ 	}); 
 
  </script>

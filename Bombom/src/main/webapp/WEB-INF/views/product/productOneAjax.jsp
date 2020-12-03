@@ -5,15 +5,14 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 
-<!-- <div id="result"> -->
-			        <div class="container col-lg-11">
-				        <table class="table">
+<div class="container">
+				        <table class="table" style=" table-layout: fixed;">
 					        <thead>
 					        	<tr>
-					        		<td style="width:60%;">내용</td>
-					        		<td style="width:15%;">문의날짜</td>
-					        		<td style="width:15%;">작성자</td>
 					        		<td style="width:10%;">상태</td>
+					        		<td style="width:70%;">내용</td>
+					        		<td style="width:17%;">문의날짜</td>
+					        		<td style="width:13%;">작성자</td>
 					        	</tr>
 					        </thead>
 					    <c:if test="${not empty list }">	
@@ -21,38 +20,29 @@
 					        	<thead>
 					        		<tr>
 					        			<td>
-					        				<c:if test="${i.inqSecret=='N'}">
-					        					<a href="${path}/product/inquiryView?inqNo=${i.inqNo}" onclick="open(this.href,'','top=100px,left=300px,width=600px,height=400px,scollbars=no');return false;">
-					        						<c:out value="${i.inqContent }"/>
-					        					</a>
-					        				</c:if>
-					        				<c:if test="${i.inqSecret=='Y'}">
-					        					<img src="${path}/resources/images/product/lock.png" style="width:20px;height:20px;"> 
-					        					비밀글입니다
-					        				</c:if>
-					        			</td>
-					        			<script>
-						        			//상품문의 상세창
-						        			function inquiry_view(){
-						        				const url="${path}/product/inquiryView?inqNo=${i.inqNo}";
-						        				const status = "top=100px, left=300px, widht=600px; height=400px";
-						        				open(url,"",status);
-						        			}
-					        			
-					        			</script>
-					        			
-					        			
-					        			<td><c:out value="${i.inqDate }"/></td>
-					        			<td>
-					        				<c:out value="${i.memNick}"/>
-					        			</td>
-					        			<td>
 					        				<c:if test="${i.inqAnswerYn=='N'}">
 					        					답변대기
 					        				</c:if>
 					        				<c:if test="${i.inqAnswerYn=='Y'}">
 					        					답변완료
 					        				</c:if>
+					        			</td>				        		
+					        			<td style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+					        				<c:if test="${i.inqSecret=='N'}">
+					        					<a href="${path}/inquiry/inquiryView?inqNo=${i.inqNo}" onclick="open(this.href,'','top=100px,left=300px,width=600px,height=400px,scrollbars=no');return false;">
+					        						<c:out value="${i.inqContent }"/>
+					        					</a>
+					        				</c:if>
+					        				<c:if test="${i.inqSecret=='Y' }">
+					        					<img src="${path}/resources/images/product/lock.png" style="width:20px;height:20px;">
+					        					<a href="{path}/inquiry/inquiryView?inqNo=${i.inqNo}" onclick="open(this.href,'','top=100px,left=300px,width=600px,height=400px,scrollbars=no');return false;">
+					        						<c:out value="${i.inqContent }"/>
+					        					</a>
+					        				</c:if>
+					        			</td>
+					        			<td><c:out value="${i.inqDate }"/></td>
+					        			<td>
+					        				<c:out value="${i.memNick}"/>
 					        			</td>
 					        		</tr>
 					        	</thead>
@@ -70,5 +60,4 @@
 			        <div id="pageBar">
 						${pageBar }
 			    	</div>
-<!-- </div> -->
 
