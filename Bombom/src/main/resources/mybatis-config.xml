@@ -18,5 +18,6 @@
 		<typeAlias type="com.kh.bom.common.typehandler.DateStringTypeHandler" alias="dateStr"/>
 		<typeAlias type="com.kh.bom.zzim.model.vo.Zzim" alias="zzim"/>
 		<typeAlias type="com.kh.bom.zzim.model.vo.ZzimContent" alias="zzimContent"/>
+		<typeAlias type="com.kh.bom.qna.model.vo.Qna" alias="qna"/>
 	</typeAliases>
 </configuration>
