@@ -14,9 +14,11 @@ public interface AdminService {
 	int eventDelete(String eventNo);
 	int insertEvent(Event e);
 	
-	//상품목록 출력
+	//제품목록 출력
 	List<Product> selectProductList();
-	//상품 등록
+	//제품 선택 삭제
+	int deleteSelectProduct(List<String> delnum);
+	//제품 등록
 	int insertProduct(Product p,List<ProductThumb> list);
 
 	List<Member> selectMemberList(int cPage, int numPerpage);

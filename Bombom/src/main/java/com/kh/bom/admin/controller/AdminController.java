@@ -46,6 +46,28 @@ public class AdminController {
 		m.setViewName("admin/product/productList");
 		return m;
 	}
+	
+	//by수경-제품 목록페이지에서 선택 삭제
+	 @RequestMapping("/admin/deleteSelect") 
+	 public ModelAndView deleteSelectProduct(
+			 @RequestParam List<String> pdtNo,ModelAndView m) { 
+		 int result=service.deleteSelectProduct(pdtNo); 
+		 String msg="";
+		 String icon="";
+		 if(result>0) {
+			msg="삭제에 성공하였습니다.";
+			icon="success";
+		 }else {
+			msg="삭제에 실패하였습니다.";
+			icon = "error";
+		 }
+		 m.addObject("msg", msg);
+		 m.addObject("loc","/admin/moveProduct");
+		 m.addObject("icon", icon);
+		 m.setViewName("common/msg");
+		 return m; 
+	}
+	
 	//by수경-제품 등록 페이지 전환
 	@RequestMapping("/admin/productInsert")
 	public ModelAndView moveProductinsertPage(ModelAndView m) {

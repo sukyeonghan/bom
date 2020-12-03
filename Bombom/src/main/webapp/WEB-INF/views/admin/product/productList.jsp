@@ -135,7 +135,7 @@
 				<!-- 전체 선택, 선택 삭제 버튼 -->
 				<div class="buttons">
 					<button class="btn btn-success" id="selectAll" onclick="selectAll();">전체 선택</button>
-					<button class="btn btn-success" id="selectDel" onclick="deletePro()">선택 삭제</button>
+					<button class="btn btn-success" id="selectDel" onclick="deletePro();">선택 삭제</button>
 				</div>
 				<!--카테고리 정렬  -->
 				<div class="select-box">
@@ -168,7 +168,10 @@
 					<c:if test="${not empty list}">
 						<c:forEach var="e" items="${list }">
 							<tr>
-								<td><input type="checkbox" name="check" value="check"></td>
+								<td>
+									<input type="checkbox" name="check" value="check">
+									<input type="hidden" name="delNum" class="delNum" value="${e.pdtNo }">	
+								</td>
 								<td><c:out value="${e.pdtCategory}"/></td>
 								<td>
 									<a class="product-update" href="${path}/admin/productUpdate">
@@ -250,6 +253,8 @@
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 <script>
+	
+	//전체 선택
 	var checkAll = "false";
 	var items = document.getElementsByName("check");
 	function selectAll() {
@@ -267,14 +272,21 @@
 		}
 	}
 	
+	//선택 삭제
 	function deletePro(){
-		var obj = $("input[name=check]");
-	       
+	
+	    var list=new Array();   
         for (var i=0; i<items.length; i++){
-            if(obj.eq(i).is(":checked")){
-                obj.eq(i).parent().parent().remove()
+        	var check=$("input[name=check]").eq(i);
+            if(check.is(":checked")){
+            	//체크 되어있으면 해당 제품번호를 list에 넣기
+ 				check.next().each(function(index,item){
+    				list.push($(item).val());
+    			}); 
             }
         }
+        alert(list);
+        location.href='${path}/admin/deleteSelect?pdtNo='+list;
 	}
 </script>
 

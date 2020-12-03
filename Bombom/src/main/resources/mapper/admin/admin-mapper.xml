@@ -62,6 +62,10 @@
 			LEFT JOIN PRODUCT_OPTION ON(PDT_NO=PDT_NO_REF) 
 		ORDER BY PDT_DATE DESC 
 	</select>
+	<!-- 제품 삭제 -->
+	<delete id="deleteProduct" parameterType="string">
+		DELETE FROM PRODUCT WHERE PDT_NO=#{pdtNo}
+	</delete>
 	<!-- 제품 등록 -->
 	<insert id="insertProduct" parameterType="product">
 		INSERT INTO PRODUCT 
