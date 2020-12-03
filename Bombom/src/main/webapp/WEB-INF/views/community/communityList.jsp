@@ -39,12 +39,9 @@ section {
 	grid-auto-rows: minmax(500px, auto);
 }
 </style>
-
-<section class="container">
-
-	<!-- 로그인 되어야 커뮤니티 이용 가능  -->
-	<c:if test="${loginMember!=null }">
-
+<!-- 로그인 되어야 커뮤니티 이용 가능  -->
+<c:if test="${loginMember!=null }">
+	<section class="container">
 		<!-- 커뮤니티 wrapper , grid 사용 -->
 
 		<div class="wrapper">
@@ -76,16 +73,16 @@ section {
 				</div>
 			</c:forEach>
 		</div>
-		<br>
-		<br>
+		<br> <br>
 
 		<div class="text-right">
 			<button class="btn btn-success" id="communityAddbtn"
 				onclick="location.replace('${path }/community/communityForm')">글쓰기</button>
 		</div>
 
-	</c:if>
-</section>
+
+	</section>
+</c:if>
 <script>
 	//좋아요 하트 그림 바꾸기
 </script>

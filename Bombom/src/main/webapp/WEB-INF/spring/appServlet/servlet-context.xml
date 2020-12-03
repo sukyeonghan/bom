@@ -38,6 +38,15 @@
       <beans:property name="maxUploadSize" value="10485760"/>
    </beans:bean>
    
+  <!-- 인터셉터설정하기 -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/community/*"/>
+			<beans:bean id="logincheck" class="com.kh.bom.community.controller.LoginCheckInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
+   
    
    
    <!-- redirect:/시 뒤로가도 정보 없도록 캐쉬지우기 ??  -->
