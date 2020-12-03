@@ -14,8 +14,8 @@ public interface AdminDao {
 	List<Event> selectEvent(SqlSession session);
 	int eventDelete(SqlSession session, String eventNo);
 	int insertEvent(SqlSession session, Event e);
-	
-
+	Event selectEvent(SqlSession session, String eventNo);
+	int updateEvent(SqlSession session, Event e);
 	//상품등록
 	int insertProduct(SqlSession session,Product p);
 	int insertThumb(SqlSession session,ProductThumb th);

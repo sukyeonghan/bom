@@ -11,7 +11,8 @@ public interface AdminService {
 	List<Event> selectEvent();
 	int eventDelete(String eventNo);
 	int insertEvent(Event e);
-	
+	Event selectEvent(String eventNo);
+	int updateEvent(Event e);
 	//상품 등록
 	int insertProduct(Product p,List<ProductThumb> list);
 
