@@ -9,7 +9,9 @@ public interface CommunityService {
 	
 	int insertCommunity(Community community);
 	
-	List<Community> selectCommunityList();
+	List<Community> selectCommunityList(int cPage, int numPerpage);
+	
+	int selectCount();
 	
 	Community selectCommunityOne(String cmNo);
 	

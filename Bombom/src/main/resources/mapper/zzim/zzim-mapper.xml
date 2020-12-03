@@ -12,5 +12,12 @@
 		<result property="zzimDate" column="zzim_date"/>	
 	</resultMap>
 	
+	<select id="selectZzimList" parameterType="String" resultMap="zzimMap">
+		SELECT * FROM ZZIM WHERE MEM_NO=#{memNo}
+
+	</select>
 	
+	<insert id="insertZzim">
+		INSERT INTO ZZIM VALUES('Z'||SEQ_ZZIM_NO.NEXTVAL,#{memNo},#{zzimName})
+	</insert>
 </mapper>

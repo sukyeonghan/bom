@@ -2,6 +2,7 @@ package com.kh.bom.community.model.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -17,9 +18,16 @@ public class CommunityDaoImpl implements CommunityDao {
 	}
 
 	@Override
-	public List<Community> selectCommunityList(SqlSession session) {
+	public List<Community> selectCommunityList(SqlSession session,int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
-		return session.selectList("community.selectCommunityList");
+		return session.selectList("community.selectCommunityList",null,
+				new RowBounds((cPage-1)*numPerpage,numPerpage));
+	}
+	
+	@Override
+	public int selectCount(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("community.selectCount");
 	}
 
 	@Override
