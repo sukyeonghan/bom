@@ -63,6 +63,7 @@ div#btn-box {
 
 	<br>
 		<div id="notice-container">
+		<h3>공지사항</h3>
 		<!-- faq값이 없을 때는 등록, faq 값이 넘어왔을떄는  수정 -->
 		<c:if test="${empty notice }">
 			<form name="noticeFrm" action="${path }/notice/insertNotice" onsubmit="return fn_check()">
