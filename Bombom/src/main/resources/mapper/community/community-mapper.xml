@@ -19,7 +19,7 @@
 	</insert>
 
 	<select id="selectCommunityList" resultType="map">
-		SELECT * FROM COMMUNITY
+		SELECT * FROM COMMUNITY ORDER BY CM_DATE DESC
 	</select>
 
 	<select id="selectCommunityOne" parameterType="string"
@@ -53,5 +53,9 @@
 		SET CM_LIKE = 0
 		WHERE WHERE MEM_NO={memNo} AND CM_NO = #{cmNo}
 	</update>
+	
+	<select id="selectCount" resultType="_int">
+  	SELECT COUNT(*) FROM COMMUNITY
+  </select>
 
 </mapper>

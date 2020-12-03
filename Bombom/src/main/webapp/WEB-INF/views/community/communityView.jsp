@@ -44,16 +44,19 @@ div#btn-box {
 				<br>
 				<textarea id="editor" class="form-control" rows="10" name="cmContent" placeholder="내용을 입력해주세요" required><c:out value="${community.cmContent }"/></textarea>
 				<br>
+				
+				<!-- 해당 게시글 작성자에게만 수정 / 삭제 버튼 보인다 --> 
+				
 				<div id="btn-box">
-					
+				 <c:if test="${loginMember.memNo eq community.cmWriter }">
 					<input type="hidden" value="${community.cmNo }"
 						name="cmNo" />
 						<button class="btn btn-outline-success"
 							onclick="fn_updateCommunity();">수정</button>
 						<button class="btn btn-outline-secondary"
 							onclick="fn_deleteCommunity();">삭제</button>
+							</c:if>
 				</div>
-				
 
 		</div>
 		

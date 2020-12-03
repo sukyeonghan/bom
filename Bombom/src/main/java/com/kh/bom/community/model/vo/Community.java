@@ -22,7 +22,5 @@ public class Community {
 	private String cmContent;
 	private String cmThumbnail;
 	
-
-	
  
 }

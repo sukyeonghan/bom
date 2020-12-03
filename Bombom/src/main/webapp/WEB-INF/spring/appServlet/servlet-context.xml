@@ -42,7 +42,7 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/community/*"/>
-			<beans:bean id="logincheck" class="com.kh.bom.community.controller.LoginCheckInterceptor"/>
+			<beans:bean id="logincheck" class="com.kh.bom.common.page.LoginCheckInterceptor"/>
 		</interceptor>
 	</interceptors>
 	
