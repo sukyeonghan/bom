@@ -50,12 +50,42 @@ public class InquiryController {
 	}
 	
 	//상품문의 상세보기 팝업창
-	@RequestMapping("/inquiry/inquiryView")
-	public String inquiryView(String inqNo,String memNick,Model m) {
+	@RequestMapping("/inquiry/inquiryView") 
+	public String inquiryView(String inqNo,String memNick,Model m) { 
+		
 		Inquiry i = service.selectInquiryOne(inqNo);
-		m.addAttribute("memNick",memNick);
-		m.addAttribute("inquiry",i);
-		return "product/inquiry/inquiryView";
+		m.addAttribute("memNick",memNick); 
+		m.addAttribute("inquiry",i); 
+		
+		return "product/inquiry/inquiryView"; 
+	}
+	 
+	
+	//상품문의 모달창에서 답변하기
+	@RequestMapping("/inquiry/insertInquiryAnswer")
+	public ModelAndView inquiryAnswer(Inquiry i,ModelAndView mv) {
+		
+		int result = service.insertInquiryAnswer(i);
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		
+		if(result>0) {
+			msg = "답변이 등록되었습니다";
+			loc = "/product/productOne";
+			icon = "success";
+		}else {
+			msg = "답변을 다시 등록해주세요";
+			loc = "/product/productOne";
+			icon = "warning";
+		}
+
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon",icon);
+		mv.setViewName("common/msg");
+		return mv;		
+		
 	}
 	
 	

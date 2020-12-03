@@ -55,6 +55,10 @@ public class ProductController {
 					}
 				}
 			}
+			//작성글에 답변이 안 달린경우
+			if(i.getInqAnswerYn().equals("N")) {
+				i.setInqAnswer("관리자의 답변을 기다려주세요");
+			}
 		}		
 		
 		mv.addObject("list", list);
@@ -90,6 +94,10 @@ public class ProductController {
 						i.setInqContent("비밀글입니다");
 					}
 				}
+			}
+			//작성글에 답변이 안 달린경우
+			if(i.getInqAnswerYn().equals("N")) {
+				i.setInqAnswer("관리자의 답변을 기다려주세요");
 			}
 		}
 		

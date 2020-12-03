@@ -9,5 +9,8 @@ public interface InquiryService {
 	
 	//상품문의 상세보기
 	Inquiry selectInquiryOne(String inqNo);
+	
+	//상품문의 모달창 답변등록
+	int insertInquiryAnswer(Inquiry i);
 
 }

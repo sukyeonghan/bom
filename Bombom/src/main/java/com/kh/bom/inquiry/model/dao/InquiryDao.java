@@ -10,5 +10,6 @@ public interface InquiryDao {
 	
 	Inquiry selectInquiryOne(SqlSession session, String inqNo);
 	
+	int insertInquiryAnswer(SqlSession session, Inquiry i);
 
 }

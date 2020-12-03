@@ -25,6 +25,11 @@ public class InquiryServiceImpl implements InquiryService {
 		return dao.selectInquiryOne(session, inqNo);
 	}
 
+	@Override
+	public int insertInquiryAnswer(Inquiry i) {
+		return dao.insertInquiryAnswer(session, i);
+	}
+
 	
 
 }
