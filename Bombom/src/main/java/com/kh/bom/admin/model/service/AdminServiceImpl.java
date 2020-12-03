@@ -27,6 +27,11 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	public Event selectEvent(String eventNo) {
+		return dao.selectEvent(session, eventNo);
+	}
+
+	@Override
 	public int eventDelete(String eventNo) {
 		return dao.eventDelete(session, eventNo);
 	}
@@ -36,7 +41,31 @@ public class AdminServiceImpl implements AdminService {
 		return dao.insertEvent(session, e);
 	}
 	
-	//상품등록
+	@Override
+	public int updateEvent(Event e) {
+		return dao.updateEvent(session, e);
+	}
+	
+	//제품목록 출력
+	@Override
+	public List<Product> selectProductList() {
+		
+		return dao.selectProductList(session);
+	}
+	//제품 선택 삭제
+	@Override
+	public int deleteSelectProduct(List<String> delnum) {
+		// TODO Auto-generated method stub
+		int result=0;
+		String no="";
+		for(int i=0; i<delnum.size(); i++) {
+			no=delnum.get(i);
+			result=dao.deleteProduct(session,no);
+		}
+		return result;
+	}
+	
+	//제품등록
 	@Override
 	@Transactional
 	public int insertProduct(Product p, List<ProductThumb> list) {

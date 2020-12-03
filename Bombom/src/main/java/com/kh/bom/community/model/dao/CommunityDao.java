@@ -10,8 +10,10 @@ public interface CommunityDao {
 	
 	int insertCommunity(SqlSession session,Community community);
 	
-	List<Community> selectCommunityList(SqlSession session);
+	List<Community> selectCommunityList(SqlSession session,int cPage, int numPerpage);
 
+	int selectCount(SqlSession session);
+	
 	Community selectCommunityOne(SqlSession session,String cmNo);
 	
 	int deleteCommunity(SqlSession session, String cmNo);

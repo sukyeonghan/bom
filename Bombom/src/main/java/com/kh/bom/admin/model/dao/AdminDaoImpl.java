@@ -31,6 +31,16 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
+	public Event selectEvent(SqlSession session, String eventNo) {
+		return session.selectOne("admin.selectEventOne", eventNo);
+	}
+
+	@Override
+	public int updateEvent(SqlSession session, Event e) {
+		return session.update("admin.updateEvent", e);
+	}
+
+	@Override
 	public List<Member> selectMemberList(SqlSession session,int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
 		return session.selectList("admin.selectMemberList","",new RowBounds((cPage-1)*numPerpage,numPerpage));
@@ -42,9 +52,19 @@ public class AdminDaoImpl implements AdminDao {
 		return session.selectOne("admin.selectMemberCount");
 	}
 	
-	
-	
-	//상품등록
+	//제품 목록 
+	@Override
+	public List<Product> selectProductList(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectProductList");
+	}
+	//제품 삭제
+	@Override
+	public int deleteProduct(SqlSession session, String pdtNo) {
+		// TODO Auto-generated method stub
+		return session.delete("admin.deleteProduct",pdtNo);
+	}
+	//제품등록
 	@Override
 	public int insertProduct(SqlSession session, Product p) {
 		// TODO Auto-generated method stub

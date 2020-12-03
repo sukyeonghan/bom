@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,22 +25,50 @@ import com.kh.bom.admin.model.vo.Event;
 import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.product.model.vo.ProductThumb;
 
+import lombok.extern.slf4j.Slf4j;
 
 
+@Slf4j
 @Controller
 public class AdminController {
 	
 	@Autowired
 	private AdminService service;
 
-	//제품 관리페이지 전환
+	//by수경-제품 관리페이지 전환
 	@RequestMapping("/admin/moveProduct")
-	public String moveProductListPage() {
-		return "admin/product/productList";
+	public ModelAndView moveProductListPage(ModelAndView m) {
+		List<Product> list=service.selectProductList();
+		m.addObject("list",list);
+		m.setViewName("admin/product/productList");
+		return m;
 	}
-	//제품 등록 페이지 전환
+	
+	//by수경-제품 목록페이지에서 선택 삭제
+	 @RequestMapping("/admin/deleteSelect") 
+	 public ModelAndView deleteSelectProduct(
+			 @RequestParam List<String> pdtNo,ModelAndView m) { 
+		 int result=service.deleteSelectProduct(pdtNo); 
+		 String msg="";
+		 String icon="";
+		 if(result>0) {
+			msg="삭제에 성공하였습니다.";
+			icon="success";
+		 }else {
+			msg="삭제에 실패하였습니다.";
+			icon = "error";
+		 }
+		 m.addObject("msg", msg);
+		 m.addObject("loc","/admin/moveProduct");
+		 m.addObject("icon", icon);
+		 m.setViewName("common/msg");
+		 return m; 
+	}
+	
+	//by수경-제품 등록 페이지 전환
 	@RequestMapping("/admin/productInsert")
 	public ModelAndView moveProductinsertPage(ModelAndView m) {
 		List<Event> selectEvent =service.selectEvent();
@@ -47,14 +76,18 @@ public class AdminController {
 		m.setViewName("admin/product/insertProduct");
 		return m;
 	}
-	//제품 등록
+	//by수경-제품 등록-201202수정
 	@RequestMapping("/admin/productInsertEnd")
-	public ModelAndView insertProduct(Product p,ModelAndView m,
-			@RequestParam(value="pdtOptionAddprice", required = false,defaultValue="0") int addPrice, 
+	public ModelAndView insertProduct(Product p,ProductOption o,ModelAndView m,
+			
+			@RequestParam(value="test[]",required = false) List<String> optContent,
+			@RequestParam(value="test2[]", required = false) List<String> optPrice,
 			@RequestParam(value="thumbImgs",required=false) MultipartFile[] thumbImgs,
 			@RequestParam(value="detailImg",required=false) MultipartFile[] detailImg,
 			HttpSession session) {
-		
+	/*	@RequestParam(value="pdtOptionContent",required = false) List<String> optContent,
+		@RequestParam(value="pdtOptionAddprice", required = false) List<String> optPrice,*/
+	
 		String path=session.getServletContext().getRealPath("/resources/upload/product");
 		File dir=new File(path);
 		
@@ -97,10 +130,28 @@ public class AdminController {
 			}
 			p.setPdtDetailImage(reName);
 		}
+		
 		int result=service.insertProduct(p,files);
+		String msg="";
+		String icon = "";
+		if(result>0) {
+			msg="제품 등록이 완료되었습니다.";
+			icon = "success";
+		}else {
+			msg="제품 등록에 실패하였습니다.";
+			icon = "error";
+		}
+		m.addObject("msg", msg);
+		m.addObject("loc","/admin/moveProduct");
+		m.addObject("icon", icon);
+		m.setViewName("common/msg");
+	
+		
+		//redirectAttributes.addFlashAttribute("/admin/productUpdate",p);
 		return m;
 	}
-	//제품 수정 및 삭제 페이지 전환
+	
+	//by수경-제품 수정 및 삭제 페이지 전환
 	@RequestMapping("/admin/productUpdate")
 	public String moveProductUpdatePage() {
 		return "admin/product/updateProduct";
@@ -118,7 +169,6 @@ public class AdminController {
 	//이벤트 한개row삭제
 	@RequestMapping("/admin/eventDelete")
 	public ModelAndView eventDelete(ModelAndView mv,String eventNo) {
-		System.out.println(eventNo);
 		int result = service.eventDelete(eventNo);
 		String msg = "";
 		String loc = "";
@@ -182,6 +232,51 @@ public class AdminController {
 		mv.setViewName("common/msg");
 		return mv;
 	}
+	//이벤트 수정
+	@RequestMapping("admin/moveEventUpdate")
+	public ModelAndView moveUpdateEvent(ModelAndView mv, String eventNo) {
+		Event e = service.selectEvent(eventNo);
+		mv.addObject("e", e);
+		mv.setViewName("admin/event/eventUpdate");
+		return mv;
+	}
+	@RequestMapping("/admin/eventUpdate")
+	public ModelAndView updateEvent(ModelAndView mv,String eventNo, String eventTitle, 
+			@DateTimeFormat(pattern = "yyyyMMdd") String eventStartDate,
+			@DateTimeFormat(pattern = "yyyyMMdd") String eventEndDate,
+			String eventCategory, int eventSalePer) throws ParseException {	
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		Date d = (Date) sf.parse(eventStartDate);
+		Date d2 = (Date) sf.parse(eventEndDate);
+		Event e = new Event();
+		e.setEventNo(eventNo);
+		e.setEventTitle(eventTitle);
+		e.setEventStartDate(d);
+		e.setEventEndDate(d2);
+		e.setEventCategory(eventCategory);
+		e.setEventSalePer(eventSalePer);
+		int result = service.updateEvent(e);
+		
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		if(result>0) {
+			msg = "이벤트가 수정되었습니다!:)";
+			loc = "/admin/moveEvent";
+			icon = "success";
+		}else {
+			msg = "수정이 실패했어요:(";
+			loc = "/admin/moveEvent";
+			icon = "error";
+		}
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon", icon);
+		mv.setViewName("common/msg");
+		
+		return mv;
+	}
+	
 	//회원관리
 	@RequestMapping("/admin/memberList")
 	public ModelAndView memberList(ModelAndView mv,

@@ -8,5 +8,8 @@ public interface InquiryDao {
 	
 	int insertInquiry(SqlSession session, Inquiry i);
 	
+	Inquiry selectInquiryOne(SqlSession session, String inqNo);
+	
+	int insertInquiryAnswer(SqlSession session, Inquiry i);
 
 }

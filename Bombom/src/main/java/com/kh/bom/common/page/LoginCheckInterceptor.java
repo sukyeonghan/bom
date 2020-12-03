@@ -1,4 +1,4 @@
-package com.kh.bom.community.controller;
+package com.kh.bom.common.page;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
