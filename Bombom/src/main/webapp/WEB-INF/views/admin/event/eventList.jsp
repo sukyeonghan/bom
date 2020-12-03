@@ -42,24 +42,7 @@
 		padding:5px;
 	}
 	th,td{
-		border:1px solid black;
 		padding:5px;
-	}
-	/*상품 수정,삭제페이지로 넘어가는 a태그 */
-	/*클릭 안 했을 때*/
-	.product-update:link{
-		text-decoration:none;
-		color:#45A663;
-	}
-	/*방문했을 때*/
-	.product-update:visited{
-		text-decoration:none;
-		color:#45A663;
-	}
-	/*마우스 올렸을 때*/
-	.product-update:hover{
-		text-decoration:none;
-		color:black;
 	}
 	  /*페이지바*/
     .pagebar{
@@ -103,7 +86,7 @@
 		<div id="" class=" mr-3 admin-nav">
 		  <ul class="nav flex-column">
 		    <li class="nav-item">
-      			<a class="nav-link non-select" href="${path }/">회원관리</a>
+      			<a class="nav-link non-select" href="${path }/admin/memberList">회원관리</a>
 		    </li>
 		    <li class="nav-item">
 		      	<a class="nav-link select" href="${path }/admin/moveProduct">제품관리</a>
@@ -154,6 +137,7 @@
 						<th>할인율</th>
 						<th>이벤트기간</th>
 						<th></th> <!-- 삭제버튼용 -->
+						<th></th> <!-- 수정버튼용 -->
 					</tr>
 					<c:forEach items="${list }" var="e">
 					<tr>
@@ -164,6 +148,7 @@
 						<td><c:out value="${e.eventSalePer }" />%</td>
 						<td><fmt:formatDate value="${e.eventStartDate }" /> ~ <fmt:formatDate value="${e.eventEndDate }" /></td>
 						<td><button id="event-delete" class="btn btn-sm btn-outline-danger" onclick="fn_delete('${e.eventNo}');">삭제</button></td>
+						<td><button id="event-delete" class="btn btn-sm btn-outline-secondary" onclick="fn_update('${e.eventNo}');">수정</button></td>
 					</tr>
 						
 					</c:forEach>
@@ -227,8 +212,19 @@
 		var no = {eventNo : eventNo};
 		var ck = confirm("정말로 삭제하시겠습니까?");
 		if(ck){
+			window.location.replace = url+'?'+$.param(no);
+		}
+	}
+	
+	//수정하기버튼 구현
+	function fn_update(eventNo){
+		var url = "${path}/admin/moveEventUpdate";
+		var no = {eventNo:eventNo};
+		var ck = confirm("수정하시겠습니까?");
+		if(ck){
 			window.location = url+'?'+$.param(no);
 		}
+		
 	}
 	
 </script>

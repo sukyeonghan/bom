@@ -47,12 +47,29 @@
 	</resultMap>
 	
 	<select id="selectEvent" resultMap="eventMap">
-		SELECT * FROM EVENT
+		SELECT * FROM EVENT 
 	</select>
 	
+	<select id="selectEventOne" parameterType="string" resultMap="eventMap">
+		SELECT * FROM EVENT WHERE EVENT_NO = #{eventNo}
+	</select>
+	<insert id="insertEvent" parameterType="event">
+		INSERT INTO EVENT 
+		VALUES('E'||TO_CHAR(SEQ_EVENT_NO.NEXTVAL),
+			#{eventTitle},#{eventStartDate},#{eventEndDate},#{eventCategory},#{eventSalePer})
+	</insert>
+	
 	<delete id="eventDelete" parameterType="string">
-		DELETE FROM EVENT WHERE EVENT_NO = #{evetNo}
+		DELETE FROM EVENT WHERE EVENT_NO = #{eventNo}
 	</delete>
+	<update id="updateEvent" parameterType="event"> 
+		UPDATE EVENT SET EVENT_TITLE = #{eventTitle}, 
+					EVENT_START_DATE = #{eventStartDate},
+					EVENT_END_DATE = #{eventEndDate},
+					EVENT_CATEGORY = #{eventCategory},					
+					EVENT_SALE_PER = #{eventSalePer}
+		WHERE EVENT_NO = #{eventNo}				
+	</update>
 	
 	<insert id="insertProduct" parameterType="product">
 		INSERT INTO PRODUCT 
