@@ -105,6 +105,7 @@
 	<div class="media">
 	
 		<!--관리자 내비게이션바 -->
+
 		<jsp:include page="/WEB-INF/views/admin/product/productNav.jsp"/>
 		
 		<div id="admin-container" class="media-body">

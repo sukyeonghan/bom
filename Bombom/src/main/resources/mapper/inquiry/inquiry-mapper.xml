@@ -7,7 +7,7 @@
 		<result property="pdtNo" column="pdt_no"/>
 		<result property="memNo" column="mem_no"/>
 		<result property="inqContent" column="inq_content"/>
-		<result property="inqDate" column="inq_date"/>
+		<result property="inqDate" column="inq_date" typeHandler="dateStr"/>
 		<result property="inqSecret" column="inq_secret"/>
 		<result property="inqAnswerYn" column="inq_answer_yn"/>
 		<result property="inqAnswer" column="inq_answer"/>
@@ -19,14 +19,25 @@
 	</insert>
 	
 	<select id="inquiryList" resultMap="inquiryMap">
-		SELECT I.*, M.MEM_NICK AS MEMNICK 
-		FROM INQUIRY I
-		JOIN MEMBER M ON M.MEM_NO=I.MEM_NO
+		SELECT 
+		    INQ_NO,PDT_NO,MEMBER.MEM_NO,INQ_CONTENT,TO_CHAR(INQ_DATE,'YYYY-MM-DD HH24:MI:SS') AS INQ_DATE,
+		    INQ_SECRET,INQ_ANSWER_YN,INQ_ANSWER,INQ_ANSWERDATE,
+		    MEMBER.MEM_NICK AS MEMNICK, MEMBER.MEM_MANAGER_YN AS MEMMANAGERYN
+		FROM INQUIRY
+		JOIN MEMBER ON INQUIRY.MEM_NO=MEMBER.MEM_NO
 		ORDER BY INQ_DATE DESC
 	</select>
 	
 	<select id="inquiryCount" resultType="_int">
 		SELECT COUNT(*) FROM INQUIRY
 	</select>
+	
+	<select id="selectInquiryOne" parameterType="string" resultMap="inquiryMap">
+		SELECT * FROM INQUIRY WHERE INQ_NO=#{inqNo}
+	</select>
+	
+	<update id="insertInquiryAnswer" parameterType="inquiry">
+		UPDATE INQUIRY SET INQ_ANSWER_YN='Y', INQ_ANSWER=#{inqAnswer}, INQ_ANSWERDATE=SYSDATE WHERE INQ_NO=#{inqNo}
+	</update>
 
 </mapper>

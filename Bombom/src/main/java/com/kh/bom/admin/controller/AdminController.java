@@ -169,7 +169,6 @@ public class AdminController {
 	//이벤트 한개row삭제
 	@RequestMapping("/admin/eventDelete")
 	public ModelAndView eventDelete(ModelAndView mv,String eventNo) {
-		System.out.println(eventNo);
 		int result = service.eventDelete(eventNo);
 		String msg = "";
 		String loc = "";
@@ -233,6 +232,51 @@ public class AdminController {
 		mv.setViewName("common/msg");
 		return mv;
 	}
+	//이벤트 수정
+	@RequestMapping("admin/moveEventUpdate")
+	public ModelAndView moveUpdateEvent(ModelAndView mv, String eventNo) {
+		Event e = service.selectEvent(eventNo);
+		mv.addObject("e", e);
+		mv.setViewName("admin/event/eventUpdate");
+		return mv;
+	}
+	@RequestMapping("/admin/eventUpdate")
+	public ModelAndView updateEvent(ModelAndView mv,String eventNo, String eventTitle, 
+			@DateTimeFormat(pattern = "yyyyMMdd") String eventStartDate,
+			@DateTimeFormat(pattern = "yyyyMMdd") String eventEndDate,
+			String eventCategory, int eventSalePer) throws ParseException {	
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		Date d = (Date) sf.parse(eventStartDate);
+		Date d2 = (Date) sf.parse(eventEndDate);
+		Event e = new Event();
+		e.setEventNo(eventNo);
+		e.setEventTitle(eventTitle);
+		e.setEventStartDate(d);
+		e.setEventEndDate(d2);
+		e.setEventCategory(eventCategory);
+		e.setEventSalePer(eventSalePer);
+		int result = service.updateEvent(e);
+		
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		if(result>0) {
+			msg = "이벤트가 수정되었습니다!:)";
+			loc = "/admin/moveEvent";
+			icon = "success";
+		}else {
+			msg = "수정이 실패했어요:(";
+			loc = "/admin/moveEvent";
+			icon = "error";
+		}
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon", icon);
+		mv.setViewName("common/msg");
+		
+		return mv;
+	}
+	
 	//회원관리
 	@RequestMapping("/admin/memberList")
 	public ModelAndView memberList(ModelAndView mv,

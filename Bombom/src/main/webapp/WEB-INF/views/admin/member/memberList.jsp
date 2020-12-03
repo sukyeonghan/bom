@@ -49,9 +49,6 @@
 		    <li class="nav-item">
 		      	<a class="nav-link non-select" href="${path }/">이벤트관리</a>
 		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="${path }/">커뮤니티관리</a>
-		    </li>
 		  </ul>
 		</div>
 		
@@ -66,6 +63,7 @@
 							<th>닉네임</th>
 							<th>적립금</th>
 							<th>악성댓글</th>				
+							<th>탈퇴여부</th>				
 							<th>관리자여부</th>				
 						</tr>
 					</thead>
@@ -83,6 +81,7 @@
 								<c:if test="${member.memWarnCount < 10}">
 									<td><c:out value="(${member.memWarnCount}/10)"/></td>
 								</c:if>
+								<td><c:out value="${member.memStatus}"/></td>
 								<td>
 									<c:out value="${member.memManagerYn}"/>&nbsp;&nbsp;
 									<input type="hidden" value="${member.memNo }" name="memNo"/>

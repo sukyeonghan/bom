@@ -13,6 +13,8 @@ public interface AdminService {
 	List<Event> selectEvent();
 	int eventDelete(String eventNo);
 	int insertEvent(Event e);
+	Event selectEvent(String eventNo);
+	int updateEvent(Event e);
 	
 	//제품목록 출력
 	List<Product> selectProductList();

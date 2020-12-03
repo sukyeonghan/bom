@@ -20,6 +20,16 @@ public class InquiryServiceImpl implements InquiryService {
 		return dao.insertInquiry(session, i);
 	}
 
+	@Override
+	public Inquiry selectInquiryOne(String inqNo) {
+		return dao.selectInquiryOne(session, inqNo);
+	}
+
+	@Override
+	public int insertInquiryAnswer(Inquiry i) {
+		return dao.insertInquiryAnswer(session, i);
+	}
+
 	
 
 }

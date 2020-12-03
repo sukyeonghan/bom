@@ -27,6 +27,11 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	public Event selectEvent(String eventNo) {
+		return dao.selectEvent(session, eventNo);
+	}
+
+	@Override
 	public int eventDelete(String eventNo) {
 		return dao.eventDelete(session, eventNo);
 	}
@@ -34,6 +39,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int insertEvent(Event e) {
 		return dao.insertEvent(session, e);
+	}
+	
+	@Override
+	public int updateEvent(Event e) {
+		return dao.updateEvent(session, e);
 	}
 	
 	//제품목록 출력
@@ -54,6 +64,7 @@ public class AdminServiceImpl implements AdminService {
 		}
 		return result;
 	}
+	
 	//제품등록
 	@Override
 	@Transactional
