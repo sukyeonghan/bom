@@ -34,7 +34,10 @@ div#community-container {
 .ck-editor_editable {
 	min-height: 500px;
 }
-
+.title{
+font-weight: 800;
+font-size: 35px;
+}
 </style>
 <section id="content" class="container">
 	<h3>
@@ -52,11 +55,9 @@ div#community-container {
 	<div id="community-container" class="media-body">
 		<form name="communityFrm" action="${path }/community/insertCommunity" onsubmit="return fn_check()">
 			<br> 
-			<input type="text" class="form-control" name="cmTitle" placeholder="제목을 입력해주세요" required>
+			<input type="text" class="form-control w3-input title" name="cmTitle" placeholder="제목을 입력해주세요" required>
 			  <br>
-				<div class="input-group-prepend" style="padding: 0px;">
-				<div class="input-group-text"> 가장 멋진 사진을 골라주세요! 글의 썸네일이 될거에요 :)</div> 
-			</div>
+				
 			<br>
 				<input type="file" id="image" name="upFile" onchange="setThumbnail(event);"/>
 				<br>
@@ -67,7 +68,7 @@ div#community-container {
 					      var img = document.createElement("img"); 
 					      img.setAttribute("src", event.target.result); 
 					      img.setAttribute("width","750px");
-					      img.setAttribute("height","250px"); //이미지 크기 고정
+					      img.setAttribute("height","500px"); //이미지 크기 고정
 					      document.querySelector("div#image_container").appendChild(img); 
 					      }; 
 					      reader.readAsDataURL(event.target.files[0]); 
@@ -76,7 +77,7 @@ div#community-container {
 
 
 			<br>
-				<input type="text" class="form-control" name="cmWriter" value="${loginMember.memNo }"> <br>
+				<input type="text" class="form-control w3-input" name="cmWriter" value="${loginMember.memNo }"> <br>
 
 			<input type="hidden" class="form-control" name="cmLike" value="0">
 			 <br> 
