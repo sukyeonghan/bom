@@ -21,6 +21,7 @@ public class Inquiry {
 	private String inqAnswer;
 	private Date inqAnswerDate;
 	private String memNick;
+	private String memManagerYn;
 	
 
 }
