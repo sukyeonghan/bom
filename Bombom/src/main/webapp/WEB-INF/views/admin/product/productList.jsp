@@ -253,19 +253,24 @@
 	
 	//선택 삭제
 	function deletePro(){
-	
-	    var list=new Array();   
-        for (var i=0; i<items.length; i++){
-        	var check=$("input[name=check]").eq(i);
-            if(check.is(":checked")){
-            	//체크 되어있으면 해당 제품번호를 list에 넣기
- 				check.next().each(function(index,item){
-    				list.push($(item).val());
-    			}); 
-            }
-        }
-        alert(list);
-        location.href='${path}/admin/deleteSelect?pdtNo='+list;
+		if(confirm("정말 삭제하시겠습니까?")==true){
+			
+			var list=new Array();   
+	        for (var i=0; i<items.length; i++){
+	        	var check=$("input[name=check]").eq(i);
+	            if(check.is(":checked")){
+	            	//체크 되어있으면 해당 제품번호를 list에 넣기
+	 				check.next().each(function(index,item){
+	    				list.push($(item).val());
+	    			}); 
+	            }
+	        }
+	        
+	        location.href='${path}/admin/deleteSelect?pdtNo='+list;
+		}else{
+			return false;
+		}
+	    
 	}
 </script>
 
