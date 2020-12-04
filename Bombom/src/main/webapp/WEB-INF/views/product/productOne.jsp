@@ -440,7 +440,6 @@
 			        <div id="result">
 				        <div class="container">
 					        <table class="table" style=" table-layout: fixed;">
-						    <c:if test="${not empty list }">	
 						        <thead>
 						        	<tr>
 						        		<td style="width:10%;">상태</td>
@@ -449,6 +448,7 @@
 						        		<td style="width:15%;">작성자</td>
 						        	</tr>
 						        </thead>
+						    <c:if test="${not empty list }">	
 								<c:forEach items="${list}" var="i">
 						        	<thead>
 						        		<tr>
@@ -461,10 +461,21 @@
 						        				</c:if>
 						        			</td>					        		
 						        			<td style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+	<%-- 					        				<c:if test="${i.inqSecret=='N'}">
+						        					<a href="${path}/inquiry/inquiryView?inqNo=${i.inqNo}&memNick=${i.memNick}" onclick="open(this.href,'','top=100px,left=400px,width=600px,height=400px');return false;">
+						        						<c:out value="${i.inqContent }"/>
+						        					</a>
+						        				</c:if>
+						        				<c:if test="${i.inqSecret=='Y' }">
+						        					<img src="${path}/resources/images/product/lock.png" style="width:20px;height:20px;">
+						        					<a href="${path}/inquiry/inquiryView?inqNo=${i.inqNo}&memNick=${i.memNick}" onclick="open(this.href,'','top=100px,left=400px,width=600px,height=400px');return false;">
+						        						<c:out value="${i.inqContent }"/>
+						        					</a>
+						        				</c:if> --%>
 						        				<c:if test="${i.inqSecret=='N'}">
 						        					<a href="#" data-toggle="modal" data-target="#inquiryView" data-no='<c:out value="${i.inqNo}"/>' data-content='<c:out value="${i.inqContent }"/>'
 						        						data-answeryn='<c:out value="${i.inqAnswerYn}"/>' data-date='<fmt:formatDate type="both" timeStyle="short" value="${i.inqDate }"/>' data-memnick='<c:out value="${i.memNick}"/>'
-						        						data-answer='<c:out value="${i.inqAnswer}"/>' data-answerdate='<fmt:formatDate type="both" timeStyle="short" value="${i.inqAnswerDate}"/>'>
+						        						data-answer='<c:out value="${i.inqAnswer}"/>'>
 						        						<c:out value="${i.inqContent }"/>
 						        					</a>
 						        				</c:if>
@@ -472,7 +483,7 @@
 						        					<img src="${path}/resources/images/product/lock.png" style="width:20px;height:20px;">
 						        					<a href="#" data-toggle="modal" data-target="#inquiryView" data-no='<c:out value="${i.inqNo}"/>' data-content='<c:out value="${i.inqContent }"/>'
 						        						data-answeryn='<c:out value="${i.inqAnswerYn}"/>' data-date='<fmt:formatDate type="both" timeStyle="short" value="${i.inqDate }"/>' data-memnick='<c:out value="${i.memNick}"/>'
-						        						data-answer='<c:out value="${i.inqAnswer}"/>' data-answerdate='<fmt:formatDate type="both" timeStyle="short" value="${i.inqAnswerDate}"/>'>
+						        						data-answer='<c:out value="${i.inqAnswer}"/>'>
 						        						<c:out value="${i.inqContent }"/>
 						        					</a>
 						        				</c:if>					        				
@@ -488,7 +499,7 @@
 					        <c:if test="${empty list }">
 					        	<thead>
 					        		<tr>
-					        			<td colspan="4">등록된 문의가 없습니다</td>
+					        			<td>등록된 문의가 없습니다</td>
 					        		</tr>
 					        	</thead>
 					        </c:if>
@@ -512,37 +523,31 @@
 				        
 				        <!-- Modal body -->
 				        <div class="modal-body container">
-				        	<form name="frm_deleteInquiry" action="${path}/inquiry/deleteInquiry" onsubmit="return fn_deleteCheck()">
-					        	<strong><span id="memNick"></span></strong>&nbsp;&nbsp;<span id="inqDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-					        	<input type="hidden" name="inqNo" class="inqNo"/>
-					        	<input type="submit" class="btn btn-outline-success btn-sm" value="삭제">
-					        	<br>
-					        	<span id="inqContent"></span><br>
-				        	</form>
+				        	<strong><span id="memNick"></span></strong>&nbsp;&nbsp;<span id="inqDate"></span><br>
+				        	<span id="inqContent"></span><br>
+				        	<!-- <span id="inqNo"></span> -->
 				        	<hr>
-				        	<strong><span>관리자</span></strong><span class="answerDate"></span>&nbsp;&nbsp;<br>
-				        		<span class="answer"></span>
+				        	<strong><span>관리자</span></strong>&nbsp;&nbsp;<br>
+				        	<span id="answer"></span>
 				        </div>
-				        <!-- 모달창 상품문의 답변창 시작, 관리자일 경우에만 답변창 생김-->
-				        <c:if test="${loginMember.memManagerYn=='Y'}">
-					        <form name="frm_inquiryAnswer" action="${path}/inquiry/insertInquiryAnswer" onsubmit="return fn_answerCheck()">
-						        <div class="writebox_wrap container" style="float:none; margin:0 auto;">
-								    <span class="span_textarea" style="height:150px;">
-										<textarea name="inqAnswer" id="inqAnswer" placeholder="답변을 입력해주세요" style="height:70%;"></textarea>
-										<div style="float:right;">
-											<c:if test="${loginMember!=null }">
-												<input type="hidden" name="memNo" value="${loginMember.memNo}">
-												<input type="hidden" name="inqNo" class="inqNo"/>
-												<input type="submit" class="btn btn-success" value="등록" style="right:0;">
-											</c:if>
-											<c:if test="${loginMember==null }">
-												<input type="button" class="btn btn-success loginCheck" value="등록" style="right:0;">
-											</c:if>
-									    </div>
-								    </span>
-						        </div>
-					        </form><!-- 모달창 상품문의 답변창  끝 -->
-				        </c:if>			        	
+				        <!-- 모달창 상품문의 답변창 시작 -->
+				        <form name="frm_inquiryAnswer" action="${path}/inquiry/insertInquiryAnswer" onsubmit="return fn_answerCheck()">
+					        <div class="writebox_wrap container" style="float:none; margin:0 auto;">
+							    <span class="span_textarea" style="height:150px;">
+									<textarea name="inqAnswer" id="inqAnswer" placeholder="답변을 입력해주세요" style="height:70%;"></textarea>
+									<div style="float:right;">
+										<c:if test="${loginMember!=null }">
+											<input type="hidden" name="memNo" value="${loginMember.memNo}">
+											<input type="hidden" name="inqNo" id="inqNo"/>
+											<input type="submit" class="btn btn-success" value="등록" style="right:0;">
+										</c:if>
+										<c:if test="${loginMember==null }">
+											<input type="button" class="btn btn-success loginCheck" value="등록" style="right:0;">
+										</c:if>
+								    </div>
+							    </span>
+					        </div>
+				        </form><!-- 모달창 상품문의 답변창  끝 -->			        	
 				      </div>
 				    </div>
 				  </div><!-- 상품문의 모달창 끝! -->
@@ -558,15 +563,13 @@
 				  			var memNick = a.data("memnick");
 				  			var answerYn = a.data("answeryn");
 				  			var answer = a.data("answer");
-				  			var answerDate = a.data("answerdate");
 				  			var modal = $(this);
-				  			modal.find(".inqNo").val(inqNo);
+				  			modal.find("#inqNo").val(inqNo);
 				  			modal.find("#inqContent").text(inqContent); //모달창에서 .modal-body에 inqContent값을 출력
 				  			modal.find("#inqDate").text(inqDate);
 				  			modal.find("#memNick").text(memNick);
-				  			modal.find("#answerYn").val(answerYn);
-				  			modal.find(".answer").text(answer);
-				  			modal.find(".answerDate").text(answerDate);
+				  			modal.find("#answerYn").text(answerYn);
+				  			modal.find("#answer").text(answer);
 				  		});
 					});
 				  </script>				    	
