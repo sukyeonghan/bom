@@ -10,6 +10,7 @@ import com.kh.bom.admin.model.vo.Event;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.product.model.vo.ProductThumb;
+import com.kh.bom.qna.model.vo.Qna;
 import com.kh.bom.member.model.vo.Member;
 
 @Repository
@@ -72,8 +73,8 @@ public class AdminDaoImpl implements AdminDao {
 	}
 	//옵션 등록
 	@Override
-	public int insertOption(SqlSession session,Product p) {
-		return session.insert("admin.insertOption",p);
+	public int insertOption(SqlSession session,ProductOption o) {
+		return session.insert("admin.insertOption",o);
 	}
 	
 	//썸네일 등록
@@ -82,6 +83,19 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.insert("admin.insertThumb",th);
 	}
+	//1:1목록 가져오기
+	@Override
+	public List<Qna> selectQnaList(SqlSession session, int cPage, int numPerpage) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectQnaList","",new RowBounds((cPage-1)*numPerpage,numPerpage));
+	}
+	//1:1 페이징처리 위한 count
+	@Override
+	public int selectQnaCount(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("amdin.selectQnaCount");
+	}
+	
 	
 	
 	

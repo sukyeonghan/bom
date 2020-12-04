@@ -22,6 +22,20 @@ public class QnaServiceImpl implements QnaService {
 		// TODO Auto-generated method stub
 		return dao.insertQna(qna, session);
 	}
+
+
+	@Override
+	public Object selectQnaList(int cPage, int numPerpage) {
+		// TODO Auto-generated method stub
+		return dao.selectQnaList(session,cPage,numPerpage);
+	}
+
+
+	@Override
+	public int selectCount() {
+		// TODO Auto-generated method stub
+		return dao.selectCount(session);
+	}
 	
 	
 	
