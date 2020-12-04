@@ -75,41 +75,15 @@
               </tr>
             </thead>
             <tbody>
+            <c:forEach items="${list}" var="q">
               <tr>
-                <td>5</td>
-                <td>주문/배송</td>
-                <td>아직도 제품이 안왔는데요...</td>
-                <td>2020-11-18</td>
-                <td>답변대기</td>
+                <td><c:out value="${q.rownum}"/></td>
+                <td><c:out value="${q.qnaCategory}" /></td>
+                <td><a><c:out value="${q.qnaTitle}" /></a></td>
+                <td><fmt:formatDate type="date" value="${q.qnaDate }"/></td>
+                <td><c:out value="${q.qnaYn}" /></td>
               </tr>
-              <tr>
-                <td>4</td>
-                <td>주문/배송</td>
-                <td>아직도 제품이 안왔는데요...</td>
-                <td>2020-11-18</td>
-                <td>답변대기</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>주문/배송</td>
-                <td>아직도 제품이 안왔는데요...</td>
-                <td>2020-11-18</td>
-                <td>답변대기</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>주문/배송</td>
-                <td>아직도 제품이 안왔는데요...</td>
-                <td>2020-11-18</td>
-                <td>답변대기</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>주문/배송</td>
-                <td>아직도 제품이 안왔는데요...</td>
-                <td>2020-11-18</td>
-                <td>답변대기</td>
-              </tr>
+            </c:forEach>
             </tbody>
           </table>
           <div id="page-bar">${pageBar }</div>
