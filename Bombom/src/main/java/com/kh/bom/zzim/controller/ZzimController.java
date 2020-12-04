@@ -16,7 +16,7 @@ import com.kh.bom.zzim.model.vo.Zzim;
 public class ZzimController {
 	@Autowired
 	private ZzimService service;
-	
+	/*마이페이지 찜목록 리스트*/
 	@RequestMapping("/mypage/zzimList")
 	public ModelAndView selectZzimList(ModelAndView mv,HttpSession session) {
 		Member m=(Member)session.getAttribute("loginMember");
@@ -26,13 +26,16 @@ public class ZzimController {
 		return mv;
 	}
 	
+	/*찜 폴더 생성*/
 	@RequestMapping("/zzim/insertZzim")
 	public ModelAndView insertZzim(ModelAndView mv,Zzim z) {
 		int result =service.insertZzim(z);
 		if(result>0) {
 			mv.addObject("zzim",z);
+			mv.setViewName("mypage/addZzimFolder");
+		
 		}else {
-			mv.addObject("msg","폴더생성실패, 반복될 경우 관리자에게 문의해주세요");
+			mv.addObject("msg","폴더가 생성되지 못했습니다. 반복될 경우 관리자에게 문의해주세요");
 			mv.setViewName("common/msg");
 		}
 		return mv;
