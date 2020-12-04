@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.bom.zzim.model.dao.ZzimDao;
 import com.kh.bom.zzim.model.vo.Zzim;
+import com.kh.bom.zzim.model.vo.ZzimContent;
 @Service
 public class ZzimServiceImpl implements ZzimService {
 	@Autowired
@@ -27,6 +28,14 @@ public class ZzimServiceImpl implements ZzimService {
 		// TODO Auto-generated method stub
 		return dao.insertZzim(session,z);
 	}
+
+	@Override
+	public List<ZzimContent> selectZzimContentList(String zzimNo) {
+		// TODO Auto-generated method stub
+		return dao.selectZzimContentList(session,zzimNo);
+	}
+	
+	
 	
 	
 }

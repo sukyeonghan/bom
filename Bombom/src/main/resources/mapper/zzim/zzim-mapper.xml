@@ -30,7 +30,20 @@
 		)WHERE RANKING =1
 	</select>
 	
-	<insert id="insertZzim">
+	<insert id="insertZzim" parameterType="zzim">
 		INSERT INTO ZZIM VALUES('Z'||SEQ_ZZIM_NO.NEXTVAL,#{memNo},#{zzimName})
 	</insert>
+	
+	<select id="selectZzimContentList" parameterType="string" resultMap="zzimContentMap">
+		SELECT * FROM(
+		    SELECT  ZC.ZZIM_NO,ZC.ZZIM_DATE,ZC.PDT_NO, PT.PDT_THUMB_IMAGE AS zzimPdtImage,PDT_NAME AS zzimPdtName,
+		    RANK() OVER (
+		        PARTITION BY PT.PDT_NO_REF ORDER BY  TO_NUMBER(SUBSTR(PT.PDT_THUMB_NO,3))) AS RANK
+		     FROM ZZIMCONTENT ZC
+		     LEFT JOIN PRODUCT_THUMB PT ON ZC.PDT_NO=PT.PDT_NO_REF 
+             LEFT JOIN PRODUCT PDT ON ZC.PDT_NO=PDT.PDT_NO
+		      ORDER BY ZC.ZZIM_DATE DESC
+		 )WHERE RANK=1 AND ZZIM_NO=#{zzimNo}
+	</select>
+	
 </mapper>
