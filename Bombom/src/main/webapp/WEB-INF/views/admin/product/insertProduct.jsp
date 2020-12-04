@@ -211,8 +211,8 @@
                     </tr>
                     
 				</table>
-				<input type="hidden" name="test[]" id="test_list">
-                <input type="hidden" name="test2[]" id="test_list2">
+				<input type="hidden" name="test" id="test_list">
+                <!-- <input type="hidden" name="test2[]" id="test_list2"> -->
 				
 				<!-- 제품 설명 -->
 				<div id="middle-div">
@@ -299,7 +299,7 @@
 				</div>
 				
 				<div id="bottom-btns">
-					<input type="submit" class="btn btn-success insertPro" value="등록하기" onclick="insertOption()">
+					<input type="submit" class="btn btn-success insertPro" value="등록하기" onclick="return insertOption()">
 					<input type="button" class="btn btn-success goList" onclick="location.href='${path}/admin/moveProduct'" value="목록">
 				</div>
 				
@@ -344,32 +344,19 @@
 	
 	//옵션등록하기
 	function insertOption(){
-		var list=new Array();
-		var list2=new Array();
-		//var map=new HashMap();
 		
-	 	//var table = document.getElementById("insert-table");
-        //테이블 row길이 구하기
-        //var length=table.rows.length;
+		var list=[];
+        //리스트 안에 Map으로 하나씩 넣는다
+        var items = document.getElementsByName("pdtOptionContent");
         
-        //for(var i=4; i <= table.rows.length-1 ; i++){
-		    
-        	//옵션 내용 넣기    
-			$("input[name=pdtOptionContent]").each(function(index,item1){
-				list.push($(item1).val());
-			});
-			$("#test_list").val(list);
-			
-			//옵션 가격 넣기
-			$("input[name=pdtOptionAddprice]").each(function(index,item2){
-				list2.push($(item2).val());
-			});
-			$("#test_list2").val(list2);
-			
-        //};
+        for(var i=0; i<items.length; i++){
+            list.push({"pdtOptionContent":$("input[name=pdtOptionContent]").eq(i).val(),
+            	"pdtOptionAddprice":$("input[name=pdtOptionAddprice]").eq(i).val()});    
+        }
         console.log(list);
-        console.log(list2);
-        alert(list2);
+        $("#test_list").val(JSON.stringify(list));
+        console.log($("#test_list").val());
+		
 	};
 	
 	//이미지 업로드 
