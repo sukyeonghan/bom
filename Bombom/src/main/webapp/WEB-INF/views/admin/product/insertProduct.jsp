@@ -351,14 +351,11 @@
         
         for(var i=0; i<items.length; i++){
             list.push({"pdtOptionContent":$("input[name=pdtOptionContent]").eq(i).val(),
-            	"pdtOptionAddprice":$("input[name=pdtOptionAddprice]").eq(i).val()});
-            
+            	"pdtOptionAddprice":$("input[name=pdtOptionAddprice]").eq(i).val()});    
         }
         console.log(list);
         $("#test_list").val(JSON.stringify(list));
         console.log($("#test_list").val());
-        
-		//alert(list);
 		
 	};
 	

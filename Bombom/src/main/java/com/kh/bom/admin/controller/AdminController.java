@@ -83,20 +83,13 @@ public class AdminController {
 	//by수경-제품 등록-201202수정
 	@RequestMapping("/admin/productInsertEnd")
 	public ModelAndView insertProduct(Product p,ProductOption o,ModelAndView m,
-			
 			@RequestParam(value="test",required = false) String options,
-			
 			@RequestParam(value="thumbImgs",required=false) MultipartFile[] thumbImgs,
 			@RequestParam(value="detailImg",required=false) MultipartFile[] detailImg,
 			HttpSession session) {
-	/*	@RequestParam(value="pdtOptionContent",required = false) List<String> optContent,
-		@RequestParam(value="pdtOptionAddprice", required = false) List<String> optPrice,
-		@RequestParam(value="pdtOptionAddprice", required = false,defaultValue="0") int optPrice,
+	/*	@RequestParam(value="pdtOptionAddprice", required = false,defaultValue="0") int optPrice,
 		@RequestParam(value="test2[]", required = false) List<String> optPrice,*/
-		
-//		product = new Product();
-//		option = new ProductOption();
-		System.out.println(options);
+
 		ObjectMapper mapper=new ObjectMapper();
 		List<Map<Object, Object>> optionMap=null;
 		try {
@@ -108,10 +101,7 @@ public class AdminController {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		System.out.println(optionMap);
-		
-		
-		log.info("확인1");
+
 		String path=session.getServletContext().getRealPath("/resources/upload/product");
 		File dir=new File(path);
 		
@@ -155,7 +145,6 @@ public class AdminController {
 			p.setPdtDetailImage(reName);
 		}
 		
-		log.info("확인2");
 		int result=service.insertProduct(p,o,optionMap,files);
 		
 		String msg="";
@@ -172,8 +161,6 @@ public class AdminController {
 		m.addObject("icon", icon);
 		m.setViewName("common/msg");
 	
-		log.info("확인3");
-		//redirectAttributes.addFlashAttribute("/admin/productUpdate",p);
 		return m;
 	}
 	

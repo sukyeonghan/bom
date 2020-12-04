@@ -75,28 +75,15 @@ public class AdminServiceImpl implements AdminService {
 		//트랜잭션 처리하기
 		int result=dao.insertProduct(session,p);
 		if(result>0) {
-			//List<Map>에 들어있는 옵션 내용,옵션 가격 뺴기
-			/*Iterator<Entry<Integer, String>> entries = options.entrySet().iterator();
-			while(entries.hasNext()){
-			    Map.Entry<Integer, String> entry = entries.next();
-			    System.out.println("[Key]:" + entry.getKey() + " [Value]:" +  entry.getValue());
-			}
-			*/
-			for(Map<Object,Object> map:options) {
-				for(Map.Entry<Object,Object> entry:map.entrySet()) {
-					String key=(String) entry.getKey();
-					Object value=entry.getValue();
-					
-					if(key.contains("pdtOptionContent")) {
-						o.setPdtOptionContent((String)value);
-					}else if(key.contains("pdtOptionPrice")) {
-						o.setPdtOptionAddprice((int)value);
-					}
-					result=dao.insertOption(session, o);
-				}
+			
+			for(int i=0;i<options.size(); i++) {
 				
+				o.setPdtNo(p.getPdtNo());
+				o.setPdtOptionContent((String)(options.get(i).get("pdtOptionContent")));
+				o.setPdtOptionAddprice(Integer.parseInt((String)(options.get(i).get("pdtOptionAddprice"))));
+				result=dao.insertOption(session, o);
 			}
-		
+			
 			if(result>0) {
 					if(list!=null) {
 					for(ProductThumb th : list) {
@@ -121,8 +108,6 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.selectMemberCount(session);
 	}
-	
-	
 	
 
 }
