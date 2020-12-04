@@ -97,7 +97,7 @@
 		</selectKey>
 	</insert>
 	<!-- 옵션 등록 -->
-	<insert id="insertOption" parameterType="product">
+	<insert id="insertOption" parameterType="option">
 		INSERT INTO PRODUCT_OPTION
 			VALUES('PO'||SEQ_PDT_OPTION_NO.NEXTVAL,#{pdtNo},#{pdtOptionContent},#{pdtOptionAddprice})
 	</insert>

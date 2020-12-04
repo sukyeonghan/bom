@@ -21,7 +21,7 @@ public interface AdminService {
 	//제품 선택 삭제
 	int deleteSelectProduct(List<String> delnum);
 	//제품 등록
-	int insertProduct(Product p,List<ProductThumb> list);
+	int insertProduct(Product p,ProductOption o,List<Map<Object,Object>> options,List<ProductThumb> list);
 
 	List<Member> selectMemberList(int cPage, int numPerpage);
 	int selectMemberCount();

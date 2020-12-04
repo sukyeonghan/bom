@@ -150,7 +150,7 @@
 							<tr>
 								<td>
 									<input type="checkbox" name="check" value="check">
-									<input type="hidden" name="delNum" class="delNum" value="${e.pdtNo }">	
+									<input type="hidden" name="delNum" value="${e.pdtNo }">	
 								</td>
 								<td><c:out value="${e.pdtCategory}"/></td>
 								<td>
