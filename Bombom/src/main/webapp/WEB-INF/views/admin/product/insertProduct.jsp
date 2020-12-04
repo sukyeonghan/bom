@@ -344,19 +344,44 @@
 	
 	//옵션등록하기
 	function insertOption(){
-		
+		//alert("야1");
 		var list=[];
-        //리스트 안에 Map으로 하나씩 넣는다
+        
         var items = document.getElementsByName("pdtOptionContent");
         
         for(var i=0; i<items.length; i++){
             list.push({"pdtOptionContent":$("input[name=pdtOptionContent]").eq(i).val(),
             	"pdtOptionAddprice":$("input[name=pdtOptionAddprice]").eq(i).val()});    
         }
-        console.log(list);
         $("#test_list").val(JSON.stringify(list));
+        
+        //var items2 = document.getElementsByName("pdtOptionAddprice");
+        //var test=$("input[name=pdtOptionAddprice]").eq(1).val();
+        //alert("야2");
+        /* if(test ==""||test==null||test==undefined||test==[]||(test!=null && typeof value=="object" &&!Object.keys(test).length)){
+    		
+    		alert("비어있음");
+    		alert(test); //undefined
+    		alert(typeof test); //undefined
+    	}else{
+    		for(var i=0; i<items.length; i++){
+                list.push({"pdtOptionContent":$("input[name=pdtOptionContent]").eq(i).val(),
+                	"pdtOptionAddprice":$("input[name=pdtOptionAddprice]").eq(i).val()});    
+            }
+    		alert("야3"); //안뜸
+    		$("#test_list").val(JSON.stringify(list));
+    	} */
+      /*   var isEmpty =function(test){
+        	
+        } */
+       /*  if($("input[name=pdtOptionContent]").eq(i).val()!=null && $("input[name=pdtOptionAddprice]").eq(i).val() !== null){
+        	
+        } */
+        
+        /* console.log(list);
+        
         console.log($("#test_list").val());
-		
+        alert("야4"); */
 	};
 	
 	//이미지 업로드 

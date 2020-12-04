@@ -83,13 +83,17 @@ public class AdminController {
 	//by수경-제품 등록-201202수정
 	@RequestMapping("/admin/productInsertEnd")
 	public ModelAndView insertProduct(Product p,ProductOption o,ModelAndView m,
+			@RequestParam(value="pdtOptionAddprice", required = false, defaultValue="1") int optPrice,
 			@RequestParam(value="test",required = false) String options,
 			@RequestParam(value="thumbImgs",required=false) MultipartFile[] thumbImgs,
 			@RequestParam(value="detailImg",required=false) MultipartFile[] detailImg,
 			HttpSession session) {
-	/*	@RequestParam(value="pdtOptionAddprice", required = false,defaultValue="0") int optPrice,
+	/*	@RequestParam(value="pdtOptionAddprice", required = false, defaultValue="0") int optPrice,
 		@RequestParam(value="test2[]", required = false) List<String> optPrice,*/
-
+		log.info("1");
+		System.out.println(optPrice);
+		optPrice=0;
+		
 		ObjectMapper mapper=new ObjectMapper();
 		List<Map<Object, Object>> optionMap=null;
 		try {
@@ -144,7 +148,7 @@ public class AdminController {
 			}
 			p.setPdtDetailImage(reName);
 		}
-		
+		log.info("2");
 		int result=service.insertProduct(p,o,optionMap,files);
 		
 		String msg="";
