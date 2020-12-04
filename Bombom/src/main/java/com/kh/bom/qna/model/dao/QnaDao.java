@@ -8,8 +8,8 @@ public interface QnaDao {
 
 	int insertQna(Qna qna, SqlSession session);
 
-	Object selectQnaList(SqlSession session, int cPage, int numPerpage);
+	Object selectQnaList(SqlSession session, String memNo,int cPage, int numPerpage);
 
-	int selectCount(SqlSession session);
+	int selectCount(SqlSession session, String memNo);
 
 }

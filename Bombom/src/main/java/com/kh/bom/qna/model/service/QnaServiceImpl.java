@@ -25,16 +25,16 @@ public class QnaServiceImpl implements QnaService {
 
 
 	@Override
-	public Object selectQnaList(int cPage, int numPerpage) {
+	public Object selectQnaList(String memNo,int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
-		return dao.selectQnaList(session,cPage,numPerpage);
+		return dao.selectQnaList(session,memNo,cPage,numPerpage);
 	}
 
 
 	@Override
-	public int selectCount() {
+	public int selectCount(String memNo) {
 		// TODO Auto-generated method stub
-		return dao.selectCount(session);
+		return dao.selectCount(session,memNo);
 	}
 	
 	

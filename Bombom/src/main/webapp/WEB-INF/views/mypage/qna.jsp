@@ -76,6 +76,7 @@
             </thead>
             <tbody>
             <c:forEach items="${list}" var="q">
+            <c:if test="${q.qnaWriter eq loginMember.memNo}" >
               <tr>
                 <td><c:out value="${q.rownum}"/></td>
                 <td><c:out value="${q.qnaCategory}" /></td>
@@ -83,6 +84,7 @@
                 <td><fmt:formatDate type="date" value="${q.qnaDate }"/></td>
                 <td><c:out value="${q.qnaYn}" /></td>
               </tr>
+            </c:if>
             </c:forEach>
             </tbody>
           </table>

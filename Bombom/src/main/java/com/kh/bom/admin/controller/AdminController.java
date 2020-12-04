@@ -306,7 +306,7 @@ public class AdminController {
 	
 	//1:1문의 
 	//qna(1:1) 목록 가져오기
-		@RequestMapping("admin/qnaList")
+		@RequestMapping("/admin/qnaList")
 		public ModelAndView qnaList(ModelAndView mv,
 				@RequestParam(value="cPage", defaultValue="0") int cPage,
 				@RequestParam(value="numPerpage", defaultValue="5") int numPerpage) {
@@ -314,9 +314,9 @@ public class AdminController {
 			mv.addObject("list",service.selectQnaList(cPage,numPerpage));
 			int totalData=service.selectQnaCount();
 			
-			mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "qna"));
+			mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "qnaList"));
 			mv.addObject("totalData", totalData);
-			mv.setViewName("mypage/qna");
+			mv.setViewName("admin/qna/qnaList");
 			
 			return mv;
 		}

@@ -93,7 +93,7 @@ public class AdminDaoImpl implements AdminDao {
 	@Override
 	public int selectQnaCount(SqlSession session) {
 		// TODO Auto-generated method stub
-		return session.selectOne("amdin.selectQnaCount");
+		return session.selectOne("admin.selectQnaCount");
 	}
 	
 	
