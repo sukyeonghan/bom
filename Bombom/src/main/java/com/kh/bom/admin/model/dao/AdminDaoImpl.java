@@ -72,8 +72,8 @@ public class AdminDaoImpl implements AdminDao {
 	}
 	//옵션 등록
 	@Override
-	public int insertOption(SqlSession session,Product p) {
-		return session.insert("admin.insertOption",p);
+	public int insertOption(SqlSession session,ProductOption o) {
+		return session.insert("admin.insertOption",o);
 	}
 	
 	//썸네일 등록

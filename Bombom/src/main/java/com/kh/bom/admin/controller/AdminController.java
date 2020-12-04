@@ -8,18 +8,21 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.admin.model.vo.Event;
 import com.kh.bom.common.page.PageBarFactory;
@@ -37,6 +40,7 @@ public class AdminController {
 	
 	@Autowired
 	private AdminService service;
+
 
 	//by수경-제품 관리페이지 전환
 	@RequestMapping("/admin/moveProduct")
@@ -80,14 +84,34 @@ public class AdminController {
 	@RequestMapping("/admin/productInsertEnd")
 	public ModelAndView insertProduct(Product p,ProductOption o,ModelAndView m,
 			
-			@RequestParam(value="test[]",required = false) List<String> optContent,
-			@RequestParam(value="test2[]", required = false) List<String> optPrice,
+			@RequestParam(value="test",required = false) String options,
+			
 			@RequestParam(value="thumbImgs",required=false) MultipartFile[] thumbImgs,
 			@RequestParam(value="detailImg",required=false) MultipartFile[] detailImg,
 			HttpSession session) {
 	/*	@RequestParam(value="pdtOptionContent",required = false) List<String> optContent,
-		@RequestParam(value="pdtOptionAddprice", required = false) List<String> optPrice,*/
-	
+		@RequestParam(value="pdtOptionAddprice", required = false) List<String> optPrice,
+		@RequestParam(value="pdtOptionAddprice", required = false,defaultValue="0") int optPrice,
+		@RequestParam(value="test2[]", required = false) List<String> optPrice,*/
+		
+//		product = new Product();
+//		option = new ProductOption();
+		System.out.println(options);
+		ObjectMapper mapper=new ObjectMapper();
+		List<Map<Object, Object>> optionMap=null;
+		try {
+			optionMap = mapper.readValue(options, ArrayList.class);
+		} catch (JsonMappingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (JsonProcessingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println(optionMap);
+		
+		
+		log.info("확인1");
 		String path=session.getServletContext().getRealPath("/resources/upload/product");
 		File dir=new File(path);
 		
@@ -131,7 +155,9 @@ public class AdminController {
 			p.setPdtDetailImage(reName);
 		}
 		
-		int result=service.insertProduct(p,files);
+		log.info("확인2");
+		int result=service.insertProduct(p,o,optionMap,files);
+		
 		String msg="";
 		String icon = "";
 		if(result>0) {
@@ -146,7 +172,7 @@ public class AdminController {
 		m.addObject("icon", icon);
 		m.setViewName("common/msg");
 	
-		
+		log.info("확인3");
 		//redirectAttributes.addFlashAttribute("/admin/productUpdate",p);
 		return m;
 	}

@@ -1,6 +1,8 @@
 package com.kh.bom.admin.model.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.bom.admin.model.dao.AdminDao;
 import com.kh.bom.admin.model.vo.Event;
-import com.kh.bom.product.model.vo.Product;
-import com.kh.bom.product.model.vo.ProductThumb;
 import com.kh.bom.member.model.vo.Member;
+import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.product.model.vo.ProductOption;
+import com.kh.bom.product.model.vo.ProductThumb;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -68,11 +71,32 @@ public class AdminServiceImpl implements AdminService {
 	//제품등록
 	@Override
 	@Transactional
-	public int insertProduct(Product p, List<ProductThumb> list) {
+	public int insertProduct(Product p,ProductOption o,List<Map<Object,Object>> options, List<ProductThumb> list) {
 		//트랜잭션 처리하기
 		int result=dao.insertProduct(session,p);
 		if(result>0) {
-			result=dao.insertOption(session, p);
+			//List<Map>에 들어있는 옵션 내용,옵션 가격 뺴기
+			/*Iterator<Entry<Integer, String>> entries = options.entrySet().iterator();
+			while(entries.hasNext()){
+			    Map.Entry<Integer, String> entry = entries.next();
+			    System.out.println("[Key]:" + entry.getKey() + " [Value]:" +  entry.getValue());
+			}
+			*/
+			for(Map<Object,Object> map:options) {
+				for(Map.Entry<Object,Object> entry:map.entrySet()) {
+					String key=(String) entry.getKey();
+					Object value=entry.getValue();
+					
+					if(key.contains("pdtOptionContent")) {
+						o.setPdtOptionContent((String)value);
+					}else if(key.contains("pdtOptionPrice")) {
+						o.setPdtOptionAddprice((int)value);
+					}
+					result=dao.insertOption(session, o);
+				}
+				
+			}
+		
 			if(result>0) {
 					if(list!=null) {
 					for(ProductThumb th : list) {

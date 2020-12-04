@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.kh.bom.admin.model.vo.Event;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.product.model.vo.ProductThumb;
 
 
@@ -21,7 +22,7 @@ public interface AdminDao {
 	int deleteProduct(SqlSession session,String pdtNo);
 	int insertProduct(SqlSession session,Product p);
 	int insertThumb(SqlSession session,ProductThumb th);
-	int insertOption(SqlSession session,Product p);
+	int insertOption(SqlSession session,ProductOption o);
 
 	List<Member> selectMemberList(SqlSession session, int cPage, int numPerpage);
 	int selectMemberCount(SqlSession session);
