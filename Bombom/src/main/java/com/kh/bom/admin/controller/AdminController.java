@@ -80,16 +80,14 @@ public class AdminController {
 		m.setViewName("admin/product/insertProduct");
 		return m;
 	}
-	//by수경-제품 등록-201202수정
+	//by수경-제품 등록-201204수정
 	@RequestMapping("/admin/productInsertEnd")
 	public ModelAndView insertProduct(Product p,ProductOption o,ModelAndView m,
 			@RequestParam(value="test",required = false) String options,
 			@RequestParam(value="thumbImgs",required=false) MultipartFile[] thumbImgs,
 			@RequestParam(value="detailImg",required=false) MultipartFile[] detailImg,
 			HttpSession session) {
-	/*	@RequestParam(value="pdtOptionAddprice", required = false,defaultValue="0") int optPrice,
-		@RequestParam(value="test2[]", required = false) List<String> optPrice,*/
-
+		//옵션 등록
 		ObjectMapper mapper=new ObjectMapper();
 		List<Map<Object, Object>> optionMap=null;
 		try {
@@ -144,7 +142,6 @@ public class AdminController {
 			}
 			p.setPdtDetailImage(reName);
 		}
-		
 		int result=service.insertProduct(p,o,optionMap,files);
 		
 		String msg="";
@@ -168,6 +165,28 @@ public class AdminController {
 	@RequestMapping("/admin/productUpdate")
 	public String moveProductUpdatePage() {
 		return "admin/product/updateProduct";
+	}
+	
+	//by수경-제품 삭제
+	@RequestMapping("admin/deleteProduct")
+	public ModelAndView deletrProduct(ModelAndView m) {
+		int result=0;
+		//=service.deleteOneProduct();
+		String msg="";
+		String icon = "";
+		if(result>0) {
+			msg="삭제가 완료되었습니다.";
+			icon = "success";
+		}else {
+			msg="삭제 실패하였습니다.";
+			icon = "error";
+		}
+		m.addObject("msg", msg);
+		m.addObject("loc","/admin/moveProduct");
+		m.addObject("icon", icon);
+		m.setViewName("common/msg");
+	
+		return m;
 	}
 	
 	@RequestMapping("/admin/moveEvent")
