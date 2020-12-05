@@ -8,6 +8,7 @@ import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.product.model.vo.ProductThumb;
+import com.kh.bom.qna.model.vo.Qna;
 
 public interface AdminService {
 	List<Event> selectEvent();
@@ -25,5 +26,9 @@ public interface AdminService {
 
 	List<Member> selectMemberList(int cPage, int numPerpage);
 	int selectMemberCount();
+	
+	List<Qna> selectQnaList(int cPage, int numPerpage);
+	
+	int selectQnaCount();
 
 }

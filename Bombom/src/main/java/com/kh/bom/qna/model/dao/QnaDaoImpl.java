@@ -16,15 +16,15 @@ public class QnaDaoImpl implements QnaDao {
 	}
 
 	@Override
-	public Object selectQnaList(SqlSession session, int cPage, int numPerpage) {
+	public Object selectQnaList(SqlSession session, String memNo, int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
-		return session.selectList("qna.selectQnaList",null,new RowBounds((cPage-1)*numPerpage, numPerpage));
+		return session.selectList("qna.selectQnaList",memNo,new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 
 	@Override
-	public int selectCount(SqlSession session) {
+	public int selectCount(SqlSession session, String memNo) {
 		// TODO Auto-generated method stub
-		return session.selectOne("qna.selectCount");
+		return session.selectOne("qna.selectCount", memNo);
 	}
 
 	

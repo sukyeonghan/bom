@@ -6,8 +6,8 @@ public interface QnaService {
 
 	int insertQna(Qna qna);
 
-	Object selectQnaList(int cPage, int numPerpage);
+	Object selectQnaList(String memNo,int cPage, int numPerpage);
 
-	int selectCount();
+	int selectCount(String memNo);
 
 }

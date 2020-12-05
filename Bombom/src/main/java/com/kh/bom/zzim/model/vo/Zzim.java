@@ -11,6 +11,6 @@ public class Zzim {
 	private String zzimNo;
 	private String memNo;
 	private String zzimName;
-	private String zzimContentCount;
-	private String zzimFolderImg;
+	private String zzimContentCount;//찜상품갯수
+	private String zzimFolderImg;//찜폴더이미지
 }

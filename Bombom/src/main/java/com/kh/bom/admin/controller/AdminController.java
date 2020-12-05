@@ -322,4 +322,23 @@ public class AdminController {
 		mv.setViewName("admin/member/memberList");
 		return mv;
 	}
+	
+	//1:1문의 
+	//qna(1:1) 목록 가져오기
+		@RequestMapping("/admin/qnaList")
+		public ModelAndView qnaList(ModelAndView mv,
+				@RequestParam(value="cPage", defaultValue="0") int cPage,
+				@RequestParam(value="numPerpage", defaultValue="5") int numPerpage) {
+			
+			mv.addObject("list",service.selectQnaList(cPage,numPerpage));
+			int totalData=service.selectQnaCount();
+			
+			mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "qnaList"));
+			mv.addObject("totalData", totalData);
+			mv.setViewName("admin/qna/qnaList");
+			
+			return mv;
+		}
+		
+	
 }

@@ -15,6 +15,7 @@ import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.product.model.vo.ProductThumb;
+import com.kh.bom.qna.model.vo.Qna;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -108,6 +109,20 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.selectMemberCount(session);
 	}
+	
+	@Override
+	public List<Qna> selectQnaList(int cPage, int numPerpage) {
+		// TODO Auto-generated method stub
+		return dao.selectQnaList(session, cPage, numPerpage);
+	}
+
+	@Override
+	public int selectQnaCount() {
+		// TODO Auto-generated method stub
+		return dao.selectQnaCount(session);
+	}
+	
+	
 	
 
 }

@@ -8,10 +8,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value=" "/>
 </jsp:include>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
-  />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <style>
 	/*좌측메뉴*/
 	#mypage-nav{padding-right:100px;}
@@ -25,28 +22,21 @@
 	/*찜폴더리스트*/
 	#zzimListDiv{display: flex; width:100%;/*  border: 1px red solid;  */}
 	#zzimListDiv>*{box-sizing:border-box; cursor: pointer;}
-	#zzimListDiv>div:hover{ background-color: #EDEDED;}
+	#zzimListDiv>div:hover{ background-color: #C0C0C0;}
 	/*찜폴더*/
-	.zzimFolder{ position: relative; width:27%; background-color: #f5f5f5; margin:3%; }
+	.zzimFolder{ position: relative; width:27%; background-color: #DCDCDC; margin:3%; }
 	.addZzimFolder{border: 3px green dashed; background-color:#FFFFFF;}
 	/*폴더배경*/
 	.zzimImgDiv{
 		width:100%;height:100%;
-		background-repeat: no-repeat; /*반복없게*/
-		background-position: center center;
-		background-size: cover; /* 배경 이미지를 작게 조정. 가로, 세로 비율은 유지 */
+		overflow:hidden; margin:0 auto;
 	}
-	.opacityFilter{
-		position: absolute;
-		opacity: 0.5;
-		width: 100%;
-		height:100%;
-		background-color: #ffffff;
-	}
+	.zzimImgDiv>img{opacity: 0.4;}
+	.zzimImgDiv>img:hover{transform:scale(1.1); transition:transform 0.5s linear; }
 	/*폴더 내 텍스트창*/
 	.zzimInfo {
 	    position: absolute;
-	    z-index: 2;
+	    z-index: 3;
 	    left: 50%; top: 50%;
 	    transform: translate(-50%,-50%); /* X 축과 Y 축을 따라 지정된 거리만큼 요소를 이동 */
 	    text-align: center;font-size: 1.3em; font-weight: bolder;
@@ -61,6 +51,7 @@
     	width: 40px;height: 40px;
 	}
 	.add>p{line-height: 40px;color:white; font-size: 40px; font-weight: bolder; padding:2px;}
+	a:hover{color:#ffffff;}
 </style>
 <section id="container" class="container">
 	<div class="media">
@@ -107,12 +98,14 @@
 				
 				<c:forEach items="${zzimList}" var="zzim">
 					<div class="zzimFolder">
-						<a href="${path }/zzim/selectZzimContent?zzimNo=${zzim.zzimNo }">
-							<div class="zzimImgDiv" style="background-image: URL(${path }/resources/upload/product/${zzim.zzimFolderImg };">
-								<div class="opacityFilter"></div>
+						<a href="${path }/zzim/selectZzimContent?zzimNo=${zzim.zzimNo }&zzimName=${zzim.zzimName}">
+							<div class="zzimImgDiv">
+ 								<c:if test="${zzim.zzimFolderImg != null}">
+								<img src="${path }/resources/upload/product/${zzim.zzimFolderImg };" width="100%">
+								</c:if>
 								<div class="zzimInfo">
 									<p><c:out value="${zzim.zzimName }"/></p>
-									<p><i class="fas fa-heart"></i><c:out value="${zzim.zzimContentCount }"/></p>
+									<p><i class="fas fa-heart"></i> <c:out value="${zzim.zzimContentCount }"/></p>
 								</div>
 							</div>		
 						</a>
@@ -187,15 +180,6 @@
 				console.log(data);
 				$('#zzimFolderModal').modal('hide');
 				$(".zzimFolder").first().prev(data);
-				/* let zzimFolder=$("<div class='zzimFolder'>");
-				let a = $("<a>").attr("href","${path }/zzim/selectZzimContent?zzimNo=${zzim.zzimNo }").append($("<div class='zzimImgDiv'>"));
-				let div=$("div class='zzimInfo'").append($("<p>").html("${zzim.Name}"))
-					.append($("<p>").html("<i class='fas fa-heart'></i>폴더내 상품갯수"));
-				a.append(div);
-				zzimFolder.append(a);
-				$(".zzimFolder").first().prev(zzimFolder);
-				
-				 */
 			}
 		});
 		
