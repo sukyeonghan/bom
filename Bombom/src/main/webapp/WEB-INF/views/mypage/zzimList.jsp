@@ -20,11 +20,11 @@
 	.right{text-align: right;}
 	
 	/*찜폴더리스트*/
-	#zzimListDiv{display: flex; width:100%;/*  border: 1px red solid;  */}
+	#zzimListDiv{display: flex; width:100%; box-sizing:border-box; flex-wrap: wrap; flex-direction: row;}
 	#zzimListDiv>*{box-sizing:border-box; cursor: pointer;}
 	#zzimListDiv>div:hover{ background-color: #C0C0C0;}
 	/*찜폴더*/
-	.zzimFolder{ position: relative; width:27%; background-color: #DCDCDC; margin:3%; }
+	.zzimFolder{ position: relative; width:28%; background-color: #DCDCDC; margin: 2% 0% 2% 5%; min-width: 200px;}
 	.addZzimFolder{border: 3px green dashed; background-color:#FFFFFF;}
 	/*폴더배경*/
 	.zzimImgDiv{
@@ -52,6 +52,11 @@
 	}
 	.add>p{line-height: 40px;color:white; font-size: 40px; font-weight: bolder; padding:2px;}
 	a:hover{color:#ffffff;}
+	.delZzimCkbox{position: absolute;right:5%;top:5%; font-size: 20px; height:10%; width:10%;z-index: 90; display:none;}
+	.checkFilter{position:absolute; width:100%;height:100%; z-index: 80; background-color: #ffffff; opacity:0.5; display:none; z-index: 30; }
+	#delBoxOpen{font-weight:bolder;color: #45A663;cursor: pointer; }
+	#delBox{display:none;}
+	#delBox>*{margin-left: 20px;}
 </style>
 <section id="container" class="container">
 	<div class="media">
@@ -87,8 +92,18 @@
 		
 		<!--좌측메뉴선택시 화면 -->
 		<div id="mypage-container" class="media-body">
-			<h3>찜목록</h3> 
-			<div id="zzimListDiv" class="row">
+			<div><h3>찜목록</h3></div> 
+			<div id="delBoxOpen" class="right">폴더삭제</div>
+			<div id="delBox" class="right">
+				<span id="allRemove">전체삭제</span>
+				<span id="oneRemove">선택삭제</span>
+				<span id="cancel">취소</span>
+			</div>
+
+			<div id="zzimListDiv">
+				
+				
+				
 				<div class="zzimFolder addZzimFolder" data-toggle="modal" data-target="#zzimFolderModal">
 					<div class="zzimInfo">
 						<p>폴더추가</p>
@@ -98,6 +113,8 @@
 				
 				<c:forEach items="${zzimList}" var="zzim">
 					<div class="zzimFolder">
+						<div class="checkFilter"></div>
+						<input type="checkbox" class="delZzimCkbox" name="delZzimNo" value="${zzim.zzimNo }">
 						<a href="${path }/zzim/selectZzimContent?zzimNo=${zzim.zzimNo }&zzimName=${zzim.zzimName}">
 							<div class="zzimImgDiv">
  								<c:if test="${zzim.zzimFolderImg != null}">
@@ -184,6 +201,54 @@
 		});
 		
 	}
+	
+	$(function(){
+		//폴더삭제 선택시.
+		$("#delBoxOpen").on("click",e=>{
+			$(e.target).hide();
+			//폴더삭제 메뉴 나나타기
+			$("#delBox").css("display","block");
+			//삭제용체크박스
+			$(".delZzimCkbox").css("display","block");
+			
+			$(".zzimImgDiv *,.zzimImgDiv").click(e=>{
+				let del=$("#delBox").css("display");
+				if(del=="block"){
+					$(e.target).parents(".zzimFolder").find("a").attr("onclick","return false");
+					$(e.target).parents(".zzimFolder").find(".checkFilter").css("display","block");
+					$(e.target).parents(".zzimFolder").find(".delZzimCkbox").prop("checked",true);
+				}else{
+					$(e.target).parents(".zzimFolder").find(".checkFilter").css("display","none");
+				}
+	   	   	});
+			
+			$(".checkFilter").click(e=>{
+	   	   		$(e.target).next().prop("checked",false);
+	   	   		$(e.target).css("display","none");
+	   	   	}); 
+			
+			
+			$("#cancel").click(e=>{
+				$(e.target).parents("#delBox").css("display","none");
+				$(".checkFilter").css("display","none");
+		   		$("a").attr("onclick","return true");
+				$(".delZzimCkbox").prop("checked",false);
+		   		$(".delZzimCkbox").css("display","none");
+				$("#delBoxOpen").css("display","block");
+			});
+ 
+		});
+		
+	   	$(".delZzimCkbox").click(e=>{
+			let tf=$(e.target).prop("checked");
+			 if(tf){
+				$(e.target).prev().show();
+			}else{
+				$(e.target).prev().hide();
+			}  
+		})
+
+	})
 
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
