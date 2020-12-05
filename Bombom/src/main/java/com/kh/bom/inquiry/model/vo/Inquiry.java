@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 public class Inquiry {
 	
 	private String inqNo;
-	private String pdtNo;
 	private String memNo;
+	private String pdtNo;
 	private String inqContent;
 	private Date inqDate;
 	private String inqSecret;
