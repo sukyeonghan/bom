@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.order.model.dao.OrderDao;
 import com.kh.bom.order.model.vo.Order;
 
@@ -19,5 +20,11 @@ public class OrderServiceImpl implements OrderService{
 	public int insertOrder(Order order) {
 		return dao.insertOrder(session, order);
 	}
+
+	@Override
+	public String selectBasketOne(String memNo) {
+		return dao.selectBasketOne(session, memNo);
+	}
+	
 
 }

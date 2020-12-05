@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.order.model.service.OrderService;
 import com.kh.bom.order.model.vo.Order;
 
@@ -19,8 +20,15 @@ public class OrderController {
 
 	// 장바구니 화면으로 전환
 	@RequestMapping("/order/basket")
-	public String goBasket() {
-		return "order/basket";
+	public ModelAndView goBasket(ModelAndView mv, String memNo) {
+		System.out.println(memNo);
+		//장바구니를 눌렀을때
+		String basketNo = service.selectBasketOne(memNo);
+		
+		//상품담기를 눌렀을때
+		
+		mv.setViewName("order/basket");
+		return mv;
 	}
 
 	// 결제화면으로 전환
