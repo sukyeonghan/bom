@@ -44,7 +44,7 @@
 	}
 	th,td{
 		border:1px solid black;
-		padding:5px;
+		padding:10px;
 	}
 	/*상품 수정,삭제페이지로 넘어가는 a태그 */
 	/*클릭 안 했을 때*/
@@ -105,28 +105,8 @@
 	<div class="media">
 	
 		<!--관리자 내비게이션바 -->
-		<div id="" class=" mr-3 admin-nav">
-		  <ul class="nav flex-column">
-		    <li class="nav-item">
-      			<a class="nav-link non-select" href="${path }/">회원관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link select" href="${path }/admin/moveProduct">제품관리</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="${path }/">주문관리</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="${path }/">1:1문의관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="${path }/">이벤트관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="${path }/">커뮤니티관리</a>
-		    </li>
-		  </ul>
-		</div>
+
+		<jsp:include page="/WEB-INF/views/admin/product/productNav.jsp"/>
 		
 		<div id="admin-container" class="media-body">
 			<!-- 페이지 타이틀 -->
@@ -135,7 +115,7 @@
 				<!-- 전체 선택, 선택 삭제 버튼 -->
 				<div class="buttons">
 					<button class="btn btn-success" id="selectAll" onclick="selectAll();">전체 선택</button>
-					<button class="btn btn-success" id="selectDel" onclick="">선택 삭제</button>
+					<button class="btn btn-success" id="selectDel" onclick="deletePro();">선택 삭제</button>
 				</div>
 				<!--카테고리 정렬  -->
 				<div class="select-box">
@@ -165,39 +145,59 @@
 						<th>판매상태</th>
 						<th>등록날짜</th>
 					</tr>
-					<tr>
-						<td><input type="checkbox" name="check" value="check"></td>
-						<td>욕실</td>
-						<td><a class="product-update" href="${path}/admin/productUpdate">유기농 온몸비누 제주</a></td>
-						<td>유기농 온몸비누 by 제주</td>
-						<td>8000원</td>
-						<td>N</td>
-						<td>N</td>
-						<td>Y</td>
-						<td>2020/11/23</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" name="check" value="check"></td>
-						<td>욕실</td>
-						<td><a class="product-update" href="${path}/admin/productUpdate">유기농 온몸비누 제주</a></td>
-						<td>유기농 온몸비누 by 제주</td>
-						<td>8000원</td>
-						<td>N</td>
-						<td>N</td>
-						<td>Y</td>
-						<td>2020/11/23</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" name="check" value="check"></td>
-						<td>욕실</td>
-						<td><a class="product-update" href="${path}/admin/productUpdate">유기농 온몸비누 제주</a></td>
-						<td>유기농 온몸비누 by 제주</td>
-						<td>8000원</td>
-						<td>N</td>
-						<td>N</td>
-						<td>Y</td>
-						<td>2020/11/23</td>
-					</tr>
+					<c:if test="${not empty list}">
+						<c:forEach var="e" items="${list }">
+							<tr>
+								<td>
+									<input type="checkbox" name="check" value="check">
+									<input type="hidden" name="delNum" value="${e.pdtNo }">	
+								</td>
+								<td><c:out value="${e.pdtCategory}"/></td>
+								<td>
+									<a class="product-update" href="${path}/admin/productUpdate">
+										<c:out value="${e.pdtName}"/>
+									</a>
+								</td>
+								<td>
+									<c:choose>
+										
+										<c:when test="${fn:length(e.pdtIntro)>9}">
+											<c:out value="${fn:substring(e.pdtIntro,0,8) }"/>...
+										</c:when>
+										<c:otherwise>
+											<c:out value="${e.pdtIntro}"/>
+										</c:otherwise>
+									</c:choose>
+									</td>
+								<td>
+									<fmt:formatNumber value="${e.pdtPrice}" />원
+								</td>
+								<td>
+									<c:choose>
+										<c:when test="${not empty e.eventNoRef }">
+											<c:out value="${e.eventNoRef}"/>
+										</c:when>
+										<c:otherwise>
+											N
+										</c:otherwise>
+									</c:choose>
+								</td>
+								<td>
+									<c:choose>
+										<c:when test="${not empty e.pdtOptionNo }">
+											Y
+										</c:when>
+										<c:otherwise>
+											N
+										</c:otherwise>
+									</c:choose>
+								</td>
+								<td><c:out value="${e.pdtStatus}"/></td>
+								<td><fmt:formatDate value="${e.pdtDate}" pattern="yyyy-MM-dd"/></td>
+								
+							</tr>
+						</c:forEach>
+					</c:if>
 				</table>
 				<button class="btn btn-success" id="insertPro" onclick="location.href='${path}/admin/productInsert'">제품 등록</button>
 			</div>
@@ -223,8 +223,8 @@
 						<option>이벤트명</option>
 					</select>
 				</div>
-				<input type="text" id="search-text">
-				<button class="btn btn-success" id="search-btn">검색</button>
+				<input type="text" id="search-text" size="30">
+				<button class="btn btn-success" id="search-btn"">검색</button>
 			</div>
 			
 		</div>
@@ -233,12 +233,13 @@
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 <script>
-	var checkAll = 'false';
 	
+	//전체 선택
+	var checkAll = "false";
+	var items = document.getElementsByName("check");
 	function selectAll() {
-		let items = document.getElementsByName("check");
-	
-		if (checkAll == 'false') {
+		
+		if (checkAll == "false") {
 			for (let i = 0; i < items.length; i++) {
 				items[i].checked = true;
 			}
@@ -249,6 +250,28 @@
 			}
 			checkAll = "false";
 		}
+	}
+	
+	//선택 삭제
+	function deletePro(){
+		if(confirm("정말 삭제하시겠습니까?")==true){
+			
+			var list=new Array();   
+	        for (var i=0; i<items.length; i++){
+	        	var check=$("input[name=check]").eq(i);
+	            if(check.is(":checked")){
+	            	//체크 되어있으면 해당 제품번호를 list에 넣기
+	 				check.next().each(function(index,item){
+	    				list.push($(item).val());
+	    			}); 
+	            }
+	        }
+	        
+	        location.href='${path}/admin/deleteSelect?pdtNo='+list;
+		}else{
+			return false;
+		}
+	    
 	}
 </script>
 

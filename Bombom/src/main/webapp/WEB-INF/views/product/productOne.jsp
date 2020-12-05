@@ -250,7 +250,12 @@
     }
     textarea:focus{
         outline:none;
-    }            
+    }
+    
+    /* 상품문의 모달창 */
+    #modalClick{
+    	cursor:pointer;
+    }             
         
 </style>
 
@@ -406,14 +411,14 @@
 		    	</div>
 		    	
 		    	<!-- 상품문의 시작 -->
-				<div class="tab_box" id="inquiryAjax">
+				<div class="tab_box">
 			        <!--상품문의 작성창-->
-			        <form name="" action="${path}/product/insertInquiry">
-				        <div class="writebox_wrap container col-lg-11" style="float:none; margin:0 auto;">
+			        <form name="frm_inquiry" action="${path}/product/insertInquiry" onsubmit="return fn_check()">
+				        <div class="writebox_wrap container" style="float:none; margin:0 auto;">
 				            <button type="button" id="showBox" class="btn btn-success">상품문의</button>
 					        <div class="wrap-category" style="display:none;">
 						        <span class="span_textarea">
-							        <textarea name="inqContent" id="" placeholder="문의내용을 입력해주세요"></textarea>
+							        <textarea name="inqContent" id="inqContent" placeholder="문의내용을 입력해주세요"></textarea>
 									<div style="float:right;">
 								        <label>
 						 		        	<img id="lockUnlock" src="${path}/resources/images/product/unlock.png" name="inqSecret" style="width:25px;height:25px;">
@@ -433,72 +438,138 @@
 			        </form><!-- 상품문의 작성창 끝 -->
 			        <!-- 상품문의 게시글 -->
 			        <div id="result">
-			        <div class="container col-lg-11">
-				        <table class="table">
-					        <thead>
-					        	<tr>
-					        		<td style="width:60%;">내용</td>
-					        		<td style="width:15%;">문의날짜</td>
-					        		<td style="width:15%;">작성자</td>
-					        		<td style="width:10%;">상태</td>
-					        	</tr>
-					        </thead>
-					    <c:if test="${not empty list }">	
-							<c:forEach items="${list}" var="i">
+				        <div class="container">
+					        <table class="table" style=" table-layout: fixed;">
+						    <c:if test="${not empty list }">	
+						        <thead>
+						        	<tr>
+						        		<td style="width:10%;">상태</td>
+						        		<td style="width:65%;">내용</td>
+						        		<td style="width:20%;">문의날짜</td>
+						        		<td style="width:15%;">작성자</td>
+						        	</tr>
+						        </thead>
+								<c:forEach items="${list}" var="i">
+						        	<thead>
+						        		<tr>
+						        			<td>
+						        				<c:if test="${i.inqAnswerYn=='N'}">
+						        					답변대기
+						        				</c:if>
+						        				<c:if test="${i.inqAnswerYn=='Y'}">
+						        					답변완료
+						        				</c:if>
+						        			</td>					        		
+						        			<td style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+						        				<c:if test="${i.inqSecret=='N'}">
+						        					<a href="#" data-toggle="modal" data-target="#inquiryView" data-no='<c:out value="${i.inqNo}"/>' data-content='<c:out value="${i.inqContent }"/>'
+						        						data-answeryn='<c:out value="${i.inqAnswerYn}"/>' data-date='<fmt:formatDate type="both" timeStyle="short" value="${i.inqDate }"/>' data-memnick='<c:out value="${i.memNick}"/>'
+						        						data-answer='<c:out value="${i.inqAnswer}"/>' data-answerdate='<fmt:formatDate type="both" timeStyle="short" value="${i.inqAnswerDate}"/>'>
+						        						<c:out value="${i.inqContent }"/>
+						        					</a>
+						        				</c:if>
+						        				<c:if test="${i.inqSecret=='Y' }">
+						        					<img src="${path}/resources/images/product/lock.png" style="width:20px;height:20px;">
+						        					<a href="#" data-toggle="modal" data-target="#inquiryView" data-no='<c:out value="${i.inqNo}"/>' data-content='<c:out value="${i.inqContent }"/>'
+						        						data-answeryn='<c:out value="${i.inqAnswerYn}"/>' data-date='<fmt:formatDate type="both" timeStyle="short" value="${i.inqDate }"/>' data-memnick='<c:out value="${i.memNick}"/>'
+						        						data-answer='<c:out value="${i.inqAnswer}"/>' data-answerdate='<fmt:formatDate type="both" timeStyle="short" value="${i.inqAnswerDate}"/>'>
+						        						<c:out value="${i.inqContent }"/>
+						        					</a>
+						        				</c:if>					        				
+						        			</td>
+						        			<td><fmt:formatDate type="both" timeStyle="short" value="${i.inqDate }"/></td>
+						        			<td>
+						        				<c:out value="${i.memNick}"/>
+						        			</td>
+						        		</tr>
+						        	</thead>
+						        </c:forEach>
+					        </c:if>
+					        <c:if test="${empty list }">
 					        	<thead>
 					        		<tr>
-					        			<td>
-					        				<c:if test="${i.inqSecret=='N'}">
-					        					<a href="${path}/product/inquiryView?inqNo=${i.inqNo}" onclick="open(this.href,'','top=100px,left=300px,width=600px,height=400px,scollbars=no');return false;">
-					        						<c:out value="${i.inqContent }"/>
-					        					</a>
-					        				</c:if>
-					        				<c:if test="${i.inqSecret=='Y'}">
-					        					<img src="${path}/resources/images/product/lock.png" style="width:20px;height:20px;"> 
-					        					비밀글입니다
-					        				</c:if>
-					        			</td>
-					        			<script>
-					        			
-						        			//상품문의 상세창
-						        			function inquiry_view(){
-						        				const url="${path}/product/inquiryView?inqNo=${i.inqNo}";
-						        				const status = "top=100px, left=300px, widht=600px; height=400px";
-						        				open(url,"",status);
-						        			}
-					        			
-					        			</script>
-					        			
-					        			
-					        			<td><c:out value="${i.inqDate }"/></td>
-					        			<td>
-					        				<c:out value="${i.memNick}"/>
-					        			</td>
-					        			<td>
-					        				<c:if test="${i.inqAnswerYn=='N'}">
-					        					답변대기
-					        				</c:if>
-					        				<c:if test="${i.inqAnswerYn=='Y'}">
-					        					답변완료
-					        				</c:if>
-					        			</td>
+					        			<td colspan="4">등록된 문의가 없습니다</td>
 					        		</tr>
 					        	</thead>
-					        </c:forEach>
-				        </c:if>
-				        <c:if test="${empty list }">
-				        	<thead>
-				        		<tr>
-				        			<td colspan="4">등록된 문의가 없습니다</td>
-				        		</tr>
-				        	</thead>
-				        </c:if>
-				        </table>
-			        </div><!-- 상품문의 게시글 끝 -->
-			        <div class="pageBar">
-						<span>${pageBar }</span>
+					        </c:if>
+					        </table>
+				        </div><!-- 상품문의 게시글 끝 -->			        
+				        <div class="pageBar">
+							<span>${pageBar }</span>
+				    	</div>
 			    	</div>
-			    	</div>
+			        
+			      <!-- 상품문의 모달창 -->
+				  <div class="modal fade" id="inquiryView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				    <div class="modal-dialog">
+				      <div class="modal-content">
+				      
+				        <!-- Modal Header -->
+				        <div class="modal-header">
+				          <h5 class="modal-title">상품문의</h5>
+				          <button type="button" class="close" data-dismiss="modal">X</button>
+				        </div>
+				        
+				        <!-- Modal body -->
+				        <div class="modal-body container">
+				        	<form name="frm_deleteInquiry" action="${path}/inquiry/deleteInquiry" onsubmit="return fn_deleteCheck()">
+					        	<strong><span id="memNick"></span></strong>&nbsp;&nbsp;<span id="inqDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+					        	<input type="hidden" name="inqNo" class="inqNo"/>
+					        	<input type="submit" class="btn btn-outline-success btn-sm" value="삭제">
+					        	<br>
+					        	<span id="inqContent"></span><br>
+				        	</form>
+				        	<hr>
+				        	<strong><span>관리자</span></strong><span class="answerDate"></span>&nbsp;&nbsp;<br>
+				        		<span class="answer"></span>
+				        </div>
+				        <!-- 모달창 상품문의 답변창 시작, 관리자일 경우에만 답변창 생김-->
+				        <c:if test="${loginMember.memManagerYn=='Y'}">
+					        <form name="frm_inquiryAnswer" action="${path}/inquiry/insertInquiryAnswer" onsubmit="return fn_answerCheck()">
+						        <div class="writebox_wrap container" style="float:none; margin:0 auto;">
+								    <span class="span_textarea" style="height:150px;">
+										<textarea name="inqAnswer" id="inqAnswer" placeholder="답변을 입력해주세요" style="height:70%;"></textarea>
+										<div style="float:right;">
+											<c:if test="${loginMember!=null }">
+												<input type="hidden" name="memNo" value="${loginMember.memNo}">
+												<input type="hidden" name="inqNo" class="inqNo"/>
+												<input type="submit" class="btn btn-success" value="등록" style="right:0;">
+											</c:if>
+											<c:if test="${loginMember==null }">
+												<input type="button" class="btn btn-success loginCheck" value="등록" style="right:0;">
+											</c:if>
+									    </div>
+								    </span>
+						        </div>
+					        </form><!-- 모달창 상품문의 답변창  끝 -->
+				        </c:if>			        	
+				      </div>
+				    </div>
+				  </div><!-- 상품문의 모달창 끝! -->
+				  
+				  <script>
+					//상품문의 상세보기 모달창
+					$(document).ready(function(){
+				  		$("#inquiryView").on("show.bs.modal",function(event){ //modal 윈도우가 오픈할 때 아래 옵션 적용
+				  			var a = $(event.relatedTarget); //이벤트 적용시 모달 윈도우 오픈하는 a 태그
+				  			var inqNo = a.data("no");
+				  			var inqContent = a.data("content"); //a태그에서 data-content 값을 inqContent에 저장
+				  			var inqDate = a.data("date");
+				  			var memNick = a.data("memnick");
+				  			var answerYn = a.data("answeryn");
+				  			var answer = a.data("answer");
+				  			var answerDate = a.data("answerdate");
+				  			var modal = $(this);
+				  			modal.find(".inqNo").val(inqNo);
+				  			modal.find("#inqContent").text(inqContent); //모달창에서 .modal-body에 inqContent값을 출력
+				  			modal.find("#inqDate").text(inqDate);
+				  			modal.find("#memNick").text(memNick);
+				  			modal.find("#answerYn").val(answerYn);
+				  			modal.find(".answer").text(answer);
+				  			modal.find(".answerDate").text(answerDate);
+				  		});
+					});
+				  </script>				    	
 
 				</div>
 			</div><!-- tab_box_container -->
@@ -685,22 +756,29 @@
 			}
 		});
 	});
-	
-	
+
 	//구매하기,장바구니,찜하기,상품문의 클릭 시 로그인 체크
 	$(function() {
 		$(".loginCheck").click(function() {
-			alert("로그인을 먼저 해주세요");
+			swal("로그인을 먼저 해주세요");
 		});
 	});
 	
+	//상품문의 클릭 시 입력확인
+	function fn_check(){
+		if(frm_inquiry.inqContent.value==""){
+			swal("문의내용을 입력해주세요");
+			return false;
+		}
+		return true;
+	}	
+	
 	//상품문의 페이징
 	$(function(){
-		$("#inquiryAjax").click(e=>{
-			console.log("이거 클릭");
+		$(".pageBar").click(e=>{
 			$.ajax({
 				url:"${path}/product/productOneAjax",
-				data:{cPage:1,numPerpage:"${numPerPage}"},
+				data:{cPage:"${cPage}",numPerpage:"${numPerPage}"},
 				type:"get",
 				success:data=>{
 					console.log(data);
@@ -711,7 +789,14 @@
 		});
 	});	
 	
-	
+  	//상품문의 상세보기 답변입력확인
+	function fn_answerCheck(){
+		if(frm_inquiryAnswer.inqAnswer.value==""){
+			swal("답변을 입력해주세요");
+			return false;
+		}
+		return true;
+	}	
 	
 	
 	

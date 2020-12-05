@@ -100,9 +100,6 @@
 		    <li class="nav-item">
 		      	<a class="nav-link non-select" href="${path }/admin/moveEvent">이벤트관리</a>
 		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="${path }/">커뮤니티관리</a>
-		    </li>
 		  </ul>
 		</div>
 		

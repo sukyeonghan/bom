@@ -7,19 +7,19 @@
 		<result property="pdtNo" column="pdt_no"/>
 		<result property="memNo" column="mem_no"/>
 		<result property="inqContent" column="inq_content"/>
-		<result property="inqDate" column="inq_date"/>
+		<result property="inqDate" column="inq_date" typeHandler="customStr"/>
 		<result property="inqSecret" column="inq_secret"/>
 		<result property="inqAnswerYn" column="inq_answer_yn"/>
 		<result property="inqAnswer" column="inq_answer"/>
-		<result property="inqAnswerDate" column="inq_answerdate"/>
+		<result property="inqAnswerDate" column="inq_answerdate" typeHandler="customStr"/>
 	</resultMap>
 
 	<insert id="insertInquiry" parameterType="inquiry">
-		INSERT INTO INQUIRY VALUES('I'||SEQ_INQ_NO.NEXTVAL,'P16',#{memNo},#{inqContent},DEFAULT,#{inqSecret},DEFAULT,NULL,NULL)
+		INSERT INTO INQUIRY VALUES('I'||SEQ_INQ_NO.NEXTVAL,'P16',#{memNo},#{inqContent},DEFAULT,#{inqSecret},DEFAULT,null,null)
 	</insert>
 	
 	<select id="inquiryList" resultMap="inquiryMap">
-		SELECT I.*, M.MEM_NICK AS MEMNICK 
+		SELECT I.*, M.MEM_NICK AS MEMNICK, M.MEM_MANAGER_YN AS MEMMANAGERYN
 		FROM INQUIRY I
 		JOIN MEMBER M ON M.MEM_NO=I.MEM_NO
 		ORDER BY INQ_DATE DESC
@@ -28,5 +28,13 @@
 	<select id="inquiryCount" resultType="_int">
 		SELECT COUNT(*) FROM INQUIRY
 	</select>
+	
+	<update id="insertInquiryAnswer" parameterType="inquiry">
+		UPDATE INQUIRY SET INQ_ANSWER_YN='Y', INQ_ANSWER=#{inqAnswer}, INQ_ANSWERDATE=SYSDATE WHERE INQ_NO=#{inqNo}
+	</update>
+	
+	<delete id="deleteInquiry" parameterType="string">
+		DELETE FROM INQUIRY WHERE INQ_NO=#{inqNo}
+	</delete>
 
 </mapper>

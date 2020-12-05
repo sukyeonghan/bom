@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,27 +20,59 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.admin.model.vo.Event;
 import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.product.model.vo.ProductThumb;
 
+import lombok.extern.slf4j.Slf4j;
 
 
+@Slf4j
 @Controller
 public class AdminController {
 	
 	@Autowired
 	private AdminService service;
 
-	//제품 관리페이지 전환
+
+	//by수경-제품 관리페이지 전환
 	@RequestMapping("/admin/moveProduct")
-	public String moveProductListPage() {
-		return "admin/product/productList";
+	public ModelAndView moveProductListPage(ModelAndView m) {
+		List<Product> list=service.selectProductList();
+		m.addObject("list",list);
+		m.setViewName("admin/product/productList");
+		return m;
 	}
-	//제품 등록 페이지 전환
+	
+	//by수경-제품 목록페이지에서 선택 삭제
+	 @RequestMapping("/admin/deleteSelect") 
+	 public ModelAndView deleteSelectProduct(
+			 @RequestParam List<String> pdtNo,ModelAndView m) { 
+		 int result=service.deleteSelectProduct(pdtNo); 
+		 String msg="";
+		 String icon="";
+		 if(result>0) {
+			msg="삭제에 성공하였습니다.";
+			icon="success";
+		 }else {
+			msg="삭제에 실패하였습니다.";
+			icon = "error";
+		 }
+		 m.addObject("msg", msg);
+		 m.addObject("loc","/admin/moveProduct");
+		 m.addObject("icon", icon);
+		 m.setViewName("common/msg");
+		 return m; 
+	}
+	
+	//by수경-제품 등록 페이지 전환
 	@RequestMapping("/admin/productInsert")
 	public ModelAndView moveProductinsertPage(ModelAndView m) {
 		List<Event> selectEvent =service.selectEvent();
@@ -47,14 +80,28 @@ public class AdminController {
 		m.setViewName("admin/product/insertProduct");
 		return m;
 	}
-	//제품 등록
+	//by수경-제품 등록-201202수정
 	@RequestMapping("/admin/productInsertEnd")
-	public ModelAndView insertProduct(Product p,ModelAndView m,
-			@RequestParam(value="pdtOptionAddprice", required = false,defaultValue="0") int addPrice, 
+	public ModelAndView insertProduct(Product p,ProductOption o,ModelAndView m,
+			@RequestParam(value="test",required = false) String options,
 			@RequestParam(value="thumbImgs",required=false) MultipartFile[] thumbImgs,
 			@RequestParam(value="detailImg",required=false) MultipartFile[] detailImg,
 			HttpSession session) {
-		
+	/*	@RequestParam(value="pdtOptionAddprice", required = false,defaultValue="0") int optPrice,
+		@RequestParam(value="test2[]", required = false) List<String> optPrice,*/
+
+		ObjectMapper mapper=new ObjectMapper();
+		List<Map<Object, Object>> optionMap=null;
+		try {
+			optionMap = mapper.readValue(options, ArrayList.class);
+		} catch (JsonMappingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (JsonProcessingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		String path=session.getServletContext().getRealPath("/resources/upload/product");
 		File dir=new File(path);
 		
@@ -97,10 +144,27 @@ public class AdminController {
 			}
 			p.setPdtDetailImage(reName);
 		}
-		int result=service.insertProduct(p,files);
+		
+		int result=service.insertProduct(p,o,optionMap,files);
+		
+		String msg="";
+		String icon = "";
+		if(result>0) {
+			msg="제품 등록이 완료되었습니다.";
+			icon = "success";
+		}else {
+			msg="제품 등록에 실패하였습니다.";
+			icon = "error";
+		}
+		m.addObject("msg", msg);
+		m.addObject("loc","/admin/moveProduct");
+		m.addObject("icon", icon);
+		m.setViewName("common/msg");
+	
 		return m;
 	}
-	//제품 수정 및 삭제 페이지 전환
+	
+	//by수경-제품 수정 및 삭제 페이지 전환
 	@RequestMapping("/admin/productUpdate")
 	public String moveProductUpdatePage() {
 		return "admin/product/updateProduct";
@@ -239,4 +303,23 @@ public class AdminController {
 		mv.setViewName("admin/member/memberList");
 		return mv;
 	}
+	
+	//1:1문의 
+	//qna(1:1) 목록 가져오기
+		@RequestMapping("/admin/qnaList")
+		public ModelAndView qnaList(ModelAndView mv,
+				@RequestParam(value="cPage", defaultValue="0") int cPage,
+				@RequestParam(value="numPerpage", defaultValue="5") int numPerpage) {
+			
+			mv.addObject("list",service.selectQnaList(cPage,numPerpage));
+			int totalData=service.selectQnaCount();
+			
+			mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "qnaList"));
+			mv.addObject("totalData", totalData);
+			mv.setViewName("admin/qna/qnaList");
+			
+			return mv;
+		}
+		
+	
 }

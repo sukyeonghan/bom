@@ -34,6 +34,10 @@ div#community-container {
 .ck-editor_editable {
 	min-height: 500px;
 }
+.title{
+font-weight: 800;
+font-size: 35px;
+}
 </style>
 <section id="content" class="container">
 	<h3>
@@ -41,32 +45,44 @@ div#community-container {
 		님의 다시:봄 을 공유해주세요 :-)
 	</h3>
 	<c:if test="${not empty community }">
-		<form name="communityFrm"
-			action="${path }/community/updateCommunityEnd"
-			onsubmit="return fn_check()">
+		<form name="communityFrm" action="${path }/community/updateCommunityEnd" onsubmit="return fn_check()">
 	</c:if>
+	
 	<c:if test="${not empty community }">
 		<input type="hidden" value="${community.cmNo }" name="cmNo">
 	</c:if>
-
 	<br>
 	<div id="community-container" class="media-body">
-		<form name="communityFrm" action="${path }/community/insertCommunity"
-			onsubmit="return fn_check()">
-			<br> <input type="text" class="form-control" name="cmTitle"
-				placeholder="제목을 입력해주세요" required><br> <input
-				type="hidden" class="form-control" name="cmLike"
-				value="0"> <br> <input type="hidden"
-				value="0" name="cmView" placeholder="조회" required>
-			<br> <input type="text" class="form-control" name="cmThumbnail"
-				placeholder="썸네일" required> <br> <%-- <input type="text"
-				class="form-control" name="cmWriter" placeholder="닉네임"
-				value="${loginMember.memNick }" readonly> --%>
-				<input type="text" class="form-control" name="cmWriter" value="${loginMember.memNo }"> <br>
-			<div class="input-group-prepend" style="padding: 0px;">
-				<span class="input-group-text">썸네일</span>
-			</div>
-			<br> <br>
+		<form name="communityFrm" action="${path }/community/insertCommunity" onsubmit="return fn_check()">
+			<br> 
+			<input type="text" class="form-control w3-input title" name="cmTitle" placeholder="제목을 입력해주세요" required>
+			  <br>
+				
+			<br>
+				<input type="file" id="image" name="upFile" onchange="setThumbnail(event);"/>
+				<br>
+				 <div id="image_container"></div>  
+				 <br>
+				 <script> function setThumbnail(event) { 
+					      var reader = new FileReader(); reader.onload = function(event) { 
+					      var img = document.createElement("img"); 
+					      img.setAttribute("src", event.target.result); 
+					      img.setAttribute("width","750px");
+					      img.setAttribute("height","500px"); //이미지 크기 고정
+					      document.querySelector("div#image_container").appendChild(img); 
+					      }; 
+					      reader.readAsDataURL(event.target.files[0]); 
+					      } 
+				 </script>
+
+
+			<br>
+				<input type="text" class="form-control w3-input" name="cmWriter" value="${loginMember.memNo }"> <br>
+
+			<input type="hidden" class="form-control" name="cmLike" value="0">
+			 <br> 
+			<input type="hidden" value="0" name="cmView" placeholder="조회" required>
+			<br> 
 			<p>다시봄 내용</p>
 			<br>
 			<textarea name="cmContent" id="cmContent" rows="5" cols="60"></textarea>
@@ -74,6 +90,8 @@ div#community-container {
 				//ckeditor 적용
 				CKEDITOR.replace("cmContent");
 			</script>
+			
+			<br><br>
 			<div id="btn-box">
 				<input type="button" class="btn btn-outline-success" value="목록으로"
 					onclick="location.replace('${path }/community/communityList')">&nbsp;&nbsp;
@@ -81,10 +99,6 @@ div#community-container {
 				<c:if test="${empty community }">
 					<input type="submit" class="btn btn-success" value="등록">
 				</c:if>
-				<input type="hidden" value="${community.cmNo }" name="cmNo" />
-				<button class="btn btn-outline-success"
-					onclick="fn_updateCommunity();">수정</button>
-
 			</div>
 	</div>
 </section>

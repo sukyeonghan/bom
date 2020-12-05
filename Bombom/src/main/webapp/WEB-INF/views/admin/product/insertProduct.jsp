@@ -37,12 +37,12 @@
 		padding:5px;
 	}
 	tr,th,td{
-		padding:15px;
+		padding:10px;
 	}
 	
     /*제품 설명*/
      #middle-div{
-    	margin-left:15px;
+    	margin-left:10px;
     	margin-bottom:20px;
     }
     .title{
@@ -54,21 +54,21 @@
    
    /* 제품 썸네일,상세 이미지 등록*/
     #bottom-div{
-    	margin-left:15px;
+    	margin-left:10px;
     	margin-top: 40px;
     }
     
     /*썸네일*/
     /*썸네일 이미지 전체 div*/
-    #thumbWrap{
+    #thumbContainer{
     	overflow:hidden;
     }
     /*바깥 div*/
-    .test{
+    .thumbWrap{
     	width:150px;
     	height:170px;
     	float:left;
-    	margin:35px;
+    	margin:45px;
     	position:relative;
    	}
    	/*썸네일1,썸네일2.. 타이틀*/
@@ -96,7 +96,6 @@
     /*이미지 삭제 버튼*/
     .close{border:none;}
  
-   
     /*상세 이미지 등록 div*/
     #detail-image{
     	margin-top:20px;
@@ -112,6 +111,9 @@
     .delBtn{
     	margin-left:10px;
     }
+    .delBtn2{
+    	margin-left:15px;
+    }
     
     /*등록하기,목록 버튼*/
     #bottom-btns{
@@ -120,6 +122,7 @@
     }
     .insertPro,.goList{
     	display:flex;
+    	margin:5px;
     }
 </style>
 
@@ -130,37 +133,15 @@
 <section id="container" class="container">
 	<div class="media">
 	
-		<!--관리자 내비게이션바 -->
-		<div id="" class=" mr-3 admin-nav">
-		  <ul class="nav flex-column">
-		    <li class="nav-item">
-      			<a class="nav-link non-select" href="${path }/">회원관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link select" href="${path }/admin/moveProduct">제품관리</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="${path }/">주문관리</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="${path }/">1:1문의관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="${path }/">이벤트관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="${path }/">커뮤니티관리</a>
-		    </li>
-		  </ul>
-		</div>
+		<!--제품 관리 내비게이션바 -->
+		<jsp:include page="/WEB-INF/views/admin/product/productNav.jsp"/>
 		
 		<div id="admin-container" class="media-body">
 			<!-- 페이지 타이틀 -->
 			<h3 class="page-title">제품등록</h3> 
 			
 			<!-- 제품 등록 -->
-			<form action="${path }/admin/productInsertEnd" method="post"
-         enctype="multipart/form-data">
+			<form action="${path }/admin/productInsertEnd" method="post" enctype="multipart/form-data">
 				<table id="insert-table">
 					<tr>
 						<th>카테고리</th>
@@ -216,7 +197,7 @@
 					<tr>
                         <th>추가 옵션</th>
                         <td colspan="3">
-                        	<input type="button" class="btn btn-success" id="add-option" value="옵션 추가하기">
+                        	<input type="button" class="btn btn-success btn-sm" id="add-option" value="옵션 추가">
                         </td>
                     </tr>
                     <tr class="trOption" name="trOption">
@@ -225,10 +206,13 @@
                         <th>추가 요금</th>
                         <td>
                         	<input type="text" name="pdtOptionAddprice">
-                        	<button class="btn btn-success delBtn" name="delBtn" >삭제</button>
+                        	<button class="btn btn-success btn-sm delBtn" name="delBtn" >삭제</button>
                         </td>
                     </tr>
+                    
 				</table>
+				<input type="hidden" name="test" id="test_list">
+                <!-- <input type="hidden" name="test2[]" id="test_list2"> -->
 				
 				<!-- 제품 설명 -->
 				<div id="middle-div">
@@ -239,8 +223,8 @@
 				<!-- 제품 썸네일,상세 이미지 등록 -->
 				<div id="bottom-div">
 					<p class="title">제품 썸네일 이미지(최대 6장)</p>
-					<div id="thumbWrap">
-						<div class="test" > 
+					<div id="thumbContainer">
+						<div class="thumbWrap" > 
 			     			<div>
 			     				<p class="sumTitle">썸네일1(메인)</p>
 			     			</div>
@@ -251,7 +235,7 @@
 				     		</div>
 			     		</div>
 			     				
-			     		<div class="test" > 
+			     		<div class="thumbWrap" > 
 			     			<div>
 			     				<p class="sumTitle">썸네일2</p>
 			     			</div>
@@ -262,7 +246,7 @@
 							</div>
 			     		</div>
 			     		
-			     		<div class="test" > 
+			     		<div class="thumbWrap" > 
 			     			<div>
 			     				<p class="sumTitle">썸네일3</p>
 			     			</div>
@@ -273,7 +257,7 @@
 				     		</div>
 				     	</div>
 			     		
-			     		<div class="test" > 
+			     		<div class="thumbWrap" > 
 			     			<div>
 			     				<p class="sumTitle">썸네일4</p>
 			     			</div>
@@ -284,7 +268,7 @@
 				     		</div>
 				     	</div>
 			     		
-			     		<div class="test" > 
+			     		<div class="thumbWrap" > 
 			     			<div>
 			     				<p class="sumTitle">썸네일5</p>
 			     			</div>
@@ -295,7 +279,7 @@
 				     		</div>
 				     	</div>
 			     		
-			     		<div class="test" > 
+			     		<div class="thumbWrap" > 
 			     			<div>
 			     				<p class="sumTitle">썸네일6</p>
 			     			</div>
@@ -315,7 +299,7 @@
 				</div>
 				
 				<div id="bottom-btns">
-					<input type="submit" class="btn btn-success insertPro" value="등록하기">
+					<input type="submit" class="btn btn-success insertPro" value="등록하기" onclick="return insertOption()">
 					<input type="button" class="btn btn-success goList" onclick="location.href='${path}/admin/moveProduct'" value="목록">
 				</div>
 				
@@ -338,12 +322,14 @@
 	});
 	//옵션 추가하기 
 	$("#add-option").click(function(){
+		
 		var addOption="";
         addOption+='<tr class="trOption" name="trOption">';
         addOption+='<th>&nbsp&nbsp옵션 내용</th>';
         addOption+='<td><input type="text" name="pdtOptionContent"></td>';
         addOption+='<th>추가 요금</th>';
-        addOption+='<td><input type="text" name="pdtOptionAddprice"><button class="btn btn-success delBtn" name="delBtn" onclick="">삭제</button></td>';
+        addOption+='<td><input type="text" name="pdtOptionAddprice">';
+        addOption+='<button class="btn btn-success btn-sm delBtn2" name="delBtn">삭제</button></td>';
         addOption+='</tr>';
 
    		$("#insert-table").append(addOption);
@@ -356,6 +342,23 @@
 	    trHtml.remove();
 	});
 	
+	//옵션등록하기
+	function insertOption(){
+		
+		var list=[];
+        //리스트 안에 Map으로 하나씩 넣는다
+        var items = document.getElementsByName("pdtOptionContent");
+        
+        for(var i=0; i<items.length; i++){
+            list.push({"pdtOptionContent":$("input[name=pdtOptionContent]").eq(i).val(),
+            	"pdtOptionAddprice":$("input[name=pdtOptionAddprice]").eq(i).val()});    
+        }
+        console.log(list);
+        $("#test_list").val(JSON.stringify(list));
+        console.log($("#test_list").val());
+		
+	};
+	
 	//이미지 업로드 
 	$(function(){
 		   //div 클릭시 파일업로드실행함수 실행
@@ -365,13 +368,12 @@
 		   });
 		   //파일 업로드시 이미지 체인지
 		   $("#input1,#input2,#input3,#input4,#input5,#input6").on("change",e =>{ 
-			   console.log(e.target);
-			   console.log($(e.target).prev().attr("src"));
+/* 			   console.log(e.target);
+			   console.log($(e.target).prev().attr("src")); */
 			 
 		      let reader=new FileReader();
 		      let img=  $(e.target).prev();
 		      reader.onload=e=>{
-		       
 		       img.attr("src",e.target.result); 
 		      }
 		      reader.readAsDataURL($(e.target)[0].files[0]);

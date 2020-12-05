@@ -8,6 +8,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value=" "/>
 </jsp:include>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <style>
 	/*좌측메뉴*/
 	#mypage-nav{padding-right:100px;}
@@ -17,6 +18,40 @@
 	/*최소 컨텐츠 크기*/
 	.media{min-width: 768px;} 
 	.right{text-align: right;}
+	
+	/*찜폴더리스트*/
+	#zzimListDiv{display: flex; width:100%;/*  border: 1px red solid;  */}
+	#zzimListDiv>*{box-sizing:border-box; cursor: pointer;}
+	#zzimListDiv>div:hover{ background-color: #C0C0C0;}
+	/*찜폴더*/
+	.zzimFolder{ position: relative; width:27%; background-color: #DCDCDC; margin:3%; }
+	.addZzimFolder{border: 3px green dashed; background-color:#FFFFFF;}
+	/*폴더배경*/
+	.zzimImgDiv{
+		width:100%;height:100%;
+		overflow:hidden; margin:0 auto;
+	}
+	.zzimImgDiv>img{opacity: 0.4;}
+	.zzimImgDiv>img:hover{transform:scale(1.1); transition:transform 0.5s linear; }
+	/*폴더 내 텍스트창*/
+	.zzimInfo {
+	    position: absolute;
+	    z-index: 3;
+	    left: 50%; top: 50%;
+	    transform: translate(-50%,-50%); /* X 축과 Y 축을 따라 지정된 거리만큼 요소를 이동 */
+	    text-align: center;font-size: 1.3em; font-weight: bolder;
+	    width: 100%;
+	}
+	/*추가버튼*/
+	.add{
+		padding: 0; 
+		background-color:#45A663; 
+		border-radius: 100%; 
+		margin:auto;vertical-align: middle; 	 
+    	width: 40px;height: 40px;
+	}
+	.add>p{line-height: 40px;color:white; font-size: 40px; font-weight: bolder; padding:2px;}
+	a:hover{color:#ffffff;}
 </style>
 <section id="container" class="container">
 	<div class="media">
@@ -53,12 +88,102 @@
 		<!--좌측메뉴선택시 화면 -->
 		<div id="mypage-container" class="media-body">
 			<h3>찜목록</h3> 
-			<br>
+			<div id="zzimListDiv" class="row">
+				<div class="zzimFolder addZzimFolder" data-toggle="modal" data-target="#zzimFolderModal">
+					<div class="zzimInfo">
+						<p>폴더추가</p>
+						<div class="add"><p>+</p></div>
+					 </div>			
+				</div>
+				
+				<c:forEach items="${zzimList}" var="zzim">
+					<div class="zzimFolder">
+						<a href="${path }/zzim/selectZzimContent?zzimNo=${zzim.zzimNo }&zzimName=${zzim.zzimName}">
+							<div class="zzimImgDiv">
+ 								<c:if test="${zzim.zzimFolderImg != null}">
+								<img src="${path }/resources/upload/product/${zzim.zzimFolderImg };" width="100%">
+								</c:if>
+								<div class="zzimInfo">
+									<p><c:out value="${zzim.zzimName }"/></p>
+									<p><i class="fas fa-heart"></i> <c:out value="${zzim.zzimContentCount }"/></p>
+								</div>
+							</div>		
+						</a>
+					</div>
+				</c:forEach>
 			
+			</div>
+		
+		
 		</div>
 		
 		
-		
+		  <!-- The Modal -->
+		  <div class="modal fade" id="zzimFolderModal">
+		    <div class="modal-dialog modal-dialog-centered">
+		      <div class="modal-content">
+		      
+		        <!-- Modal Header -->
+		        <div class="modal-header">
+		          <h4 class="modal-title">폴더 만들기</h4>
+		          <button type="button" class="close" data-dismiss="modal">X</button>
+		        </div>
+		        
+		        <!-- Modal body -->
+		        <div class="modal-body" >
+	    	   		<form name="zzimFolderFrm">
+	    	   		<div style="display:flex;">
+			         		<input type="hidden" name="memNo" value="${loginMember.memNo }">
+			         		<input type="text" class="form-control" name="zzimName" size="10" placeholder="폴더이름을 선택해주세요. (10자 이내 한글 ,영어,숫자만 가능)" required>
+			         		&nbsp;&nbsp;
+			         		<input type="submit" class="btn btn-success" id="addFolderBtn" value="만들기" onclick="return fn_addFoler();">
+			        </div>
+			        </form>
+		        </div>
+		       
+		        
+		      </div>
+		    </div>
+		  </div>
+		  
 	</div>
 </section>
+<script>
+
+	var height=$(".zzimFolder").width();
+	$(".zzimFolder").css("height",height);
+	$( window ).resize( function() {
+		var height=$(".zzimFolder").width();
+		$(".zzimFolder").css("height",height);
+    });
+	
+	function fn_addFoler(){
+		
+		var zzimName=$("input[name=zzimName]").val();
+		var nameCheck = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]+$/;
+		if(zzimName.length<1 || zzimName.length>10){
+			swal("폴더명은 한글자 이상 10이내만 가능합니다.");
+			return false;
+		}
+		
+		if(!nameCheck.test(zzimName)){
+			swal("한글,숫자,영문만 폴더명으로 가능합니다.");
+			return false;
+		}
+		
+		$.ajax({
+			url:"${path }/zzim/insertZzim",
+			data:{memNo:"${loginMember.memNo}",zzimName:zzimName},
+			type:"post",
+			datatype:"html",
+			success:data=>{
+				console.log(data);
+				$('#zzimFolderModal').modal('hide');
+				$(".zzimFolder").first().prev(data);
+			}
+		});
+		
+	}
+
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
