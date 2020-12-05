@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.zzim.model.service.ZzimService;
 import com.kh.bom.zzim.model.vo.Zzim;
+import com.kh.bom.zzim.model.vo.ZzimContent;
 @Controller
 public class ZzimController {
 	@Autowired
@@ -38,6 +39,15 @@ public class ZzimController {
 			mv.addObject("msg","폴더가 생성되지 못했습니다. 반복될 경우 관리자에게 문의해주세요");
 			mv.setViewName("common/msg");
 		}
+		return mv;
+	}
+	
+	@RequestMapping("zzim/selectZzimContent")
+	public ModelAndView selectZzimContentList(ModelAndView mv,String zzimNo,String zzimName) {
+		List<ZzimContent> list =service.selectZzimContentList(zzimNo);
+		mv.addObject("zcList",list);
+		mv.addObject("zzimFolderName",zzimName);
+		mv.setViewName("mypage/zzimContentList");
 		return mv;
 	}
 }

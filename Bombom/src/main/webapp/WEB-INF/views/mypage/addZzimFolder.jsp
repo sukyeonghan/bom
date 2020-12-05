@@ -7,10 +7,11 @@
 
 <div class="zzimFolder">
 	<a href="${path }/zzim/selectZzimContent?zzimNo=${zzim.zzimNo }">
-		<div class="zzimImgDiv" style="background-image: URL(${path }/resources/upload/product/${zzim.zzimFolderImg });">
+		<div class="zzimImgDiv" style="background-image: URL(${path }/resources/upload/product/${zzim.zzimFolderImg };">
+			<div class="opacityFilter"></div>
 			<div class="zzimInfo">
 				<p><c:out value="${zzim.zzimName }"/></p>
-				<p><i class="fas fa-heart"></i><c:out value="${zzim.zzimContentCount }"/></p>
+				<p><i class="fas fa-heart"></i> <c:out value="${zzim.zzimContentCount }"/></p>
 			</div>
 		</div>		
 	</a>

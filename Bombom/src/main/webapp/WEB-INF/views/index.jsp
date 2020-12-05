@@ -32,6 +32,12 @@
         -webkit-align-items: center;
         align-items: center;
     }
+    
+    .banner_text_area{
+	    position: absolute;
+	    text-align: left;
+	    bottom: 100px;
+    }
    
 </style>
 
@@ -52,15 +58,31 @@
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <img class="d-block w-100" src="${path }/resources/images/main/banner/main-banner1.jpg" alt="First slide">
+                        <div class="carousel-caption" style="position: absolute;text-align: left; bottom: 100px;">
+					        <h3>Los Angeles</h3>
+					        <p>We had such a great time in LA!</p>
+					    </div>   
                     </div>
                     <div class="carousel-item">
                         <img class="d-block w-100" src="${path }/resources/images/main/banner/main-banner2.jpg" alt="Second slide">
+                    	<div class="carousel-caption " style="position: absolute;text-align: left; bottom: 100px;">
+					        <h3>Los Angeles</h3>
+					        <p>We had such a great time in LA!</p>
+					    </div>
                     </div>
                     <div class="carousel-item">
                         <img class="d-block w-100" src="${path }/resources/images/main/banner/main-banner3.jpg" alt="Third slide">
+                    	<div class="carousel-caption " style="position: absolute;text-align: left; bottom: 100px;">
+					        <h3>Los Angeles</h3>
+					        <p>We had such a great time in LA!</p>
+					    </div>
                     </div>
                     <div class="carousel-item">
                         <img class="d-block w-100" src="${path }/resources/images/main/banner/main-banner4.jpg" alt="Third slide">
+                    	<div class="carousel-caption " style="position: absolute;text-align: left; bottom: 100px;">
+					        <h3>Los Angeles</h3>
+					        <p>We had such a great time in LA!</p>
+					    </div>
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#mainBanner" role="button" data-slide="prev">
