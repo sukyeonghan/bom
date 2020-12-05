@@ -9,6 +9,24 @@
 	font-style: normal;
 }
 
+@font-face {
+	font-family: 'Roboto';
+	font-style: normal;
+	font-weight: 100;
+	src: url(../font/Roboto-Thin.woff2) format('woff2'),
+		url(../font/Roboto-Thin.woff) format('woff'),
+		url(../font/Roboto-Thin.otf) format('opentype');
+}
+
+/* 비밀번호 안보이는 이슈 처리 */
+input[type=password] {
+	font-family: 'Roboto';
+}
+
+input::placeholder {
+	font-family: 'Cafe24Simplehae';
+}
+
 * {
 	font-family: 'Cafe24Simplehae';
 	box-sizing: border-box;
@@ -22,8 +40,7 @@ a {
 a, button {
 	cursor: pointer;
 }
-<!--패스워드 빈칸처리-->
-input[type=password] {font-family: "NanumSquare";} 
+
 /* header */
 header#spring-main-header {
 	background-color: #ffffff;
@@ -71,9 +88,9 @@ img#logo {
 
 /* 메뉴nav div */
 div#menuNav {
-    width: 100%;
-    color: #45A663;
-    height:100px;
+	width: 100%;
+	color: #45A663;
+	height: 100px;
 }
 
 .dropmenu ul ul {
@@ -159,8 +176,7 @@ div#menuNav {
 
 /* header만큼 top 주기 */
 section#container {
-    padding-top: 250px;
-
+	padding-top: 250px;
 }
 
 .carousel-inner {
@@ -199,12 +215,23 @@ div#spring-main-footer {
 	background-color: #45A663;
 }
 
-div#spring-main-footer>p{
-    padding: 50px;
-    margin: 10px;
-    text-align: center;
-    font-size: 20px;
-    color: #ffffff;
-    margin-top:200px;
+div#spring-main-footer>p {
+	padding: 50px;
+	margin: 10px;
+	text-align: center;
+	font-size: 20px;
+	color: #ffffff;
+	margin-top: 200px;
+}
+/* 검색 모달창 */
+.search_input {
+	border: none;
+}
+/*  */
+.user_basic {
+	color: #45A663;
+}
 
+.user_manager {
+	color: red;
 }

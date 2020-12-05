@@ -212,7 +212,7 @@
 		var no = {eventNo : eventNo};
 		var ck = confirm("정말로 삭제하시겠습니까?");
 		if(ck){
-			window.location.replace = url+'?'+$.param(no);
+			window.location = url+'?'+$.param(no);
 		}
 	}
 	
