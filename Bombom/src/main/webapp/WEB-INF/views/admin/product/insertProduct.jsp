@@ -182,11 +182,13 @@
 						<td colspan="3">
 						<!-- 이벤트 카테고리 -->
 							<div class="select-box">
-								<select class="sort" name="eventNoRef">
+								<select class="sort" id="eventSelect" name="eventNoRef">
 									<option value="">이벤트 선택</option>
 									<c:if test="${not empty list}">
 										<c:forEach var="e" items="${list}">
-											<option><c:out value="${e.eventNo }"/></option>
+											<option value="${e.eventNo }">
+												<c:out value='${e.eventNo }/${e.eventTitle }'/> 
+											</option>
 										</c:forEach>
 									</c:if>
 								</select>
@@ -194,25 +196,15 @@
 						</td>
 						
 					</tr>
-					<tr>
+					 <tr>
                         <th>추가 옵션</th>
                         <td colspan="3">
                         	<input type="button" class="btn btn-success btn-sm" id="add-option" value="옵션 추가">
                         </td>
                     </tr>
-                    <tr class="trOption" name="trOption">
-                        <th>&nbsp&nbsp옵션 내용</th>
-                        <td><input type="text" name="pdtOptionContent"></td>
-                        <th>추가 요금</th>
-                        <td>
-                        	<input type="text" name="pdtOptionAddprice">
-                        	<button class="btn btn-success btn-sm delBtn" name="delBtn" >삭제</button>
-                        </td>
-                    </tr>
                     
 				</table>
 				<input type="hidden" name="test" id="test_list">
-                <!-- <input type="hidden" name="test2[]" id="test_list2"> -->
 				
 				<!-- 제품 설명 -->
 				<div id="middle-div">
@@ -342,11 +334,10 @@
 	    trHtml.remove();
 	});
 	
-	//옵션등록하기
+	//옵션 등록하기
 	function insertOption(){
-		//alert("야1");
+		
 		var list=[];
-        
         var items = document.getElementsByName("pdtOptionContent");
         
         for(var i=0; i<items.length; i++){
@@ -354,34 +345,7 @@
             	"pdtOptionAddprice":$("input[name=pdtOptionAddprice]").eq(i).val()});    
         }
         $("#test_list").val(JSON.stringify(list));
-        
-        //var items2 = document.getElementsByName("pdtOptionAddprice");
-        //var test=$("input[name=pdtOptionAddprice]").eq(1).val();
-        //alert("야2");
-        /* if(test ==""||test==null||test==undefined||test==[]||(test!=null && typeof value=="object" &&!Object.keys(test).length)){
-    		
-    		alert("비어있음");
-    		alert(test); //undefined
-    		alert(typeof test); //undefined
-    	}else{
-    		for(var i=0; i<items.length; i++){
-                list.push({"pdtOptionContent":$("input[name=pdtOptionContent]").eq(i).val(),
-                	"pdtOptionAddprice":$("input[name=pdtOptionAddprice]").eq(i).val()});    
-            }
-    		alert("야3"); //안뜸
-    		$("#test_list").val(JSON.stringify(list));
-    	} */
-      /*   var isEmpty =function(test){
-        	
-        } */
-       /*  if($("input[name=pdtOptionContent]").eq(i).val()!=null && $("input[name=pdtOptionAddprice]").eq(i).val() !== null){
-        	
-        } */
-        
-        /* console.log(list);
-        
-        console.log($("#test_list").val());
-        alert("야4"); */
+
 	};
 	
 	//이미지 업로드 
