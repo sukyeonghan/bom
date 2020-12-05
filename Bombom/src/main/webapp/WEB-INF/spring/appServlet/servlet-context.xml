@@ -46,7 +46,12 @@
 		</interceptor>
 	</interceptors>
 	
-   
+	<!-- jsonview연결 resolver등록하기  : 리턴값이랑 일치하는 이름을 가진 빈 을 찾아 실행시킴-->
+  	<beans:bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="1"/> 	
+	</beans:bean>
+	<beans:bean id="jsonView" class="net.sf.json.spring.web.servlet.view.JsonView"/>
+
    
    
    <!-- redirect:/시 뒤로가도 정보 없도록 캐쉬지우기 ??  -->

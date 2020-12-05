@@ -15,4 +15,8 @@ public interface ZzimDao {
 
 	List<ZzimContent> selectZzimContentList(SqlSession session,String zzimNo);
 
+	int deleteZzim(SqlSession session, List<String> zzimNoList);
+
+	String selectSeqZzimNo(SqlSession session);
+
 }

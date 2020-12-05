@@ -13,5 +13,11 @@ public interface ZzimService {
 
 	List<ZzimContent> selectZzimContentList(String zzimNo);
 
+	int deleteZzim(List<String> zzimNoList);
+
+	String selectSeqZzimNo();
+
+	
+
 
 }

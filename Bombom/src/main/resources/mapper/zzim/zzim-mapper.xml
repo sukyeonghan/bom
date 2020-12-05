@@ -46,4 +46,14 @@
 		 )WHERE RANK=1 AND ZZIM_NO=#{zzimNo}
 	</select>
 	
+	<delete id="deleteZzim" parameterType="java.util.List">
+		DELETE FROM ZZIM WHERE ZZIM_NO IN
+		<foreach collection="list" item="zzimNo" open="(" close=")" separator="," index="index">	
+			 #{zzimNo}
+		</foreach>
+	</delete>	
+	
+	<select id="selectSeqZzimNo" resultType="string">
+		SELECT SEQ_ZZIM_NO.CURRVAL FROM DUAL
+	</select>
 </mapper>
