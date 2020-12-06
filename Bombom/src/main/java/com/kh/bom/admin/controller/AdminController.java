@@ -163,15 +163,30 @@ public class AdminController {
 	
 	//by수경-제품 수정 및 삭제 페이지 전환
 	@RequestMapping("/admin/productUpdate")
-	public String moveProductUpdatePage() {
-		return "admin/product/updateProduct";
+	public ModelAndView moveProductUpdatePage(String pdtNo,ModelAndView m) {
+		Product p=service.selectOneProduct(pdtNo);
+		List<ProductOption> o=service.selectOption(pdtNo);
+		List<ProductThumb> th=service.selectThumb(pdtNo);
+		List<Event> event =service.selectEvent();
+		Event e=new Event();
+		if(p.getEventNoRef()!=null) {
+			e=service.selectEvent(p.getEventNoRef());
+		}
+		System.out.println(e);
+		
+		m.addObject("product",p);
+		m.addObject("option",o);
+		m.addObject("thumb",th);
+		m.addObject("eventList",event);
+		m.addObject("event",e);
+		m.setViewName("admin/product/updateProduct");
+		return m;
 	}
 	
 	//by수경-제품 삭제
 	@RequestMapping("admin/deleteProduct")
-	public ModelAndView deletrProduct(ModelAndView m) {
-		int result=0;
-		//=service.deleteOneProduct();
+	public ModelAndView deletrProduct(String pdtNo,ModelAndView m) {
+		int result=service.deleteOneProduct(pdtNo);
 		String msg="";
 		String icon = "";
 		if(result>0) {

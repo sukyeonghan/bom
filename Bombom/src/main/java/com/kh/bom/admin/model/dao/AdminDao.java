@@ -24,6 +24,9 @@ public interface AdminDao {
 	int insertProduct(SqlSession session,Product p);
 	int insertThumb(SqlSession session,ProductThumb th);
 	int insertOption(SqlSession session,ProductOption o);
+	Product selectOneProduct(SqlSession session,String pdtNo);
+	List<ProductOption> selectOption(SqlSession session,String pdtNo);
+	List<ProductThumb> selectThumb(SqlSession session,String pdtNo);
 
 	List<Member> selectMemberList(SqlSession session, int cPage, int numPerpage);
 	int selectMemberCount(SqlSession session);

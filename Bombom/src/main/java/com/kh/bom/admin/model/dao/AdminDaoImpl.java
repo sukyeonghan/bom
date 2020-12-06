@@ -76,6 +76,24 @@ public class AdminDaoImpl implements AdminDao {
 	public int insertOption(SqlSession session,ProductOption o) {
 		return session.insert("admin.insertOption",o);
 	}
+	//제품 선택
+	@Override
+	public Product selectOneProduct(SqlSession session, String pdtNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectOneProduct",pdtNo);
+	}
+	//옵션 선택
+	@Override
+	public List<ProductOption> selectOption(SqlSession session, String pdtNo) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectOption",pdtNo);
+	}
+	//썸네일 선택
+	@Override
+	public List<ProductThumb> selectThumb(SqlSession session, String pdtNo) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectThumb",pdtNo);
+	}
 	
 	//썸네일 등록
 	@Override

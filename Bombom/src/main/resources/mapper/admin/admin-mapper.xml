@@ -27,7 +27,6 @@
 		<result property="pdtNo" column="pdt_no_ref"/>
 		<result property="pdtOptionContent" column="pdt_option_content"/>
 		<result property="pdtOptionAddprice" column="pdt_option_addprice" />
-		<!--<result property="pdtOptionAddprice" column="pdt_option_addprice" typeHandler="intArr"/>  -->
 	</resultMap>
 	<resultMap type="thumb" id="thumbMap">
 		<result property="pdtThumbNo" column="pdt_thumb_no"/>
@@ -119,7 +118,18 @@
 		INSERT INTO PRODUCT_THUMB
 			VALUES('PT'||SEQ_PDT_THUMB_NO.NEXTVAL,#{pdtNo},#{renamedFileName})
 	</insert>
-
+	<!-- 제품 하나 선택 -->
+	<select id="selectOneProduct" parameterType="string" resultMap="productMap">
+		SELECT * FROM PRODUCT WHERE PDT_NO=#{pdtNo} 
+	</select>
+	<!-- 제품 번호 해당 옵션 선택 -->
+	<select id="selectOption" parameterType="string" resultMap="optionMap">
+		SELECT * FROM PRODUCT_OPTION WHERE PDT_NO_REF=#{pdtNo}
+	</select>
+	<!-- 제품 번호 해당 썸네일 선택 -->
+	<select id="selectThumb" parameterType="string" resultMap="thumbMap">
+		SELECT * FROM PRODUCT_THUMB WHERE PDT_NO_REF=#{pdtNo}
+	</select>
 	<select id="selectMemberList" resultMap="memberMap">
 		SELECT * FROM MEMBER
 	</select>

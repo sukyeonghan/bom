@@ -124,6 +124,13 @@
     	display:flex;
     	margin:5px;
     }
+    
+    label.form-control-file{
+    	text-align:left;
+    }
+    label.test{
+    	text-align:left;
+    }
 </style>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -149,13 +156,12 @@
 						<!-- 검색 카테고리 -->
 							<div class="select-box">
 								<select class="sort" name="pdtCategory" required>
-									<option selected disabled hidden>카테고리 선택</option>
-									<option value="식품">식품</option>
-									<option value="잡화">잡화</option>
-									<option value="주방">주방</option>
-									<option value="욕실">욕실</option>
-									<option value="여성용품">여성용품</option>
-									<option value="반려동물">반려동물</option>
+									<option value="식품" ${product.pdtCategory=='식품'?"selected":"" }>식품</option>
+									<option value="잡화" ${product.pdtCategory=='잡화'?"selected":"" }>잡화</option>
+									<option value="주방" ${product.pdtCategory=='주방'?"selected":"" }>주방</option>
+									<option value="욕실" ${product.pdtCategory=='욕실'?"selected":"" }>욕실</option>
+									<option value="여성용품" ${product.pdtCategory=='여성용품'?"selected":"" }>여성용품</option>
+									<option value="반려동물" ${product.pdtCategory=='반려동물'?"selected":"" }>반려동물</option>
 								</select>
 							</div>
 						</td>
@@ -164,18 +170,17 @@
 							<!-- 판매상태 카테고리 -->
 							<div class="select-box">
 								<select class="sort" name="pdtStatus" required>
-									<option selected disabled hidden>판매상태 선택</option>
-									<option value="Y">Y</option>
-									<option value="N">N</option>
+									<option value="Y" ${product.pdtStatus=='Y'?"selected":"" }>Y</option>
+									<option value="N" ${product.pdtStatus=='N'?"selected":"" }>N</option>
 								</select>
 							</div>
 						</td>
 					</tr>
 					<tr>
 						<th>제품명</th>
-						<td><input type="text" name="pdtName" required></td>
+						<td><input type="text" name="pdtName" value="${product.pdtName }" required></td>
 						<th>제품기본가격</th>
-						<td><input type="text" name="pdtPrice" required></td>
+						<td><input type="text" name="pdtPrice" value="${product.pdtPrice }" required></td>
 					</tr>
 					<tr>
 						<th>이벤트</th>
@@ -183,14 +188,29 @@
 						<!-- 이벤트 카테고리 -->
 							<div class="select-box">
 								<select class="sort" id="eventSelect" name="eventNoRef">
-									<option value="">이벤트 선택</option>
-									<c:if test="${not empty list}">
-										<c:forEach var="e" items="${list}">
-											<option value="${e.eventNo }">
-												<c:out value='${e.eventNo }/${e.eventTitle }'/> 
-											</option>
-										</c:forEach>
-									</c:if>
+									<c:choose>
+										<c:when test="${not empty eventList && not empty event.eventNo}">
+										<!-- 이벤트 목록도 있고 이전에 선택한 이벤트가 있는 경우 -->
+											<c:forEach var="e" items="${eventList}">
+												<option value="${e.eventNo }" ${e.eventNo==product.eventNoRef?"selected":"" } >
+													<c:out value='${e.eventNo }/${e.eventTitle }'/> 
+												</option>
+											</c:forEach>
+										</c:when>
+										<c:when test="${not empty eventList && empty event.eventNo}">
+										<!-- 이벤트 목록은 있지만 이전에 선택한 이벤트 없는 경우 -->
+											<option value="" selected>이벤트 선택</option>
+											<c:forEach var="e" items="${eventList}">
+												<option value="${e.eventNo }" >
+													<c:out value='${e.eventNo }/${e.eventTitle }'/> 
+												</option>
+											</c:forEach>
+										</c:when>
+										<c:when test="${ empty eventList}">
+										<!-- 이벤트 목록 자체가 없는 경우 -->
+											<option value="" selected>이벤트 선택</option>
+										</c:when>
+									</c:choose>
 								</select>
 							</div>
 						</td>
@@ -202,6 +222,17 @@
                         	<input type="button" class="btn btn-success btn-sm" id="add-option" value="옵션 추가">
                         </td>
                     </tr>
+                    <c:if test="${not empty option}">
+						<c:forEach var="o" items="${option }">
+							<tr class="trOption" name="trOption">
+								<th>&nbsp&nbsp옵션 내용</th>
+       							<td><input type="text" name="pdtOptionContent" value="${o.pdtOptionContent}"></td>
+        						<th>추가 요금</th>
+        						<td><input type="text" name="pdtOptionAddprice" value="${o.pdtOptionAddprice }">
+        						<button class="btn btn-success btn-sm delBtn2" name="delBtn">삭제</button></td>
+							</tr>
+						</c:forEach>
+					</c:if>	
                     
 				</table>
 				<input type="hidden" name="test" id="test_list">
@@ -209,7 +240,8 @@
 				<!-- 제품 설명 -->
 				<div id="middle-div">
 					<p class="title" id="product-intro">간단한 제품 설명</p>
-					<textarea id="intro-text" rows="5" cols="100" placeholder="50자 이내로 적어주세요" name="pdtIntro" required></textarea>
+					<textarea id="intro-text" rows="5" cols="100" placeholder="50자 이내로 적어주세요" name="pdtIntro" required><c:out value="${product.pdtIntro }"/>
+					</textarea>
 				</div>
 				
 				<!-- 제품 썸네일,상세 이미지 등록 -->
@@ -286,7 +318,10 @@
 					
 		      		<div id="detail-image">
 			      		<p class="title">제품 상세 이미지(총 1장)</p>
-			      		<input type="file" class="form-control-file border" name="detailImg">
+			      		<input type="file" id="detail" class="form-control-file border" name="detailImg" ><label class="form-control-file" for="detail">${product.pdtDetailImage}</label>
+			     
+			    		<input type="file" class="test" name="upFile" id="upFile1">
+                    <label class="test" for="upFile1"><c:out value="${product.pdtDetailImage}"/></label>
 		      		</div>
 				</div>
 				
@@ -304,6 +339,8 @@
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 <script>
+	//상세이미지
+	
 	//제품 수정
 	function updatePro(){
 		if(confirm("정말 수정하시겠습니까?")==true){
@@ -315,7 +352,7 @@
 	//제품 삭제
 	function deletePro(){
 		if(confirm("정말 삭제하시겠습니까?")==true){
-	        location.href='${path}/admin/deleteProduct?pdtNo';
+	        location.href='${path}/admin/deleteProduct?pdtNo=${product.pdtNo}';
 		}else{
 			return false;
 		}   
