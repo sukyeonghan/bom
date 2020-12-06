@@ -149,9 +149,9 @@
 	    	   		<form name="zzimFolderFrm">
 	    	   		<div style="display:flex;">
 			         		<input type="hidden" name="memNo" value="${loginMember.memNo }">
-			         		<input type="text" class="form-control" name="zzimName" size="10" placeholder="폴더이름을 선택해주세요. (10자 이내 한글 ,영어,숫자만 가능)" required>
+			         		<input type="text" class="form-control" name="zzimName" size="10" placeholder="폴더이름을 지정해주세요. (10자 이내 한글 ,영어,숫자만 가능)" required>
 			         		&nbsp;&nbsp;
-			         		<input type="submit" class="btn btn-success" id="addFolderBtn" value="만들기" onclick="return fn_addFoler();">
+			         		<input type="submit" class="btn btn-success" id="addFolderBtn" value="만들기" onclick="return fn_addFolder();">
 			        </div>
 			        </form>
 		        </div>
@@ -172,7 +172,7 @@
     });
 
 
-	function fn_addFoler(){
+	function fn_addFolder(){
 		
 		var zzimName=$("input[name=zzimName]").val();
 		var nameCheck = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]+$/;

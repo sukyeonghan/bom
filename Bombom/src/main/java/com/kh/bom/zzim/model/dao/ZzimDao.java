@@ -19,4 +19,10 @@ public interface ZzimDao {
 
 	String selectSeqZzimNo(SqlSession session);
 
+	int updateZzimName(SqlSession session, Zzim zzim);
+
+	int deleteZzimOne(SqlSession session, String zzimNo);
+
+	int deleteZzimContent(SqlSession session, List<String> pdtNoList);
+
 }

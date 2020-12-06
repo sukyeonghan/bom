@@ -46,6 +46,24 @@ public class ZzimServiceImpl implements ZzimService {
 		// TODO Auto-generated method stub
 		return dao.selectSeqZzimNo(session);
 	}
+
+	@Override
+	public int updateZzimName(Zzim zzim) {
+		// TODO Auto-generated method stub
+		return dao.updateZzimName(session,zzim);
+	}
+
+	@Override
+	public int deleteZzimOne(String zzimNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteZzimOne(session,zzimNo);
+	}
+
+	@Override
+	public int deleteZzimContent(List<String> pdtNoList) {
+		// TODO Auto-generated method stub
+		return dao.deleteZzimContent(session,pdtNoList);
+	}
 	
 	
 	

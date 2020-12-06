@@ -17,6 +17,12 @@ public interface ZzimService {
 
 	String selectSeqZzimNo();
 
+	int updateZzimName(Zzim zzim);
+
+	int deleteZzimOne(String zzimNo);
+
+	int deleteZzimContent(List<String> pdtNoList);
+
 	
 
 

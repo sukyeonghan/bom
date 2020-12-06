@@ -40,6 +40,24 @@ public class ZzimDaoImpl implements ZzimDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("zzim.selectSeqZzimNo");
 	}
+
+	@Override
+	public int updateZzimName(SqlSession session, Zzim zzim) {
+		// TODO Auto-generated method stub
+		return session.update("zzim.updateZzimName", zzim);
+	}
+
+	@Override
+	public int deleteZzimOne(SqlSession session, String zzimNo) {
+		// TODO Auto-generated method stub
+		return session.delete("zzim.deleteZzimOne",zzimNo);
+	}
+
+	@Override
+	public int deleteZzimContent(SqlSession session, List<String> pdtNoList) {
+		// TODO Auto-generated method stub
+		return session.delete("zzim.deleteZzimContent", pdtNoList);
+	}
 	
 	
 	
