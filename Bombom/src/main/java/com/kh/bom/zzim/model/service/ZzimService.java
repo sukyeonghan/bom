@@ -23,6 +23,8 @@ public interface ZzimService {
 
 	int deleteZzimContent(List<String> pdtNoList);
 
+	Zzim selectZzimOne(String zzimNo);
+
 	
 
 

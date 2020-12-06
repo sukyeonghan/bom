@@ -45,8 +45,9 @@ public class ZzimController {
 	@RequestMapping("/zzim/selectZzimContent")
 	public ModelAndView selectZzimContentList(ModelAndView mv,String zzimNo,String zzimName) {
 		List<ZzimContent> list =service.selectZzimContentList(zzimNo);
+		Zzim z=service.selectZzimOne(zzimNo);
 		mv.addObject("zcList",list);
-		mv.addObject("zzimFolderName",zzimName);
+		mv.addObject("zzimName",z.getZzimName());
 		mv.addObject("zzimNo",zzimNo);
 		mv.setViewName("mypage/zzimContentList");
 		return mv;
@@ -115,8 +116,17 @@ public class ZzimController {
 		}
 		mv.addObject("msg",msg);
 		mv.addObject("icon",icon);
-		mv.addObject("loc","/zzim/selectZzimContent?zzimNo="+z.getZzimNo()+"&zzimName="+z.getZzimName());
+		mv.addObject("loc","/zzim/selectZzimContent?zzimNo="+z.getZzimNo());
 		mv.setViewName("common/msg");
 		return mv;
+	}
+	
+	@RequestMapping("/zzim/zzimListModal")
+	public ModelAndView zzimListModal(ModelAndView mv, HttpSession session) {
+		Member m=(Member)session.getAttribute("loginMember");
+		List<Zzim> zzimList=service.selectZzimList(m.getMemNo());
+		mv.addObject("zzimList",zzimList);
+		mv.setViewName("mypage/zzimListModal");
+		return mv; 
 	}
 }

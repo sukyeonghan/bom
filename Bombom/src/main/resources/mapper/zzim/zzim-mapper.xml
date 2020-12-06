@@ -71,4 +71,8 @@
 			#{pdtNo}
 		</foreach>
 	</delete>
+	
+	<select id="selectZzimOne" parameterType="string" resultMap="zzimMap">
+		SELECT * FROM ZZIM WHERE ZZIM_NO = #{zzimNo}
+	</select>
 </mapper>

@@ -14,11 +14,9 @@
 	#mypage-nav{padding-right:100px;}
 	#mypage-nav a{color:black;font-weight:bolder;}
 	#mypage-nav a:hover{color: #45A663;}
-
 	/*최소 컨텐츠 크기*/
 	.media{min-width: 768px;} 
 	.right{text-align: right;}
-	
 	/*찜폴더 타이틀*/
 	#zzimTitle{text-align:center; margin-bottom: 30px; font-size: 30px;}
 	#zzimTitle>*{margin: 3px; text-decoration: none;}
@@ -32,13 +30,17 @@
 	.zzimImgDiv{width:100%;height:100%;overflow:hidden; margin:0 auto}
 	.zzimImgDiv>img:hover{transform:scale(1.1);transition:transform 0.5s linear; }
 	/*상품이름*/
-	.nameP{position:absolute; left:5; bottom:5; margin:0; color:white; width:100%; }
-	
+	.nameP{position:absolute; left:5px; bottom:5px; margin:0; color:white; width:100%; z-index:100; font-weight:bolder;}
+	/*체크박스*/
 	.pdtNoCkBox{position:absolute; top:10px;left: 10px; width: 10%; height:10%; z-index: 90; display: none;}
+	/*체크박스 선택시 필터링박스*/
 	.checkFilter{position:absolute; width:100%;height:100%; z-index: 80; background-color: #ffffff; opacity:0.5; display:none; }
+	/*편집관련*/
 	#edit>span{font-weight:bolder;color: #45A663;cursor: pointer;}
 	#editBox{display:none; }
-	#editBox>*{margin-left: 30px; color: #45A663; font-weight:bolder; cursor: pointer;}
+	#editBox>*{margin-left: 30px;font-weight:bolder; cursor: pointer;}
+	#folderNameUpdate,#folderMove{color:#45A663;}
+	#deleteZc,#folderRemove{color:red;}
 </style>
 <section id="container" class="container">
 	<div class="media">
@@ -77,19 +79,20 @@
 			<div id="zzimTitle">
 				<a href="${path }/mypage/zzimList"><span>찜목록</span></a>
 				<span><i class="fas fa-angle-right"></i></span>
-				<span><c:out value="${zzimFolderName }"/></span>
+				<span><c:out value="${zzimName }"/></span>
 			</div>
 			<div class="right" id="edit"><span><i class="fas fa-tools"></i> 편집</span></div>
 			<div id="editBox" class="right">
-				<span id="folderNameUpdate" data-target="#updateZzimModal" data-toggle="modal" >폴더이름변경</span>
-				<span id="folderRemove" onclick="fn_deleteFolder();">폴더삭제</span>
-				<span id="deleteZc">상품삭제</span>
+				<span id="folderNameUpdate" data-target="#updateZzimModal" data-toggle="modal" ><i class="far fa-folder"></i> 폴더이름변경</span>
+				<span id="folderMove"><i class="fas fa-folder-minus"></i> 폴더이동</span>
+				<span id="folderRemove" onclick="fn_deleteFolder();"><i class="far fa-trash-alt"></i> 폴더삭제</span>
+				<span id="deleteZc"><i class="far fa-trash-alt"></i> 상품삭제</span>
 				<span id="edit-cancle" style="color:gray;">취소</span>
 			</div>
 			<hr>
 			
 			<form name="zcDelFrm">
-			<input type="hidden" value="${zzimFolderName }" name="zzimName"/>
+			<input type="hidden" value="${zzimName }" name="zzimName"/>
 			<input type="hidden" value="${zzimNo }" name="zzimNo"/>
 			<!-- 찜 목록 전체 틀 -->
 			<div id="zzimListDiv">
@@ -128,7 +131,7 @@
 	    	   		<form name="updateZzimFrm">
 		    	   		<div style="display:flex;">
 			         		<input type="hidden" name="zzimNo" value="${zzimNo}">
-			         		<input type="text" class="form-control" name="zzimName" placeholder="${zzimFolderName }" required>
+			         		<input type="text" class="form-control" name="zzimName" placeholder="${zzimName }" required>
 			         		&nbsp;&nbsp;
 			         		<input type="submit" class="btn btn-success" id="updateZzimNameBtn" value="확인" onclick="return fn_updateZzimName();">
 				        </div>
@@ -140,6 +143,29 @@
 		    </div>
 		  </div>
 		
+		
+		<!-- The Modal -->
+		  <div class="modal fade" id="zzimModal">
+		    <div class="modal-dialog modal-dialog-scrollable">
+		      <div class="modal-content">
+		      
+		        <!-- Modal Header -->
+		        <div class="modal-header">
+		          <h4 class="modal-title" style="text-align: center;">이동할 폴더를 선택해주세요.</h4>
+		          <button type="button" class="close" data-dismiss="modal">X</button>
+		        </div>
+		        
+		        <!-- Modal body -->
+		        <div class="modal-body" >
+	    	   		<form id="zzimFrm" name="zzimFrm">
+		    	   		
+			        </form>
+		        </div>
+		       
+		        
+		      </div>
+		    </div>
+		  </div>
 	</div>
 </section>
 <script>
@@ -197,11 +223,12 @@ $(function(){
 	});
 	//제품이름 마우스오버시에만 나오게 하기
 	$(".nameP").hide();
-   	$(".zzimImgDiv").on({
+   	$(".zzimImgDiv>img").on({
        	"mouseenter":e=>{
-    	   $(e.target).parent().next().show();
+       		console.log(e.target);
+    	   $(e.target).parent().next().css("display","block");
        	},"mouseleave":e=>{
-       		$(e.target).parent().next().hide();
+       		$(e.target).parent().next().css("display","none");
        	}
 	});
    
@@ -225,11 +252,11 @@ $(function(){
    			}
   
    	   		
-   	   	})
+   	   	});
    	   	$(".checkFilter").click(e=>{
    	   		$(e.target).next().prop("checked",false);
    	   		$(e.target).css("display","none");
-   	   	})
+   	   	});
    		
    	});
    	
@@ -262,7 +289,7 @@ $(function(){
 	  if(pdtNoList.length==0){
 		  swal("삭제할 상품을 선택해주세요.");
 		  return;
-	  }
+	  };
 	  swal({
 		  title: "선택한 상품을 삭제하시겠습니까?",
 		  icon: "warning",
@@ -279,7 +306,31 @@ $(function(){
 	  });
 	   
    });
-   
+   //폴더이동
+   $("#folderMove").click(e=>{
+	  var pdtNoList=[];
+	  $("input[name=pdtNoCkBox]:checked").each(function(i,v){
+		 pdtNoList.push($(this).val()); 
+	  });
+	  if(pdtNoList.length==0){
+		  swal("이동할 상품을 선택해주세요.");
+		  return;
+	  }
+	  $.ajax({
+          type : 'POST',
+          url : "${path}/zzim/zzimListModal",
+          dataType:"html",
+          success : function(data) {
+        	  
+			$("#zzimFrm").html("");
+			$("#zzimFrm").html(data);
+          },error:function(){
+        	  alert("실패");
+          }
+  	 });
+	  $("#zzimModal").modal();
+
+   });
 
 })
 	

@@ -25,4 +25,6 @@ public interface ZzimDao {
 
 	int deleteZzimContent(SqlSession session, List<String> pdtNoList);
 
+	Zzim selectZzimOne(SqlSession session, String zzimNo);
+
 }

@@ -56,7 +56,8 @@
 	.checkFilter{position:absolute; width:100%;height:100%; z-index: 80; background-color: #ffffff; opacity:0.5; display:none; z-index: 30; }
 	#delBoxOpen{font-weight:bolder;color: #45A663;cursor: pointer; }
 	#delBox{display:none;}
-	#delBox>*{margin-left: 20px;}
+	#delBox>*{margin-left: 20px;cursor:pointer; font-weight:bolder; color:#45A663;}
+	#cancel{color:black;}
 </style>
 <section id="container" class="container">
 	<div class="media">
@@ -93,7 +94,7 @@
 		<!--좌측메뉴선택시 화면 -->
 		<div id="mypage-container" class="media-body">
 			<div><h3>찜목록</h3></div> 
-			<div id="delBoxOpen" class="right">폴더삭제</div>
+			<div id="delBoxOpen" class="right"><span><i class="far fa-trash-alt"></i> 폴더삭제</span></div>
 			<div id="delBox" class="right">
 				<span id="allChoice">전체선택</span>
 				<span id="remove">선택삭제</span>
@@ -114,7 +115,7 @@
 					<div class="zzimFolder">
 						<div class="checkFilter"></div>
 						<input type="checkbox" class="delZzimCkbox" name="delZzimNo" value="${zzim.zzimNo }">
-						<a href="${path }/zzim/selectZzimContent?zzimNo=${zzim.zzimNo }&zzimName=${zzim.zzimName}">
+						<a href="${path }/zzim/selectZzimContent?zzimNo=${zzim.zzimNo }">
 							<div class="zzimImgDiv">
  								<c:if test="${zzim.zzimFolderImg != null}">
 								<img src="${path }/resources/upload/product/${zzim.zzimFolderImg };" width="100%">
@@ -204,8 +205,8 @@ $(function(){
 	$("#zzimFolderModal").on("shown.bs.modal", function () { $("input[name=zzimName]").focus(); });
 	
 	//폴더삭제 선택시.
-	$("#delBoxOpen").on("click",e=>{
-		$(e.target).hide();
+	$("#delBoxOpen>span").on("click",e=>{
+		$(e.target).parent().hide();
 		//폴더삭제 메뉴 나나타기
 		$("#delBox").css("display","block");
 		//삭제용체크박스
