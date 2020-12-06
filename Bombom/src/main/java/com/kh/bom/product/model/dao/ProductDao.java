@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.bom.inquiry.model.vo.Inquiry;
+import com.kh.bom.product.model.vo.Product;
 
 public interface ProductDao {
 	
@@ -12,4 +13,7 @@ public interface ProductDao {
 	
 	int inquiryCount(SqlSession session);
 
+	int productAllCount(SqlSession session);
+	int productCateCount(SqlSession session,String category);
+	List<Product> cateProductList(SqlSession session,String category);
 }

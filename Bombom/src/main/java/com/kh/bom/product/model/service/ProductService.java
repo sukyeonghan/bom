@@ -3,6 +3,7 @@ package com.kh.bom.product.model.service;
 import java.util.List;
 
 import com.kh.bom.inquiry.model.vo.Inquiry;
+import com.kh.bom.product.model.vo.Product;
 
 public interface ProductService {
 	
@@ -10,6 +11,8 @@ public interface ProductService {
 	
 	int inquiryCount();
 	
-	
+	int productAllCount();//전체 제품 개수
+	int productCateCount(String category);//카테고리별 제품 개수
+	List<Product> cateProductList(String category);
 
 }
