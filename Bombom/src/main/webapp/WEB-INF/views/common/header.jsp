@@ -152,7 +152,7 @@
                             <ul class="">
                             	<li><a class="" href="${path }/admin/memberList">회원관리</a></li>
                                 <li><a class="" href="${path }/admin/moveProduct">제품관리</a></li>
-                                <li><a class="" href="#">주문관리</a></li>
+                                <li><a class="" href="${path }/admin/order">주문관리</a></li>
                                 <li><a class="" href="${path }/admin/qnaList">1:1문의 관리</a></li>
                                 <li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
                               

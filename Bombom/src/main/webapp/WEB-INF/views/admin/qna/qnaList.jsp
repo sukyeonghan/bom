@@ -35,7 +35,7 @@
 		      	<a class="nav-link non-select" href="${path }/admin/moveProduct">제품관리</a>
 		    </li>
 		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="${path }/">주문관리</a>
+		     	 <a class="nav-link non-select" href="${path }/admin/order">주문관리</a>
 		    </li>
 		    <li class="nav-item">
 		     	 <a class="nav-link non-select" href="${path }/admin/qnaList">1:1문의관리</a>
