@@ -10,4 +10,6 @@ public interface QnaService {
 
 	int selectCount(String memNo);
 
+	int deleteQna(Qna q);
+
 }

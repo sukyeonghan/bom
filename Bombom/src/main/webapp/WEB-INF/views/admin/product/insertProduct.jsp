@@ -209,7 +209,7 @@
 				<!-- 제품 설명 -->
 				<div id="middle-div">
 					<p class="title" id="product-intro">간단한 제품 설명</p>
-					<textarea id="intro-text" rows="5" cols="100" placeholder="50자 이내로 적어주세요" name="pdtIntro" required></textarea>
+					<textarea id="intro-text" rows="5" cols="100" placeholder="65자 이내로 적어주세요" name="pdtIntro" required></textarea>
 				</div>
 				
 				<!-- 제품 썸네일,상세 이미지 등록 -->
@@ -306,9 +306,9 @@
 	//간단한 설명 - 글자 수 제한
 	$(document).ready(function(){
 		$("#intro-text").on('keyup',function(){
-			if($(this).val().length>50){
-				$(this).val($(this).val().substring(0,50));
-				swal("50자를 초과하였습니다.");
+			if($(this).val().length>65){
+				$(this).val($(this).val().substring(0,65));
+				swal("65자를 초과하였습니다.");
 			}
 		});
 	});

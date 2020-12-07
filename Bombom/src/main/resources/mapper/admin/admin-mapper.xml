@@ -27,7 +27,6 @@
 		<result property="pdtNo" column="pdt_no_ref"/>
 		<result property="pdtOptionContent" column="pdt_option_content"/>
 		<result property="pdtOptionAddprice" column="pdt_option_addprice" />
-		<!--<result property="pdtOptionAddprice" column="pdt_option_addprice" typeHandler="intArr"/>  -->
 	</resultMap>
 	<resultMap type="thumb" id="thumbMap">
 		<result property="pdtThumbNo" column="pdt_thumb_no"/>
@@ -119,7 +118,55 @@
 		INSERT INTO PRODUCT_THUMB
 			VALUES('PT'||SEQ_PDT_THUMB_NO.NEXTVAL,#{pdtNo},#{renamedFileName})
 	</insert>
-
+	<!-- 제품 하나 선택 -->
+	<select id="selectOneProduct" parameterType="string" resultMap="productMap">
+		SELECT * FROM PRODUCT WHERE PDT_NO=#{pdtNo} 
+	</select>
+	<!-- 제품 번호 해당 옵션 선택 -->
+	<select id="selectOption" parameterType="string" resultMap="optionMap">
+		SELECT * FROM PRODUCT_OPTION WHERE PDT_NO_REF=#{pdtNo}
+	</select>
+	<!-- 제품 번호 해당 썸네일 선택 -->
+	<select id="selectThumb" parameterType="string" resultMap="thumbMap">
+		SELECT * FROM PRODUCT_THUMB WHERE PDT_NO_REF=#{pdtNo}
+	</select>
+	<!-- 제품 수정 -->
+	<update id="updateProduct" parameterType="product">
+		UPDATE PRODUCT SET
+			PDT_CATEGORY=#{pdtCategory},
+			PDT_PRICE=#{pdtPrice},
+			PDT_NAME=#{pdtName},
+			PDT_INTRO=#{pdtIntro},
+			PDT_STATUS=#{pdtStatus},
+			PDT_DATE=SYSDATE,
+			PDT_DETAIL_IMAGE=#{pdtDetailImage},
+			EVENT_NO_REF=#{eventNoRef}
+		WHERE PDT_NO=#{pdtNo}
+		<selectKey keyProperty="pdtNo" resultType="string" order="AFTER">
+			SELECT PDT_NO FROM PRODUCT WHERE PDT_NAME=#{pdtName}
+		</selectKey>
+	</update>
+	<!-- 옵션 수정 -->
+	<update id="updateOption" parameterType="option">
+		UPDATE PRODUCT_OPTION SET
+			PDT_OPTION_CONTENT=#{pdtOptionContent},
+			PDT_OPTION_ADDPRICE=#{pdtOptionAddprice}
+		WHERE PDT_NO_REF=#{pdtNo}
+	</update>
+	<!-- 썸네일 수정 -->
+	<update id="updateThumb" parameterType="thumb">
+		UPDATE PRODUCT_THUMB SET
+			PDT_THUMB_IMAGE=#{renamedFileName}
+		WHERE PDT_NO_REF=#{pdtNo}
+	</update>
+	<!-- 썸네일 삭제 -->
+	<delete id="deleteThumb" parameterType="string">
+		DELETE FROM PRODUCT_THUMB WHERE PDT_NO_REF=#{pdtNo}
+	</delete>
+	<!-- 옵션 삭제 -->
+	<delete id="deleteOption" parameterType="string">
+		DELETE FROM PRODUCT_OPTION WHERE PDT_NO_REF=#{pdtNo}
+	</delete>
 	<select id="selectMemberList" resultMap="memberMap">
 		SELECT * FROM MEMBER
 	</select>

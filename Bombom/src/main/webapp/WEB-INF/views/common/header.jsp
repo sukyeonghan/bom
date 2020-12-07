@@ -110,13 +110,13 @@
                             <a id="menuNav-product" class="nav-link" href="${path }/product/productAll">제품</a>
                             <ul class="">
                             	<li><a class="" href="${path }/product/productAll">전체제품</a></li>
-                            	<li><a class="" href="#">식품</a></li>
-                                <li><a class="" href="#">잡화</a></li>
-                                <li><a class="" href="#">주방</a></li>
-                                <li><a class="" href="#">욕실</a></li>
-                                <li><a class="" href="#">여성용품</a></li>
-                                <li><a class="" href="#">반려동물</a></li>
-                                <li><a class="" href="#">할인상품</a></li>
+                            	<li><a class="" href="${path }/product/food">식품</a></li>
+                                <li><a class="" href="${path }/product/stuff">잡화</a></li>
+                                <li><a class="" href="${path }/product/kitchen">주방</a></li>
+                                <li><a class="" href="${path }/product/bathroom">욕실</a></li>
+                                <li><a class="" href="${path }/product/woman">여성용품</a></li>
+                                <li><a class="" href="${path }/product/pet">반려동물</a></li>
+                                <li><a class="" href="${path }/product/sale">할인상품</a></li>
                             </ul>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="${path }/community/communityList">커뮤니티</a>
@@ -138,7 +138,7 @@
                             <ul class="">
                             	<li><a class="" href="${path }/admin/memberList">회원관리</a></li>
                                 <li><a class="" href="${path }/admin/moveProduct">제품관리</a></li>
-                                <li><a class="" href="#">주문관리</a></li>
+                                <li><a class="" href="${path }/admin/order">주문관리</a></li>
                                 <li><a class="" href="${path }/admin/qnaList">1:1문의 관리</a></li>
                                 <li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
                                 <li><a class="" href="${path }/#">메인배너관리</a></li>
