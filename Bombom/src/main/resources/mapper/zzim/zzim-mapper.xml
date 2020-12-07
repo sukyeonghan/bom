@@ -46,4 +46,33 @@
 		 )WHERE RANK=1 AND ZZIM_NO=#{zzimNo}
 	</select>
 	
+	<delete id="deleteZzim" parameterType="java.util.List">
+		DELETE FROM ZZIM WHERE ZZIM_NO IN
+		<foreach collection="list" item="zzimNo" open="(" close=")" separator="," index="index">	
+			 #{zzimNo}
+		</foreach>
+	</delete>	
+	
+	<select id="selectSeqZzimNo" resultType="string">
+		SELECT SEQ_ZZIM_NO.CURRVAL FROM DUAL
+	</select>
+	
+	<update id="updateZzimName" parameterType="zzim">
+		UPDATE ZZIM SET ZZIM_NAME=#{zzimName} WHERE ZZIM_NO=#{zzimNo}
+	</update>
+	
+	<delete id="deleteZzimOne" parameterType="string">
+		DELETE FROM ZZIM WHERE ZZIM_NO = #{zzimNo}
+	</delete>
+	
+	<delete id="deleteZzimContent" parameterType="java.util.List">
+		DELETE FROM ZZIMCONTENT WHERE PDT_NO IN
+		<foreach collection="list" item="pdtNo" open="(" close=")" separator="," index="index">
+			#{pdtNo}
+		</foreach>
+	</delete>
+	
+	<select id="selectZzimOne" parameterType="string" resultMap="zzimMap">
+		SELECT * FROM ZZIM WHERE ZZIM_NO = #{zzimNo}
+	</select>
 </mapper>

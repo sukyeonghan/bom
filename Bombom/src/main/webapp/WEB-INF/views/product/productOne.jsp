@@ -240,7 +240,7 @@
         border-radius: 4px;
         display: inline-block;
         width:100%;
-        height:250px;
+        height:200px;
     }
     textarea{
         width: 99%;
@@ -250,6 +250,20 @@
     }
     textarea:focus{
         outline:none;
+    }
+    textarea.inqContent{
+    	width: 100%;
+        height: 100%;
+        resize: none;
+        border:none;
+        margin:7px 0 7px 0;
+    }
+    textarea.answer{
+    	width: 100%;
+        height: 100%;
+        resize: none;
+        border:none;
+        margin:7px 0 7px 0;
     }
     
     /* 상품문의 모달창 */
@@ -415,11 +429,12 @@
 			        <!--상품문의 작성창-->
 			        <form name="frm_inquiry" action="${path}/product/insertInquiry" onsubmit="return fn_check()">
 				        <div class="writebox_wrap container" style="float:none; margin:0 auto;">
-				            <button type="button" id="showBox" class="btn btn-success">상품문의</button>
+				            <button type="button" class="btn btn-success showBox">상품문의</button>
 					        <div class="wrap-category" style="display:none;">
 						        <span class="span_textarea">
-							        <textarea name="inqContent" id="inqContent" placeholder="문의내용을 입력해주세요"></textarea>
+							        <textarea name="inqContent" id="inqContent" placeholder="문의내용을 입력해주세요" onKeyUp="javascript:fnChkByte(this,'500')"></textarea>
 									<div style="float:right;">
+										<span id="byteInfo">0</span>/500bytes
 								        <label>
 						 		        	<img id="lockUnlock" src="${path}/resources/images/product/unlock.png" name="inqSecret" style="width:25px;height:25px;">
 								        	<input type="hidden" id="secret" name="inqSecret" value="N">
@@ -436,6 +451,7 @@
 					        </div>
 				        </div>
 			        </form><!-- 상품문의 작성창 끝 -->
+			        
 			        <!-- 상품문의 게시글 -->
 			        <div id="result">
 				        <div class="container">
@@ -464,18 +480,25 @@
 						        				<c:if test="${i.inqSecret=='N'}">
 						        					<a href="#" data-toggle="modal" data-target="#inquiryView" data-no='<c:out value="${i.inqNo}"/>' data-content='<c:out value="${i.inqContent }"/>'
 						        						data-answeryn='<c:out value="${i.inqAnswerYn}"/>' data-date='<fmt:formatDate type="both" timeStyle="short" value="${i.inqDate }"/>' data-memnick='<c:out value="${i.memNick}"/>'
-						        						data-answer='<c:out value="${i.inqAnswer}"/>' data-answerdate='<fmt:formatDate type="both" timeStyle="short" value="${i.inqAnswerDate}"/>'>
+						        						data-answer='<c:out value="${i.inqAnswer}"/>' data-answerdate='<fmt:formatDate type="both" timeStyle="short" value="${i.inqAnswerDate}"/>'
+						        						data-secret='<c:out value="${i.inqSecret}"/>' data-memno='<c:out value="${i.memNo}"/>' data-loginno='<c:out value="${loginMember.memNo}"/>'>
 						        						<c:out value="${i.inqContent }"/>
 						        					</a>
 						        				</c:if>
-						        				<c:if test="${i.inqSecret=='Y' }">
+						        				<c:if test="${i.inqSecret=='Y' and loginMember.memNo==i.memNo }">
 						        					<img src="${path}/resources/images/product/lock.png" style="width:20px;height:20px;">
 						        					<a href="#" data-toggle="modal" data-target="#inquiryView" data-no='<c:out value="${i.inqNo}"/>' data-content='<c:out value="${i.inqContent }"/>'
 						        						data-answeryn='<c:out value="${i.inqAnswerYn}"/>' data-date='<fmt:formatDate type="both" timeStyle="short" value="${i.inqDate }"/>' data-memnick='<c:out value="${i.memNick}"/>'
-						        						data-answer='<c:out value="${i.inqAnswer}"/>' data-answerdate='<fmt:formatDate type="both" timeStyle="short" value="${i.inqAnswerDate}"/>'>
+						        						data-answer='<c:out value="${i.inqAnswer}"/>' data-answerdate='<fmt:formatDate type="both" timeStyle="short" value="${i.inqAnswerDate}"/>'
+						        						data-secret='<c:out value="${i.inqSecret}"/>' data-memno='<c:out value="${i.memNo}"/>' data-loginno='<c:out value="${loginMember.memNo}"/>'>
 						        						<c:out value="${i.inqContent }"/>
 						        					</a>
-						        				</c:if>					        				
+						        				</c:if>
+						        				<c:if test="${i.inqSecret=='Y' and loginMember.memNo!=i.memNo}">
+						        					<img src="${path}/resources/images/product/lock.png" style="width:20px;height:20px;">
+						        					<a href="#" onclick="secretCk();">
+						        					<c:out value="${i.inqContent }"/></a>
+						        				</c:if>					        		
 						        			</td>
 						        			<td><fmt:formatDate type="both" timeStyle="short" value="${i.inqDate }"/></td>
 						        			<td>
@@ -497,7 +520,7 @@
 				        <div class="pageBar">
 							<span>${pageBar }</span>
 				    	</div>
-			    	</div>
+			    	</div><!-- result 끝 -->
 			        
 			      <!-- 상품문의 모달창 -->
 				  <div class="modal fade" id="inquiryView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -512,23 +535,32 @@
 				        
 				        <!-- Modal body -->
 				        <div class="modal-body container">
-				        	<form name="frm_deleteInquiry" action="${path}/inquiry/deleteInquiry" onsubmit="return fn_deleteCheck()">
-					        	<strong><span id="memNick"></span></strong>&nbsp;&nbsp;<span id="inqDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-					        	<input type="hidden" name="inqNo" class="inqNo"/>
-					        	<input type="submit" class="btn btn-outline-success btn-sm" value="삭제">
-					        	<br>
-					        	<span id="inqContent"></span><br>
-				        	</form>
+				        	<!-- 상품문의 내용 -->
+				        	<strong><span id="memNick"></span></strong>&nbsp;&nbsp;<span id="inqDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+				        	<input type="hidden" name="inqNo" class="inqNo"/>
+							<div id="secret" style="display:inline-block;">
+					        	<input type="button" class="btn btn-outline-success btn-sm fn_updateInquiry" value="수정">
+					        	<input type="button" class="btn btn-outline-success btn-sm deleteInquiryCk" data-confirm="문의를 삭제하시겠습니까?" value="삭제"><br>
+				        	</div>
+				        	<textarea class="inqContent" name="inqContent" id="textCk" style="background-color:#fff;" disabled></textarea>
 				        	<hr>
-				        	<strong><span>관리자</span></strong><span class="answerDate"></span>&nbsp;&nbsp;<br>
-				        		<span class="answer"></span>
+				        	<!-- 상품문의 관리자 답변 내용 -->
+				        	<strong><span>관리자</span></strong>&nbsp;&nbsp;<span class="answerDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+				        	<!-- 관리자로 로그인 했을시&&답변이 있을경우에만 수정,삭제창 생김 -->
+				        	<c:if test="${loginMember.memManagerYn=='Y'}">
+				        		<div id="secret2" style="display:inline-block;">
+					        		<input type="button" class="btn btn-outline-success btn-sm fn_updateInquiryAnswer" value="수정">
+					        		<input type="button" class="btn btn-outline-success btn-sm deleteAnswerCk" data-confirm="답변을 삭제하시겠습니까?" value="삭제"><br>
+				        		</div>
+				        	</c:if>
+				        	<textarea class="answer" name="inqAnswer" id="textAnswerCk" style="background-color:#fff;" disabled></textarea>
 				        </div>
 				        <!-- 모달창 상품문의 답변창 시작, 관리자일 경우에만 답변창 생김-->
 				        <c:if test="${loginMember.memManagerYn=='Y'}">
 					        <form name="frm_inquiryAnswer" action="${path}/inquiry/insertInquiryAnswer" onsubmit="return fn_answerCheck()">
 						        <div class="writebox_wrap container" style="float:none; margin:0 auto;">
 								    <span class="span_textarea" style="height:150px;">
-										<textarea name="inqAnswer" id="inqAnswer" placeholder="답변을 입력해주세요" style="height:70%;"></textarea>
+										<textarea name="inqAnswer" class="inqAnswer" placeholder="답변을 입력해주세요" style="height:70%;"></textarea>
 										<div style="float:right;">
 											<c:if test="${loginMember!=null }">
 												<input type="hidden" name="memNo" value="${loginMember.memNo}">
@@ -546,31 +578,6 @@
 				      </div>
 				    </div>
 				  </div><!-- 상품문의 모달창 끝! -->
-				  
-				  <script>
-					//상품문의 상세보기 모달창
-					$(document).ready(function(){
-				  		$("#inquiryView").on("show.bs.modal",function(event){ //modal 윈도우가 오픈할 때 아래 옵션 적용
-				  			var a = $(event.relatedTarget); //이벤트 적용시 모달 윈도우 오픈하는 a 태그
-				  			var inqNo = a.data("no");
-				  			var inqContent = a.data("content"); //a태그에서 data-content 값을 inqContent에 저장
-				  			var inqDate = a.data("date");
-				  			var memNick = a.data("memnick");
-				  			var answerYn = a.data("answeryn");
-				  			var answer = a.data("answer");
-				  			var answerDate = a.data("answerdate");
-				  			var modal = $(this);
-				  			modal.find(".inqNo").val(inqNo);
-				  			modal.find("#inqContent").text(inqContent); //모달창에서 .modal-body에 inqContent값을 출력
-				  			modal.find("#inqDate").text(inqDate);
-				  			modal.find("#memNick").text(memNick);
-				  			modal.find("#answerYn").val(answerYn);
-				  			modal.find(".answer").text(answer);
-				  			modal.find(".answerDate").text(answerDate);
-				  		});
-					});
-				  </script>				    	
-
 				</div>
 			</div><!-- tab_box_container -->
 		</div><!--네비바 끝 -->
@@ -725,7 +732,7 @@
 	
 	//상품문의 클릭 시 박스 보였다가 안보였다가 이벤트
 	$(function() {
-		$("#showBox").click(function() {
+		$(".showBox").click(function() {
 			if ($(this).next().css("display") == "none") {
 				$(this).next().show(1000);
 			} else {
@@ -756,6 +763,39 @@
 			}
 		});
 	});
+	
+    //상품문의 Byte 수 체크 제한
+    function fnChkByte(obj, maxByte) {
+      var str = obj.value;
+      var str_len = str.length;
+      var rbyte = 0;
+      var rlen = 0;
+      var one_char = "";
+      var str2 = "";
+
+      for(var i = 0; i<str_len; i++) {
+        one_char = str.charAt(i);
+        if(escape(one_char).length > 4) {
+          rbyte += 3; //한글3Byte
+        }else{
+          rbyte++; //영문 등 나머지 1Byte
+        }
+
+        if(rbyte <= maxByte){
+          rlen = i + 1; //return할 문자열 갯수
+        }
+      }
+
+      if(rbyte > maxByte) {
+        // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
+        alert("메세지는 최대 " + (maxByte) + "byte를 초과할 수 없습니다.");
+        str2 = str.substr(0, rlen); //문자열 자르기
+        obj.value = str2;
+        fnChkByte(obj, maxByte);
+      }else{
+        document.getElementById("byteInfo").innerText = rbyte;
+      }
+    }			        	
 
 	//구매하기,장바구니,찜하기,상품문의 클릭 시 로그인 체크
 	$(function() {
@@ -798,8 +838,126 @@
 		return true;
 	}	
 	
+	//상품문의 답변삭제
+	$(".deleteInquiryCk").on("click",function(e){
+		e.preventDefault();
+		var choice = confirm($(this).attr('data-confirm'));
+		if(choice){
+			let inqNo = $(event.target).parent().children('input[name=inqNo]').val();
+			location.replace("${path}/inquiry/deleteInquiry?inqNo="+inqNo);
+		}
+	});
 	
+	//상품문의 답변삭제
+	$(".deleteAnswerCk").on("click",function(e){
+		e.preventDefault();
+		var choice = confirm($(this).attr('data-confirm'));
+		if(choice){
+			let inqNo = $(event.target).parent().children('input[name=inqNo]').val();
+			location.replace("${path}/inquiry/deleteInquiryAnswer?inqNo="+inqNo);
+		}	
+	});
 	
+	//비밀글 접근제한
+	function secretCk(){
+		alert("작성자와 관리자만 접근할 수 있는 글입니다");
+	}
+
+	//상품문의 수정버튼 클릭 시 
+	$(".fn_updateInquiry").click(function(){
+		//수정 -> 수정완료버튼으로 바꾸고, textarea 활성화
+		if($("textarea[id=textCk]").attr("disabled")){
+			$(this).attr("value",function(index,attr){
+				if(attr.match("수정")){
+					console.log("수정완료");
+					return attr.replace("수정","수정완료");
+				}
+			});
+			$("textarea[id=textCk]").attr("style","border:lightslategray 1px solid;border-radius:4px;padding:8px;");
+			return $("textarea[id=textCk]").removeAttr("disabled");
+		}else{
+			//수정완료 누를 시 수정한 내용 update
+			$(this).attr("value",function(index,attr){
+				if(attr.match("수정완료")){
+					let inqNo = $(event.target).parents().children('input[type=hidden][name=inqNo]').val();
+					let inqContent = $(event.target).parents().children('textarea[name=inqContent]').val();
+					location.replace("${path}/inquiry/updateInquiry?inqNo="+inqNo+"&inqContent="+inqContent);
+				}
+			});
+			$("textarea[id=textCk]").attr("style","background-color:#fff;");
+			return $("textarea[id=textCk]").attr("disabled","");
+		}
+	});	
+	
+	//상품문의 관리자답변 수정버튼 클릭 시 
+	$(".fn_updateInquiryAnswer").click(function(){
+		//수정 -> 수정완료버튼으로 바꾸고, textarea 활성화
+		if($("textarea[id=textAnswerCk]").attr("disabled")){
+			$(this).attr("value",function(index,attr){
+				if(attr.match("수정")){
+					console.log("수정완료");
+					return attr.replace("수정","수정완료");
+				}
+			});
+			$("textarea[id=textAnswerCk]").attr("style","border:lightslategray 1px solid;border-radius:4px;padding:8px;");
+			return $("textarea[id=textAnswerCk]").removeAttr("disabled");
+		}else{
+			//수정완료 누를 시 수정한 내용 update
+			$(this).attr("value",function(index,attr){
+				if(attr.match("수정완료")){
+					let inqNo = $(event.target).parents().children('input[type=hidden][name=inqNo]').val();
+					let inqAnswer = $(event.target).parents().children('textarea[name=inqAnswer]').val();
+					console.log(inqNo);
+					console.log(inqAnswer);
+					location.replace("${path}/inquiry/updateInquiryAnswer?inqNo="+inqNo+"&inqAnswer="+inqAnswer);
+				}
+			});
+			$("textarea[id=textAnswerCk]").attr("style","background-color:#fff;");
+			return $("textarea[id=textAnswerCk]").attr("disabled","");
+		}
+	});
+	
+	//상품문의 상세보기 모달창
+	$(document).ready(function(){
+  		$("#inquiryView").on("show.bs.modal",function(event){ //modal 윈도우가 오픈할 때 아래 옵션 적용
+  			var a = $(event.relatedTarget); //이벤트 적용시 모달 윈도우 오픈하는 a 태그
+  			var inqNo = a.data("no");
+  			var inqContent = a.data("content"); //a태그에서 data-content 값을 inqContent에 저장
+  			var inqDate = a.data("date");
+  			var memNick = a.data("memnick");
+  			var answerYn = a.data("answeryn");
+  			var answer = a.data("answer");
+  			var answerDate = a.data("answerdate");
+  			var inqSecret = a.data("secret");
+  			var memNo = a.data("memno");
+  			var loginno = a.data("loginno");
+  			var modal = $(this);
+  			
+  			//로그인 한 사람==게시글 작성자 일 경우에만 수정,삭제버튼 생성
+            if(memNo==loginno){
+            	$("div[id=secret]").show();
+            }else{
+            	$("div[id=secret]").hide();
+            }
+  			
+  			//관리자로 로그인 시, 답변이 있을경우에만 수정,삭제버튼 생성
+  			if(answerYn=='Y'){
+  				$("div[id=secret2]").show();
+  			}else{
+  				$("div[id=secret2]").hide();
+  			}
+  			
+  			modal.find(".inqNo").val(inqNo);
+  			modal.find(".inqContent").text(inqContent); //모달창에서 .modal-body에 inqContent값을 출력
+  			modal.find("#inqDate").text(inqDate);
+  			modal.find("#memNick").text(memNick);
+  			modal.find(".answerYn").text(answerYn);
+  			modal.find(".answer").text(answer);
+  			modal.find(".answerDate").text(answerDate);
+  		});
+	});	
+	
+		
 </script>
     
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
