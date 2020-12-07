@@ -155,6 +155,33 @@ public class InquiryController {
 		return mv;
 	}
 	
+	//상품문의 관리자답변 수정
+	@RequestMapping("/inquiry/updateInquiryAnswer")
+	public ModelAndView updateInquiryAnswer(Inquiry i, ModelAndView mv) {
+		
+		int result = service.updateInquiryAnswer(i);
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		
+		if(result>0) {
+			msg = "답변이 수정되었습니다";
+			loc = "/product/productOne";
+			icon = "success";
+		}else {
+			msg = "답변을 다시 작성해주세요";
+			loc = "/product/productOne";
+			icon = "warning";
+		}
+
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon",icon);
+		mv.setViewName("common/msg");
+		return mv;	
+	}
+	
+	
 	
 	
 }

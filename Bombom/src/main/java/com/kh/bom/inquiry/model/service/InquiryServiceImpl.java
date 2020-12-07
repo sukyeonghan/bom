@@ -40,6 +40,11 @@ public class InquiryServiceImpl implements InquiryService {
 		return dao.updateInquiry(session, i);
 	}
 
+	@Override
+	public int updateInquiryAnswer(Inquiry i) {
+		return dao.updateInquiryAnswer(session, i);
+	}
+
 	
 
 }
