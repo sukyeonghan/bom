@@ -1,56 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
-
-<c:set var="path" value="${pageContext.request.contextPath}"/>
-<style>
-/*모달차 내 로고  */
-.logoimg{
-	width:auto;
-	height:40px;
-}
-.logo-box{
-	text-align:center;
-	width:440px;
-	margin-left:29px;
-}
- /*모달 창  */
-    .social-container {
-        text-align: center;
-        padding: 16px;
-       
-      }
-      p.p-info {
-        margin: 1rem 0 1rem 0;
-      }
-      #verification {
-        margin-top: 20px;
-      }
-      .info {
-        background-color: #e9ecef;
-        text-align: center;
-      }
-      input[type=password] {font-family: "NanumSquare";}
-    
- /*유효성 검사*/
-  .pwOk,.nickOk,.emailOk {color:green; margin:3px;}
-  .pw, .nickError,.nickError2,.emailError,.emailError2,.emailSize{color:red; margin:3px;}
-</style>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MainTest</title>
+    <title>SpringAgain</title>
+	<c:set var="path" value="${pageContext.request.contextPath}"/>
     <script src="${path}/resources/js/jquery-3.5.1.min.js"></script>
     <link rel="stylesheet" href="${path }/resources/css/common/allPage.css">
-    <!-- <link rel="stylesheet" href="css/header1440.css"> -->
-    <!-- <link rel="stylesheet" href="css/header768.css"> -->
-    
     <!-- swiper -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
@@ -58,21 +18,35 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     
     <!-- 부트스트랩 -->
-    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
 	<!-- sweet alert -->
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-	
 	<!-- icon -->
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	
+	<style>
+		/*모달차 내 로고  */
+		.logoimg {width: auto;height: 40px;}
+		.logo-box {	text-align: center;	width: 440px;	margin-left: 29px;}
+		
+		/*모달 창  */
+		.social-container {	text-align: center;	padding: 16px;}
+		p.p-info {	margin: 1rem 0 1rem 0;}
+		#verification {	margin-top: 20px;}
+		.info {	background-color: #e9ecef;	text-align: center;}
+		
+		/*유효성 검사*/
+		.pwOk, .nickOk, .emailOk {	color: green;	margin: 3px;}
+		.pw, .nickError, .nickError2, .emailError, .emailError2, .emailSize {	color: red;	margin: 3px;}
+		
+		/* 헤더 아이콘 */
+		.header_icon{top: 6px;left: 6px; color: #45A663;}
+	</style>
 </head>
 
 <body>
@@ -98,24 +72,36 @@
                     </c:if>
                     
                     <c:if test="${loginMember!=null }">
-                    	<li><c:out value="${loginMember.memNick }"/></li>
-	                    <li class="nav-item">
-	                    <a class="nav-link"  onclick="location.replace('${path}/member/logout');">로그아웃</a></li>
-	                    
+                    	<c:if test="${loginMember.memManagerYn eq 'N' }">
+                    		<li class="nav-item user_basic"><p class="nav-link"><c:out value="${loginMember.memNick }"/></p></li>
+                    	</c:if>
+                    	<c:if test="${loginMember.memManagerYn eq 'Y' }">
+                    		<li class="nav-item user_manager"><p class="nav-link"><c:out value="${loginMember.memNick }"/></p></li>
+                    	</c:if>
+	                    <li class="nav-item"><a class="nav-link"  onclick="location.replace('${path}/member/logout');">로그아웃</a></li>
 	                    <li class="nav-item"><a class="nav-link" href="${path }/mypage/orderStatus">마이페이지</a></li>
-                    	<li class="nav-item"><a class="nav-link" href="${path }/order/basket">장바구니</a></li>
+                    	<li class="nav-item">
+                    		<a class="nav-link" href="${path }/order/basket?memNo=${loginMember.memNo}">
+                    			<svg class="header_icon" width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linejoin="round" stroke-width="2">
+                    				<path stroke-linecap="round" d="M4 5h18l-2.6 10.5a2 2 0 0 1-2 1.5H8.6a2 2 0 0 1-2-1.5L4 5zm4 15.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0zm7 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0z"></path>
+                    				<path d="M1 2h3v3"></path></svg>
+                    		</a>
+                    	</li>
                   	</c:if>
                     <li class="nav-item">
-                    	<a class="nav-link" data-toggle="modal"data-target="#searchModal">
-                    		<i class="fa fa-search w3-text-green"></i>
+                    	<a class="nav-link" data-toggle="modal"data-target="#searchModal" >
+                    		<svg class="header_icon" width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" preserveAspectRatio="xMidYMid meet">
+                    			<path d="M22 22l-5-5"></path>
+                    			<circle cx="11" cy="11" r="8"></circle>
+                    		</svg>
                     	</a>
                     </li>
                 </ul>
             </div>
-            <div id="logo-wrap">
+            <div id="logo-wrap" class="">
             <a href="${path }"><img id="logo" class="img-responsive center-block" src="${path }/resources/images/springAgainLogo.png" alt="mainLogo"></a>
             </div>
-            <div id="menuNav" class="dropmenu">
+            <div id="menuNav" class="dropmenu" style="margin-top: 22px;">
                 <nav>
                     <ul id="menu_ul" class="nav justify-content-center pt-3">
                         <li class="nav-item">
@@ -155,6 +141,7 @@
                                 <li><a class="" href="#">주문관리</a></li>
                                 <li><a class="" href="${path }/admin/qnaList">1:1문의 관리</a></li>
                                 <li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
+                                <li><a class="" href="${path }/#">메인배너관리</a></li>
                               
                             </ul>
                         </li>
@@ -516,13 +503,7 @@
 	  </div>
 	</div>
 
-	</div>
-<style>
-.search_input {
-	border: none;
-}
-
-</style><!-- 검색모달 종료  -->
+</div><!-- 검색모달 종료  -->
 	
  <script>
 
