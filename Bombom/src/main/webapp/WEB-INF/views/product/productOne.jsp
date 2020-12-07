@@ -269,7 +269,18 @@
     /* 상품문의 모달창 */
     #modalClick{
     	cursor:pointer;
-    }             
+    }  
+  
+  	/* 위로가기 버튼 */
+	.scrollTop{
+		width:50px;
+		height:50px;
+		position:fixed;
+		z-index:9999;
+		right:50px;
+		bottom:40px;
+		display:none;
+	}               
         
 </style>
 
@@ -417,18 +428,43 @@
 						<p>- 교환 및 반품 접수 기간(7일)의 경과 혹은 시간의 경과에 의해 재판매가 곤란할 정도로 상품등의 가치가
 							현저히 감소된 경우</p>
 					</div>
+					<!-- 위로가기 버튼 -->
+					<a href="#" class="scrollTop"><img src="${path}/resources/images/product/up-arrow.png"></a>
 				</div>
 				
-		    	<!-- 구매평평 시작 -->
+		    	<!-- 구매평 시작 -->
 		    	<div class="tab_box">
-		    		 구매평 어쩌구저쩌구
-		    	</div>
+			        <!--구매평 작성창-->
+			        <form name="" action="" onsubmit="return fn_check()">
+				        <div class="writebox_wrap container" style="float:none; margin:10px 0 10px 0;">
+				            <button type="button" class="btn btn-success showBox">구매평 작성</button>
+					        <div class="wrap-category" style="display:none;">
+						        <span class="span_textarea">
+							        <textarea name="" id="" placeholder="구매평을 입력해주세요" onKeyUp="javascript:fnChkByte(this,'500')"></textarea>
+									<div style="float:right;">
+										<span id="byteInfo">0</span>/500bytes
+										<!-- 로그인 한 사람 및 구매한 사람만 구매평 등록가능-->
+								        <c:if test="${loginMember!=null }">
+								        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
+								        	<input type="submit" class="btn btn-success" value="등록" style="right:0;">
+								        </c:if>
+								        <c:if test="${loginMember==null }">
+								        	<input type="button" class="btn btn-success loginCheck" value="등록" style="right:0;">
+								        </c:if>
+						        	</div>
+						        </span>
+					        </div>
+				        </div>
+			        </form><!-- 구매평 작성창 끝 -->
+			        
+			        
+		    	</div><!-- 구매평 끝 -->
 		    	
 		    	<!-- 상품문의 시작 -->
 				<div class="tab_box">
 			        <!--상품문의 작성창-->
 			        <form name="frm_inquiry" action="${path}/product/insertInquiry" onsubmit="return fn_check()">
-				        <div class="writebox_wrap container" style="float:none; margin:0 auto;">
+				        <div class="writebox_wrap container" style="float:none; margin:10px 0 10px 0;">
 				            <button type="button" class="btn btn-success showBox">상품문의</button>
 					        <div class="wrap-category" style="display:none;">
 						        <span class="span_textarea">
@@ -558,8 +594,8 @@
 				        <!-- 모달창 상품문의 답변창 시작, 관리자일 경우에만 답변창 생김-->
 				        <c:if test="${loginMember.memManagerYn=='Y'}">
 					        <form name="frm_inquiryAnswer" action="${path}/inquiry/insertInquiryAnswer" onsubmit="return fn_answerCheck()">
-						        <div class="writebox_wrap container" style="float:none; margin:0 auto;">
-								    <span class="span_textarea" style="height:150px;">
+						        <div class="writebox_wrap container" style="float:none; margin:10px 0 10px 0;">
+								    <span class="span_textarea" style="height:150px; ">
 										<textarea name="inqAnswer" class="inqAnswer" placeholder="답변을 입력해주세요" style="height:70%;"></textarea>
 										<div style="float:right;">
 											<c:if test="${loginMember!=null }">
@@ -634,10 +670,10 @@
                      <div class="swiper-button-prev"></div> -->
 			</div>
 		</div>
-
-
+		
+		
 	</div><!-- class="row"끝 -->
-
+	
 </section>
 
 <script type="text/javascript">
@@ -843,7 +879,7 @@
 		e.preventDefault();
 		var choice = confirm($(this).attr('data-confirm'));
 		if(choice){
-			let inqNo = $(event.target).parent().children('input[name=inqNo]').val();
+			let inqNo = $(event.target).parents().children('input[name=inqNo]').val();
 			location.replace("${path}/inquiry/deleteInquiry?inqNo="+inqNo);
 		}
 	});
@@ -853,7 +889,7 @@
 		e.preventDefault();
 		var choice = confirm($(this).attr('data-confirm'));
 		if(choice){
-			let inqNo = $(event.target).parent().children('input[name=inqNo]').val();
+			let inqNo = $(event.target).parents().children('input[name=inqNo]').val();
 			location.replace("${path}/inquiry/deleteInquiryAnswer?inqNo="+inqNo);
 		}	
 	});
@@ -956,6 +992,20 @@
   			modal.find(".answerDate").text(answerDate);
   		});
 	});	
+	
+	
+	//위로가기 버튼
+	$(function(){
+		$(window).scroll(function(){
+			let scroll = document.body.scrollHeight;
+			if(scroll*0.1<$(this).scrollTop() && $(this).scrollTop()<scroll*0.8){
+				$(".scrollTop").fadeIn();
+			}else{
+				$(".scrollTop").fadeOut();
+			}
+		});
+	});
+	
 	
 		
 </script>
