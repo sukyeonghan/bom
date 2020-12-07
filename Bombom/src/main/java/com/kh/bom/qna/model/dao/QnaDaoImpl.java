@@ -27,6 +27,15 @@ public class QnaDaoImpl implements QnaDao {
 		return session.selectOne("qna.selectCount", memNo);
 	}
 
+	@Override
+	public int deleteQna(SqlSession session, Qna q) {
+		// TODO Auto-generated method stub
+		return session.delete("qna.deleteQna", q);
+	}
+
+	
+
+	
 	
 	
 }

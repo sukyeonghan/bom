@@ -7,10 +7,19 @@ public interface InquiryService {
 	//상품문의 등록
 	int insertInquiry(Inquiry i);
 	
-	//상품문의 상세보기
-	Inquiry selectInquiryOne(String inqNo);
-	
 	//상품문의 모달창 답변등록
 	int insertInquiryAnswer(Inquiry i);
+	
+	//상품문의 삭제
+	int deleteInquiry(String inqNo);
+	
+	//상품문의 답변삭제
+	int deleteInquiryAnswer(String inqNo);
+	
+	//상품문의 수정
+	int updateInquiry(Inquiry i);
+	
+	//상품문의 관리자답변 수정
+	int updateInquiryAnswer(Inquiry i);
 
 }

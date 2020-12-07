@@ -6,30 +6,53 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.common.page.AjaxPageBarFactory;
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.service.ProductService;
+import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.product.model.vo.ProductThumb;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class ProductController {
 
 	@Autowired
 	private ProductService service;
+	@Autowired
+	private AdminService adminService;
 	
-	
+	//전체제품 페이지
 	@RequestMapping("/product/productAll") 
-	public String allProduct() { 
-		
-		return "product/allList";
+	public ModelAndView allProduct(ModelAndView m) { 
+		List<Product> list=service.selectProductList();
+		int count=service.productAllCount();
+		m.addObject("list",list);
+		m.addObject("count",count);
+		m.setViewName("product/allList");
+		return m;
 	}
 	
+	//욕실제품 페이지
+	@RequestMapping("/product/bathroom") 
+	public ModelAndView bathProduct(ModelAndView m) {
+		String cate="욕실";
+		List<Product> list=service.cateProductList(cate);
+		int count=service.productCateCount(cate);
+		m.addObject("list",list);
+		m.addObject("count",count);
+		m.setViewName("product/bathroomList");
+		return m;
+	}
+		
 	//상품문의 카운트 - 상품상세 첫화면
 	@RequestMapping("/product/productOne")
 	public ModelAndView productOne(ModelAndView mv,

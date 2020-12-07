@@ -68,7 +68,12 @@ public class AdminServiceImpl implements AdminService {
 		}
 		return result;
 	}
-	
+	//제품 하나 삭제
+	@Override
+	public int deleteOneProduct(String pdtNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteProduct(session, pdtNo);
+	}
 	//제품등록
 	@Override
 	@Transactional
@@ -97,7 +102,65 @@ public class AdminServiceImpl implements AdminService {
 		}
 		return result;
 	}
-
+	//제품 하나 선택
+	@Override
+	public Product selectOneProduct(String pdtNo) {
+		return dao.selectOneProduct(session,pdtNo);
+	}
+	//옵션 선택
+	@Override
+	public List<ProductOption> selectOption(String pdtNo) {
+		return dao.selectOption(session,pdtNo);
+	}
+	//썸네일 선택
+	@Override
+	public List<ProductThumb> selectThumb(String pdtNo) {
+		return dao.selectThumb(session,pdtNo);
+	}
+	//제품 수정
+	@Override
+	@Transactional
+	public int updateProduct(Product p, ProductOption o, List<Map<Object, Object>> options,
+			List<ProductThumb> list) {
+	
+		int result=dao.updateProduct(session,p);
+		//제품 업데이트 하면 옵션 업데이트
+		if(result>0) {
+			if(options.size()!=0) {
+				//이전에 있던 옵션 지우기-이전 결과가 없을 수도 있음
+				result=dao.deleteOption(session,p.getPdtNo());
+				System.out.println("delete결과"+result);
+				//지우고 다시 insert
+				for(int i=0;i<options.size(); i++) {
+					
+					o.setPdtNo(p.getPdtNo());
+					o.setPdtOptionContent((String)(options.get(i).get("pdtOptionContent")));
+					o.setPdtOptionAddprice(Integer.parseInt((String)(options.get(i).get("pdtOptionAddprice"))));
+					result=dao.insertOption(session, o);
+					System.out.println("insert결과"+result);
+				}
+	
+			}
+			//옵션 업데이트하면 썸네일 업데이트
+			if(result>0) {
+				
+				if(list.size()!=0) {
+					//이전에 있던 썸네일 지우기
+					result=dao.deleteThumb(session,p.getPdtNo());
+			
+					//지운 후 다시 insert
+					for(ProductThumb th : list) {
+						th.setPdtNo(p.getPdtNo());
+						result=dao.insertThumb(session,th);
+					
+					}
+				}
+			}
+			
+		}
+		return result;
+	}
+	
 	@Override
 	public List<Member> selectMemberList(int cPage,int numPerpage) {
 		// TODO Auto-generated method stub

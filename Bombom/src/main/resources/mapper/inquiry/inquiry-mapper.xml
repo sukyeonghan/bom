@@ -36,5 +36,17 @@
 	<delete id="deleteInquiry" parameterType="string">
 		DELETE FROM INQUIRY WHERE INQ_NO=#{inqNo}
 	</delete>
+	
+	<update id="deleteInquiryAnswer" parameterType="string">
+		UPDATE INQUIRY SET INQ_ANSWER_YN='N', INQ_ANSWER=NULL, INQ_ANSWERDATE=NULL WHERE INQ_NO=#{inqNo}
+	</update>
+	
+	<update id="updateInquiry" parameterType="inquiry">
+		UPDATE INQUIRY SET INQ_CONTENT=#{inqContent} WHERE INQ_NO=#{inqNo}
+	</update>
+	
+	<update id="updateInquiryAnswer" parameterType="inquiry">
+		UPDATE INQUIRY SET INQ_ANSWER=#{inqAnswer}, INQ_ANSWERDATE=SYSDATE WHERE INQ_NO=#{inqNo}
+	</update>
 
 </mapper>

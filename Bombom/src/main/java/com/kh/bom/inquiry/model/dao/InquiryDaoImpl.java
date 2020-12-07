@@ -15,14 +15,29 @@ public class InquiryDaoImpl implements InquiryDao {
 	}
 
 	@Override
-	public Inquiry selectInquiryOne(SqlSession session, String inqNo) {
-		return session.selectOne("inquiry.selectInquiryOne", inqNo);
-	}
-
-	@Override
 	public int insertInquiryAnswer(SqlSession session, Inquiry i) {
 		return session.update("inquiry.insertInquiryAnswer",i);
 	}
 
+	@Override
+	public int deleteInquiry(SqlSession session, String inqNo) {
+		return session.delete("inquiry.deleteInquiry", inqNo);
+	}
+
+	@Override
+	public int deleteInquiryAnswer(SqlSession session, String inqNo) {
+		return session.update("inquiry.deleteInquiryAnswer", inqNo);
+	}
+
+	@Override
+	public int updateInquiry(SqlSession session, Inquiry i) {
+		return session.update("inquiry.updateInquiry", i);
+	}
+
+	@Override
+	public int updateInquiryAnswer(SqlSession session, Inquiry i) {
+		return session.update("inquiry.updateInquiryAnswer", i);
+	}
+	
 
 }

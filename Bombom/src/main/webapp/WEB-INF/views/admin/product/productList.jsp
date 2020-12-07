@@ -154,7 +154,7 @@
 								</td>
 								<td><c:out value="${e.pdtCategory}"/></td>
 								<td>
-									<a class="product-update" href="${path}/admin/productUpdate">
+									<a class="product-update" href="${path}/admin/productUpdate?pdtNo=${e.pdtNo}">
 										<c:out value="${e.pdtName}"/>
 									</a>
 								</td>

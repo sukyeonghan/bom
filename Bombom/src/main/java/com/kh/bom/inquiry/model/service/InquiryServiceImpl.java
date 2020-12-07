@@ -21,13 +21,28 @@ public class InquiryServiceImpl implements InquiryService {
 	}
 
 	@Override
-	public Inquiry selectInquiryOne(String inqNo) {
-		return dao.selectInquiryOne(session, inqNo);
+	public int insertInquiryAnswer(Inquiry i) {
+		return dao.insertInquiryAnswer(session, i);
+	}
+	
+	@Override
+	public int deleteInquiry(String inqNo) {
+		return dao.deleteInquiry(session, inqNo);
 	}
 
 	@Override
-	public int insertInquiryAnswer(Inquiry i) {
-		return dao.insertInquiryAnswer(session, i);
+	public int deleteInquiryAnswer(String inqNo) {
+		return dao.deleteInquiryAnswer(session, inqNo);
+	}
+
+	@Override
+	public int updateInquiry(Inquiry i) {
+		return dao.updateInquiry(session, i);
+	}
+
+	@Override
+	public int updateInquiryAnswer(Inquiry i) {
+		return dao.updateInquiryAnswer(session, i);
 	}
 
 	
