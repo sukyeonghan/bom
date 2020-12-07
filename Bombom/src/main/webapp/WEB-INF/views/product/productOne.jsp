@@ -451,40 +451,6 @@
 					        </div>
 				        </div>
 			        </form><!-- 상품문의 작성창 끝 -->
-			        <script>
-			        // Byte 수 체크 제한
-			        function fnChkByte(obj, maxByte) {
-			          var str = obj.value;
-			          var str_len = str.length;
-			          var rbyte = 0;
-			          var rlen = 0;
-			          var one_char = "";
-			          var str2 = "";
-
-			          for(var i = 0; i<str_len; i++) {
-			            one_char = str.charAt(i);
-			            if(escape(one_char).length > 4) {
-			              rbyte += 3; //한글2Byte
-			            }else{
-			              rbyte++; //영문 등 나머지 1Byte
-			            }
-
-			            if(rbyte <= maxByte){
-			              rlen = i + 1; //return할 문자열 갯수
-			            }
-			          }
-
-			          if(rbyte > maxByte) {
-			            // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
-			            alert("메세지는 최대 " + (maxByte) + "byte를 초과할 수 없습니다.");
-			            str2 = str.substr(0, rlen); //문자열 자르기
-			            obj.value = str2;
-			            fnChkByte(obj, maxByte);
-			          }else{
-			            document.getElementById("byteInfo").innerText = rbyte;
-			          }
-			        }			        
-			        </script>
 			        
 			        <!-- 상품문의 게시글 -->
 			        <div id="result">
@@ -612,50 +578,6 @@
 				      </div>
 				    </div>
 				  </div><!-- 상품문의 모달창 끝! -->
-				  
-				  <script>
-					//상품문의 상세보기 모달창
-					$(document).ready(function(){
-				  		$("#inquiryView").on("show.bs.modal",function(event){ //modal 윈도우가 오픈할 때 아래 옵션 적용
-				  			var a = $(event.relatedTarget); //이벤트 적용시 모달 윈도우 오픈하는 a 태그
-				  			var inqNo = a.data("no");
-				  			var inqContent = a.data("content"); //a태그에서 data-content 값을 inqContent에 저장
-				  			var inqDate = a.data("date");
-				  			var memNick = a.data("memnick");
-				  			var answerYn = a.data("answeryn");
-				  			var answer = a.data("answer");
-				  			var answerDate = a.data("answerdate");
-				  			var inqSecret = a.data("secret");
-				  			var memNo = a.data("memno");
-				  			var loginno = a.data("loginno");
-				  			var modal = $(this);
-				  			
-				  			//로그인 한 사람==게시글 작성자 일 경우에만 수정,삭제버튼 생성
-		                    if(memNo==loginno){
-		                    	$("div[id=secret]").show();
-		                    }else{
-		                    	$("div[id=secret]").hide();
-		                    }
-				  			
-				  			//관리자로 로그인 시, 답변이 있을경우에만 수정,삭제버튼 생성
-				  			if(answerYn=='Y'){
-				  				$("div[id=secret2]").show();
-				  			}else{
-				  				$("div[id=secret2]").hide();
-				  			}
-		                       
-				  			
-				  			modal.find(".inqNo").val(inqNo);
-				  			modal.find(".inqContent").text(inqContent); //모달창에서 .modal-body에 inqContent값을 출력
-				  			modal.find("#inqDate").text(inqDate);
-				  			modal.find("#memNick").text(memNick);
-				  			modal.find(".answerYn").text(answerYn);
-				  			modal.find(".answer").text(answer);
-				  			modal.find(".answerDate").text(answerDate);
-				  		});
-					});
-				  </script>				    	
-
 				</div>
 			</div><!-- tab_box_container -->
 		</div><!--네비바 끝 -->
@@ -841,6 +763,39 @@
 			}
 		});
 	});
+	
+    //상품문의 Byte 수 체크 제한
+    function fnChkByte(obj, maxByte) {
+      var str = obj.value;
+      var str_len = str.length;
+      var rbyte = 0;
+      var rlen = 0;
+      var one_char = "";
+      var str2 = "";
+
+      for(var i = 0; i<str_len; i++) {
+        one_char = str.charAt(i);
+        if(escape(one_char).length > 4) {
+          rbyte += 3; //한글3Byte
+        }else{
+          rbyte++; //영문 등 나머지 1Byte
+        }
+
+        if(rbyte <= maxByte){
+          rlen = i + 1; //return할 문자열 갯수
+        }
+      }
+
+      if(rbyte > maxByte) {
+        // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
+        alert("메세지는 최대 " + (maxByte) + "byte를 초과할 수 없습니다.");
+        str2 = str.substr(0, rlen); //문자열 자르기
+        obj.value = str2;
+        fnChkByte(obj, maxByte);
+      }else{
+        document.getElementById("byteInfo").innerText = rbyte;
+      }
+    }			        	
 
 	//구매하기,장바구니,찜하기,상품문의 클릭 시 로그인 체크
 	$(function() {
@@ -961,6 +916,46 @@
 			return $("textarea[id=textAnswerCk]").attr("disabled","");
 		}
 	});
+	
+	//상품문의 상세보기 모달창
+	$(document).ready(function(){
+  		$("#inquiryView").on("show.bs.modal",function(event){ //modal 윈도우가 오픈할 때 아래 옵션 적용
+  			var a = $(event.relatedTarget); //이벤트 적용시 모달 윈도우 오픈하는 a 태그
+  			var inqNo = a.data("no");
+  			var inqContent = a.data("content"); //a태그에서 data-content 값을 inqContent에 저장
+  			var inqDate = a.data("date");
+  			var memNick = a.data("memnick");
+  			var answerYn = a.data("answeryn");
+  			var answer = a.data("answer");
+  			var answerDate = a.data("answerdate");
+  			var inqSecret = a.data("secret");
+  			var memNo = a.data("memno");
+  			var loginno = a.data("loginno");
+  			var modal = $(this);
+  			
+  			//로그인 한 사람==게시글 작성자 일 경우에만 수정,삭제버튼 생성
+            if(memNo==loginno){
+            	$("div[id=secret]").show();
+            }else{
+            	$("div[id=secret]").hide();
+            }
+  			
+  			//관리자로 로그인 시, 답변이 있을경우에만 수정,삭제버튼 생성
+  			if(answerYn=='Y'){
+  				$("div[id=secret2]").show();
+  			}else{
+  				$("div[id=secret2]").hide();
+  			}
+  			
+  			modal.find(".inqNo").val(inqNo);
+  			modal.find(".inqContent").text(inqContent); //모달창에서 .modal-body에 inqContent값을 출력
+  			modal.find("#inqDate").text(inqDate);
+  			modal.find("#memNick").text(memNick);
+  			modal.find(".answerYn").text(answerYn);
+  			modal.find(".answer").text(answer);
+  			modal.find(".answerDate").text(answerDate);
+  		});
+	});	
 	
 		
 </script>
