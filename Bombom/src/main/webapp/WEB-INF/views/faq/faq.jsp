@@ -50,10 +50,10 @@
 		<br>
 		<!-- faq값이 없을 때는 등록, faq 값이 넘어왔을떄는  수정 -->
 		<c:if test="${empty faq }">
-			<form name="faqFrm" action="${path }/faq/insertFaq" onsubmit="return fn_check()">
+			<form name="faqFrm" action="${path }/faq/insertFaq" >
 		</c:if>
 		<c:if test="${not empty faq }">
-			<form name="faqFrm" action="${path }/faq/updateFaqEnd" onsubmit="return fn_check()">
+			<form name="faqFrm" action="${path }/faq/updateFaqEnd">
 		</c:if>
 			<c:if test="${not empty faq }">
 				<input type="hidden" value="${faq.faqNo }" name="faqNo">
@@ -71,17 +71,20 @@
 				<br>
 				<input type="text" class="form-control" name="faqTitle" placeholder="제목을 입력해주세요" value='<c:out value="${faq.faqTitle }"/>' required>
 				<br>
-				<textarea class="form-control" rows="10" name="faqContent" placeholder="내용을 입력해주세요" required><c:out value="${faq.faqContent }"/></textarea>
+				<textarea class="form-control" rows="10" name="faqContent" placeholder="내용을 입력해주세요" onKeyUp="javascript:fnChkByte(this,'1000')" required><c:out value="${faq.faqContent }"/></textarea>
+				<div style="float:right;">
+					<span id="byteInfo">0</span>/1000bytes
+				</div>
 				<br>
 				<div class="btn-box">
 					
 					<input type="button" class="btn btn-outline-success" value="목록으로" onclick="location.replace('${path }/faq/faqList')">&nbsp;&nbsp;
 					
 					<c:if test="${empty faq }">
-						<input type="submit" class="btn btn-success" value="등록">
+						<input type="submit" class="btn btn-success" value="등록" onclick="return fn_check()">
 					</c:if>
 					<c:if test="${not empty faq }">
-						<input type="submit" class="btn btn-success" value="수정 ">
+						<input type="submit" class="btn btn-success" value="수정 " onclick="return fn_check()">
 					</c:if>
 
 				</div>
@@ -93,13 +96,61 @@
 <script>
 	
 	function fn_check(){
-		
+		let title=$("input[name=faqTitle]").val();
+		let titleCk=/^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]+$/;
+		let content=$("input[name=faqContent]").val();
+		let count=0;
+		let one="";
 		if(faqFrm.faqCategory.value==" ") {
 			swal("카테고리를 선택해주세요.");
 			return false;
 		}
-		return true;
+		if(!titleCk.test(title)){
+			alert("제목은 30자 이내로 영문,한글,숫자만 가능합니다.");
+			return false;
+		}
+		if(title.length>30){
+			alert("제목은 30자 이내로 영문,한글,숫자만 가능합니다.");
+			return false;
+		}
+
 	}
 	
+	//Byte 수 체크 제한
+    function fnChkByte(obj, maxByte) {
+      var str = obj.value;
+      var str_len = str.length;
+      var rbyte = 0;
+      var rlen = 0;
+      var one_char = "";
+      var str2 = "";
+
+      for(var i = 0; i<str_len; i++) {
+        one_char = str.charAt(i);
+        if(escape(one_char).length > 4) {
+          rbyte += 3; //한글3Byte
+        }else{
+          rbyte++; //영문 등 나머지 1Byte
+        }
+
+        if(rbyte <= maxByte){
+          rlen = i + 1; //return할 문자열 갯수
+        }
+      }
+
+      if(rbyte > maxByte) {
+        alert("내용은 최대 " + (maxByte) + "byte를 초과할 수 없습니다.");
+        str2 = str.substr(0, rlen); //문자열 자르기
+        obj.value = str2;
+        fnChkByte(obj, maxByte);
+      }else{
+        document.getElementById("byteInfo").innerText = rbyte;
+      }
+    }
+
+
+	
+	
+
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
