@@ -119,6 +119,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 	//제품 수정
 	@Override
+	@Transactional
 	public int updateProduct(Product p, ProductOption o, List<Map<Object, Object>> options,
 			List<ProductThumb> list) {
 	
@@ -126,28 +127,32 @@ public class AdminServiceImpl implements AdminService {
 		//제품 업데이트 하면 옵션 업데이트
 		if(result>0) {
 			if(options.size()!=0) {
+				//이전에 있던 옵션 지우기-이전 결과가 없을 수도 있음
+				result=dao.deleteOption(session,p.getPdtNo());
+				System.out.println("delete결과"+result);
+				//지우고 다시 insert
 				for(int i=0;i<options.size(); i++) {
 					
 					o.setPdtNo(p.getPdtNo());
 					o.setPdtOptionContent((String)(options.get(i).get("pdtOptionContent")));
 					o.setPdtOptionAddprice(Integer.parseInt((String)(options.get(i).get("pdtOptionAddprice"))));
-					result=dao.updateOption(session, o);
+					result=dao.insertOption(session, o);
+					System.out.println("insert결과"+result);
 				}
+	
 			}
 			//옵션 업데이트하면 썸네일 업데이트
 			if(result>0) {
 				
-				if(list!=null) {
+				if(list.size()!=0) {
 					//이전에 있던 썸네일 지우기
 					result=dao.deleteThumb(session,p.getPdtNo());
-					System.out.println("result결과"+result);
-					if(result>0) {
-						//지운 후 다시 insert
-						for(ProductThumb th : list) {
-							th.setPdtNo(p.getPdtNo());
-							result=dao.insertThumb(session,th);
-							System.out.println("result결과"+result);
-						}
+			
+					//지운 후 다시 insert
+					for(ProductThumb th : list) {
+						th.setPdtNo(p.getPdtNo());
+						result=dao.insertThumb(session,th);
+					
 					}
 				}
 			}

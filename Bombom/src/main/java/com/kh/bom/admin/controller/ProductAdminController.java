@@ -184,7 +184,7 @@ public class ProductAdminController {
 			@RequestParam(value="detailImg",required=false) MultipartFile[] detailImg,
 			HttpSession session
 			) {
-		System.out.println("컨트롤러에서"+thumbImgs);
+
 		//옵션 
 		ObjectMapper mapper=new ObjectMapper();
 		List<Map<Object, Object>> optionMap=null;
@@ -205,7 +205,7 @@ public class ProductAdminController {
 		List<ProductThumb> files=new ArrayList();
 		//썸네일 이미지 저장하기
 		for(MultipartFile f : thumbImgs) {
-			System.out.println("컨트롤러엣 2" + f);
+
 			if(!f.isEmpty()) {
 				//본래 파일이름 가져오기
 				String originalName=f.getOriginalFilename();
@@ -222,13 +222,13 @@ public class ProductAdminController {
 				}
 				ProductThumb thm =  ProductThumb.builder().originalFileName(originalName)
 						.renamedFileName(reName).build();
-				System.out.println("컨트롤러에서3"+thm);
+		
 				files.add(thm);
 			}
 		}
 		//상세 이미지 저장하기
 		for(MultipartFile ff:detailImg) {
-			System.out.println("여기까지 오니?");
+	
 			String originalName=ff.getOriginalFilename();
 			//확장자 분리
 			String ext=originalName.substring(originalName.lastIndexOf(".")+1);

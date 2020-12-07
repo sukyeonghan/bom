@@ -126,6 +126,12 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.delete("admin.deleteThumb",pdtNo);
 	}
+	//옵션 삭제
+	@Override
+	public int deleteOption(SqlSession session, String pdtNo) {
+		// TODO Auto-generated method stub
+		return session.delete("admin.deleteOption",pdtNo);
+	}
 	//1:1목록 가져오기
 	@Override
 	public List<Qna> selectQnaList(SqlSession session, int cPage, int numPerpage) {

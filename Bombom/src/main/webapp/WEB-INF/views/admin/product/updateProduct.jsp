@@ -474,24 +474,17 @@
 	$(function(){
 		   //div 클릭시 파일업로드실행함수 실행
 		   $("#1,#2,#3,#4,#5,#6").on("click",e=>{
-			  
-			  // $(e.target).children().click();
+			 
 			   $(e.target).next().click();
 		   });
 		   //파일 업로드시 이미지 체인지
 		   $("#input1,#input2,#input3,#input4,#input5,#input6").on("change",e =>{ 
 			 
 		      let reader=new FileReader();
-		      //원래 내가 한 방식
+		      
 		      let img=  $(e.target).prev();
-		      //$("#imgDiv").html("");
-		      //$(e.target).closest('div').html("");
 		      reader.onload=e=>{
 		    	  img.attr("src",e.target.result); 
-		  /*   	  let img=$("<img>",{"src":e.target.result,width:"150px",height:"150px"});
-		          img.addClass("proImg");
-		          $(e.target).closest("div").append(img); 
-		          console.log($(e.target).closest("div")); */
 		      }
 		      reader.readAsDataURL($(e.target)[0].files[0]);
 		      console.log($(e.target)[0].files[0]);

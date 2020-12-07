@@ -163,6 +163,10 @@
 	<delete id="deleteThumb" parameterType="string">
 		DELETE FROM PRODUCT_THUMB WHERE PDT_NO_REF=#{pdtNo}
 	</delete>
+	<!-- 옵션 삭제 -->
+	<delete id="deleteOption" parameterType="string">
+		DELETE FROM PRODUCT_OPTION WHERE PDT_NO_REF=#{pdtNo}
+	</delete>
 	<select id="selectMemberList" resultMap="memberMap">
 		SELECT * FROM MEMBER
 	</select>
