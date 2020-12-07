@@ -162,10 +162,27 @@
 		  					<div class="item-wrap">
 				                <div>
 				                    <a href="#">
-					                    <c:forEach begin="1" end="2" var="i" items="${img }">
-					                    	<img alt="" src="${path}/resources/upload/product/${i.pdtThumbImage}" class="item-img" style="display: inline;"
-					                         onmouseout="this.src='${path}/resources/upload/product/soap1.jpg'" onmouseover="this.src='${path}/resources/upload/product/soap2.jpg'">
-					                    </c:forEach>
+				                    	
+				                    	<c:choose>
+				                    		<c:when test="${fn:contains(p.thumbs,',') }">
+				                    			<c:set var="thumbs" value="${fn:split(p.thumbs,',') }"/> 
+				                    			<c:forEach begin="0" end="0" var="th" items="${thumbs }" varStatus="v">
+							                    	<img alt="" src="${path}/resources/upload/product/<c:if test='${v.count==1 }'>${th }</c:if>" class="item-img hover" style="display: inline;"
+							                         >
+							                         <input type="hidden" class="firstPic" value="<c:if test='${v.count==1 }'>${th }</c:if>">
+							                    </c:forEach>
+							                    <c:forEach begin="1" end="1" var="th" items="${thumbs }" varStatus="v">
+							                         <input type="hidden" class="secondPic" value="<c:if test='${v.count==1 }'>${th }</c:if>">
+							                    </c:forEach>
+							                  	
+				                    		</c:when>
+				                    		<c:otherwise>
+				                    			<c:forEach begin="0" end="0" var="th" items="${p.thumbs }" varStatus="v">
+							                    	<img alt="" src="${path}/resources/upload/product/${th }" class="item-img" style="display: inline;">
+							                    </c:forEach>
+				                    		</c:otherwise>
+				                    	</c:choose>
+					                    
 				                        
 				                   	</a>
 				                </div>
@@ -175,12 +192,16 @@
 				                        <a class="title-link" href=""><c:out value="${p.pdtName }"/></a>
 				                    </p>
 				                    <div class="item-price">
-				                        <p class="ori-price sale"><c:out value="${p.pdtPrice }"/>원</p>					
+				                        <p class="ori-price sale"><c:out value="${p.pdtPrice }"/>원</p>				
+				                        <!-- 세일하면 -->	
 				                        <p class="sale-price">7,200원</p>
 				                    </div>
 				                    <div class="item-icon">
+				                    	<!-- 등록한 날짜로 부터 7일 -->
 				                        <div class="new-icon">NEW</div>
-				                        <div class="sale-icon">SALE</div>	
+				                        <!-- 세일하면 -->
+				                        <div class="sale-icon">SALE</div>
+				                        <!-- 판매상태가 N으로 바뀌면 -->	
 				                      <!--   <div class="soldout-icon">SOLDOUT</div>	 -->			
 				                    </div>
 				                    
@@ -212,3 +233,18 @@
 </section>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+<script>
+
+	//호버 시 메인 이미지 변경 
+	$(function() { 
+		
+		$(".hover").hover(function(){ 
+			// console.log("올림");
+			$(this).attr("src", $(this).attr("src").replace($(this).next().val(), $(this).next().next().val())); 
+	
+		}, function(){ 
+			//console.log("내림");
+			$(this).attr("src", $(this).attr("src").replace($(this).next().next().val(), $(this).next().val())); 
+		}); 
+	});
+</script>

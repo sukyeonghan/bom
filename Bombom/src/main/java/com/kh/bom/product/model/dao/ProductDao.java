@@ -15,5 +15,6 @@ public interface ProductDao {
 
 	int productAllCount(SqlSession session);
 	int productCateCount(SqlSession session,String category);
+	List<Product> selectProductList(SqlSession session);
 	List<Product> cateProductList(SqlSession session,String category);
 }

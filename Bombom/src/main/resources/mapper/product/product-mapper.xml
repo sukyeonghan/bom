@@ -11,7 +11,7 @@
 		<result property="pdtDate" column="pdt_date"/>
 		<result property="pdtDetailImage" column="pdt_detail_image"/>
 		<result property="eventNoRef" column="event_no_ref"/>
-		<result property="mainImg" column="pdt_thumb_image"/>
+		<result property="thumbs" column="thumbs"/>
 	</resultMap>
 	<resultMap type="option" id="optionMap">
 		<result property="pdtOptionNo" column="pdt_option_no"/>
@@ -31,16 +31,19 @@
 	<select id="cateCount" resultType="_int" parameterType="string">
 		SELECT COUNT(*) FROM PRODUCT WHERE PDT_CATEGORY=#{pdtCategory}
 	</select>
-	<select id="cateProductList" resultMap="productMap" parameterType="string">
-		SELECT * FROM PRODUCT WHERE PDT_CATEGORY=#{pdtCategory}
-	</select>
-	<select id="thumbList" resultType="list" parameterType="string">
-		SELECT * FROM PRODUCT_THUMB WHERE PDT_NO_REF=#{pdtNo} ORDER BY PDT_THUMB_NO
-	</select>
-	<!-- <select id="selectProductList" resultMap="productMap">
-		SELECT * 
+	<select id="allProductList" resultMap="productMap" >
+		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_STATUS,PDT_DATE,EVENT_NO_REF,
+	    	LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY PDT_NO_REF) OVER(PARTITION BY PDT_NO_REF) AS THUMBS
 		FROM PRODUCT 
-			LEFT JOIN PRODUCT_OPTION ON(PDT_NO=PDT_NO_REF) 
-		ORDER BY PDT_DATE DESC 
-	</select> -->
+			JOIN  PRODUCT_THUMB ON(PDT_NO=PDT_NO_REF)
+		ORDER BY PDT_DATE DESC
+	</select>
+	<select id="cateProductList" resultMap="productMap" parameterType="string">
+		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_STATUS,PDT_DATE,EVENT_NO_REF,
+    		LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY pdt_no_ref) OVER(PARTITION BY PDT_NO_REF)AS THUMBS
+		FROM PRODUCT JOIN  PRODUCT_THUMB ON(PDT_NO=PDT_NO_REF) 
+		WHERE PDT_CATEGORY IN(#{pdtCategory})
+		ORDER BY PDT_DATE DESC
+	</select>
+	
 </mapper>

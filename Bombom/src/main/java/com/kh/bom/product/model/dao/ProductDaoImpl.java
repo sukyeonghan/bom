@@ -34,7 +34,11 @@ public class ProductDaoImpl implements ProductDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("product.cateCount",pdtCategory);
 	}
-	
+	@Override
+	public List<Product> selectProductList(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectList("product.allProductList");
+	}
 	@Override
 	public List<Product> cateProductList(SqlSession session, String pdtCategory) {
 		// TODO Auto-generated method stub

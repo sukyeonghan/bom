@@ -42,6 +42,13 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return dao.productCateCount(session,category);
 	}
+	//전체 제품 출력
+	@Override
+	public List<Product> selectProductList() {
+		// TODO Auto-generated method stub
+		return dao.selectProductList(session);
+	}
+	//카테고리별 제품 출력
 	@Override
 	public List<Product> cateProductList(String category) {
 		// TODO Auto-generated method stub

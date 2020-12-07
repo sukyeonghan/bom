@@ -33,10 +33,8 @@ public class ProductController {
 	//전체제품 페이지
 	@RequestMapping("/product/productAll") 
 	public ModelAndView allProduct(ModelAndView m) { 
-		List<Product> list=adminService.selectProductList();
+		List<Product> list=service.selectProductList();
 		int count=service.productAllCount();
-		//썸네일 이미지 넘기기
-		//List<ProductThumb> thumb=adminService.selectThumb(adminService.select)
 		m.addObject("list",list);
 		m.addObject("count",count);
 		m.setViewName("product/allList");
