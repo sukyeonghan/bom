@@ -17,7 +17,7 @@
 
 	/*최소 컨텐츠 크기*/
 	.media{min-width: 768px;} 
-	.right{text-align: right;}
+	.right{text-align: right;}/*오른쪽 정렬*/
 	
 	/*찜폴더리스트*/
 	#zzimListDiv{display: flex; width:100%; box-sizing:border-box; flex-wrap: wrap; flex-direction: row;}
@@ -42,7 +42,7 @@
 	    text-align: center;font-size: 1.3em; font-weight: bolder;
 	    width: 100%;
 	}
-	/*추가버튼*/
+	/*폴더추가버튼*/
 	.add{
 		padding: 0; 
 		background-color:#45A663; 
@@ -51,10 +51,15 @@
     	width: 40px;height: 40px;
 	}
 	.add>p{line-height: 40px;color:white; font-size: 40px; font-weight: bolder; padding:2px;}
+	/*각 폴더 이름 효과*/
 	a:hover{color:#ffffff;}
+	/*지울 폴더 선택*/
 	.delZzimCkbox{position: absolute;right:5%;top:5%; font-size: 20px; height:10%; width:10%;z-index: 90; display:none;}
+	/*체크박스 선택시 가리기 효과*/
 	.checkFilter{position:absolute; width:100%;height:100%; z-index: 80; background-color: #ffffff; opacity:0.5; display:none; z-index: 30; }
+	/*편집버튼*/
 	#delBoxOpen{font-weight:bolder;color: #45A663;cursor: pointer; }
+	/*편집시 나올 메뉴들*/
 	#delBox{display:none;}
 	#delBox>*{margin-left: 20px;cursor:pointer; font-weight:bolder; color:#45A663;}
 	#cancel{color:black;}
@@ -94,13 +99,16 @@
 		<!--좌측메뉴선택시 화면 -->
 		<div id="mypage-container" class="media-body">
 			<div><h3>찜목록</h3></div> 
+			<!-- 편집메뉴모음 -->
 			<div id="delBoxOpen" class="right"><span><i class="far fa-trash-alt"></i> 폴더삭제</span></div>
 			<div id="delBox" class="right">
 				<span id="allChoice">전체선택</span>
 				<span id="remove">선택삭제</span>
 				<span id="cancel">취소</span>
 			</div>
+			<!-- 삭제할 폴더 선택폼 -->
 			<form name="zzimDelFrm">
+			<!-- 전체 폴더 리스트 -->
 			<div id="zzimListDiv">
 				<!-- 폴더추가상자 -->
 				<div class="zzimFolder addZzimFolder" data-toggle="modal" data-target="#zzimFolderModal">
@@ -134,7 +142,7 @@
 		</form>
 		</div>
 		
-		  <!-- The Modal -->
+		  <!--폴더생성  Modal -->
 		  <div class="modal fade" id="zzimFolderModal">
 		    <div class="modal-dialog modal-dialog-centered">
 		      <div class="modal-content">
@@ -165,6 +173,7 @@
 	</div>
 </section>
 <script>
+	//비율대로 줄어드는 폭에 높이 맞추기. 정사각형
 	var height=$(".zzimFolder").width();
 	$(".zzimFolder").css("height",height);
 	$( window ).resize( function() {
@@ -172,9 +181,9 @@
 		$(".zzimFolder").css("height",height);
     });
 
-
+	//폴더 추가 함수
 	function fn_addFolder(){
-		
+		//폴더이름 유효성검사
 		var zzimName=$("input[name=zzimName]").val();
 		var nameCheck = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]+$/;
 		if(zzimName.length<1 || zzimName.length>10){
@@ -193,14 +202,17 @@
 			type:"get",
 			dataType:"html",
 			success:data=>{
-				//새로운 찜폴더 폴더리스트 맨앞에 추가하기
-				$(".zzimFolder").first().prev().html(data);
+				//새로운 찜폴더, 폴더 리스트 맨앞에 추가하기
+				$(".zzimFolder").first().before(data);
+			},error:function(error){
+				alert("폴더가 생성되지 못했습니다. 반복될경우 관리자에게 문의해주세요.");
 			}
+			
 		});
 		
 	}
 	
-$(function(){	
+$(function(){
 	//모달창에 포커싱주기
 	$("#zzimFolderModal").on("shown.bs.modal", function () { $("input[name=zzimName]").focus(); });
 	
@@ -222,13 +234,13 @@ $(function(){
 				$(e.target).parents(".zzimFolder").find(".checkFilter").css("display","none");
 			}
    	   	});
-		
+		//필터 클릭시 체크박스 체크해제, 필터박스 가리기
 		$(".checkFilter").click(e=>{
    	   		$(e.target).next().prop("checked",false);
    	   		$(e.target).css("display","none");
    	   	}); 
 		
-		
+		//편집 상태 취소시 편집시 뜨느 체크박스,필터, a태그 경로 살리기...
 		$("#cancel").click(e=>{
 			$(e.target).parents("#delBox").css("display","none");
 			$(".checkFilter").css("display","none");
@@ -239,15 +251,15 @@ $(function(){
 		});
 
 	});
-	
-   	$(".delZzimCkbox").click(e=>{
+	//체크박스만 클릭해도  필터박스 해제하기
+    $(".delZzimCkbox").click(e=>{
 		let tf=$(e.target).prop("checked");
 		 if(tf){
 			$(e.target).prev().show();
 		}else{
 			$(e.target).prev().hide();
 		}  
-	});
+	}); 
    	//전체선택.해제
    	$("#allChoice").click(e=>{
    		let text=$("#allChoice").text();
@@ -272,7 +284,7 @@ $(function(){
    			swal("삭제할 폴더를 선택해주세요");
    			return;
    		}
-	 	
+	 	//선택값에 따라 폼 전달여부
 		swal({
 			  title: "선택한 폴더를 삭제하시겠습니까?",
 			  icon: "warning",
@@ -281,12 +293,10 @@ $(function(){
 		})
 		.then((willDelete) => {
 		  if (willDelete) {
-			
 			let frm=document.forms.zzimDelFrm;
 		   	frm.action="${path}/zzim/deleteZzim";
 		   	frm.method="post";
 		   	frm.submit();	
-		   
 		  } else {return;}
 		});
 		

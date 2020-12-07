@@ -1,6 +1,7 @@
 package com.kh.bom.zzim.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,12 @@ public class ZzimServiceImpl implements ZzimService {
 	public Zzim selectZzimOne(String zzimNo) {
 		// TODO Auto-generated method stub
 		return dao.selectZzimOne(session,zzimNo);
+	}
+
+	@Override
+	public int updateZzimNo(Map map) {
+		// TODO Auto-generated method stub
+		return dao.updateZzimNo(session,map);
 	}
 	
 	
