@@ -44,5 +44,9 @@
 	<update id="updateInquiry" parameterType="inquiry">
 		UPDATE INQUIRY SET INQ_CONTENT=#{inqContent} WHERE INQ_NO=#{inqNo}
 	</update>
+	
+	<update id="updateInquiryAnswer" parameterType="inquiry">
+		UPDATE INQUIRY SET INQ_ANSWER=#{inqAnswer}, INQ_ANSWERDATE=SYSDATE WHERE INQ_NO=#{inqNo}
+	</update>
 
 </mapper>

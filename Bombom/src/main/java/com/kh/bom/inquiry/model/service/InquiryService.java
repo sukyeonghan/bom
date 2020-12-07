@@ -18,5 +18,8 @@ public interface InquiryService {
 	
 	//상품문의 수정
 	int updateInquiry(Inquiry i);
+	
+	//상품문의 관리자답변 수정
+	int updateInquiryAnswer(Inquiry i);
 
 }
