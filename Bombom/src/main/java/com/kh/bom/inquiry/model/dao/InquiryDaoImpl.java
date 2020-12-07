@@ -33,6 +33,11 @@ public class InquiryDaoImpl implements InquiryDao {
 	public int updateInquiry(SqlSession session, Inquiry i) {
 		return session.update("inquiry.updateInquiry", i);
 	}
+
+	@Override
+	public int updateInquiryAnswer(SqlSession session, Inquiry i) {
+		return session.update("inquiry.updateInquiryAnswer", i);
+	}
 	
 
 }

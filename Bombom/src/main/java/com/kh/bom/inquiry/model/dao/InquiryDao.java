@@ -15,4 +15,6 @@ public interface InquiryDao {
 	int deleteInquiryAnswer(SqlSession session, String inqNo);
 	
 	int updateInquiry(SqlSession session, Inquiry i);
+	
+	int updateInquiryAnswer(SqlSession session, Inquiry i);
 }

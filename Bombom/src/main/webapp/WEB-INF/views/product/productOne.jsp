@@ -240,7 +240,7 @@
         border-radius: 4px;
         display: inline-block;
         width:100%;
-        height:250px;
+        height:200px;
     }
     textarea{
         width: 99%;
@@ -252,6 +252,13 @@
         outline:none;
     }
     textarea.inqContent{
+    	width: 100%;
+        height: 100%;
+        resize: none;
+        border:none;
+        margin:7px 0 7px 0;
+    }
+    textarea.answer{
     	width: 100%;
         height: 100%;
         resize: none;
@@ -511,7 +518,7 @@
 				        <div class="pageBar">
 							<span>${pageBar }</span>
 				    	</div>
-			    	</div>
+			    	</div><!-- result 끝 -->
 			        
 			      <!-- 상품문의 모달창 -->
 				  <div class="modal fade" id="inquiryView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -529,43 +536,20 @@
 				        	<!-- 상품문의 내용 -->
 				        	<strong><span id="memNick"></span></strong>&nbsp;&nbsp;<span id="inqDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
 				        	<input type="hidden" name="inqNo" class="inqNo"/>
-				        	<input type="button" class="btn btn-outline-success btn-sm fn_updateInquiry" value="수정">
-				        	<input type="button" class="btn btn-outline-success btn-sm deleteInquiryCk" data-confirm="문의를 삭제하시겠습니까?" value="삭제"><br>
+							<div id="secret" style="display:inline-block;">
+					        	<input type="button" class="btn btn-outline-success btn-sm fn_updateInquiry" value="수정">
+					        	<input type="button" class="btn btn-outline-success btn-sm deleteInquiryCk" data-confirm="문의를 삭제하시겠습니까?" value="삭제"><br>
+				        	</div>
 				        	<textarea class="inqContent" name="inqContent" id="textCk" style="background-color:#fff;" disabled></textarea>
 				        	<hr>
-				        	<script>
-							//상품문의 수정버튼 클릭 시 
-								$(".fn_updateInquiry").click(function(){
-									//수정 -> 수정완료버튼으로 바꾸고, textarea 활성화
-									if($("textarea[id=textCk]").attr("disabled")){
-										$(this).attr("value",function(index,attr){
-											if(attr.match("수정")){
-												console.log("수정완료");
-												return attr.replace("수정","수정완료");
-											}
-										});
-										$("textarea[id=textCk]").attr("style","border:lightslategray 1px solid;border-radius:4px;padding:8px;");
-										return $("textarea[id=textCk]").removeAttr("disabled");
-									}else{
-										//수정완료 누를 시 수정한 내용 update
-										$(this).attr("value",function(index,attr){
-											if(attr.match("수정완료")){
-												let inqNo = $(event.target).parent().children('input[name=inqNo]').val();
-												let inqContent = $(event.target).parent().children('textarea[name=inqContent]').val();
-												location.replace("${path}/inquiry/updateInquiry?inqNo="+inqNo+"&inqContent="+inqContent);
-											}
-										});
-										$("textarea[id=textCk]").attr("style","background-color:#fff;");
-										return $("textarea[id=textCk]").attr("disabled","");
-									}
-								});
-				        	</script>
 				        	<!-- 상품문의 관리자 답변 내용 -->
 				        	<strong><span>관리자</span></strong>&nbsp;&nbsp;<span class="answerDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-				        	<!-- 관리자로 로그인 했을시에 수정,삭제창 생김 -->
+				        	<!-- 관리자로 로그인 했을시&&답변이 있을경우에만 수정,삭제창 생김 -->
 				        	<c:if test="${loginMember.memManagerYn=='Y'}">
-				        		<input type="button" class="btn btn-outline-success btn-sm fn_updateInquiryAnswer" value="수정">
-				        		<input type="button" class="btn btn-outline-success btn-sm deleteAnswerCk" data-confirm="답변을 삭제하시겠습니까?" value="삭제"><br>
+				        		<div id="secret2" style="display:inline-block;">
+					        		<input type="button" class="btn btn-outline-success btn-sm fn_updateInquiryAnswer" value="수정">
+					        		<input type="button" class="btn btn-outline-success btn-sm deleteAnswerCk" data-confirm="답변을 삭제하시겠습니까?" value="삭제"><br>
+				        		</div>
 				        	</c:if>
 				        	<textarea class="answer" name="inqAnswer" id="textAnswerCk" style="background-color:#fff;" disabled></textarea>
 				        </div>
@@ -609,6 +593,21 @@
 				  			var memNo = a.data("memno");
 				  			var loginno = a.data("loginno");
 				  			var modal = $(this);
+				  			
+				  			//로그인 한 사람==게시글 작성자 일 경우에만 수정,삭제버튼 생성
+		                    if(memNo==loginno){
+		                    	$("div[id=secret]").show();
+		                    }else{
+		                    	$("div[id=secret]").hide();
+		                    }
+				  			
+				  			//관리자로 로그인 시, 답변이 있을경우에만 수정,삭제버튼 생성
+				  			if(answerYn=='Y'){
+				  				$("div[id=secret2]").show();
+				  			}else{
+				  				$("div[id=secret2]").hide();
+				  			}
+		                       
 				  			
 				  			modal.find(".inqNo").val(inqNo);
 				  			modal.find(".inqContent").text(inqContent); //모달창에서 .modal-body에 inqContent값을 출력
@@ -872,6 +871,61 @@
 	function secretCk(){
 		alert("작성자와 관리자만 접근할 수 있는 글입니다");
 	}
+
+	//상품문의 수정버튼 클릭 시 
+	$(".fn_updateInquiry").click(function(){
+		//수정 -> 수정완료버튼으로 바꾸고, textarea 활성화
+		if($("textarea[id=textCk]").attr("disabled")){
+			$(this).attr("value",function(index,attr){
+				if(attr.match("수정")){
+					console.log("수정완료");
+					return attr.replace("수정","수정완료");
+				}
+			});
+			$("textarea[id=textCk]").attr("style","border:lightslategray 1px solid;border-radius:4px;padding:8px;");
+			return $("textarea[id=textCk]").removeAttr("disabled");
+		}else{
+			//수정완료 누를 시 수정한 내용 update
+			$(this).attr("value",function(index,attr){
+				if(attr.match("수정완료")){
+					let inqNo = $(event.target).parents().children('input[type=hidden][name=inqNo]').val();
+					let inqContent = $(event.target).parents().children('textarea[name=inqContent]').val();
+					location.replace("${path}/inquiry/updateInquiry?inqNo="+inqNo+"&inqContent="+inqContent);
+				}
+			});
+			$("textarea[id=textCk]").attr("style","background-color:#fff;");
+			return $("textarea[id=textCk]").attr("disabled","");
+		}
+	});	
+	
+	//상품문의 관리자답변 수정버튼 클릭 시 
+	$(".fn_updateInquiryAnswer").click(function(){
+		//수정 -> 수정완료버튼으로 바꾸고, textarea 활성화
+		if($("textarea[id=textAnswerCk]").attr("disabled")){
+			$(this).attr("value",function(index,attr){
+				if(attr.match("수정")){
+					console.log("수정완료");
+					return attr.replace("수정","수정완료");
+				}
+			});
+			$("textarea[id=textAnswerCk]").attr("style","border:lightslategray 1px solid;border-radius:4px;padding:8px;");
+			return $("textarea[id=textAnswerCk]").removeAttr("disabled");
+		}else{
+			//수정완료 누를 시 수정한 내용 update
+			$(this).attr("value",function(index,attr){
+				if(attr.match("수정완료")){
+					let inqNo = $(event.target).parents().children('input[type=hidden][name=inqNo]').val();
+					let inqAnswer = $(event.target).parents().children('textarea[name=inqAnswer]').val();
+					console.log(inqNo);
+					console.log(inqAnswer);
+					location.replace("${path}/inquiry/updateInquiryAnswer?inqNo="+inqNo+"&inqAnswer="+inqAnswer);
+				}
+			});
+			$("textarea[id=textAnswerCk]").attr("style","background-color:#fff;");
+			return $("textarea[id=textAnswerCk]").attr("disabled","");
+		}
+	});
+	
 		
 </script>
     
