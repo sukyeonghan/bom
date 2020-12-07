@@ -17,6 +17,8 @@
 	
 	/*페이지 타이틀*/
 	.page-title{margin-bottom:5%;}
+	
+
 
 </style>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
