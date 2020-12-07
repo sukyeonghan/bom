@@ -27,6 +27,24 @@ input::placeholder {
    font-family: 'Cafe24Simplehae';
 }
 
+@font-face {
+	font-family: 'Roboto';
+	font-style: normal;
+	font-weight: 100;
+	src: url(../font/Roboto-Thin.woff2) format('woff2'),
+		url(../font/Roboto-Thin.woff) format('woff'),
+		url(../font/Roboto-Thin.otf) format('opentype');
+}
+
+/* 비밀번호 안보이는 이슈 처리 */
+input[type=password] {
+	font-family: 'Roboto';
+}
+
+input::placeholder {
+	font-family: 'Cafe24Simplehae';
+}
+
 * {
    font-family: 'Cafe24Simplehae';
    box-sizing: border-box;

@@ -8,8 +8,11 @@ public interface InquiryDao {
 	
 	int insertInquiry(SqlSession session, Inquiry i);
 	
-	Inquiry selectInquiryOne(SqlSession session, String inqNo);
-	
 	int insertInquiryAnswer(SqlSession session, Inquiry i);
 
+	int deleteInquiry(SqlSession session, String inqNo);
+	
+	int deleteInquiryAnswer(SqlSession session, String inqNo);
+	
+	int updateInquiry(SqlSession session, Inquiry i);
 }

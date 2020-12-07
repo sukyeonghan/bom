@@ -17,7 +17,7 @@
 	<select id="selectZzimList" parameterType="String" resultMap="zzimMap">
 		 SELECT * FROM
 		(
-		 SELECT Z.ZZIM_NO, Z.ZZIM_NAME,Z.MEM_NO, ZC.PDT_NO,ZC.ZZIM_DATE,PT.PDT_THUMB_NO,PT.PDT_THUMB_IMAGE AS IMAGE,
+		 SELECT Z.ZZIM_NO, Z.ZZIM_NAME,Z.MEM_NO, PT.PDT_THUMB_IMAGE AS IMAGE,
 		 RANK() OVER (
 		    PARTITION BY Z.ZZIM_NO
 		    ORDER BY ZZIM_DATE DESC, PDT_THUMB_NO) AS RANKING, 
@@ -30,7 +30,49 @@
 		)WHERE RANKING =1
 	</select>
 	
-	<insert id="insertZzim">
+	<insert id="insertZzim" parameterType="zzim">
 		INSERT INTO ZZIM VALUES('Z'||SEQ_ZZIM_NO.NEXTVAL,#{memNo},#{zzimName})
 	</insert>
+	
+	<select id="selectZzimContentList" parameterType="string" resultMap="zzimContentMap">
+		SELECT * FROM(
+		    SELECT  ZC.ZZIM_NO,ZC.ZZIM_DATE,ZC.PDT_NO, PT.PDT_THUMB_IMAGE AS zzimPdtImage,PDT_NAME AS zzimPdtName,
+		    RANK() OVER (
+		        PARTITION BY PT.PDT_NO_REF ORDER BY  TO_NUMBER(SUBSTR(PT.PDT_THUMB_NO,3))) AS RANK
+		     FROM ZZIMCONTENT ZC
+		     LEFT JOIN PRODUCT_THUMB PT ON ZC.PDT_NO=PT.PDT_NO_REF 
+             LEFT JOIN PRODUCT PDT ON ZC.PDT_NO=PDT.PDT_NO
+		      ORDER BY ZC.ZZIM_DATE DESC
+		 )WHERE RANK=1 AND ZZIM_NO=#{zzimNo}
+	</select>
+	
+	<delete id="deleteZzim" parameterType="java.util.List">
+		DELETE FROM ZZIM WHERE ZZIM_NO IN
+		<foreach collection="list" item="zzimNo" open="(" close=")" separator="," index="index">	
+			 #{zzimNo}
+		</foreach>
+	</delete>	
+	
+	<select id="selectSeqZzimNo" resultType="string">
+		SELECT SEQ_ZZIM_NO.CURRVAL FROM DUAL
+	</select>
+	
+	<update id="updateZzimName" parameterType="zzim">
+		UPDATE ZZIM SET ZZIM_NAME=#{zzimName} WHERE ZZIM_NO=#{zzimNo}
+	</update>
+	
+	<delete id="deleteZzimOne" parameterType="string">
+		DELETE FROM ZZIM WHERE ZZIM_NO = #{zzimNo}
+	</delete>
+	
+	<delete id="deleteZzimContent" parameterType="java.util.List">
+		DELETE FROM ZZIMCONTENT WHERE PDT_NO IN
+		<foreach collection="list" item="pdtNo" open="(" close=")" separator="," index="index">
+			#{pdtNo}
+		</foreach>
+	</delete>
+	
+	<select id="selectZzimOne" parameterType="string" resultMap="zzimMap">
+		SELECT * FROM ZZIM WHERE ZZIM_NO = #{zzimNo}
+	</select>
 </mapper>
