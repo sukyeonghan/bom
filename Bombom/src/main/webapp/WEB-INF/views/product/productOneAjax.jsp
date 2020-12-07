@@ -5,9 +5,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 
-<div class="container">
-			        <!-- 상품문의 게시글 -->
-			        <div id="result">
 				        <div class="container">
 					        <table class="table" style=" table-layout: fixed;">
 						    <c:if test="${not empty list }">	
@@ -74,5 +71,4 @@
 				        <div class="pageBar">
 							<span>${pageBar }</span>
 				    	</div>
-			    	</div><!-- result 끝 -->
 

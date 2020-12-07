@@ -432,8 +432,9 @@
 				            <button type="button" class="btn btn-success showBox">상품문의</button>
 					        <div class="wrap-category" style="display:none;">
 						        <span class="span_textarea">
-							        <textarea name="inqContent" id="inqContent" placeholder="문의내용을 입력해주세요"></textarea>
+							        <textarea name="inqContent" id="inqContent" placeholder="문의내용을 입력해주세요" onKeyUp="javascript:fnChkByte(this,'500')"></textarea>
 									<div style="float:right;">
+										<span id="byteInfo">0</span>/500bytes
 								        <label>
 						 		        	<img id="lockUnlock" src="${path}/resources/images/product/unlock.png" name="inqSecret" style="width:25px;height:25px;">
 								        	<input type="hidden" id="secret" name="inqSecret" value="N">
@@ -450,6 +451,41 @@
 					        </div>
 				        </div>
 			        </form><!-- 상품문의 작성창 끝 -->
+			        <script>
+			        // Byte 수 체크 제한
+			        function fnChkByte(obj, maxByte) {
+			          var str = obj.value;
+			          var str_len = str.length;
+			          var rbyte = 0;
+			          var rlen = 0;
+			          var one_char = "";
+			          var str2 = "";
+
+			          for(var i = 0; i<str_len; i++) {
+			            one_char = str.charAt(i);
+			            if(escape(one_char).length > 4) {
+			              rbyte += 3; //한글2Byte
+			            }else{
+			              rbyte++; //영문 등 나머지 1Byte
+			            }
+
+			            if(rbyte <= maxByte){
+			              rlen = i + 1; //return할 문자열 갯수
+			            }
+			          }
+
+			          if(rbyte > maxByte) {
+			            // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
+			            alert("메세지는 최대 " + (maxByte) + "byte를 초과할 수 없습니다.");
+			            str2 = str.substr(0, rlen); //문자열 자르기
+			            obj.value = str2;
+			            fnChkByte(obj, maxByte);
+			          }else{
+			            document.getElementById("byteInfo").innerText = rbyte;
+			          }
+			        }			        
+			        </script>
+			        
 			        <!-- 상품문의 게시글 -->
 			        <div id="result">
 				        <div class="container">
