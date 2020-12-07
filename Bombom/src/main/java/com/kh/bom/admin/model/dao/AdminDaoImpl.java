@@ -101,6 +101,31 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.insert("admin.insertThumb",th);
 	}
+	//제품 수정
+	@Override
+	public int updateProduct(SqlSession session, Product p) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateProduct",p);
+	}
+	
+	//옵션 수정
+	@Override
+	public int updateOption(SqlSession session, ProductOption o) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateOption",o);
+	}
+	//썸네일 수정
+	@Override
+	public int updateThumb(SqlSession session,ProductThumb th) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateThumb",th);
+	}
+	//썸네일 삭제
+	@Override
+	public int deleteThumb(SqlSession session, String pdtNo) {
+		// TODO Auto-generated method stub
+		return session.delete("admin.deleteThumb",pdtNo);
+	}
 	//1:1목록 가져오기
 	@Override
 	public List<Qna> selectQnaList(SqlSession session, int cPage, int numPerpage) {

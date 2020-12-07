@@ -117,6 +117,44 @@ public class AdminServiceImpl implements AdminService {
 	public List<ProductThumb> selectThumb(String pdtNo) {
 		return dao.selectThumb(session,pdtNo);
 	}
+	//제품 수정
+	@Override
+	public int updateProduct(Product p, ProductOption o, List<Map<Object, Object>> options,
+			List<ProductThumb> list) {
+	
+		int result=dao.updateProduct(session,p);
+		//제품 업데이트 하면 옵션 업데이트
+		if(result>0) {
+			if(options.size()!=0) {
+				for(int i=0;i<options.size(); i++) {
+					
+					o.setPdtNo(p.getPdtNo());
+					o.setPdtOptionContent((String)(options.get(i).get("pdtOptionContent")));
+					o.setPdtOptionAddprice(Integer.parseInt((String)(options.get(i).get("pdtOptionAddprice"))));
+					result=dao.updateOption(session, o);
+				}
+			}
+			//옵션 업데이트하면 썸네일 업데이트
+			if(result>0) {
+				
+				if(list!=null) {
+					//이전에 있던 썸네일 지우기
+					result=dao.deleteThumb(session,p.getPdtNo());
+					System.out.println("result결과"+result);
+					if(result>0) {
+						//지운 후 다시 insert
+						for(ProductThumb th : list) {
+							th.setPdtNo(p.getPdtNo());
+							result=dao.insertThumb(session,th);
+							System.out.println("result결과"+result);
+						}
+					}
+				}
+			}
+			
+		}
+		return result;
+	}
 	
 	@Override
 	public List<Member> selectMemberList(int cPage,int numPerpage) {

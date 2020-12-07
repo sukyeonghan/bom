@@ -24,6 +24,7 @@ public interface AdminService {
 	Product selectOneProduct(String pdtNo);//제품 하나 선택
 	List<ProductOption> selectOption(String pdtNo);//옵션 선택
 	List<ProductThumb> selectThumb(String pdtNo);//썸네일 사진 선택
+	int updateProduct(Product p,ProductOption o,List<Map<Object,Object>> options,List<ProductThumb> list);//제품 수정
 	
 	List<Member> selectMemberList(int cPage, int numPerpage);
 	int selectMemberCount();

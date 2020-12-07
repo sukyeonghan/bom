@@ -27,6 +27,10 @@ public interface AdminDao {
 	Product selectOneProduct(SqlSession session,String pdtNo);
 	List<ProductOption> selectOption(SqlSession session,String pdtNo);
 	List<ProductThumb> selectThumb(SqlSession session,String pdtNo);
+	int updateProduct(SqlSession session,Product p);
+	int updateOption(SqlSession session,ProductOption o);
+	int updateThumb(SqlSession session,ProductThumb th);
+	int deleteThumb(SqlSession session,String pdtNo);
 
 	List<Member> selectMemberList(SqlSession session, int cPage, int numPerpage);
 	int selectMemberCount(SqlSession session);

@@ -148,7 +148,7 @@
 			<h3 class="page-title">제품수정</h3> 
 			
 			<!-- 제품 등록 -->
-			<form action="${path }/admin/updateProduct" method="post" enctype="multipart/form-data">
+			<form action="${path }/admin/updateProductEnd" method="post" enctype="multipart/form-data">
 				<table id="insert-table">
 					<tr>
 						<th>카테고리</th>
@@ -248,14 +248,32 @@
 				<div id="bottom-div">
 					<p class="title">제품 썸네일 이미지(최대 6장)</p>
 					<div id="thumbContainer">
+					<c:forEach var="th" items="${thumb }"></c:forEach>
 						<div class="thumbWrap" > 
+						
 			     			<div>
 			     				<p class="sumTitle">썸네일1(메인)</p>
 			     			</div>
 							<div class="proDiv" id="1"> 
 								<img class="proImg" src="${path }/resources/images/product/plus2.png">
+							<c:forEach var="th" items="${thumb }" begin="0" end="0">
+								<c:if test="${not empty th.pdtThumbImage  }">
+									<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
+								</c:if>
+							<%--	<c:choose>
+								
+									<c:when test="${not empty th.pdtThumbImage  }">
+										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
+									</c:when>
+							 		<c:otherwise>
+										<img class="proImg" src="${path }/resources/images/product/plus2.png">
+									</c:otherwise>
+								
+								</c:choose> --%>
+							</c:forEach>
 								<input type="file" class="proPic" name="thumbImgs" id="input1" accept="image/gif, image/jpeg, image/png" style="display:none;">
 								<input type="button" class="close" value="x">
+							
 				     		</div>
 			     		</div>
 			     				
@@ -264,7 +282,24 @@
 			     				<p class="sumTitle">썸네일2</p>
 			     			</div>
 			     			<div class="proDiv" id="2">
-				     			<img class="proImg" src="${path }/resources/images/product/plus2.png">
+			     				<img class="proImg" src="${path }/resources/images/product/plus2.png">
+			     			<c:forEach var="th" items="${thumb }" begin="1" end="1">
+			     				<c:if test="${not empty th.pdtThumbImage }">
+			     					<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
+			     				</c:if>
+			     				<%-- <c:choose>
+			     				
+									<c:when test="${not empty th.pdtThumbImage }">
+								
+										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
+									</c:when>
+									<c:otherwise>
+										<img class="proImg" src="${path }/resources/images/product/plus2.png">
+									</c:otherwise>
+									
+								</c:choose> --%>
+							</c:forEach>
+								
 								<input type="file" class="proPic" name="thumbImgs" id="input2" accept="image/gif, image/jpeg, image/png" style="display:none;">
 								<input type="button" class="close" value="x">
 							</div>
@@ -272,14 +307,21 @@
 			     		
 			     		<div class="thumbWrap" > 
 			     			<div>
-			     				<p class="sumTitle">썸네일3</p>
+			     				<p class="sumTitle">썸네일3<c:out value="${th.pdtThumbImage}"/></p>
 			     			</div>
 				     		<div class="proDiv" id="3"> 
-								<img class="proImg" src="${path }/resources/images/product/plus2.png">
-								<input type="file"  class="proPic" name="thumbImgs" id="input3"  accept="image/gif, image/jpeg, image/png" style="display:none;">
+				     			<img class="proImg" src="${path }/resources/images/product/plus2.png">
+								 <c:forEach var="th" items="${thumb }" begin="2" end="2">
+									<c:if test="${not empty th.pdtThumbImage }">
+										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
+									</c:if>
+								</c:forEach>
+							
+								<input type="file" class="proPic" name="thumbImgs" id="input2" accept="image/gif, image/jpeg, image/png" style="display:none;">
 								<input type="button" class="close" value="x">
-				     		</div>
+							</div>
 				     	</div>
+				     	
 			     		
 			     		<div class="thumbWrap" > 
 			     			<div>
@@ -287,6 +329,11 @@
 			     			</div>
 				     		<div class="proDiv" style="float:left" id="4"> 
 								<img class="proImg" src="${path }/resources/images/product/plus2.png">
+								 <c:forEach var="th" items="${thumb }" begin="3" end="3">
+									<c:if test="${not empty th.pdtThumbImage }">
+										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
+									</c:if>
+								</c:forEach>
 								<input type="file"  class="proPic" name="thumbImgs" id="input4"  accept="image/gif, image/jpeg, image/png" style="display:none;">
 								<input type="button" class="close" value="x">
 				     		</div>
@@ -298,6 +345,11 @@
 			     			</div>
 				     		<div class="proDiv" style="float:left" id="5"> 
 								<img class="proImg" src="${path }/resources/images/product/plus2.png">
+								 <c:forEach var="th" items="${thumb }" begin="4" end="4">
+									<c:if test="${not empty th.pdtThumbImage }">
+										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
+									</c:if>
+								</c:forEach>
 								<input type="file"  class="proPic" name="thumbImgs" id="input5"  accept="image/gif, image/jpeg, image/png" style="display:none;">
 								<input type="button" class="close" value="x">
 				     		</div>
@@ -309,21 +361,27 @@
 			     			</div>
 				     		<div class="proDiv" style="float:left" id="6"> 
 								<img class="proImg" src="${path }/resources/images/product/plus2.png">
+								 <c:forEach var="th" items="${thumb }" begin="5" end="5">
+									<c:if test="${not empty th.pdtThumbImage }">
+										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
+									</c:if>
+								</c:forEach>
 								<input type="file"  class="proPic" name="thumbImgs" id="input6"  accept="image/gif, image/jpeg, image/png" style="display:none;">
 								<input type="button" class="close" value="x">
 				     		</div>
 				     	</div>
-			     	
-					</div>
+			   		</div>
+					</div> 
 					
 		      		<div id="detail-image">
 			      		<p class="title">제품 상세 이미지(총 1장)</p>
-			      		<input type="file" id="detail" class="form-control-file border" name="detailImg" ><label class="form-control-file" for="detail">${product.pdtDetailImage}</label>
+			      		<input type="button" id="fileBtn" class="fileBtn" value="파일선택" >
+			      		<label class="fileBtn" for="fileBtn">${product.pdtDetailImage}</label>
+			      		<input type="file" id="detail" class="form-control-file border" name="detailImg" style="display:none;">
 			     
-			    		<input type="file" class="test" name="upFile" id="upFile1">
-                    <label class="test" for="upFile1"><c:out value="${product.pdtDetailImage}"/></label>
 		      		</div>
-				</div>
+		      		<input type="hidden" name="pdtNo" value="${product.pdtNo }">
+				
 				
 				<div id="bottom-btns">
 					<input type="submit" class="btn btn-success insertPro" value="수정하기" onclick="updatePro()">
@@ -339,12 +397,35 @@
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 <script>
-	//상세이미지
+	
+	//상세이미지 파일명 바꾸기
+	$(function(){
+    		$('[name=detailImg]').on("change",function(){
+    		
+    			var filename=$(this).prop('files')[0].name;
+    			$(this).prev(".fileBtn").html(filename);
+    		});
+    	});
+	//상세이미지 파일 업로드
+	$("#fileBtn").on("click",e=>{
+		$(e.target).next().next().click();
+	});
+		
 	
 	//제품 수정
 	function updatePro(){
 		if(confirm("정말 수정하시겠습니까?")==true){
-	        return true;
+			//옵션 값 넣기
+			var list=[];
+	        var items = document.getElementsByName("pdtOptionContent");
+	        
+	        for(var i=0; i<items.length; i++){
+	            list.push({"pdtOptionContent":$("input[name=pdtOptionContent]").eq(i).val(),
+	            	"pdtOptionAddprice":$("input[name=pdtOptionAddprice]").eq(i).val()});    
+	        }
+	        $("#test_list").val(JSON.stringify(list));
+	        
+			return true;
 		}else{
 			return false;
 		}   
@@ -388,36 +469,33 @@
 	    trHtml.remove();
 	});
 	
-	//옵션 등록하기
-	function insertOption(){
-		
-		var list=[];
-        var items = document.getElementsByName("pdtOptionContent");
-        
-        for(var i=0; i<items.length; i++){
-            list.push({"pdtOptionContent":$("input[name=pdtOptionContent]").eq(i).val(),
-            	"pdtOptionAddprice":$("input[name=pdtOptionAddprice]").eq(i).val()});    
-        }
-        $("#test_list").val(JSON.stringify(list));
-
-	};
 	
 	//이미지 업로드 
 	$(function(){
 		   //div 클릭시 파일업로드실행함수 실행
 		   $("#1,#2,#3,#4,#5,#6").on("click",e=>{
 			  
+			  // $(e.target).children().click();
 			   $(e.target).next().click();
 		   });
 		   //파일 업로드시 이미지 체인지
 		   $("#input1,#input2,#input3,#input4,#input5,#input6").on("change",e =>{ 
 			 
 		      let reader=new FileReader();
+		      //원래 내가 한 방식
 		      let img=  $(e.target).prev();
+		      //$("#imgDiv").html("");
+		      //$(e.target).closest('div').html("");
 		      reader.onload=e=>{
-		       img.attr("src",e.target.result); 
+		    	  img.attr("src",e.target.result); 
+		  /*   	  let img=$("<img>",{"src":e.target.result,width:"150px",height:"150px"});
+		          img.addClass("proImg");
+		          $(e.target).closest("div").append(img); 
+		          console.log($(e.target).closest("div")); */
 		      }
 		      reader.readAsDataURL($(e.target)[0].files[0]);
+		      console.log($(e.target)[0].files[0]);
+		    
 		   }); 
 	});
 	

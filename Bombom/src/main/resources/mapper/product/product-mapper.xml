@@ -11,7 +11,18 @@
 		<result property="pdtDate" column="pdt_date"/>
 		<result property="pdtDetailImage" column="pdt_detail_image"/>
 		<result property="eventNoRef" column="event_no_ref"/>
+		<result property="mainImg" column="pdt_thumb_image"/>
+	</resultMap>
+	<resultMap type="option" id="optionMap">
 		<result property="pdtOptionNo" column="pdt_option_no"/>
+		<result property="pdtNo" column="pdt_no_ref"/>
+		<result property="pdtOptionContent" column="pdt_option_content"/>
+		<result property="pdtOptionAddprice" column="pdt_option_addprice" />
+	</resultMap>
+	<resultMap type="thumb" id="thumbMap">
+		<result property="pdtThumbNo" column="pdt_thumb_no"/>
+		<result property="pdtNo" column="pdt_no_ref"/>
+		<result property="pdtThumbImage" column="pdt_thumb_image"/>
 	</resultMap>
 	
 	<select id="allCount" resultType="_int">
@@ -23,4 +34,13 @@
 	<select id="cateProductList" resultMap="productMap" parameterType="string">
 		SELECT * FROM PRODUCT WHERE PDT_CATEGORY=#{pdtCategory}
 	</select>
+	<select id="thumbList" resultType="list" parameterType="string">
+		SELECT * FROM PRODUCT_THUMB WHERE PDT_NO_REF=#{pdtNo} ORDER BY PDT_THUMB_NO
+	</select>
+	<!-- <select id="selectProductList" resultMap="productMap">
+		SELECT * 
+		FROM PRODUCT 
+			LEFT JOIN PRODUCT_OPTION ON(PDT_NO=PDT_NO_REF) 
+		ORDER BY PDT_DATE DESC 
+	</select> -->
 </mapper>

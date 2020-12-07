@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.bom.admin.controller.ProductAdminController;
 import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.common.page.AjaxPageBarFactory;
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.service.ProductService;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.product.model.vo.ProductThumb;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,6 +35,8 @@ public class ProductController {
 	public ModelAndView allProduct(ModelAndView m) { 
 		List<Product> list=adminService.selectProductList();
 		int count=service.productAllCount();
+		//썸네일 이미지 넘기기
+		//List<ProductThumb> thumb=adminService.selectThumb(adminService.select)
 		m.addObject("list",list);
 		m.addObject("count",count);
 		m.setViewName("product/allList");

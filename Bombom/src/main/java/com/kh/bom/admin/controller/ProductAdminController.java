@@ -175,6 +175,91 @@ public class ProductAdminController {
 		m.setViewName("admin/product/updateProduct");
 		return m;
 	}
+	//제품 수정
+	@RequestMapping("/admin/updateProductEnd")
+	public ModelAndView updateProduct(Product p,ProductOption o,ModelAndView m,
+			@RequestParam(value="pdtNo") String pdtNo,
+			@RequestParam(value="test",required = false) String options,
+			@RequestParam(value="thumbImgs",required=false) MultipartFile[] thumbImgs,
+			@RequestParam(value="detailImg",required=false) MultipartFile[] detailImg,
+			HttpSession session
+			) {
+		System.out.println("컨트롤러에서"+thumbImgs);
+		//옵션 
+		ObjectMapper mapper=new ObjectMapper();
+		List<Map<Object, Object>> optionMap=null;
+		try {
+			optionMap = mapper.readValue(options, ArrayList.class);
+		} catch (JsonMappingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (JsonProcessingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		String path=session.getServletContext().getRealPath("/resources/upload/product");
+		File dir=new File(path);
+		
+		if(!dir.exists()) dir.mkdirs();
+		List<ProductThumb> files=new ArrayList();
+		//썸네일 이미지 저장하기
+		for(MultipartFile f : thumbImgs) {
+			System.out.println("컨트롤러엣 2" + f);
+			if(!f.isEmpty()) {
+				//본래 파일이름 가져오기
+				String originalName=f.getOriginalFilename();
+				//확장자 분리
+				String ext=originalName.substring(originalName.lastIndexOf(".")+1);
+				//리네임양식정하기
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+				int rndValue=(int)(Math.random()*1000);
+				String reName="thm"+sdf.format(System.currentTimeMillis())+"_"+rndValue+"."+ext;
+				try {
+					f.transferTo(new File(path+"/"+reName));
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
+				ProductThumb thm =  ProductThumb.builder().originalFileName(originalName)
+						.renamedFileName(reName).build();
+				System.out.println("컨트롤러에서3"+thm);
+				files.add(thm);
+			}
+		}
+		//상세 이미지 저장하기
+		for(MultipartFile ff:detailImg) {
+			System.out.println("여기까지 오니?");
+			String originalName=ff.getOriginalFilename();
+			//확장자 분리
+			String ext=originalName.substring(originalName.lastIndexOf(".")+1);
+			//리네임양식정하기
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+			int rndValue=(int)(Math.random()*1000);
+			String reName="det"+sdf.format(System.currentTimeMillis())+"_"+rndValue+"."+ext;
+			try {
+				ff.transferTo(new File(path+"/"+reName));
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+			p.setPdtDetailImage(reName);
+		}
+		
+		int result=service.updateProduct(p,o,optionMap,files);
+		String msg="";
+		String icon = "";
+		if(result>0) {
+			msg="제품 수정이 완료되었습니다.";
+			icon = "success";
+		}else {
+			msg="제품 수정에 실패하였습니다.";
+			icon = "error";
+		}
+		m.addObject("msg", msg);
+		m.addObject("loc","/admin/moveProduct");
+		m.addObject("icon", icon);
+		m.setViewName("common/msg");
+		return m;
+	}
 	
 	//by수경-제품 삭제
 	@RequestMapping("admin/deleteProduct")
