@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<!--줄바꿈 -->
+<% pageContext.setAttribute("newLine", "\n"); %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 
 	 <div id="accordion">
@@ -19,15 +21,17 @@
 			    </div>
 			    
 			    <!-- body부분 -->
+			    
 			    <div id="collapse${vs.index}" class="collapse" data-parent="#accordion">
 			      <div class="card-body">
-			        <c:out value="${f.faqContent }"/> 
-			       	<c:if test="${loginMember.memManagerYn=='Y' }">
-					<div class="btn-box">
-						<input type="hidden" value="${f.faqNo }" name="faqNo"/>
-						<button class="btn btn-outline-success" onclick="fn_updateFaq();">수정</button>&nbsp;&nbsp;
-						<button class="btn btn-outline-secondary" onclick="fn_deleteFaq();">삭제</button>
-					</div> 
+			      	<!-- 줄바꿈 표현 -->
+			        <div >${fn:replace(f.faqContent, newLine, "<br/>")}</div>
+			        <c:if test="${loginMember.memManagerYn=='Y' }">
+						<div class="btn-box">
+							<input type="hidden" value="${f.faqNo }" name="faqNo"/>
+							<button class="btn btn-outline-success" onclick="fn_updateFaq();">수정</button>&nbsp;&nbsp;
+							<button class="btn btn-outline-secondary" onclick="fn_deleteFaq();">삭제</button>
+						</div> 
 					</c:if>
 			      </div>
 			    </div>

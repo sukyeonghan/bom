@@ -71,7 +71,7 @@
 				<br>
 				<input type="text" class="form-control" name="faqTitle" placeholder="제목을 입력해주세요" value='<c:out value="${faq.faqTitle }"/>' required>
 				<br>
-				<textarea class="form-control" rows="10" name="faqContent" placeholder="내용을 입력해주세요" onKeyUp="javascript:fnChkByte(this,'1000')" required><c:out value="${faq.faqContent }"/></textarea>
+				<textarea class="form-control" rows="10" name="faqContent" id="faqContent" placeholder="내용을 입력해주세요" onKeyUp="javascript:fnChkByte(this,'1000')" required><c:out value="${faq.faqContent }"/></textarea>
 				<div style="float:right;">
 					<span id="byteInfo">0</span>/1000bytes
 				</div>
@@ -94,19 +94,20 @@
 	</div>
 </section>
 <script>
-	
+
 	function fn_check(){
+		//개행 태그로 바꾸기
+		var str = $("faqContent").value;
+		str = str.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+		alert(str);
+		$("#faqContent").value = str;
+		
 		let title=$("input[name=faqTitle]").val();
-		let titleCk=/^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]+$/;
 		let content=$("input[name=faqContent]").val();
 		let count=0;
 		let one="";
 		if(faqFrm.faqCategory.value==" ") {
 			swal("카테고리를 선택해주세요.");
-			return false;
-		}
-		if(!titleCk.test(title)){
-			alert("제목은 30자 이내로 영문,한글,숫자만 가능합니다.");
 			return false;
 		}
 		if(title.length>30){
