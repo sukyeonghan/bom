@@ -128,15 +128,13 @@
 		        
 		        <!-- Modal body -->
 		        <div class="modal-body" >
-	    	   		<form name="updateZzimFrm">
-		    	   		<div style="display:flex;">
-			         		<input type="hidden" name="zzimNo" value="${zzimNo}">
-			         		<input type="text" class="form-control" name="updateZzimName" placeholder="${zzimName }" required>
-			         		&nbsp;&nbsp;
-			         		<input type="submit" class="btn btn-success" id="updateZzimNameBtn" value="확인" onclick="return fn_updateZzimName();">
-				        </div>
-			        </form>
-		        </div>
+		    	   	<div style="display:flex;">
+		         		<input type="hidden" name="zzimNo" value="${zzimNo}">
+		         		<input type="text" class="form-control" name="updateZzimName" id="updateZzimName"  placeholder="${zzimName }" required>
+		         		&nbsp;&nbsp;
+		         		<input type="button" class="btn btn-success" id="updateZzimNameBtn" value="확인" onclick="fn_updateZzimName();">
+				    </div>
+			    </div>
 		       
 		        
 		      </div>
@@ -167,7 +165,13 @@
 	</div>
 </section>
 <script>
-	
+//모달열릴때 포커싱 주기
+$("#updateZzimModal").on("shown.bs.modal", function () { $("input[name=updateZzimName]").focus(); });
+
+//인풋에서 엔터시 폴더생성함수 실행
+$("#updateZzimName").keyup(function(e){
+	if(e.keyCode == 13){fn_updateZzimName(); }
+});	
 //폴더이름 유효성검사
 function fn_updateZzimName(){
    	var zzimName=$("input[name=updateZzimName]").val();
@@ -186,15 +190,18 @@ function fn_updateZzimName(){
 		success:data=>{
 			if(data === true){	
 				alert("폴더이름이 변경되었습니다.");
+				$("#updateZzimModal").modal("hide");//모달닫기
 				$("#zzimTitle>span:nth-of-type(2)").html("");
 				$("#zzimTitle>span:nth-of-type(2)").text(zzimName);
+				$("input[name=updateZzimName]").val("");//모달에 인풋 창 비우기
+				$("input[name=updateZzimName]").attr("placeholder",zzimName);
 			}else{
 				alert("폴더이름변경실패");
 			}
 		},error:function(request,status,error){
 			alert("폴더이름변경실패");
 		}
-	});
+	}); 
 }
 //폴더삭제
 function fn_deleteFolder(){

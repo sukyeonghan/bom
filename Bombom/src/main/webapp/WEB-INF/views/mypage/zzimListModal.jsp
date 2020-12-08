@@ -74,6 +74,7 @@
 	</form>
 </ul>
 <script>
+
 //폴더생성 할시 실행할 함수
 function fn_addFolder(){
 	var zzimName=$("input[name=addZzimName]").val();
@@ -109,6 +110,7 @@ function fn_addFolder(){
 }
 
 $(function(){
+	
 	//엔터시 폴더생성함수 실행
 	$("#addZzimName").keyup(function(e){
 		if(e.keyCode == 13){fn_addFolder(); }

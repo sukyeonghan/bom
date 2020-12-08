@@ -120,7 +120,7 @@
 				
 				<c:forEach items="${zzimList}" var="zzim">
 					<!--각 찜 폴더 -->
-					<div class="zzimFolder">
+					<div class="zzimFolder folder">
 						<div class="checkFilter"></div>
 						<input type="checkbox" class="delZzimCkbox" name="delZzimNo" value="${zzim.zzimNo }">
 						<a href="${path }/zzim/selectZzimContent?zzimNo=${zzim.zzimNo }">
@@ -155,16 +155,13 @@
 		        
 		        <!-- Modal body -->
 		        <div class="modal-body" >
-	    	   		<form name="zzimFolderFrm">
 	    	   		<div style="display:flex;">
 			         		<input type="hidden" name="memNo" value="${loginMember.memNo }">
-			         		<input type="text" class="form-control" name="zzimName" size="10" placeholder="폴더이름을 지정해주세요. (10자 이내 한글 ,영어,숫자만 가능)" required>
+			         		<input type="text" class="form-control" name="zzimName" id="zzimName" size="10" placeholder="폴더이름을 지정해주세요. (10자 이내 한글 ,영어,숫자만 가능)" required>
 			         		&nbsp;&nbsp;
-			         		<input type="submit" class="btn btn-success" id="addFolderBtn" value="만들기" onclick="return fn_addFolder();">
+			         		<input type="button" class="btn btn-success" id="addFolderBtn" value="만들기" onclick="return fn_addFolder();">
 			        </div>
-			        </form>
 		        </div>
-		       
 		        
 		      </div>
 		    </div>
@@ -180,6 +177,11 @@
 		var height=$(".zzimFolder").width();
 		$(".zzimFolder").css("height",height);
     });
+	
+	//인풋에서 엔터시 폴더생성함수 실행
+	$("#zzimName").keyup(function(e){
+		if(e.keyCode == 13){fn_addFolder(); }
+	});
 
 	//폴더 추가 함수
 	function fn_addFolder(){
@@ -202,8 +204,10 @@
 			type:"get",
 			dataType:"html",
 			success:data=>{
-				//새로운 찜폴더, 폴더 리스트 맨앞에 추가하기
-				$(".zzimFolder").first().before(data);
+				//새로운 찜폴더,폴더 추가 칸 다음 추가
+				$(".addZzimFolder").after(data); //
+				$("#zzimFolderModal").modal("hide");//모달닫기
+				$("input[name=zzimName]").val("");//모달에 인풋 창 비우기
 			},error:function(error){
 				alert("폴더가 생성되지 못했습니다. 반복될경우 관리자에게 문의해주세요.");
 			}
@@ -288,7 +292,7 @@ $(function(){
 		swal({
 			  title: "선택한 폴더를 삭제하시겠습니까?",
 			  icon: "warning",
-			  buttons: true,
+			  buttons: ["아니오", "네"],
 			  dangerMode: true,
 		})
 		.then((willDelete) => {
