@@ -31,6 +31,11 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	public List<Event> selectEventSort(String sort) {
+		return dao.selectEventSort(session, sort);
+	}
+
+	@Override
 	public Event selectEvent(String eventNo) {
 		return dao.selectEvent(session, eventNo);
 	}

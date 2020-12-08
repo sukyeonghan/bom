@@ -141,7 +141,7 @@
                                 <li><a class="" href="#">주문관리</a></li>
                                 <li><a class="" href="${path }/admin/qnaList">1:1문의 관리</a></li>
                                 <li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
-                                <li><a class="" href="${path }/#">메인배너관리</a></li>
+                                <li><a class="" href="${path }/admin/moveMainBanners">메인관리</a></li>
                               
                             </ul>
                         </li>

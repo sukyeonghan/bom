@@ -22,6 +22,11 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
+	public List<Event> selectEventSort(SqlSession session, String sort) {
+		return session.selectList("admin.selectEventSort", sort);
+	}
+
+	@Override
 	public int eventDelete(SqlSession session, String eventNo) {
 		return session.delete("admin.eventDelete", eventNo);
 	}

@@ -65,6 +65,11 @@
 		SELECT * FROM EVENT 
 	</select>
 	
+	<!-- 이벤트 목록 정렬하기 -->
+	<select id="selectEventSort" parameterType="string" resultMap="eventMap">
+		SELECT * FROM EVENT WHERE EVENT_CATEGORY = #{sort}	
+	</select>
+	<!-- 이벤트 번호 가져오기 -->
 	<select id="selectEventOne" parameterType="string" resultMap="eventMap">
 		SELECT * FROM EVENT WHERE EVENT_NO = #{eventNo}
 	</select>
