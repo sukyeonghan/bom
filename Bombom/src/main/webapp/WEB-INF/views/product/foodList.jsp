@@ -194,17 +194,34 @@
 				                        <a class="title-link" href=""><c:out value="${p.pdtName }"/></a>
 				                    </p>
 				                    <div class="item-price">
-				                        <p class="ori-price"><c:out value="${p.pdtPrice }"/>원</p>				
-				                        <!-- 세일하면  위에도 sale class 추가-->	
-				                        <!-- <p class="sale-price">7,200원</p> -->
+				                        <div class="item-price">
+				                    	<c:choose>
+				                    		<c:when test="${not empty p.eventNoRef } and ${p.salePer!=0 }">
+				                    			<p class="ori-price sale"><c:out value="${p.pdtPrice }"/>원</p>
+				                    			<p class="sale-price"><c:out value="${p.pdtPrice(1-p.salePer) }"/>원</p>
+				                    		</c:when>
+				                    		<c:otherwise>
+				                    			<p class="ori-price"><c:out value="${p.pdtPrice }"/>원</p>
+				                    		</c:otherwise>
+				                        </c:choose>			
+				                    	</div>
 				                    </div>
 				                    <div class="item-icon">
 				                    	<!-- 등록한 날짜로 부터 7일 -->
-				                       <!--  <div class="new-icon">NEW</div> -->
-				                        <!-- 세일하면 -->
-				                       <!--  <div class="sale-icon">SALE</div> -->
+				                    	<c:forEach var="n" items="${newList }">
+				                    		<c:if test="${n.pdtNo==p.pdtNo }">
+				                    			<div class="new-icon">NEW</div>
+				                    		</c:if>
+				                    	</c:forEach>
+				                        <!-- 세일하면 (이벤트 )-->
+				                        <c:if test="${not empty p.eventNoRef } and ${p.salePer!=0 }">
+				                        	<div class="sale-icon">SALE</div> 
+				                        </c:if>
 				                        <!-- 판매상태가 N으로 바뀌면 -->	
-				                      <!--   <div class="soldout-icon">SOLDOUT</div>	 -->			
+				                        <c:if test="${p.pdtStatus=='N'}">
+				                        	  <div class="soldout-icon">SOLDOUT</div>
+				                        </c:if>
+				                      			
 				                    </div>
 				                    
 				                </div>

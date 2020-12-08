@@ -33,8 +33,10 @@ public class ProductController {
 	public ModelAndView allProduct(ModelAndView m) { 
 		List<Product> list=service.selectProductList();
 		int count=service.productAllCount();
+		List<Product> newList=service.selectNewList();
 		m.addObject("list",list);
 		m.addObject("count",count);
+		m.addObject("newList",newList);
 		m.setViewName("product/allList");
 		return m;
 	}
@@ -44,8 +46,10 @@ public class ProductController {
 		String cate="식품";
 		List<Product> list=service.cateProductList(cate);
 		int count=service.productCateCount(cate);
+		List<Product> newList=service.selectNewCateList(cate);
 		m.addObject("list",list);
 		m.addObject("count",count);
+		m.addObject("newList",newList);
 		m.setViewName("product/foodList");
 		return m;
 	}
@@ -55,8 +59,10 @@ public class ProductController {
 		String cate="잡화";
 		List<Product> list=service.cateProductList(cate);
 		int count=service.productCateCount(cate);
+		List<Product> newList=service.selectNewCateList(cate);
 		m.addObject("list",list);
 		m.addObject("count",count);
+		m.addObject("newList",newList);
 		m.setViewName("product/stuffList");
 		return m;
 	}
@@ -66,6 +72,8 @@ public class ProductController {
 		String cate="주방";
 		List<Product> list=service.cateProductList(cate);
 		int count=service.productCateCount(cate);
+		List<Product> newList=service.selectNewCateList(cate);
+		m.addObject("newList",newList);
 		m.addObject("list",list);
 		m.addObject("count",count);
 		m.setViewName("product/kitchenList");
@@ -78,6 +86,8 @@ public class ProductController {
 		String cate="욕실";
 		List<Product> list=service.cateProductList(cate);
 		int count=service.productCateCount(cate);
+		List<Product> newList=service.selectNewCateList(cate);
+		m.addObject("newList",newList);
 		m.addObject("list",list);
 		m.addObject("count",count);
 		m.setViewName("product/bathroomList");
@@ -89,6 +99,8 @@ public class ProductController {
 		String cate="여성용품";
 		List<Product> list=service.cateProductList(cate);
 		int count=service.productCateCount(cate);
+		List<Product> newList=service.selectNewCateList(cate);
+		m.addObject("newList",newList);
 		m.addObject("list",list);
 		m.addObject("count",count);
 		m.setViewName("product/womanList");
@@ -100,6 +112,8 @@ public class ProductController {
 		String cate="반려동물";
 		List<Product> list=service.cateProductList(cate);
 		int count=service.productCateCount(cate);
+		List<Product> newList=service.selectNewCateList(cate);
+		m.addObject("newList",newList);
 		m.addObject("list",list);
 		m.addObject("count",count);
 		m.setViewName("product/petList");
@@ -108,12 +122,11 @@ public class ProductController {
 	//할인제품 페이지
 	@RequestMapping("/product/sale") 
 	public ModelAndView saleProduct(ModelAndView m) {
-		//일단 보류
-		//String cate="할인상품";
-		//List<Product> list=service.cateProductList(cate);
-		//int count=service.productCateCount(cate);
-		//m.addObject("list",list);
-		//m.addObject("count",count);
+		//전체 리스트 보내서 화면단에서 처리하기
+		List<Product> list=service.selectProductList();
+		int count=service.productAllCount();
+		m.addObject("list",list);
+		m.addObject("count",count);
 		m.setViewName("product/saleList");
 		return m;
 	}
