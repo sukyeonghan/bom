@@ -32,11 +32,10 @@
 	
 	/*제품 등록 테이블*/
 	#insert-table{
-		width:100%;
+		width:90%;
 		margin:20px 0;
-		padding:5px;
 	}
-	tr,th,td{
+	tr,th{
 		padding:10px;
 	}
 	
@@ -178,9 +177,9 @@
 					</tr>
 					<tr>
 						<th>제품명</th>
-						<td><input type="text" name="pdtName" value="${product.pdtName }" required></td>
+						<td><input type="text" id="name" name="pdtName" value="${product.pdtName }" size="30"  required></td>
 						<th>제품기본가격</th>
-						<td><input type="text" name="pdtPrice" value="${product.pdtPrice }" required></td>
+						<td><input type="text" id="price" name="pdtPrice" value="${product.pdtPrice }" size="30" required></td>
 					</tr>
 					<tr>
 						<th>이벤트</th>
@@ -191,6 +190,7 @@
 									<c:choose>
 										<c:when test="${not empty eventList && not empty event.eventNo}">
 										<!-- 이벤트 목록도 있고 이전에 선택한 이벤트가 있는 경우 -->
+											<option value="" selected>이벤트 선택</option>
 											<c:forEach var="e" items="${eventList}">
 												<option value="${e.eventNo }" ${e.eventNo==product.eventNoRef?"selected":"" } >
 													<c:out value='${e.eventNo }/${e.eventTitle }'/> 
@@ -240,7 +240,7 @@
 				<!-- 제품 설명 -->
 				<div id="middle-div">
 					<p class="title" id="product-intro">간단한 제품 설명</p>
-					<textarea id="intro-text" rows="5" cols="100" placeholder="50자 이내로 적어주세요" name="pdtIntro" required><c:out value="${product.pdtIntro }"/>
+					<textarea id="intro-text" rows="5" cols="100" placeholder="65자 이내로 적어주세요" name="pdtIntro" required><c:out value="${product.pdtIntro }"/>
 					</textarea>
 				</div>
 				
@@ -397,7 +397,47 @@
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 <script>
+	//제품명 유효성 검사
+	$("#name").focusout(function() {
+		
+		var name=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9%()-_, ]*$/;
+		if(!name.test($("#name").val())){
+	   		swal("제품명에 특수문자는 입력하실 수 없습니다.");
+	   		$("#name").val('');
+	   		return false;
+	   	} 
+	});
 	
+	//가격 유효성 검사
+	$("#price").focusout(function() {
+		
+		var price=/^[0-9]*$/;
+		if(!price.test($("#price").val())){
+	   		swal("제품가격에 숫자 외에는 입력하실 수 없습니다.");
+	   		$("#price").val('');
+	   		return false;
+	   	} 
+	});
+	//옵션내용 유효성 검사
+	$("input[name=pdtOptionContent]").focusout(function() {
+		
+		var name=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9%()-_, ]*$/;
+		if(!name.test($("input[name=pdtOptionContent]").val())){
+	   		swal("옵션명에 특수문자는 입력하실 수 없습니다.");
+	   		$("#name").val('');
+	   		return false;
+	   	} 
+	});
+	//옵션가격 유효성 검사
+	$("input[name=pdtOptionAddprice]").focusout(function() {
+		
+		var price=/^[-0-9]*$/;
+		if(!price.test($("input[name=pdtOptionAddprice]").val())){
+	   		swal("옵션 가격에 숫자 외에는 입력하실 수 없습니다.");
+	   		$("#price").val('');
+	   		return false;
+	   	} 
+	});
 	//상세이미지 파일명 바꾸기
 	$(function(){
     		$('[name=detailImg]').on("change",function(){
@@ -414,6 +454,28 @@
 	
 	//제품 수정
 	function updatePro(){
+		//유효성검사-카테고리 및 판매상태
+        if($("#category").val()==null){
+        	swal("제품카테고리를 선택해주세요.");
+        	return false;
+        }
+        if($("#status").val()==null){
+        	swal("판매 상태를 선택해주세요.");
+        	return false;
+        }
+        //파일 검사 안됨
+        if($("input[name=thumbImgs]").val()==null){
+        	alert("등록!");
+        	swal("썸네일 사진을 하나 이상 등록해주세요.");
+        	return false;
+        }
+        var s = document.getElementsById("tests");
+        if(s.value==null){
+        	alert("등록");
+        	swal("제품 상세 사진을 등록해주세요.");
+        	return false;
+        }
+        
 		if(confirm("정말 수정하시겠습니까?")==true){
 			//옵션 값 넣기
 			var list=[];
@@ -441,9 +503,9 @@
 	//간단한 설명 - 글자 수 제한
 	$(document).ready(function(){
 		$("#intro-text").on('keyup',function(){
-			if($(this).val().length>50){
-				$(this).val($(this).val().substring(0,50));
-				swal("50자를 초과하였습니다.");
+			if($(this).val().length>65){
+				$(this).val($(this).val().substring(0,65));
+				swal("65자를 초과하였습니다.");
 			}
 		});
 	});

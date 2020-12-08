@@ -291,7 +291,7 @@
 				</div>
 				
 				<div id="bottom-btns">
-					<input type="button" class="btn btn-success insertPro" value="등록하기" onclick="return insertOption()">
+					<input type="submit" class="btn btn-success insertPro" value="등록하기" onclick="return insertOption()">
 					<input type="button" class="btn btn-success goList" onclick="location.href='${path}/admin/moveProduct'" value="목록">
 				</div>
 				
@@ -304,12 +304,12 @@
 
 <script>
 
-	//제품명 유효성 검사-숫자가 입력이 왜 될까?
+	//제품명 유효성 검사
 	$("#name").focusout(function() {
 		
-		var name=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z%()-_, ]*$/;
+		var name=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9%()-_, ]*$/;
 		if(!name.test($("#name").val())){
-	   		swal("제품명에 숫자 및 특수문자는 입력하실 수 없습니다.");
+	   		swal("제품명에 특수문자는 입력하실 수 없습니다.");
 	   		$("#name").val('');
 	   		return false;
 	   	} 
@@ -325,6 +325,26 @@
 	   		return false;
 	   	} 
 	});
+	//옵션내용 유효성 검사
+	$("input[name=pdtOptionContent]").focusout(function() {
+		
+		var name=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9%()-_, ]*$/;
+		if(!name.test($("input[name=pdtOptionContent]").val())){
+	   		swal("옵션명에 특수문자는 입력하실 수 없습니다.");
+	   		$("#name").val('');
+	   		return false;
+	   	} 
+	});
+	//옵션가격 유효성 검사
+	$("input[name=pdtOptionAddprice]").focusout(function() {
+		
+		var price=/^[-0-9]*$/;
+		if(!price.test($("input[name=pdtOptionAddprice]").val())){
+	   		swal("옵션 가격에 숫자 외에는 입력하실 수 없습니다.");
+	   		$("#price").val('');
+	   		return false;
+	   	} 
+	});
 	
 	//간단한 설명 - 글자 수 제한
 	$(document).ready(function(){
@@ -335,6 +355,7 @@
 			}
 		});
 	});
+	
 	//옵션 추가하기 
 	$("#add-option").click(function(){
 		
@@ -359,7 +380,7 @@
 	
 	//옵션 등록하기
 	function insertOption(){
-		alert("ehls?");
+	
 		var list=[];
         var items = document.getElementsByName("pdtOptionContent");
         
@@ -390,7 +411,7 @@
         	swal("제품 상세 사진을 등록해주세요.");
         	return false;
         }
-        return false;
+       
 	};
 	
 	//이미지 업로드 
