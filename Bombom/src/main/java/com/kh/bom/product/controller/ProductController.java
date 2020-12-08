@@ -27,8 +27,6 @@ public class ProductController {
 
 	@Autowired
 	private ProductService service;
-	@Autowired
-	private AdminService adminService;
 	
 	//전체제품 페이지
 	@RequestMapping("/product/productAll") 

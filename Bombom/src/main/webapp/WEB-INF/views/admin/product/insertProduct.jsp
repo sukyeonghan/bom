@@ -32,11 +32,11 @@
 	
 	/*제품 등록 테이블*/
 	#insert-table{
-		width:100%;
+		width:90%;
 		margin:20px 0;
-		padding:5px;
+	
 	}
-	tr,th,td{
+	tr,th{
 		padding:10px;
 	}
 	
@@ -173,9 +173,9 @@
 					</tr>
 					<tr>
 						<th>제품명</th>
-						<td><input type="text" name="pdtName" required></td>
+						<td><input type="text" name="pdtName" size="30" required></td>
 						<th>제품기본가격</th>
-						<td><input type="text" name="pdtPrice" required></td>
+						<td><input type="text" name="pdtPrice" size="30" required></td>
 					</tr>
 					<tr>
 						<th>이벤트</th>
