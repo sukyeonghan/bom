@@ -17,14 +17,14 @@
 
 	/*최소 컨텐츠 크기*/
 	.media{min-width: 768px;} 
-	.right{text-align: right;}
+	.right{text-align: right;}/*오른쪽 정렬*/
 	
 	/*찜폴더리스트*/
-	#zzimListDiv{display: flex; width:100%;/*  border: 1px red solid;  */}
+	#zzimListDiv{display: flex; width:100%; box-sizing:border-box; flex-wrap: wrap; flex-direction: row;}
 	#zzimListDiv>*{box-sizing:border-box; cursor: pointer;}
 	#zzimListDiv>div:hover{ background-color: #C0C0C0;}
 	/*찜폴더*/
-	.zzimFolder{ position: relative; width:27%; background-color: #DCDCDC; margin:3%; }
+	.zzimFolder{ position: relative; width:28%; background-color: #DCDCDC; margin: 2% 0% 2% 5%; min-width: 200px;}
 	.addZzimFolder{border: 3px green dashed; background-color:#FFFFFF;}
 	/*폴더배경*/
 	.zzimImgDiv{
@@ -42,7 +42,7 @@
 	    text-align: center;font-size: 1.3em; font-weight: bolder;
 	    width: 100%;
 	}
-	/*추가버튼*/
+	/*폴더추가버튼*/
 	.add{
 		padding: 0; 
 		background-color:#45A663; 
@@ -51,7 +51,18 @@
     	width: 40px;height: 40px;
 	}
 	.add>p{line-height: 40px;color:white; font-size: 40px; font-weight: bolder; padding:2px;}
+	/*각 폴더 이름 효과*/
 	a:hover{color:#ffffff;}
+	/*지울 폴더 선택*/
+	.delZzimCkbox{position: absolute;right:5%;top:5%; font-size: 20px; height:10%; width:10%;z-index: 90; display:none;}
+	/*체크박스 선택시 가리기 효과*/
+	.checkFilter{position:absolute; width:100%;height:100%; z-index: 80; background-color: #ffffff; opacity:0.5; display:none; z-index: 30; }
+	/*편집버튼*/
+	#delBoxOpen{font-weight:bolder;color: #45A663;cursor: pointer; }
+	/*편집시 나올 메뉴들*/
+	#delBox{display:none;}
+	#delBox>*{margin-left: 20px;cursor:pointer; font-weight:bolder; color:#45A663;}
+	#cancel{color:black;}
 </style>
 <section id="container" class="container">
 	<div class="media">
@@ -87,8 +98,19 @@
 		
 		<!--좌측메뉴선택시 화면 -->
 		<div id="mypage-container" class="media-body">
-			<h3>찜목록</h3> 
-			<div id="zzimListDiv" class="row">
+			<div><h3>찜목록</h3></div> 
+			<!-- 편집메뉴모음 -->
+			<div id="delBoxOpen" class="right"><span><i class="far fa-trash-alt"></i> 폴더삭제</span></div>
+			<div id="delBox" class="right">
+				<span id="allChoice">전체선택</span>
+				<span id="remove">선택삭제</span>
+				<span id="cancel">취소</span>
+			</div>
+			<!-- 삭제할 폴더 선택폼 -->
+			<form name="zzimDelFrm">
+			<!-- 전체 폴더 리스트 -->
+			<div id="zzimListDiv">
+				<!-- 폴더추가상자 -->
 				<div class="zzimFolder addZzimFolder" data-toggle="modal" data-target="#zzimFolderModal">
 					<div class="zzimInfo">
 						<p>폴더추가</p>
@@ -97,8 +119,11 @@
 				</div>
 				
 				<c:forEach items="${zzimList}" var="zzim">
-					<div class="zzimFolder">
-						<a href="${path }/zzim/selectZzimContent?zzimNo=${zzim.zzimNo }&zzimName=${zzim.zzimName}">
+					<!--각 찜 폴더 -->
+					<div class="zzimFolder folder">
+						<div class="checkFilter"></div>
+						<input type="checkbox" class="delZzimCkbox" name="delZzimNo" value="${zzim.zzimNo }">
+						<a href="${path }/zzim/selectZzimContent?zzimNo=${zzim.zzimNo }">
 							<div class="zzimImgDiv">
  								<c:if test="${zzim.zzimFolderImg != null}">
 								<img src="${path }/resources/upload/product/${zzim.zzimFolderImg };" width="100%">
@@ -111,14 +136,13 @@
 						</a>
 					</div>
 				</c:forEach>
-			
+				
 			</div>
 		
-		
+		</form>
 		</div>
 		
-		
-		  <!-- The Modal -->
+		  <!--폴더생성  Modal -->
 		  <div class="modal fade" id="zzimFolderModal">
 		    <div class="modal-dialog modal-dialog-centered">
 		      <div class="modal-content">
@@ -131,16 +155,13 @@
 		        
 		        <!-- Modal body -->
 		        <div class="modal-body" >
-	    	   		<form name="zzimFolderFrm">
 	    	   		<div style="display:flex;">
 			         		<input type="hidden" name="memNo" value="${loginMember.memNo }">
-			         		<input type="text" class="form-control" name="zzimName" size="10" placeholder="폴더이름을 선택해주세요. (10자 이내 한글 ,영어,숫자만 가능)" required>
+			         		<input type="text" class="form-control" name="zzimName" id="zzimName" size="10" placeholder="폴더이름을 지정해주세요. (10자 이내 한글 ,영어,숫자만 가능)" required>
 			         		&nbsp;&nbsp;
-			         		<input type="submit" class="btn btn-success" id="addFolderBtn" value="만들기" onclick="return fn_addFoler();">
+			         		<input type="button" class="btn btn-success" id="addFolderBtn" value="만들기" onclick="return fn_addFolder();">
 			        </div>
-			        </form>
 		        </div>
-		       
 		        
 		      </div>
 		    </div>
@@ -149,7 +170,7 @@
 	</div>
 </section>
 <script>
-
+	//비율대로 줄어드는 폭에 높이 맞추기. 정사각형
 	var height=$(".zzimFolder").width();
 	$(".zzimFolder").css("height",height);
 	$( window ).resize( function() {
@@ -157,8 +178,14 @@
 		$(".zzimFolder").css("height",height);
     });
 	
-	function fn_addFoler(){
-		
+	//인풋에서 엔터시 폴더생성함수 실행
+	$("#zzimName").keyup(function(e){
+		if(e.keyCode == 13){fn_addFolder(); }
+	});
+
+	//폴더 추가 함수
+	function fn_addFolder(){
+		//폴더이름 유효성검사
 		var zzimName=$("input[name=zzimName]").val();
 		var nameCheck = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]+$/;
 		if(zzimName.length<1 || zzimName.length>10){
@@ -174,16 +201,111 @@
 		$.ajax({
 			url:"${path }/zzim/insertZzim",
 			data:{memNo:"${loginMember.memNo}",zzimName:zzimName},
-			type:"post",
-			datatype:"html",
+			type:"get",
+			dataType:"html",
 			success:data=>{
-				console.log(data);
-				$('#zzimFolderModal').modal('hide');
-				$(".zzimFolder").first().prev(data);
+				//새로운 찜폴더,폴더 추가 칸 다음 추가
+				$(".addZzimFolder").after(data); //
+				$("#zzimFolderModal").modal("hide");//모달닫기
+				$("input[name=zzimName]").val("");//모달에 인풋 창 비우기
+			},error:function(error){
+				alert("폴더가 생성되지 못했습니다. 반복될경우 관리자에게 문의해주세요.");
 			}
+			
 		});
 		
 	}
+	
+$(function(){
+	//모달창에 포커싱주기
+	$("#zzimFolderModal").on("shown.bs.modal", function () { $("input[name=zzimName]").focus(); });
+	
+	//폴더삭제 선택시.
+	$("#delBoxOpen>span").on("click",e=>{
+		$(e.target).parent().hide();
+		//폴더삭제 메뉴 나나타기
+		$("#delBox").css("display","block");
+		//삭제용체크박스
+		$(".delZzimCkbox").css("display","block");
+		
+		$(".zzimImgDiv *,.zzimImgDiv").click(e=>{
+			let del=$("#delBox").css("display");
+			if(del=="block"){
+				$(e.target).parents(".zzimFolder").find("a").attr("onclick","return false");
+				$(e.target).parents(".zzimFolder").find(".checkFilter").css("display","block");
+				$(e.target).parents(".zzimFolder").find(".delZzimCkbox").prop("checked",true);
+			}else{
+				$(e.target).parents(".zzimFolder").find(".checkFilter").css("display","none");
+			}
+   	   	});
+		//필터 클릭시 체크박스 체크해제, 필터박스 가리기
+		$(".checkFilter").click(e=>{
+   	   		$(e.target).next().prop("checked",false);
+   	   		$(e.target).css("display","none");
+   	   	}); 
+		
+		//편집 상태 취소시 편집시 뜨느 체크박스,필터, a태그 경로 살리기...
+		$("#cancel").click(e=>{
+			$(e.target).parents("#delBox").css("display","none");
+			$(".checkFilter").css("display","none");
+	   		$("a").attr("onclick","return true");
+			$(".delZzimCkbox").prop("checked",false);
+	   		$(".delZzimCkbox").css("display","none");
+			$("#delBoxOpen").css("display","block");
+		});
+
+	});
+	//체크박스만 클릭해도  필터박스 해제하기
+    $(".delZzimCkbox").click(e=>{
+		let tf=$(e.target).prop("checked");
+		 if(tf){
+			$(e.target).prev().show();
+		}else{
+			$(e.target).prev().hide();
+		}  
+	}); 
+   	//전체선택.해제
+   	$("#allChoice").click(e=>{
+   		let text=$("#allChoice").text();
+   		if(text=="전체선택"){
+   			$(".delZzimCkbox").prop("checked",true);
+   	   		$(".checkFilter").css("display","block");
+   	   		$("#allChoice").text("전체선택해제");
+   		}else{
+   			$(".delZzimCkbox").prop("checked",false);
+   	   		$(".checkFilter").css("display","none");
+   	   		$("#allChoice").text("전체선택");
+   		}
+   	});
+	
+   	//선택한 폴더 삭제
+   	$("#remove").click(e=>{
+   		var zzimNoList = [];
+	 	$("input[name=delZzimNo]:checked").each(function(i){  
+	 		zzimNoList.push($(this).val());
+	 	});
+	 	if(zzimNoList.length == 0){
+   			swal("삭제할 폴더를 선택해주세요");
+   			return;
+   		}
+	 	//선택값에 따라 폼 전달여부
+		swal({
+			  title: "선택한 폴더를 삭제하시겠습니까?",
+			  icon: "warning",
+			  buttons: ["아니오", "네"],
+			  dangerMode: true,
+		})
+		.then((willDelete) => {
+		  if (willDelete) {
+			let frm=document.forms.zzimDelFrm;
+		   	frm.action="${path}/zzim/deleteZzim";
+		   	frm.method="post";
+		   	frm.submit();	
+		  } else {return;}
+		});
+		
+   	});
+})
 
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

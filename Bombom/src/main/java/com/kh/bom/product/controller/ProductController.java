@@ -6,30 +6,130 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.common.page.AjaxPageBarFactory;
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.service.ProductService;
+import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.product.model.vo.ProductThumb;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class ProductController {
 
 	@Autowired
 	private ProductService service;
 	
-	
+	//전체제품 페이지
 	@RequestMapping("/product/productAll") 
-	public String allProduct() { 
-		
-		return "product/allList";
+	public ModelAndView allProduct(ModelAndView m) { 
+		List<Product> list=service.selectProductList();
+		int count=service.productAllCount();
+		List<Product> newList=service.selectNewList();
+		m.addObject("list",list);
+		m.addObject("count",count);
+		m.addObject("newList",newList);
+		m.setViewName("product/allList");
+		return m;
+	}
+	//식품 카테고리 페이지
+	@RequestMapping("/product/food") 
+	public ModelAndView foodProduct(ModelAndView m) {
+		String cate="식품";
+		List<Product> list=service.cateProductList(cate);
+		int count=service.productCateCount(cate);
+		List<Product> newList=service.selectNewCateList(cate);
+		m.addObject("list",list);
+		m.addObject("count",count);
+		m.addObject("newList",newList);
+		m.setViewName("product/foodList");
+		return m;
+	}
+	//잡화 카테고리 페이지
+	@RequestMapping("/product/stuff") 
+	public ModelAndView stuffProduct(ModelAndView m) {
+		String cate="잡화";
+		List<Product> list=service.cateProductList(cate);
+		int count=service.productCateCount(cate);
+		List<Product> newList=service.selectNewCateList(cate);
+		m.addObject("list",list);
+		m.addObject("count",count);
+		m.addObject("newList",newList);
+		m.setViewName("product/stuffList");
+		return m;
+	}
+	//주방 카테고리 페이지
+	@RequestMapping("/product/kitchen") 
+	public ModelAndView kitchenProduct(ModelAndView m) {
+		String cate="주방";
+		List<Product> list=service.cateProductList(cate);
+		int count=service.productCateCount(cate);
+		List<Product> newList=service.selectNewCateList(cate);
+		m.addObject("newList",newList);
+		m.addObject("list",list);
+		m.addObject("count",count);
+		m.setViewName("product/kitchenList");
+		return m;
 	}
 	
+	//욕실 카테고리 페이지
+	@RequestMapping("/product/bathroom") 
+	public ModelAndView bathProduct(ModelAndView m) {
+		String cate="욕실";
+		List<Product> list=service.cateProductList(cate);
+		int count=service.productCateCount(cate);
+		List<Product> newList=service.selectNewCateList(cate);
+		m.addObject("newList",newList);
+		m.addObject("list",list);
+		m.addObject("count",count);
+		m.setViewName("product/bathroomList");
+		return m;
+	}
+	//여성용품 카테고리  페이지
+	@RequestMapping("/product/woman") 
+	public ModelAndView womanProduct(ModelAndView m) {
+		String cate="여성용품";
+		List<Product> list=service.cateProductList(cate);
+		int count=service.productCateCount(cate);
+		List<Product> newList=service.selectNewCateList(cate);
+		m.addObject("newList",newList);
+		m.addObject("list",list);
+		m.addObject("count",count);
+		m.setViewName("product/womanList");
+		return m;
+	}
+	//반려동물 카테고리 페이지
+	@RequestMapping("/product/pet") 
+	public ModelAndView petProduct(ModelAndView m) {
+		String cate="반려동물";
+		List<Product> list=service.cateProductList(cate);
+		int count=service.productCateCount(cate);
+		List<Product> newList=service.selectNewCateList(cate);
+		m.addObject("newList",newList);
+		m.addObject("list",list);
+		m.addObject("count",count);
+		m.setViewName("product/petList");
+		return m;
+	}
+	//할인제품 페이지
+	@RequestMapping("/product/sale") 
+	public ModelAndView saleProduct(ModelAndView m) {
+		//전체 리스트 보내서 화면단에서 처리하기
+		List<Product> list=service.selectProductList();
+		int count=service.productAllCount();
+		m.addObject("list",list);
+		m.addObject("count",count);
+		m.setViewName("product/saleList");
+		return m;
+	}
 	//상품문의 카운트 - 상품상세 첫화면
 	@RequestMapping("/product/productOne")
 	public ModelAndView productOne(ModelAndView mv,

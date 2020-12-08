@@ -12,4 +12,7 @@ public interface QnaDao {
 
 	int selectCount(SqlSession session, String memNo);
 
+	int deleteQna(SqlSession session, Qna q);
+
+
 }

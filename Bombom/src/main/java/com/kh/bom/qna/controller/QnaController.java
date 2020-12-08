@@ -68,4 +68,37 @@ public class QnaController {
 		return mv;
 	}
 	
+	//qna 삭제
+	@RequestMapping("mypage/deleteQna")
+	public ModelAndView deleteQna(String qnaNo, ModelAndView mv, HttpSession session) {
+		
+		Member login= (Member) session.getAttribute("loginMember");
+		String memNo=login.getMemNo();
+		Qna q= new Qna();
+		q.setQnaWriter(memNo);
+		q.setQnaNo(qnaNo);
+		System.out.println(memNo);
+		System.out.println(qnaNo);
+		int result=service.deleteQna(q);
+		
+		String msg="";
+		String loc="";
+		String icon="";
+		if(result>0) {
+			msg="문의글을 삭제되었습니다.";
+			loc="/mypage/qna";
+			icon="success";
+		}else {
+			msg="문의글을 다시 삭제해주세요..";
+			loc="/mypage/insertQna";
+			icon="warning";
+		}
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
+		mv.addObject("icon",icon);
+		mv.setViewName("common/msg");
+		
+		return mv;
+		
+	}
 }

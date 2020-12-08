@@ -32,11 +32,11 @@
 	
 	/*제품 등록 테이블*/
 	#insert-table{
-		width:100%;
+		width:90%;
 		margin:20px 0;
-		padding:5px;
+	
 	}
-	tr,th,td{
+	tr,th{
 		padding:10px;
 	}
 	
@@ -148,7 +148,7 @@
 						<td>
 						<!-- 검색 카테고리 -->
 							<div class="select-box">
-								<select class="sort" name="pdtCategory" required>
+								<select class="sort" id="category" name="pdtCategory" required>
 									<option selected disabled hidden>카테고리 선택</option>
 									<option value="식품">식품</option>
 									<option value="잡화">잡화</option>
@@ -163,7 +163,7 @@
 						<td>
 							<!-- 판매상태 카테고리 -->
 							<div class="select-box">
-								<select class="sort" name="pdtStatus" required>
+								<select class="sort" id="status" name="pdtStatus" required>
 									<option selected disabled hidden>판매상태 선택</option>
 									<option value="Y">Y</option>
 									<option value="N">N</option>
@@ -173,20 +173,22 @@
 					</tr>
 					<tr>
 						<th>제품명</th>
-						<td><input type="text" name="pdtName" required></td>
+						<td><input type="text" id="name" name="pdtName" size="30" required></td>
 						<th>제품기본가격</th>
-						<td><input type="text" name="pdtPrice" required></td>
+						<td><input type="text" id="price" name="pdtPrice" size="30" required></td>
 					</tr>
 					<tr>
 						<th>이벤트</th>
 						<td colspan="3">
 						<!-- 이벤트 카테고리 -->
 							<div class="select-box">
-								<select class="sort" name="eventNoRef">
+								<select class="sort" id="eventSelect" name="eventNoRef">
 									<option value="">이벤트 선택</option>
 									<c:if test="${not empty list}">
 										<c:forEach var="e" items="${list}">
-											<option><c:out value="${e.eventNo }"/></option>
+											<option value="${e.eventNo }">
+												<c:out value='${e.eventNo }/${e.eventTitle }'/> 
+											</option>
 										</c:forEach>
 									</c:if>
 								</select>
@@ -194,30 +196,20 @@
 						</td>
 						
 					</tr>
-					<tr>
+					 <tr>
                         <th>추가 옵션</th>
                         <td colspan="3">
                         	<input type="button" class="btn btn-success btn-sm" id="add-option" value="옵션 추가">
                         </td>
                     </tr>
-                    <tr class="trOption" name="trOption">
-                        <th>&nbsp&nbsp옵션 내용</th>
-                        <td><input type="text" name="pdtOptionContent"></td>
-                        <th>추가 요금</th>
-                        <td>
-                        	<input type="text" name="pdtOptionAddprice">
-                        	<button class="btn btn-success btn-sm delBtn" name="delBtn" >삭제</button>
-                        </td>
-                    </tr>
                     
 				</table>
 				<input type="hidden" name="test" id="test_list">
-                <!-- <input type="hidden" name="test2[]" id="test_list2"> -->
 				
 				<!-- 제품 설명 -->
 				<div id="middle-div">
 					<p class="title" id="product-intro">간단한 제품 설명</p>
-					<textarea id="intro-text" rows="5" cols="100" placeholder="50자 이내로 적어주세요" name="pdtIntro" required></textarea>
+					<textarea id="intro-text" rows="5" cols="100" placeholder="65자 이내로 적어주세요" name="pdtIntro"></textarea>
 				</div>
 				
 				<!-- 제품 썸네일,상세 이미지 등록 -->
@@ -294,7 +286,7 @@
 					
 		      		<div id="detail-image">
 			      		<p class="title">제품 상세 이미지(총 1장)</p>
-			      		<input type="file" class="form-control-file border" name="detailImg">
+			      		<input type="file" id="tests" class="form-control-file border" name="detailImg">
 		      		</div>
 				</div>
 				
@@ -311,15 +303,59 @@
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 <script>
+
+	//제품명 유효성 검사
+	$("#name").focusout(function() {
+		
+		var name=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9%()-_, ]*$/;
+		if(!name.test($("#name").val())){
+	   		swal("제품명에 특수문자는 입력하실 수 없습니다.");
+	   		$("#name").val('');
+	   		return false;
+	   	} 
+	});
+	
+	//가격 유효성 검사
+	$("#price").focusout(function() {
+		
+		var price=/^[0-9]*$/;
+		if(!price.test($("#price").val())){
+	   		swal("제품가격에 숫자 외에는 입력하실 수 없습니다.");
+	   		$("#price").val('');
+	   		return false;
+	   	} 
+	});
+	//옵션내용 유효성 검사
+	$("input[name=pdtOptionContent]").focusout(function() {
+		
+		var name=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9%()-_, ]*$/;
+		if(!name.test($("input[name=pdtOptionContent]").val())){
+	   		swal("옵션명에 특수문자는 입력하실 수 없습니다.");
+	   		$("#name").val('');
+	   		return false;
+	   	} 
+	});
+	//옵션가격 유효성 검사
+	$("input[name=pdtOptionAddprice]").focusout(function() {
+		
+		var price=/^[-0-9]*$/;
+		if(!price.test($("input[name=pdtOptionAddprice]").val())){
+	   		swal("옵션 가격에 숫자 외에는 입력하실 수 없습니다.");
+	   		$("#price").val('');
+	   		return false;
+	   	} 
+	});
+	
 	//간단한 설명 - 글자 수 제한
 	$(document).ready(function(){
 		$("#intro-text").on('keyup',function(){
-			if($(this).val().length>50){
-				$(this).val($(this).val().substring(0,50));
-				swal("50자를 초과하였습니다.");
+			if($(this).val().length>65){
+				$(this).val($(this).val().substring(0,65));
+				swal("65자를 초과하였습니다.");
 			}
 		});
 	});
+	
 	//옵션 추가하기 
 	$("#add-option").click(function(){
 		
@@ -342,21 +378,40 @@
 	    trHtml.remove();
 	});
 	
-	//옵션등록하기
+	//옵션 등록하기
 	function insertOption(){
-		
+	
 		var list=[];
-        //리스트 안에 Map으로 하나씩 넣는다
         var items = document.getElementsByName("pdtOptionContent");
         
         for(var i=0; i<items.length; i++){
             list.push({"pdtOptionContent":$("input[name=pdtOptionContent]").eq(i).val(),
             	"pdtOptionAddprice":$("input[name=pdtOptionAddprice]").eq(i).val()});    
         }
-        console.log(list);
         $("#test_list").val(JSON.stringify(list));
-        console.log($("#test_list").val());
 		
+        //유효성검사-카테고리 및 판매상태
+        if($("#category").val()==null){
+        	swal("제품카테고리를 선택해주세요.");
+        	return false;
+        }
+        if($("#status").val()==null){
+        	swal("판매 상태를 선택해주세요.");
+        	return false;
+        }
+        //파일 검사 안됨
+        if($("input[name=thumbImgs]").val()==null){
+        	alert("등록!");
+        	swal("썸네일 사진을 하나 이상 등록해주세요.");
+        	return false;
+        }
+        var s = document.getElementsById("tests");
+        if(s.value==null){
+        	alert("등록");
+        	swal("제품 상세 사진을 등록해주세요.");
+        	return false;
+        }
+       
 	};
 	
 	//이미지 업로드 
@@ -368,8 +423,6 @@
 		   });
 		   //파일 업로드시 이미지 체인지
 		   $("#input1,#input2,#input3,#input4,#input5,#input6").on("change",e =>{ 
-/* 			   console.log(e.target);
-			   console.log($(e.target).prev().attr("src")); */
 			 
 		      let reader=new FileReader();
 		      let img=  $(e.target).prev();

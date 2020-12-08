@@ -26,6 +26,9 @@
 	.item-count{
 		display:flex;
 	}
+	.category{
+		font-weight:bold;
+	}
 	.count{
 		color:#45A663;
 		font-weight:bold;
@@ -39,11 +42,12 @@
 	
 	/*각 상품*/
 	.item-wrap{
-		margin:10px;
+		margin:2% 1%;
+		width:23%;
 	}
 	/*이미지 크기*/
      .item-img{
-        width:250px;
+        width:100%;
         height: 250px;
         margin-bottom:10px;
     }
@@ -51,7 +55,7 @@
     /*상품 설명*/
     .item-intro{
         text-align: center;
-        width:250px;
+        width:100%;
     }
     /*상품명*/
 	.title-link{
@@ -66,14 +70,14 @@
     
     /*가격 및 아이콘*/
 	.sale{
-        color:rgb(170, 170, 170);
-        text-decoration: line-through;
+    	color:rgb(170, 170, 170);
+    	text-decoration: line-through;
 	}
     .item-price,.item-icon{
         display: flex;
         justify-content: center;
         align-items: center;
-       font-size:15px;
+        font-size:15px;
     }
     .item-icon{
     	font-size:13px;
@@ -121,25 +125,23 @@
 		<!-- 상품 내비게이션바 -->
 		<div class="product-nav mr-3" style="min-width: 210px;">
 			<ul>
-        		<li><a class="select" href="${path }/product/productAll">전체상품</a></li>
-	        	<li><a class="non-select" href="#">식품</a></li>
-          	 	<li><a class="non-select" href="#">잡화</a></li>
-            	<li><a class="non-select" href="#">주방</a></li>
-            	<li><a class="non-select" href="#">욕실</a></li>
-            	<li><a class="non-select" href="#">여성용품</a></li>
-            	<li><a class="non-select" href="#">반려동물</a></li>
-            	<li><a class="non-select" href="#">할인상품</a></li>
+        		<li><a class="select" href="${path }/product/productAll">전체제품</a></li>
+	        	<li><a class="non-select" href="${path }/product/food">식품</a></li>
+          	 	<li><a class="non-select" href="${path }/product/stuff">잡화</a></li>
+            	<li><a class="non-select" href="${path }/product/kitchen">주방</a></li>
+            	<li><a class="non-select" href="${path }/product/bathroom">욕실</a></li>
+            	<li><a class="non-select" href="${path }/product/woman">여성용품</a></li>
+            	<li><a class="non-select" href="${path }/product/pet">반려동물</a></li>
+            	<li><a class="non-select" href="${path }/product/sale">할인상품</a></li>
         	</ul>
 		</div>
 		
-		
-		
-		<div class="media-body">
+		<div class="media-body" style="max-width: 80%;">
 			<!-- 카테고리 및 정렬 -->
 			<div class="category-sort">
 				<div class="item-count">
-					<p class="category">전체상품 &nbsp </p>
-					<p class="count">4</p>
+					<p class="category">전체제품 &nbsp </p>
+					<p class="count"><c:out value="${count}"/></p>
 				</div>
 				<div class="select-box">
 					<select class="sort">
@@ -151,122 +153,87 @@
 
 				</div>
 			</div>
-			<%-- <div class="card" style="width:200px">
-  			<img class="card-img-top" src="${path }/resources/images/product/soap1.jpg" alt="Card image" width="200px">
-  			<div class="card-img-overlay">
-		    <h4 class="card-title">John Doe</h4>
-		    <p class="card-text">Some example text.</p>
-		    <a href="#" class="close" aria-label="Close""><span aria-hidden="true">&times;</span></a>
-		    <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		  	</div> --%>
 		  	
 		  	<!-- 상품목록 -->
-		  	<div class="all-item-wrap"  style="display: flex;min-width: 1000px;">
-		  	
-		  		<div class="item-wrap">
-                <div class="" >
-                    <a href="#" class="">
-                        <img alt="" src="${path}/resources/upload/product/soap1.jpg" class="item-img" style="display: inline;"
-                         onmouseout="this.src='${path}/resources/upload/product/soap1.jpg'" onmouseover="this.src='${path}/resources/upload/product/soap2.jpg'">
-                   	</a>
-                </div>
-                <div class="item-intro">
-                    
-                    <p class="item-title">
-                        <a class="title-link" href="">유기농 온몸비누 제주</a>
-                    </p>
-                    <div class="item-price">
-                        <p class="ori-price sale">8,000원</p>					
-                        <p class="sale-price">7,200원</p>
-                    </div>
-                    <div class="item-icon">
-                        <div class="new-icon">NEW</div>
-                        <div class="sale-icon">SALE</div>	
-                      <!--   <div class="soldout-icon">SOLDOUT</div>	 -->			
-                    </div>
-                    
-                </div>
+		  	<div class="all-item-wrap"  style="display: flex;min-width: 80%;flex-wrap: wrap;">
+		  		<c:choose>
+		  			<c:when test="${empty list }">
+		  				<c:out value="해당하는 제품이 없습니다."/>
+		  			</c:when>
+		  			<c:otherwise>
+		  				<c:forEach var="p" items="${list }" >
+		  					<div class="item-wrap">
+				                <div>
+				                    <a href="#">
+				                    	
+				                    	<c:choose>
+				                    		<c:when test="${fn:contains(p.thumbs,',') }">
+				                    			<c:set var="thumbs" value="${fn:split(p.thumbs,',') }"/> 
+				                    			<c:forEach begin="0" end="0" var="th" items="${thumbs }" varStatus="v">
+							                    	<img alt="" src="${path}/resources/upload/product/<c:if test='${v.count==1 }'>${th }</c:if>" class="item-img hover" style="display: inline;"
+							                         >
+							                         <input type="hidden" class="firstPic" value="<c:if test='${v.count==1 }'>${th }</c:if>">
+							                    </c:forEach>
+							                    <c:forEach begin="1" end="1" var="th" items="${thumbs }" varStatus="v">
+							                         <input type="hidden" class="secondPic" value="<c:if test='${v.count==1 }'>${th }</c:if>">
+							                    </c:forEach>
+							                  	
+				                    		</c:when>
+				                    		<c:otherwise>
+				                    			<c:forEach begin="0" end="0" var="th" items="${p.thumbs }" varStatus="v">
+							                    	<img alt="" src="${path}/resources/upload/product/${th }" class="item-img" style="display: inline;">
+							                    </c:forEach>
+				                    		</c:otherwise>
+				                    	</c:choose>
+					                    
+				                        
+				                   	</a>
+				                </div>
+				                <div class="item-intro">
+				                    
+				                    <p class="item-title">
+				                        <a class="title-link" href=""><c:out value="${p.pdtName }"/></a>
+				                    </p>
+				                    <div class="item-price">
+				                    	<c:choose>
+				                    		<c:when test="${not empty p.eventNoRef } and ${p.salePer!=0 }">
+				                    			<p class="ori-price sale"><c:out value="${p.pdtPrice }"/>원</p>
+				                    			<p class="sale-price"><c:out value="${p.pdtPrice(1-p.salePer) }"/>원</p>
+				                    		</c:when>
+				                    		<c:otherwise>
+				                    			<p class="ori-price"><c:out value="${p.pdtPrice }"/>원</p>
+				                    		</c:otherwise>
+				                        </c:choose>			
+				                    </div>
+				                    <div class="item-icon">
+				                    	<!-- 등록한 날짜로 부터 7일 -->
+				                    	<c:forEach var="n" items="${newList }">
+				                    		<c:if test="${n.pdtNo==p.pdtNo }">
+				                    			<div class="new-icon">NEW</div>
+				                    		</c:if>
+				                    	</c:forEach>
+				                        <!-- 세일하면 (이벤트 )-->
+				                        <c:if test="${not empty p.eventNoRef } and ${p.salePer!=0 }">
+				                        	<div class="sale-icon">SALE</div> 
+				                        </c:if>
+				                        <!-- 판매상태가 N으로 바뀌면 -->	
+				                      	<c:if test="${p.pdtStatus=='N'}">
+				                        	<div class="soldout-icon">SOLDOUT</div>
+				                        </c:if>			
+				                    </div>
+				                    
+				                </div>
+           					 </div>
+		  				</c:forEach>
+		  			</c:otherwise>
+		  		</c:choose>
+		  		
             </div>
-            
-            <div class="item-wrap">
-                <div class="" >
-                    <a href="#" class="">
-                        <img alt="" src="${path}/resources/upload/product/som1.jpg" class="item-img" style="display: inline;"
-                         onmouseout="this.src='${path}/resources/upload/product/som1.jpg'" onmouseover="this.src='${path}/resources/upload/product/som2.jpg'">
-                   	</a>
-                </div>
-                <div class="item-intro">
-                    
-                    <p class="item-title">
-                        <a class="title-link" href="">유기농 햄프코튼 재사용 화장솜</a>
-                    </p>
-                    <div class="item-price">
-                        <p class="ori-price">12,000원</p>					
-                      <!--   <p class="sale-price">7,200원</p> -->
-                    </div>
-                    <div class="item-icon">
-                        <!--<span class="">NEW</span>-->
-                        <div class="new-icon">NEW</div>
-                       <!--  <div class="sale-icon">SALE</div> -->					
-                    </div>
-                    
-                </div>
-            </div>
-            
-             <div class="item-wrap">
-                <div class="" >
-                    <a href="#" class="">
-                        <img alt="" src="${path}/resources/upload/product/coffee1.jpg" class="item-img" style="display: inline;"
-                         onmouseout="this.src='${path}/resources/upload/product/coffee1.jpg'" onmouseover="this.src='${path}/resources/upload/product/coffee2.jpg'">
-                   	</a>
-                </div>
-                <div class="item-intro">
-                    
-                    <p class="item-title">
-                        <a class="title-link" href="">유기농 재사용 커피필터</a>
-                    </p>
-                    <div class="item-price">
-                        <p class="ori-price">4,000원</p>					
-                       <!--  <p class="sale-price">7,200원</p> -->
-                    </div>
-                    <div class="item-icon">
-                        <!-- <div class="new-icon">NEW</div>
-                        <div class="sale-icon">SALE</div> -->					
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="item-wrap">
-                <div class="" >
-                    <a href="#" class="">
-                        <img alt="" src="${path}/resources/upload/product/woman1.jpg" class="item-img" style="display: inline;"
-                         onmouseout="this.src='${path}/resources/upload/product/woman1.jpg'" onmouseover="this.src='${path}/resources/upload/product/woman2.jpg'">
-                   	</a>
-                </div>
-                <div class="item-intro">
-                    
-                    <p class="item-title">
-                        <a class="title-link" href="">유기농 순면생리대 누르.Nur</a>
-                    </p>
-                    <div class="item-price">
-                        <p class="ori-price sale">7,500원</p>					
-                        <p class="sale-price">6,750원</p>
-                    </div>
-                    <div class="item-icon">
-                        <!-- <div class="new-icon">NEW</div>  -->
-                        <div class="sale-icon">SALE</div>	
-                        <div class="soldout-icon">SOLDOUT</div>				
-                    </div>
-                    
-                </div>
-            </div>
-            
            
 		  </div>
 		  
 		  <!-- 페이징바 -->
-		 <div class="w3-center pagebar">	
+		 <!-- <div class="w3-center pagebar">	
 			<div class="w3-bar">
 				<a href="#" class="w3-button w3-hover-black"> < </a>
 				<a href="#" class="w3-button w3-hover-black">1</a>
@@ -275,7 +242,7 @@
 				<a href="#" class="w3-button w3-hover-black">4</a>
 				<a href="#" class="w3-button w3-hover-black"> > </a>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </div>
 		
@@ -283,3 +250,18 @@
 </section>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+<script>
+
+	//호버 시 메인 이미지 변경 
+	$(function() { 
+		
+		$(".hover").hover(function(){ 
+			// console.log("올림");
+			$(this).attr("src", $(this).attr("src").replace($(this).next().val(), $(this).next().next().val())); 
+	
+		}, function(){ 
+			//console.log("내림");
+			$(this).attr("src", $(this).attr("src").replace($(this).next().next().val(), $(this).next().val())); 
+		}); 
+	});
+</script>

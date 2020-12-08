@@ -24,14 +24,17 @@ public interface AdminService {
 	//이벤트 수정하기
 	int updateEvent(Event e);
 	
-	//제품목록 출력
-	List<Product> selectProductList();
-	//제품 선택 삭제
-	int deleteSelectProduct(List<String> delnum);
-	//제품 등록
-	int insertProduct(Product p,ProductOption o,List<Map<Object,Object>> options,List<ProductThumb> list);
-
+	List<Product> selectProductList();//제품목록 출력
+	int deleteSelectProduct(List<String> delnum);//제품 선택 삭제
+	int deleteOneProduct(String pdtNo);//제품 하나 삭제
+	int insertProduct(Product p,ProductOption o,List<Map<Object,Object>> options,List<ProductThumb> list);//제품 등록
+	Product selectOneProduct(String pdtNo);//제품 하나 선택
+	List<ProductOption> selectOption(String pdtNo);//옵션 선택
+	List<ProductThumb> selectThumb(String pdtNo);//썸네일 사진 선택
+	int updateProduct(Product p,ProductOption o,List<Map<Object,Object>> options,List<ProductThumb> list);//제품 수정
+	//회원관리 리스트
 	List<Member> selectMemberList(int cPage, int numPerpage);
+	//회원수
 	int selectMemberCount();
 	
 	List<Qna> selectQnaList(int cPage, int numPerpage);
