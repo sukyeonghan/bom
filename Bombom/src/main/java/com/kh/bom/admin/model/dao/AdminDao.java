@@ -1,6 +1,7 @@
 package com.kh.bom.admin.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -35,8 +36,15 @@ public interface AdminDao {
 
 	List<Member> selectMemberList(SqlSession session, int cPage, int numPerpage);
 	int selectMemberCount(SqlSession session);
+	//관리자권한 변경
+	int updateManagerYn(SqlSession session, Member m);
+	List<Member> selectMemberSearch(SqlSession session,int cPage, int numPerpage, Map map);
+	int selectMemberCount(SqlSession session, Map<String, String> map);
+	List<Member> memberAutoComplete(SqlSession session, Map<String, String> map);
 	
 	List<Qna> selectQnaList(SqlSession session, int cPage, int numPerpage);
 	int selectQnaCount(SqlSession session);
+	
+	
 
 }

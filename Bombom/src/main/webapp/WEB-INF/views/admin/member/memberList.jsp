@@ -17,13 +17,17 @@
 	
 	/*페이지 타이틀*/
 	.page-title{margin-bottom:5%;}
-	table#memberTbl th{text-align:center;}
-	table#memberTbl td{vertical-align: middle;}
+	table#memberTbl th{text-align:center; cursor: default;}
+	table#memberTbl td{vertical-align: middle; cursor:default;}
 	table#memberTbl td{text-align:center;}
 	table#memberTbl td:nth-of-type(1){text-align:left;}
 	table#memberTbl td:nth-of-type(3){text-align:right;}
 	
 	.warnA:hover{text-decoration: none;}
+	
+	#searchBox{text-align:center; margin:auto; height: 40px; width:100%; margin-top: 20px;}
+	form[name="searchFrm"]>*{height: 40px;}
+	
 </style>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="소개" />
@@ -83,33 +87,142 @@
 								</c:if>
 								<td><c:out value="${member.memStatus}"/></td>
 								<td>
-									<c:out value="${member.memManagerYn}"/>&nbsp;&nbsp;
+									<span><c:out value="${member.memManagerYn}"/></span>&nbsp;&nbsp;
 									<input type="hidden" value="${member.memNo }" name="memNo"/>
 									<c:if test="${member.memManagerYn eq 'N'}">
-										<button class="btn btn-info admin">권한부여</button>
+										<button class="btn btn-info managerYnBtn">권한부여</button>
 									</c:if>
 									<c:if test="${member.memManagerYn eq 'Y'}">
-										<button class="btn btn-outline-info member">권한회수</button>
+										<button class="btn btn-outline-info managerYnBtn">권한회수</button>
 									</c:if>
 								</td>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
+				<br>
 				<div id="pageBar">
 					${pageBar }
 	    		</div> 
 			</div>
-			
-			<!-- 검색 -->
-			
+			<div id="searchBox" >
+				<form name="searchFrm" action="${path }/adimin/selectMemberSearch">
+					<select name="searchType" >
+						<option value=" " disabled selected>검색타입</option>
+						<option value="email">이메일</option>
+						<option value="nick">닉네임</option>
+						<option value="all">이메일+닉네임</option>
+					</select>
+					<input type="text" id="keyword" name="keyword" placeholder="검색어를 입력해주세요" size="50" list="data" required>
+					<datalist id="data" size="5"></datalist>
+					<input type="submit" class="btn btn-success"  value="검색" onclick="return fn_memberSearch();">
+				</form>
+			</div>
 		</div>
 	</div>
 </section>
 <script>
-	$(function(){
-		 $('[data-toggle="tooltip"]').tooltip();   
-	})
+
+
+//검색시 실행될 함수
+function fn_memberSearch(){
+	let select=$("select[name=searchType]").val();
+	let keyword=$("#keyword").val().trim();
+	$("#keyword").val(keyword);
+	if(select==" "||select == null) {
+		swal("검색타입을 선택해주세요.");
+		return false;
+	}
+}
+$(function(){
+ //툴팁
+ $('[data-toggle="tooltip"]').tooltip();   
+ 
+ //매니저권한부여 버튼 클릭시
+ $(".managerYnBtn").on("click",e=>{
+	let adminYn=$(e.target).text(); 
+	let yn="";
+	let msg="";
+	let memNo=$(e.target).prev().val();
+	if(adminYn=="권한부여"){
+		yn="Y";
+		msg="매니저로 전환하시겠습니까?";
+	}else{
+		yn="N";
+		msg="매니저권한을 회수 하시겠습니까?";
+	}
+	swal({
+ 	     text: msg,
+ 	     icon: "info",
+ 	     buttons: ["아니오", "네"],
+ 	}).then((yes) => {
+ 	     if (yes) {
+ 	    	$.ajax({
+ 	    		url:"${path}/admin/updateManagerYn",
+ 	    		data:{memManagerYn:yn,memNo:memNo},
+ 	    		dataType:"json",
+ 	    		success:data=>{
+ 	    			if(data===true){
+ 	    				if(adminYn=="권한부여"){
+ 	    					$(e.target).addClass("btn-outline-info");
+ 	    					$(e.target).removeClass("btn-info");
+ 	    					$(e.target).html("권한회수");		 	    					
+ 	    					$(e.target).prev().prev().html("Y");
+ 	    				}else{
+ 	    					$(e.target).removeClass("btn-outline-info");
+ 	    					$(e.target).addClass("btn-info");
+ 	    					$(e.target).html("권한부여");
+ 	    					$(e.target).prev().prev().html("N");
+ 	    				}
+ 	    			}else{
+ 	    				swal("관리자 권한 변경 실패");
+ 	    			}
+ 	    		},error:(error)=>{
+ 	    			swal("관리자 권한 변경 실패");
+ 	    		}
+ 	    		
+ 	    	});
+ 	     }
+ 	});
+ });
+	
+
+//자동완성
+$("#keyword").on("keyup",e=>{
+ 	let key=$("#keyword").val().trim();
+	let select=$("select[name=searchType]").val();
+	$.ajax({
+ 		url:"${path}/admin/memberAutoComplete",
+ 		data:{key:key,type:select},
+ 		dataType:"json", 
+ 		success:data=>{
+ 			$("#data").html("");
+ 			for(let i=0;i<data.length;i++){
+ 				if(key.length>3){
+	 				if(select == "nick"){
+	 					$("#data").append($("<option>").html(data[i]["memNick"])); 
+	 				}
+	 				if(select == "email"){
+	 					$("#data").append($("<option>").html(data[i]["memEmail"])); 	
+	 				}
+	 				if(select == "all" || select == null){
+	 					$("#data").append($("<option label='닉네임'>").html(data[i]["memNick"])); 						
+	 					$("#data").append($("<option label='이메일'>").html(data[i]["memEmail"])); 
+	 				}	
+ 				}
+ 			}		
+ 		}
+ 		
+ 	});
+ 	
+	
+
+ })
+
+ 
+	 
+	 
+})
 
 </script>
 

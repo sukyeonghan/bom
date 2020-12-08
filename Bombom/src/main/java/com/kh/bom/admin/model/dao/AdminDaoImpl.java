@@ -1,10 +1,13 @@
 package com.kh.bom.admin.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.bom.admin.model.vo.Event;
 import com.kh.bom.product.model.vo.Product;
@@ -40,17 +43,41 @@ public class AdminDaoImpl implements AdminDao {
 	public int updateEvent(SqlSession session, Event e) {
 		return session.update("admin.updateEvent", e);
 	}
-
+	//회원관리 리스트
 	@Override
 	public List<Member> selectMemberList(SqlSession session,int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
 		return session.selectList("admin.selectMemberList","",new RowBounds((cPage-1)*numPerpage,numPerpage));
 	}
-
+	//회원수
 	@Override
 	public int selectMemberCount(SqlSession session) {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectMemberCount");
+	}
+	//관리지 권한 변경	
+	@Override
+	public int updateManagerYn(SqlSession session, Member m) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateManagerYn", m);
+	}
+	//회원검색
+	@Override
+	public List<Member> selectMemberSearch(SqlSession session,int cPage, int numPerpage, Map map) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectMemberSearch", map,new RowBounds((cPage-1)*numPerpage,numPerpage));
+	}
+	
+	@Override
+	public int selectMemberCount(SqlSession session, Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectMemberCount2", map);
+	}
+	//회원검색자동완성
+	@Override
+	public List<Member> memberAutoComplete(SqlSession session, Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.memberAutoComplete",map);
 	}
 	
 	//제품 목록 
@@ -144,6 +171,12 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectQnaCount");
 	}
+
+
+
+
+
+
 	
 	
 	

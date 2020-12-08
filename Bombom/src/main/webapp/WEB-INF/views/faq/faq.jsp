@@ -69,7 +69,7 @@
 			</select>
 	
 				<br>
-				<input type="text" class="form-control" name="faqTitle" placeholder="제목을 입력해주세요" value='<c:out value="${faq.faqTitle }"/>' required>
+				<input type="text" class="form-control" name="faqTitle" placeholder="제목을 입력해주세요" value="${faq.faqTitle }" required>
 				<br>
 				<textarea class="form-control" rows="10" name="faqContent" id="faqContent" placeholder="내용을 입력해주세요" onKeyUp="javascript:fnChkByte(this,'1000')" required><c:out value="${faq.faqContent }"/></textarea>
 				<div style="float:right;">

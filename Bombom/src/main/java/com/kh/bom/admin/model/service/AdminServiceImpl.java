@@ -172,6 +172,29 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.selectMemberCount(session);
 	}
+	//관리자권한 변경
+	@Override
+	public int updateManagerYn(Member m) {
+		// TODO Auto-generated method stub
+		return dao.updateManagerYn(session,m);
+	}
+
+	@Override
+	public List<Member> selectMemberSearch(int cPage, int numPerpage, Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectMemberSearch(session,cPage, numPerpage, map);
+	}
+	@Override
+	public int selectMemberCount(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.selectMemberCount(session,map);
+	}
+	@Override
+	public List<Member> memberAutoComplete(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.memberAutoComplete(session,map);
+	}
+	
 	
 	@Override
 	public List<Qna> selectQnaList(int cPage, int numPerpage) {
@@ -184,6 +207,12 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.selectQnaCount(session);
 	}
+
+
+
+	
+
+
 	
 	
 	

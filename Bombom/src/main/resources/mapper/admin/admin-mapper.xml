@@ -175,6 +175,54 @@
 		SELECT COUNT(*) FROM MEMBER
 	</select>
 	
+	<update id="updateManagerYn" parameterType="member">
+		UPDATE MEMBER SET mem_manager_yn = #{memManagerYn} WHERE MEM_NO=#{memNo}
+	</update>
+	
+	<select id="selectMemberSearch" parameterType="map" resultMap="memberMap">
+		SELECT * FROM MEMBER WHERE 
+		<if test='searchType eq "nick"'>
+			 mem_nick LIKE '%'||#{keyword}||'%'
+		</if>															
+		<if test='searchType eq "email"'>
+			 mem_email LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test='searchType eq "all"'>
+			 mem_email LIKE '%'||#{keyword}||'%' or mem_nick LIKE '%'||#{keyword}||'%'
+		</if>
+	</select>
+	
+	<select id="selectMemberCount2" parameterType="map" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER
+		<where>
+		<if test='searchType eq "nick"'>
+			 mem_nick LIKE '%'||#{keyword}||'%'
+		</if>															
+		<if test='searchType eq "email"'>
+			 mem_email LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test='searchType eq "all"'>
+			 mem_email LIKE '%'||#{keyword}||'%' or mem_nick LIKE '%'||#{keyword}||'%'
+		</if>
+		</where>
+	</select>
+	
+	<select id="memberAutoComplete" parameterType="map" resultMap="memberMap">
+		SELECT mem_nick, mem_email FROM MEMBER 
+		<where>
+		<if test='searchType eq "nick"'>
+			 mem_nick LIKE '%'||#{keyword}||'%'
+		</if>															
+		<if test='searchType eq "email"'>
+			 mem_email LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test='searchType eq "all"'>
+			 mem_email LIKE '%'||#{keyword}||'%' or mem_nick LIKE '%'||#{keyword}||'%'
+		</if>
+		</where>	
+	</select>
+	
+
 	<select id="selectQnaList" resultMap="qnaMap">
 		SELECT ROWNUM,QNA.*FROM QNA ORDER BY ROWNUM DESC
 	</select>

@@ -1,35 +1,25 @@
 package com.kh.bom.admin.controller;
 
 
-import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.admin.model.vo.Event;
 import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.member.model.vo.Member;
-import com.kh.bom.product.model.vo.Product;
-import com.kh.bom.product.model.vo.ProductOption;
-import com.kh.bom.product.model.vo.ProductThumb;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -174,6 +164,45 @@ public class AdminController {
 		mv.setViewName("admin/member/memberList");
 		return mv;
 	}
+	//관리지 권한 변경	
+	@RequestMapping("/admin/updateManagerYn")
+	@ResponseBody
+	public boolean updateManagerYn(Member m) {
+		int result=service.updateManagerYn(m);
+		return result>0?true:false;		
+	}
+	//회원검색기능
+	@RequestMapping("/adimin/selectMemberSearch")
+	public ModelAndView selectMemberSearch(ModelAndView mv,
+			@RequestParam(value="searchType") String searchType,
+			@RequestParam(value="keyword") String keyword,
+			@RequestParam(value="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage) {
+		Map<String,String> map=new HashMap();
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+		List<Member>list =service.selectMemberSearch(cPage, numPerpage,map);
+		int totalData=service.selectMemberCount(map);
+		mv.addObject("list",list);
+		mv.addObject("cPage", cPage);
+		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage,"selectMemberSearch",searchType, keyword));
+		mv.setViewName("admin/member/memberList");
+		return mv;
+	}
+	//회원검색자동완성
+	@RequestMapping("/admin/memberAutoComplete")
+	@ResponseBody
+	public List<Member> memberAutoComplete(
+			@RequestParam(value="type", defaultValue="all")String type,
+			@RequestParam(value="key") String key) {
+		Map<String,String> map=new HashMap();
+		map.put("type", type);
+		map.put("key", key);
+		List<Member> list=service.memberAutoComplete(map);
+		return list;
+	}
+	
+	
 	
 	//1:1문의 
 	//qna(1:1) 목록 가져오기
@@ -192,5 +221,5 @@ public class AdminController {
 			return mv;
 		}
 		
-	
+
 }

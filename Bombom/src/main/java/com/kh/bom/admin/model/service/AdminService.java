@@ -25,13 +25,25 @@ public interface AdminService {
 	List<ProductOption> selectOption(String pdtNo);//옵션 선택
 	List<ProductThumb> selectThumb(String pdtNo);//썸네일 사진 선택
 	int updateProduct(Product p,ProductOption o,List<Map<Object,Object>> options,List<ProductThumb> list);//제품 수정
+	
 	//회원관리 리스트
 	List<Member> selectMemberList(int cPage, int numPerpage);
 	//회원수
 	int selectMemberCount();
+	//관리자권한 변경
+	int updateManagerYn(Member m);
+	//회원검색
+	List<Member> selectMemberSearch(int cPage, int numPerpage, Map map);
+	//검색결과에 따른 페이징처리를 위한 회원수
+	int selectMemberCount(Map<String, String> map);
+	//검색 자동완성
+	List<Member> memberAutoComplete(Map<String, String> map);
 	
 	List<Qna> selectQnaList(int cPage, int numPerpage);
 	
 	int selectQnaCount();
+	
+	
+	
 
 }
