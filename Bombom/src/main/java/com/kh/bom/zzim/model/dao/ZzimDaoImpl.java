@@ -1,6 +1,7 @@
 package com.kh.bom.zzim.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -63,6 +64,12 @@ public class ZzimDaoImpl implements ZzimDao {
 	public Zzim selectZzimOne(SqlSession session, String zzimNo) {
 		// TODO Auto-generated method stub
 		return session.selectOne("zzim.selectZzimOne", zzimNo);
+	}
+
+	@Override
+	public int updateZzimNo(SqlSession session, Map map) {
+		// TODO Auto-generated method stub
+		return session.update("zzim.updateZzimNo",map);
 	}
 
 	

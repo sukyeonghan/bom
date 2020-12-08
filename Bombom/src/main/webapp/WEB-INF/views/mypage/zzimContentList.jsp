@@ -32,7 +32,7 @@
 	/*상품이름*/
 	.nameP{position:absolute; left:5px; bottom:5px; margin:0; color:white; width:100%; z-index:100; font-weight:bolder;}
 	/*체크박스*/
-	.pdtNoCkBox{position:absolute; top:10px;left: 10px; width: 10%; height:10%; z-index: 90; display: none;}
+	.zzimContentNoCkBox{position:absolute; top:10px;left: 10px; width: 10%; height:10%; z-index: 90; display: none;}
 	/*체크박스 선택시 필터링박스*/
 	.checkFilter{position:absolute; width:100%;height:100%; z-index: 80; background-color: #ffffff; opacity:0.5; display:none; }
 	/*편집관련*/
@@ -100,7 +100,7 @@
 					<!--각각의 찜 폴더 -->
 					<div class="zzimFolder">
 						<div class="checkFilter"></div>
-						<input type="checkbox" class="pdtNoCkBox" name="pdtNoCkBox" value="${zc.pdtNo }">
+						<input type="checkbox" class="zzimContentNoCkBox" name="zzimContentNoCkBox" value="${zc.zzimContentNo }">
 						<a href="#">
 							<div class="zzimImgDiv">
 								<img src="${path }/resources/upload/product/${zc.zzimPdtImage };" alt="${zc.zzimPdtName }" width="100%">
@@ -128,15 +128,13 @@
 		        
 		        <!-- Modal body -->
 		        <div class="modal-body" >
-	    	   		<form name="updateZzimFrm">
-		    	   		<div style="display:flex;">
-			         		<input type="hidden" name="zzimNo" value="${zzimNo}">
-			         		<input type="text" class="form-control" name="zzimName" placeholder="${zzimName }" required>
-			         		&nbsp;&nbsp;
-			         		<input type="submit" class="btn btn-success" id="updateZzimNameBtn" value="확인" onclick="return fn_updateZzimName();">
-				        </div>
-			        </form>
-		        </div>
+		    	   	<div style="display:flex;">
+		         		<input type="hidden" name="zzimNo" value="${zzimNo}">
+		         		<input type="text" class="form-control" name="updateZzimName" id="updateZzimName"  placeholder="${zzimName }" required>
+		         		&nbsp;&nbsp;
+		         		<input type="button" class="btn btn-success" id="updateZzimNameBtn" value="확인" onclick="fn_updateZzimName();">
+				    </div>
+			    </div>
 		       
 		        
 		      </div>
@@ -156,10 +154,8 @@
 		        </div>
 		        
 		        <!-- Modal body -->
-		        <div class="modal-body" >
-	    	   		<form id="zzimFrm" name="zzimFrm">
+		        <div class="modal-body" id="zzimListBody">
 		    	   		
-			        </form>
 		        </div>
 		       
 		        
@@ -169,10 +165,16 @@
 	</div>
 </section>
 <script>
-	
+//모달열릴때 포커싱 주기
+$("#updateZzimModal").on("shown.bs.modal", function () { $("input[name=updateZzimName]").focus(); });
+
+//인풋에서 엔터시 폴더생성함수 실행
+$("#updateZzimName").keyup(function(e){
+	if(e.keyCode == 13){fn_updateZzimName(); }
+});	
 //폴더이름 유효성검사
 function fn_updateZzimName(){
-   	var zzimName=$("input[name=zzimName]").val();
+   	var zzimName=$("input[name=updateZzimName]").val();
 	var nameCheck = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]+$/;
 	if(zzimName.length<1 || zzimName.length>10){
 		swal("폴더명은 한글자 이상 10이내만 가능합니다.");
@@ -188,22 +190,25 @@ function fn_updateZzimName(){
 		success:data=>{
 			if(data === true){	
 				alert("폴더이름이 변경되었습니다.");
+				$("#updateZzimModal").modal("hide");//모달닫기
 				$("#zzimTitle>span:nth-of-type(2)").html("");
 				$("#zzimTitle>span:nth-of-type(2)").text(zzimName);
+				$("input[name=updateZzimName]").val("");//모달에 인풋 창 비우기
+				$("input[name=updateZzimName]").attr("placeholder",zzimName);
 			}else{
 				alert("폴더이름변경실패");
 			}
 		},error:function(request,status,error){
 			alert("폴더이름변경실패");
 		}
-	});
+	}); 
 }
 //폴더삭제
 function fn_deleteFolder(){
   swal({
 	  title: "폴더를 삭제하시겠습니까?",
 	  icon: "warning",
-	  buttons: true,
+	  buttons: ["아니오", "네"],
 	  dangerMode: true,
   }).then((willDelete)=>{
 	  if(willDelete){
@@ -236,7 +241,7 @@ $(function(){
    	$("#edit>span").click(e=>{
    		$("#edit").css("display","none");
    		$("#editBox").css("display","block");
-   		$(".pdtNoCkBox").css("display","block");
+   		$(".zzimContentNoCkBox").css("display","block");
    		
    		$(".zzimImgDiv>img,.zzimImgDiv").click(e=>{
    			let editBox=$("#editBox").css("display");
@@ -244,11 +249,11 @@ $(function(){
 	   			//편집모드일때
    				$(e.target).parents(".zzimFolder").find(".checkFilter").css("display","block");
 				$(e.target).parents(".zzimFolder").find("a").attr("onclick","return false");
-   	   	   		$(e.target).parents(".zzimFolder").find(".pdtNoCkBox").prop("checked",true);
+   	   	   		$(e.target).parents(".zzimFolder").find(".zzimContentNoCkBox").prop("checked",true);
    			}else{ 
    				//편집모드가 꺼져있을때
    				$(e.target).parents(".zzimFolder").find(".checkFilter").css("display","none");
-   	   	   		$(e.target).parents(".zzimFolder").find(".pdtNoCkBox").prop("checked",false);
+   	   	   		$(e.target).parents(".zzimFolder").find(".zzimContentNoCkBox").prop("checked",false);
    			}
   
    	   		
@@ -264,14 +269,14 @@ $(function(){
    	$("#edit-cancle").click(e=>{
    		$("#editBox").css("display","none");
    		$(".checkFilter").css("display","none");
-   		$(".pdtNoCkBox").prop("checked",false);
-   		$(".pdtNoCkBox").css("display","none");
+   		$(".zzimContentNoCkBox").prop("checked",false);
+   		$(".zzimContentNoCkBox").css("display","none");
    		$("#edit").css("display","block");
    		$("a").attr("onclick","return true");
    	});
    	
-   //체크박스를 선택했을때 필터박스 나타나게하기
-   $(".pdtNoCkBox").click(e=>{
+   //체크박스 체크여부에 따라 필터박스 나타나게하기
+   $(".zzimContentNoCkBox").click(e=>{
 	   let tf=$(e.target).prop("checked");
 	   if(tf){
 		   $(e.target).prev().css("display","block");
@@ -280,20 +285,21 @@ $(function(){
 	   }
 	   
    });
-   
+   //상품삭제 선택시
    $("#deleteZc").click(e=>{
-	  var pdtNoList=[];
-	  $("input[name=pdtNoCkBox]:checked").each(function(i,v){
-		 pdtNoList.push($(this).val()); 
+	  var zzimContentNoList=[];
+	  $("input[name=zzimContentNoCkBox]:checked").each(function(i,v){
+		 zzimContentNoList.push($(this).val()); 
 	  });
-	  if(pdtNoList.length==0){
+	  if(zzimContentNoList.length==0){
 		  swal("삭제할 상품을 선택해주세요.");
 		  return;
 	  };
+	  
 	  swal({
 		  title: "선택한 상품을 삭제하시겠습니까?",
 		  icon: "warning",
-		  buttons: true,
+		  buttons: ["아니오", "네"],
 		  dangerMode: true,
 	  })
 	  .then((willDelete)=>{
@@ -306,34 +312,36 @@ $(function(){
 	  });
 	   
    });
-   //폴더이동
+   //폴더이동 선택시
    $("#folderMove").click(e=>{
-	  var pdtNoList=[];
-	  $("input[name=pdtNoCkBox]:checked").each(function(i,v){
-		 pdtNoList.push($(this).val()); 
+	  //체크한 상품여부 확인
+	  var zzimContentNoList=[];
+	  $("input[name=zzimContentNoCkBox]:checked").each(function(i,v){
+		 zzimContentNoList.push($(this).val()); 
 	  });
-	  if(pdtNoList.length==0){
+	  if(zzimContentNoList.length==0){
 		  swal("이동할 상품을 선택해주세요.");
 		  return;
 	  }
+	  //모달창에 현재 폴더리스트 정보 ajax로 전달
 	  $.ajax({
           type : 'POST',
           url : "${path}/zzim/zzimListModal",
+          data: {zzimContentNoList:zzimContentNoList},
           dataType:"html",
           success : function(data) {
-        	  
-			$("#zzimFrm").html("");
-			$("#zzimFrm").html(data);
+			$("#zzimListBody").html("");
+			$("#zzimListBody").html(data);
           },error:function(){
         	  alert("실패");
           }
   	 });
-	  $("#zzimModal").modal();
+	  $("#zzimModal").modal();//모달열기
 
    });
 
 })
 	
-  
+
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
