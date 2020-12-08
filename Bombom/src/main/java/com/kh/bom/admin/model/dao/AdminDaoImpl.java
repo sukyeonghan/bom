@@ -76,12 +76,61 @@ public class AdminDaoImpl implements AdminDao {
 	public int insertOption(SqlSession session,ProductOption o) {
 		return session.insert("admin.insertOption",o);
 	}
+	//제품 선택
+	@Override
+	public Product selectOneProduct(SqlSession session, String pdtNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectOneProduct",pdtNo);
+	}
+	//옵션 선택
+	@Override
+	public List<ProductOption> selectOption(SqlSession session, String pdtNo) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectOption",pdtNo);
+	}
+	//썸네일 선택
+	@Override
+	public List<ProductThumb> selectThumb(SqlSession session, String pdtNo) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectThumb",pdtNo);
+	}
 	
 	//썸네일 등록
 	@Override
 	public int insertThumb(SqlSession session, ProductThumb th) {
 		// TODO Auto-generated method stub
 		return session.insert("admin.insertThumb",th);
+	}
+	//제품 수정
+	@Override
+	public int updateProduct(SqlSession session, Product p) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateProduct",p);
+	}
+	
+	//옵션 수정
+	@Override
+	public int updateOption(SqlSession session, ProductOption o) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateOption",o);
+	}
+	//썸네일 수정
+	@Override
+	public int updateThumb(SqlSession session,ProductThumb th) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateThumb",th);
+	}
+	//썸네일 삭제
+	@Override
+	public int deleteThumb(SqlSession session, String pdtNo) {
+		// TODO Auto-generated method stub
+		return session.delete("admin.deleteThumb",pdtNo);
+	}
+	//옵션 삭제
+	@Override
+	public int deleteOption(SqlSession session, String pdtNo) {
+		// TODO Auto-generated method stub
+		return session.delete("admin.deleteOption",pdtNo);
 	}
 	//1:1목록 가져오기
 	@Override

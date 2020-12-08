@@ -17,6 +17,8 @@
 	
 	/*페이지 타이틀*/
 	.page-title{margin-bottom:5%;}
+	
+
 
 </style>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -35,7 +37,7 @@
 		      	<a class="nav-link non-select" href="${path }/admin/moveProduct">제품관리</a>
 		    </li>
 		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="${path }/">주문관리</a>
+		     	 <a class="nav-link non-select" href="${path }/admin/order">주문관리</a>
 		    </li>
 		    <li class="nav-item">
 		     	 <a class="nav-link non-select" href="${path }/admin/qnaList">1:1문의관리</a>

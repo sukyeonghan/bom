@@ -16,7 +16,7 @@
 	</resultMap>
 	
 	<insert id="insertQna" parameterType="qna">
-		INSERT INTO QNA VALUES('Q'||SEQ_QNA_NO.NEXTVAL,#{qnaWriter},#{qnaCategory},#{qnaTitle},#{qnaContent},sysdate,default,null,null)
+		INSERT INTO QNA VALUES('Q'||SEQ_QNA_NO.NEXTVAL,#{qnaWriter},#{qnaCategory},#{qnaTitle},#{qnaContent},sysdate,default,null,sysdate)
 	</insert>
 	
 	<select id="selectQnaList" resultMap="qnaMap" parameterType="string">
@@ -26,6 +26,10 @@
 	<select id="selectCount" resultType="_int" parameterType="string">
 		SELECT COUNT(*) FROM QNA WHERE QNA_WRITER=#{memNo}
 	</select>
+	
+	<delete id="deleteQna" parameterType="qna">
+		DELETE FROM QNA WHERE QNA_NO=#{qnaNo}
+	</delete>
 	
 	
 	

@@ -1,6 +1,7 @@
 package com.kh.bom.zzim.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -26,5 +27,7 @@ public interface ZzimDao {
 	int deleteZzimContent(SqlSession session, List<String> pdtNoList);
 
 	Zzim selectZzimOne(SqlSession session, String zzimNo);
+
+	int updateZzimNo(SqlSession session, Map map);
 
 }

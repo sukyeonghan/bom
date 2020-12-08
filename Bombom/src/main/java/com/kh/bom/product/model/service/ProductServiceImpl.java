@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.product.model.dao.ProductDao;
+import com.kh.bom.product.model.vo.Product;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -30,5 +31,28 @@ public class ProductServiceImpl implements ProductService{
 		return dao.inquiryCount(session);
 	}
 
+	@Override
+	public int productAllCount() {
+		// TODO Auto-generated method stub
+		return dao.productAllCount(session);
+	}
+	
+	@Override
+	public int productCateCount(String category) {
+		// TODO Auto-generated method stub
+		return dao.productCateCount(session,category);
+	}
+	//전체 제품 출력
+	@Override
+	public List<Product> selectProductList() {
+		// TODO Auto-generated method stub
+		return dao.selectProductList(session);
+	}
+	//카테고리별 제품 출력
+	@Override
+	public List<Product> cateProductList(String category) {
+		// TODO Auto-generated method stub
+		return dao.cateProductList(session,category);
+	}
 	
 }
