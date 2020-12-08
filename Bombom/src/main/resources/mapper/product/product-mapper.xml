@@ -12,6 +12,7 @@
 		<result property="pdtDetailImage" column="pdt_detail_image"/>
 		<result property="eventNoRef" column="event_no_ref"/>
 		<result property="thumbs" column="thumbs"/>
+		<result property="salePer" column="event_sale_per"/>
 	</resultMap>
 	<resultMap type="option" id="optionMap">
 		<result property="pdtOptionNo" column="pdt_option_no"/>
@@ -32,18 +33,29 @@
 		SELECT COUNT(*) FROM PRODUCT WHERE PDT_CATEGORY=#{pdtCategory}
 	</select>
 	<select id="allProductList" resultMap="productMap" >
-		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_STATUS,PDT_DATE,EVENT_NO_REF,
-	    	LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY PDT_NO_REF) OVER(PARTITION BY PDT_NO_REF) AS THUMBS
-		FROM PRODUCT 
-			JOIN  PRODUCT_THUMB ON(PDT_NO=PDT_NO_REF)
+		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_STATUS,PDT_DATE,EVENT_NO_REF,E.EVENT_SALE_PER,
+    		LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY pdt_no_ref) OVER(PARTITION BY PDT_NO_REF)AS THUMBS
+		FROM PRODUCT
+			JOIN  PRODUCT_THUMB ON(PDT_NO=PDT_NO_REF) 
+			LEFT JOIN EVENT E ON(EVENT_NO_REF=EVENT_NO)
 		ORDER BY PDT_DATE DESC
 	</select>
+	<!-- 카테고리별 제품 리스트 -->
 	<select id="cateProductList" resultMap="productMap" parameterType="string">
-		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_STATUS,PDT_DATE,EVENT_NO_REF,
+		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_STATUS,PDT_DATE,EVENT_NO_REF,E.EVENT_SALE_PER,
     		LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY pdt_no_ref) OVER(PARTITION BY PDT_NO_REF)AS THUMBS
-		FROM PRODUCT JOIN  PRODUCT_THUMB ON(PDT_NO=PDT_NO_REF) 
+		FROM PRODUCT 
+			JOIN  PRODUCT_THUMB ON(PDT_NO=PDT_NO_REF) 
+			LEFT JOIN EVENT E ON(EVENT_NO_REF=EVENT_NO)
 		WHERE PDT_CATEGORY IN(#{pdtCategory})
 		ORDER BY PDT_DATE DESC
 	</select>
-	
+	<!-- 7일 이내로 등록한 전체 상품 리스트 -->
+	<select id="newList" resultMap="productMap">
+		SELECT PDT_NO,PDT_DATE FROM PRODUCT WHERE PDT_DATE>SYSDATE-7
+	</select>
+	<!-- 7일 이내로 등록한 카테고리별 상품 리스트 -->
+	<select id="newCateList" resultMap="productMap">
+		SELECT PDT_NO,PDT_DATE FROM PRODUCT WHERE PDT_DATE>SYSDATE-7 AND PDT_CATEGORY=#{pdtCategory}
+	</select>
 </mapper>

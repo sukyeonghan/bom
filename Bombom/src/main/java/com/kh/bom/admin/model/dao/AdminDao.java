@@ -15,6 +15,7 @@ import com.kh.bom.qna.model.vo.Qna;
 
 public interface AdminDao {
 	List<Event> selectEvent(SqlSession session);
+	List<Event> selectEventSort(SqlSession session, String sort);
 	int eventDelete(SqlSession session, String eventNo);
 	int insertEvent(SqlSession session, Event e);
 	Event selectEvent(SqlSession session, String eventNo);

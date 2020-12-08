@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.admin.model.vo.Event;
+import com.kh.bom.product.model.service.ProductService;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.product.model.vo.ProductThumb;
@@ -33,13 +34,16 @@ public class ProductAdminController {
 	
 	@Autowired
 	private AdminService service;
-
+	@Autowired
+	private ProductService proService;
 
 	//by수경-제품 관리페이지 전환
 	@RequestMapping("/admin/moveProduct")
 	public ModelAndView moveProductListPage(ModelAndView m) {
 		List<Product> list=service.selectProductList();
+		int count=proService.productAllCount();
 		m.addObject("list",list);
+		m.addObject("count",count);
 		m.setViewName("admin/product/productList");
 		return m;
 	}
@@ -263,7 +267,7 @@ public class ProductAdminController {
 	
 	//by수경-제품 삭제
 	@RequestMapping("admin/deleteProduct")
-	public ModelAndView deletrProduct(String pdtNo,ModelAndView m) {
+	public ModelAndView deleteProduct(String pdtNo,ModelAndView m) {
 		int result=service.deleteOneProduct(pdtNo);
 		String msg="";
 		String icon = "";

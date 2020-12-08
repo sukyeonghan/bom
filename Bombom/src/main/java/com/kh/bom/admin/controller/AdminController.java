@@ -1,6 +1,7 @@
 package com.kh.bom.admin.controller;
 
-
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,35 +25,48 @@ import com.kh.bom.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
-
 @Slf4j
 @Controller
 public class AdminController {
-	
+
 	@Autowired
 	private AdminService service;
-	
+
 	@RequestMapping("/admin/moveEvent")
 	public ModelAndView moveEventList(ModelAndView m) {
-		List<Event> list = service.selectEvent();
 		m.addObject("list", service.selectEvent());
 		m.setViewName("admin/event/eventList");
-		
+
 		return m;
 	}
-	
-	//이벤트 한개row삭제
+
+	// 이벤트 카테고리별 정렬
+	@RequestMapping("/admin/eventSort")
+	public ModelAndView eventSort(ModelAndView m, @RequestParam(value = "sort") String sort) {
+		System.out.println(sort);
+		List<Event> list;
+		if (sort.equals("전체보기")) {
+			list = service.selectEvent();
+		} else {// 카테고리별 정렬 선택했을때 //할인, 커뮤니티, 기타
+			list = service.selectEventSort(sort);
+		}
+		m.addObject("list", list);
+		m.setViewName("admin/event/eventListAjax");
+		return m;
+	}
+
+	// 이벤트 한개row삭제
 	@RequestMapping("/admin/eventDelete")
-	public ModelAndView eventDelete(ModelAndView mv,String eventNo) {
+	public ModelAndView eventDelete(ModelAndView mv, String eventNo) {
 		int result = service.eventDelete(eventNo);
 		String msg = "";
 		String loc = "";
 		String icon = "";
-		if(result>0) {
+		if (result > 0) {
 			msg = "삭제가 완료되었습니다!";
 			loc = "/admin/moveEvent";
 			icon = "success";
-		}else {
+		} else {
 			msg = "삭제가 실패했어요:(";
 			loc = "/admin/moveEvent";
 			icon = "error";
@@ -62,24 +77,24 @@ public class AdminController {
 		mv.setViewName("common/msg");
 		return mv;
 	}
-	
-	//이벤트등록페이지로 이동
+
+	// 이벤트등록페이지로 이동
 	@RequestMapping("/admin/moveInsertEvent")
 	public String moveEventWriteForm() {
 		return "admin/event/eventWrite";
 	}
-	
+
 	@RequestMapping("/admin/insertEvent")
-	public ModelAndView insertEvent(ModelAndView mv, String eventTitle, 
+	public ModelAndView insertEvent(ModelAndView mv, String eventTitle,
 			@DateTimeFormat(pattern = "yyyyMMdd") String eventStartDate,
-			@DateTimeFormat(pattern = "yyyyMMdd") String eventEndDate,
-			String eventCategory, int eventSalePer) throws ParseException {	
-		
-		System.out.println(eventStartDate); //2020-11-11
+			@DateTimeFormat(pattern = "yyyyMMdd") String eventEndDate, String eventCategory, int eventSalePer)
+			throws ParseException {
+
+		System.out.println(eventStartDate); // 2020-11-11
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 		Date d = (Date) sf.parse(eventStartDate);
 		Date d2 = (Date) sf.parse(eventEndDate);
-		
+
 		Event e = new Event();
 		e.setEventTitle(eventTitle);
 		e.setEventStartDate(d);
@@ -87,15 +102,15 @@ public class AdminController {
 		e.setEventCategory(eventCategory);
 		e.setEventSalePer(eventSalePer);
 		int result = service.insertEvent(e);
-		
+
 		String msg = "";
 		String loc = "";
 		String icon = "";
-		if(result>0) {
+		if (result > 0) {
 			msg = "이벤트가 생성되었습니다!:)";
 			loc = "/admin/moveEvent";
 			icon = "success";
-		}else {
+		} else {
 			msg = "생성이 실패했어요:(";
 			loc = "/admin/moveEvent";
 			icon = "error";
@@ -106,7 +121,8 @@ public class AdminController {
 		mv.setViewName("common/msg");
 		return mv;
 	}
-	//이벤트 수정
+
+	// 이벤트 수정
 	@RequestMapping("admin/moveEventUpdate")
 	public ModelAndView moveUpdateEvent(ModelAndView mv, String eventNo) {
 		Event e = service.selectEvent(eventNo);
@@ -114,11 +130,12 @@ public class AdminController {
 		mv.setViewName("admin/event/eventUpdate");
 		return mv;
 	}
+
 	@RequestMapping("/admin/eventUpdate")
-	public ModelAndView updateEvent(ModelAndView mv,String eventNo, String eventTitle, 
+	public ModelAndView updateEvent(ModelAndView mv, String eventNo, String eventTitle,
 			@DateTimeFormat(pattern = "yyyyMMdd") String eventStartDate,
-			@DateTimeFormat(pattern = "yyyyMMdd") String eventEndDate,
-			String eventCategory, int eventSalePer) throws ParseException {	
+			@DateTimeFormat(pattern = "yyyyMMdd") String eventEndDate, String eventCategory, int eventSalePer)
+			throws ParseException {
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 		Date d = (Date) sf.parse(eventStartDate);
 		Date d2 = (Date) sf.parse(eventEndDate);
@@ -130,15 +147,15 @@ public class AdminController {
 		e.setEventCategory(eventCategory);
 		e.setEventSalePer(eventSalePer);
 		int result = service.updateEvent(e);
-		
+
 		String msg = "";
 		String loc = "";
 		String icon = "";
-		if(result>0) {
+		if (result > 0) {
 			msg = "이벤트가 수정되었습니다!:)";
 			loc = "/admin/moveEvent";
 			icon = "success";
-		}else {
+		} else {
 			msg = "수정이 실패했어요:(";
 			loc = "/admin/moveEvent";
 			icon = "error";
@@ -147,23 +164,24 @@ public class AdminController {
 		mv.addObject("loc", loc);
 		mv.addObject("icon", icon);
 		mv.setViewName("common/msg");
-		
+
 		return mv;
 	}
-	
-	//회원관리
+
+	// 회원관리
+	//회원목록
 	@RequestMapping("/admin/memberList")
-	public ModelAndView memberList(ModelAndView mv,
-			@RequestParam(value="cPage",defaultValue="1") int cPage,
-			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage) {
-		List<Member> list=service.selectMemberList(cPage, numPerpage);
-		int totalData=service.selectMemberCount();
-		mv.addObject("list",list);
+	public ModelAndView memberList(ModelAndView mv, @RequestParam(value = "cPage", defaultValue = "1") int cPage,
+			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage) {
+		List<Member> list = service.selectMemberList(cPage, numPerpage);
+		int totalData = service.selectMemberCount();
+		mv.addObject("list", list);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "memberList"));
+		mv.addObject("pageBar", PageBarFactory.getPageBar(totalData, cPage, numPerpage, "memberList"));
 		mv.setViewName("admin/member/memberList");
 		return mv;
 	}
+
 	//관리지 권한 변경	
 	@RequestMapping("/admin/updateManagerYn")
 	@ResponseBody
@@ -202,24 +220,27 @@ public class AdminController {
 		return list;
 	}
 	
-	
-	
-	//1:1문의 
-	//qna(1:1) 목록 가져오기
-		@RequestMapping("/admin/qnaList")
-		public ModelAndView qnaList(ModelAndView mv,
-				@RequestParam(value="cPage", defaultValue="0") int cPage,
-				@RequestParam(value="numPerpage", defaultValue="5") int numPerpage) {
-			
-			mv.addObject("list",service.selectQnaList(cPage,numPerpage));
-			int totalData=service.selectQnaCount();
-			
-			mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "qnaList"));
-			mv.addObject("totalData", totalData);
-			mv.setViewName("admin/qna/qnaList");
-			
-			return mv;
-		}
-		
+
+	// 1:1문의
+	// qna(1:1) 목록 가져오기
+	@RequestMapping("/admin/qnaList")
+	public ModelAndView qnaList(ModelAndView mv, @RequestParam(value = "cPage", defaultValue = "0") int cPage,
+			@RequestParam(value = "numPerpage", defaultValue = "5") int numPerpage) {
+
+		mv.addObject("list", service.selectQnaList(cPage, numPerpage));
+		int totalData = service.selectQnaCount();
+
+		mv.addObject("pageBar", PageBarFactory.getPageBar(totalData, cPage, numPerpage, "qnaList"));
+		mv.addObject("totalData", totalData);
+		mv.setViewName("admin/qna/qnaList");
+
+		return mv;
+	}
+
+	// 메인index페이지 관리
+	@RequestMapping("/admin/moveMainBanners")
+	public String moveMainManaging() {
+		return "admin/main/banner";
+	}
 
 }
