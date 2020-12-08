@@ -1,7 +1,9 @@
 package com.kh.bom.zzim.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -41,6 +43,18 @@ public class ZzimController {
 		}
 		return mv;
 	}
+	//폴더이동 모달 내 찜폴더추가
+	@RequestMapping("/zzim/insertZzim2")
+	@ResponseBody
+	public Zzim insertZzim(Zzim z) {
+		int result =service.insertZzim(z);
+		Zzim zzim=new Zzim();
+		if(result>0) {
+			String zzimNo=service.selectSeqZzimNo();
+			zzim=service.selectZzimOne(zzimNo);
+		}
+		return zzim;
+	}
 	//찜폴더 내 찜콘텐츠리스트
 	@RequestMapping("/zzim/selectZzimContent")
 	public ModelAndView selectZzimContentList(ModelAndView mv,String zzimNo,String zzimName) {
@@ -55,7 +69,6 @@ public class ZzimController {
 	//다중 찜폴더 삭제
 	@RequestMapping("/zzim/deleteZzim")
 	public ModelAndView deleteZzim(ModelAndView mv,@RequestParam(value="delZzimNo")List<String> zzimNoList) {
-		System.out.println(zzimNoList);
 		int result=service.deleteZzim(zzimNoList);
 		String msg="";
 		String icon="";
@@ -103,8 +116,9 @@ public class ZzimController {
 	//찜 상품삭제
 	@RequestMapping("/zzim/deleteZzimContent")
 	public ModelAndView deleteZzimContent(ModelAndView mv,
-		@RequestParam(value="pdtNoCkBox") List<String> pdtNoList,Zzim z) {
-		int result=service.deleteZzimContent(pdtNoList);
+		@RequestParam(value="zzimContentNoCkBox") List<String> zzimContentNoList,Zzim z) {
+		
+		int result=service.deleteZzimContent(zzimContentNoList);
 		String msg="";
 		String icon="";
 		if(result>0) {
@@ -120,13 +134,40 @@ public class ZzimController {
 		mv.setViewName("common/msg");
 		return mv;
 	}
-	
+	//찜 폴더 리스트 모달열기
 	@RequestMapping("/zzim/zzimListModal")
-	public ModelAndView zzimListModal(ModelAndView mv, HttpSession session) {
+	public ModelAndView zzimListModal(ModelAndView mv,
+			@RequestParam(value="zzimContentNoList[]") List<String>zcNoList,
+			HttpSession session) {
 		Member m=(Member)session.getAttribute("loginMember");
 		List<Zzim> zzimList=service.selectZzimList(m.getMemNo());
+		System.out.println(zcNoList);
+		mv.addObject("zcNoList",zcNoList);
 		mv.addObject("zzimList",zzimList);
 		mv.setViewName("mypage/zzimListModal");
 		return mv; 
+	}
+	//찜상품 폴더이동
+	@RequestMapping("/zzim/updateZzimNo")
+	public ModelAndView updateZzimNo(ModelAndView mv,
+			@RequestParam(value="zcNo") List<String> zcNoList,
+			@RequestParam(value="updateZzimNo") String zzimNo) {
+		System.out.println(zcNoList);
+		System.out.println(zzimNo);
+		Map map=new HashMap();
+		map.put("zcNoList", zcNoList);
+		map.put("zzimNo",zzimNo);
+		System.out.println(map);
+		String msg="";
+		int result=service.updateZzimNo(map);
+		if(result>0) {
+			msg="폴더가 이동되었습니다.";
+		}else {
+			msg="폴더이동실패";
+		}
+		mv.addObject("msg",msg);
+		mv.addObject("loc","/mypage/zzimList");
+		mv.setViewName("common/msg");
+		return mv;
 	}
 }
