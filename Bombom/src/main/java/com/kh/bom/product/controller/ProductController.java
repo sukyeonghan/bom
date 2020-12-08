@@ -40,8 +40,41 @@ public class ProductController {
 		m.setViewName("product/allList");
 		return m;
 	}
+	//식품 카테고리 페이지
+	@RequestMapping("/product/food") 
+	public ModelAndView foodProduct(ModelAndView m) {
+		String cate="식품";
+		List<Product> list=service.cateProductList(cate);
+		int count=service.productCateCount(cate);
+		m.addObject("list",list);
+		m.addObject("count",count);
+		m.setViewName("product/foodList");
+		return m;
+	}
+	//잡화 카테고리 페이지
+	@RequestMapping("/product/stuff") 
+	public ModelAndView stuffProduct(ModelAndView m) {
+		String cate="잡화";
+		List<Product> list=service.cateProductList(cate);
+		int count=service.productCateCount(cate);
+		m.addObject("list",list);
+		m.addObject("count",count);
+		m.setViewName("product/stuffList");
+		return m;
+	}
+	//주방 카테고리 페이지
+	@RequestMapping("/product/kitchen") 
+	public ModelAndView kitchenProduct(ModelAndView m) {
+		String cate="주방";
+		List<Product> list=service.cateProductList(cate);
+		int count=service.productCateCount(cate);
+		m.addObject("list",list);
+		m.addObject("count",count);
+		m.setViewName("product/kitchenList");
+		return m;
+	}
 	
-	//욕실제품 페이지
+	//욕실 카테고리 페이지
 	@RequestMapping("/product/bathroom") 
 	public ModelAndView bathProduct(ModelAndView m) {
 		String cate="욕실";
@@ -52,7 +85,40 @@ public class ProductController {
 		m.setViewName("product/bathroomList");
 		return m;
 	}
-		
+	//여성용품 카테고리  페이지
+	@RequestMapping("/product/woman") 
+	public ModelAndView womanProduct(ModelAndView m) {
+		String cate="여성용품";
+		List<Product> list=service.cateProductList(cate);
+		int count=service.productCateCount(cate);
+		m.addObject("list",list);
+		m.addObject("count",count);
+		m.setViewName("product/womanList");
+		return m;
+	}
+	//반려동물 카테고리 페이지
+	@RequestMapping("/product/pet") 
+	public ModelAndView petProduct(ModelAndView m) {
+		String cate="반려동물";
+		List<Product> list=service.cateProductList(cate);
+		int count=service.productCateCount(cate);
+		m.addObject("list",list);
+		m.addObject("count",count);
+		m.setViewName("product/petList");
+		return m;
+	}
+	//할인제품 페이지
+	@RequestMapping("/product/sale") 
+	public ModelAndView saleProduct(ModelAndView m) {
+		//일단 보류
+		//String cate="할인상품";
+		//List<Product> list=service.cateProductList(cate);
+		//int count=service.productCateCount(cate);
+		//m.addObject("list",list);
+		//m.addObject("count",count);
+		m.setViewName("product/saleList");
+		return m;
+	}
 	//상품문의 카운트 - 상품상세 첫화면
 	@RequestMapping("/product/productOne")
 	public ModelAndView productOne(ModelAndView mv,

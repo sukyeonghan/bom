@@ -263,7 +263,7 @@ public class ProductAdminController {
 	
 	//by수경-제품 삭제
 	@RequestMapping("admin/deleteProduct")
-	public ModelAndView deletrProduct(String pdtNo,ModelAndView m) {
+	public ModelAndView deleteProduct(String pdtNo,ModelAndView m) {
 		int result=service.deleteOneProduct(pdtNo);
 		String msg="";
 		String icon = "";

@@ -88,10 +88,11 @@
 	
 	<!-- 제품목록출력 -->
 	<select id="selectProductList" resultMap="productMap">
-		SELECT * 
-		FROM PRODUCT 
+		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_INTRO,PDT_STATUS,PDT_DATE,EVENT_NO_REF,
+			LISTAGG(PDT_OPTION_NO,',')WITHIN GROUP(ORDER BY pdt_no_ref) OVER(PARTITION BY PDT_NO_REF)AS PDT_OPTION_NO
+		FROM PRODUCT P 
 			LEFT JOIN PRODUCT_OPTION ON(PDT_NO=PDT_NO_REF) 
-		ORDER BY PDT_DATE DESC 
+		ORDER BY PDT_DATE DESC
 	</select>
 	<!-- 제품 삭제 -->
 	<delete id="deleteProduct" parameterType="string">
