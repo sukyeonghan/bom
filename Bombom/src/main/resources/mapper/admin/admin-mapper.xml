@@ -147,19 +147,6 @@
 			SELECT PDT_NO FROM PRODUCT WHERE PDT_NAME=#{pdtName}
 		</selectKey>
 	</update>
-	<!-- 옵션 수정 -->
-	<update id="updateOption" parameterType="option">
-		UPDATE PRODUCT_OPTION SET
-			PDT_OPTION_CONTENT=#{pdtOptionContent},
-			PDT_OPTION_ADDPRICE=#{pdtOptionAddprice}
-		WHERE PDT_NO_REF=#{pdtNo}
-	</update>
-	<!-- 썸네일 수정 -->
-	<update id="updateThumb" parameterType="thumb">
-		UPDATE PRODUCT_THUMB SET
-			PDT_THUMB_IMAGE=#{renamedFileName}
-		WHERE PDT_NO_REF=#{pdtNo}
-	</update>
 	<!-- 썸네일 삭제 -->
 	<delete id="deleteThumb" parameterType="string">
 		DELETE FROM PRODUCT_THUMB WHERE PDT_NO_REF=#{pdtNo}
@@ -168,6 +155,14 @@
 	<delete id="deleteOption" parameterType="string">
 		DELETE FROM PRODUCT_OPTION WHERE PDT_NO_REF=#{pdtNo}
 	</delete>
+	<!-- 옵션 여부 확인용 -->
+	<select id="checkOption" resultMap="productMap" parameterType="string">
+		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_INTRO,PDT_STATUS,PDT_DATE,EVENT_NO_REF,
+			LISTAGG(PDT_OPTION_NO,',')WITHIN GROUP(ORDER BY pdt_no_ref) OVER(PARTITION BY PDT_NO_REF)AS PDT_OPTION_NO 
+		FROM PRODUCT 
+			LEFT JOIN PRODUCT_OPTION ON(PDT_NO=PDT_NO_REF) 
+		WHERE PDT_NO=#{pdtNo}
+	</select>
 	<select id="selectMemberList" resultMap="memberMap">
 		SELECT * FROM MEMBER
 	</select>

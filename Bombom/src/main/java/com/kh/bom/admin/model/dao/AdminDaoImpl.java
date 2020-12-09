@@ -108,18 +108,6 @@ public class AdminDaoImpl implements AdminDao {
 		return session.update("admin.updateProduct",p);
 	}
 	
-	//옵션 수정
-	@Override
-	public int updateOption(SqlSession session, ProductOption o) {
-		// TODO Auto-generated method stub
-		return session.update("admin.updateOption",o);
-	}
-	//썸네일 수정
-	@Override
-	public int updateThumb(SqlSession session,ProductThumb th) {
-		// TODO Auto-generated method stub
-		return session.update("admin.updateThumb",th);
-	}
 	//썸네일 삭제
 	@Override
 	public int deleteThumb(SqlSession session, String pdtNo) {
@@ -131,6 +119,12 @@ public class AdminDaoImpl implements AdminDao {
 	public int deleteOption(SqlSession session, String pdtNo) {
 		// TODO Auto-generated method stub
 		return session.delete("admin.deleteOption",pdtNo);
+	}
+	//옵션 여부 확인
+	@Override
+	public Product checkOption(SqlSession session, String pdtNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.checkOption",pdtNo);
 	}
 	//1:1목록 가져오기
 	@Override

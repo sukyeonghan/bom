@@ -28,8 +28,8 @@ public interface AdminDao {
 	List<ProductOption> selectOption(SqlSession session,String pdtNo);
 	List<ProductThumb> selectThumb(SqlSession session,String pdtNo);
 	int updateProduct(SqlSession session,Product p);
-	int updateOption(SqlSession session,ProductOption o);
-	int updateThumb(SqlSession session,ProductThumb th);
+	Product checkOption(SqlSession session,String pdtNo);
+	
 	int deleteThumb(SqlSession session,String pdtNo);
 	int deleteOption(SqlSession session,String pdtNo);
 
