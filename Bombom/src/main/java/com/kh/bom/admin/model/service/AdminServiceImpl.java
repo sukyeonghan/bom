@@ -1,8 +1,10 @@
 package com.kh.bom.admin.model.service;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<Event> selectEvent() {
 		return dao.selectEvent(session);
+	}
+
+	@Override
+	public List<Event> selectEventSort(String sort) {
+		return dao.selectEventSort(session, sort);
 	}
 
 	@Override
@@ -62,9 +69,22 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		int result=0;
 		String no="";
+		
+		/*
+		 * String path=((HttpSession)
+		 * session).getServletContext().getRealPath("/resources/upload/product"); File
+		 * file=new File(path);
+		 */
+		
 		for(int i=0; i<delnum.size(); i++) {
 			no=delnum.get(i);
 			result=dao.deleteProduct(session,no);
+			/*if(result>0) {
+				//제품 삭제하면 해당 제품사진도 같이 삭제하기
+				
+				 * if(file.exists()) { if(file.delete()) { result=dao.deletePicture(no); } }
+				
+			} */
 		}
 		return result;
 	}
@@ -72,6 +92,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int deleteOneProduct(String pdtNo) {
 		// TODO Auto-generated method stub
+		
 		return dao.deleteProduct(session, pdtNo);
 	}
 	//제품등록
@@ -172,6 +193,29 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.selectMemberCount(session);
 	}
+	//관리자권한 변경
+	@Override
+	public int updateManagerYn(Member m) {
+		// TODO Auto-generated method stub
+		return dao.updateManagerYn(session,m);
+	}
+
+	@Override
+	public List<Member> selectMemberSearch(int cPage, int numPerpage, Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectMemberSearch(session,cPage, numPerpage, map);
+	}
+	@Override
+	public int selectMemberCount(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.selectMemberCount(session,map);
+	}
+	@Override
+	public List<Member> memberAutoComplete(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.memberAutoComplete(session,map);
+	}
+	
 	
 	@Override
 	public List<Qna> selectQnaList(int cPage, int numPerpage) {

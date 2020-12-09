@@ -64,6 +64,11 @@
 		SELECT * FROM EVENT 
 	</select>
 	
+	<!-- 이벤트 목록 정렬하기 -->
+	<select id="selectEventSort" parameterType="string" resultMap="eventMap">
+		SELECT * FROM EVENT WHERE EVENT_CATEGORY = #{sort}	
+	</select>
+	<!-- 이벤트 번호 가져오기 -->
 	<select id="selectEventOne" parameterType="string" resultMap="eventMap">
 		SELECT * FROM EVENT WHERE EVENT_NO = #{eventNo}
 	</select>
@@ -88,10 +93,11 @@
 	
 	<!-- 제품목록출력 -->
 	<select id="selectProductList" resultMap="productMap">
-		SELECT * 
-		FROM PRODUCT 
+		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_INTRO,PDT_STATUS,PDT_DATE,EVENT_NO_REF,
+			LISTAGG(PDT_OPTION_NO,',')WITHIN GROUP(ORDER BY pdt_no_ref) OVER(PARTITION BY PDT_NO_REF)AS PDT_OPTION_NO
+		FROM PRODUCT P 
 			LEFT JOIN PRODUCT_OPTION ON(PDT_NO=PDT_NO_REF) 
-		ORDER BY PDT_DATE DESC 
+		ORDER BY PDT_DATE DESC
 	</select>
 	<!-- 제품 삭제 -->
 	<delete id="deleteProduct" parameterType="string">
@@ -175,6 +181,54 @@
 		SELECT COUNT(*) FROM MEMBER
 	</select>
 	
+	<update id="updateManagerYn" parameterType="member">
+		UPDATE MEMBER SET mem_manager_yn = #{memManagerYn} WHERE MEM_NO=#{memNo}
+	</update>
+	
+	<select id="selectMemberSearch" parameterType="map" resultMap="memberMap">
+		SELECT * FROM MEMBER WHERE 
+		<if test='searchType eq "nick"'>
+			 mem_nick LIKE '%'||#{keyword}||'%'
+		</if>															
+		<if test='searchType eq "email"'>
+			 mem_email LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test='searchType eq "all"'>
+			 mem_email LIKE '%'||#{keyword}||'%' or mem_nick LIKE '%'||#{keyword}||'%'
+		</if>
+	</select>
+	
+	<select id="selectMemberCount2" parameterType="map" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER
+		<where>
+		<if test='searchType eq "nick"'>
+			 mem_nick LIKE '%'||#{keyword}||'%'
+		</if>															
+		<if test='searchType eq "email"'>
+			 mem_email LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test='searchType eq "all"'>
+			 mem_email LIKE '%'||#{keyword}||'%' or mem_nick LIKE '%'||#{keyword}||'%'
+		</if>
+		</where>
+	</select>
+	
+	<select id="memberAutoComplete" parameterType="map" resultMap="memberMap">
+		SELECT mem_nick, mem_email FROM MEMBER 
+		<where>
+		<if test='searchType eq "nick"'>
+			 mem_nick LIKE '%'||#{keyword}||'%'
+		</if>															
+		<if test='searchType eq "email"'>
+			 mem_email LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test='searchType eq "all"'>
+			 mem_email LIKE '%'||#{keyword}||'%' or mem_nick LIKE '%'||#{keyword}||'%'
+		</if>
+		</where>	
+	</select>
+	
+
 	<select id="selectQnaList" resultMap="qnaMap">
 		SELECT ROWNUM, Q.*FROM (SELECT * FROM QNA ORDER BY QNA_DATE ASC) Q ORDER BY ROWNUM DESC
 	</select>

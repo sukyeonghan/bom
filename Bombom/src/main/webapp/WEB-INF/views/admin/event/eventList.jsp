@@ -86,19 +86,25 @@
 		<div id="" class=" mr-3 admin-nav">
 		  <ul class="nav flex-column">
 		    <li class="nav-item">
-      			<a class="nav-link non-select" href="${path }/admin/memberList">회원관리</a>
+      			<a class="nav-link non-select" href="path/admin/memberList">회원관리</a>
 		    </li>
 		    <li class="nav-item">
-		      	<a class="nav-link select" href="${path }/admin/moveProduct">제품관리</a>
+		      	<a class="nav-link non-select" href="path/admin/moveProduct">제품관리</a>
 		    </li>
 		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="${path }/">주문관리</a>
+		     	 <a class="nav-link non-select" href="path/">주문관리</a>
 		    </li>
 		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="${path }/">1:1문의관리</a>
+		     	 <a class="nav-link non-select" href="path/">1:1문의관리</a>
 		    </li>
 		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="${path }/admin/moveEvent">이벤트관리</a>
+		      	<a class="nav-link select" href="path/admin/moveEvent">이벤트관리</a>
+		    </li>
+		    <li class="nav-item">
+		      	<a class="nav-link non-select" href="path/">커뮤니티관리</a>
+		    </li>
+		    <li class="nav-item">
+		      	<a class="nav-link non-select" href="path/admin/moveMainBanners">메인관리</a>
 		    </li>
 		  </ul>
 		</div>
@@ -114,21 +120,22 @@
 				</div>
 				<!--카테고리 정렬  -->
 				<div class="select-box">
-					<select class="sort">
-						<option>전체보기</option>
-						<option>할인</option>
-						<option>커뮤니티</option>
-						<option>기타</option>
+					<select id="event_sort" class="sort">
+						<option value="전체보기">전체보기</option>
+						<option value="할인">할인</option>
+						<option value="커뮤니티">커뮤니티</option>
+						<option value="기타">기타</option>
 					</select>
 				</div>
 			</div>
 			
 			<!-- 관리 테이블 -->
-			<div id="event-table-wrap">
+			<div id="event-table-wrap" class="post table-responsive-md">
 				<table id="event-table" class="table table-hover">
 					<tr>
 						<th></th>
 						<th>번호</th>
+						<th>카테고리</th>
 						<th>제목</th>
 						<th>할인품목</th>
 						<th>할인율</th>
@@ -140,6 +147,7 @@
 					<tr>
 						<td><input type="checkbox" name="check" value="check"></td>
 						<td><p class="eventNo"><c:out value="${e.eventNo}"/></p></td>
+						<td><p class="eventCategory"><c:out value="${e.eventCategory}"/></p></td>
 						<td><c:out value="${e.eventTitle }" /></td>
 						<td><a class="direct-product" href="${path}/product/productAll">상품명---</a></td>
 						<td><c:out value="${e.eventSalePer }" />%</td>
@@ -223,5 +231,26 @@
 		}
 		
 	}
+	
+	//카테고리별 정렬하기
+	$("#event_sort").change(e => {
+		console.log($(e.target).val()); //전체보기, 할인, 커뮤니티, 기타
+		$.ajax({
+			url:"${path}/admin/eventSort",
+			data:{"sort":$(e.target).val()},
+	        dataType:"html",
+	        type:"post",
+	        success:data =>{
+				console.log(data);
+				$("#event-table-wrap").html("");
+				
+				//왜 다 가져와버릴까.... 테이블만 가져와야 하는딩......				
+				$("#event-table-wrap").html(data);
+			
+	        
+	        }
+		});
+	});
+	
 	
 </script>
