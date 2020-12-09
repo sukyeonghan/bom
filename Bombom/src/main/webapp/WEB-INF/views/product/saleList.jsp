@@ -120,9 +120,7 @@
 		  				</c:forEach>
 		  			</c:when>
 		  			<c:otherwise>
-		  				
 		  				<img class="noItem" alt="" src="${path }/resources/images/product/noItem2.png" >
-		  			
 		  			</c:otherwise>
 		  		</c:choose>
 		  		
