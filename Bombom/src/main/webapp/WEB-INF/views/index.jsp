@@ -7,38 +7,63 @@
 
 <!-- swiper css -->
 <style>
-    .swiper-container {
-        height: 500px;
-        width: 1000px;
-        min-width: 550px;
-    }
+.swiper-container {
+	height: 500px;
+	width: 1000px;
+	min-width: 550px;
+}
 
-    .swiper-slide {
-        text-align: center;
-        font-size: 18px;
-        background: #fff;
+.swiper-slide {
+	text-align: center;
+	font-size: 18px;
+	background: #fff;
+	/* Center slide text vertically */
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+}
 
-        /* Center slide text vertically */
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-    }
-    
-    .banner_text_area{
-	    position: absolute;
-	    text-align: left;
-	    bottom: 100px;
-    }
-   
+#mainBanner_400{
+	background: #FFFFE8;
+}
+
+#mainBanner_400 .carousel-inner {
+    height: 400px;
+}
+
+#mainBanner_400 .banner_div {
+	width: 100%;
+	height: 400px;
+	overflow: hidden;
+}
+
+#mainBanner_400 .carousel-caption {
+	position: absolute;
+	text-align: left;
+	top: 50%;
+	color:#000000;
+}
+
+@media ( max-width : 768px) {
+	#mainBanner .carousel-inner {
+		height: 200px;
+	}
+	#mainBanner .carousel-caption {
+		position: relative;
+		text-align: left;
+		top: auto;
+	}
+} 
+
 </style>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" >
@@ -46,63 +71,98 @@
 </jsp:include>
 
     <section id="container">
-        <!-- 슬라이드 쇼 -->
+        <!-- 슬라이드 쇼-height400px -->
         <div id="swiperWrap-container">
-            <div id="mainBanner" class="carousel slide" data-ride="carousel">
+            <div id="mainBanner_400" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
-                    <li data-target="#mainBanner" data-slide-to="0" class="active"></li>
-                    <li data-target="#mainBanner" data-slide-to="1"></li>
-                    <li data-target="#mainBanner" data-slide-to="2"></li>
-                    <li data-target="#mainBanner" data-slide-to="3"></li>
+                    <li data-target="#mainBanner_400" data-slide-to="0" class="active"></li>
+                    <li data-target="#mainBanner_400" data-slide-to="1"></li>
+                    <li data-target="#mainBanner_400" data-slide-to="2"></li>
+                    <li data-target="#mainBanner_400" data-slide-to="3"></li>
                 </ol>
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img class="d-block w-100" src="${path }/resources/images/main/banner/main-banner1.jpg" alt="First slide">
-                        <div class="carousel-caption" style="position: absolute;text-align: left; bottom: 100px;">
-					        <h3>Los Angeles</h3>
-					        <p>We had such a great time in LA!</p>
-					    </div>   
+                    <div class="carousel-item active banner_div">
+                        <img class="banner_img" src="${path }/resources/images/main/banner/main-banner1.jpg" alt="First slide">
+                        <div class="carousel-caption">
+                            <h3>제로웨이스터라고<br>당당하게 말하기</h3>
+                            <p>Zerowaste<br>Passion Pack ~20%</p>
+                        </div>
                     </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100" src="${path }/resources/images/main/banner/main-banner2.jpg" alt="Second slide">
-                    	<div class="carousel-caption " style="position: absolute;text-align: left; bottom: 100px;">
-					        <h3>Los Angeles</h3>
-					        <p>We had such a great time in LA!</p>
-					    </div>
+
+                    <div class="carousel-item banner_div">
+                        <img class="banner_img" src="${path }/resources/images/main/banner/main-banner2.jpg" alt="Second slide">
+                        <div class="carousel-caption">
+                            <h3>여행도 쓰레기 없이.<br>제로웨이스트 어메니티.</h3>
+                            <p>대나무칫솔&고체치약</p>
+                        </div>
                     </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100" src="${path }/resources/images/main/banner/main-banner3.jpg" alt="Third slide">
-                    	<div class="carousel-caption " style="position: absolute;text-align: left; bottom: 100px;">
-					        <h3>Los Angeles</h3>
-					        <p>We had such a great time in LA!</p>
-					    </div>
+                    <div class="carousel-item banner_div">
+                        <img class="banner_img" src="${path }/resources/images/main/banner/main-banner3.jpg" alt="Third slide">
+                        <div class="carousel-caption ">
+                            <h3>영수증 안주셔도 되요<br>현명하게 거절하기</h3>
+                            <p>제로 웨이스트 치어링 스티커팩</p>
+                        </div>
                     </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100" src="${path }/resources/images/main/banner/main-banner4.jpg" alt="Third slide">
-                    	<div class="carousel-caption " style="position: absolute;text-align: left; bottom: 100px;">
-					        <h3>Los Angeles</h3>
-					        <p>We had such a great time in LA!</p>
-					    </div>
+                    <div class="carousel-item banner_div">
+                        <img class="banner_img" src="${path }/resources/images/main/banner/main-banner4.jpg" alt="Third slide">
+                        <div class="carousel-caption ">
+                            <h3>우리가 해야 할<br>미세플라스틱 없는<br>진짜 설거지,</h3>
+                            <p>다시:봄 주방비누</p>
+                        </div>
                     </div>
                 </div>
-                <a class="carousel-control-prev" href="#mainBanner" role="button" data-slide="prev">
+                <a class="carousel-control-prev" href="#mainBanner_400" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 </a>
-                <a class="carousel-control-next" href="#mainBanner" role="button" data-slide="next">
+                <a class="carousel-control-next" href="#mainBanner_400" role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 </a>
             </div>
         </div>
         <!-- 슬라이드 쇼 끝 -->
+
+
+        <script>
+            $(function () {
+                //메인배너 이미지크기 맞추기
+                var banner = $(".carousel-item");
+                var bannerImg = $(".banner_img");
+                var bannerAspect = banner.height / banner.width;
+                var imgAspect = bannerImg.height / bannerImg.width;
+                
+                    console.log(bannerAspect);
+                    console.log(imgAspect);
+                    
+               	banner.style.overflow = 'hidden';
+                
+              	if (imgAspect <= bannerAspect) { 
+              		//이미지가 banner보다 가로가 더 길 경우 세로를 banner에 맞추고 가로는 잘라냄.
+                    var imgWidthActual = banner.offsetHeight / imgAspect;
+                    var imgWidthToBe = banner.offsetHeight / bannerAspect;
+                    var marginLeft = -Math.round((imgWidthActual - imgWidthToBe) / 2);
+                    bannerImg.style.cssText = 'width: auto; height: 100%; margin-left: ' + marginLeft + 'px;'
+              	}else {
+					// 이미지가 div보다 세로가 더 길 경우 가로를 div에 맞추고 세로를 잘라낸다
+					bannerImg.style.cssText = 'width: 100%; height: auto; margin-left:0;'
+                }
+            })
+
+        </script>
+        
+        
+        
+        
+        
+        
  
         <!-- 상품 카테고리 홍보 section -->
-        <div id="productAd-container" class="container term">
+        <div id="productAd-container" class="container term" >
             <div class="row">
                 <div class="col-4">
                     <a href="#"><img class="productAd" src="${path }/resources/images/main/productCategory/전체상품.png" alt=""></a>
-                    <div id="productAd-text">
-                        <h4>전체상품</h4>
-                        <a href="#">GO</a>
+                    <div id="productAd-text" class="d-flex justify-content-between">
+                        <div><h4>전체상품</h4></div>
+                        <div class=""><a href="#">GO</a></div>
                     </div>
 
                 </div>
@@ -165,7 +225,7 @@
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
                                 <div class="col-md-4">
-                                    <a href="#"><img class="productAd" src="피그마이미지/제품홍보배너/전체상품.png" alt=""></a>
+                                    <a href="#"><img class="productAd" src="" alt=""></a>
                                     <div id="productAd-text">
                                         <h4>전체상품</h4>
                                         <a href="#">GO</a>

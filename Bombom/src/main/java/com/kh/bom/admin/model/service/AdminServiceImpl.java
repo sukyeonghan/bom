@@ -33,6 +33,11 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	public List<Event> selectEventSort(String sort) {
+		return dao.selectEventSort(session, sort);
+	}
+
+	@Override
 	public Event selectEvent(String eventNo) {
 		return dao.selectEvent(session, eventNo);
 	}
@@ -180,18 +185,32 @@ public class AdminServiceImpl implements AdminService {
 		}
 		return result;
 	}
+	//회원관리
+	//관리자권한 변경
+	@Override
+	public int updateManagerYn(Member m) {
+		// TODO Auto-generated method stub
+		return dao.updateManagerYn(session,m);
+	}
+	//회원리스트
+	@Override
+	public List<Member> selectMemberList(int cPage, int numPerpage, Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectMemberList(session,cPage, numPerpage, map);
+	}
+	//회원수
+	@Override
+	public int selectMemberCount(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.selectMemberCount(session,map);
+	}
+	//검색어자동완성
+	@Override
+	public List<Member> memberAutoComplete(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.memberAutoComplete(session,map);
+	}
 	
-	@Override
-	public List<Member> selectMemberList(int cPage,int numPerpage) {
-		// TODO Auto-generated method stub
-		return dao.selectMemberList(session,cPage, numPerpage);
-	}
-
-	@Override
-	public int selectMemberCount() {
-		// TODO Auto-generated method stub
-		return dao.selectMemberCount(session);
-	}
 	
 	@Override
 	public List<Qna> selectQnaList(int cPage, int numPerpage) {
@@ -203,6 +222,12 @@ public class AdminServiceImpl implements AdminService {
 	public int selectQnaCount() {
 		// TODO Auto-generated method stub
 		return dao.selectQnaCount(session);
+	}
+
+	@Override
+	public int insertQnaAnswer(Qna q) {
+		// TODO Auto-generated method stub
+		return dao.insertQnaAnswer(session, q);
 	}
 	
 	
