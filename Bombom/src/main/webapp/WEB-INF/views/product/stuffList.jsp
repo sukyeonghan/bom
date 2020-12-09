@@ -7,7 +7,6 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="${path }/resources/css/product/productList.css">
 
-
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="소개" />
 </jsp:include>
@@ -20,8 +19,8 @@
 			<ul>
         		<li><a class="non-select" href="${path }/product/productAll">전체제품</a></li>
 	        	<li><a class="non-select" href="${path }/product/food">식품</a></li>
-          	 	<li><a class="non-select" href="${path }/product/stuff">잡화</a></li>
-            	<li><a class="select" href="${path }/product/kitchen">주방</a></li>
+          	 	<li><a class="select" href="${path }/product/stuff">잡화</a></li>
+            	<li><a class="non-select" href="${path }/product/kitchen">주방</a></li>
             	<li><a class="non-select" href="${path }/product/bathroom">욕실</a></li>
             	<li><a class="non-select" href="${path }/product/woman">여성용품</a></li>
             	<li><a class="non-select" href="${path }/product/pet">반려동물</a></li>
@@ -33,7 +32,7 @@
 			<!-- 카테고리 및 정렬 -->
 			<div class="category-sort">
 				<div class="item-count">
-					<p class="category">주방 &nbsp </p>
+					<p class="category">잡화 &nbsp </p>
 					<p class="count"><c:out value="${count}"/></p>
 				</div>
 				<div class="select-box">
