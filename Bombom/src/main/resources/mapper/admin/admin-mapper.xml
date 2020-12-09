@@ -64,6 +64,11 @@
 		SELECT * FROM EVENT 
 	</select>
 	
+	<!-- 이벤트 목록 정렬하기 -->
+	<select id="selectEventSort" parameterType="string" resultMap="eventMap">
+		SELECT * FROM EVENT WHERE EVENT_CATEGORY = #{sort}	
+	</select>
+	<!-- 이벤트 번호 가져오기 -->
 	<select id="selectEventOne" parameterType="string" resultMap="eventMap">
 		SELECT * FROM EVENT WHERE EVENT_NO = #{eventNo}
 	</select>
@@ -147,19 +152,6 @@
 			SELECT PDT_NO FROM PRODUCT WHERE PDT_NAME=#{pdtName}
 		</selectKey>
 	</update>
-	<!-- 옵션 수정 -->
-	<update id="updateOption" parameterType="option">
-		UPDATE PRODUCT_OPTION SET
-			PDT_OPTION_CONTENT=#{pdtOptionContent},
-			PDT_OPTION_ADDPRICE=#{pdtOptionAddprice}
-		WHERE PDT_NO_REF=#{pdtNo}
-	</update>
-	<!-- 썸네일 수정 -->
-	<update id="updateThumb" parameterType="thumb">
-		UPDATE PRODUCT_THUMB SET
-			PDT_THUMB_IMAGE=#{renamedFileName}
-		WHERE PDT_NO_REF=#{pdtNo}
-	</update>
 	<!-- 썸네일 삭제 -->
 	<delete id="deleteThumb" parameterType="string">
 		DELETE FROM PRODUCT_THUMB WHERE PDT_NO_REF=#{pdtNo}
@@ -168,20 +160,83 @@
 	<delete id="deleteOption" parameterType="string">
 		DELETE FROM PRODUCT_OPTION WHERE PDT_NO_REF=#{pdtNo}
 	</delete>
-	<select id="selectMemberList" resultMap="memberMap">
+	<!-- 옵션 여부 확인용 -->
+	<select id="checkOption" resultMap="productMap" parameterType="string">
+		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_INTRO,PDT_STATUS,PDT_DATE,EVENT_NO_REF,
+			LISTAGG(PDT_OPTION_NO,',')WITHIN GROUP(ORDER BY pdt_no_ref) OVER(PARTITION BY PDT_NO_REF)AS PDT_OPTION_NO 
+		FROM PRODUCT 
+			LEFT JOIN PRODUCT_OPTION ON(PDT_NO=PDT_NO_REF) 
+		WHERE PDT_NO=#{pdtNo}
+	</select>
+
+
+	<!-- 회원관리 -->
+	<!--관리자 전환 -->
+	<update id="updateManagerYn" parameterType="member">
+		UPDATE MEMBER SET mem_manager_yn = #{memManagerYn} WHERE MEM_NO=#{memNo}
+	</update>
+	<!-- 회원리스트 -->
+	<select id="selectMemberList" parameterType="map" resultMap="memberMap">
+
 		SELECT * FROM MEMBER
+		<if test='keyword != null or keyword != ""'>
+		<where>
+			<if test='searchType eq "nick"'>
+				 mem_nick LIKE '%'||#{keyword}||'%'
+			</if>															
+			<if test='searchType eq "email"'>
+				 mem_email LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test='searchType eq "all"'>
+				 mem_email LIKE '%'||#{keyword}||'%' or mem_nick LIKE '%'||#{keyword}||'%'
+			</if>
+		</where> 
+		</if>
 	</select>
-	
-	<select id="selectMemberCount" resultType="_int">
+	<!-- 회원수 -->
+	<select id="selectMemberCount" parameterType="map" resultType="_int">
 		SELECT COUNT(*) FROM MEMBER
+		<if test='keyword != null or keyword != ""'>
+		<where>
+			<if test='searchType eq "nick"'>
+				 mem_nick LIKE '%'||#{keyword}||'%'
+			</if>															
+			<if test='searchType eq "email"'>
+				 mem_email LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test='searchType eq "all"'>
+				 mem_email LIKE '%'||#{keyword}||'%' or mem_nick LIKE '%'||#{keyword}||'%'
+			</if>
+		</where>
+		</if>
 	</select>
-	
+	<!-- 검색어자동완성 -->
+	<select id="memberAutoComplete" parameterType="map" resultMap="memberMap">
+		SELECT mem_nick, mem_email FROM MEMBER 
+		<where>
+		<if test='searchType eq "nick"'>
+			 mem_nick LIKE '%'||#{keyword}||'%'
+		</if>															
+		<if test='searchType eq "email"'>
+			 mem_email LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test='searchType eq "all"'>
+			 mem_email LIKE '%'||#{keyword}||'%' or mem_nick LIKE '%'||#{keyword}||'%'
+		</if>
+		</where>	
+	</select>
+	<!-- 회원관리 끝! -->
+
 	<select id="selectQnaList" resultMap="qnaMap">
-		SELECT ROWNUM,QNA.*FROM QNA ORDER BY ROWNUM DESC
+		SELECT ROWNUM, Q.*FROM (SELECT * FROM QNA ORDER BY QNA_DATE ASC) Q ORDER BY ROWNUM DESC
 	</select>
 	
 	<select id="selectQnaCount" resultType="_int">
 		SELECT COUNT(*) FROM QNA
 	</select>
+	
+	<update id="insertQnaAnswer" parameterType="qna">
+		UPDATE QNA SET QNA_YN='Y', QNA_ANSWER=#{qnaAnswer}, QNA_ANSWER_DATE=SYSDATE WHERE QNA_NO=#{qnaNo}
+	</update>
 	
 </mapper>

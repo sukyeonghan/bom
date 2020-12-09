@@ -145,6 +145,7 @@
                   </tr>
                 </thead>
                 <tbody>
+              	   <tr>
                     <td rowspan="2">2020-11-19<br><a href="#">[202011190009]</a></td>
                     <td>상품이미지</td>
                     <td>실리콘빨대</td>
@@ -161,6 +162,7 @@
                     <td>배송중[3650928566501]</td>
                     <td><button type="button" class="btn btn-outline-success">구매확정</button></td>
                   </tr>
+                  <tr>
                     <td>2020-11-19<br><a href="#">[202011190009]</a></td>
                     <td>상품이미지</td>
                     <td>샴푸바</td>
@@ -168,6 +170,7 @@
                     <td>9,000원</td>
                     <td>배송완료[3650928566501]</td>
                     <td><button type="button" class="btn btn-outline-success">리뷰작성</button></td>
+                  </tr>
                 </tbody>
               </table>
               <div id="page-bar">

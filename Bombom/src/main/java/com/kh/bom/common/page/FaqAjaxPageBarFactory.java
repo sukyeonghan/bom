@@ -71,7 +71,6 @@ public class FaqAjaxPageBarFactory {
 		pageBar+="data:{category:category,cPage:cPage,numPerpage:5},";
 		pageBar+="type:'get',";
 		pageBar+="success:data=>{";
-		pageBar+="console.log(data);";
 					
 		pageBar+="document.getElementById('result').innerHTML=data";
 		pageBar+="}";	

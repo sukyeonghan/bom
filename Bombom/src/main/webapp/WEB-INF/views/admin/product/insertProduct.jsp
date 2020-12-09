@@ -307,7 +307,7 @@
 	//제품명 유효성 검사
 	$("#name").focusout(function() {
 		
-		var name=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9%()-_, ]*$/;
+		var name=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9%()-_,/ ]*$/;
 		if(!name.test($("#name").val())){
 	   		swal("제품명에 특수문자는 입력하실 수 없습니다.");
 	   		$("#name").val('');
