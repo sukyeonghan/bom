@@ -48,10 +48,9 @@
 		  	<!-- 제품목록 -->
 		  	<div class="all-item-wrap"  style="display: flex;min-width: 80%;flex-wrap: wrap;">
 		  		<c:choose>
-		  			<c:when test="${empty list }">
-		  				<img class="noItem" alt="" src="${path }/resources/images/product/noItem2.png" >
-		  			</c:when>
-		  			<c:otherwise>
+		  			
+		  			
+		  			<c:when test="${not empty p.eventNoRef } and ${p.salePer!=0 }">
 		  				<c:forEach var="p" items="${list }" >
 		  					<div class="item-wrap">
 				                <div>
@@ -106,9 +105,9 @@
 				                    		</c:if>
 				                    	</c:forEach>
 				                        <!-- 세일하면 (이벤트 )-->
-				                        <c:if test="${not empty p.eventNoRef } and ${p.salePer!=0 }">
-				                        	<div class="sale-icon">SALE</div> 
-				                        </c:if>
+				                        
+				                        <div class="sale-icon">SALE</div> 
+				                        
 				                        <!-- 판매상태가 N으로 바뀌면 -->	
 				                        <c:if test="${p.pdtStatus=='N'}">
 				                        	  <div class="soldout-icon">SOLDOUT</div>
@@ -119,6 +118,11 @@
 				                </div>
            					 </div>
 		  				</c:forEach>
+		  			</c:when>
+		  			<c:otherwise>
+		  				
+		  				<img class="noItem" alt="" src="${path }/resources/images/product/noItem2.png" >
+		  			
 		  			</c:otherwise>
 		  		</c:choose>
 		  		

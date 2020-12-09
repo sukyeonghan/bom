@@ -125,6 +125,8 @@ public class ProductController {
 		//전체 리스트 보내서 화면단에서 처리하기
 		List<Product> list=service.selectProductList();
 		int count=service.productAllCount();
+		List<Product> newList=service.selectNewList();
+		m.addObject("newList",newList);
 		m.addObject("list",list);
 		m.addObject("count",count);
 		m.setViewName("product/saleList");
