@@ -34,14 +34,17 @@ public interface AdminDao {
 	int updateThumb(SqlSession session,ProductThumb th);
 	int deleteThumb(SqlSession session,String pdtNo);
 	int deleteOption(SqlSession session,String pdtNo);
-
-	List<Member> selectMemberList(SqlSession session, int cPage, int numPerpage);
-	int selectMemberCount(SqlSession session);
+	
+	//회원관리
 	//관리자권한 변경
 	int updateManagerYn(SqlSession session, Member m);
-	List<Member> selectMemberSearch(SqlSession session,int cPage, int numPerpage, Map map);
+	//회원리스트
+	List<Member> selectMemberList(SqlSession session,int cPage, int numPerpage, Map map);
+	//회원수
 	int selectMemberCount(SqlSession session, Map<String, String> map);
+	//검색자동완성
 	List<Member> memberAutoComplete(SqlSession session, Map<String, String> map);
+	
 	
 	List<Qna> selectQnaList(SqlSession session, int cPage, int numPerpage);
 	int selectQnaCount(SqlSession session);

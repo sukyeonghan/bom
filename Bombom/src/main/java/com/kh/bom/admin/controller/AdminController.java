@@ -1,7 +1,5 @@
 package com.kh.bom.admin.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,7 +10,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.admin.model.vo.Event;
+import com.kh.bom.common.page.MemberPageBarFactory;
 import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.member.model.vo.Member;
 
@@ -171,13 +169,19 @@ public class AdminController {
 	// 회원관리
 	//회원목록
 	@RequestMapping("/admin/memberList")
-	public ModelAndView memberList(ModelAndView mv, @RequestParam(value = "cPage", defaultValue = "1") int cPage,
+	public ModelAndView memberList(ModelAndView mv, 
+			@RequestParam(value="searchType",defaultValue="all") String searchType,
+			@RequestParam(value="keyword",defaultValue="") String keyword,
+			@RequestParam(value = "cPage", defaultValue = "1") int cPage,
 			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage) {
-		List<Member> list = service.selectMemberList(cPage, numPerpage);
-		int totalData = service.selectMemberCount();
-		mv.addObject("list", list);
+		Map<String,String> map=new HashMap();		
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+		List<Member>list =service.selectMemberList(cPage, numPerpage,map);
+		int totalData=service.selectMemberCount(map);
+		mv.addObject("list",list);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar", PageBarFactory.getPageBar(totalData, cPage, numPerpage, "memberList"));
+		mv.addObject("pageBar",MemberPageBarFactory.getMemberPageBar(totalData, cPage, numPerpage,"selectMemberSearch",searchType,keyword));
 		mv.setViewName("admin/member/memberList");
 		return mv;
 	}
@@ -190,21 +194,21 @@ public class AdminController {
 		return result>0?true:false;		
 	}
 	//회원검색기능
-	@RequestMapping("/adimin/selectMemberSearch")
+	@RequestMapping("/admin/selectMemberSearch")
 	public ModelAndView selectMemberSearch(ModelAndView mv,
-			@RequestParam(value="searchType") String searchType,
-			@RequestParam(value="keyword") String keyword,
+			@RequestParam(value="searchType",defaultValue="all") String searchType,
+			@RequestParam(value="keyword",defaultValue="") String keyword,
 			@RequestParam(value="cPage",defaultValue="1") int cPage,
 			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage) {
-		Map<String,String> map=new HashMap();
+		Map<String,String> map=new HashMap();		
 		map.put("searchType", searchType);
 		map.put("keyword", keyword);
-		List<Member>list =service.selectMemberSearch(cPage, numPerpage,map);
+		List<Member>list =service.selectMemberList(cPage, numPerpage,map);
 		int totalData=service.selectMemberCount(map);
 		mv.addObject("list",list);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage,"selectMemberSearch",searchType, keyword));
-		mv.setViewName("admin/member/memberList");
+		mv.addObject("pageBar",MemberPageBarFactory.getMemberPageBar(totalData, cPage, numPerpage,"selectMemberSearch",searchType, keyword));
+		mv.setViewName("admin/member/memberListAjax");
 		return mv;
 	}
 	//회원검색자동완성

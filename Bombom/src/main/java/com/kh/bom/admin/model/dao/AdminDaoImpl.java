@@ -48,35 +48,25 @@ public class AdminDaoImpl implements AdminDao {
 	public int updateEvent(SqlSession session, Event e) {
 		return session.update("admin.updateEvent", e);
 	}
-	//회원관리 리스트
-	@Override
-	public List<Member> selectMemberList(SqlSession session,int cPage, int numPerpage) {
-		// TODO Auto-generated method stub
-		return session.selectList("admin.selectMemberList","",new RowBounds((cPage-1)*numPerpage,numPerpage));
-	}
-	//회원수
-	@Override
-	public int selectMemberCount(SqlSession session) {
-		// TODO Auto-generated method stub
-		return session.selectOne("admin.selectMemberCount");
-	}
+	
+	//회원관리시작
 	//관리지 권한 변경	
 	@Override
 	public int updateManagerYn(SqlSession session, Member m) {
 		// TODO Auto-generated method stub
 		return session.update("admin.updateManagerYn", m);
 	}
-	//회원검색
+	//회원리스트
 	@Override
-	public List<Member> selectMemberSearch(SqlSession session,int cPage, int numPerpage, Map map) {
+	public List<Member> selectMemberList(SqlSession session,int cPage, int numPerpage, Map map) {
 		// TODO Auto-generated method stub
-		return session.selectList("admin.selectMemberSearch", map,new RowBounds((cPage-1)*numPerpage,numPerpage));
+		return session.selectList("admin.selectMemberList", map,new RowBounds((cPage-1)*numPerpage,numPerpage));
 	}
-	
+	//회원수
 	@Override
 	public int selectMemberCount(SqlSession session, Map<String, String> map) {
 		// TODO Auto-generated method stub
-		return session.selectOne("admin.selectMemberCount2", map);
+		return session.selectOne("admin.selectMemberCount", map);
 	}
 	//회원검색자동완성
 	@Override
@@ -84,6 +74,8 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectList("admin.memberAutoComplete",map);
 	}
+	//회원관리 끝!
+	
 	
 	//제품 목록 
 	@Override

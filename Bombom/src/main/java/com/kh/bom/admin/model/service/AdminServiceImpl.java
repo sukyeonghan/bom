@@ -181,35 +181,26 @@ public class AdminServiceImpl implements AdminService {
 		}
 		return result;
 	}
-	
-	@Override
-	public List<Member> selectMemberList(int cPage,int numPerpage) {
-		// TODO Auto-generated method stub
-		return dao.selectMemberList(session,cPage, numPerpage);
-	}
-
-	@Override
-	public int selectMemberCount() {
-		// TODO Auto-generated method stub
-		return dao.selectMemberCount(session);
-	}
+	//회원관리
 	//관리자권한 변경
 	@Override
 	public int updateManagerYn(Member m) {
 		// TODO Auto-generated method stub
 		return dao.updateManagerYn(session,m);
 	}
-
+	//회원리스트
 	@Override
-	public List<Member> selectMemberSearch(int cPage, int numPerpage, Map map) {
+	public List<Member> selectMemberList(int cPage, int numPerpage, Map map) {
 		// TODO Auto-generated method stub
-		return dao.selectMemberSearch(session,cPage, numPerpage, map);
+		return dao.selectMemberList(session,cPage, numPerpage, map);
 	}
+	//회원수
 	@Override
 	public int selectMemberCount(Map<String, String> map) {
 		// TODO Auto-generated method stub
 		return dao.selectMemberCount(session,map);
 	}
+	//검색어자동완성
 	@Override
 	public List<Member> memberAutoComplete(Map<String, String> map) {
 		// TODO Auto-generated method stub
