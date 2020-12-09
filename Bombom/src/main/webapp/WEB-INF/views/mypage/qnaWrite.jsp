@@ -28,7 +28,10 @@
           border:1px #45A663 solid ;
           border-radius: 10px;
         }    
-	
+	/*글자수  */
+	.contentBox{
+		text-align:right;
+	}
 </style>
 <section id="container" class="container">
 	<div class="media">
@@ -85,17 +88,20 @@
             <!-- 제목 -->
             <div class="form-group">
               <input type="text" class="form-control" id="title" placeholder="제목" name="qnaTitle" required/>
+             
             </div>
             
-            <div class="form-group">
+            <div class="form-group contentBox">
               <textarea
                 class="form-control"
                 rows="10"
                 id="contents"
                 placeholder="문의할 내용을 작성해주세요."
+                onKeyUp="javascript:fnChkByte(this,'1000')"
                 name="qnaContent"
                 required
               ></textarea>
+              <span id="byteInfo">0</span>/1000bytes
             </div>
             <div class="btn-box">
               <button type="button" class="btn btn-outline-secondary" onclick="location.replace('${path}/mypage/qna')">목록으로</button>
@@ -107,6 +113,50 @@
  </div>
 </section>
 <script>
+
+//문의내용 작성 Byte 수 체크 제한
+function fnChkByte(obj, maxByte) {
+  var str = obj.value;
+  var str_len = str.length;
+  var rbyte = 0;
+  var rlen = 0;
+  var one_char = "";
+  var str2 = "";
+
+  for(var i = 0; i<str_len; i++) {
+    one_char = str.charAt(i);
+    if(escape(one_char).length > 4) {
+      rbyte += 3; //한글3Byte
+    }else{
+      rbyte++; //영문 등 나머지 1Byte
+    }
+
+    if(rbyte <= maxByte){
+      rlen = i + 1; //return할 문자열 갯수
+    }
+  }
+
+  if(rbyte > maxByte) {
+    // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
+    alert("메세지는 최대 " + (maxByte) + "byte를 초과할 수 없습니다.");
+    str2 = str.substr(0, rlen); //문자열 자르기
+    obj.value = str2;
+    fnChkByte(obj, maxByte);
+  }else{
+    document.getElementById("byteInfo").innerText = rbyte;
+  }
+}	
+
+$('#title').on('keyup', function() {
+
+	if($("#title").val().length > 16) {
+
+alert("글자수는 15자로 이내로 제한됩니다.");
+
+		$(this).val($("#title").val().substring(0, 16));
+		
+	}
+});
 
 
 </script>

@@ -168,12 +168,12 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectQnaCount");
 	}
-
-
-
-
-
-
+	//1:1문의 답변
+	@Override
+	public int insertQnaAnswer(SqlSession session, Qna q) {
+		// TODO Auto-generated method stub
+		return session.insert("admin.insertQnaAnswer",q);
+	}
 	
 	
 	

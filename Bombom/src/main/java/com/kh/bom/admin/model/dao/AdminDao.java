@@ -48,7 +48,6 @@ public interface AdminDao {
 	
 	List<Qna> selectQnaList(SqlSession session, int cPage, int numPerpage);
 	int selectQnaCount(SqlSession session);
+	int insertQnaAnswer(SqlSession session, Qna q);
 	
-	
-
 }

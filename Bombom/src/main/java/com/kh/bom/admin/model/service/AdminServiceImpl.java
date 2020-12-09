@@ -220,11 +220,11 @@ public class AdminServiceImpl implements AdminService {
 		return dao.selectQnaCount(session);
 	}
 
-
-
-	
-
-
+	@Override
+	public int insertQnaAnswer(Qna q) {
+		// TODO Auto-generated method stub
+		return dao.insertQnaAnswer(session, q);
+	}
 	
 	
 	
