@@ -184,6 +184,12 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.selectQnaCount(session);
 	}
+
+	@Override
+	public int insertQnaAnswer(Qna q) {
+		// TODO Auto-generated method stub
+		return dao.insertQnaAnswer(session, q);
+	}
 	
 	
 	

@@ -176,11 +176,15 @@
 	</select>
 	
 	<select id="selectQnaList" resultMap="qnaMap">
-		SELECT ROWNUM,QNA.*FROM QNA ORDER BY ROWNUM DESC
+		SELECT ROWNUM, Q.*FROM (SELECT * FROM QNA ORDER BY QNA_DATE ASC) Q ORDER BY ROWNUM DESC
 	</select>
 	
 	<select id="selectQnaCount" resultType="_int">
 		SELECT COUNT(*) FROM QNA
 	</select>
+	
+	<update id="insertQnaAnswer" parameterType="qna">
+		UPDATE QNA SET QNA_YN='Y', QNA_ANSWER=#{qnaAnswer}, QNA_ANSWER_DATE=SYSDATE WHERE QNA_NO=#{qnaNo}
+	</update>
 	
 </mapper>

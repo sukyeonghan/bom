@@ -35,6 +35,18 @@
 	.deleteBtn{
 		text-align: center;
 	}
+	/*등록된 페이지 없을때  문구*/
+	.noData{
+		text-align: center;
+	}
+	  /* 테이블 */
+      .table th, .table td{
+        text-align:center;
+        vertical-align:middle;
+      }
+      .table .th{
+        vertical-align:middle;
+      }
 </style>
 <section id="container" class="container">
 	<div class="media">
@@ -72,7 +84,7 @@
 		<!--좌측메뉴선택시 화면 -->
 		<div id="qna-container" class="media-body">
           <h3>1:1문의</h3>
-          <br />
+          <br>
           <table class="table">
             <thead>
               <tr>
@@ -86,8 +98,9 @@
             <tbody>
              <c:if test="${empty list }">
 	        	<thead>
-	        		<tr>
-	        			<td colspan="5">등록된 문의가 없습니다</td>
+	        		<tr >
+	        			<td class="noData" colspan="5">등록된 문의가 없습니다.</td>
+	        			
 	        		</tr>
 	        	</thead>
 		      </c:if>
@@ -97,15 +110,17 @@
                 <td><c:out value="${q.rownum}"/></td>
                 <td><c:out value="${q.qnaCategory}" /></td>
                 <td><a href="" data-toggle="modal" data-target="#qnaView" class="qnaTitle"><c:out value="${q.qnaTitle}" /></a></td>
-                <td><fmt:formatDate type="date" value="${q.qnaDate }"/></td>
+                <td><fmt:formatDate type="both" timeStyle="short" value="${q.qnaDate }"/></td>
                 <td>
                		<c:out value="${q.qnaYn=='Y'?'답변완료':'답변대기' }"/>
                 </td>
-                <td style="visibility:hidden;"><c:out value="${q.qnaContent }"/></td>
-                <td hidden><c:out value="${q.qnaAnswer }"/></td>
-                <td hidden><fmt:formatDate type="both" timeStyle="short" value="${q.qnaAnswerDate }"/></td>
-                <td hidden><c:out value="${q.qnaNo }"></c:out></td>
+                
+               <td style="display:none"><c:out value="${q.qnaContent }"/> </td>
+               <td style="display:none"><c:out value="${q.qnaAnswer }"/></td>
+               <td style="display:none"><fmt:formatDate type="both" timeStyle="short" value="${q.qnaAnswerDate }"/></td>
               </tr>
+
+     
             </c:if>
        		</c:forEach>
             </tbody>
@@ -176,8 +191,9 @@
 	        		let title=td.eq(2).text();
 	        		let qnaYn=td.eq(4).text();
 	        		let content=td.eq(5).text();
-	        		let qnaAnswer=td.eq(6).text();
-	        		let answerDate=td.eq(7).text();
+	    			let qnaAnswer=td.eq(6).text();
+	    			let answerDate=td.eq(7).text();
+	        		
 	        		$(".qNo").val(qnaNo);
 	        		$(".qCategory").val(category); //카테고리
 	        		$(".qTitle").text(title); //문의제목

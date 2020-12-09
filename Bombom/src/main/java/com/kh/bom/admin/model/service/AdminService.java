@@ -33,5 +33,6 @@ public interface AdminService {
 	List<Qna> selectQnaList(int cPage, int numPerpage);
 	
 	int selectQnaCount();
+	int insertQnaAnswer(Qna q);
 
 }
