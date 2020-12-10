@@ -59,6 +59,13 @@
 		<result property="qnaAnswerDate" column="qna_answer_date"/>
 		<result property="rownum" column="ROWNUM" />
 	</resultMap>
+	<resultMap type="mainBanner" id="bannerMap">
+		<result property="bannerNo" column="banner_no"/>
+		<result property="pdtNo" column="pdt_no"/>
+		<result property="bannerTitle" column="banner_title"/>
+		<result property="bannerSubtitle" column="banner_subtitle"/>
+		<result property="bannerThumb" column="banner_thumb"/>
+	</resultMap>
 	
 	<select id="selectEvent" resultMap="eventMap">
 		SELECT * FROM EVENT 

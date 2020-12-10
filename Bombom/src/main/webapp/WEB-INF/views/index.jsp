@@ -124,26 +124,28 @@
 
         <script>
             $(function () {
-                //메인배너 이미지크기 맞추기
-                var banner = $(".carousel-item");
-                var bannerImg = $(".banner_img");
-                var bannerAspect = banner.height / banner.width;
-                var imgAspect = bannerImg.height / bannerImg.width;
-                
-                    console.log(bannerAspect);
-                    console.log(imgAspect);
-                    
-               	banner.style.overflow = 'hidden';
-                
-              	if (imgAspect <= bannerAspect) { 
-              		//이미지가 banner보다 가로가 더 길 경우 세로를 banner에 맞추고 가로는 잘라냄.
-                    var imgWidthActual = banner.offsetHeight / imgAspect;
-                    var imgWidthToBe = banner.offsetHeight / bannerAspect;
-                    var marginLeft = -Math.round((imgWidthActual - imgWidthToBe) / 2);
-                    bannerImg.style.cssText = 'width: auto; height: 100%; margin-left: ' + marginLeft + 'px;'
-              	}else {
-					// 이미지가 div보다 세로가 더 길 경우 가로를 div에 맞추고 세로를 잘라낸다
-					bannerImg.style.cssText = 'width: 100%; height: auto; margin-left:0;'
+            	//메인배너 이미지크기 맞추기
+                var banners = $('.carousel-item');
+                for (var i = 0; i < banners.length; i++) {
+                    var banner = banners[i];
+                    var bannerAspect = banner.offsetHeight / banner.offsetWidth;
+                    banner.style.overflow = 'hidden';
+
+                    var img = banner.querySelector('.banner_img');
+                    var imgAspect = img.height / img.width;
+
+                    if (imgAspect <= bannerAspect) {
+                        //이미지가 banner보다 가로가 더 길 경우 세로를 banner에 맞추고 가로는 잘라냄.
+                        var imgWidthActual = banner.offsetHeight / imgAspect;
+                        var imgWidthToBe = banner.offsetHeight / bannerAspect;
+                        var marginLeft = -Math.round((imgWidthActual - imgWidthToBe) / 2);
+                        img.style.cssText = 'width: auto; height: 100%; margin-left: ' + marginLeft + 'px;'
+                        console.log(img);
+                    } else {
+                        // 이미지가 div보다 세로가 더 길 경우 가로를 div에 맞추고 세로를 잘라낸다
+                        
+                        img.style.cssText = 'width: 100%; height: auto; margin-left:0;'
+                    }
                 }
             })
 

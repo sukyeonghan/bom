@@ -23,5 +23,6 @@
 		<typeAlias type="com.kh.bom.order.model.vo.Inbasket" alias="inbasket"/>
 		<typeAlias type="com.kh.bom.qna.model.vo.Qna" alias="qna"/>
 		<typeAlias type="com.kh.bom.common.typehandler.CustomTypeHandler" alias="customStr"/>
+		<typeAlias type="com.kh.bom.admin.model.vo.MainBanner" alias="mainBanner"/>
 	</typeAliases>
 </configuration>
