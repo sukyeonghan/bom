@@ -4,7 +4,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
-
+<!--줄바꿈 -->
+<% pageContext.setAttribute("newLine", "\n"); %>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value=" "/>
 </jsp:include>
@@ -21,8 +22,7 @@
 	.card-header div:nth-of-type(1){width: 50px;}
 	.card-header div:nth-of-type(2){width: 100px;color:#45A663;}
 	.card-header div:nth-of-type(3){width: 450px;}
-	/*아코디언 바디  줄바꿈 적용*/
-	.card-body{ white-space: pre-line;}
+	
 	/*최소 컨텐츠 크기*/
 	.media{min-width: 768px;} 
 	
@@ -95,7 +95,8 @@
 					    <!-- body부분 -->
 					    <div id="collapse${vs.index}" class="collapse" data-parent="#accordion">
 					      <div class="card-body">
-					        <c:out value="${f.faqContent }"/>
+					      	<!-- 줄바꿈 표현 -->
+					        <div >${fn:replace(f.faqContent, newLine, "<br/>")}</div>
 					        <c:if test="${loginMember.memManagerYn=='Y' }">
 								<div class="btn-box">
 									<input type="hidden" value="${f.faqNo }" name="faqNo"/>
