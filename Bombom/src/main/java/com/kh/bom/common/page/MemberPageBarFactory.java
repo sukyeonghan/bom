@@ -1,7 +1,7 @@
 package com.kh.bom.common.page;
 
 public class MemberPageBarFactory {
-	public static Object getMemberPageBar(int totalData, int cPage, int numPerpage, String url, String searchType,String keyword) {
+	public static Object getMemberPageBar(int totalData, int cPage, int numPerpage, String url, String searchType,String keyword,String filter) {
 		String pageBar="";
 		
 		int pageBarSize=5;
@@ -23,7 +23,7 @@ public class MemberPageBarFactory {
 		}else {
 			//페이지번호가 1이 아닐경우에는 이전버튼 선택시 (현재페이지-1)한 페이지수로 이동.
 			pageBar+="<li class='page-item'>";
-			pageBar+="<a class='page-link' href=\"javascript:fn_paging("+(pageNo-1)+","+numPerpage+",\'"+searchType+"',\'"+keyword+"\')\">이전</a>";
+			pageBar+="<a class='page-link' href=\"javascript:fn_paging("+(pageNo-1)+","+numPerpage+",\'"+searchType+"',\'"+keyword+"',\'"+filter+"\')\">이전</a>";
 			pageBar+="</li>";
 		}
 		
@@ -38,7 +38,7 @@ public class MemberPageBarFactory {
 			}else {
 				//현재페이지랑 다른 페이지넘버를 선택할경우 그 페이지넙버로 이동
 				pageBar+="<li class='page-item'>";
-				pageBar+="<a class='page-link' href=\"javascript:fn_paging("+pageNo+","+numPerpage+",\'"+searchType+"',\'"+keyword+"\')\">"+pageNo+"</a>";
+				pageBar+="<a class='page-link' href=\"javascript:fn_paging("+pageNo+","+numPerpage+",\'"+searchType+"',\'"+keyword+"',\'"+filter+"\')\">"+pageNo+"</a>";
 				pageBar+="</li>";
 			}
 			pageNo++;
@@ -53,7 +53,7 @@ public class MemberPageBarFactory {
 		}else {
 			//아닐경우 다음페이지시 다음페이지로이동(위에서 pageNo++해야지만 넘어오기에 pageNo로 이동하면 됨)
 			pageBar+="<li class='page-item'>";
-			pageBar+="<a class='page-link' href=\"javascript:fn_paging("+pageNo+","+numPerpage+",\'"+searchType+"',\'"+keyword+"\')\">다음</a>";
+			pageBar+="<a class='page-link' href=\"javascript:fn_paging("+pageNo+","+numPerpage+",\'"+searchType+"',\'"+keyword+"',\'"+filter+"\')\">다음</a>";
 			pageBar+="</li>";
 		}
 		
@@ -61,11 +61,11 @@ public class MemberPageBarFactory {
 		
 		
 		pageBar+="<script>";
-		pageBar+="function fn_paging(cPage,numPerpage,searchType,keyword){";
+		pageBar+="function fn_paging(cPage,numPerpage,searchType,keyword,filter){";
 				
 		pageBar+="$.ajax({";
 		pageBar+="url:'"+url+"',";
-		pageBar+="data:{cPage:cPage,numPerpage:numPerpage,searchType:searchType,keyword:keyword},";
+		pageBar+="data:{cPage:cPage,numPerpage:numPerpage,searchType:searchType,keyword:keyword,filter:filter},";
 		pageBar+="type:'get',";
 		pageBar+="success:data=>{";			
 		pageBar+="document.getElementById('result').innerHTML=data";

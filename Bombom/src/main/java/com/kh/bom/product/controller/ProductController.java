@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.common.page.AjaxPageBarFactory;
+import com.kh.bom.common.page.PageBarFactory;
+import com.kh.bom.common.page.ProAjaxPageBarFactory;
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.service.ProductService;
 import com.kh.bom.product.model.vo.Product;
-import com.kh.bom.product.model.vo.ProductThumb;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,16 +30,39 @@ public class ProductController {
 	
 	//전체제품 페이지
 	@RequestMapping("/product/productAll") 
-	public ModelAndView allProduct(ModelAndView m) { 
-		List<Product> list=service.selectProductList();
+	public ModelAndView allProduct(ModelAndView m,
+			@RequestParam(value = "sort",defaultValue="등록일순") String sort,
+			@RequestParam(value="cPage", defaultValue="1") int cPage, 
+			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
+		
 		int count=service.productAllCount();
 		List<Product> newList=service.selectNewList();
-		m.addObject("list",list);
+		m.addObject("list",service.selectProductList(cPage,numPerpage,sort));
+		m.addObject("pageBar",PageBarFactory.getPageBar(count, cPage, numPerpage, "productAll"));
+		m.addObject("cPage",cPage);
 		m.addObject("count",count);
 		m.addObject("newList",newList);
 		m.setViewName("product/allList");
 		return m;
 	}
+	//제품 목록 ajax
+	@RequestMapping("/product/productListAjax")
+	public ModelAndView productListAjax(ModelAndView m,
+			@RequestParam(value = "sort",defaultValue="등록일순") String sort,
+			@RequestParam(value="cPage", defaultValue="1") int cPage, 
+			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
+		
+		int count=service.productAllCount();
+		m.addObject("list",service.selectProductList(cPage,numPerpage,sort));
+		m.addObject("pageBar",ProAjaxPageBarFactory.getAjaxPageBar(count, cPage, numPerpage, "productListAjax",sort));
+		m.addObject("cPage",cPage);
+		m.addObject("sort",sort);
+		m.addObject("count",count);
+		m.setViewName("product/productListAjax");
+		return m;
+	
+	}
+	
 	//식품 카테고리 페이지
 	@RequestMapping("/product/food") 
 	public ModelAndView foodProduct(ModelAndView m) {
@@ -121,13 +144,16 @@ public class ProductController {
 	}
 	//할인제품 페이지
 	@RequestMapping("/product/sale") 
-	public ModelAndView saleProduct(ModelAndView m) {
+	public ModelAndView saleProduct(ModelAndView m,
+			@RequestParam(value = "sort",defaultValue="등록일순") String sort,
+			@RequestParam(value="cPage", defaultValue="1") int cPage, 
+			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
 		//전체 리스트 보내서 화면단에서 처리하기
-		List<Product> list=service.selectProductList();
+
 		int count=service.productAllCount();
 		List<Product> newList=service.selectNewList();
 		m.addObject("newList",newList);
-		m.addObject("list",list);
+		m.addObject("list",service.selectProductList(cPage,numPerpage,sort));
 		m.addObject("count",count);
 		m.setViewName("product/saleList");
 		return m;
@@ -139,6 +165,7 @@ public class ProductController {
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage
 			,HttpSession session) {
 		
+		//상품문의
 		//로그인 세션에서 현재 사용자 id값 가져오기
 		Member m = (Member)session.getAttribute("loginMember");
 		List<Inquiry> list = service.inquiryList(cPage, numPerpage);

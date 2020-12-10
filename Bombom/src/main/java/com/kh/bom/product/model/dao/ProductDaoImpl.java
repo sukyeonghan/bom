@@ -1,6 +1,8 @@
 package com.kh.bom.product.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -35,9 +37,11 @@ public class ProductDaoImpl implements ProductDao {
 		return session.selectOne("product.cateCount",pdtCategory);
 	}
 	@Override
-	public List<Product> selectProductList(SqlSession session) {
+	public List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,String sort) {
 		// TODO Auto-generated method stub
-		return session.selectList("product.allProductList");
+		Map<String,String> map=new HashMap();
+		map.put("sort", sort);
+		return session.selectList("product.allProductList",map,new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
 	@Override
 	public List<Product> cateProductList(SqlSession session, String pdtCategory) {
