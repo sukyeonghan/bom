@@ -1,6 +1,6 @@
 package com.kh.bom.common.page;
 
-public class ProAjaxPageBarFactory {
+public class AdminProAjaxPageBarFactory {
 
 	public static String getAjaxPageBar(int totalData,int cPage,int numPerpage,String url,String category) {
 
@@ -68,7 +68,7 @@ public class ProAjaxPageBarFactory {
 				
 		pageBar+="$.ajax({";
 		pageBar+="url:'"+url+"',";
-		pageBar+="data:{cPage:cPage,numPerpage:8,sort:category},";
+		pageBar+="data:{cPage:cPage,numPerpage:10,sort:category},";
 		pageBar+="type:'get',";
 		pageBar+="success:data=>{";
 		pageBar+="console.log(data);";

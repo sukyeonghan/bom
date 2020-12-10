@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.admin.model.vo.Event;
 import com.kh.bom.common.page.PageBarFactory;
-import com.kh.bom.common.page.ProAjaxPageBarFactory;
+import com.kh.bom.common.page.AdminProAjaxPageBarFactory;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.product.model.vo.ProductThumb;
@@ -78,18 +78,10 @@ public class ProductAdminController {
 			@RequestParam(value = "sort",defaultValue="전체") String sort,
 			@RequestParam(value="cPage", defaultValue="1") int cPage, 
 			@RequestParam(value="numPerpage", defaultValue="10") int numPerpage) {
-		//List<Product> list;
-		/*
-		 * int count; if(sort.equals("전체")) {
-		 * //list=service.selectProductList(cPage,numPerpage,sort);
-		 * count=proService.productAllCount();
-		 * 
-		 * }else { //list=service.cateProductList(sort);
-		 * count=proService.productCateCount(sort); }
-		 */
+	
 		int count=service.countProduct(sort);
 		m.addObject("list",service.selectProductList(cPage,numPerpage,sort));
-		m.addObject("pageBar",ProAjaxPageBarFactory.getAjaxPageBar(count, cPage, numPerpage, "productListAjax",sort));
+		m.addObject("pageBar",AdminProAjaxPageBarFactory.getAjaxPageBar(count, cPage, numPerpage, "productListAjax",sort));
 		m.addObject("cPage",cPage);
 		m.addObject("sort",sort);
 		m.addObject("count",count);
