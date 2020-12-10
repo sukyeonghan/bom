@@ -159,15 +159,16 @@
         <div id="productAd-container" class="container term" >
             <div class="row">
                 <div class="col-4">
-                    <a href="#"><img class="productAd" src="${path }/resources/images/main/productCategory/전체상품.png" alt=""></a>
+                    <a href="${path }/product/productAll"><img class="productAd" src="${path }/resources/images/main/productCategory/전체상품.png" alt=""></a>
                     <div id="productAd-text" class="d-flex justify-content-between">
                         <div><h4>전체상품</h4></div>
-                        <div class=""><a href="#">GO</a></div>
+                        <div class=""><a href="${path }/product/productAll">GO</a></div>
                     </div>
 
                 </div>
                 <div class="col-4">
-                    <img class="productAd" src="${path }/resources/images/main/productCategory/일상에서.jpg" alt="">
+                	<a href="${path }/product/productAll">
+                    <img class="productAd" src="${path }/resources/images/main/productCategory/일상에서.jpg" alt=""></a>
                     <div id="productAd-text">
                         <h4>일상에서</h4>
                         <a href="#">GO</a>
@@ -175,7 +176,8 @@
                 </div>
 
                 <div class="col-4">
-                    <img class="productAd" src="${path }/resources/images/main/productCategory/욕실에서.jpg" alt="">
+                	<a href="${path }/product/productAll">
+                    <img class="productAd" src="${path }/resources/images/main/productCategory/욕실에서.jpg" alt=""></a>
                     <div id="productAd-text">
                         <h4>욕실에서</h4>
                         <a href="#">GO</a>
@@ -184,21 +186,24 @@
             </div>
             <div class="row">
                 <div class="col-4">
-                    <img class="productAd" src="${path }/resources/images/main/productCategory/여행갈때.jpg" alt="">
+                	<a href="${path }/product/productAll">
+                    <img class="productAd" src="${path }/resources/images/main/productCategory/여행갈때.jpg" alt=""></a>
                     <div id="productAd-text">
                         <h4>여행갈때</h4>
                         <a href="#">GO</a>
                     </div>
                 </div>
                 <div class="col-4">
-                    <img class="productAd" src="${path }/resources/images/main/productCategory/사무실에서.png" alt="">
+                	<a href="${path }/product/productAll">
+                    <img class="productAd" src="${path }/resources/images/main/productCategory/사무실에서.png" alt=""></a>
                     <div id="productAd-text">
                         <h4>사무실에서</h4>
                         <a href="#">GO</a>
                     </div>
                 </div>
                 <div class="col-4">
-                    <img class="productAd" src="${path }/resources/images/main/productCategory/부엌에서.jpg" alt="">
+                	<a href="${path }/product/productAll">
+                    <img class="productAd" src="${path }/resources/images/main/productCategory/부엌에서.jpg" alt=""></a>
                     <div id="productAd-text">
                         <h4>부엌에서</h4>
                         <a href="#">GO</a>
