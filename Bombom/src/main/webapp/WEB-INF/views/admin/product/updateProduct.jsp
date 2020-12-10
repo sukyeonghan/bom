@@ -421,7 +421,7 @@
 	//옵션내용 유효성 검사
 	$("input[name=pdtOptionContent]").focusout(function() {
 		
-		var name=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9%()-_, ]*$/;
+		var name=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9%()-_,* ]*$/;
 		if(!name.test($("input[name=pdtOptionContent]").val())){
 	   		swal("옵션명에 특수문자는 입력하실 수 없습니다.");
 	   		$("#name").val('');
@@ -454,7 +454,7 @@
 	
 	//제품 수정
 	function updatePro(){
-		//유효성검사-카테고리 및 판매상태
+		/* //유효성검사-카테고리 및 판매상태
         if($("#category").val()==null){
         	swal("제품카테고리를 선택해주세요.");
         	return false;
@@ -474,7 +474,7 @@
         	alert("등록");
         	swal("제품 상세 사진을 등록해주세요.");
         	return false;
-        }
+        } */
         
 		if(confirm("정말 수정하시겠습니까?")==true){
 			//옵션 값 넣기

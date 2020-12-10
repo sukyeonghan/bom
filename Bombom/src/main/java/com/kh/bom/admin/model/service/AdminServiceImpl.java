@@ -147,10 +147,14 @@ public class AdminServiceImpl implements AdminService {
 		int result=dao.updateProduct(session,p);
 		//제품 업데이트 하면 옵션 업데이트
 		if(result>0) {
+			System.out.println(options);
 			if(options.size()!=0) {
-				//이전에 있던 옵션 지우기-이전 결과가 없을 수도 있음
-				result=dao.deleteOption(session,p.getPdtNo());
-				System.out.println("delete결과"+result);
+				Product check=dao.checkOption(session,p.getPdtNo());
+				if(check.getPdtOptionNo()!=null) {
+					//이전에 있던 옵션 지우기
+					result=dao.deleteOption(session,p.getPdtNo());
+					System.out.println("delete결과"+result);
+				}
 				//지우고 다시 insert
 				for(int i=0;i<options.size(); i++) {
 					
@@ -181,35 +185,26 @@ public class AdminServiceImpl implements AdminService {
 		}
 		return result;
 	}
-	
-	@Override
-	public List<Member> selectMemberList(int cPage,int numPerpage) {
-		// TODO Auto-generated method stub
-		return dao.selectMemberList(session,cPage, numPerpage);
-	}
-
-	@Override
-	public int selectMemberCount() {
-		// TODO Auto-generated method stub
-		return dao.selectMemberCount(session);
-	}
+	//회원관리
 	//관리자권한 변경
 	@Override
 	public int updateManagerYn(Member m) {
 		// TODO Auto-generated method stub
 		return dao.updateManagerYn(session,m);
 	}
-
+	//회원리스트
 	@Override
-	public List<Member> selectMemberSearch(int cPage, int numPerpage, Map map) {
+	public List<Member> selectMemberList(int cPage, int numPerpage, Map map) {
 		// TODO Auto-generated method stub
-		return dao.selectMemberSearch(session,cPage, numPerpage, map);
+		return dao.selectMemberList(session,cPage, numPerpage, map);
 	}
+	//회원수
 	@Override
 	public int selectMemberCount(Map<String, String> map) {
 		// TODO Auto-generated method stub
 		return dao.selectMemberCount(session,map);
 	}
+	//검색어자동완성
 	@Override
 	public List<Member> memberAutoComplete(Map<String, String> map) {
 		// TODO Auto-generated method stub
