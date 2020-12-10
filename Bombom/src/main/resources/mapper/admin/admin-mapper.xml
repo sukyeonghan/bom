@@ -249,4 +249,8 @@
 		UPDATE QNA SET QNA_YN='Y', QNA_ANSWER=#{qnaAnswer}, QNA_ANSWER_DATE=SYSDATE WHERE QNA_NO=#{qnaNo}
 	</update>
 	
+	<delete id="deleteQna" parameterType="string">
+		DELETE FROM QNA WHERE QNA_NO=#{qnaNo}
+	</delete>
+	
 </mapper>

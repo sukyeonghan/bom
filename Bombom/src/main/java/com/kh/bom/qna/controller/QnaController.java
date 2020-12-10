@@ -90,7 +90,7 @@ public class QnaController {
 			icon="success";
 		}else {
 			msg="문의글을 다시 삭제해주세요..";
-			loc="/mypage/insertQna";
+			loc="/mypage/qna";
 			icon="warning";
 		}
 		mv.addObject("msg",msg);
