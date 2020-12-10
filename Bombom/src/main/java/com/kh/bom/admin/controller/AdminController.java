@@ -173,15 +173,17 @@ public class AdminController {
 			@RequestParam(value="searchType",defaultValue="all") String searchType,
 			@RequestParam(value="keyword",defaultValue="") String keyword,
 			@RequestParam(value = "cPage", defaultValue = "1") int cPage,
-			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage) {
+			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage,
+			@RequestParam(value = "filter", defaultValue = "date") String filter ) {
 		Map<String,String> map=new HashMap();		
 		map.put("searchType", searchType);
 		map.put("keyword", keyword);
+		map.put("filter",filter);
 		List<Member>list =service.selectMemberList(cPage, numPerpage,map);
 		int totalData=service.selectMemberCount(map);
 		mv.addObject("list",list);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar",MemberPageBarFactory.getMemberPageBar(totalData, cPage, numPerpage,"selectMemberSearch",searchType,keyword));
+		mv.addObject("pageBar",MemberPageBarFactory.getMemberPageBar(totalData, cPage, numPerpage,"selectMemberSearch",searchType,keyword,filter));
 		mv.setViewName("admin/member/memberList");
 		return mv;
 	}
@@ -199,15 +201,20 @@ public class AdminController {
 			@RequestParam(value="searchType",defaultValue="all") String searchType,
 			@RequestParam(value="keyword",defaultValue="") String keyword,
 			@RequestParam(value="cPage",defaultValue="1") int cPage,
-			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage) {
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage,
+			@RequestParam(value = "filter", defaultValue = "date") String filter ) {
 		Map<String,String> map=new HashMap();		
 		map.put("searchType", searchType);
 		map.put("keyword", keyword);
+		map.put("filter",filter);
 		List<Member>list =service.selectMemberList(cPage, numPerpage,map);
 		int totalData=service.selectMemberCount(map);
 		mv.addObject("list",list);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar",MemberPageBarFactory.getMemberPageBar(totalData, cPage, numPerpage,"selectMemberSearch",searchType, keyword));
+		mv.addObject("filter",filter);
+		mv.addObject("searchType",searchType);
+		mv.addObject("keyword",keyword);
+		mv.addObject("pageBar",MemberPageBarFactory.getMemberPageBar(totalData, cPage, numPerpage,"selectMemberSearch",searchType, keyword,filter));
 		mv.setViewName("admin/member/memberListAjax");
 		return mv;
 	}

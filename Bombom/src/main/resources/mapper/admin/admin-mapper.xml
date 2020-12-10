@@ -196,6 +196,9 @@
 			</if>
 		</where> 
 		</if>
+		<if test='filter == "date"'>ORDER BY TO_NUMBER(SUBSTR(MEM_NO,2)) DESC</if>
+		<if test='filter == "point"'>ORDER BY MEM_POINT DESC</if>
+		<if test='filter == "bad"'>ORDER BY MEM_WARN_COUNT DESC</if>
 	</select>
 	<!-- 회원수 -->
 	<select id="selectMemberCount" parameterType="map" resultType="_int">
