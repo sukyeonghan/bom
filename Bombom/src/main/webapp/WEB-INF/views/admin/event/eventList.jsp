@@ -153,7 +153,7 @@
 						<td><c:out value="${e.eventSalePer }" />%</td>
 						<td><fmt:formatDate value="${e.eventStartDate }" /> ~ <fmt:formatDate value="${e.eventEndDate }" /></td>
 						<td><button id="event-delete" class="btn btn-sm btn-outline-danger" onclick="fn_delete('${e.eventNo}');">삭제</button></td>
-						<td><button id="event-delete" class="btn btn-sm btn-outline-secondary" onclick="fn_update('${e.eventNo}');">수정</button></td>
+						<td><button id="event-update" class="btn btn-sm btn-outline-secondary" onclick="fn_update('${e.eventNo}');">수정</button></td>
 					</tr>
 						
 					</c:forEach>

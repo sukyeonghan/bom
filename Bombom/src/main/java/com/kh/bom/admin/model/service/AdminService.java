@@ -42,11 +42,14 @@ public interface AdminService {
 	int selectMemberCount(Map<String, String> map);
 	//검색 자동완성
 	List<Member> memberAutoComplete(Map<String, String> map);
-	
+	//qna 전체 목록
 	List<Qna> selectQnaList(int cPage, int numPerpage);
-	
+	//qna 페이징
 	int selectQnaCount();
+	//qna 관리자 답변
 	int insertQnaAnswer(Qna q);
+	//qna 삭제
+	int deleteQna(String qnaNo);
 	
 	
 	

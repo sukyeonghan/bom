@@ -217,7 +217,7 @@ public class AdminServiceImpl implements AdminService {
 		return dao.memberAutoComplete(session,map);
 	}
 	
-	
+	//qna
 	@Override
 	public List<Qna> selectQnaList(int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
@@ -234,6 +234,12 @@ public class AdminServiceImpl implements AdminService {
 	public int insertQnaAnswer(Qna q) {
 		// TODO Auto-generated method stub
 		return dao.insertQnaAnswer(session, q);
+	}
+
+	@Override
+	public int deleteQna(String qnaNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteQna(session,qnaNo);
 	}
 	
 	

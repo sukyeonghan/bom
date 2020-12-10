@@ -180,6 +180,12 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.insert("admin.insertQnaAnswer",q);
 	}
+	//1:1문의 삭제
+	@Override
+	public int deleteQna(SqlSession session, String qnaNo) {
+		// TODO Auto-generated method stub
+		return session.delete("admin.deleteQna",qnaNo);
+	}
 	
 	
 	

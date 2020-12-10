@@ -48,5 +48,12 @@
 	<update id="updateInquiryAnswer" parameterType="inquiry">
 		UPDATE INQUIRY SET INQ_ANSWER=#{inqAnswer}, INQ_ANSWERDATE=SYSDATE WHERE INQ_NO=#{inqNo}
 	</update>
+	
+	<select id="selectReviewList" parameterType="string" resultMap="inquiryMap">
+		SELECT * FROM INQUIRY WHERE MEM_NO=#{memNo} ORDER BY INQ_DATE DESC
+	</select>
 
+	<select id="selectReviewCount" resultType="_int">
+		SELECT COUNT(*) FROM INQUIRY WHERE MEM_NO=#{memNo}
+	</select>
 </mapper>

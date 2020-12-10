@@ -59,6 +59,13 @@
 		<result property="qnaAnswerDate" column="qna_answer_date"/>
 		<result property="rownum" column="ROWNUM" />
 	</resultMap>
+	<resultMap type="mainBanner" id="bannerMap">
+		<result property="bannerNo" column="banner_no"/>
+		<result property="pdtNo" column="pdt_no"/>
+		<result property="bannerTitle" column="banner_title"/>
+		<result property="bannerSubtitle" column="banner_subtitle"/>
+		<result property="bannerThumb" column="banner_thumb"/>
+	</resultMap>
 	
 	<select id="selectEvent" resultMap="eventMap">
 		SELECT * FROM EVENT 
@@ -202,6 +209,9 @@
 			</if>
 		</where> 
 		</if>
+		<if test='filter == "date"'>ORDER BY TO_NUMBER(SUBSTR(MEM_NO,2)) DESC</if>
+		<if test='filter == "point"'>ORDER BY MEM_POINT DESC</if>
+		<if test='filter == "bad"'>ORDER BY MEM_WARN_COUNT DESC</if>
 	</select>
 	<!-- 회원수 -->
 	<select id="selectMemberCount" parameterType="map" resultType="_int">
@@ -248,5 +258,9 @@
 	<update id="insertQnaAnswer" parameterType="qna">
 		UPDATE QNA SET QNA_YN='Y', QNA_ANSWER=#{qnaAnswer}, QNA_ANSWER_DATE=SYSDATE WHERE QNA_NO=#{qnaNo}
 	</update>
+	
+	<delete id="deleteQna" parameterType="string">
+		DELETE FROM QNA WHERE QNA_NO=#{qnaNo}
+	</delete>
 	
 </mapper>

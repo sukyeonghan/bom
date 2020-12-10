@@ -165,6 +165,7 @@ public class ProductController {
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage
 			,HttpSession session) {
 		
+		//상품문의
 		//로그인 세션에서 현재 사용자 id값 가져오기
 		Member m = (Member)session.getAttribute("loginMember");
 		List<Inquiry> list = service.inquiryList(cPage, numPerpage);

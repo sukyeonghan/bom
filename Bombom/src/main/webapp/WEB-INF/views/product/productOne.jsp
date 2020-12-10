@@ -53,13 +53,11 @@
         display: inline-block;
         cursor: pointer;
     }
+   
     .goods_thumbs_image ul li img{
         width:100%;
        /*  height:100%; */
         object-fit: contain;
-    }
-    .goods_thumbs_image ul li img:focus{
-        border: 1px black solid;
     }
 	
     /*셀렉트박스 디자인*/
@@ -281,7 +279,46 @@
 		bottom:40px;
 		display:none;
 	}               
-        
+ 
+	/* 스타 체크박스 옆으로 조절 */
+	.rating .rate_radio {
+		position: relative;
+		display: inline-block;
+		z-index: 20;
+		opacity: 0.001;
+		width: 20px;
+		height: 20px;
+		background-color: #fff;
+		cursor: pointer;
+		vertical-align: top;
+		/* 체크박스 안 보이게  */
+		display: none; 
+	}
+	.rating .rate_radio + label {
+		position: relative;
+		display: inline-block;
+		/* margin-left: -4px; */
+		margin:0 0 -4px -3px;
+		z-index: 10;
+		width: 20px;
+		height: 20px;
+		background-image: url('../resources/images/product/starblank.png');
+		background-repeat: no-repeat;
+		background-size: 20px 20px;
+		cursor: pointer;
+		background-color: 
+	}
+	.rating .rate_radio:checked + label {
+		background-image:url('../resources/images/product/star.png');
+	} 
+	
+	/* 상품평 */
+	.review_span{
+		height:250px;
+	}
+	#review_textarea{
+		height:50%;
+	}       
 </style>
 
 <section id="container" class="container">
@@ -435,28 +472,50 @@
 		    	<!-- 구매평 시작 -->
 		    	<div class="tab_box">
 			        <!--구매평 작성창-->
-			        <form name="" action="" onsubmit="return fn_check()">
+			        <form name="frm_review" action="${path}/review/insertReview" method="post" enctype="multipart/form-data" onsubmit="return fn_reviewCheck()" >
 				        <div class="writebox_wrap container" style="float:none; margin:10px 0 10px 0;">
 				            <button type="button" class="btn btn-success showBox">구매평 작성</button>
 					        <div class="wrap-category" style="display:none;">
-						        <span class="span_textarea">
-							        <textarea name="" id="" placeholder="구매평을 입력해주세요" onKeyUp="javascript:fnChkByte(this,'500')"></textarea>
+						        <span class="span_textarea review_span">
+							        <textarea name="revContent" id="review_textarea" placeholder="구매평을 입력해주세요" onKeyUp="javascript:fnChkByte2(this,'500')"></textarea>
+							        <div id="imgPreview" style="height:30%;"></div>
+							        <div class="wrap_bottom">
+							        <div style="float:left;left:0;bottom:0;">
+							        	<!-- 업로드 사진 -->
+							       		<img class="uploadImage" src="${path}/resources/images/product/gallery.png" style="width:25px;height:25px;">&nbsp;
+							       		<input type="file" id="upload" name="upload" accept="image/gif, image/jpeg, image/png" style="display:none;">
+							       		<!-- 별점 -->
+								        <div class="rating" style="display:inline-block;">
+											<!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
+											<input type="checkbox" id="rating1" name="rating" class="rate_radio" value="1">
+											<label for="rating1"></label>
+											<input type="checkbox" id="rating2" name="rating" class="rate_radio" value="2">
+											<label for="rating2"></label>
+											<input type="checkbox" id="rating3" name="rating" class="rate_radio" value="3">
+											<label for="rating3"></label>
+											<input type="checkbox" id="rating4" name="rating" class="rate_radio" value="4">
+											<label for="rating4"></label>
+											<input type="checkbox" id="rating5" name="rating" class="rate_radio" value="5">
+											<label for="rating5"></label>
+										</div>
+									</div>
 									<div style="float:right;">
-										<span id="byteInfo">0</span>/500bytes
+									<span id="byteInfo2">0</span>/500bytes
 										<!-- 로그인 한 사람 및 구매한 사람만 구매평 등록가능-->
 								        <c:if test="${loginMember!=null }">
 								        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
-								        	<input type="submit" class="btn btn-success" value="등록" style="right:0;">
+								        	<input type="hidden" name="revScore">
+								        	<input type="submit" class="btn btn-success textCheck" value="등록" style="right:0;">
 								        </c:if>
 								        <c:if test="${loginMember==null }">
 								        	<input type="button" class="btn btn-success loginCheck" value="등록" style="right:0;">
 								        </c:if>
 						        	</div>
+						        	</div>
 						        </span>
 					        </div>
 				        </div>
 			        </form><!-- 구매평 작성창 끝 -->
-			        
 			        
 		    	</div><!-- 구매평 끝 -->
 		    	
@@ -569,7 +628,7 @@
 				          <button type="button" class="close" data-dismiss="modal">X</button>
 				        </div>
 				        
-				        <!-- Modal body -->
+				        <!-- Modal body --> 
 				        <div class="modal-body container">
 				        	<!-- 상품문의 내용 -->
 				        	<strong><span id="memNick"></span></strong>&nbsp;&nbsp;<span id="inqDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -680,6 +739,10 @@
 	//썸네일 바꾸기 스크립트
 	$(function() {
 		$(".small_image a").click(function() {
+			$("#main_image").attr("src", $(this).attr("href"));
+			return false;
+		});
+		$(".small_image a").hover(function() {
 			$("#main_image").attr("src", $(this).attr("href"));
 			return false;
 		});
@@ -831,7 +894,39 @@
       }else{
         document.getElementById("byteInfo").innerText = rbyte;
       }
-    }			        	
+    }	
+    
+    function fnChkByte2(obj, maxByte) {
+        var str = obj.value;
+        var str_len = str.length;
+        var rbyte = 0;
+        var rlen = 0;
+        var one_char = "";
+        var str2 = "";
+
+        for(var i = 0; i<str_len; i++) {
+          one_char = str.charAt(i);
+          if(escape(one_char).length > 4) {
+            rbyte += 3; //한글3Byte
+          }else{
+            rbyte++; //영문 등 나머지 1Byte
+          }
+
+          if(rbyte <= maxByte){
+            rlen = i + 1; //return할 문자열 갯수
+          }
+        }
+
+        if(rbyte > maxByte) {
+          // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
+          alert("메세지는 최대 " + (maxByte) + "byte를 초과할 수 없습니다.");
+          str2 = str.substr(0, rlen); //문자열 자르기
+          obj.value = str2;
+          fnChkByte2(obj, maxByte);
+        }else{
+          document.getElementById("byteInfo2").innerText = rbyte;
+        }
+      }	
 
 	//구매하기,장바구니,찜하기,상품문의 클릭 시 로그인 체크
 	$(function() {
@@ -1006,7 +1101,63 @@
 		});
 	});
 	
+	//별점 마킹 모듈 프로토타입으로 생성
+	function Rating(){};
+	Rating.prototype.rate = 0;
+	Rating.prototype.setRate = function(newrate){
+		//별점 마킹 - 클릭한 별 이하 모든 별 체크 처리
+		this.rate = newrate;
+		let items = document.querySelectorAll('.rate_radio');
+		items.forEach(function(item, idx){
+			if(idx < newrate){
+				item.checked = true;
+			}else{
+				item.checked = false;
+			}
+		});
+	}
+	let rating = new Rating();//별점 인스턴스 생성
+
+	//별점선택
+	$(document).ready(function(){
+		$("input[name=rating]").click(function(){
+			if($(this).find("rate_radio")){
+				rating.setRate(parseInt($(this).val()));
+				//별점 점수
+				console.log(rating.rate);
+				$("input[type=hidden][name=revScore]").val(rating.rate);
+			}
+		});
+	});
+
+	//별점선택 안 했을 시 알림, 리뷰 5자 미만 시 알림
+	function fn_reviewCheck(){
+		if($("#review_textarea").val().length<5){
+			swal("상품평을 5글자 이상 입력해주세요");
+			return false;
+		}
+		if(rating.rate==0){
+			swal("별점을 선택해주세요")
+			return false;
+		}
+		
+	}
 	
+	//사진 클릭 시 업로드 새창뜨기
+	$(".uploadImage").click(function(){
+		$("#upload").click();
+	});
+		
+	$("#upload").change(e => {
+   		let reader = new FileReader();
+   		reader.onload = e =>{
+   			let img = $("<img>").attr({"src":e.target.result,"style":"width:60px;height:60px;"});
+   			
+   			$("#imgPreview").html("");
+   			$("#imgPreview").append(img);
+   		}
+   		reader.readAsDataURL($(e.target)[0].files[0]);
+	});	
 		
 </script>
     
