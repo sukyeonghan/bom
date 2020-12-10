@@ -22,6 +22,7 @@ public interface AdminDao {
 	int updateEvent(SqlSession session, Event e);
 	
 	List<Product> selectProductList(SqlSession session);
+	List<Product> cateProductList(SqlSession session,String category);
 	int deleteProduct(SqlSession session,String pdtNo);
 	int insertProduct(SqlSession session,Product p);
 	int insertThumb(SqlSession session,ProductThumb th);

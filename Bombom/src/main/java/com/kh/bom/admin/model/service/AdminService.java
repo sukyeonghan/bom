@@ -25,6 +25,7 @@ public interface AdminService {
 	int updateEvent(Event e);
 	
 	List<Product> selectProductList();//제품목록 출력
+	List<Product> cateProductList(String category);
 	int deleteSelectProduct(List<String> delnum);//제품 선택 삭제
 	int deleteOneProduct(String pdtNo);//제품 하나 삭제
 	int insertProduct(Product p,ProductOption o,List<Map<Object,Object>> options,List<ProductThumb> list);//제품 등록

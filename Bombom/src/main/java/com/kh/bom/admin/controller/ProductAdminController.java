@@ -68,6 +68,26 @@ public class ProductAdminController {
 		 m.setViewName("common/msg");
 		 return m; 
 	}
+	//제품 목록 페이지에서 ajax
+	@RequestMapping("/admin/productListAjax")
+	public ModelAndView productListAjax(ModelAndView m,
+			@RequestParam(value = "sort") String sort) {
+		List<Product> list;
+		int count;
+		if(sort.equals("전체")) {
+			list=service.selectProductList();
+			count=proService.productAllCount();
+		
+		}else {
+			list=service.cateProductList(sort);
+			count=proService.productCateCount(sort);
+		}
+		m.addObject("list",list);
+		m.addObject("sort",sort);
+		m.addObject("count",count);
+		m.setViewName("admin/product/productListAjax");
+		return m;
+	}
 	
 	//by수경-제품 등록 페이지 전환
 	@RequestMapping("/admin/productInsert")

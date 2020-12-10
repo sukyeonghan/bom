@@ -133,23 +133,20 @@
 				<div class="insertBtn">
 					<button class="btn btn-success" id="insertPro" onclick="location.href='${path}/admin/productInsert'">제품 등록</button>
 				</div>
-			</div>		
-			
-			<div class="ajax">
-			
+			</div>	
 			<div class="count-filter">
 				<!-- 카테고리별 개수 -->
 				<p id="count">총  ${count }개</p>
 				<!--카테고리 정렬  -->
 				<div class="select-box">
 					<select class="sort">
-						<option value="전체">전체보기</option>
-						<option value="식품">식품</option>
-						<option value="잡화">잡화</option>
-						<option value="주방">주방</option>
-						<option value="욕실">욕실</option>
-						<option value="여성용품">여성용품</option>
-						<option value="반려동물">반려동물</option>
+						<option>전체보기</option>
+						<option>식품</option>
+						<option>잡화</option>
+						<option>주방</option>
+						<option>욕실</option>
+						<option>여성용품</option>
+						<option>반려동물</option>
 					</select>
 				</div>
 			</div>
@@ -227,9 +224,6 @@
 			
 			</div>
 			
-				
-			</div>
-			
 			<!-- 페이징바 -->
 			 <div class="w3-center pagebar">	
 				<div class="w3-bar">
@@ -301,22 +295,5 @@
 		}
 	    
 	}
-	
-	
-	$(".sort").on("change",e=>{
-		console.log($(e.target).val());
-		$.ajax({
-			
-			url:"${path}/admin/productListAjax",
-			data:{"sort":$(e.target).val()},
-			type:"get",
-			dataType:"html",
-			success:data=>{
-				console.log(data);
-				$(".ajax").html(data);
-			}
-		});
-	});
-
 </script>
 

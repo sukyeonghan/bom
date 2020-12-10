@@ -63,6 +63,12 @@ public class AdminServiceImpl implements AdminService {
 		
 		return dao.selectProductList(session);
 	}
+	//카테고리별 목록 출력
+	@Override
+	public List<Product> cateProductList(String category) {
+		// TODO Auto-generated method stub
+		return dao.cateProductList(session,category);
+	}
 	//제품 선택 삭제
 	@Override
 	public int deleteSelectProduct(List<String> delnum) {

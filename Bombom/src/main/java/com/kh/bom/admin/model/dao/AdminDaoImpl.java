@@ -83,6 +83,12 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectList("admin.selectProductList");
 	}
+	//카테고리변 목록
+	@Override
+	public List<Product> cateProductList(SqlSession session, String category) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.cateProductList",category);
+	}
 	//제품 삭제
 	@Override
 	public int deleteProduct(SqlSession session, String pdtNo) {
