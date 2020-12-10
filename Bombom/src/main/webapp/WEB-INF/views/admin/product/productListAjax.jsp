@@ -89,6 +89,11 @@
 				</c:forEach>
 			</c:if>
 		</table>
+		
+		<!-- 페이징바 -->
+		 <div >	
+			${pageBar }
+		</div>
 	
 	</div>
 			
@@ -98,12 +103,12 @@
 		$.ajax({
 			
 			url:"${path}/admin/productListAjax",
-			data:{"sort":$(e.target).val()},
+			data:{"cPage":1,"numPerpage":10,"sort":$(e.target).val()},
 			type:"get",
 			dataType:"html",
 			success:data=>{
 				console.log(data);
-				$(".ajax").html(data);
+				$("#result").html(data);
 			}
 		});
 	});

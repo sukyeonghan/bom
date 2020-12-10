@@ -92,21 +92,22 @@
 	</update>
 	
 	<!-- 제품목록출력 -->
-	<select id="selectProductList" resultMap="productMap">
+	<select id="selectProductList" parameterType="map" resultMap="productMap">
 		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_INTRO,PDT_STATUS,PDT_DATE,EVENT_NO_REF,
 			LISTAGG(PDT_OPTION_NO,',')WITHIN GROUP(ORDER BY pdt_no_ref) OVER(PARTITION BY PDT_NO_REF)AS PDT_OPTION_NO
 		FROM PRODUCT P 
 			LEFT JOIN PRODUCT_OPTION ON(PDT_NO=PDT_NO_REF) 
+		<if test="category != '전체'">
+			WHERE PDT_CATEGORY=#{category}
+		</if>
 		ORDER BY PDT_DATE DESC
 	</select>
-	<!-- 카테고리별 제품목록출력 -->
-	<select id="cateProductList" resultMap="productMap">
-		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_INTRO,PDT_STATUS,PDT_DATE,EVENT_NO_REF,
-			LISTAGG(PDT_OPTION_NO,',')WITHIN GROUP(ORDER BY pdt_no_ref) OVER(PARTITION BY PDT_NO_REF)AS PDT_OPTION_NO
-		FROM PRODUCT P 
-			LEFT JOIN PRODUCT_OPTION ON(PDT_NO=PDT_NO_REF) 
-		WHERE PDT_CATEGORY=#{pdtCategory}
-		ORDER BY PDT_DATE DESC
+	<!-- 제품개수출력 -->
+	<select id="countProduct" parameterType="map" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT
+		<if test="category != '전체'">
+			WHERE PDT_CATEGORY=#{category}
+		</if>  
 	</select>
 	<!-- 제품 삭제 -->
 	<delete id="deleteProduct" parameterType="string">

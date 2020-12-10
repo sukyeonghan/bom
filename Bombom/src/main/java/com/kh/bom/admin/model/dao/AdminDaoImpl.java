@@ -1,5 +1,6 @@
 package com.kh.bom.admin.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,15 +80,20 @@ public class AdminDaoImpl implements AdminDao {
 	
 	//제품 목록 
 	@Override
-	public List<Product> selectProductList(SqlSession session) {
+	public List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,String sort) {
 		// TODO Auto-generated method stub
-		return session.selectList("admin.selectProductList");
+		Map<String,String> param=new HashMap();
+		param.put("category", sort);
+		return session.selectList("admin.selectProductList",param,new RowBounds((cPage-1)*numPerPage,numPerPage));
+		
 	}
-	//카테고리변 목록
+	//카테고리별 목록
 	@Override
-	public List<Product> cateProductList(SqlSession session, String category) {
+	public int countProduct(SqlSession session, String category) {
 		// TODO Auto-generated method stub
-		return session.selectList("admin.cateProductList",category);
+		Map<String,String> param=new HashMap();
+		param.put("category", category);
+		return session.selectOne("admin.countProduct",param);
 	}
 	//제품 삭제
 	@Override
