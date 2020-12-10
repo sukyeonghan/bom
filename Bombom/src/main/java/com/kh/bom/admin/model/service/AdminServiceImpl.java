@@ -147,10 +147,14 @@ public class AdminServiceImpl implements AdminService {
 		int result=dao.updateProduct(session,p);
 		//제품 업데이트 하면 옵션 업데이트
 		if(result>0) {
+			System.out.println(options);
 			if(options.size()!=0) {
-				//이전에 있던 옵션 지우기-이전 결과가 없을 수도 있음
-				result=dao.deleteOption(session,p.getPdtNo());
-				System.out.println("delete결과"+result);
+				Product check=dao.checkOption(session,p.getPdtNo());
+				if(check.getPdtOptionNo()!=null) {
+					//이전에 있던 옵션 지우기
+					result=dao.deleteOption(session,p.getPdtNo());
+					System.out.println("delete결과"+result);
+				}
 				//지우고 다시 insert
 				for(int i=0;i<options.size(); i++) {
 					

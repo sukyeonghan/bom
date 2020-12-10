@@ -169,7 +169,6 @@ public class ProductAdminController {
 		if(p.getEventNoRef()!=null) {
 			e=service.selectEvent(p.getEventNoRef());
 		}
-		System.out.println(e);
 		
 		m.addObject("product",p);
 		m.addObject("option",o);
@@ -201,7 +200,7 @@ public class ProductAdminController {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
+		System.out.println("컨트롤러에서"+optionMap);
 		String path=session.getServletContext().getRealPath("/resources/upload/product");
 		File dir=new File(path);
 		
