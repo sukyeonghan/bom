@@ -24,5 +24,6 @@
 		<typeAlias type="com.kh.bom.qna.model.vo.Qna" alias="qna"/>
 		<typeAlias type="com.kh.bom.common.typehandler.CustomTypeHandler" alias="customStr"/>
 		<typeAlias type="com.kh.bom.review.model.vo.Review" alias="review"/>
+		<typeAlias type="com.kh.bom.admin.model.vo.MainBanner" alias="mainBanner"/>
 	</typeAliases>
 </configuration>

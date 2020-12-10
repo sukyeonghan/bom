@@ -96,24 +96,26 @@
               <table class="table">
                   <thead>
                     <tr>
-                      <th></th>
-                      <th>번호</th>
-                      <th>글 제목</th>
+                      <th>체크박스</th>
                       <th>작성날짜</th>
+                      <th>글 내용</th>
+                      <th>답변여부</th>
                     </tr>
                   </thead>
                   <tbody>
+                  <c:if test="${empty review }">	 
+	        		<tr >
+	        			<td class="noData" colspan="5">등록된 문의가 없습니다.</td>
+	        		</tr>	     
+		     	  </c:if>
+                  <c:forEach items="${review }" var="review">
+                  	<tr>
                       <td><input type="checkbox"></td>
-                      <td>2</td>
-                      <td>주말이 좋은데... 간격이 왜 다르냐고ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</td>
-                      <td>2020-11-18</td>
+                      <td><fmt:formatDate type="both" timeStyle="short" value="${review.inqDate }"/></td>
+                      <td><c:out value="${review.inqContent }"/></td>
+                      <td><c:out value="${review.inqAnswerYn }"/></td>
                     </tr>
-                    <tr>
-                      <td><input type="checkbox"></td>
-                      <td>1</td>
-                      <td>주말이 좋은데...</td>
-                      <td>2020-11-18</td>
-                    </tr>
+                   </c:forEach>
                   </tbody>
                 </table>
                 <div id="page-bar">${pageBar }</div>
@@ -127,23 +129,26 @@
                   <thead>
                     <tr>
                       <th></th>
-                      <th>번호</th>
-                      <th>글 제목</th>
                       <th>작성날짜</th>
+                      <th>글 제목</th>
+                      <th>글 내용</th>
                     </tr>
                   </thead>
                   <tbody>
+                  <c:if test="${empty community }">	 
+	        		<tr >
+	        			<td class="noData" colspan="5">등록된 문의가 없습니다.</td>
+	        		</tr>	     
+		     	  </c:if>
+		     	  	<tr>
+                       <c:forEach items="${community }" var="cm">
+                  	<tr>
                       <td><input type="checkbox"></td>
-                      <td>2</td>
-                      <td>제로제로웨이스트 실천</td>
-                      <td>2020-11-18</td>
+                      <td><fmt:formatDate type="both" timeStyle="short" value="${cm.cmDate }"/></td>
+                      <td><c:out value="${cm.cmTitle }"/></td>
+                      <td><c:out value="${cm.cmContent }"/></td>
                     </tr>
-                    <tr>
-                      <td><input type="checkbox"></td>
-                      <td>1</td>
-                      <td>액체비누대신 고체비누 사용하기</td>
-                      <td>2020-11-18</td>
-                    </tr>
+                   </c:forEach>                   
                   </tbody>
                 </table>
                 <div id="page-bar">${pageBar }</div>

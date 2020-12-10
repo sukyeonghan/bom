@@ -1,6 +1,7 @@
 package com.kh.bom.admin.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -14,6 +15,7 @@ import com.kh.bom.qna.model.vo.Qna;
 
 public interface AdminDao {
 	List<Event> selectEvent(SqlSession session);
+	List<Event> selectEventSort(SqlSession session, String sort);
 	int eventDelete(SqlSession session, String eventNo);
 	int insertEvent(SqlSession session, Event e);
 	Event selectEvent(SqlSession session, String eventNo);
@@ -24,11 +26,28 @@ public interface AdminDao {
 	int insertProduct(SqlSession session,Product p);
 	int insertThumb(SqlSession session,ProductThumb th);
 	int insertOption(SqlSession session,ProductOption o);
-
-	List<Member> selectMemberList(SqlSession session, int cPage, int numPerpage);
-	int selectMemberCount(SqlSession session);
+	Product selectOneProduct(SqlSession session,String pdtNo);
+	List<ProductOption> selectOption(SqlSession session,String pdtNo);
+	List<ProductThumb> selectThumb(SqlSession session,String pdtNo);
+	int updateProduct(SqlSession session,Product p);
+	Product checkOption(SqlSession session,String pdtNo);
+	
+	int deleteThumb(SqlSession session,String pdtNo);
+	int deleteOption(SqlSession session,String pdtNo);
+	
+	//회원관리
+	//관리자권한 변경
+	int updateManagerYn(SqlSession session, Member m);
+	//회원리스트
+	List<Member> selectMemberList(SqlSession session,int cPage, int numPerpage, Map map);
+	//회원수
+	int selectMemberCount(SqlSession session, Map<String, String> map);
+	//검색자동완성
+	List<Member> memberAutoComplete(SqlSession session, Map<String, String> map);
+	
 	
 	List<Qna> selectQnaList(SqlSession session, int cPage, int numPerpage);
 	int selectQnaCount(SqlSession session);
-
+	int insertQnaAnswer(SqlSession session, Qna q);
+	
 }

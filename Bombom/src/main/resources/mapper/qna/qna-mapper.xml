@@ -27,6 +27,10 @@
 		SELECT COUNT(*) FROM QNA WHERE QNA_WRITER=#{memNo}
 	</select>
 	
+	<delete id="deleteQna" parameterType="qna">
+		DELETE FROM QNA WHERE QNA_NO=#{qnaNo}
+	</delete>
+	
 	
 	
 	

@@ -18,11 +18,22 @@
 	/*페이지 타이틀*/
 	.page-title{margin-bottom:5%;}
 	
-	/*상단 버튼과 셀렉트 박스 정렬*/
-	.btns-category,.select-box{
+	/*상단 버튼 정렬*/
+	.btns{
 		display:flex;
 		justify-content:space-between;
 	}
+	/*제품개수와 필터 정렬*/
+	.count-filter{
+		display:flex;
+		justify-content:space-between;
+	}
+	/*제품 개수*/
+	#count,.sort{
+		margin:20px 0;
+		font-size: 17px;
+	}
+	
 	/*정렬*/
 	.sort{
 		border:none;
@@ -37,7 +48,7 @@
 	#product-table{
 		width:100%;
 		border:1px solid black;
-		margin:20px 0;
+		margin-bottom:20px;
 		border-collapse: collapse;
 		text-align:center;
 		padding:5px;
@@ -111,12 +122,21 @@
 		<div id="admin-container" class="media-body">
 			<!-- 페이지 타이틀 -->
 			<h3 class="page-title">제품목록</h3> 
-			<div class="btns-category">
+		
+			<div class="btns">
 				<!-- 전체 선택, 선택 삭제 버튼 -->
 				<div class="buttons">
 					<button class="btn btn-success" id="selectAll" onclick="selectAll();">전체 선택</button>
 					<button class="btn btn-success" id="selectDel" onclick="deletePro();">선택 삭제</button>
 				</div>
+				<!-- 제품등록 버튼 -->
+				<div class="insertBtn">
+					<button class="btn btn-success" id="insertPro" onclick="location.href='${path}/admin/productInsert'">제품 등록</button>
+				</div>
+			</div>	
+			<div class="count-filter">
+				<!-- 카테고리별 개수 -->
+				<p id="count">총  ${count }개</p>
 				<!--카테고리 정렬  -->
 				<div class="select-box">
 					<select class="sort">
@@ -130,6 +150,8 @@
 					</select>
 				</div>
 			</div>
+				
+			
 			
 			<!-- 제품관리 테이블 -->
 			<div id="product-table-wrap">
@@ -154,7 +176,7 @@
 								</td>
 								<td><c:out value="${e.pdtCategory}"/></td>
 								<td>
-									<a class="product-update" href="${path}/admin/productUpdate">
+									<a class="product-update" href="${path}/admin/productUpdate?pdtNo=${e.pdtNo}">
 										<c:out value="${e.pdtName}"/>
 									</a>
 								</td>
@@ -199,7 +221,7 @@
 						</c:forEach>
 					</c:if>
 				</table>
-				<button class="btn btn-success" id="insertPro" onclick="location.href='${path}/admin/productInsert'">제품 등록</button>
+			
 			</div>
 			
 			<!-- 페이징바 -->

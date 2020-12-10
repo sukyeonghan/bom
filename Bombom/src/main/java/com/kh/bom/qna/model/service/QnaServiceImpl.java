@@ -36,6 +36,14 @@ public class QnaServiceImpl implements QnaService {
 		// TODO Auto-generated method stub
 		return dao.selectCount(session,memNo);
 	}
+
+
+	@Override
+	public int deleteQna(Qna q) {
+		// TODO Auto-generated method stub
+		return dao.deleteQna(session,q);
+	}
+	
 	
 	
 	
