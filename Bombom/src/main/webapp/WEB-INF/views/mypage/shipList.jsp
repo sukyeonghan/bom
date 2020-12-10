@@ -9,14 +9,7 @@
 	<jsp:param name="title" value=" "/>
 </jsp:include>
 <style>
-	/*좌측메뉴*/
-	#mypage-nav{padding-right:100px;}
-	#mypage-nav a{color:black;font-weight:bolder;}
-	#mypage-nav a:hover{color: #45A663;}
-
-	/*최소 컨텐츠 크기*/
 	.media{min-width: 768px;} 
-	
 	.table th,.table td{text-align:center; }  
 	.table td{vertical-align: middle;}
 	.table td[class=addressTd]{text-align:left; } 
@@ -25,43 +18,13 @@
 <section id="container" class="container">
 	<div class="media">
 		<!-- 좌측 메뉴 -->
-		<div id="mypage-nav" class=" mr-3">
-		  <ul class="nav flex-column">
-		    <li class="nav-item">
-      			<a class="nav-link" href="${path }/mypage/orderStatus">주문내역</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/qna">1:1문의</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link" href="${path }/mypage/myActivity">나의 활동</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link" href="${path }/mypage/stamp">스탬프</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/zzimList">찜목록</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/updateMember">회원정보수정</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/shipList">배송지관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/myPointList">적립금</a>
-		    </li>
-		  </ul>
-		</div>
-		
-		<!--좌측메뉴선택시 화면 -->
+		<jsp:include page="/WEB-INF/views/common/mypageMenu.jsp"/>
+
 		<div id="mypage-container" class="media-body">
-			<h3>배송지관리</h3> 
-			<div class="text-right">
+			<div style="display:flex; justify-content: space-between; margin-bottom:20px;">
+				<h3>배송지관리</h3> 
 				<button class="btn btn-success" onclick="fn_addShip();">배송지 등록</button>
 			</div>
-			<br>
-			<br>
 			<div class="table-responsive ">
 			<table class="table table-hover">
 			    <thead>
@@ -116,6 +79,7 @@
 	</form>
 	
 </section>
+</div>
 <script>
 	
 	function fn_addShip(){

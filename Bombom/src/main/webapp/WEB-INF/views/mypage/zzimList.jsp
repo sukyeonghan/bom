@@ -10,11 +10,6 @@
 </jsp:include>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <style>
-	/*좌측메뉴*/
-	#mypage-nav{padding-right:100px;}
-	#mypage-nav a{color:black;font-weight:bolder;}
-	#mypage-nav a:hover{color: #45A663;}
-
 	/*최소 컨텐츠 크기*/
 	.media{min-width: 768px;} 
 	.right{text-align: right;}/*오른쪽 정렬*/
@@ -67,45 +62,21 @@
 <section id="container" class="container">
 	<div class="media">
 		<!-- 좌측 메뉴 -->
-		<div id="mypage-nav" class=" mr-3">
-		  <ul class="nav flex-column">
-		    <li class="nav-item">
-      			<a class="nav-link" href="${path }/mypage/orderStatus">주문내역</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/qna">1:1문의</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link" href="${path }/mypage/myActivity">나의 활동</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link" href="${path }/mypage/stamp">스탬프</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/zzimList">찜목록</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/updateMember">회원정보수정</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/shipList">배송지관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/myPointList">적립금</a>
-		    </li>
-		  </ul>
-		</div>
-		
+		<jsp:include page="/WEB-INF/views/common/mypageMenu.jsp"/>
+
 		<!--좌측메뉴선택시 화면 -->
 		<div id="mypage-container" class="media-body">
-			<div><h3>찜목록</h3></div> 
-			<!-- 편집메뉴모음 -->
-			<div id="delBoxOpen" class="right"><span><i class="far fa-trash-alt"></i> 폴더삭제</span></div>
-			<div id="delBox" class="right">
-				<span id="allChoice">전체선택</span>
-				<span id="remove">선택삭제</span>
-				<span id="cancel">취소</span>
+			<div style="display:flex; justify-content: space-between; margin:20px;">
+				<h3>찜목록</h3> 
+				<!-- 편집메뉴모음 -->
+				<div id="delBoxOpen" class="right"><span><i class="far fa-trash-alt"></i> 폴더삭제</span></div>
+					<div id="delBox" class="right">
+					<span id="allChoice">전체선택</span>
+					<span id="remove">선택삭제</span>
+					<span id="cancel">취소</span>
+				</div>
 			</div>
+			
 			<!-- 삭제할 폴더 선택폼 -->
 			<form name="zzimDelFrm">
 			<!-- 전체 폴더 리스트 -->
