@@ -1,0 +1,50 @@
+package com.kh.bom.review.model.service;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.kh.bom.point.model.dao.PointDao;
+import com.kh.bom.point.model.vo.Point;
+import com.kh.bom.review.model.dao.ReviewDao;
+import com.kh.bom.review.model.vo.Review;
+
+@Service
+public class ReviewServiceImpl implements ReviewService {
+	@Autowired
+	private SqlSession session;
+	@Autowired
+	private ReviewDao dao;
+	@Autowired
+	private PointDao pointdao;
+	
+	@Override
+	//try문에서 에러떴을 때 rollback처리
+	@Transactional(rollbackFor=Exception.class)
+	public int insertReview(Review r) throws Exception{
+		
+		int result = 0;
+		try {
+			result =  dao.insertReview(session, r);
+			String msg = "";
+			int plus = 0;
+		
+			if(r.getRevImage()!=null) {
+				msg="포토리뷰작성";
+				plus=500;
+			}else {
+				msg="리뷰작성";
+				plus=200;
+			}
+			Point p = new Point(r.getMemNo(),null,null,msg,plus);				
+			result = pointdao.insertStampPoint(session, p);
+	
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception();
+		}
+		return result;
+	}
+
+}
