@@ -37,20 +37,19 @@
 				</div>
 				<div class="select-box">
 					<select class="sort">
-						<option>등록순</option>
+						<option value="등록일순">등록일순</option>
 						<option>인기순</option>
-						<option>낮은 가격순</option>
-						<option>높은 가격순</option>
+						<option value="낮은가격순">낮은 가격순</option>
+						<option value="높은가격순">높은 가격순</option>
 					</select>
-
 				</div>
 			</div>
 		  	
 		  	<!-- 상품목록 -->
-		  	<div class="all-item-wrap"  style="display: flex;min-width: 80%;flex-wrap: wrap;">
+		  	<div id="result" class="all-item-wrap result">
 		  		<c:choose>
 		  			<c:when test="${empty list }">
-		  				<c:out value="해당하는 제품이 없습니다."/>
+		  				<img class="noItem" alt="" src="${path }/resources/images/product/noItem2.png" >
 		  			</c:when>
 		  			<c:otherwise>
 		  				<c:forEach var="p" items="${list }" >
@@ -119,8 +118,14 @@
 		  				</c:forEach>
 		  			</c:otherwise>
 		  		</c:choose>
-		  		
+		  	<!-- 	<div class="w3-center pagebar">
+			  		<div class="w3-bar"> -->
+	           		<div>	
+	           			${pageBar }
+	           		</div>
+           		<!-- </div> -->
             </div>
+           
            
 		  </div>
 		  
@@ -136,7 +141,7 @@
 			</div>
 		</div> -->
 	</div>
-</div>
+
 		
 
 </section>
@@ -156,4 +161,21 @@
 			$(this).attr("src", $(this).attr("src").replace($(this).next().next().val(), $(this).next().val())); 
 		}); 
 	});
+	
+	//분류 ajax
+	$(".sort").on("change",e=>{
+		console.log($(e.target).val());
+		$.ajax({
+			
+			url:"${path}/product/productListAjax",
+			data:{"sort":$(e.target).val()},
+			type:"get",
+			dataType:"html",
+			success:data=>{
+				console.log(data);
+				$("#result").html(data);
+			}
+		});
+		
+	})
 </script>
