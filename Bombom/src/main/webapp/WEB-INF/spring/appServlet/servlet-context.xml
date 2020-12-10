@@ -42,7 +42,12 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/community/*"/>
-			<beans:bean id="logincheck" class="com.kh.bom.common.page.LoginCheckInterceptor"/>
+			<mapping path="/mypage/*"/>
+			<beans:bean id="logincheck" class="com.kh.bom.common.interceptor.LoginCheckInterceptor"/>	
+		</interceptor>
+		<interceptor>
+			<mapping path="/admin/*"/>
+			<beans:bean id="adminCheck" class="com.kh.bom.common.interceptor.AdminCheckInterceptor"/>
 		</interceptor>
 	</interceptors>
 	
@@ -53,7 +58,7 @@
 	<beans:bean id="jsonView" class="net.sf.json.spring.web.servlet.view.JsonView"/>
 
    
-   
+ 
    <!-- redirect:/시 뒤로가도 정보 없도록 캐쉬지우기 ??  -->
 <!--    <interceptors>
       <interceptor>
