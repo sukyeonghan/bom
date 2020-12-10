@@ -37,24 +37,30 @@
 	<div class="media">
 		<!--관리자 내비게이션바 -->
 		<div id="" class=" mr-3 admin-nav">
-		  <ul class="nav flex-column">
-		    <li class="nav-item">
-      			<a class="nav-link select" href="${path }/">회원관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="${path }/admin/moveProduct">제품관리</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="${path }/">주문관리</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="${path }/">1:1문의관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="${path }/">이벤트관리</a>
-		    </li>
-		  </ul>
-		</div>
+	        <ul class="nav flex-column">
+	          <li class="nav-item">
+	               <a class="nav-link select" href="path/admin/memberList">회원관리</a>
+	          </li>
+	          <li class="nav-item">
+	               <a class="nav-link non-select" href="path/admin/moveProduct">제품관리</a>
+	          </li>
+	          <li class="nav-item">
+	               <a class="nav-link non-select" href="path/">주문관리</a>
+	          </li>
+	          <li class="nav-item">
+	               <a class="nav-link non-select" href="path/">1:1문의관리</a>
+	          </li>
+	          <li class="nav-item">
+	               <a class="nav-link non-select" href="path/admin/moveEvent">이벤트관리</a>
+	          </li>
+	          <li class="nav-item">
+	               <a class="nav-link non-select" href="path/">커뮤니티관리</a>
+	          </li>
+	          <li class="nav-item">
+	               <a class="nav-link non-select" href="path/admin/moveMainBanners">메인관리</a>
+	          </li>
+	        </ul>
+	      </div>
 		
 		<div id="admin-container" class="media-body">
 			<!-- 페이지 타이틀 -->
