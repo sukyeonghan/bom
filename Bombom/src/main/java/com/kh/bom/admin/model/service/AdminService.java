@@ -50,6 +50,8 @@ public interface AdminService {
 	int insertQnaAnswer(Qna q);
 	//qna 삭제
 	int deleteQna(String qnaNo);
+	//qna 답변대기목록
+	List<Qna> selectQnaWaitList(int cPage, int numPerpage);
 	
 	
 	

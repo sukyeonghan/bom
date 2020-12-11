@@ -83,6 +83,7 @@
                <td style="display:none"><c:out value="${q.qnaContent }"/> </td>
                <td style="display:none"><c:out value="${q.qnaAnswer }"/></td>
                <td style="display:none"><fmt:formatDate type="both" timeStyle="short" value="${q.qnaAnswerDate }"/></td>
+               <td style="display:none"><c:out value="${q.qnaNo }"/></td>
               </tr>
 
      
@@ -152,6 +153,7 @@
 	        		let td= tr.children();
 	        		
 	        		let qnaNo=td.eq(8).text();
+	        		console.log(qnaNo);
 	        		let category = td.eq(1).text();
 	        		let title=td.eq(2).text();
 	        		let qnaYn=td.eq(4).text();

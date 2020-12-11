@@ -4,12 +4,22 @@ import java.util.List;
 
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.review.model.vo.Review;
 
 public interface ProductService {
 	
+	//상품문의
 	List<Inquiry> inquiryList(int cPage, int numPerpage);
 	
+	//상품갯수
 	int inquiryCount();
+	
+	//구매평
+	List<Review> reviewList(int cPage, int numPerpage);
+	
+	//구매평 갯수
+	int reviewCount();
+	
 	
 	int productAllCount();//전체 제품 개수
 	int productCateCount(String category);//카테고리별 제품 개수

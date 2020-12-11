@@ -31,10 +31,10 @@ public class ReviewServiceImpl implements ReviewService {
 			int plus = 0;
 		
 			if(r.getRevImage()!=null) {
-				msg="포토리뷰작성";
+				msg="포토구매평 작성";
 				plus=500;
 			}else {
-				msg="리뷰작성";
+				msg="구매평 작성";
 				plus=200;
 			}
 			Point p = new Point(r.getMemNo(),null,null,msg,plus);				
@@ -45,6 +45,11 @@ public class ReviewServiceImpl implements ReviewService {
 			throw new Exception();
 		}
 		return result;
+	}
+
+	@Override
+	public int deleteRevivew(String revNo) {
+		return dao.deleteRevivew(session, revNo);
 	}
 
 }

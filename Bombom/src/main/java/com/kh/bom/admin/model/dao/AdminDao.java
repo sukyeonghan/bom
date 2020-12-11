@@ -51,5 +51,6 @@ public interface AdminDao {
 	int selectQnaCount(SqlSession session);
 	int insertQnaAnswer(SqlSession session, Qna q);
 	int deleteQna(SqlSession session, String qnaNo);
+	List<Qna> selectQnaWaitList(SqlSession session, int cPage, int numPerpage);
 	
 }

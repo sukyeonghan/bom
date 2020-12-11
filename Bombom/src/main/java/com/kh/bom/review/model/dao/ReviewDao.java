@@ -7,5 +7,7 @@ import com.kh.bom.review.model.vo.Review;
 public interface ReviewDao {
 	
 	int insertReview(SqlSession session, Review r);
+	
+	int deleteRevivew(SqlSession session, String revNo);
 
 }
