@@ -5,15 +5,22 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <style>
+	/*기본 화면 설정  */
+	#flexDiv{
+	 display:flex;
+	 margin:0px 10% 0px 10%;
+	}
+	/*출력 화면 설정  */
+	#admin-container{
+	min-width:800px; 
+	width:100px;
+	}
 	/*좌측메뉴*/
 	.admin-nav{padding-right:100px;}
 	.admin-nav a{font-weight:bolder;}
 	.admin-nav a:hover{color: #45A663;}
 	.select{color:#45A663;}
-	.non-select{color:black;}
-	
-	/*최소 컨텐츠 크기*/
-	.media{min-width: 768px;} 
+	.non-select{color:black;}	
 	
 	/*페이지 타이틀*/
 	.page-title{margin-bottom:5%;}
@@ -44,22 +51,26 @@
 
       /* 테이블 정렬 */
       .table th,
-      .table td {
+      .table tr td {
         text-align: center;
-        vertical-align: none;
+        vertical-align:middle;
       }
       /* 페이지 번호 들어갈 곳 */
       #page-bar {
         text-align: center;
         margin-top: 30px;
       }
+      /*검색 가운데 정렬 */
+      .searchBox{
+      	justify-content:center;
+      }
 </style>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="주문관리" />
 </jsp:include>
 
-<section id="container" class="container">
-	<div class="media">
+<section id="container" >
+	<div id="flexDiv">
 		<!--관리자 내비게이션바 -->
 		<div id="" class=" mr-3 admin-nav">
 		  <ul class="nav flex-column">
@@ -81,8 +92,8 @@
 		  </ul>
 		</div>
 		
-				<!--좌측메뉴선택시 화면 -->
-		<div id="order-container" class="media-body">
+		<!--좌측메뉴선택시 출력 화면 -->
+		<div id="admin-container">
           <h3>주문관리</h3>
           <br />
           <div class="status">
@@ -135,12 +146,12 @@
             </table>
           </div>
           <div class="order-info">
-            <div class="form-group">
+            <div class="form-group searchBox">
               <select class="form-control" id="category">
                 <option>주문번호</option>
                 <option>닉네임</option>
               </select>
-              <input type="text" class="form-control" id="search" />
+              <input type="text" class="form-control" id="search" style="width:300px" />
               <button type="button" class="btn btn-success">검색</button>
             </div>
 
@@ -159,7 +170,7 @@
               <tbody>
                 <tr>
                   <td>2020-11-19</td>
-                  <td><a href="admin-orderDetail.html">202011190009</a></td>
+                  <td><a href="${path }/admin/orderDetail">202011190009</a></td>
                   <td>김홍시</td>
                   <td>50,000원</td>
                   <td>
