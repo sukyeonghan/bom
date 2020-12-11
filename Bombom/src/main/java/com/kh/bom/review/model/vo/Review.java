@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Review {
 	
+	private String revNo;
 	private String pdtNo;
 	private String memNo;
 	private String orderNo;
@@ -18,5 +19,7 @@ public class Review {
 	private String revContent;
 	private String revImage;
 	private Date revDate;
+	private String memNick;
+	private String memPro;
 
 }

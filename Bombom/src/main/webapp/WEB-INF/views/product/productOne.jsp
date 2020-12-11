@@ -321,11 +321,11 @@
 	}       
 </style>
 
-<section id="container" class="container">
+<section id="container" style="margin:0 5% 0 5%;">
     <h5><small><a href="${path}">홈</a> > <a href="${path}/product/productAll">제품</a> > <a href="#">욕실</a></small></h5>
-    <div class="row">
+    <div class="row" >
     	<!-- 썸네일 -->
-        <div class="col-6">
+        <div class="col-6" >
             <!-- <div class="goods_thumbs" id="main_image"> -->
                 <img alt="" class="img-fluid" id="main_image" style="padding-bottom:7px;" src="${path }/resources/upload/product/천연목욕수세미1.jpg"/>
             <!-- </div> -->
@@ -341,7 +341,7 @@
             </div>
         </div>
         <!-- 제품 info -->
-        <div class="col-6 info-container">
+        <div class="col-6 info-container" style="display:flex;flex-wrap:wrap;">
         	<div class="inner_goods_form container">
         		<div class="head" style="margin-top:0px;">
         			<div class="information size-up" style="padding-top:10px;">제품명&nbsp;&nbsp;<img src="${path}/resources/images/product/sale.jpg" width="50px"></div>
@@ -391,15 +391,15 @@
                     <div class="information" style="padding-bottom:10px;">
                     	<div id="info_count" style="border-radius:4px;">
                     		<div class="information" style="margin:10px;">옵션선택확인</div>
-                    		<div class="inforamtion row">
-                    			<div class="col" style="margin-left:10px;">
+                    		<div class="inforamtion">
+                    			<div style="float:left;margin:0 0 0 10px;">
                     				<input type="button" class="input_count" value="-" id="minus" onclick="minus();">
                     				<input type="text" class="input_count2" value="1" id="count" style="width:40px; text-align:center;">
                     				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
                     			</div>
-                    			<div class="col-3">
+                    			<div style="float:right;margin:0 10px 0 0;">
                     				<input type="text" value="4000" id="total_count" hidden="hidden"/>
-                    				<input type="text" value="4000" id="total_count_view" style="width:60px;text-align:right; border:none;" readonly/>원
+                    				<input type="text" value="4000" id="total_count_view" style="width:60px;right:0; border:none;" readonly/>원
                     			</div>
                     		</div>
                     	</div>
@@ -425,7 +425,7 @@
 		<div class="tab_wrap container">
 		    <div class="tab_menu_container container">
 			    <button class="tab_menu_btn on" type="button">상품상세</button>
-			    <button class="tab_menu_btn" type="button">구매평(숫자)</button>
+			    <button class="tab_menu_btn" type="button">구매평(<c:out value="${reviewCount }"/>)</button>
 			    <button class="tab_menu_btn" type="button">상품문의(<c:out value="${count }"/>)</button>
 		    </div> <!-- tab_menu_container e -->
 		    <div class="tab_box_container">
@@ -517,7 +517,152 @@
 				        </div>
 			        </form><!-- 구매평 작성창 끝 -->
 			        
+			        <style>
+  .accordion_title {
+    display: flex;
+    position: relative;
+  }
+
+  .plusminus::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 3px;
+    background-color: #45A663;
+    position: absolute;
+    right: 0;
+    transform: rotate(90deg);
+    transition: .5s;
+    margin: 10px;
+  }
+
+  .plusminus::after {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 3px;
+    background-color: #45A663;
+    position: absolute;
+    right: 0;
+    transform: rotate(0deg);
+    margin: 10px;
+  }
+
+  .plusminus.active::before {
+    transform: rotate(0deg);
+  }
+
+  .accordion_title:hover {
+    cursor: pointer;
+  }
+
+  .accordion_title {
+    margin: 10px;
+  }
+  .accordion_title:active .shortContent{
+  	style:none;
+  }
+
+  .accordion_content {
+    display: block;
+    margin: 0;
+    height: 0;
+    overflow: hidden;
+    transition: .5s;
+  }
+
+  .accordion_content.show {
+    margin: 10px;
+  }
+
+  .accordion_wrap {
+    border-color: #E2E2E2;
+    list-style: none;
+    border-width: 1px 0 0 0;
+    border-style: solid;
+    padding: 0px;
+  }
+  .accordion_inner{
+    border-color: #E2E2E2;
+    list-style: none;
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    margin: 10px 0 0 0;
+  }
+			        </style>
+			        
+			        <!-- 구매평 게시글 -->
+			        <div id="reviewResult">
+			        	<div class="container">
+				        	 <c:if test="${not empty reviewlist }">	
+				        		 <ul class="accordion_wrap">
+					        		 <c:forEach items="${reviewlist}" var="r">
+									    <li class="accordion_inner">
+									    <!-- 타이틀 -->
+									      <div class="accordion_title">
+									      	<div class="col-9" >
+										      	별점:<c:out value="${r.revScore}"/><br>
+										      	<img src="${path }/resources/upload/profile/${r.memPro}" style="max-width:30px; height:30px;border-radius:50%;">&nbsp;
+											      <strong><c:out value="${r.memNick }"/></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate type="both" timeStyle="short" value="${r.revDate }"/><br>
+											     <c:out value="${r.revContent}" />
+									      	</div>
+									      	<div class="col-2"><c:if test="${r.revImage!=null }"><img src="${path}/resources/upload/review/${r.revImage }" style="height: auto;"/></c:if></div>
+									      	<div class="col-1 plusminus"></div>
+									      </div>
+									      <!-- 상세보기 -->
+									      <div class="accordion_content">
+									      	<div>
+										        <!-- 작성자와 로그인한 사람이 같을경우 수정, 삭제 버튼 생성 -->
+										        <c:if test="${loginMember.memNo==r.memNo }">
+										        	<div style="display:inline-block;float:right;">
+										        		<input type="hidden" name="revNo" value="${r.revNo}">
+											        	<input type="button" class="btn btn-outline-success btn-sm" value="수정">
+						        						<input type="button" class="btn btn-outline-success btn-sm deleteReviewCk" data-confirm="구매평을 삭제하시겠습니까?" value="삭제">
+										        	</div>
+										        </c:if>
+										        <br><br>
+										        <c:if test="${r.revImage!=null }"><img src="${path}/resources/upload/review/${r.revImage }" style="max-width:40%; height: auto;"/></c:if>
+									      	</div>
+									      </div>
+									    </li>
+									</c:forEach>    
+								</ul>
+							</c:if>
+							<c:if test="${empty reviewlist }">
+						    	등록된 구매평이 없습니다
+						    </c:if>		    
+			        	</div>
+			        </div>
 		    	</div><!-- 구매평 끝 -->
+		    	<script>
+		    	//구매평 아코디언
+		    	window.onload = init();
+		        function init() {
+		            const accordion_items = document.querySelectorAll(".accordion_title");
+		            for (var i = 0; i < accordion_items.length; i++) {
+		              accordion_items[i].addEventListener("click", function () {
+		                this.nextElementSibling.classList.toggle("show");
+		                this.classList.toggle("active");
+		                if (this.classList.contains("active")) {
+		                  this.nextElementSibling.style.height =
+		                    this.nextElementSibling.children[0].clientHeight + 40 + "px";
+		                } else {
+		                  this.nextElementSibling.style.height = 0;
+		                }
+		              });
+		            }
+		          }
+		        
+		        //구매평 삭제, 구매평 지우려면 revNo가 필요할 것 같은데?
+				$(".deleteReviewCk").on("click",function(e){
+					e.preventDefault();
+					var choice = confirm($(this).attr('data-confirm'));
+					if(choice){
+						let revNo = $(event.target).parents().children('input[name=revNo]').val();
+						location.replace("${path}/review/deleteReview?revNo="+revNo);
+					}	
+				});
+		    	</script>
 		    	
 		    	<!-- 상품문의 시작 -->
 				<div class="tab_box">
@@ -1151,7 +1296,7 @@
 	$("#upload").change(e => {
    		let reader = new FileReader();
    		reader.onload = e =>{
-   			let img = $("<img>").attr({"src":e.target.result,"style":"width:60px;height:60px;"});
+   			let img = $("<img>").attr({"src":e.target.result,"style":"width:70px;height:auto"});
    			
    			$("#imgPreview").html("");
    			$("#imgPreview").append(img);

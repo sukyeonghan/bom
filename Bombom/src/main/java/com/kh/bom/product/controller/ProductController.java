@@ -11,13 +11,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.common.page.AjaxPageBarFactory;
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.service.ProductService;
 import com.kh.bom.product.model.vo.Product;
-import com.kh.bom.product.model.vo.ProductThumb;
+import com.kh.bom.review.model.vo.Review;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -132,6 +131,7 @@ public class ProductController {
 		m.setViewName("product/saleList");
 		return m;
 	}
+	
 	//상품문의 카운트 - 상품상세 첫화면
 	@RequestMapping("/product/productOne")
 	public ModelAndView productOne(ModelAndView mv,
@@ -162,11 +162,20 @@ public class ProductController {
 			if(i.getInqAnswerYn().equals("N")) {
 				i.setInqAnswer("관리자의 답변을 기다려주세요");
 			}
-		}		
+		}
+		//상품문의 갯수
+		int totalData = service.inquiryCount();
+		
+		//구매평
+		List<Review> reviewlist = service.reviewList(cPage, numPerpage);
+		//구매평 갯수
+		int reviewCount = service.reviewCount(); 
+
 		
 		mv.addObject("list", list);
-		int totalData = service.inquiryCount();
 		mv.addObject("count", totalData);
+		mv.addObject("reviewlist", reviewlist);
+		mv.addObject("reviewCount", reviewCount);
 		mv.addObject("cPage", cPage);
 		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax"));
 		mv.setViewName("product/productOne");

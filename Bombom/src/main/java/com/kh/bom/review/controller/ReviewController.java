@@ -19,7 +19,7 @@ public class ReviewController {
 	@Autowired
 	private ReviewService service;
 	
-	//리뷰등록
+	//구매평 등록
 	@RequestMapping("/review/insertReview")
 	public ModelAndView insertReview(Review r, ModelAndView mv,
 			@RequestParam(value="upload", required=false) MultipartFile[] upFile,
@@ -79,7 +79,31 @@ public class ReviewController {
 	}
 
 	
-	
+	//구매평삭제
+	@RequestMapping("/review/deleteReview")
+	public ModelAndView deleteReview(String revNo, ModelAndView mv) {
+		
+		int result = service.deleteRevivew(revNo);
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		
+		if(result>0) {
+			msg = "구매평이 삭제되었습니다";
+			loc = "/product/productOne";
+			icon = "success";
+		}else {
+			msg = "구매평을 다시 삭제해주세요";
+			loc = "/product/productOne";
+			icon = "warning";
+		}
+
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon",icon);
+		mv.setViewName("common/msg");		
+		return mv;
+	}
 	
 	
 	
