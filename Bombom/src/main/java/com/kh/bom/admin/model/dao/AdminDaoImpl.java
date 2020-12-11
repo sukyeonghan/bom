@@ -186,6 +186,12 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.delete("admin.deleteQna",qnaNo);
 	}
+	//1:1문의 답변대기목록
+	@Override
+	public List<Qna> selectQnaWaitList(SqlSession session, int cPage, int numPerpage) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectQnaWaitList", "", new RowBounds((cPage-1)*numPerpage,numPerpage));
+	}
 	
 	
 	

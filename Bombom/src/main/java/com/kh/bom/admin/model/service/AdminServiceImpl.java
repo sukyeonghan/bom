@@ -241,6 +241,12 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.deleteQna(session,qnaNo);
 	}
+
+	@Override
+	public List<Qna> selectQnaWaitList(int cPage, int numPerpage) {
+		// TODO Auto-generated method stub
+		return dao.selectQnaWaitList(session,cPage,numPerpage);
+	}
 	
 	
 	

@@ -10,12 +10,8 @@
 </jsp:include>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <style>
-	/*좌측메뉴*/
-	#mypage-nav{padding-right:100px;}
-	#mypage-nav a{color:black;font-weight:bolder;}
-	#mypage-nav a:hover{color: #45A663;}
-	/*최소 컨텐츠 크기*/
-	.media{min-width: 768px;} 
+	#flexDiv{display:flex; padding: 0px 10% 0px 10%;}
+	#mypage-container{min-width:800px; width:100%; padding-right:100px;}
 	.right{text-align: right;}
 	/*찜폴더 타이틀*/
 	#zzimTitle{text-align:center; margin-bottom: 30px; font-size: 30px;}
@@ -42,40 +38,12 @@
 	#folderNameUpdate,#folderMove{color:#45A663;}
 	#deleteZc,#folderRemove{color:red;}
 </style>
-<section id="container" class="container">
-	<div class="media">
+<section id="container">
+	<div id="flexDiv">
 		<!-- 좌측 메뉴 -->
-		<div id="mypage-nav" class=" mr-3">
-		  <ul class="nav flex-column">
-		    <li class="nav-item">
-      			<a class="nav-link" href="${path }/mypage/orderStatus">주문내역</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/qna">1:1문의</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link" href="${path }/mypage/myActivity">나의 활동</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link" href="${path }/mypage/stamp">스탬프</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/zzimList">찜목록</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/updateMember">회원정보수정</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/shipList">배송지관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/myPointList">적립금</a>
-		    </li>
-		  </ul>
-		</div>
-		
-		<!--좌측메뉴선택시 화면 -->
-		<div id="mypage-container" class="media-body">
+		<jsp:include page="/WEB-INF/views/common/mypageMenu.jsp"/>
+		<!-- 우측 메뉴내용 -->
+		<div id="mypage-container"  >
 			<div id="zzimTitle">
 				<a href="${path }/mypage/zzimList"><span>찜목록</span></a>
 				<span><i class="fas fa-angle-right"></i></span>

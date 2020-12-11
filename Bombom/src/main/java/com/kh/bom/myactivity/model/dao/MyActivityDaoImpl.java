@@ -7,21 +7,21 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.bom.community.model.vo.Community;
-import com.kh.bom.inquiry.model.vo.Inquiry;
+import com.kh.bom.review.model.vo.Review;
 
 @Repository
 public class MyActivityDaoImpl implements MyActivityDao {
 	//구매평
 	@Override
-	public List<Inquiry> selectReviewList(SqlSession session, String memNo, int cPage, int numPerpage) {
+	public List<Review> selectReviewList(SqlSession session, String memNo, int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
-		return session.selectList("inquiry.selectReviewList", memNo, new RowBounds((cPage-1)*numPerpage,numPerpage));
+		return session.selectList("review.selectReviewList", memNo, new RowBounds((cPage-1)*numPerpage,numPerpage));
 	}
 
 	@Override
 	public int selectReviewCount(SqlSession session, String memNo) {
 		// TODO Auto-generated method stub
-		return session.selectOne("inquiry.selectReviewCount",memNo);
+		return session.selectOne("review.selectReviewCount",memNo);
 	}
 	//커뮤니티 
 	@Override

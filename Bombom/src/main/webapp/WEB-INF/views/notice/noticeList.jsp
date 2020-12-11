@@ -9,55 +9,24 @@
 	<jsp:param name="notice" value="공지사항 " />
 </jsp:include>
 <style>
-#board-nav {
-	padding-right: 100px;
-}
-
-#board-nav a {
-	color: black;
-	font-weight: bolder;
-}
-
-#board-nav a:hover {
-	color: #45A663;
-}
-
-.media {
-	min-width: 768;
-}
-
-/* 공지사항 div */
-div#notice-container {
-	width: 800px;
-	margin: 0 auto;
-}
+#flexDiv{display:flex; padding: 0px 10% 0px 10%;}
+div#notice-container{min-width:800px; width:100%; padding-right:100px;}
 
 div#notice-container input {
 	margin-bottom: 15px;
 }
 
-.table {
-	width: 800px;
-}
+
 </style>
 
-<section id="container" class="container">
-
-	<div class="media">
-
+<section id="container">
+	<div id="flexDiv">
 		<!-- 좌측 메뉴 -->
-		<div id="board-nav" class="col-sm-3">
-			<ul class="nav flex-column">
-				<li class="nav-item"><a class="nav-link"
-					href="${path }/notice/noticeList">공지사항</a></li>
-				<li class="nav-item"><a class="nav-link "
-					href="/bom/faq/faqList">자주묻는질문</a></li>
-			</ul>
-		</div>
+		<jsp:include page="/WEB-INF/views/common/boardMenu.jsp"/>
 
-		<!-- 공지사항 리스트 -->
-
-		<div id="notice-container" class="container">
+		<!-- 우측 메뉴내용 -->
+		<div id="notice-container">
+		
 		<h3>공지사항</h3>
 		<div class="text-right">
 		<c:if test="${loginMember.memManagerYn == 'Y' }">

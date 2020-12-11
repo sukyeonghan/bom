@@ -9,43 +9,31 @@
 	<jsp:param name="title" value=" "/>
 </jsp:include>
 <style>
-	#left-nav{padding-right:100px;}
-	#left-nav a{color:black;font-weight:bolder;}
-	#left-nav a:hover{color: #45A663;}
+	#flexDiv{display:flex; padding: 0px 10% 0px 10%;}
+	#board-container{min-width:800px; width:100%; padding-right:100px;}
 	
-	/*최소 컨텐츠 크기*/
-	.media{min-width: 768px;} 
-	h3{text-align: center;}
-	div#main-container{
-		width:80%;
+	div#line-container{
+		width:100%;
 		padding:40px;
 		margin:auto;
 		border:1px #45A663 solid ;
 		border-radius: 10px;
 	}
+	h3{text-align: center;}
 	/*버튼 가운데정렬*/
 	.btn-box{text-align: center;}
 	/*버튼크기고정*/
 	.btn{width: 100px;}
 </style>
-<section id="container" class="container">
-	
-	<div class="media">
-	
+<section id="container">
+	<div id="flexDiv">
 		<!-- 좌측 메뉴 -->
-		<div id="left-nav" class=" mr-3">
-		  <ul class="nav flex-column">
-		    <li class="nav-item">
-		      <a class="nav-link" href="${path }/notice/noticeList">공지사항</a>
-		    </li>
-		    <li class="nav-item">
-		      <a class="nav-link " href="${path }/faq/faqList">자주묻는질문</a>
-		    </li>
-		  </ul>
-		</div>
+		<jsp:include page="/WEB-INF/views/common/boardMenu.jsp"/>
+		<!-- 우측 메뉴내용 -->
+		<div id="board-container"  >
 	
 
-	<div id="main-container" class="media-body">
+	<div id="line-container">
 		<h3>자주묻는 질문 등록/수정</h3>
 		<br>
 		<!-- faq값이 없을 때는 등록, faq 값이 넘어왔을떄는  수정 -->
@@ -90,6 +78,7 @@
 				</div>
 				
 			</form>
+		</div>
 		</div>
 	</div>
 </section>
