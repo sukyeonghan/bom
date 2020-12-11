@@ -10,7 +10,7 @@
 </jsp:include>
 <style>
 	#flexDiv{display:flex; padding: 0px 10% 0px 10%;}
-	#mypage-container{min-width:800px; width:100%;}
+	#mypage-container{min-width:800px; width:100%; padding-right:100px;}
 	/* 글쓰기 버튼 오른쪽정렬 */
     #btn-container {
       text-align: right;

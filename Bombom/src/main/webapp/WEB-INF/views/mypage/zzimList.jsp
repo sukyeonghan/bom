@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <style>
 	#flexDiv{display:flex; padding: 0px 10% 0px 10%;}
-	#mypage-container{min-width:800px; width:100%;}
+	#mypage-container{min-width:800px; width:100%; padding-right:100px;}
 	.right{text-align: right;}/*오른쪽 정렬*/
 	
 	/*찜폴더리스트*/
