@@ -49,6 +49,11 @@
    .byte{
   	text-align:end;
    }
+   /*정렬 */
+   .btnFilter{
+   	text-align:end;
+   	margin-bottom:30px;
+   }
 
 </style>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -82,6 +87,17 @@
 		<div id="qna-container" class="media-body">
           <h3>1:1문의</h3>
           <br />
+          <div class="btnFilter">
+	          <div class="btn-group">
+	      		<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" style="height: 30px">
+	      		골라보기
+	     		</button>
+	        	  <div class="dropdown-menu">
+		     	   <a class="dropdown-item" href="${path }/admin/qnaWait">답변대기(N)</a>
+		     	   <a class="dropdown-item" href="${path }/admin/qnaList">전체보기</a>
+	     	 	 </div>
+	     	  </div>
+     	  </div> 
           <table class="table">
             <thead>
               <tr>
@@ -120,9 +136,7 @@
             </tbody>
           </table>
           <div id="page-bar">${pageBar }</div>
-          <div id="btn-container">
-            <button type="button" class="btn btn-success" onclick="location.replace('${path}/admin/qnaDelete')">선택삭제</button>
-          </div>
+        
         </div>
 	
 	<!--1:1문의 모달창 -->

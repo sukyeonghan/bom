@@ -263,4 +263,8 @@
 		DELETE FROM QNA WHERE QNA_NO=#{qnaNo}
 	</delete>
 	
+	<select id="selectQnaWaitList" resultMap="qnaMap">
+		SELECT ROWNUM, Q.*FROM (SELECT * FROM QNA WHERE QNA_YN='N' ORDER BY QNA_DATE ASC) Q ORDER BY ROWNUM DESC 
+	</select>
+	
 </mapper>
