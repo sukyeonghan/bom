@@ -142,7 +142,7 @@
 	<div id="flexDiv">
 	
 		<!--제품 관리 내비게이션바 -->
-		<jsp:include page="/WEB-INF/views/admin/product/productNav.jsp"/>
+		<jsp:include page="/WEB-INF/views/common/adminMenu.jsp"/>
 		
 		<div id="admin-container" >
 			<!-- 페이지 타이틀 -->

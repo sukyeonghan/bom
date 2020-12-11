@@ -20,7 +20,7 @@
    	#admin-container {
     	min-width: 800px;
       	width: 100%;
-      	/* padding-right:100px; */
+      	padding-right:60px;
    	}
 	
 	/*페이지 타이틀*/
@@ -109,7 +109,7 @@
 	<div id="flexDiv">
 	
 		<!--관리자 내비게이션바 -->
-		<jsp:include page="/WEB-INF/views/admin/product/productNav.jsp"/>
+		<jsp:include page="/WEB-INF/views/common/adminMenu.jsp"/>
 		
 		<div id="admin-container">
 			<!-- 페이지 타이틀 -->
