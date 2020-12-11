@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.bom.admin.model.vo.Event;
+import com.kh.bom.admin.model.vo.MainBanner;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.product.model.vo.ProductThumb;
@@ -167,6 +168,12 @@ public class AdminDaoImpl implements AdminDao {
 	public int insertQnaAnswer(SqlSession session, Qna q) {
 		// TODO Auto-generated method stub
 		return session.insert("admin.insertQnaAnswer",q);
+	}
+
+	//메인배너리스트
+	@Override
+	public List<MainBanner> selectBannerList(SqlSession session) {
+		return session.selectList("admin.selectBannerList");
 	}
 	
 	

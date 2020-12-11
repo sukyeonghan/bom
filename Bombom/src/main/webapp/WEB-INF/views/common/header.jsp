@@ -51,14 +51,6 @@
 </head>
 
 <body>
-    <script>
-        $(function () {
-            $('#mainBanner').carousel({
-                interval: 5000, //기본값 5000= 5초,false면 자동 순환하지 않는다.
-                pause: "hover", // hover를 설정하면 마우스를 가져대면 자동 순환이 멈춘다.
-            });
-        })
-    </script>
     <header id="spring-main-header" class="container-fluid fixed-top">
         <!-- header -->
         <div id="header-container">

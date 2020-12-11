@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.bom.admin.model.vo.Event;
+import com.kh.bom.admin.model.vo.MainBanner;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
@@ -49,5 +50,8 @@ public interface AdminDao {
 	List<Qna> selectQnaList(SqlSession session, int cPage, int numPerpage);
 	int selectQnaCount(SqlSession session);
 	int insertQnaAnswer(SqlSession session, Qna q);
+	
+	//메인배너리스트가져오기
+	List<MainBanner> selectBannerList(SqlSession session);
 	
 }

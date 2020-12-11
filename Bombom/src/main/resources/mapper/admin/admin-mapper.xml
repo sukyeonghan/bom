@@ -65,6 +65,7 @@
 		<result property="bannerTitle" column="banner_title"/>
 		<result property="bannerSubtitle" column="banner_subtitle"/>
 		<result property="bannerThumb" column="banner_thumb"/>
+		<result property="pdtName" column="pdt_name"/>
 	</resultMap>
 	
 	<select id="selectEvent" resultMap="eventMap">
@@ -248,5 +249,13 @@
 	<update id="insertQnaAnswer" parameterType="qna">
 		UPDATE QNA SET QNA_YN='Y', QNA_ANSWER=#{qnaAnswer}, QNA_ANSWER_DATE=SYSDATE WHERE QNA_NO=#{qnaNo}
 	</update>
+	
+	<!-- 메인배너관리 -->
+	<select id="selectBannerList" resultMap="bannerMap">
+		SELECT * FROM MAIN_BANNER
+			JOIN PRODUCT USING(PDT_NO)
+	</select>
+	
+	<!-- 메인배너관리 끝 -->
 	
 </mapper>

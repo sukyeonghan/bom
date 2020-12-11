@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.bom.admin.model.dao.AdminDao;
 import com.kh.bom.admin.model.vo.Event;
+import com.kh.bom.admin.model.vo.MainBanner;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
@@ -228,6 +229,12 @@ public class AdminServiceImpl implements AdminService {
 	public int insertQnaAnswer(Qna q) {
 		// TODO Auto-generated method stub
 		return dao.insertQnaAnswer(session, q);
+	}
+
+	//메인배너리스트 가져오기
+	@Override
+	public List<MainBanner> selectBannerList() {
+		return dao.selectBannerList(session);
 	}
 	
 	
