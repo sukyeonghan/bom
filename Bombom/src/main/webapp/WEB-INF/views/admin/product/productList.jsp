@@ -12,8 +12,16 @@
 	.select{color:#45A663;}
 	.non-select{color:black;}
 	
-	/*최소 컨텐츠 크기*/
-	.media{min-width: 768px;} 
+	/*반응형 없앤 css*/
+	#flexDiv {
+   		display: flex;
+   		padding: 0px 10%;
+   	}
+   	#admin-container {
+    	min-width: 800px;
+      	width: 100%;
+      	/* padding-right:100px; */
+   	}
 	
 	/*페이지 타이틀*/
 	.page-title{margin-bottom:5%;}
@@ -43,20 +51,18 @@
 	#selectDel{
 		margin-left:5px;
 	}
+	
 	/*상품 관리 테이블*/
-
 	#product-table{
 		width:100%;
-		border:1px solid black;
 		margin-bottom:20px;
 		border-collapse: collapse;
 		text-align:center;
-		padding:5px;
+		/* padding:5px; */
 	}
-	th,td{
-		border:1px solid black;
-		padding:10px;
-	}
+	th{cursor: default;}
+	td{vertical-align: middle; cursor:default;}
+
 	/*상품 수정,삭제페이지로 넘어가는 a태그 */
 	/*클릭 안 했을 때*/
 	.product-update:link{
@@ -77,22 +83,10 @@
 	#insertPro{
 		float:right;
 	}
-	  /*페이지바*/
-    .pagebar{
-    	margin-top:100px;
+	/*페이지바*/
+    .pageBar{
+    	margin:5% 0;
     	text-align:center;
-    }
-    .pagebar a{
-    	font-size:18px;
-    	color:black;
-    }
-    .pagebar a:link{
-    	text-decoration:none;
-    	color:black;
-    }
-    .pagebar a:hover{
-    	text-decoration:none;
-    	color:#45A663;
     }
     
     /*검색*/
@@ -100,7 +94,6 @@
     	display: flex;
     	justify-content: center;
     	align-items: center;
-    	margin-top:20px;
     }
     #search-text{
     	margin:0 15px;
@@ -112,14 +105,13 @@
 	<jsp:param name="title" value="소개" />
 </jsp:include>
 
-<section id="container" class="container">
-	<div class="media">
+<section id="container">
+	<div id="flexDiv">
 	
 		<!--관리자 내비게이션바 -->
-
 		<jsp:include page="/WEB-INF/views/admin/product/productNav.jsp"/>
 		
-		<div id="admin-container" class="media-body">
+		<div id="admin-container">
 			<!-- 페이지 타이틀 -->
 			<h3 class="page-title">제품목록</h3> 
 		
@@ -157,8 +149,8 @@
 			
 			
 				<!-- 제품관리 테이블 -->
-				<div id="product-table-wrap">
-					<table id="product-table">
+				<div id="product-table-wrap" >
+					<table id="product-table" class="table table-hover">
 						<tr>
 							<th>선택</th>
 							<th>카테고리</th>
@@ -228,7 +220,7 @@
 				</div>
 			
 				<!-- 페이징바 -->
-				 <div >	
+				 <div class="pageBar" >	
 					${pageBar }
 				</div>
 			</div>

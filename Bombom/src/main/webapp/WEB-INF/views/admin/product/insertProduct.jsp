@@ -13,8 +13,16 @@
 	.select{color:#45A663;}
 	.non-select{color:black;}
 	
-	/*최소 컨텐츠 크기*/
-	.media{min-width: 768px;} 
+	/*반응형 없앤 css*/
+	#flexDiv {
+   		display: flex;
+   		padding: 0px 10%;
+   	}
+   	#admin-container {
+    	min-width: 800px;
+      	width: 100%;
+      	padding-right:100px;
+   	}
 	
 	/*페이지 타이틀*/
 	.page-title{margin-bottom:5%;}
@@ -130,13 +138,13 @@
 	<jsp:param name="title" value="소개" />
 </jsp:include>
 
-<section id="container" class="container">
-	<div class="media">
+<section id="container">
+	<div id="flexDiv">
 	
 		<!--제품 관리 내비게이션바 -->
 		<jsp:include page="/WEB-INF/views/admin/product/productNav.jsp"/>
 		
-		<div id="admin-container" class="media-body">
+		<div id="admin-container" >
 			<!-- 페이지 타이틀 -->
 			<h3 class="page-title">제품등록</h3> 
 			
