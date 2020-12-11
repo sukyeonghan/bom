@@ -25,16 +25,18 @@ public class ProductDaoImpl implements ProductDao {
 		return session.selectOne("inquiry.inquiryCount");
 	}
 	
-	/*
-	 * @Override public int productAllCount(SqlSession session) { // TODO
-	 * Auto-generated method stub return session.selectOne("product.count"); }
-	 */
+
 	@Override
 	public int productCount(SqlSession session, String category) {
 		// TODO Auto-generated method stub
 		Map<String,String> map=new HashMap();
 		map.put("category", category);
 		return session.selectOne("product.count",map);
+	}
+	@Override
+	public int countSale(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("product.countSale");
 	}
 	@Override
 	public List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,String sort,String category) {
@@ -45,20 +47,17 @@ public class ProductDaoImpl implements ProductDao {
 		return session.selectList("product.productList",map,new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
 	@Override
-	public List<Product> cateProductList(SqlSession session, String pdtCategory) {
-		// TODO Auto-generated method stub
-		return session.selectList("product.cateProductList",pdtCategory);
-	}
-
-	@Override
-	public List<Product> selectNewList(SqlSession session) {
-		// TODO Auto-generated method stub
-		return session.selectList("product.newList");
-	}
-	
-	@Override
 	public List<Product> selectNewCateList(SqlSession session,String category) {
 		// TODO Auto-generated method stub
-		return session.selectList("product.newCateList",category);
+		Map<String,String> map=new HashMap();
+		map.put("category", category);
+		return session.selectList("product.newCateList",map);
+	}
+	@Override
+	public List<Product> selectSaleList(SqlSession session, int cPage, int numPerPage, String sort, String category) {
+		// TODO Auto-generated method stub
+		Map<String,String> map=new HashMap();
+		map.put("sort", sort);
+		return session.selectList("product.saleList",map);
 	}
 }

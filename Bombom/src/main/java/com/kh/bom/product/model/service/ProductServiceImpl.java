@@ -31,15 +31,17 @@ public class ProductServiceImpl implements ProductService{
 		return dao.inquiryCount(session);
 	}
 
-	/*
-	 * @Override public int productAllCount() { // TODO Auto-generated method stub
-	 * return dao.productAllCount(session); }
-	 */
-	
+	//제품 개수
 	@Override
 	public int productCount(String category) {
 		// TODO Auto-generated method stub
 		return dao.productCount(session,category);
+	}
+	//세일 제품 개수
+	@Override
+	public int countSale() {
+		// TODO Auto-generated method stub
+		return dao.countSale(session);
 	}
 	//전체 제품 출력
 	@Override
@@ -47,23 +49,17 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return dao.selectProductList(session,cPage,numPerPage,sort,category);
 	}
-	//카테고리별 제품 출력
-	@Override
-	public List<Product> cateProductList(String category) {
-		// TODO Auto-generated method stub
-		return dao.cateProductList(session,category);
-	}
-	//최신 등록 제품 리스트
-	@Override
-	public List<Product> selectNewList() {
-		// TODO Auto-generated method stub
-		return dao.selectNewList(session);
-	}
-	//카테고리별 신상품 리스트
+	//신상품 리스트
 	@Override
 	public List<Product> selectNewCateList(String category) {
 		// TODO Auto-generated method stub
 		return dao.selectNewCateList(session,category);
+	}
+	//세일 제품 리스트
+	@Override
+	public List<Product> selectSaleList(int cPage, int numPerPage, String sort, String category) {
+		// TODO Auto-generated method stub
+		return dao.selectSaleList(session,cPage,numPerPage,sort,category);
 	}
 	
 }
