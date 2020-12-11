@@ -9,21 +9,21 @@
 	<jsp:param name="title" value=" "/>
 </jsp:include>
 <style>
-	/*최소 컨텐츠 크기*/
-	.media{min-width: 768px;} 
+	#flexDiv{display:flex; padding: 0px 10% 0px 10%;}
+	#mypage-container{min-width:800px; width:100%;}
 	.right{text-align: right;}
-	.media-body table{text-align:center;}
+	#mypage-container table{text-align:center;}
 </style>
-<section id="container" class="container">
-	<div class="media">
+<section id="container">
+	<div id="flexDiv">
 		<!-- 좌측 메뉴 -->
 		<jsp:include page="/WEB-INF/views/common/mypageMenu.jsp"/>
-		
-		<!--좌측메뉴선택시 화면 -->
-		<div id="mypage-container" class="media-body">
-			<h3>적립금</h3> 
-			<br>
-			<h5 class="right">총 적립금:&nbsp;<strong><fmt:formatNumber type="number" value="${loginMember.memPoint }"/></strong>봄</h5>
+		<!-- 우측 메뉴내용 -->
+		<div id="mypage-container">
+			<div style="display:flex; justify-content: space-between; margin-bottom:20px;">
+				<h3>적립금</h3> 
+				<h5>총 적립금:&nbsp;<strong><fmt:formatNumber type="number" value="${loginMember.memPoint }"/></strong>봄</h5>
+			</div>
 			<table class="table table-hover">
 			    <thead>
 			      <tr>
