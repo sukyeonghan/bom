@@ -92,7 +92,9 @@
 					                    <div class="item-price">
 					                    	<c:choose>
 					                    		<c:when test="${not empty p.eventNoRef  and p.salePer!=0 }">
-					                    			<p class="ori-price sale"><fmt:formatNumber value="${p.pdtPrice }" />원</p>
+					                    			<p class="ori-price sale">
+					                    				<fmt:formatNumber value="${p.pdtPrice }" />원
+					                    			</p>
 					                    			<fmt:parseNumber var="i" integerOnly="true" type="number" value="${p.pdtPrice*(1-(p.salePer/100))}"/>
 					                    			<p class="sale-price">
 					                    				<fmt:formatNumber value="${i}" />원

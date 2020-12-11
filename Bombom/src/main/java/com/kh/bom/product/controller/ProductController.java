@@ -55,9 +55,18 @@ public class ProductController {
 			@RequestParam(value="cPage", defaultValue="1") int cPage, 
 			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
 		
-		int count=service.productCount(category);
-		List<Product> newList=service.selectNewCateList(category);
-		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,category));
+		int count;
+		List<Product> newList;
+		if(category.equals("할인제품")) {
+			count=service.countSale();
+			newList=service.selectNewCateList("전체제품");
+			m.addObject("list",service.selectSaleList(cPage,numPerpage,sort,category));
+		}else {
+			count=service.productCount(category);
+			newList=service.selectNewCateList(category);
+			m.addObject("list",service.selectProductList(cPage,numPerpage,sort,category));
+		}
+		
 		m.addObject("pageBar",ProAjaxPageBarFactory2.getAjaxPageBar(count, cPage, numPerpage, "productListAjax",sort,category));
 		m.addObject("cPage",cPage);
 		m.addObject("category",category);
