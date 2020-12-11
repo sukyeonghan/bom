@@ -5,12 +5,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <style>
-	#mypage-nav{padding-right:100px;}
-	#mypage-nav a{color:black;font-weight:bolder;}
+	#mypage-nav{width: 200px; min-width:200px;}
+	#mypage-nav a{color:black; font-weight:bolder;}
 	#mypage-nav a:hover{color: #45A663;}
 </style>
 <!-- 좌측메뉴 -->
-	<div id="mypage-nav" class=" mr-3">
+
+	<div id="mypage-nav">
 	  <ul class="nav flex-column">
 	    <li class="nav-item">
      		<a class="nav-link" href="${path }/mypage/orderStatus">주문내역</a>
@@ -37,6 +38,5 @@
 	      	<a class="nav-link" href="${path }/mypage/myPointList">적립금</a>
 	    </li>
 	  </ul>
-	</div>
+	</div> 
 
-</nav>

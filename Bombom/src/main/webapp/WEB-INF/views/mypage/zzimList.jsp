@@ -10,12 +10,12 @@
 </jsp:include>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <style>
-	/*최소 컨텐츠 크기*/
-	.media{min-width: 768px;} 
+	#flexDiv{display:flex; padding: 0px 10% 0px 10%;}
+	#mypage-container{min-width:800px; width:100%;}
 	.right{text-align: right;}/*오른쪽 정렬*/
 	
 	/*찜폴더리스트*/
-	#zzimListDiv{display: flex; width:100%; box-sizing:border-box; flex-wrap: wrap; flex-direction: row;}
+	#zzimListDiv{display: flex; width:100%; box-sizing:border-box; flex-wrap: wrap;/*  flex-direction: row; */}
 	#zzimListDiv>*{box-sizing:border-box; cursor: pointer;}
 	#zzimListDiv>div:hover{ background-color: #C0C0C0;}
 	/*찜폴더*/
@@ -59,13 +59,12 @@
 	#delBox>*{margin-left: 20px;cursor:pointer; font-weight:bolder; color:#45A663;}
 	#cancel{color:black;}
 </style>
-<section id="container" class="container">
-	<div class="media">
+<section id="container">
+	<div id="flexDiv">
 		<!-- 좌측 메뉴 -->
 		<jsp:include page="/WEB-INF/views/common/mypageMenu.jsp"/>
-
-		<!--좌측메뉴선택시 화면 -->
-		<div id="mypage-container" class="media-body">
+		<!-- 우측 메뉴내용 -->
+		<div id="mypage-container"  >
 			<div style="display:flex; justify-content: space-between; margin:20px;">
 				<h3>찜목록</h3> 
 				<!-- 편집메뉴모음 -->

@@ -9,9 +9,8 @@
 	<jsp:param name="title" value=" "/>
 </jsp:include>
 <style>
-	/*최소 컨텐츠 크기*/
-	.media{min-width: 768px;} 
-	
+	#flexDiv{display:flex; padding: 0px 10% 0px 10%;}
+	#mypage-container{min-width:800px; width:100%;}
 	/*버튼 가운데정렬*/
       .btn-box{text-align: center;}
         }
@@ -28,15 +27,12 @@
 		text-align:right;
 	}
 </style>
-<section id="container" class="container">
-	<div class="media">
-	
+<section id="container">
+	<div id="flexDiv">
 		<!-- 좌측 메뉴 -->
 		<jsp:include page="/WEB-INF/views/common/mypageMenu.jsp"/>
-		
-		
-		<!--좌측메뉴선택시 화면 -->
-		<div id="qna-container" class="media-body">
+		<!-- 우측 메뉴내용 -->
+		<div id="mypage-container"  >
 			<form action="${path }/mypage/insertQna" method="post">
             <h3>1:1 문의글 작성</h3>
             <br>
