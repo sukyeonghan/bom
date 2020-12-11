@@ -9,11 +9,6 @@
 	<jsp:param name="title" value=" "/>
 </jsp:include>
 <style>
-	/*좌측메뉴*/
-	#mypage-nav{padding-right:100px;}
-	#mypage-nav a{color:black;font-weight:bolder;}
-	#mypage-nav a:hover{color: #45A663;}
-
 	/*최소 컨텐츠 크기*/
 	.media{min-width: 768px;} 
 	.right{text-align: right;}
@@ -22,34 +17,7 @@
 <section id="container" class="container">
 	<div class="media">
 		<!-- 좌측 메뉴 -->
-		<div id="mypage-nav" class=" mr-3">
-		  <ul class="nav flex-column">
-		    <li class="nav-item">
-      			<a class="nav-link" href="${path }/mypage/orderStatus">주문내역</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/qna">1:1문의</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link" href="${path }/mypage/myActivity">나의 활동</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link" href="${path }/mypage/stamp">스탬프</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/zzimList">찜목록</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/updateMember">회원정보수정</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/shipList">배송지관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/myPointList">적립금</a>
-		    </li>
-		  </ul>
-		</div>
+		<jsp:include page="/WEB-INF/views/common/mypageMenu.jsp"/>
 		
 		<!--좌측메뉴선택시 화면 -->
 		<div id="mypage-container" class="media-body">
@@ -92,8 +60,9 @@
 	//포인트 내역이 양수,음수에 따라 표시,글자색 달리하기
 	$(".pointChange").each((i,item)=>{
            let text=$(".pointChange").eq(i).html();
-           if(text<0){
-           	$(".pointChange").eq(i).html("-"+text+"봄");
+           let a=text.substr(0,1);
+           if(a=="-"){
+           	$(".pointChange").eq(i).html(text+"봄");
 			$(".pointChange").eq(i).css("color","red");
            }else{
            	$(".pointChange").eq(i).html("+"+text+"봄");

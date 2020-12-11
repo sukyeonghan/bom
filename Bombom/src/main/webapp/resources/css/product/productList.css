@@ -35,6 +35,12 @@
 		outline:none;
 		
 	}
+	/*상품 목록 감싼 div*/
+	.result{
+		display: flex;
+		min-width: 80%;
+		flex-wrap: wrap;
+	}
 	
 	/*각 상품*/
 	.item-wrap{

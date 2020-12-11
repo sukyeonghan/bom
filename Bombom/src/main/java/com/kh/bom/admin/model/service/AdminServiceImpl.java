@@ -59,9 +59,15 @@ public class AdminServiceImpl implements AdminService {
 	
 	//제품목록 출력
 	@Override
-	public List<Product> selectProductList() {
+	public List<Product> selectProductList(int cPage,int numPerPage,String sort) {
 		
-		return dao.selectProductList(session);
+		return dao.selectProductList(session,cPage,numPerPage,sort);
+	}
+	//카테고리별 목록 출력
+	@Override
+	public int countProduct(String category) {
+		// TODO Auto-generated method stub
+		return dao.countProduct(session,category);
 	}
 	//제품 선택 삭제
 	@Override

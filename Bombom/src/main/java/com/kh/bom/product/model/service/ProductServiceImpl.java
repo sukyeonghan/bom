@@ -44,9 +44,9 @@ public class ProductServiceImpl implements ProductService{
 	}
 	//전체 제품 출력
 	@Override
-	public List<Product> selectProductList() {
+	public List<Product> selectProductList(int cPage,int numPerPage,String sort) {
 		// TODO Auto-generated method stub
-		return dao.selectProductList(session);
+		return dao.selectProductList(session,cPage,numPerPage,sort);
 	}
 	//카테고리별 제품 출력
 	@Override
