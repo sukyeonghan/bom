@@ -23,7 +23,7 @@ public interface ProductService {
 	
 	int productAllCount();//전체 제품 개수
 	int productCateCount(String category);//카테고리별 제품 개수
-	List<Product> selectProductList();//전체 제품 출력
+	List<Product> selectProductList(int cPage,int numPerPage,String sort);//전체 제품 출력
 	List<Product> cateProductList(String category);//카테고리별 제품 출력
 	List<Product> selectNewList();//새상품 리스트
 	List<Product> selectNewCateList(String category);//카테고리별 새상품 리스트

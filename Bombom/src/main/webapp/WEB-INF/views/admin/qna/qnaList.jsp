@@ -37,14 +37,23 @@
 	height: 29px;
 	}	
 	
- 	 /* 테이블 */
-     .table th, .table td{
-       text-align:center;
-       vertical-align:middle;
-     }
-     .table .th{
-       vertical-align:middle;
-     }
+ 	/* 테이블 */
+   .table th, .table td{
+     text-align:center;
+     vertical-align:middle;
+   }
+   .table .th{
+     vertical-align:middle;
+   }
+   /*byte 표시*/
+   .byte{
+  	text-align:end;
+   }
+   /*정렬 */
+   .btnFilter{
+   	text-align:end;
+   	margin-bottom:30px;
+   }
 
 </style>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -78,9 +87,21 @@
 		<div id="qna-container" class="media-body">
           <h3>1:1문의</h3>
           <br />
+          <div class="btnFilter">
+	          <div class="btn-group">
+	      		<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" style="height: 30px">
+	      		골라보기
+	     		</button>
+	        	  <div class="dropdown-menu">
+		     	   <a class="dropdown-item" href="${path }/admin/qnaWait">답변대기(N)</a>
+		     	   <a class="dropdown-item" href="${path }/admin/qnaList">전체보기</a>
+	     	 	 </div>
+	     	  </div>
+     	  </div> 
           <table class="table">
             <thead>
               <tr>
+              	
                 <th>번호</th>
                 <th>문의유형</th>
                 <th>제목</th>
@@ -99,6 +120,7 @@
 		      </c:if>
             <c:forEach items="${list}" var="q">
               <tr>
+            
                 <td><c:out value="${q.rownum}"/></td>
                 <td><c:out value="${q.qnaCategory}" /></td>
                 <td><a href="" data-toggle="modal" data-target="#qnaView" class="qnaTitle" onclick="fn_qnaDetail();"><c:out value="${q.qnaTitle}" /></a></td>
@@ -114,9 +136,7 @@
             </tbody>
           </table>
           <div id="page-bar">${pageBar }</div>
-          <div id="btn-container">
-            <button type="button" class="btn btn-success" onclick="location.replace('${path}/admin/qnaDelete')">선택삭제</button>
-          </div>
+        
         </div>
 	
 	<!--1:1문의 모달창 -->
@@ -153,13 +173,16 @@
 				              class="form-control qAnswer"
 				              rows="5"
 				              name="qnaAnswer"
+							  placeholder="답변을 입력해주세요."
+				              onKeyUp="javascript:fnChkByte(this,'1000')"
 				            
 				            ></textarea>
+				            <div class="byte"><span id="byteInfo" >0</span>/1000bytes</div>
 		             </div>
 		         </div>
 	        		<div class="btnBox">
 	        		   	<input type="hidden" class="qNo" name="qnaNo" readonly>
-	        			<input type="button" class="btn btn-outline-success btn-sm deleteQna " value="문의글 삭제"><br>	        			
+	        			<input type="button" class="btn btn-outline-success btn-sm deleteQna " data-confirm="답변을 삭제하시겠습니까?" value="문의글 삭제"><br>	        			
 	        		   	<input type="submit" class="btn btn-success btn-sm insertQna " value="답변등록"><br>
 	        		   	<input type="hidden" class="btn btn-success btn-sm editQna " value="답변수정">
 
@@ -201,10 +224,12 @@
 				$(".qAnswer").attr("disabled",true);
 				$(".editQna").attr("type","button");
 				$(".insertQna").hide();
+				$(".byte").hide();
 			}else{
 				$(".qAnswer").attr("disabled",false);
 				$(".editQna").attr("type","hidden");
 				$(".insertQna").show();
+				$(".byte").show();
 			}
 			//답변 수정할때 
 			if(qnaYn.match("Y")){
@@ -212,13 +237,14 @@
 				$(".qAnswer").removeAttr("disabled");
 				$(".editQna").attr("type","hidden");
 				$(".insertQna").show();
+				$(".byte").show();
 			})
 			}
 			
 		});
 		
 
-		
+		//답변 빈칸일때
 		function fn_answerCk(){
 			if($(".qAnswer").val()=="") {
 				swal("답변을 입력해주세요");
@@ -226,6 +252,49 @@
 			}
 			return true;
 		}
+		
+		//답변 글자 제한
+		function fnChkByte(obj, maxByte) {
+		  var str = obj.value;
+		  var str_len = str.length;
+		  var rbyte = 0;
+		  var rlen = 0;
+		  var one_char = "";
+		  var str2 = "";
+		
+		  for(var i = 0; i<str_len; i++) {
+		    one_char = str.charAt(i);
+		    if(escape(one_char).length > 4) {
+		      rbyte += 3; //한글3Byte
+		    }else{
+		      rbyte++; //영문 등 나머지 1Byte
+		    }
+		
+		    if(rbyte <= maxByte){
+		      rlen = i + 1; //return할 문자열 갯수
+		    }
+		  }
+		
+		  if(rbyte > maxByte) {
+		    // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
+		    alert("메세지는 최대 " + (maxByte) + "byte를 초과할 수 없습니다.");
+		    str2 = str.substr(0, rlen); //문자열 자르기
+		    obj.value = str2;
+		    fnChkByte(obj, maxByte);
+		  }else{
+		    document.getElementById("byteInfo").innerText = rbyte;
+		  }
+		}	
+		
+		//상품문의 답변삭제
+		$(".deleteQna").on("click",function(e){
+			e.preventDefault();
+			let choice = confirm($(this).attr('data-confirm'));
+			if(choice){
+				let qnaNo = $(event.target).parents().children('input[name=qnaNo]').val();
+				location.replace("${path}/admin/deleteQna?qnaNo="+qnaNo);
+			}
+		});
 	
 		
 </script>

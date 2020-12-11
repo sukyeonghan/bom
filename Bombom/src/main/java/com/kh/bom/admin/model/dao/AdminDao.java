@@ -21,7 +21,8 @@ public interface AdminDao {
 	Event selectEvent(SqlSession session, String eventNo);
 	int updateEvent(SqlSession session, Event e);
 	
-	List<Product> selectProductList(SqlSession session);
+	List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,String sort);
+	int countProduct(SqlSession session,String sort);
 	int deleteProduct(SqlSession session,String pdtNo);
 	int insertProduct(SqlSession session,Product p);
 	int insertThumb(SqlSession session,ProductThumb th);
@@ -45,9 +46,11 @@ public interface AdminDao {
 	//검색자동완성
 	List<Member> memberAutoComplete(SqlSession session, Map<String, String> map);
 	
-	
+	//qna 
 	List<Qna> selectQnaList(SqlSession session, int cPage, int numPerpage);
 	int selectQnaCount(SqlSession session);
 	int insertQnaAnswer(SqlSession session, Qna q);
+	int deleteQna(SqlSession session, String qnaNo);
+	List<Qna> selectQnaWaitList(SqlSession session, int cPage, int numPerpage);
 	
 }

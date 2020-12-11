@@ -59,9 +59,15 @@ public class AdminServiceImpl implements AdminService {
 	
 	//제품목록 출력
 	@Override
-	public List<Product> selectProductList() {
+	public List<Product> selectProductList(int cPage,int numPerPage,String sort) {
 		
-		return dao.selectProductList(session);
+		return dao.selectProductList(session,cPage,numPerPage,sort);
+	}
+	//카테고리별 목록 출력
+	@Override
+	public int countProduct(String category) {
+		// TODO Auto-generated method stub
+		return dao.countProduct(session,category);
 	}
 	//제품 선택 삭제
 	@Override
@@ -211,7 +217,7 @@ public class AdminServiceImpl implements AdminService {
 		return dao.memberAutoComplete(session,map);
 	}
 	
-	
+	//qna
 	@Override
 	public List<Qna> selectQnaList(int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
@@ -228,6 +234,18 @@ public class AdminServiceImpl implements AdminService {
 	public int insertQnaAnswer(Qna q) {
 		// TODO Auto-generated method stub
 		return dao.insertQnaAnswer(session, q);
+	}
+
+	@Override
+	public int deleteQna(String qnaNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteQna(session,qnaNo);
+	}
+
+	@Override
+	public List<Qna> selectQnaWaitList(int cPage, int numPerpage) {
+		// TODO Auto-generated method stub
+		return dao.selectQnaWaitList(session,cPage,numPerpage);
 	}
 	
 	

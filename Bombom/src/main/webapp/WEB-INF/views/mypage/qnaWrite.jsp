@@ -9,14 +9,8 @@
 	<jsp:param name="title" value=" "/>
 </jsp:include>
 <style>
-	/*좌측메뉴*/
-	#mypage-nav{padding-right:100px;}
-	#mypage-nav a{color:black;font-weight:bolder;}
-	#mypage-nav a:hover{color: #45A663;}
-
-	/*최소 컨텐츠 크기*/
-	.media{min-width: 768px;} 
-	
+	#flexDiv{display:flex; padding: 0px 10% 0px 10%;}
+	#mypage-container{min-width:800px; width:100%;}
 	/*버튼 가운데정렬*/
       .btn-box{text-align: center;}
         }
@@ -33,41 +27,12 @@
 		text-align:right;
 	}
 </style>
-<section id="container" class="container">
-	<div class="media">
-	
+<section id="container">
+	<div id="flexDiv">
 		<!-- 좌측 메뉴 -->
-		<div id="mypage-nav" class=" mr-3">
-		  <ul class="nav flex-column">
-		    <li class="nav-item">
-      			<a class="nav-link" href="${path }/mypage/orderStatus">주문내역</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/qna">1:1문의</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link" href="${path }/mypage/myActivity">나의 활동</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link" href="${path }/mypage/stamp">스탬프</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/zzimList">찜목록</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/updateMember">회원정보수정</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/shipList">배송지관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link" href="${path }/mypage/myPointList">적립금</a>
-		    </li>
-		  </ul>
-		</div>
-		
-		<!--좌측메뉴선택시 화면 -->
-		<div id="qna-container" class="media-body">
+		<jsp:include page="/WEB-INF/views/common/mypageMenu.jsp"/>
+		<!-- 우측 메뉴내용 -->
+		<div id="mypage-container"  >
 			<form action="${path }/mypage/insertQna" method="post">
             <h3>1:1 문의글 작성</h3>
             <br>
@@ -114,49 +79,49 @@
 </section>
 <script>
 
-//문의내용 작성 Byte 수 체크 제한
-function fnChkByte(obj, maxByte) {
-  var str = obj.value;
-  var str_len = str.length;
-  var rbyte = 0;
-  var rlen = 0;
-  var one_char = "";
-  var str2 = "";
-
-  for(var i = 0; i<str_len; i++) {
-    one_char = str.charAt(i);
-    if(escape(one_char).length > 4) {
-      rbyte += 3; //한글3Byte
-    }else{
-      rbyte++; //영문 등 나머지 1Byte
-    }
-
-    if(rbyte <= maxByte){
-      rlen = i + 1; //return할 문자열 갯수
-    }
-  }
-
-  if(rbyte > maxByte) {
-    // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
-    alert("메세지는 최대 " + (maxByte) + "byte를 초과할 수 없습니다.");
-    str2 = str.substr(0, rlen); //문자열 자르기
-    obj.value = str2;
-    fnChkByte(obj, maxByte);
-  }else{
-    document.getElementById("byteInfo").innerText = rbyte;
-  }
-}	
-
-$('#title').on('keyup', function() {
-
-	if($("#title").val().length > 16) {
-
-alert("글자수는 15자로 이내로 제한됩니다.");
-
-		$(this).val($("#title").val().substring(0, 16));
-		
-	}
-});
+	//문의내용 작성 Byte 수 체크 제한
+	function fnChkByte(obj, maxByte) {
+	  var str = obj.value;
+	  var str_len = str.length;
+	  var rbyte = 0;
+	  var rlen = 0;
+	  var one_char = "";
+	  var str2 = "";
+	
+	  for(var i = 0; i<str_len; i++) {
+	    one_char = str.charAt(i);
+	    if(escape(one_char).length > 4) {
+	      rbyte += 3; //한글3Byte
+	    }else{
+	      rbyte++; //영문 등 나머지 1Byte
+	    }
+	
+	    if(rbyte <= maxByte){
+	      rlen = i + 1; //return할 문자열 갯수
+	    }
+	  }
+	
+	  if(rbyte > maxByte) {
+	    // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
+	    alert("메세지는 최대 " + (maxByte) + "byte를 초과할 수 없습니다.");
+	    str2 = str.substr(0, rlen); //문자열 자르기
+	    obj.value = str2;
+	    fnChkByte(obj, maxByte);
+	  }else{
+	    document.getElementById("byteInfo").innerText = rbyte;
+	  }
+	}	
+	
+	$('#title').on('keyup', function() {
+	
+		if($("#title").val().length > 16) {
+	
+	alert("글자수는 15자로 이내로 제한됩니다.");
+	
+			$(this).val($("#title").val().substring(0, 16));
+			
+		}
+	});
 
 
 </script>

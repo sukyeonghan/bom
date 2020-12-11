@@ -20,7 +20,7 @@ public interface ProductDao {
 
 	int productAllCount(SqlSession session);
 	int productCateCount(SqlSession session,String category);
-	List<Product> selectProductList(SqlSession session);
+	List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,String sort);
 	List<Product> cateProductList(SqlSession session,String category);
 	List<Product> selectNewList(SqlSession session);
 	List<Product> selectNewCateList(SqlSession session,String category);
