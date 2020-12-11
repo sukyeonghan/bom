@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.bom.community.model.vo.Community;
-import com.kh.bom.inquiry.model.vo.Inquiry;
+import com.kh.bom.review.model.vo.Review;
 import com.kh.bom.myactivity.model.dao.MyActivityDao;
 
 @Service
@@ -21,7 +21,7 @@ public class MyActivityServiceImpl implements MyActivityService {
 	
 	//구매평
 	@Override
-	public List<Inquiry> selectReviewList(String memNo, int cPage, int numPerpage) {
+	public List<Review> selectReviewList(String memNo, int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
 		return dao.selectReviewList(session,memNo,cPage,numPerpage);
 	}

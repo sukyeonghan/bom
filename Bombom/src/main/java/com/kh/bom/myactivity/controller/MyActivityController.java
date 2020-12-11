@@ -12,9 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.community.model.vo.Community;
-import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.myactivity.model.service.MyActivityService;
+import com.kh.bom.review.model.vo.Review;
 
 @Controller
 public class MyActivityController {
@@ -31,7 +31,7 @@ public class MyActivityController {
 		String memNo=login.getMemNo();
 		
 		//구매평 inquiry 아니고 review 로 바꿔야함
-		List<Inquiry> review=service.selectReviewList(memNo, cPage, numPerpage);
+		List<Review> review=service.selectReviewList(memNo, cPage, numPerpage);
 		int totalData=service.selectReviewCount(memNo);
 		
 		//커뮤니티 글 

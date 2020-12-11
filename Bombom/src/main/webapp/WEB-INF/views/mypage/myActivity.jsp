@@ -65,7 +65,7 @@
                       <th>체크박스</th>
                       <th>작성날짜</th>
                       <th>글 내용</th>
-                      <th>답변여부</th>
+
                     </tr>
                   </thead>
                   <tbody>
@@ -74,12 +74,12 @@
 	        			<td class="noData" colspan="5">등록된 문의가 없습니다.</td>
 	        		</tr>	     
 		     	  </c:if>
-                  <c:forEach items="${review }" var="review">
+                  <c:forEach items="${review }" var="r">
                   	<tr>
                       <td><input type="checkbox"></td>
-                      <td><fmt:formatDate type="both" timeStyle="short" value="${review.inqDate }"/></td>
-                      <td><c:out value="${review.inqContent }"/></td>
-                      <td><c:out value="${review.inqAnswerYn }"/></td>
+                      <td><fmt:formatDate type="both" timeStyle="short" value="${r.revDate }"/></td>
+                      <td><c:out value="${r.revContent }"/></td>
+               		  <td><c:out value="${r.revContent }"/></td>	
                     </tr>
                    </c:forEach>
                   </tbody>

@@ -189,51 +189,7 @@
                       적용
                     </button>
                   </td>
-                </tr>
-                <tr>
-                  <td>2020-11-19</td>
-                  <td><a href="">202011190009</a></td>
-                  <td>김홍시</td>
-                  <td>50,000원</td>
-                  <td>
-                    <select class="form-control" id="category">
-                      <option>주문대기</option>
-                      <option>주문완료</option>
-                      <option>주문취소</option>
-                      <option>배송준비</option>
-                      <option>배송중</option>
-                      <option>배송완료</option>
-                      <option>취소완료</option>
-                    </select>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-outline-success">
-                      적용
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2020-11-19</td>
-                  <td>202011190009</td>
-                  <td>김홍시</td>
-                  <td>50,000원</td>
-                  <td>
-                    <select class="form-control" id="category">
-                      <option>주문대기</option>
-                      <option>주문완료</option>
-                      <option>주문취소</option>
-                      <option>배송준비</option>
-                      <option>배송중</option>
-                      <option>배송완료</option>
-                      <option>취소완료</option>
-                    </select>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-outline-success">
-                      적용
-                    </button>
-                  </td>
-                </tr>
+          
               </tbody>
             </table>
 

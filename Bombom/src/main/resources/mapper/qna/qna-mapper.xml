@@ -20,7 +20,7 @@
 	</insert>
 	
 	<select id="selectQnaList" resultMap="qnaMap" parameterType="string">
-		SELECT ROWNUM,QNA.*FROM QNA WHERE QNA_WRITER=#{memNo} ORDER BY ROWNUM DESC
+		  SELECT ROWNUM,Q.*FROM (SELECT * FROM QNA WHERE QNA_WRITER=#{memNo} ORDER BY QNA_DATE ASC) Q ORDER BY ROWNUM DESC
 	</select>
 	
 	<select id="selectCount" resultType="_int" parameterType="string">
