@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.common.page.AjaxPageBarFactory;
-import com.kh.bom.common.page.PageBarFactory;
-import com.kh.bom.common.page.ProAjaxPageBarFactory;
+import com.kh.bom.common.page.ProAjaxPageBarFactory2;
+import com.kh.bom.common.page.ProPageBarFactory;
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.service.ProductService;
@@ -34,11 +34,11 @@ public class ProductController {
 			@RequestParam(value = "sort",defaultValue="등록일순") String sort,
 			@RequestParam(value="cPage", defaultValue="1") int cPage, 
 			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
-		
-		int count=service.productAllCount();
+	
+		int count=service.productCount("전체");
 		List<Product> newList=service.selectNewList();
-		m.addObject("list",service.selectProductList(cPage,numPerpage,sort));
-		m.addObject("pageBar",PageBarFactory.getPageBar(count, cPage, numPerpage, "productAll"));
+		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,"전체"));
+		m.addObject("pageBar",ProPageBarFactory.getPageBar(count, cPage, numPerpage, "productAll"));
 		m.addObject("cPage",cPage);
 		m.addObject("count",count);
 		m.addObject("newList",newList);
@@ -48,16 +48,21 @@ public class ProductController {
 	//제품 목록 ajax
 	@RequestMapping("/product/productListAjax")
 	public ModelAndView productListAjax(ModelAndView m,
+			String category,
 			@RequestParam(value = "sort",defaultValue="등록일순") String sort,
 			@RequestParam(value="cPage", defaultValue="1") int cPage, 
 			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
 		
-		int count=service.productAllCount();
-		m.addObject("list",service.selectProductList(cPage,numPerpage,sort));
-		m.addObject("pageBar",ProAjaxPageBarFactory.getAjaxPageBar(count, cPage, numPerpage, "productListAjax",sort));
+		int count=service.productCount(category);
+		List<Product> newList=service.selectNewList();
+		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,category));
+		m.addObject("pageBar",ProAjaxPageBarFactory2.getAjaxPageBar(count, cPage, numPerpage, "productListAjax",sort,category));
 		m.addObject("cPage",cPage);
+		m.addObject("category",category);
 		m.addObject("sort",sort);
 		m.addObject("count",count);
+		m.addObject("newList",newList);
+		
 		m.setViewName("product/productListAjax");
 		return m;
 	
@@ -65,14 +70,20 @@ public class ProductController {
 	
 	//식품 카테고리 페이지
 	@RequestMapping("/product/food") 
-	public ModelAndView foodProduct(ModelAndView m) {
+	public ModelAndView foodProduct(ModelAndView m,
+			@RequestParam(value = "sort",defaultValue="등록일순") String sort,
+			@RequestParam(value="cPage", defaultValue="1") int cPage, 
+			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
+		
 		String cate="식품";
-		List<Product> list=service.cateProductList(cate);
-		int count=service.productCateCount(cate);
+		int count=service.productCount(cate);
 		List<Product> newList=service.selectNewCateList(cate);
-		m.addObject("list",list);
+		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,cate));
+		m.addObject("pageBar",ProPageBarFactory.getPageBar(count, cPage, numPerpage, "food"));
+		m.addObject("cPage",cPage);
 		m.addObject("count",count);
 		m.addObject("newList",newList);
+		m.addObject("category",cate);
 		m.setViewName("product/foodList");
 		return m;
 	}
@@ -81,7 +92,7 @@ public class ProductController {
 	public ModelAndView stuffProduct(ModelAndView m) {
 		String cate="잡화";
 		List<Product> list=service.cateProductList(cate);
-		int count=service.productCateCount(cate);
+		int count=service.productCount(cate);
 		List<Product> newList=service.selectNewCateList(cate);
 		m.addObject("list",list);
 		m.addObject("count",count);
@@ -91,14 +102,19 @@ public class ProductController {
 	}
 	//주방 카테고리 페이지
 	@RequestMapping("/product/kitchen") 
-	public ModelAndView kitchenProduct(ModelAndView m) {
+	public ModelAndView kitchenProduct(ModelAndView m,
+			@RequestParam(value = "sort",defaultValue="등록일순") String sort,
+			@RequestParam(value="cPage", defaultValue="1") int cPage, 
+			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
 		String cate="주방";
-		List<Product> list=service.cateProductList(cate);
-		int count=service.productCateCount(cate);
+		int count=service.productCount(cate);
 		List<Product> newList=service.selectNewCateList(cate);
-		m.addObject("newList",newList);
-		m.addObject("list",list);
+		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,cate));
+		m.addObject("pageBar",ProPageBarFactory.getPageBar(count, cPage, numPerpage, "kitchen"));
+		m.addObject("cPage",cPage);
 		m.addObject("count",count);
+		m.addObject("newList",newList);
+		m.addObject("category",cate);
 		m.setViewName("product/kitchenList");
 		return m;
 	}
@@ -108,7 +124,7 @@ public class ProductController {
 	public ModelAndView bathProduct(ModelAndView m) {
 		String cate="욕실";
 		List<Product> list=service.cateProductList(cate);
-		int count=service.productCateCount(cate);
+		int count=service.productCount(cate);
 		List<Product> newList=service.selectNewCateList(cate);
 		m.addObject("newList",newList);
 		m.addObject("list",list);
@@ -121,7 +137,7 @@ public class ProductController {
 	public ModelAndView womanProduct(ModelAndView m) {
 		String cate="여성용품";
 		List<Product> list=service.cateProductList(cate);
-		int count=service.productCateCount(cate);
+		int count=service.productCount(cate);
 		List<Product> newList=service.selectNewCateList(cate);
 		m.addObject("newList",newList);
 		m.addObject("list",list);
@@ -134,7 +150,7 @@ public class ProductController {
 	public ModelAndView petProduct(ModelAndView m) {
 		String cate="반려동물";
 		List<Product> list=service.cateProductList(cate);
-		int count=service.productCateCount(cate);
+		int count=service.productCount(cate);
 		List<Product> newList=service.selectNewCateList(cate);
 		m.addObject("newList",newList);
 		m.addObject("list",list);
@@ -145,15 +161,16 @@ public class ProductController {
 	//할인제품 페이지
 	@RequestMapping("/product/sale") 
 	public ModelAndView saleProduct(ModelAndView m,
+			@RequestParam(value = "category",defaultValue="전체") String category,
 			@RequestParam(value = "sort",defaultValue="등록일순") String sort,
 			@RequestParam(value="cPage", defaultValue="1") int cPage, 
 			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
 		//전체 리스트 보내서 화면단에서 처리하기
 
-		int count=service.productAllCount();
+		int count=service.productCount("전체");
 		List<Product> newList=service.selectNewList();
 		m.addObject("newList",newList);
-		m.addObject("list",service.selectProductList(cPage,numPerpage,sort));
+		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,category));
 		m.addObject("count",count);
 		m.setViewName("product/saleList");
 		return m;

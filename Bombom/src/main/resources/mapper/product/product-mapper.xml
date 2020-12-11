@@ -26,18 +26,24 @@
 		<result property="pdtThumbImage" column="pdt_thumb_image"/>
 	</resultMap>
 	
-	<select id="allCount" resultType="_int">
+	<select id="count" resultType="_int" parameterType="map">
 		SELECT COUNT(*) FROM PRODUCT
+		<if test="category != '전체'">
+			WHERE PDT_CATEGORY=#{category}
+		</if>
 	</select>
 	<select id="cateCount" resultType="_int" parameterType="string">
 		SELECT COUNT(*) FROM PRODUCT WHERE PDT_CATEGORY=#{pdtCategory}
 	</select>
-	<select id="allProductList" resultMap="productMap" parameterType="map">
+	<select id="productList" resultMap="productMap" parameterType="map">
 		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_STATUS,PDT_DATE,EVENT_NO_REF,E.EVENT_SALE_PER,
     		LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY pdt_no_ref) OVER(PARTITION BY PDT_NO_REF)AS THUMBS
 		FROM PRODUCT
 			JOIN  PRODUCT_THUMB ON(PDT_NO=PDT_NO_REF) 
 			LEFT JOIN EVENT E ON(EVENT_NO_REF=EVENT_NO)
+		<if test="category != '전체'">
+			WHERE PDT_CATEGORY IN(#{category})
+		</if>
 		<if test="sort == '등록일순'">
 			ORDER BY PDT_DATE DESC
 		</if>

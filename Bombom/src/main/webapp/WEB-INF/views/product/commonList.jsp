@@ -4,35 +4,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="${path }/resources/css/product/productList.css">
 
-<jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param name="title" value="소개" />
-</jsp:include>
-
-<section id="container" >
-
-	<div class="flexDiv">
-		<!-- 상품 내비게이션바 -->
-		<div class="product-nav">
-			<ul>
-        		<li><a class="non-select" href="${path }/product/productAll">전체제품</a></li>
-	        	<li><a class="select" href="${path }/product/food">식품</a></li>
-          	 	<li><a class="non-select" href="${path }/product/stuff">잡화</a></li>
-            	<li><a class="non-select" href="${path }/product/kitchen">주방</a></li>
-            	<li><a class="non-select" href="${path }/product/bathroom">욕실</a></li>
-            	<li><a class="non-select" href="${path }/product/woman">여성용품</a></li>
-            	<li><a class="non-select" href="${path }/product/pet">반려동물</a></li>
-            	<li><a class="non-select" href="${path }/product/sale">할인상품</a></li>
-        	</ul>
-		</div>
-		
 		<div class="product-container">
 			<!-- 카테고리 및 정렬 -->
 			<div class="category-sort">
 				<div class="item-count">
-					<p class="category">식품 &nbsp </p>
+					<p class="category"><c:out value="${category}"/> &nbsp </p>
 					<p class="count"><c:out value="${count}"/></p>
 				</div>
 				<div class="select-box">
@@ -46,9 +23,9 @@
 			</div>
 		  	
 		  	<!-- 상품목록 -->
-		  	  <div id="result" class="result all-item-wrap">
+		  	<div id="result" class="result all-item-wrap">
 		  		<div class="all-item-wrap">
-		  		<!-- 제품없으면 없다고 알리는 사진뜸 / 있으면 제품들 출력 -->
+					<!-- 제품없으면 없다고 알리는 사진뜸 / 있으면 제품들 출력 -->
 			  		<c:choose>
 			  			<c:when test="${empty list }">
 			  				<img class="noItem" alt="" src="${path }/resources/images/product/noItem2.png" >
@@ -132,27 +109,4 @@
 			</div>
 		</div>
 	</div> 
-
 </section>
-
-<jsp:include page="/WEB-INF/views/common/footer.jsp" />
-<script src="${path}/resources/js/productList.js"></script>
-<script>
-	//분류 ajax
-	$(".sort").on("change",e=>{
-		console.log($(e.target).val());
-		$.ajax({
-			
-			url:"${path}/product/productListAjax",
-			data:{"category":"식품","sort":$(e.target).val()},
-			type:"get",
-			dataType:"html",
-			success:data=>{
-				console.log(data);
-				$("#result").html(data);
-			}
-		});
-		
-	})
-
-</script>

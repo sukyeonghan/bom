@@ -24,24 +24,25 @@ public class ProductDaoImpl implements ProductDao {
 	public int inquiryCount(SqlSession session) {
 		return session.selectOne("inquiry.inquiryCount");
 	}
-
 	
+	/*
+	 * @Override public int productAllCount(SqlSession session) { // TODO
+	 * Auto-generated method stub return session.selectOne("product.count"); }
+	 */
 	@Override
-	public int productAllCount(SqlSession session) {
+	public int productCount(SqlSession session, String category) {
 		// TODO Auto-generated method stub
-		return session.selectOne("product.allCount");
+		Map<String,String> map=new HashMap();
+		map.put("category", category);
+		return session.selectOne("product.count",map);
 	}
 	@Override
-	public int productCateCount(SqlSession session, String pdtCategory) {
-		// TODO Auto-generated method stub
-		return session.selectOne("product.cateCount",pdtCategory);
-	}
-	@Override
-	public List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,String sort) {
+	public List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,String sort,String category) {
 		// TODO Auto-generated method stub
 		Map<String,String> map=new HashMap();
 		map.put("sort", sort);
-		return session.selectList("product.allProductList",map,new RowBounds((cPage-1)*numPerPage,numPerPage));
+		map.put("category", category);
+		return session.selectList("product.productList",map,new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
 	@Override
 	public List<Product> cateProductList(SqlSession session, String pdtCategory) {

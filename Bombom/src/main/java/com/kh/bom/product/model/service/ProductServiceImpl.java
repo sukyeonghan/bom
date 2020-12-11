@@ -31,22 +31,21 @@ public class ProductServiceImpl implements ProductService{
 		return dao.inquiryCount(session);
 	}
 
-	@Override
-	public int productAllCount() {
-		// TODO Auto-generated method stub
-		return dao.productAllCount(session);
-	}
+	/*
+	 * @Override public int productAllCount() { // TODO Auto-generated method stub
+	 * return dao.productAllCount(session); }
+	 */
 	
 	@Override
-	public int productCateCount(String category) {
+	public int productCount(String category) {
 		// TODO Auto-generated method stub
-		return dao.productCateCount(session,category);
+		return dao.productCount(session,category);
 	}
 	//전체 제품 출력
 	@Override
-	public List<Product> selectProductList(int cPage,int numPerPage,String sort) {
+	public List<Product> selectProductList(int cPage,int numPerPage,String sort,String category) {
 		// TODO Auto-generated method stub
-		return dao.selectProductList(session,cPage,numPerPage,sort);
+		return dao.selectProductList(session,cPage,numPerPage,sort,category);
 	}
 	//카테고리별 제품 출력
 	@Override

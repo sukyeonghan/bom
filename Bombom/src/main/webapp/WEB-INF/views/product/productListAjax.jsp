@@ -9,7 +9,7 @@
 
 		  	
  	<!-- 상품목록 -->
- 	<div id="result" class="all-item-wrap result">
+ 	<div id="result" class="all-item-wrap">
  		<c:choose>
  			<c:when test="${empty list }">
  				<img class="noItem" alt="" src="${path }/resources/images/product/noItem2.png" >
@@ -75,7 +75,7 @@
 	                        	<div class="soldout-icon">SOLDOUT</div>
 	                        </c:if>			
 	                    </div>
-	                    
+	                    <input type="hidden" name="category" value="${p.pdtCategory }">
 	                </div>
         					 </div>
  				</c:forEach>
@@ -84,19 +84,7 @@
  		
 	</div>
         
-    <div>
+    <div class="pagebar">
     	${pageBar }
     </div>
 	
-		  
-		  <!-- 페이징바 -->
-		 <!-- <div class="w3-center pagebar">	
-			<div class="w3-bar">
-				<a href="#" class="w3-button w3-hover-black"> < </a>
-				<a href="#" class="w3-button w3-hover-black">1</a>
-				<a href="#" class="w3-button w3-hover-black">2</a>
-				<a href="#" class="w3-button w3-hover-black">3</a>
-				<a href="#" class="w3-button w3-hover-black">4</a>
-				<a href="#" class="w3-button w3-hover-black"> > </a>
-			</div>
-		</div> -->
