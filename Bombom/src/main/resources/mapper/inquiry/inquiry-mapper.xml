@@ -19,7 +19,7 @@
 	</insert>
 	
 	<select id="inquiryList" resultMap="inquiryMap">
-		SELECT I.*, M.MEM_NICK AS MEMNICK, M.MEM_MANAGER_YN AS MEMMANAGERYN
+		SELECT I.*, M.MEM_NICK AS MEMNICK, M.MEM_MANAGER_YN AS MEMMANAGERYN, M.MEM_PRO AS MEMPRO
 		FROM INQUIRY I
 		JOIN MEMBER M ON M.MEM_NO=I.MEM_NO
 		ORDER BY INQ_DATE DESC
@@ -49,11 +49,5 @@
 		UPDATE INQUIRY SET INQ_ANSWER=#{inqAnswer}, INQ_ANSWERDATE=SYSDATE WHERE INQ_NO=#{inqNo}
 	</update>
 	
-	<select id="selectReviewList" parameterType="string" resultMap="inquiryMap">
-		SELECT * FROM INQUIRY WHERE MEM_NO=#{memNo} ORDER BY INQ_DATE DESC
-	</select>
 
-	<select id="selectReviewCount" resultType="_int">
-		SELECT COUNT(*) FROM INQUIRY WHERE MEM_NO=#{memNo}
-	</select>
 </mapper>

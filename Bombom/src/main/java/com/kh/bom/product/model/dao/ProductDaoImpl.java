@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.review.model.vo.Review;
 
 @Repository
 public class ProductDaoImpl implements ProductDao {
@@ -25,10 +26,18 @@ public class ProductDaoImpl implements ProductDao {
 		return session.selectOne("inquiry.inquiryCount");
 	}
 	
+	@Override
+	public List<Review> reviewList(SqlSession session, int cPage, int numPerpage) {
+		return session.selectList("review.reviewList",null,new RowBounds((cPage-1)*numPerpage,numPerpage));
+	}
+
+	@Override
+	public int reviewCount(SqlSession session) {
+		return session.selectOne("review.reviewCount");
+	}
 
 	@Override
 	public int productCount(SqlSession session, String category) {
-		// TODO Auto-generated method stub
 		Map<String,String> map=new HashMap();
 		map.put("category", category);
 		return session.selectOne("product.count",map);
@@ -60,4 +69,5 @@ public class ProductDaoImpl implements ProductDao {
 		map.put("sort", sort);
 		return session.selectList("product.saleList",map);
 	}
+
 }

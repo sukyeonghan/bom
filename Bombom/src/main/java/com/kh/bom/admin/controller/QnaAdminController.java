@@ -5,9 +5,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.AdminService;
+import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.qna.model.vo.Qna;
 
@@ -75,4 +77,19 @@ public class QnaAdminController {
 		return mv;
 		
 	}
+	
+	@RequestMapping("/admin/qnaWait")
+	public ModelAndView qnaFilter(ModelAndView mv, @RequestParam(value = "cPage", defaultValue = "0") int cPage,
+			@RequestParam(value = "numPerpage", defaultValue = "5") int numPerpage) {
+
+		mv.addObject("list", service.selectQnaWaitList(cPage, numPerpage));
+		int totalData = service.selectQnaCount();
+
+		mv.addObject("pageBar", PageBarFactory.getPageBar(totalData, cPage, numPerpage, "qnaList"));
+		mv.addObject("totalData", totalData);
+		mv.setViewName("admin/qna/qnaList");
+
+		return mv;
+	}
+	
 }

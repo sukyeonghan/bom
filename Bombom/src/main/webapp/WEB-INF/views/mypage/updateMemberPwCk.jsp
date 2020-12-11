@@ -9,8 +9,8 @@
 	<jsp:param name="title" value=" "/>
 </jsp:include>
 <style>
-	/*최소 컨텐츠 크기*/
-	.media{min-width: 768px;} 
+	#flexDiv{display:flex; padding: 0px 10% 0px 10%;}
+	#mypage-container{min-width:800px; width:100%; padding-right:100px;}
 	/*비밀번호확인 박스*/
 	#pwCheckDiv{
 		width:500px;
@@ -28,17 +28,13 @@
 	input[type=password] {font-family: "NanumSquare";}
 	
 </style>
-<section id="container" class="container">
-	<div class="media">
-	
+<section id="container">
+	<div id="flexDiv">
 		<!-- 좌측 메뉴 -->
 		<jsp:include page="/WEB-INF/views/common/mypageMenu.jsp"/>
-		
-		
-		<!--좌측메뉴선택시 화면 -->
-		<div id="mypage-container" class="media-body">
+		<!-- 우측 메뉴내용 -->
+		<div id="mypage-container"  >
 			<h3>회원정보 수정</h3> 
-			
 			<!-- 화면내용입력부분 -->
 			<div id="result">
 				<div id="pwCheckDiv">

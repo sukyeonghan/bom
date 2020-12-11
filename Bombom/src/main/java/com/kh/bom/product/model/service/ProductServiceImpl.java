@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.product.model.dao.ProductDao;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.review.model.vo.Review;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -29,6 +30,16 @@ public class ProductServiceImpl implements ProductService{
 	public int inquiryCount() {
 		// TODO Auto-generated method stub
 		return dao.inquiryCount(session);
+	}
+	
+	@Override
+	public List<Review> reviewList(int cPage, int numPerpage) {
+		return dao.reviewList(session, cPage, numPerpage);
+	}
+	
+	@Override
+	public int reviewCount() {
+		return dao.reviewCount(session);
 	}
 
 	//제품 개수
@@ -55,6 +66,7 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return dao.selectNewCateList(session,category);
 	}
+
 	//세일 제품 리스트
 	@Override
 	public List<Product> selectSaleList(int cPage, int numPerPage, String sort, String category) {
@@ -62,4 +74,5 @@ public class ProductServiceImpl implements ProductService{
 		return dao.selectSaleList(session,cPage,numPerPage,sort,category);
 	}
 	
+
 }

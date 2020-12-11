@@ -9,18 +9,20 @@
 	<jsp:param name="title" value=" "/>
 </jsp:include>
 <style>
-	.media{min-width: 768px;} 
+	#flexDiv{display:flex; padding: 0px 10% 0px 10%;}
+	#mypage-container{min-width:800px; width:80%; padding-right:100px;}
 	.table th,.table td{text-align:center; }  
 	.table td{vertical-align: middle;}
 	.table td[class=addressTd]{text-align:left; } 
 	.sm{font-size: 0.8em; color:gray;}
 </style>
-<section id="container" class="container">
-	<div class="media">
+
+<section id="container">
+	<div id="flexDiv">
 		<!-- 좌측 메뉴 -->
 		<jsp:include page="/WEB-INF/views/common/mypageMenu.jsp"/>
-
-		<div id="mypage-container" class="media-body">
+		<!-- 우측 메뉴내용 -->
+		<div id="mypage-container"  >
 			<div style="display:flex; justify-content: space-between; margin-bottom:20px;">
 				<h3>배송지관리</h3> 
 				<button class="btn btn-success" onclick="fn_addShip();">배송지 등록</button>
@@ -79,7 +81,7 @@
 	</form>
 	
 </section>
-</div>
+
 <script>
 	
 	function fn_addShip(){

@@ -9,9 +9,8 @@
 	<jsp:param name="title" value=" "/>
 </jsp:include>
 <style>
-	/*최소 컨텐츠 크기*/
-	.media{min-width: 768px;} 
-	
+	#flexDiv{display:flex; padding: 0px 10% 0px 10%;}
+	#mypage-container{min-width:800px; width:100%; padding-right:100px;}
 	/*스탬프 찍기칸*/
 	#stampBigdiv{width:100%; text-align:center; margin-top:20px;}
 	.stamp{width: 19%; padding: 3%; display: inline-table;}
@@ -28,14 +27,12 @@
 	#eventSubmit{margin-top: 20px;width: 100%; }
 }
 </style>
-<section id="container" class="container">
-	<div class="media">
-	
+<section id="container">
+	<div id="flexDiv">
 		<!-- 좌측 메뉴 -->
 		<jsp:include page="/WEB-INF/views/common/mypageMenu.jsp"/>
-		
-		<!--좌측메뉴선택시 화면 -->
-		<div id="mypage-container" class="media-body">
+		<!-- 우측 메뉴내용 -->
+		<div id="mypage-container"  >
 			
 			<img alt="스탬프안내사항" src="${path }/resources/images/stamp/stampInfo.jpg" width="100%">
 			<c:if test="${loginMember.memBuyCount >= 10}">
