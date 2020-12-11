@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.product.model.dao.ProductDao;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.review.model.vo.Review;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -29,6 +30,16 @@ public class ProductServiceImpl implements ProductService{
 	public int inquiryCount() {
 		// TODO Auto-generated method stub
 		return dao.inquiryCount(session);
+	}
+	
+	@Override
+	public List<Review> reviewList(int cPage, int numPerpage) {
+		return dao.reviewList(session, cPage, numPerpage);
+	}
+	
+	@Override
+	public int reviewCount() {
+		return dao.reviewCount(session);
 	}
 
 	@Override
@@ -66,5 +77,7 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return dao.selectNewCateList(session,category);
 	}
-	
+
+
+
 }
