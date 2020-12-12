@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+#mainBanner_swiper {
+	height: 400px;
+	width: 100%;
+	overflow: hidden;
+}
+
+#productAd-container {
+	display: block;
+}
+
+#productAd-container_three {
+	display: flex;
+}
+
+@media ( max-width : 768px) {
+	#mainBanner_swiper {
+		height: 200px;
+		width: 100%;
+		overflow: hidden;
+	}
+	
+	
+}

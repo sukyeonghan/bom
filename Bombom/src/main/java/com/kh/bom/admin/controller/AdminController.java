@@ -114,10 +114,4 @@ public class AdminController {
 		return mv;
 	}
 
-	// 메인index페이지 관리
-	@RequestMapping("/admin/moveMainBanners")
-	public String moveMainManaging() {
-		return "admin/main/banner";
-	}
-
 }
