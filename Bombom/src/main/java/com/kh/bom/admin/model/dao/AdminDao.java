@@ -51,7 +51,8 @@ public interface AdminDao {
 	int selectQnaCount(SqlSession session);
 	int insertQnaAnswer(SqlSession session, Qna q);
 	
-	//메인배너리스트가져오기
+	//메인배너
 	List<MainBanner> selectBannerList(SqlSession session);
+	int insertBanner(SqlSession session, MainBanner mb);
 	
 }

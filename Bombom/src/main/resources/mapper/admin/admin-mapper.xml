@@ -255,7 +255,13 @@
 		SELECT * FROM MAIN_BANNER
 			JOIN PRODUCT USING(PDT_NO)
 	</select>
-	
+	<insert id="insertBanner" parameterType="mainBanner">
+		INSERT INTO MAIN_BANNER VALUES('MB'||to_char(SEQ_BANNER_NO.nextval),
+			'P73',
+			'테스트 테스트 테스트',
+			'테스트'||chr(38)||'트트~20%',
+			'toothbrush.png')
+	</insert>
 	<!-- 메인배너관리 끝 -->
 	
 </mapper>

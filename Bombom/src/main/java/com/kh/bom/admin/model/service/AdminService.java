@@ -50,7 +50,7 @@ public interface AdminService {
 	
 	//메인배너리스트가져오기
 	List<MainBanner> selectBannerList();
-	
+	int insertBanner(MainBanner mb);
 	
 	
 	

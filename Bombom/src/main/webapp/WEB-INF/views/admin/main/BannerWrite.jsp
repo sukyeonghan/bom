@@ -6,21 +6,36 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
 <style>
-	/*좌측메뉴*/
-	.admin-nav{padding-right:100px;}
-	.admin-nav a{font-weight:bolder;}
-	.admin-nav a:hover{color: #45A663;}
-	.select{color:#45A663;}
-	.non-select{color:black;}
-	
-	/*최소 컨텐츠 크기*/
-	.media{min-width: 768px;} 
-	
-	/*페이지 타이틀*/
-	.page-title{margin-bottom:5%;}
-	
-	
-	   
+/*좌측메뉴*/
+.admin-nav {
+	padding-right: 100px;
+}
+
+.admin-nav a {
+	font-weight: bolder;
+}
+
+.admin-nav a:hover {
+	color: #45A663;
+}
+
+.select {
+	color: #45A663;
+}
+
+.non-select {
+	color: black;
+}
+
+/*최소 컨텐츠 크기*/
+.media {
+	min-width: 768px;
+}
+
+/*페이지 타이틀*/
+.page-title {
+	margin-bottom: 5%;
+}
 </style>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -29,50 +44,44 @@
 
 <section id="container" class="container">
 	<div class="media">
-	
-		<!--관리자 내비게이션바 -->
-		<div id="" class=" mr-3 admin-nav">
-		  <ul class="nav flex-column">
-		    <li class="nav-item">
-      			<a class="nav-link non-select" href="path/admin/memberList">회원관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link select" href="path/admin/moveProduct">제품관리</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="path/">주문관리</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="path/">1:1문의관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="path/admin/moveEvent">이벤트관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="path/">커뮤니티관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="path/admin/moveMainBanners">메인관리</a>
-		    </li>
-		  </ul>
-		</div>
-		
 		<div id="banner-container" class="media-body">
 			<!-- 페이지 타이틀 -->
-			<h3 class="page-title">메인배너등록</h3><hr>
-			
-			<div>
-				<form action="${path }/admin/insertBanner" method="post" enctype="multipart/form-data">
-					<select name="pdtNo" id="pdtNo" required>
-						<option selected disabled>상품을 선택하세요</option>
-					<c:forEach items="${list }" var="p">
-						<option value="${p.pdtName }">${p.pdtName }</option>
-					</c:forEach>
-					</select>
-					<textarea id="bannerTitle" name="bannerTitle"rows="5" class="form-control" placeholder="배너위에 노출시킬 타이틀을 입력해주세요" required></textarea>				
-					<textarea id="bannerSubtitle" name="bannerSubtitle" rows="5" class="form-control" placeholder="배너위에 노출시킬 서브타이틀을 입력해주세요. 배너에서 이 문구를 클릭하면 이동합니다." required></textarea>	
-					<input type="file" name="bannerThumb" id="bannerThumb" class="form-control" required><label class="custom-file-label" for="bannerThumb">파일을 선택하세요</label>
-				</form>			
+			<h3 class="page-title">메인배너등록</h3>
+			<hr>
+			<div id="bannerFrm">
+				<form action="${path }/admin/insertBanner" method="post"
+					enctype="multipart/form-data">
+					<div class="term">
+						<label for="pdtNo">연관상품선택</label> <select name="pdtNo" id="pdtNo"
+							class="form-control" required>
+							<option selected disabled>상품을 선택하세요</option>
+							<c:forEach items="${list }" var="p">
+								<option value="${p.pdtNo }">${p.pdtNo }/${p.pdtName }</option>
+							</c:forEach>
+						</select>
+					</div>
+					<div class="term">
+						<label for="title">타이틀입력</label>
+						<textarea id="title" name="bannerTitle" rows="3" style="resize: none;"
+							class="form-control" placeholder="배너위에 노출시킬 타이틀을 입력해주세요" required></textarea>
+					</div>
+					<div class="term">
+						<label for="subTitle">이동시킬 서브타이틀 입력</label>
+						<textarea id="subTitle" name="bannerSubtitle" rows="3"
+							class="form-control" style="resize: none;"
+							placeholder="배너위에 노출시킬 서브타이틀을 입력해주세요. 배너에서 이 문구를 클릭하면 이동합니다."
+							required ></textarea>
+					</div>
+					<div class="term">
+						<label for="upFile">노출시킬 배너 이미지선택</label> <input type="file"
+							name="bannerThumb" id="upFile" class="form-control" required><label
+							class="custom-file-label" for="bannerThumb">파일을 선택하세요</label>
+					</div>
+					<div style="text-align: center;" class="term">
+						<button id="insertBanner" type="submit"
+							class="btn btn-outline-success">배너등록</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>

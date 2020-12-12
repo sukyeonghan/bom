@@ -175,6 +175,11 @@ public class AdminDaoImpl implements AdminDao {
 	public List<MainBanner> selectBannerList(SqlSession session) {
 		return session.selectList("admin.selectBannerList");
 	}
+
+	@Override
+	public int insertBanner(SqlSession session, MainBanner mb) {
+		return session.insert("admin.insertBanner",mb);
+	}
 	
 	
 	

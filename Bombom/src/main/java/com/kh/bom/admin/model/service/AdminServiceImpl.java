@@ -236,6 +236,11 @@ public class AdminServiceImpl implements AdminService {
 	public List<MainBanner> selectBannerList() {
 		return dao.selectBannerList(session);
 	}
+
+	@Override
+	public int insertBanner(MainBanner mb) {
+		return dao.insertBanner(session, mb);
+	}
 	
 	
 	

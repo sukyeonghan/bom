@@ -56,30 +56,12 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="이벤트" />
 </jsp:include>
-<section id="container" class="container">
-	<div class="media">
+<section id="container">
+	<div id="flexDiv">
+	<!-- 좌측 메뉴 -->
+    <%-- <jsp:include page="/WEB-INF/views/common/adminMenu.jsp" /> --%>
 
-		<!--관리자 내비게이션바 -->
-		<div id="" class=" mr-3 admin-nav">
-			<ul class="nav flex-column">
-				<li class="nav-item">
-					<a class="nav-link non-select"	href="path/admin/memberList">회원관리</a></li>
-				<li class="nav-item">
-					<a class="nav-link non-select"href="path/admin/moveProduct">제품관리</a></li>
-				<li class="nav-item">
-					<a class="nav-link non-select"href="path/">주문관리</a></li>
-				<li class="nav-item">
-					<a class="nav-link non-select"href="path/">1:1문의관리</a></li>
-				<li class="nav-item">
-					<a class="nav-link non-select"href="path/admin/moveEvent">이벤트관리</a></li>
-				<li class="nav-item">
-					<a class="nav-link non-select"href="path/">커뮤니티관리</a></li>
-				<li class="nav-item">
-					<a class="nav-link select"	href="path/admin/moveMainBanners">메인관리</a></li>
-			</ul>
-		</div>
-
-		<div id="banner-container" class="media-body">
+		<div id="admin-container">
 			<!-- 페이지 타이틀 -->
 			<h3 class="page-title">메인관리</h3>
 			<hr>
@@ -125,8 +107,8 @@
 									<td><input type="checkbox" name="check" value="check"></td>
 									<td><p><c:out value="${b.bannerNo }"/></p></td><!-- 번호 -->
 									<td><p><c:out value="${b.pdtName }"/><p></td><!-- 연관상품 -->
-									<td><c:out value="${b.bannerTitle }"/></td><!-- 제목 -->
-									<td><c:out value="${b.bannerSubtitle }"/></td><!-- 소제목 -->
+									<td style="white-space:pre;"><c:out value="${b.bannerTitle }"/></td><!-- 제목 -->
+									<td style="white-space:pre;"><c:out value="${b.bannerSubtitle }"/></td><!-- 소제목 -->
 									<!-- 이미지미리보기 -->
 									<td><img class="image_viewer"
 										src="//img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_attach2.gif">
