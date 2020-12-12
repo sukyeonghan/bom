@@ -33,7 +33,7 @@ public interface AdminService {
 	List<ProductOption> selectOption(String pdtNo);//옵션 선택
 	List<ProductThumb> selectThumb(String pdtNo);//썸네일 사진 선택
 	int updateProduct(Product p,ProductOption o,List<Map<Object,Object>> options,List<ProductThumb> list);//제품 수정
-	int selectPdtName(String pdtName);
+	int selectPdtName(String pdtName);//제품명 중복검사
 	
 	//관리자권한 변경
 	int updateManagerYn(Member m);

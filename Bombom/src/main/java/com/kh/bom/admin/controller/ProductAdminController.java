@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,9 +22,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.admin.model.vo.Event;
-import com.kh.bom.common.page.PageBarFactory;
-import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.common.page.AdminProAjaxPageBarFactory;
+import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.product.model.vo.ProductThumb;
@@ -179,11 +179,10 @@ public class ProductAdminController {
 		return m;
 	}
 	//제품명 중복검사
+	@ResponseBody
 	@RequestMapping("/admin/checkPdtName")
-	public int checkProductName(String pdtName) {
-		int p=service.selectPdtName(pdtName);
-		//닉네임이 있으면 false,없으면 true
-		return p;
+	public int checkProductName(@RequestParam("pdtName") String pdtName) {
+		return service.selectPdtName(pdtName);
 		
 	}
 	//by수경-제품 수정 및 삭제 페이지 전환
