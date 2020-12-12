@@ -6,110 +6,118 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
 <style>
-	/*좌측메뉴*/
-	.admin-nav{padding-right:100px;}
-	.admin-nav a{font-weight:bolder;}
-	.admin-nav a:hover{color: #45A663;}
-	.select{color:#45A663;}
-	.non-select{color:black;}
-	
-	/*최소 컨텐츠 크기*/
-	.media{min-width: 768px;} 
-	
-	/*페이지 타이틀*/
-	.page-title{margin-bottom:5%;}
-	
-	/*상단 버튼과 셀렉트 박스 정렬*/
-	.btns-category,.select-box{
-		display:flex;
-		justify-content:space-between;
-	}
-	/*정렬*/
-	.sort{
-		border:none;
-		outline:none;
-	}
-	/*선택삭제 버튼*/
-	#selectDel{
-		margin-left:5px;
-	}
-	/* 테이블*/
-	#event-table{
-		width:100%;
-		margin:20px 0;
-		border-collapse: collapse;
-		text-align:center;
-		padding:5px;
-	}
-	th,td{
-		padding:5px;
-	}
-	  /*페이지바*/
-    .pagebar{
-    	margin-top:100px;
-    	text-align:center;
-    }
-    .pagebar a{
-    	font-size:18px;
-    	color:black;
-    }
-    .pagebar a:link{
-    	text-decoration:none;
-    	color:black;
-    }
-    .pagebar a:hover{
-    	text-decoration:none;
-    	color:#45A663;
-    }
-    
-    /*검색*/
-    #search-wrap{
-    	display: flex;
-    	justify-content: center;
-    	align-items: center;
-    	margin-top:20px;
-    }
-    #search-text{
-    	margin:0 15px;
-    }
-    
+/*좌측메뉴*/
+.admin-nav {
+	padding-right: 100px;
+}
+
+.admin-nav a {
+	font-weight: bolder;
+}
+
+.admin-nav a:hover {
+	color: #45A663;
+}
+
+.select {
+	color: #45A663;
+}
+
+.non-select {
+	color: black;
+}
+
+/*최소 컨텐츠 크기*/
+.media {
+	min-width: 768px;
+}
+
+/*페이지 타이틀*/
+.page-title {
+	margin-bottom: 5%;
+}
+
+/*상단 버튼과 셀렉트 박스 정렬*/
+.btns-category, .select-box {
+	display: flex;
+	justify-content: space-between;
+}
+/*정렬*/
+.sort {
+	border: none;
+	outline: none;
+}
+/*선택삭제 버튼*/
+#selectDel {
+	margin-left: 5px;
+}
+/* 테이블*/
+#event-table {
+	width: 100%;
+	margin: 20px 0;
+	border-collapse: collapse;
+	text-align: center;
+	padding: 5px;
+}
+
+th, td {
+	padding: 5px;
+}
+/*페이지바*/
+.pagebar {
+	margin-top: 100px;
+	text-align: center;
+}
+
+.pagebar a {
+	font-size: 18px;
+	color: black;
+}
+
+.pagebar a:link {
+	text-decoration: none;
+	color: black;
+}
+
+.pagebar a:hover {
+	text-decoration: none;
+	color: #45A663;
+}
+
+/*검색*/
+#search-wrap {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px;
+}
+
+#search-text {
+	margin: 0 15px;
+}
+
+#flexDiv {
+	display: flex;
+	padding: 0px 10% 0px 10%;
+}
+
+#admin-container {
+	min-width: 800px;
+	width: 100%;
+	padding-right: 100px;
+}
 </style>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="이벤트" />
 </jsp:include>
 
-<section id="container" class="container">
-	<div class="media">
-	
-		<!--관리자 내비게이션바 -->
-		<div id="" class=" mr-3 admin-nav">
-		  <ul class="nav flex-column">
-		    <li class="nav-item">
-      			<a class="nav-link non-select" href="path/admin/memberList">회원관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="path/admin/moveProduct">제품관리</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="path/">주문관리</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="path/">1:1문의관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link select" href="path/admin/moveEvent">이벤트관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="path/">커뮤니티관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="path/admin/moveMainBanners">메인관리</a>
-		    </li>
-		  </ul>
-		</div>
-		
-		<div id="admin-container" class="media-body">
+<section id="container">
+	<div id="flexDiv">
+      <!-- 좌측 메뉴 -->
+      <%-- <jsp:include page="/WEB-INF/views/common/adminMenu.jsp" /> --%>
+      <!-- 우측 메뉴내용 -->
+      <div id="admin-container">
 			<!-- 페이지 타이틀 -->
 			<h3 class="page-title">이벤트관리</h3><hr>
 			<div class="btns-category">
