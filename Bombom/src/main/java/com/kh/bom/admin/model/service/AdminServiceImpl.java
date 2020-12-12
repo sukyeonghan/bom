@@ -259,19 +259,28 @@ public class AdminServiceImpl implements AdminService {
 	public int insertBanner(MainBanner mb) {
 		return dao.insertBanner(session, mb);
 	}
-	//배너등록에 필요한 product목록
+
+	// 배너등록에 필요한 product목록
 	@Override
 	public List<Product> selectProductList() {
 		return dao.selectProductList(session);
 	}
-	
+
+	@Override
+	public int deleteBanner(String no) {
+		return dao.deleteBanner(session, no);
+	}
+	//배너한개 가져오기
+	@Override
+	public MainBanner selectBannerOne(String no) {
+		return dao.selectBannerOne(session, no);
+	}
 
 	@Override
 	public int deleteQna(String qnaNo) {
 		// TODO Auto-generated method stub
 		return dao.deleteQna(session, qnaNo);
 	}
-
 
 	@Override
 	public List<Qna> selectQnaWaitList(int cPage, int numPerpage) {

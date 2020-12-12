@@ -58,4 +58,6 @@ public interface AdminDao {
 	List<MainBanner> selectBannerList(SqlSession session);
 	int insertBanner(SqlSession session, MainBanner mb);
 	List<Product> selectProductList(SqlSession session);//배너등록에 필요한 상품목록
+	int deleteBanner(SqlSession session, String no);
+	MainBanner selectBannerOne(SqlSession session, String no);
 }

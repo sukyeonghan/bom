@@ -208,10 +208,22 @@ public class AdminDaoImpl implements AdminDao {
 	public int insertBanner(SqlSession session, MainBanner mb) {
 		return session.insert("admin.insertBanner", mb);
 	}
-	//배너등록에 필요한 상품목록
+
+	// 배너등록에 필요한 상품목록
 	@Override
 	public List<Product> selectProductList(SqlSession session) {
 		return session.selectList("admin.selectProductBanner");
+	}
+
+	// 배너 한개 삭제
+	@Override
+	public int deleteBanner(SqlSession session, String no) {
+		return session.delete("admin.deleteBanner", no);
+	}
+	//배너 한개row 가져오기
+	@Override
+	public MainBanner selectBannerOne(SqlSession session, String no) {
+		return session.selectOne("admin.selectBannerOne", no);
 	}
 
 	// 1:1문의 삭제

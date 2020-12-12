@@ -303,6 +303,14 @@
 	<select id="selectProductBanner" resultMap="productMap">
 		SELECT * FROM PRODUCT
 	</select>
+	<delete id="deleteBanner" parameterType="string">
+		DELETE FROM MAIN_BANNER WHERE BANNER_NO = #{bannerNo}
+	</delete>
+	<select id="selectBannerOne" parameterType="string" resultMap="bannerMap">
+		SELECT * FROM
+		MAIN_BANNER
+		JOIN PRODUCT USING(PDT_NO)
+	</select>
 	<!-- 메인배너관리 끝 -->
 	<delete id="deleteQna" parameterType="string">
 		DELETE FROM QNA WHERE

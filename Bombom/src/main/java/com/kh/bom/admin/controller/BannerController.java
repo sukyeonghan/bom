@@ -109,5 +109,36 @@ public class BannerController {
 
 		return mv;
 	}
+	
+	//배너 삭제하기
+	@RequestMapping("/admin/deleteBanner")
+	public ModelAndView deleteBanner(ModelAndView mv, String bannerNo) {
+		int result = service.deleteBanner(bannerNo);
+		String msg;
+		String loc;
+		String icon;
+		if (result > 0) {
+			msg = "삭제가 완료됐어요:)";
+			loc = "/admin/moveMainBanners";
+			icon = "success";// icon 종류 : success,error,warning
+		} else {
+			msg = "삭제에 실패했어요:(";
+			loc = "/admin/moveMainBanners";
+			icon = "error";
+		}
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon", icon);
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	//배너수정하기로 이동
+	@RequestMapping("/admin/moveBannerUpdate")
+	public ModelAndView moveBannerUpdate(ModelAndView mv, String no) {
+		mv.addObject("list", service.selectProductList());
+		mv.addObject("bannerOne", service.selectBannerOne(no));
+		mv.setViewName("admin/main/bannerUpdate");
+		return mv;
+	}
 
 }
