@@ -22,8 +22,8 @@
 		SYSDATE,#{pointContent},#{pointChange})
 	</insert>
 	
-	<select id="selectCount" resultType="_int">
-		SELECT COUNT(*) FROM POINT
+	<select id="selectCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM POINT WHERE MEM_NO=#{memNo}
 	</select>
-	
+
 </mapper>

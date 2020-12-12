@@ -2,178 +2,207 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="admin">
 	<resultMap type="event" id="eventMap">
-		<result property="eventNo" column="event_no"/>
-		<result property="eventTitle" column="event_title"/>
-		<result property="eventStartDate" column="event_start_date"/>
-		<result property="eventEndDate" column="event_end_date"/>
-		<result property="eventCategory" column="event_category"/>
-		<result property="eventSalePer" column="event_sale_per"/>
+		<result property="eventNo" column="event_no" />
+		<result property="eventTitle" column="event_title" />
+		<result property="eventStartDate" column="event_start_date" />
+		<result property="eventEndDate" column="event_end_date" />
+		<result property="eventCategory" column="event_category" />
+		<result property="eventSalePer" column="event_sale_per" />
 	</resultMap>
 
 	<resultMap type="product" id="productMap">
-		<result property="pdtNo" column="pdt_no"/>
-		<result property="pdtCategory" column="pdt_category"/>
-		<result property="pdtPrice" column="pdt_price"/>
-		<result property="pdtName" column="pdt_name"/>
-		<result property="pdtIntro" column="pdt_intro"/>
-		<result property="pdtStatus" column="pdt_status"/>
-		<result property="pdtDate" column="pdt_date"/>
-		<result property="pdtDetailImage" column="pdt_detail_image"/>
-		<result property="eventNoRef" column="event_no_ref"/>
-		<result property="pdtOptionNo" column="pdt_option_no"/>
+		<result property="pdtNo" column="pdt_no" />
+		<result property="pdtCategory" column="pdt_category" />
+		<result property="pdtPrice" column="pdt_price" />
+		<result property="pdtName" column="pdt_name" />
+		<result property="pdtIntro" column="pdt_intro" />
+		<result property="pdtStatus" column="pdt_status" />
+		<result property="pdtDate" column="pdt_date" />
+		<result property="pdtDetailImage" column="pdt_detail_image" />
+		<result property="eventNoRef" column="event_no_ref" />
+		<result property="pdtOptionNo" column="pdt_option_no" />
 	</resultMap>
 	<resultMap type="option" id="optionMap">
-		<result property="pdtOptionNo" column="pdt_option_no"/>
-		<result property="pdtNo" column="pdt_no_ref"/>
-		<result property="pdtOptionContent" column="pdt_option_content"/>
-		<result property="pdtOptionAddprice" column="pdt_option_addprice" />
+		<result property="pdtOptionNo" column="pdt_option_no" />
+		<result property="pdtNo" column="pdt_no_ref" />
+		<result property="pdtOptionContent" column="pdt_option_content" />
+		<result property="pdtOptionAddprice"
+			column="pdt_option_addprice" />
 	</resultMap>
 	<resultMap type="thumb" id="thumbMap">
-		<result property="pdtThumbNo" column="pdt_thumb_no"/>
-		<result property="pdtNo" column="pdt_no_ref"/>
-		<result property="pdtThumbImage" column="pdt_thumb_image"/>
+		<result property="pdtThumbNo" column="pdt_thumb_no" />
+		<result property="pdtNo" column="pdt_no_ref" />
+		<result property="pdtThumbImage" column="pdt_thumb_image" />
 	</resultMap>
-	
+
 	<resultMap type="member" id="memberMap">
-		<result property="memNo" column="mem_no"/>
-		<result property="memNick" column="mem_nick"/>
-		<result property="memPwd" column="mem_pwd"/>
-		<result property="memEmail" column="mem_email"/>
-		<result property="memPro" column="mem_pro"/>
-		<result property="memBuyCount" column="mem_buy_count"/>
-		<result property="memWarnCount" column="mem_warn_count"/>
-		<result property="memManagerYn" column="mem_manager_yn"/>
-		<result property="memStatus" column="mem_status"/>
-		<result property="memPoint" column="mem_point"/>
+		<result property="memNo" column="mem_no" />
+		<result property="memNick" column="mem_nick" />
+		<result property="memPwd" column="mem_pwd" />
+		<result property="memEmail" column="mem_email" />
+		<result property="memPro" column="mem_pro" />
+		<result property="memBuyCount" column="mem_buy_count" />
+		<result property="memWarnCount" column="mem_warn_count" />
+		<result property="memManagerYn" column="mem_manager_yn" />
+		<result property="memStatus" column="mem_status" />
+		<result property="memPoint" column="mem_point" />
 	</resultMap>
-	
-	<resultMap  type="qna" id="qnaMap">
-		<result property="qnaNo" column="qna_no"/>
-		<result property="qnaWriter" column="qna_writer"/>
-		<result property="qnaCategory" column="qna_category"/>
-		<result property="qnaTitle" column="qna_title"/>
-		<result property="qnaContent" column="qna_content"/>
-		<result property="qnaDate" column="qna_date"/>
-		<result property="qnaYn" column="qna_yn"/>
-		<result property="qnaAnswer" column="qna_answer"/>
-		<result property="qnaAnswerDate" column="qna_answer_date"/>
+
+	<resultMap type="qna" id="qnaMap">
+		<result property="qnaNo" column="qna_no" />
+		<result property="qnaWriter" column="qna_writer" />
+		<result property="qnaCategory" column="qna_category" />
+		<result property="qnaTitle" column="qna_title" />
+		<result property="qnaContent" column="qna_content" />
+		<result property="qnaDate" column="qna_date" />
+		<result property="qnaYn" column="qna_yn" />
+		<result property="qnaAnswer" column="qna_answer" />
+		<result property="qnaAnswerDate" column="qna_answer_date" />
 		<result property="rownum" column="ROWNUM" />
 	</resultMap>
 	<resultMap type="mainBanner" id="bannerMap">
-		<result property="bannerNo" column="banner_no"/>
-		<result property="pdtNo" column="pdt_no"/>
-		<result property="bannerTitle" column="banner_title"/>
-		<result property="bannerSubtitle" column="banner_subtitle"/>
-		<result property="bannerThumb" column="banner_thumb"/>
-		<result property="pdtName" column="pdt_name"/>
+		<result property="bannerNo" column="banner_no" />
+		<result property="pdtNo" column="pdt_no" />
+		<result property="bannerTitle" column="banner_title" />
+		<result property="bannerSubtitle" column="banner_subtitle" />
+		<result property="bannerThumb" column="banner_thumb" />
+		<result property="pdtName" column="pdt_name" />
 	</resultMap>
-	
+
 	<select id="selectEvent" resultMap="eventMap">
-		SELECT * FROM EVENT 
+		SELECT * FROM EVENT
 	</select>
-	
+
 	<!-- 이벤트 목록 정렬하기 -->
-	<select id="selectEventSort" parameterType="string" resultMap="eventMap">
-		SELECT * FROM EVENT WHERE EVENT_CATEGORY = #{sort}	
+	<select id="selectEventSort" parameterType="string"
+		resultMap="eventMap">
+		SELECT * FROM EVENT WHERE EVENT_CATEGORY = #{sort}
 	</select>
 	<!-- 이벤트 번호 가져오기 -->
-	<select id="selectEventOne" parameterType="string" resultMap="eventMap">
+	<select id="selectEventOne" parameterType="string"
+		resultMap="eventMap">
 		SELECT * FROM EVENT WHERE EVENT_NO = #{eventNo}
 	</select>
 	<insert id="insertEvent" parameterType="event">
-		INSERT INTO EVENT 
+		INSERT INTO EVENT
 		VALUES('E'||TO_CHAR(SEQ_EVENT_NO.NEXTVAL),
-			#{eventTitle},#{eventStartDate},#{eventEndDate},#{eventCategory},#{eventSalePer})
+		#{eventTitle},#{eventStartDate},#{eventEndDate},#{eventCategory},#{eventSalePer})
 	</insert>
-	
+
 	<delete id="eventDelete" parameterType="string">
-		DELETE FROM EVENT WHERE EVENT_NO = #{eventNo}
+		DELETE FROM EVENT WHERE
+		EVENT_NO = #{eventNo}
 	</delete>
-	
-	<update id="updateEvent" parameterType="event"> 
-		UPDATE EVENT SET EVENT_TITLE = #{eventTitle}, 
-					EVENT_START_DATE = #{eventStartDate},
-					EVENT_END_DATE = #{eventEndDate},
-					EVENT_CATEGORY = #{eventCategory},					
-					EVENT_SALE_PER = #{eventSalePer}
-		WHERE EVENT_NO = #{eventNo}				
+
+	<update id="updateEvent" parameterType="event">
+		UPDATE EVENT SET EVENT_TITLE = #{eventTitle},
+		EVENT_START_DATE = #{eventStartDate},
+		EVENT_END_DATE = #{eventEndDate},
+		EVENT_CATEGORY = #{eventCategory},
+		EVENT_SALE_PER = #{eventSalePer}
+		WHERE EVENT_NO = #{eventNo}
 	</update>
-	
+
 	<!-- 제품목록출력 -->
-	<select id="selectProductList" resultMap="productMap">
-		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_INTRO,PDT_STATUS,PDT_DATE,EVENT_NO_REF,
-			LISTAGG(PDT_OPTION_NO,',')WITHIN GROUP(ORDER BY pdt_no_ref) OVER(PARTITION BY PDT_NO_REF)AS PDT_OPTION_NO
-		FROM PRODUCT P 
-			LEFT JOIN PRODUCT_OPTION ON(PDT_NO=PDT_NO_REF) 
+	<select id="selectProductList" parameterType="map"
+		resultMap="productMap">
+		SELECT DISTINCT
+		PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_INTRO,PDT_STATUS,PDT_DATE,EVENT_NO_REF,
+		LISTAGG(PDT_OPTION_NO,',')WITHIN GROUP(ORDER BY pdt_no_ref)
+		OVER(PARTITION BY PDT_NO_REF)AS PDT_OPTION_NO
+		FROM PRODUCT P
+		LEFT JOIN PRODUCT_OPTION ON(PDT_NO=PDT_NO_REF)
+		<if test="category != '전체'">
+			WHERE PDT_CATEGORY=#{category}
+		</if>
 		ORDER BY PDT_DATE DESC
+	</select>
+	<!-- 제품개수출력 -->
+	<select id="countProduct" parameterType="map" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT
+		<if test="category != '전체'">
+			WHERE PDT_CATEGORY=#{category}
+		</if>
 	</select>
 	<!-- 제품 삭제 -->
 	<delete id="deleteProduct" parameterType="string">
-		DELETE FROM PRODUCT WHERE PDT_NO=#{pdtNo}
+		DELETE FROM PRODUCT
+		WHERE PDT_NO=#{pdtNo}
 	</delete>
 	<!-- 제품 등록 -->
 	<insert id="insertProduct" parameterType="product">
-		INSERT INTO PRODUCT 
-			VALUES('P'||TO_CHAR(SEQ_PDT_NO.NEXTVAL),
-				#{pdtCategory},#{pdtPrice},#{pdtName},
-				#{pdtIntro},#{pdtStatus},SYSDATE,#{pdtDetailImage},#{eventNoRef})
-		
-		<selectKey keyProperty="pdtNo" resultType="string" order="AFTER">
+		INSERT INTO PRODUCT
+		VALUES('P'||TO_CHAR(SEQ_PDT_NO.NEXTVAL),
+		#{pdtCategory},#{pdtPrice},#{pdtName},
+		#{pdtIntro},#{pdtStatus},SYSDATE,#{pdtDetailImage},#{eventNoRef})
+
+		<selectKey keyProperty="pdtNo" resultType="string"
+			order="AFTER">
 			SELECT PDT_NO FROM PRODUCT WHERE PDT_NAME=#{pdtName}
 		</selectKey>
 	</insert>
 	<!-- 옵션 등록 -->
 	<insert id="insertOption" parameterType="option">
-		INSERT INTO PRODUCT_OPTION
-			VALUES('PO'||SEQ_PDT_OPTION_NO.NEXTVAL,#{pdtNo},#{pdtOptionContent},#{pdtOptionAddprice})
+		INSERT INTO
+		PRODUCT_OPTION
+		VALUES('PO'||SEQ_PDT_OPTION_NO.NEXTVAL,#{pdtNo},#{pdtOptionContent},#{pdtOptionAddprice})
 	</insert>
 	<!-- 썸네일 이미지 등록 -->
 	<insert id="insertThumb" parameterType="thumb">
 		INSERT INTO PRODUCT_THUMB
-			VALUES('PT'||SEQ_PDT_THUMB_NO.NEXTVAL,#{pdtNo},#{renamedFileName})
+		VALUES('PT'||SEQ_PDT_THUMB_NO.NEXTVAL,#{pdtNo},#{renamedFileName})
 	</insert>
 	<!-- 제품 하나 선택 -->
-	<select id="selectOneProduct" parameterType="string" resultMap="productMap">
-		SELECT * FROM PRODUCT WHERE PDT_NO=#{pdtNo} 
+	<select id="selectOneProduct" parameterType="string"
+		resultMap="productMap">
+		SELECT * FROM PRODUCT WHERE PDT_NO=#{pdtNo}
 	</select>
 	<!-- 제품 번호 해당 옵션 선택 -->
-	<select id="selectOption" parameterType="string" resultMap="optionMap">
+	<select id="selectOption" parameterType="string"
+		resultMap="optionMap">
 		SELECT * FROM PRODUCT_OPTION WHERE PDT_NO_REF=#{pdtNo}
 	</select>
 	<!-- 제품 번호 해당 썸네일 선택 -->
-	<select id="selectThumb" parameterType="string" resultMap="thumbMap">
+	<select id="selectThumb" parameterType="string"
+		resultMap="thumbMap">
 		SELECT * FROM PRODUCT_THUMB WHERE PDT_NO_REF=#{pdtNo}
 	</select>
 	<!-- 제품 수정 -->
 	<update id="updateProduct" parameterType="product">
 		UPDATE PRODUCT SET
-			PDT_CATEGORY=#{pdtCategory},
-			PDT_PRICE=#{pdtPrice},
-			PDT_NAME=#{pdtName},
-			PDT_INTRO=#{pdtIntro},
-			PDT_STATUS=#{pdtStatus},
-			PDT_DATE=SYSDATE,
-			PDT_DETAIL_IMAGE=#{pdtDetailImage},
-			EVENT_NO_REF=#{eventNoRef}
+		PDT_CATEGORY=#{pdtCategory},
+		PDT_PRICE=#{pdtPrice},
+		PDT_NAME=#{pdtName},
+		PDT_INTRO=#{pdtIntro},
+		PDT_STATUS=#{pdtStatus},
+		PDT_DATE=SYSDATE,
+		PDT_DETAIL_IMAGE=#{pdtDetailImage},
+		EVENT_NO_REF=#{eventNoRef}
 		WHERE PDT_NO=#{pdtNo}
-		<selectKey keyProperty="pdtNo" resultType="string" order="AFTER">
+		<selectKey keyProperty="pdtNo" resultType="string"
+			order="AFTER">
 			SELECT PDT_NO FROM PRODUCT WHERE PDT_NAME=#{pdtName}
 		</selectKey>
 	</update>
 	<!-- 썸네일 삭제 -->
 	<delete id="deleteThumb" parameterType="string">
-		DELETE FROM PRODUCT_THUMB WHERE PDT_NO_REF=#{pdtNo}
+		DELETE FROM PRODUCT_THUMB
+		WHERE PDT_NO_REF=#{pdtNo}
 	</delete>
 	<!-- 옵션 삭제 -->
 	<delete id="deleteOption" parameterType="string">
-		DELETE FROM PRODUCT_OPTION WHERE PDT_NO_REF=#{pdtNo}
+		DELETE FROM
+		PRODUCT_OPTION WHERE PDT_NO_REF=#{pdtNo}
 	</delete>
 	<!-- 옵션 여부 확인용 -->
-	<select id="checkOption" resultMap="productMap" parameterType="string">
-		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_INTRO,PDT_STATUS,PDT_DATE,EVENT_NO_REF,
-			LISTAGG(PDT_OPTION_NO,',')WITHIN GROUP(ORDER BY pdt_no_ref) OVER(PARTITION BY PDT_NO_REF)AS PDT_OPTION_NO 
-		FROM PRODUCT 
-			LEFT JOIN PRODUCT_OPTION ON(PDT_NO=PDT_NO_REF) 
+	<select id="checkOption" resultMap="productMap"
+		parameterType="string">
+		SELECT DISTINCT
+		PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_INTRO,PDT_STATUS,PDT_DATE,EVENT_NO_REF,
+		LISTAGG(PDT_OPTION_NO,',')WITHIN GROUP(ORDER BY pdt_no_ref)
+		OVER(PARTITION BY PDT_NO_REF)AS PDT_OPTION_NO
+		FROM PRODUCT
+		LEFT JOIN PRODUCT_OPTION ON(PDT_NO=PDT_NO_REF)
 		WHERE PDT_NO=#{pdtNo}
 	</select>
 
@@ -181,87 +210,109 @@
 	<!-- 회원관리 -->
 	<!--관리자 전환 -->
 	<update id="updateManagerYn" parameterType="member">
-		UPDATE MEMBER SET mem_manager_yn = #{memManagerYn} WHERE MEM_NO=#{memNo}
+		UPDATE MEMBER SET
+		mem_manager_yn = #{memManagerYn} WHERE MEM_NO=#{memNo}
 	</update>
 	<!-- 회원리스트 -->
-	<select id="selectMemberList" parameterType="map" resultMap="memberMap">
+	<select id="selectMemberList" parameterType="map"
+		resultMap="memberMap">
 
 		SELECT * FROM MEMBER
 		<if test='keyword != null or keyword != ""'>
-		<where>
-			<if test='searchType eq "nick"'>
-				 mem_nick LIKE '%'||#{keyword}||'%'
-			</if>															
-			<if test='searchType eq "email"'>
-				 mem_email LIKE '%'||#{keyword}||'%'
-			</if>
-			<if test='searchType eq "all"'>
-				 mem_email LIKE '%'||#{keyword}||'%' or mem_nick LIKE '%'||#{keyword}||'%'
-			</if>
-		</where> 
+			<where>
+				<if test='searchType eq "nick"'>
+					mem_nick LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test='searchType eq "email"'>
+					mem_email LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test='searchType eq "all"'>
+					mem_email LIKE '%'||#{keyword}||'%' or mem_nick LIKE '%'||#{keyword}||'%'
+				</if>
+			</where>
 		</if>
 		<if test='filter == "date"'>ORDER BY TO_NUMBER(SUBSTR(MEM_NO,2)) DESC</if>
 		<if test='filter == "point"'>ORDER BY MEM_POINT DESC</if>
 		<if test='filter == "bad"'>ORDER BY MEM_WARN_COUNT DESC</if>
 	</select>
 	<!-- 회원수 -->
-	<select id="selectMemberCount" parameterType="map" resultType="_int">
+	<select id="selectMemberCount" parameterType="map"
+		resultType="_int">
 		SELECT COUNT(*) FROM MEMBER
 		<if test='keyword != null or keyword != ""'>
-		<where>
-			<if test='searchType eq "nick"'>
-				 mem_nick LIKE '%'||#{keyword}||'%'
-			</if>															
-			<if test='searchType eq "email"'>
-				 mem_email LIKE '%'||#{keyword}||'%'
-			</if>
-			<if test='searchType eq "all"'>
-				 mem_email LIKE '%'||#{keyword}||'%' or mem_nick LIKE '%'||#{keyword}||'%'
-			</if>
-		</where>
+			<where>
+				<if test='searchType eq "nick"'>
+					mem_nick LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test='searchType eq "email"'>
+					mem_email LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test='searchType eq "all"'>
+					mem_email LIKE '%'||#{keyword}||'%' or mem_nick LIKE '%'||#{keyword}||'%'
+				</if>
+			</where>
 		</if>
 	</select>
 	<!-- 검색어자동완성 -->
-	<select id="memberAutoComplete" parameterType="map" resultMap="memberMap">
-		SELECT mem_nick, mem_email FROM MEMBER 
+	<select id="memberAutoComplete" parameterType="map"
+		resultMap="memberMap">
+		SELECT mem_nick, mem_email FROM MEMBER
 		<where>
-		<if test='searchType eq "nick"'>
-			 mem_nick LIKE '%'||#{keyword}||'%'
-		</if>															
-		<if test='searchType eq "email"'>
-			 mem_email LIKE '%'||#{keyword}||'%'
-		</if>
-		<if test='searchType eq "all"'>
-			 mem_email LIKE '%'||#{keyword}||'%' or mem_nick LIKE '%'||#{keyword}||'%'
-		</if>
-		</where>	
+			<if test='searchType eq "nick"'>
+				mem_nick LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test='searchType eq "email"'>
+				mem_email LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test='searchType eq "all"'>
+				mem_email LIKE '%'||#{keyword}||'%' or mem_nick LIKE '%'||#{keyword}||'%'
+			</if>
+		</where>
 	</select>
 	<!-- 회원관리 끝! -->
 
 	<select id="selectQnaList" resultMap="qnaMap">
-		SELECT ROWNUM, Q.*FROM (SELECT * FROM QNA ORDER BY QNA_DATE ASC) Q ORDER BY ROWNUM DESC
+		SELECT ROWNUM, Q.*FROM
+		(SELECT * FROM QNA ORDER BY QNA_DATE ASC) Q ORDER BY ROWNUM DESC
 	</select>
-	
+
 	<select id="selectQnaCount" resultType="_int">
 		SELECT COUNT(*) FROM QNA
 	</select>
-	
+
 	<update id="insertQnaAnswer" parameterType="qna">
-		UPDATE QNA SET QNA_YN='Y', QNA_ANSWER=#{qnaAnswer}, QNA_ANSWER_DATE=SYSDATE WHERE QNA_NO=#{qnaNo}
+		UPDATE QNA SET
+		QNA_YN='Y', QNA_ANSWER=#{qnaAnswer}, QNA_ANSWER_DATE=SYSDATE WHERE
+		QNA_NO=#{qnaNo}
 	</update>
-	
+
 	<!-- 메인배너관리 -->
 	<select id="selectBannerList" resultMap="bannerMap">
-		SELECT * FROM MAIN_BANNER
-			JOIN PRODUCT USING(PDT_NO)
+		SELECT * FROM
+		MAIN_BANNER
+		JOIN PRODUCT USING(PDT_NO)
 	</select>
 	<insert id="insertBanner" parameterType="mainBanner">
-		INSERT INTO MAIN_BANNER VALUES('MB'||to_char(SEQ_BANNER_NO.nextval),
-			'P73',
-			'테스트 테스트 테스트',
-			'테스트'||chr(38)||'트트~20%',
-			'toothbrush.png')
+		INSERT INTO MAIN_BANNER
+		VALUES('MB'||to_char(SEQ_BANNER_NO.nextval),
+		#{pdtNo},
+		#{bannerTitle},
+		#{bannerSubtitle},
+		#{bannerThumb})
 	</insert>
+	<select id="selectProductBanner">
+		SELECT * FROM PRODUCT
+	</select>
 	<!-- 메인배너관리 끝 -->
-	
+	<delete id="deleteQna" parameterType="string">
+		DELETE FROM QNA WHERE
+		QNA_NO=#{qnaNo}
+	</delete>
+
+	<select id="selectQnaWaitList" resultMap="qnaMap">
+		SELECT ROWNUM, Q.*FROM
+		(SELECT * FROM QNA WHERE QNA_YN='N' ORDER BY QNA_DATE ASC) Q ORDER BY
+		ROWNUM DESC
+	</select>
+
 </mapper>

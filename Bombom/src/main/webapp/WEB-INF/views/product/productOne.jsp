@@ -9,286 +9,418 @@
    <jsp:param name="title" value="" />
 </jsp:include>
 <style>
-    /* 바로가기 이동 */
-    a:link {
-        color: black;
-        text-decoration: none;
-    }
+/* 바로가기 이동 */
+a:link {
+	color: black;
+	text-decoration: none;
+}
 
-    a:visited {
-        color: black;
-        text-decoration: none;
-    }
+a:visited {
+	color: black;
+	text-decoration: none;
+}
 
-    a:hover {
-        color: #45A663;
-        text-decoration: none;
-    }
-    
-   	/* 글씨크기 조정 스타일 */ 
-	.information{
-		padding:4px;
-		font-size:15px;
-	}
-	.size-up{
-		font-size:23px;
-	}
-	.size-mid{
-		font-size:17px;
-	}    
+a:hover {
+	color: #45A663;
+	text-decoration: none;
+}
 
-    /* 썸네일 이미지 */
-    .goods_thumbs_image ul {
-        padding: 0;
-        list-style: none;
-        margin-bottom: 0;
-    }
-    .goods_thumbs_image ul li {
-        /* border: 1px blueviolet solid; */
-        float: left;
-        /* padding-right: 7px; */
-        padding:0 4px 0 0px;
-        /* width: 100%;
+/* 글씨크기 조정 스타일 */
+.information {
+	padding: 4px;
+	font-size: 15px;
+}
+
+.size-up {
+	font-size: 23px;
+}
+
+.size-mid {
+	font-size: 17px;
+}
+
+/* 썸네일 이미지 */
+.goods_thumbs_image ul {
+	padding: 0;
+	list-style: none;
+	margin-bottom: 0;
+}
+
+.goods_thumbs_image ul li {
+	/* border: 1px blueviolet solid; */
+	float: left;
+	/* padding-right: 7px; */
+	padding: 0 4px 0 0px;
+	/* width: 100%;
         height: 100%; */
-        display: inline-block;
-        cursor: pointer;
-    }
-    .goods_thumbs_image ul li img{
-        width:100%;
-       /*  height:100%; */
-        object-fit: contain;
-    }
-    .goods_thumbs_image ul li img:focus{
-        border: 1px black solid;
-    }
-	
-    /*셀렉트박스 디자인*/
-    .optionChoice {
-        width: 100%;
-        height: 45px;
-        display: inline-block;
-        background-color: #fff;
-        border-radius: 4px;
-        border: #28a745 1px solid;
-        transition: all .5s ease;
-        position: relative;
-        cursor:pointer;
-    }
-    .optionChoice .select {
-        cursor: pointer;
-        padding: 10px;
-        -webkit-appearance: none;
-        /* 네이티브 외형 감추기 */
-        -moz-appearance: none;
-        appearance: none;
-    }
-    .optionChoice .dropdown-menu {
-        position: absolute;
-        background-color: #fff;
-        text-align: left;
-        width: 100%;
-        border-radius: 0 0 4px 4px;
-        border: #28a745 1px solid;
-        overflow: hidden;
-        display: none;
-        overflow-y: auto;
-    }
-    .optionChoice .dropdown-menu li {
-        padding: 10px;
-        transition: all .2s ease-in-out;
-        cursor: pointer;
-    }
-    .optionChoice .dropdown-menu {
-        padding: 0;
-        list-style: none
-    }
-    .optionChoice .dropdown-menu li:hover {
-        color: #28a745;
-    }
-    .optionChoice .dropdown-menu li:active {
-        background-color: #28a745;
-    }	
- 
-    /*수량 스타일*/
-    #info_count {
-        border: #28a745 1px solid;
-        width: 100%;
-        height: 100px;
-    }    
-    .input_count {
-        border: #28a745 1px solid;
-        background-color: #fff;
-        color: 00000;
-        width: 26px;
-        font-size: 13px;
-        display: table-cell;
-        vertical-align: middle;
-        text-align: center;
-    }
-    .input_count2 {
-        border: #28a745 1px solid;
-        background-color: #fff;
-        color: 00000;
-        width: 26px;
-        font-size: 13px;
-        display: table-cell;
-        vertical-align: middle;
-        text-align: center;
-    }
-    
-    /* 버튼 크기 조절 */
-    .custom{
-    	width:163px !important;
-    }
-    
-    /* 네비바 스타일 */
-    button {
-        background: none;
-        border: 0;
-        outline: 0;
-        cursor: pointer;
-    }
+	display: inline-block;
+	cursor: pointer;
+}
 
-    button:focus {
-        border: none;
-        outline: none;
-    }
+.goods_thumbs_image ul li img {
+	width: 100%;
+	/*  height:100%; */
+	object-fit: contain;
+}
 
-    .tab_menu_container {
-        text-align: center;
-        padding-top: 80px;
-    }
+/*셀렉트박스 디자인*/
+.optionChoice {
+	width: 100%;
+	height: 45px;
+	display: inline-block;
+	background-color: #fff;
+	border-radius: 4px;
+	border: #28a745 1px solid;
+	transition: all .5s ease;
+	position: relative;
+	cursor: pointer;
+}
 
-    .tab_menu_btn {
-        width: 200px;
-        height: 40px;
-        transition: 0.3s all;
-    }
+.optionChoice .select {
+	cursor: pointer;
+	padding: 10px;
+	-webkit-appearance: none;
+	/* 네이티브 외형 감추기 */
+	-moz-appearance: none;
+	appearance: none;
+}
 
-    .tab_menu_btn.on {
-        border-bottom: 1px solid #45A663;
-        color: #45A663;
-    }
+.optionChoice .dropdown-menu {
+	position: absolute;
+	background-color: #fff;
+	text-align: left;
+	width: 100%;
+	border-radius: 0 0 4px 4px;
+	border: #28a745 1px solid;
+	overflow: hidden;
+	display: none;
+	overflow-y: auto;
+}
 
-    .tab_menu_btn:hover {
-        color: #45A663;
-    }
+.optionChoice .dropdown-menu li {
+	padding: 10px;
+	transition: all .2s ease-in-out;
+	cursor: pointer;
+}
 
-    .tab_box {
-        display: none;
-        padding: 25px;
-    }
+.optionChoice .dropdown-menu {
+	padding: 0;
+	list-style: none
+}
 
-    .tab_box.on {
-        display: block;
-    }
-    .tab_box img{
-        width:100%;
-    }
-    
-    /* 배송 안내사항 */
-    #information p{
-        font-size:12px;
-    }   
-    
-    /* 연관상품 스와이프 css */
-    .swiper-container {
-    	/* width:1100px; */
-    	width:100%;
-        height: 300px;
-    }
-    .swiper-slide {
-        font-size: 13px;
-        background: #fff;
-        border:#45A663 1px solid;
+.optionChoice .dropdown-menu li:hover {
+	color: #28a745;
+}
 
-        /* Center slide text vertically */
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-    }
-    .swiper-slide img{
-        /* 이미지 최대너비 제한 */
-        max-width:100%;
-        max-height:100%; 
-        object-fit: contain;
-    }
-    .slideImg{
-    	padding-top:10px;
-    }
-    
-    
-    /*상품문의 박스 스타일*/
-    div.wrap-category{
-        margin: 7px 0px 7px 0px;
-        text-align: left;
-    }
-    .span_textarea{
-        position:relative;
-        padding:8px;
-        width:auto;
-        border:lightslategray 1px solid;
-        border-radius: 4px;
-        display: inline-block;
-        width:100%;
-        height:200px;
-    }
-    textarea{
-        width: 99%;
-        height: 80%;
-        resize: none;
-        border:none;
-    }
-    textarea:focus{
-        outline:none;
-    }
-    textarea.inqContent{
-    	width: 100%;
-        height: 100%;
-        resize: none;
-        border:none;
-        margin:7px 0 7px 0;
-    }
-    textarea.answer{
-    	width: 100%;
-        height: 100%;
-        resize: none;
-        border:none;
-        margin:7px 0 7px 0;
-    }
-    
-    /* 상품문의 모달창 */
-    #modalClick{
-    	cursor:pointer;
-    }  
-  
-  	/* 위로가기 버튼 */
-	.scrollTop{
-		width:50px;
-		height:50px;
-		position:fixed;
-		z-index:9999;
-		right:50px;
-		bottom:40px;
-		display:none;
-	}               
-        
+.optionChoice .dropdown-menu li:active {
+	background-color: #28a745;
+}
+
+/*수량 스타일*/
+#info_count {
+	border: #28a745 1px solid;
+	width: 100%;
+	height: 100px;
+}
+
+.input_count {
+	border: #28a745 1px solid;
+	background-color: #fff;
+	color: 00000;
+	width: 26px;
+	font-size: 13px;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.input_count2 {
+	border: #28a745 1px solid;
+	background-color: #fff;
+	color: 00000;
+	width: 26px;
+	font-size: 13px;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
+
+/* 버튼 크기 조절 */
+.custom {
+	width: 163px !important;
+}
+
+/* 네비바 스타일 */
+button {
+	background: none;
+	border: 0;
+	outline: 0;
+	cursor: pointer;
+}
+
+button:focus {
+	border: none;
+	outline: none;
+}
+
+.tab_menu_container {
+	text-align: center;
+	padding-top: 80px;
+}
+
+.tab_menu_btn {
+	width: 200px;
+	height: 40px;
+	transition: 0.3s all;
+}
+
+.tab_menu_btn.on {
+	border-bottom: 1px solid #45A663;
+	color: #45A663;
+}
+
+.tab_menu_btn:hover {
+	color: #45A663;
+}
+
+.tab_box {
+	display: none;
+	padding: 25px;
+}
+
+.tab_box.on {
+	display: block;
+}
+
+.tab_box img {
+	width: 100%;
+}
+
+/* 배송 안내사항 */
+#information p {
+	font-size: 12px;
+}
+
+/* 연관상품 스와이프 css */
+.swiper-container {
+	/* width:1100px; */
+	width: 100%;
+	height: 300px;
+}
+
+.swiper-slide {
+	font-size: 13px;
+	background: #fff;
+	border: #45A663 1px solid;
+	/* Center slide text vertically */
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+}
+
+.swiper-slide img {
+	/* 이미지 최대너비 제한 */
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+}
+
+.slideImg {
+	padding-top: 10px;
+}
+
+/*상품문의 박스 스타일*/
+div.wrap-category {
+	margin: 7px 0px 7px 0px;
+	text-align: left;
+}
+
+.span_textarea {
+	position: relative;
+	padding: 8px;
+	width: auto;
+	border: lightslategray 1px solid;
+	border-radius: 4px;
+	display: inline-block;
+	width: 100%;
+	height: 200px;
+}
+
+textarea {
+	width: 99%;
+	height: 80%;
+	resize: none;
+	border: none;
+}
+
+textarea:focus {
+	outline: none;
+}
+
+textarea.inqContent {
+	width: 100%;
+	height: 100%;
+	resize: none;
+	border: none;
+	margin: 7px 0 7px 0;
+}
+
+textarea.answer {
+	width: 100%;
+	height: 100%;
+	resize: none;
+	border: none;
+	margin: 7px 0 7px 0;
+}
+
+/* 상품문의 모달창 */
+#modalClick {
+	cursor: pointer;
+}
+
+/* 위로가기 버튼 */
+.scrollTop {
+	width: 50px;
+	height: 50px;
+	position: fixed;
+	z-index: 9999;
+	right: 50px;
+	bottom: 40px;
+	display: none;
+}
+
+/* 스타 체크박스 옆으로 조절 */
+.rating .rate_radio {
+	position: relative;
+	display: inline-block;
+	z-index: 20;
+	opacity: 0.001;
+	width: 20px;
+	height: 20px;
+	background-color: #fff;
+	cursor: pointer;
+	vertical-align: top;
+	/* 체크박스 안 보이게  */
+	display: none;
+}
+
+.rating .rate_radio+label {
+	position: relative;
+	display: inline-block;
+	/* margin-left: -4px; */
+	margin: 0 0 -4px -3px;
+	z-index: 10;
+	width: 20px;
+	height: 20px;
+	background-image: url('../resources/images/product/starblank.png');
+	background-repeat: no-repeat;
+	background-size: 20px 20px;
+	cursor: pointer;
+	background-color:
+}
+
+.rating .rate_radio:checked+label {
+	background-image: url('../resources/images/product/star.png');
+}
+
+/* 구매평 */
+.review_span {
+	height: 250px;
+}
+
+#review_textarea {
+	height: 50%;
+}
+
+.accordion_title {
+	display: flex;
+	position: relative;
+}
+
+.plusminus::before {
+	content: '';
+	display: block;
+	width: 24px;
+	height: 3px;
+	background-color: #45A663;
+	position: absolute;
+	right: 0;
+	transform: rotate(90deg);
+	transition: .5s;
+	margin: 10px;
+}
+
+.plusminus::after {
+	content: '';
+	display: block;
+	width: 24px;
+	height: 3px;
+	background-color: #45A663;
+	position: absolute;
+	right: 0;
+	transform: rotate(0deg);
+	margin: 10px;
+}
+
+.plusminus.active::before {
+	transform: rotate(0deg);
+}
+
+.accordion_title:hover {
+	cursor: pointer;
+}
+
+.accordion_title {
+	margin: 10px;
+}
+
+.accordion_title:active .shortContent {
+	style: none;
+}
+
+.accordion_content {
+	display: block;
+	margin: 0;
+	height: 0;
+	overflow: hidden;
+	transition: .5s;
+}
+
+.accordion_content.show {
+	margin: 10px;
+}
+
+.accordion_wrap {
+	border-color: #E2E2E2;
+	list-style: none;
+	border-width: 1px 0 0 0;
+	border-style: solid;
+	padding: 0px;
+}
+
+.accordion_inner {
+	border-color: #E2E2E2;
+	list-style: none;
+	border-width: 0 0 1px 0;
+	border-style: solid;
+	margin: 10px 0 0 0;
+}
 </style>
 
-<section id="container" class="container">
+<section id="container" style="margin:0 5% 0 5%;">
     <h5><small><a href="${path}">홈</a> > <a href="${path}/product/productAll">제품</a> > <a href="#">욕실</a></small></h5>
-    <div class="row">
+    <div class="row" >
     	<!-- 썸네일 -->
-        <div class="col-6">
+        <div class="col-6" >
             <!-- <div class="goods_thumbs" id="main_image"> -->
                 <img alt="" class="img-fluid" id="main_image" style="padding-bottom:7px;" src="${path }/resources/upload/product/천연목욕수세미1.jpg"/>
             <!-- </div> -->
@@ -304,7 +436,7 @@
             </div>
         </div>
         <!-- 제품 info -->
-        <div class="col-6 info-container">
+        <div class="col-6 info-container" style="display:flex;flex-wrap:wrap;">
         	<div class="inner_goods_form container">
         		<div class="head" style="margin-top:0px;">
         			<div class="information size-up" style="padding-top:10px;">제품명&nbsp;&nbsp;<img src="${path}/resources/images/product/sale.jpg" width="50px"></div>
@@ -354,15 +486,15 @@
                     <div class="information" style="padding-bottom:10px;">
                     	<div id="info_count" style="border-radius:4px;">
                     		<div class="information" style="margin:10px;">옵션선택확인</div>
-                    		<div class="inforamtion row">
-                    			<div class="col" style="margin-left:10px;">
+                    		<div class="inforamtion">
+                    			<div style="float:left;margin:0 0 0 10px;">
                     				<input type="button" class="input_count" value="-" id="minus" onclick="minus();">
                     				<input type="text" class="input_count2" value="1" id="count" style="width:40px; text-align:center;">
                     				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
                     			</div>
-                    			<div class="col-3">
+                    			<div style="float:right;margin:0 10px 0 0;">
                     				<input type="text" value="4000" id="total_count" hidden="hidden"/>
-                    				<input type="text" value="4000" id="total_count_view" style="width:60px;text-align:right; border:none;" readonly/>원
+                    				<input type="text" value="4000" id="total_count_view" style="width:60px;right:0; border:none;" readonly/>원
                     			</div>
                     		</div>
                     	</div>
@@ -388,7 +520,7 @@
 		<div class="tab_wrap container">
 		    <div class="tab_menu_container container">
 			    <button class="tab_menu_btn on" type="button">상품상세</button>
-			    <button class="tab_menu_btn" type="button">구매평(숫자)</button>
+			    <button class="tab_menu_btn" type="button">구매평(<c:out value="${reviewCount }"/>)</button>
 			    <button class="tab_menu_btn" type="button">상품문의(<c:out value="${count }"/>)</button>
 		    </div> <!-- tab_menu_container e -->
 		    <div class="tab_box_container">
@@ -435,30 +567,191 @@
 		    	<!-- 구매평 시작 -->
 		    	<div class="tab_box">
 			        <!--구매평 작성창-->
-			        <form name="" action="" onsubmit="return fn_check()">
+			        <form name="frm_review" action="${path}/review/insertReview" method="post" enctype="multipart/form-data" onsubmit="return fn_reviewCheck()" >
 				        <div class="writebox_wrap container" style="float:none; margin:10px 0 10px 0;">
 				            <button type="button" class="btn btn-success showBox">구매평 작성</button>
 					        <div class="wrap-category" style="display:none;">
-						        <span class="span_textarea">
-							        <textarea name="" id="" placeholder="구매평을 입력해주세요" onKeyUp="javascript:fnChkByte(this,'500')"></textarea>
+						        <span class="span_textarea review_span">
+							        <textarea name="revContent" id="review_textarea" placeholder="구매평을 입력해주세요" onKeyUp="javascript:fnChkByte2(this,'500')"></textarea>
+							        <div class="imgPreview" style="height:30%;"></div>
+							        <div class="wrap_bottom">
+							        <div style="float:left;left:0;bottom:0;">
+							        	<!-- 업로드 사진 -->
+							       		<img class="uploadImage" src="${path}/resources/images/product/gallery.png" style="width:25px;height:25px;">&nbsp;
+							       		<input type="file" id="upload" name="upload" accept="image/gif, image/jpeg, image/png" style="display:none;">
+							       		<!-- 별점 -->
+								        <div class="rating" style="display:inline-block;">
+											<!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
+											<input type="checkbox" id="rating1" name="rating" class="rate_radio" value="1">
+											<label for="rating1"></label>
+											<input type="checkbox" id="rating2" name="rating" class="rate_radio" value="2">
+											<label for="rating2"></label>
+											<input type="checkbox" id="rating3" name="rating" class="rate_radio" value="3">
+											<label for="rating3"></label>
+											<input type="checkbox" id="rating4" name="rating" class="rate_radio" value="4">
+											<label for="rating4"></label>
+											<input type="checkbox" id="rating5" name="rating" class="rate_radio" value="5">
+											<label for="rating5"></label>
+										</div>
+									</div>
 									<div style="float:right;">
-										<span id="byteInfo">0</span>/500bytes
+									<span class="byteInfo">0</span>/500bytes
 										<!-- 로그인 한 사람 및 구매한 사람만 구매평 등록가능-->
 								        <c:if test="${loginMember!=null }">
 								        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
-								        	<input type="submit" class="btn btn-success" value="등록" style="right:0;">
+								        	<input type="hidden" name="revScore">
+								        	<input type="submit" class="btn btn-success textCheck" value="등록" style="right:0;">
 								        </c:if>
 								        <c:if test="${loginMember==null }">
 								        	<input type="button" class="btn btn-success loginCheck" value="등록" style="right:0;">
 								        </c:if>
+						        	</div>
 						        	</div>
 						        </span>
 					        </div>
 				        </div>
 			        </form><!-- 구매평 작성창 끝 -->
 			        
-			        
+			        <!-- 구매평 게시글 -->
+			        <div id="reviewResult">
+			        	<div class="container">
+				        	 <c:if test="${not empty reviewlist }">	
+				        		 <ul class="accordion_wrap">
+					        		 <c:forEach items="${reviewlist}" var="r">
+									    <li class="accordion_inner">
+									    <!-- 타이틀 -->
+									      <div class="accordion_title">
+									      	<div class="col-9" >
+										      	별점:<c:out value="${r.revScore}"/><br>
+										      	<img src="${path }/resources/upload/profile/${r.memPro}" style="max-width:30px; height:30px;border-radius:50%;">&nbsp;
+											      <strong><c:out value="${r.memNick}"/></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate type="both" timeStyle="short" value="${r.revDate }"/><br>
+											     <c:out value="${r.revContent}" />
+									      	</div>
+									      	<div class="col-2"><c:if test="${r.revImage!=null }"><img src="${path}/resources/upload/review/${r.revImage }" style="height: auto;"/></c:if></div>
+									      	<div class="col-1 plusminus"></div>
+									      </div>
+									      <!-- 상세보기 -->
+									      <div class="accordion_content">
+									      	<div>
+										        <!-- 작성자와 로그인한 사람이 같을경우 수정, 삭제 버튼 생성 -->
+										        <c:if test="${loginMember.memNo==r.memNo }">
+										        	<div style="display:inline-block;float:right;">
+										        		<input type="hidden" name="revNo" value="${r.revNo}">
+											        	<input type="button" class="btn btn-outline-success btn-sm updateView" data-toggle="modal" data-target="#updateReview" value="수정">
+						        						<input type="button" class="btn btn-outline-success btn-sm deleteReviewCk" data-confirm="구매평을 삭제하시겠습니까?" value="삭제">
+										        	</div>
+										        </c:if>
+										        <br><br>
+										        <c:if test="${r.revImage!=null }"><img src="${path}/resources/upload/review/${r.revImage }" style="max-width:40%; height: auto;"/></c:if>
+									      	</div>
+									      </div>
+									    </li>
+									    
+									    <span style="display:none"><c:out value="${r.revNo}"/></span>
+									    <span style="display:none"><c:out value="${r.memNick}"/></span>
+									    <span style="display:none"><c:out value="${r.revScore}"/></span>
+									    <span style="display:none"><c:out value="${r.revContent}"/></span>
+									    <span style="display:none"><c:out value="${r.revImage}"/></span>
+									    <span style="display:none"><fmt:formatDate type="both" timeStyle="short" value="${r.revDate }"/></span>
+									    
+									</c:forEach>    
+								</ul>
+							</c:if>
+							<c:if test="${empty reviewlist }">
+						    	등록된 구매평이 없습니다
+						    </c:if>		    
+			        	</div>
+			        </div>
 		    	</div><!-- 구매평 끝 -->
+		    	
+		    	<!-- 구매평 수정 모달창 -->
+		   <div class="modal fade" id="updateReview">
+		    <div class="modal-dialog modal-dialog-centered">
+		      <div class="modal-content">
+		      
+		        <!-- Modal Header -->
+		        <div class="modal-header">
+		          <h4 class="modal-title">구매평 수정하기</h4>
+		          <button type="button" class="close" data-dismiss="modal">X</button>
+		        </div>
+		        
+		        <!-- Modal body -->
+			        <div class="modal-body container">
+				        	<!-- 상품문의 내용 -->
+				        	별점:<span class="revScore"></span>
+				        	<strong><span class="memNick"></span></strong>&nbsp;&nbsp;<span class="revDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+				        	<input type="hidden" name="revNo" class="revNo"/>
+							<div id="secret" style="display:inline-block;">
+					        	<input type="button" class="btn btn-outline-success btn-sm" value="수정완료">
+				        	</div>
+				        	<span class="span_textarea" style="margin: 10px 0 0 0;">
+							    <textarea class="revContent" name="revContent" style="height:50%;"></textarea>
+							    	<div class="imgPreview" style="height:30%;"><img src="${path}"/></div>
+							        <div class="wrap_bottom">
+							        <div style="float:left;left:0;bottom:0;">
+							        	<!-- 업로드 사진 -->
+							       		<img class="uploadImage" src="${path}/resources/images/product/gallery.png" style="width:25px;height:25px;">&nbsp;
+							       		<input type="file" id="upload" name="upload" accept="image/gif, image/jpeg, image/png" style="display:none;">
+							       		<!-- 별점 -->
+								        <div class="rating" style="display:inline-block;">
+											<!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
+											<input type="checkbox" id="revrating1" name="rating" class="rate_radio" value="1">
+											<label for="revrating1"></label>
+											<input type="checkbox" id="revrating2" name="rating" class="rate_radio" value="2">
+											<label for="revrating2"></label>
+											<input type="checkbox" id="revrating3" name="rating" class="rate_radio" value="3">
+											<label for="revrating3"></label>
+											<input type="checkbox" id="revrating4" name="rating" class="rate_radio" value="4">
+											<label for="revrating4"></label>
+											<input type="checkbox" id="revrating5" name="rating" class="rate_radio" value="5">
+											<label for="revrating5"></label>
+										</div>
+									</div>
+									<div style="float:right;">
+									<span class="byteInfo">0</span>/500bytes
+						        	</div>
+						        	</div>
+							    
+							    
+						    </span>
+				        </div>
+		        
+		      </div>
+		    </div>
+		  </div><!-- 구매평 모달창 끝 -->
+		  
+		  <script>
+		  //구매평 수정창 클릭시 모달창 띄움
+		  $(".updateView").click(function(){
+			 let wrap = $(this).parents(".accordion_wrap");
+			 let choice = wrap.children();
+			 
+			 let revNo = choice.eq(1).text();
+			 let memNick = choice.eq(2).text();
+			 let revScore = choice.eq(3).text();
+			 let revContent = choice.eq(4).text();
+			 let revImage = choice.eq(5).text();
+			 let revDate = choice.eq(6).text();
+			 
+			 $(".revNo").val(revNo);
+			 $(".memNick").text(memNick);
+			 $(".revScore").text(revScore);
+			 $(".revContent").text(revContent);
+			 $(".imgPreview").attr("img", function(index,attr){
+				 return attr.replace();
+			 });
+			 $(".revDate").text(revDate);
+		  });
+		  
+			$(this).attr("value",function(index,attr){
+				if(attr.match("수정")){
+					console.log("수정완료");
+					return attr.replace("수정","수정완료");
+				}
+			});
+		  
+		  </script>
+		    	
 		    	
 		    	<!-- 상품문의 시작 -->
 				<div class="tab_box">
@@ -470,7 +763,7 @@
 						        <span class="span_textarea">
 							        <textarea name="inqContent" id="inqContent" placeholder="문의내용을 입력해주세요" onKeyUp="javascript:fnChkByte(this,'500')"></textarea>
 									<div style="float:right;">
-										<span id="byteInfo">0</span>/500bytes
+										<span class="byteInfo">0</span>/500bytes
 								        <label>
 						 		        	<img id="lockUnlock" src="${path}/resources/images/product/unlock.png" name="inqSecret" style="width:25px;height:25px;">
 								        	<input type="hidden" id="secret" name="inqSecret" value="N">
@@ -505,12 +798,7 @@
 						        	<thead>
 						        		<tr>
 						        			<td>
-						        				<c:if test="${i.inqAnswerYn=='N'}">
-						        					답변대기
-						        				</c:if>
-						        				<c:if test="${i.inqAnswerYn=='Y'}">
-						        					답변완료
-						        				</c:if>
+						        				<c:out value="${i.inqAnswerYn=='Y'?'답변완료':'답변대기'}"/>
 						        			</td>					        		
 						        			<td style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
 						        				<c:if test="${i.inqSecret=='N'}">
@@ -569,7 +857,7 @@
 				          <button type="button" class="close" data-dismiss="modal">X</button>
 				        </div>
 				        
-				        <!-- Modal body -->
+				        <!-- Modal body --> 
 				        <div class="modal-body container">
 				        	<!-- 상품문의 내용 -->
 				        	<strong><span id="memNick"></span></strong>&nbsp;&nbsp;<span id="inqDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -680,6 +968,10 @@
 	//썸네일 바꾸기 스크립트
 	$(function() {
 		$(".small_image a").click(function() {
+			$("#main_image").attr("src", $(this).attr("href"));
+			return false;
+		});
+		$(".small_image a").hover(function() {
 			$("#main_image").attr("src", $(this).attr("href"));
 			return false;
 		});
@@ -829,9 +1121,10 @@
         obj.value = str2;
         fnChkByte(obj, maxByte);
       }else{
-        document.getElementById("byteInfo").innerText = rbyte;
+        document.getElementsByClassName("byteInfo").innerText = rbyte;
       }
-    }			        	
+    }	
+    
 
 	//구매하기,장바구니,찜하기,상품문의 클릭 시 로그인 체크
 	$(function() {
@@ -1006,7 +1299,91 @@
 		});
 	});
 	
+	//별점 마킹 모듈 프로토타입으로 생성
+	function Rating(){};
+	Rating.prototype.rate = 0;
+	Rating.prototype.setRate = function(newrate){
+		//별점 마킹 - 클릭한 별 이하 모든 별 체크 처리
+		this.rate = newrate;
+		let items = document.querySelectorAll('.rate_radio');
+		items.forEach(function(item, idx){
+			if(idx < newrate){
+				item.checked = true;
+			}else{
+				item.checked = false;
+			}
+		});
+	}
+	let rating = new Rating();//별점 인스턴스 생성
+
+	//별점선택
+	$(document).ready(function(){
+		$("input[name=rating]").click(function(){
+			if($(this).find("rate_radio")){
+				rating.setRate(parseInt($(this).val()));
+				//별점 점수
+				console.log(rating.rate);
+				$("input[type=hidden][name=revScore]").val(rating.rate);
+			}
+		});
+	});
+
+	//별점선택 안 했을 시 알림, 리뷰 5자 미만 시 알림
+	function fn_reviewCheck(){
+		if($("#review_textarea").val().length<5){
+			swal("상품평을 5글자 이상 입력해주세요");
+			return false;
+		}
+		if(rating.rate==0){
+			swal("별점을 선택해주세요")
+			return false;
+		}
+		
+	}
 	
+	//사진 클릭 시 업로드 새창뜨기
+	$(".uploadImage").click(function(){
+		$("#upload").click();
+	});
+		
+	$("#upload").change(e => {
+   		let reader = new FileReader();
+   		reader.onload = e =>{
+   			let img = $("<img>").attr({"src":e.target.result,"style":"width:70px;height:auto"});
+   			
+   			$(".imgPreview").html("");
+   			$(".imgPreview").append(img);
+   		}
+   		reader.readAsDataURL($(e.target)[0].files[0]);
+	});	
+	
+	//구매평 아코디언
+	window.onload = init();
+    function init() {
+        const accordion_items = document.querySelectorAll(".accordion_title");
+        for (var i = 0; i < accordion_items.length; i++) {
+          accordion_items[i].addEventListener("click", function () {
+            this.nextElementSibling.classList.toggle("show");
+            this.classList.toggle("active");
+            if (this.classList.contains("active")) {
+              this.nextElementSibling.style.height =
+                this.nextElementSibling.children[0].clientHeight + 40 + "px";
+            } else {
+              this.nextElementSibling.style.height = 0;
+            }
+          });
+        }
+      }
+    
+    //구매평 삭제, 구매평 지우려면 revNo가 필요할 것 같은데?
+	$(".deleteReviewCk").on("click",function(e){
+		e.preventDefault();
+		var choice = confirm($(this).attr('data-confirm'));
+		if(choice){
+			let revNo = $(event.target).parents().children('input[name=revNo]').val();
+			location.replace("${path}/review/deleteReview?revNo="+revNo);
+		}	
+	});	
 		
 </script>
     

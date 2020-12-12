@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.member.model.service.MemberService;
 import com.kh.bom.member.model.vo.Member;
+import com.kh.bom.point.model.vo.Point;
 
 @Controller
 @SessionAttributes("loginMember")
@@ -165,13 +166,16 @@ public class memberController {
 		mem.setMemNick(nick);
 		mem.setMemEmail(email);
 		mem.setMemPwd(password);
+		Point p=new Point();
+		p.setPointContent("회원가입");
+		p.setPointChange(2000);
 		
 		//패스워드 암호화처리
 		String oriPw=mem.getMemPwd();
 		
 		mem.setMemPwd(pwEncoder.encode(oriPw));
 		
-		int result=service.insertMember(mem);
+		int result=service.insertMember(mem,p);
 		m.addAttribute("msg",result>0?"다시:봄 회원이 되셨습니다.":"회원가입 실패!!!!!!");
 		m.addAttribute("loc","/");
 		

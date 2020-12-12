@@ -174,6 +174,8 @@ div#menuNav {
 
 /* 햄버거메뉴css 끝 */
 
+/*스크롤*/
+html {overflow:auto;} 
 /* header만큼 top 주기 */
 section#container {
 	padding-top: 250px;

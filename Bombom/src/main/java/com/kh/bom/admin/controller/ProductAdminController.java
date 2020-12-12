@@ -21,7 +21,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.admin.model.vo.Event;
-import com.kh.bom.product.model.service.ProductService;
+import com.kh.bom.common.page.PageBarFactory;
+import com.kh.bom.common.page.AdminProAjaxPageBarFactory;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.product.model.vo.ProductThumb;
@@ -34,15 +35,18 @@ public class ProductAdminController {
 	
 	@Autowired
 	private AdminService service;
-	@Autowired
-	private ProductService proService;
 
 	//by수경-제품 관리페이지 전환
 	@RequestMapping("/admin/moveProduct")
-	public ModelAndView moveProductListPage(ModelAndView m) {
-		List<Product> list=service.selectProductList();
-		int count=proService.productAllCount();
-		m.addObject("list",list);
+	public ModelAndView moveProductListPage(ModelAndView m,
+			@RequestParam(value = "sort",defaultValue="전체") String sort,
+			@RequestParam(value="cPage", defaultValue="1") int cPage, 
+			@RequestParam(value="numPerpage", defaultValue="10") int numPerpage) {
+
+		int count=service.countProduct(sort);
+		m.addObject("list",service.selectProductList(cPage,numPerpage,sort));
+		m.addObject("cPage",cPage);
+		m.addObject("pageBar",PageBarFactory.getPageBar(count, cPage, numPerpage, "moveProduct"));
 		m.addObject("count",count);
 		m.setViewName("admin/product/productList");
 		return m;
@@ -67,6 +71,22 @@ public class ProductAdminController {
 		 m.addObject("icon", icon);
 		 m.setViewName("common/msg");
 		 return m; 
+	}
+	//제품 목록 페이지에서 ajax
+	@RequestMapping("/admin/productListAjax")
+	public ModelAndView productListAjax(ModelAndView m,
+			@RequestParam(value = "sort",defaultValue="전체") String sort,
+			@RequestParam(value="cPage", defaultValue="1") int cPage, 
+			@RequestParam(value="numPerpage", defaultValue="10") int numPerpage) {
+	
+		int count=service.countProduct(sort);
+		m.addObject("list",service.selectProductList(cPage,numPerpage,sort));
+		m.addObject("pageBar",AdminProAjaxPageBarFactory.getAjaxPageBar(count, cPage, numPerpage, "productListAjax",sort));
+		m.addObject("cPage",cPage);
+		m.addObject("sort",sort);
+		m.addObject("count",count);
+		m.setViewName("admin/product/productListAjax");
+		return m;
 	}
 	
 	//by수경-제품 등록 페이지 전환

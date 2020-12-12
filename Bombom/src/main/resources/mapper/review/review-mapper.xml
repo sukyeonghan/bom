@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="review">
+	<resultMap type="review" id="reviewMap">
+		<result property="revNo" column="rev_no"/>
+		<result property="pdtNo" column="pdt_no"/>
+		<result property="memNo" column="mem_no"/>
+		<result property="orderNo" column="order_no"/>
+		<result property="revScore" column="rev_score"/>
+		<result property="revContent" column="rev_content"/>
+		<result property="revImage" column="rev_image"/>
+		<result property="revDate" column="rev_date" typeHandler="customStr"/>
+	</resultMap>
+	
+	<insert id="insertReview" parameterType="review">
+		INSERT INTO REVIEW VALUES('R'||SEQ_REV_NO.NEXTVAL,'P16',#{memNo},NULL,
+		#{revScore},#{revContent},
+		<if test="revImage!=null">#{revImage},</if>
+		<if test="revImage==null">null,</if>
+		DEFAULT)
+	</insert>
+	
+	<select id="reviewList" resultMap="reviewMap">
+		SELECT R.*, M.MEM_NICK AS MEMNICK, M.MEM_PRO AS MEMPRO
+		FROM REVIEW R
+		JOIN MEMBER M ON M.MEM_NO=R.MEM_NO 
+		ORDER BY REV_DATE DESC
+	</select>
+	
+	<select id="reviewCount" resultType="_int">
+		SELECT COUNT(*) FROM REVIEW
+	</select>
+
+	<delete id="deleteReview" parameterType="string">
+		DELETE FROM REVIEW WHERE REV_NO=#{revNo}
+	</delete>
+	<!--나의활동  -->
+	<select id="selectReviewList" parameterType="string" resultMap="reviewMap">
+      SELECT * FROM REVIEW WHERE MEM_NO=#{memNo} ORDER BY REV_DATE DESC
+    </select>
+
+    <select id="selectReviewCount" resultType="_int">
+      SELECT COUNT(*) FROM REVIEW WHERE MEM_NO=#{memNo}
+    </select>
+</mapper>

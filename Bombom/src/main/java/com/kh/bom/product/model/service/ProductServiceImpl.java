@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.product.model.dao.ProductDao;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.review.model.vo.Review;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -30,41 +31,48 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return dao.inquiryCount(session);
 	}
-
+	
 	@Override
-	public int productAllCount() {
-		// TODO Auto-generated method stub
-		return dao.productAllCount(session);
+	public List<Review> reviewList(int cPage, int numPerpage) {
+		return dao.reviewList(session, cPage, numPerpage);
 	}
 	
 	@Override
-	public int productCateCount(String category) {
+	public int reviewCount() {
+		return dao.reviewCount(session);
+	}
+
+	//제품 개수
+	@Override
+	public int productCount(String category) {
 		// TODO Auto-generated method stub
-		return dao.productCateCount(session,category);
+		return dao.productCount(session,category);
+	}
+	//세일 제품 개수
+	@Override
+	public int countSale() {
+		// TODO Auto-generated method stub
+		return dao.countSale(session);
 	}
 	//전체 제품 출력
 	@Override
-	public List<Product> selectProductList() {
+	public List<Product> selectProductList(int cPage,int numPerPage,String sort,String category) {
 		// TODO Auto-generated method stub
-		return dao.selectProductList(session);
+		return dao.selectProductList(session,cPage,numPerPage,sort,category);
 	}
-	//카테고리별 제품 출력
-	@Override
-	public List<Product> cateProductList(String category) {
-		// TODO Auto-generated method stub
-		return dao.cateProductList(session,category);
-	}
-	//최신 등록 제품 리스트
-	@Override
-	public List<Product> selectNewList() {
-		// TODO Auto-generated method stub
-		return dao.selectNewList(session);
-	}
-	//카테고리별 신상품 리스트
+	//신상품 리스트
 	@Override
 	public List<Product> selectNewCateList(String category) {
 		// TODO Auto-generated method stub
 		return dao.selectNewCateList(session,category);
 	}
+
+	//세일 제품 리스트
+	@Override
+	public List<Product> selectSaleList(int cPage, int numPerPage, String sort, String category) {
+		// TODO Auto-generated method stub
+		return dao.selectSaleList(session,cPage,numPerPage,sort,category);
+	}
 	
+
 }

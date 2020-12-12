@@ -1,16 +1,23 @@
 @charset "UTF-8";
 
 	/*내비바*/
-	.product-nav{padding-right:100px;font-size: 18px;line-height: 1.8;}
+	.product-nav{padding-right:80px;font-size: 18px;line-height: 1.8;width:250px;}
 	.product-nav ul{list-style:none;}
 	.product-nav ul a{text-decoration: none;font-weight:bolder;}
 	.product-nav a:hover{color: #45A663;}
 	.select{color:#45A663;}
 	.non-select{color:black;}
 	
-	/*최소 ,최대 컨텐츠 크기,여백*/
-   .media{min-width: 768px;max-width:1300px; margin: 0 80px;} 
-	
+	/*큰 div들 설정. 반응형 덜어낸 방식*/
+	.flexDiv{
+		display:flex;
+		padding:0 5%;
+	}
+	.product-container{
+		min-width:300px;
+		width:100%;
+		margin-right:50px;
+	}
 	/*카테고리 및 필터*/
 	.category-sort{
 		display:flex;
@@ -34,6 +41,12 @@
 		border:none;
 		outline:none;
 		
+	}
+	/*상품 목록 감싼 div*/
+	.all-item-wrap{
+		display: flex;
+		min-width: 80%;
+		flex-wrap: wrap;
 	}
 	
 	/*각 상품*/
@@ -98,15 +111,10 @@
         padding: 1px 5px;
     }
     /*페이지바*/
-    .pagebar{
-    	margin-top:100px;
-    	color:black;
+     .pagebar{
+    	margin:5% auto;
     }
-    
-    .pagebar a:hover{
-    	text-decoration:none;
-    	color:black;
-    }
+ 
     /*제품 없을 때 뜨는 사진*/
     .noItem{
     	margin-left:30%;
