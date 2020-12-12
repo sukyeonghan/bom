@@ -300,7 +300,7 @@
 		#{bannerSubtitle},
 		#{bannerThumb})
 	</insert>
-	<select id="selectProductBanner">
+	<select id="selectProductBanner" resultMap="productMap">
 		SELECT * FROM PRODUCT
 	</select>
 	<!-- 메인배너관리 끝 -->

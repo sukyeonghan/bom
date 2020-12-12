@@ -48,10 +48,11 @@ public class BannerController {
 
 	@RequestMapping("/admin/insertBanner")
 	public ModelAndView insertBanner(MainBanner mb, ModelAndView mv,
-			@RequestParam(value = "bannerThumb", required = false) MultipartFile[] bannerThumb, HttpSession session) {
+			@RequestParam(value = "upload", required = false) MultipartFile[] upFile, HttpSession session)
+			throws Exception {
 
-		log.debug("파일명 : {}", bannerThumb[0].getOriginalFilename());
-		System.out.println("배너등록 : "+mb);
+		log.debug("파일명 : {}", upFile[0].getOriginalFilename());
+		System.out.println("배너등록 : " + mb);
 
 		// upload실제 경로 가져오기
 		String path = session.getServletContext().getRealPath("resources/images/main/banner");
@@ -59,10 +60,10 @@ public class BannerController {
 		File dir = new File(path);
 		if (!dir.exists())
 			dir.mkdirs();
-		
+
 		// 다중파일업로드하기 MultipartFile객체의 transferTo()메소드이용 파일을 저장
 		// file명을 재정의 하는것
-		for (MultipartFile f : bannerThumb) {
+		for (MultipartFile f : upFile) {
 			if (!f.isEmpty()) {
 				String oriName = f.getOriginalFilename();
 				try {
@@ -70,7 +71,7 @@ public class BannerController {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
+
 				mb.setBannerThumb(oriName);
 			}
 		}
@@ -94,11 +95,11 @@ public class BannerController {
 		String icon;
 		if (result > 0) {
 			msg = "등록에 성공했어요:)";
-			loc = "admin/main/banner";
+			loc = "/admin/moveMainBanners";
 			icon = "success";// icon 종류 : success,error,warning
 		} else {
 			msg = "등록에 실패했어요:(";
-			loc = "admin/main/banner";
+			loc = "/admin/moveMainBanners";
 			icon = "error";
 		}
 		mv.addObject("msg", msg);

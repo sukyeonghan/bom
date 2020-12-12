@@ -49,7 +49,7 @@
 			<h3 class="page-title">메인배너등록</h3>
 			<hr>
 			<div id="bannerFrm">
-				<form action="${path }/admin/insertBanner" method="post"
+				<form action="${path }/admin/insertBanner" method="post" name="insertBannerFrm"
 					enctype="multipart/form-data">
 					<div class="term">
 						<label for="pdtNo">연관상품선택</label> <select name="pdtNo" id="pdtNo"
@@ -74,8 +74,8 @@
 					</div>
 					<div class="term">
 						<label for="upFile">노출시킬 배너 이미지선택</label> <input type="file"
-							name="bannerThumb" id="upFile" class="form-control" required><label
-							class="custom-file-label" for="bannerThumb">파일을 선택하세요</label>
+							name="upload" id="upFile" class="form-control" required><label
+							class="custom-file-label" for="upFile">파일을 선택하세요</label>
 					</div>
 					<div style="text-align: center;" class="term">
 						<button id="insertBanner" type="submit"
