@@ -15,11 +15,11 @@
 	.right{text-align: right;}/*오른쪽 정렬*/
 	
 	/*찜폴더리스트*/
-	#zzimListDiv{display: flex; width:100%; box-sizing:border-box; flex-wrap: wrap;/*  flex-direction: row; */}
+	#zzimListDiv{display: flex; width:100%; box-sizing:border-box; flex-wrap: wrap;}
 	#zzimListDiv>*{box-sizing:border-box; cursor: pointer;}
 	#zzimListDiv>div:hover{ background-color: #C0C0C0;}
 	/*찜폴더*/
-	.zzimFolder{ position: relative; width:28%; background-color: #DCDCDC; margin: 2% 0% 2% 5%; min-width: 200px;}
+	.zzimFolder{position: relative; width:28%; background-color: #DCDCDC; margin: 2% 0% 2% 3%; min-width: 200px;}
 	.addZzimFolder{border: 3px green dashed; background-color:#FFFFFF;}
 	/*폴더배경*/
 	.zzimImgDiv{
@@ -49,15 +49,17 @@
 	/*각 폴더 이름 효과*/
 	a:hover{color:#ffffff;}
 	/*지울 폴더 선택*/
-	.delZzimCkbox{position: absolute;right:5%;top:5%; font-size: 20px; height:10%; width:10%;z-index: 90; display:none;}
+	.delZzimCkbox{position: absolute;right:5%;top:5%; font-size: 20px; height:10%; width:10%;z-index: 90;  display:none;}
 	/*체크박스 선택시 가리기 효과*/
 	.checkFilter{position:absolute; width:100%;height:100%; z-index: 80; background-color: #ffffff; opacity:0.5; display:none; z-index: 30; }
 	/*편집버튼*/
 	#delBoxOpen{font-weight:bolder;color: #45A663;cursor: pointer; }
 	/*편집시 나올 메뉴들*/
 	#delBox{display:none;}
-	#delBox>*{margin-left: 20px;cursor:pointer; font-weight:bolder; color:#45A663;}
+	#delBox>*{margin-left: 20px;cursor:pointer; font-weight:bolder; color:#7E7E7E;}
 	#cancel{color:black;}
+	#addFilter{position:absolute; width:100%;height:100%; z-index: 1000; background-color: #6c757d; opacity:0.5; display:none; }
+	#openModal{position:absolute; width:100%;height:100%;}
 </style>
 <section id="container">
 	<div id="flexDiv">
@@ -66,7 +68,7 @@
 		<!-- 우측 메뉴내용 -->
 		<div id="mypage-container"  >
 			<div style="display:flex; justify-content: space-between; margin:20px;">
-				<h3>찜목록</h3> 
+				<div style="display:flex"><h3>찜목록</h3>&nbsp;&nbsp; <span id="ckCount"></span> </div>
 				<!-- 편집메뉴모음 -->
 				<div id="delBoxOpen" class="right"><span><i class="far fa-trash-alt"></i> 폴더삭제</span></div>
 					<div id="delBox" class="right">
@@ -81,11 +83,14 @@
 			<!-- 전체 폴더 리스트 -->
 			<div id="zzimListDiv">
 				<!-- 폴더추가상자 -->
-				<div class="zzimFolder addZzimFolder" data-toggle="modal" data-target="#zzimFolderModal">
+				<div class="zzimFolder addZzimFolder" >
+					<div id="openModal" data-toggle="modal" data-target="#zzimFolderModal" >
 					<div class="zzimInfo">
 						<p>폴더추가</p>
 						<div class="add"><p>+</p></div>
+					 </div>
 					 </div>			
+					<div id="addFilter"></div>
 				</div>
 				
 				<c:forEach items="${zzimList}" var="zzim">
@@ -140,6 +145,7 @@
 	</div>
 </section>
 <script>
+	
 	//비율대로 줄어드는 폭에 높이 맞추기. 정사각형
 	var height=$(".zzimFolder").width();
 	$(".zzimFolder").css("height",height);
@@ -175,7 +181,7 @@
 			dataType:"html",
 			success:data=>{
 				//새로운 찜폴더,폴더 추가 칸 다음 추가
-				$(".addZzimFolder").after(data); //
+				$(".addZzimFolder").after(data); 
 				$("#zzimFolderModal").modal("hide");//모달닫기
 				$("input[name=zzimName]").val("");//모달에 인풋 창 비우기
 			},error:function(error){
@@ -185,7 +191,27 @@
 		});
 		
 	}
-	
+	//체크박스 체크수에 따라 전체선택,해제 표시 / 선택갯수 표시, 삭제텍스트 css주기 함수
+	function cssAndCount(){
+		let count=$("input:checkbox[name=delZzimNo]:checked").length;
+		let all=$("input:checkbox[name=delZzimNo]").length;
+		if(count>0){
+			$("#remove").css("color","red");
+			$("#ckCount").show();
+			$("#ckCount").html("(선택 갯수: "+count+"개)");
+
+		}else{
+			$("#remove").css("color","#7E7E7E");
+			$("#ckCount").hide();
+
+		}
+		if(all==count){
+			$("#allChoice").text("전체선택해제");
+		}else{
+			$("#allChoice").text("전체선택");
+			
+		}
+	}
 $(function(){
 	//모달창에 포커싱주기
 	$("#zzimFolderModal").on("shown.bs.modal", function () { $("input[name=zzimName]").focus(); });
@@ -197,8 +223,8 @@ $(function(){
 		$("#delBox").css("display","block");
 		//삭제용체크박스
 		$(".delZzimCkbox").css("display","block");
-		
-		$(".zzimImgDiv *,.zzimImgDiv").click(e=>{
+		$("#addFilter").css("display","block");
+		$(".zzimImgDiv *,.zzimImgDiv").on("click",e=>{
 			let del=$("#delBox").css("display");
 			if(del=="block"){
 				$(e.target).parents(".zzimFolder").find("a").attr("onclick","return false");
@@ -207,11 +233,13 @@ $(function(){
 			}else{
 				$(e.target).parents(".zzimFolder").find(".checkFilter").css("display","none");
 			}
+			cssAndCount();
    	   	});
 		//필터 클릭시 체크박스 체크해제, 필터박스 가리기
 		$(".checkFilter").click(e=>{
    	   		$(e.target).next().prop("checked",false);
    	   		$(e.target).css("display","none");
+   	   		cssAndCount();
    	   	}); 
 		
 		//편집 상태 취소시 편집시 뜨느 체크박스,필터, a태그 경로 살리기...
@@ -222,6 +250,8 @@ $(function(){
 			$(".delZzimCkbox").prop("checked",false);
 	   		$(".delZzimCkbox").css("display","none");
 			$("#delBoxOpen").css("display","block");
+			$("#ckCount").hide();
+			$("#addFilter").css("display","none");
 		});
 
 	});
@@ -232,7 +262,8 @@ $(function(){
 			$(e.target).prev().show();
 		}else{
 			$(e.target).prev().hide();
-		}  
+		} 
+		 
 	}); 
    	//전체선택.해제
    	$("#allChoice").click(e=>{
@@ -246,6 +277,7 @@ $(function(){
    	   		$(".checkFilter").css("display","none");
    	   		$("#allChoice").text("전체선택");
    		}
+   		cssAndCount();
    	});
 	
    	//선택한 폴더 삭제
@@ -275,6 +307,16 @@ $(function(){
 		});
 		
    	});
+   	
+	//체크박스 체인지 시 함수 실행
+	$('input[name=delZzimNo]').change(e=>{
+		cssAndCount();
+	});
+ 		
+   		
+		
+	   	 
+
 })
 
 </script>

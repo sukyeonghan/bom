@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class MainBanner {
 	private String bannerNo;
 	private String pdtNo;
+	private String pdtName;
 	private String bannerTitle;
 	private String bannerSubtitle;
 	private String bannerThumb;
