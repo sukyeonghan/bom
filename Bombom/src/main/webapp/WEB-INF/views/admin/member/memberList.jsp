@@ -12,7 +12,7 @@
 	#admin-container {
 		min-width: 800px;
 		width: 100%;
-		padding-right:100px;
+		padding-right:60px;
 	}
 	/*페이지 타이틀*/
 	.page-title{margin-bottom:5%;}
