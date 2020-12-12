@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.admin.model.vo.Event;
 import com.kh.bom.common.page.PageBarFactory;
+import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.common.page.AdminProAjaxPageBarFactory;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
@@ -177,7 +178,14 @@ public class ProductAdminController {
 	
 		return m;
 	}
-	
+	//제품명 중복검사
+	@RequestMapping("/admin/checkPdtName")
+	public int checkProductName(String pdtName) {
+		int p=service.selectPdtName(pdtName);
+		//닉네임이 있으면 false,없으면 true
+		return p;
+		
+	}
 	//by수경-제품 수정 및 삭제 페이지 전환
 	@RequestMapping("/admin/productUpdate")
 	public ModelAndView moveProductUpdatePage(String pdtNo,ModelAndView m) {

@@ -162,6 +162,13 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.checkOption",pdtNo);
 	}
+	//제품명 중복 검사
+	@Override
+	public int selectPdtName(SqlSession session, String pdtName) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectPdtName",pdtName);
+	}
+	
 	//1:1목록 가져오기
 	@Override
 	public List<Qna> selectQnaList(SqlSession session, int cPage, int numPerpage) {
