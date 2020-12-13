@@ -97,7 +97,7 @@ public class memberController {
 	
 	//회원정보수정
 	@RequestMapping("/member/updateMemberEnd")
-	public ModelAndView updateMember(Member m,
+	public ModelAndView updateMember(Member m,String pastPro,
 			@RequestParam(value="upload",required=false) MultipartFile[] upFile,
 			ModelAndView mv, HttpSession session) throws Exception {
 		String path=session.getServletContext().getRealPath("/resources/upload/profile");
@@ -119,6 +119,14 @@ public class memberController {
 					e.printStackTrace();
 				}
 				m.setMemPro(reName); //리네임한 파일이름 프로필로 넣기
+				
+				//이전에 등록한 프로필 파일 삭제
+				if((pastPro!=null) && (!pastPro.equals("basic.png"))) {
+					String deletePath=path+"/"+pastPro;
+					File del=new File(deletePath);
+					if(del.exists())del.delete();
+				}
+				
 			}
 		}
 		
@@ -142,6 +150,7 @@ public class memberController {
 		if(result>0) {
 			//변경된 정보 다시 loginMember에 넣기
 			mv.addObject("loginMeber",service.selectMemberOne(m.getMemNo()));
+
 			msg="회원정보가 수정되었습니다.";
 			icon="success";
 		}else {

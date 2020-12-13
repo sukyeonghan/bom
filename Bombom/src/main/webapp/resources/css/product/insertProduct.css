@@ -73,17 +73,7 @@
    		margin:0;
    		text-align:left;
    	}
-   	/*사진 미리보기 div*/
-    .proDiv{
-    	border:1px solid black;
-    	width:150px;
-    	height:150px;
-    	position:relative;
-    	float:left;
-    	background:url(${path }/resources/images/product/plus2.png);
-    	background-size:100% 100%;
-    	background-position:center;
-    }
+
     /*썸네일 사진*/
     .proImg{
  		position:absolute;
