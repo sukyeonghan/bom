@@ -208,11 +208,10 @@ public class ProductAdminController {
 		return m;
 	}
 	//제품명 중복검사(수정페이지)
-	@ResponseBody
 	@RequestMapping("/admin/updateCheckPdtName")
 	public int updateCheckPdtName(
-			@RequestParam("pdtName") String pdtName,
-			@RequestParam("pdtNo") String pdtNo) {
+			@RequestParam(value="pdtName") String pdtName,
+			@RequestParam(value="pdtNo") String pdtNo) {
 		return service.selectPdtName(pdtName,pdtNo);
 		
 	}

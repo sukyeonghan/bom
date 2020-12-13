@@ -148,15 +148,15 @@ public class AdminServiceImpl implements AdminService {
 		// 트랜잭션 처리하기
 		int result = dao.insertProduct(session, p);
 		if (result > 0) {
-
-			for (int i = 0; i < options.size(); i++) {
-
-				o.setPdtNo(p.getPdtNo());
-				o.setPdtOptionContent((String) (options.get(i).get("pdtOptionContent")));
-				o.setPdtOptionAddprice(Integer.parseInt((String) (options.get(i).get("pdtOptionAddprice"))));
-				result = dao.insertOption(session, o);
+			if(options!=null) {
+				for (int i = 0; i < options.size(); i++) {
+	
+					o.setPdtNo(p.getPdtNo());
+					o.setPdtOptionContent((String) (options.get(i).get("pdtOptionContent")));
+					o.setPdtOptionAddprice(Integer.parseInt((String) (options.get(i).get("pdtOptionAddprice"))));
+					result = dao.insertOption(session, o);
+				}
 			}
-
 			if (result > 0) {
 				if (list != null) {
 					for (ProductThumb th : list) {
@@ -197,7 +197,7 @@ public class AdminServiceImpl implements AdminService {
 		// 제품 업데이트 하면 옵션 업데이트
 		if (result > 0) {
 			System.out.println(options);
-			if (options.size() != 0) {
+			if (options!=null && options.size() != 0) {
 				Product check = dao.checkOption(session, p.getPdtNo());
 				if (check.getPdtOptionNo() != null) {
 					// 이전에 있던 옵션 지우기
