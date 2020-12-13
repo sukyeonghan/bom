@@ -201,6 +201,13 @@ public class AdminServiceImpl implements AdminService {
 		return result;
 	}
 
+	//제품명 중복 확인
+	@Override
+	public int selectPdtName(String pdtName) {
+		// TODO Auto-generated method stub
+		return dao.selectPdtName(session,pdtName);
+	}
+
 	// 회원관리
 	// 관리자권한 변경
 	@Override

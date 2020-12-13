@@ -205,6 +205,10 @@
 		LEFT JOIN PRODUCT_OPTION ON(PDT_NO=PDT_NO_REF)
 		WHERE PDT_NO=#{pdtNo}
 	</select>
+	<!-- 상품명 중복검사 -->
+	<select id="selectPdtName" resultType="int" parameterType="string">
+		SELECT COUNT(*) FROM PRODUCT WHERE PDT_NAME=#{pdtName}
+	</select>
 
 
 	<!-- 회원관리 -->

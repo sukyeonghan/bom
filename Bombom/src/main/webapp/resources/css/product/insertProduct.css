@@ -1,0 +1,125 @@
+@charset "UTF-8";
+/*반응형 없앤 css*/
+	#flexDiv {
+   		display: flex;
+   		padding: 0px 10%;
+   	}
+   	#admin-container {
+    	min-width: 800px;
+      	width: 100%;
+      	padding-right:60px;
+   	}
+	
+	/*페이지 타이틀*/
+	.page-title{margin-bottom:5%;}
+	
+	/*셀렉트 박스 정렬*/
+	.select-box{
+		display:flex;
+		justify-content:space-between;
+		
+	}
+	/*정렬*/
+	.sort,.text{
+		width:100%
+	} 
+
+	
+	/*제품 등록 테이블*/
+	#insert-table{
+		width:100%;
+		margin:20px 0;
+	
+	}
+	td,th{padding:1%;}
+	tr{padding:2%;}
+	
+	
+    /*제품 설명*/
+     #middle-div{
+    	/* margin-left:10px; */
+    	margin-bottom:20px;
+    }
+    .title{
+    	font-weight:bold;
+    }
+    #intro-text{
+    	resize:none;
+    }
+
+   /* 제품 썸네일,상세 이미지 등록*/
+    #bottom-div{
+    	margin-top: 40px;
+    }
+    
+    /*썸네일*/
+    /*썸네일 이미지 전체 div*/
+    #thumbContainer{
+    	overflow:hidden;
+    	text-align: center;
+    	width: 100%;
+    }
+    /*바깥 div*/
+    .thumbWrap{
+    	width:150px;
+    	height:170px;
+    	/* float:left; */
+    	margin:45px;
+    	/* position:relative; */
+    	display: inline-block
+   	}
+   	/*썸네일1,썸네일2.. 타이틀*/
+   	.sumTitle{
+   		margin:0;
+   		text-align:left;
+   	}
+   	/*사진 미리보기 div*/
+    .proDiv{
+    	border:1px solid black;
+    	width:150px;
+    	height:150px;
+    	position:relative;
+    	float:left;
+    	background:url(${path }/resources/images/product/plus2.png);
+    	background-size:100% 100%;
+    	background-position:center;
+    }
+    /*썸네일 사진*/
+    .proImg{
+ 		position:absolute;
+        max-width:100%; 
+        max-height:100%;
+        width:auto; 
+        height:auto;
+        margin:auto;
+        top:0; bottom:0; left:0; right:0;
+    }
+    /*이미지 삭제 버튼*/
+    .close{border:none;}
+ 
+    /*상세 이미지 등록 div*/
+    #detail-image{
+    	margin-top:20px;
+    	width:100%;
+    }
+    
+    /*옵션*/
+    .content,.addprice{
+    	width:80%;
+	}
+    .delBtn{
+    	margin-left:10px;
+    }
+    .delBtn2{
+    	margin-left:15px;
+    }
+    
+    /*등록하기,목록 버튼*/
+    #bottom-btns{
+    	text-align:center;
+    	margin-top:100px;
+    }
+    .insertPro,.goList{
+    	display:flex;
+    	margin:5px;
+    }
