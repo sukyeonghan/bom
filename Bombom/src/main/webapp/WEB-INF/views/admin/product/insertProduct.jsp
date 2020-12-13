@@ -9,7 +9,6 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="소개" />
 </jsp:include>
-<script src="${path}/resources/js/insertProduct.js"></script>
 
 <section id="container">
 	<div id="flexDiv">
@@ -180,5 +179,6 @@
 		</div>
 	</div>
 </section>
+<script src="${path}/resources/js/insertProduct.js"></script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 

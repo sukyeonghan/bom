@@ -207,7 +207,11 @@
 	</select>
 	<!-- 상품명 중복검사 -->
 	<select id="selectPdtName" resultType="int" parameterType="string">
-		SELECT COUNT(*) FROM PRODUCT WHERE PDT_NAME=#{pdtName}
+		SELECT COUNT(*) FROM PRODUCT WHERE PDT_NAME=#{pdtName} AND PDT_NO!=#{pdtNo}
+	</select>
+	<!-- 상품명 중복검사(수정페이지용) -->
+	<select id="checkPdtName" resultType="int" parameterType="map">
+		SELECT COUNT(*) FROM PRODUCT WHERE PDT_NAME=#{pdtName} AND PDT_NO!=#{pdtNo}
 	</select>
 
 

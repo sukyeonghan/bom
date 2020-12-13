@@ -7,6 +7,18 @@
 <link rel="stylesheet" href="${path }/resources/css/product/insertProduct.css">
 
 <style>
+
+  	/*사진 미리보기 div*/
+    .proDiv{
+    	border:1px solid black;
+    	width:150px;
+    	height:150px;
+    	position:relative;
+    	float:left;
+    	background:url(${path }/resources/images/product/plus2.png);
+    	background-size:100% 100%;
+    	background-position:center;
+    }
     label.form-control-file{
     	text-align:left;
     }
@@ -18,7 +30,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="소개" />
 </jsp:include>
-<script src="${path}/resources/js/insertProduct.js"></script>
+
 
 <section id="container">
 	<div id="flexDiv">
@@ -139,25 +151,13 @@
 			     				<p class="sumTitle">썸네일1(메인)</p>
 			     			</div>
 							<div class="proDiv" id="1"> 
-			<%-- 					<img class="proImg" src="${path }/resources/images/product/plus2.png"> --%>
-							<c:forEach var="th" items="${thumb }" begin="0" end="0">
-								<c:if test="${not empty th.pdtThumbImage  }">
-									<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
-								</c:if>
-							<%--	<c:choose>
-								
-									<c:when test="${not empty th.pdtThumbImage  }">
+								<c:forEach var="th" items="${thumb }" begin="0" end="0">
+									<c:if test="${not empty th.pdtThumbImage  }">
 										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
-									</c:when>
-							 		<c:otherwise>
-										<img class="proImg" src="${path }/resources/images/product/plus2.png">
-									</c:otherwise>
-								
-								</c:choose> --%>
-							</c:forEach>
+									</c:if>
+								</c:forEach>
 								<input type="file" class="proPic" name="thumbImgs" id="input1" accept="image/gif, image/jpeg, image/png" style="display:none;">
 								<input type="button" class="close" value="x">
-							
 				     		</div>
 			     		</div>
 			     				
@@ -167,22 +167,11 @@
 			     			</div>
 			     			<div class="proDiv" id="2">
 			     				
-			     			<c:forEach var="th" items="${thumb }" begin="1" end="1">
-			     				<c:if test="${not empty th.pdtThumbImage }">
-			     					<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
-			     				</c:if>
-			     				<%-- <c:choose>
-			     				
-									<c:when test="${not empty th.pdtThumbImage }">
-								
-										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
-									</c:when>
-									<c:otherwise>
-										<img class="proImg" src="${path }/resources/images/product/plus2.png">
-									</c:otherwise>
-									
-								</c:choose> --%>
-							</c:forEach>
+				     			<c:forEach var="th" items="${thumb }" begin="1" end="1">
+				     				<c:if test="${not empty th.pdtThumbImage }">
+				     					<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
+				     				</c:if>
+								</c:forEach>
 								
 								<input type="file" class="proPic" name="thumbImgs" id="input2" accept="image/gif, image/jpeg, image/png" style="display:none;">
 								<input type="button" class="close" value="x">
@@ -211,7 +200,7 @@
 			     			<div>
 			     				<p class="sumTitle">썸네일4</p>
 			     			</div>
-				     		<div class="proDiv" style="float:left" id="4"> 
+				     		<div class="proDiv" id="4"> 
 								
 								 <c:forEach var="th" items="${thumb }" begin="3" end="3">
 									<c:if test="${not empty th.pdtThumbImage }">
@@ -227,7 +216,7 @@
 			     			<div>
 			     				<p class="sumTitle">썸네일5</p>
 			     			</div>
-				     		<div class="proDiv" style="float:left" id="5"> 
+				     		<div class="proDiv" id="5"> 
 								
 								 <c:forEach var="th" items="${thumb }" begin="4" end="4">
 									<c:if test="${not empty th.pdtThumbImage }">
@@ -243,7 +232,7 @@
 			     			<div>
 			     				<p class="sumTitle">썸네일6</p>
 			     			</div>
-				     		<div class="proDiv" style="float:left" id="6"> 
+				     		<div class="proDiv" id="6"> 
 								
 								 <c:forEach var="th" items="${thumb }" begin="5" end="5">
 									<c:if test="${not empty th.pdtThumbImage }">
@@ -268,7 +257,7 @@
 				
 				
 				<div id="bottom-btns">
-					<input type="submit" class="btn btn-success insertPro" value="수정하기" onclick="updatePro()">
+					<input type="submit" class="btn btn-success insertPro" value="수정하기" onclick="return updatePro();">
 					<input type="button" class="btn btn-success insertPro" value="삭제하기" onclick="deletePro()">
 					<input type="button" class="btn btn-success goList" onclick="location.href='${path}/admin/moveProduct'" value="목록">
 				</div>
@@ -278,117 +267,33 @@
 		</div>
 	</div>
 </section>
+<%-- <script src="${path}/resources/js/insertProduct.js"></script> --%>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
-<!-- <script>
-	//제품명 유효성 검사
-	$("#name").focusout(function() {
-		
-		var name=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9%()-_, ]*$/;
-		if(!name.test($("#name").val())){
-	   		swal("제품명에 특수문자는 입력하실 수 없습니다.");
-	   		$("#name").val('');
-	   		return false;
-	   	} 
-	});
-	
-	//가격 유효성 검사
-	$("#price").focusout(function() {
-		
-		var price=/^[0-9]*$/;
-		if(!price.test($("#price").val())){
-	   		swal("제품가격에 숫자 외에는 입력하실 수 없습니다.");
-	   		$("#price").val('');
-	   		return false;
-	   	} 
-	});
-	//옵션내용 유효성 검사
-	$("input[name=pdtOptionContent]").focusout(function() {
-		
-		var name=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9%()-_,* ]*$/;
-		if(!name.test($("input[name=pdtOptionContent]").val())){
-	   		swal("옵션명에 특수문자는 입력하실 수 없습니다.");
-	   		$("#name").val('');
-	   		return false;
-	   	} 
-	});
-	//옵션가격 유효성 검사
-	$("input[name=pdtOptionAddprice]").focusout(function() {
-		
-		var price=/^[-0-9]*$/;
-		if(!price.test($("input[name=pdtOptionAddprice]").val())){
-	   		swal("옵션 가격에 숫자 외에는 입력하실 수 없습니다.");
-	   		$("#price").val('');
-	   		return false;
-	   	} 
-	});
-
-		
-	
-	
-	//간단한 설명 - 글자 수 제한
-	$(document).ready(function(){
-		$("#intro-text").on('keyup',function(){
-			if($(this).val().length>65){
-				$(this).val($(this).val().substring(0,65));
-				swal("65자를 초과하였습니다.");
-			}
-		});
-	});
-	//옵션 추가하기 
-	$("#add-option").click(function(){
-		
-		var addOption="";
-        addOption+='<tr class="trOption" name="trOption">';
-        addOption+='<th>&nbsp&nbsp옵션 내용</th>';
-        addOption+='<td><input type="text" name="pdtOptionContent"></td>';
-        addOption+='<th>추가 요금</th>';
-        addOption+='<td><input type="text" name="pdtOptionAddprice">';
-        addOption+='<button class="btn btn-success btn-sm delBtn2" name="delBtn">삭제</button></td>';
-        addOption+='</tr>';
-
-   		$("#insert-table").append(addOption);
-	});
-    
-	//옵션 삭제 
-	$(document).on("click","button[name=delBtn]",function(){
-
-	    var trHtml=$(this).parent().parent();
-	    trHtml.remove();
-	});
-	
-	
-	//이미지 업로드 
-	$(function(){
-		   //div 클릭시 파일업로드실행함수 실행
-		   $("#1,#2,#3,#4,#5,#6").on("click",e=>{
-			 
-			   $(e.target).next().click();
-		   });
-		   //파일 업로드시 이미지 체인지
-		   $("#input1,#input2,#input3,#input4,#input5,#input6").on("change",e =>{ 
-			 
-		      let reader=new FileReader();
-		      
-		      let img=  $(e.target).prev();
-		      reader.onload=e=>{
-		    	  img.attr("src",e.target.result); 
-		      }
-		      reader.readAsDataURL($(e.target)[0].files[0]);
-		      console.log($(e.target)[0].files[0]);
-		    
-		   }); 
-	});
-	
-	//이미지 삭제 버튼
-	$(function(){
-		$(".close").on("click",e=>{	  
-			   let chImg=$(e.target).prev().prev();
-			   chImg.attr("src","${path }/resources/images/product/plus2.png");
-		   });
-	}); 
-</script> -->
 <script>
+//옵션 추가하기 
+$("#add-option").click(function(){
+    
+    var addOption="";
+    addOption+='<tr name="trOption">';
+    addOption+='<th>&nbsp&nbsp옵션 내용</th>';
+    addOption+='<td><input type="text" class="content" id="content" name="pdtOptionContent"></td>';
+    addOption+='<th>추가 요금</th>';
+    addOption+='<td><input type="text" class="addprice" name="pdtOptionAddprice">';
+    addOption+='<button class="btn btn-success btn-sm delBtn2" name="delBtn">삭제</button></td>';
+    addOption+='</tr>';
+
+    $("#insert-table").append(addOption);
+});
+
+//옵션 삭제 
+$(document).on("click","button[name=delBtn]",function(){
+
+    var trHtml=$(this).parent().parent();
+    trHtml.remove();
+});
+
+
 	//상세이미지 파일명 바꾸기
 	$(function(){
 			$('[name=detailImg]').on("change",function(){
@@ -401,9 +306,58 @@
 	$("#fileBtn").on("click",e=>{
 		$(e.target).next().next().click();
 	});
+
+	//이미지 업로드 
+	$(function(){
+	       //div 클릭시 파일업로드
+	       $(".proDiv").on("click",e=>{
+
+	           //input file만 선택
+	           var file=$(e.target).children().first();
+	           file.click();
+	    
+	       });
+	     
+	       //파일 업로드시 이미지 체인지
+	       $(".proPic").on("change",e =>{ 
+	         
+	            let reader=new FileReader();
+	              let div=$(e.target).parent();
+	              //이전 사진 삭제
+	            $(e.target).prev().remove();
+
+	             reader.onload=e=>{
+	              let img=$("<img>",{"src":e.target.result,width:"150px",height:"150px",onclick:"fn_upload(this);"});
+	              img.addClass("proImg");
+	              div.prepend(img); 
+
+	          }
+	          reader.readAsDataURL($(e.target)[0].files[0]);
+	       }); 
+	    
+	});
+
+	//사진 눌렀을 떄 다시 파일 업로드
+	  function fn_upload(e){
+	    $(e).next().click();
+
+	}  
+
+
+	//이미지 삭제 버튼
+	$(function(){
+	    $(".close").on("click",e=>{	  
+	        //이미지 삭제
+	        $(e.target).prev().prev().remove();
+	        //input file value삭제
+	        console.log($(e.target).prev());
+	        $(e.target).prev().val("");
+	       });
+	});
+	
 	//제품 수정
 	function updatePro(){
-		
+		if(confirm("정말 수정하시겠습니까?")==true){
 		 //유효성검사-카테고리 및 판매상태
 	    if($("#category").val()==null){
 	    	swal("제품카테고리를 선택해주세요.");
@@ -413,6 +367,90 @@
 	    	swal("판매 상태를 선택해주세요.");
 	    	return false;
 	    }
+	  	//제품명 유효성 검사
+	  	var val=$("#name").val();
+	  	if(val.length>0){
+	  		
+	  		var name=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9%()-_,/ ]*$/;
+	        
+	        if(!name.test(val)){
+	               swal("제품명에 특수문자는 입력하실 수 없습니다.");
+	               $("#name").val('');
+	               return false;
+	           }
+	      	//중복검사
+	        $.ajax({
+	            
+	            url:"${path}/admin/updateCheckPdtName",
+	            data:{pdtName:val,pdtNo:${product.pdtNo}},
+	            type:"get",
+	            success:function(data){
+	                   
+	            	if(data!=0){
+	                	wal("상품명이 중복됩니다.");
+	                    $("#name").val('');
+	                   	return false;
+	                }
+	            }
+	        }); 
+	        
+	  	}else{
+	        swal("제품명을 입력해주세요.");
+	        return false;
+	  	}
+	   
+	  	//가격 유효성 검사
+	  	var val2=$("#price").val();
+	    if(val2.length>0){
+	    	 var price=/^[0-9]*$/;
+	        if(!price.test($("#price").val())){
+	               swal("제품가격에 숫자 외에는 입력하실 수 없습니다.");
+	               $("#price").val('');
+	               return false;
+	        }
+	    }else{
+	    	swal("가격을 입력해주세요.");
+	        return false;
+	    }
+	    
+	  	//간단한 설명 - 글자 수 제한
+	    $(document).ready(function(){
+	        $("#intro-text").on('keyup',function(){
+	            if($(this).val().length>65){
+	                $(this).val($(this).val().substring(0,65));
+	                swal("65자를 초과하였습니다.");
+	            }
+	        });
+	    });
+
+	  	//옵션내용 유효성 검사
+	  	var val3=$("input[name=pdtOptionContent]").val();
+	    if(val3.length>0){
+	    	var check=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9%()-_,/ ]*$/;
+	    	if(!check.test(name)){
+	            swal("옵션명에 특수문자는 입력할 수 없습니다.");
+	            $(e.target).val('');
+	            return false;
+	        }
+	    }else{
+	    	 swal("옵션 내용을 입력해주세요.");
+	         return false;
+	    }    
+
+	    //옵션가격 유효성 검사
+	    var val4=$("input[name=pdtOptionAddprice]").val();
+	    if(val4.length>0){
+	    	var check=/^[-0-9]*$/;
+	        if(!check.test(val4)){
+	               swal("옵션 가격에 숫자 외에는 입력하실 수 없습니다.");
+	               val4="";
+	               return false;
+	        }
+	    }else{
+	  	  swal("옵션 가격을 입력해주세요.");
+	      return false;
+		}
+	    
 	  	//제품 썸네일 사진
 	    if($("#input1").val()==""){
 	    	swal("대표이미지를 등록해주세요.");
@@ -425,7 +463,7 @@
 	    	return false;
 	    }
 	    
-		if(confirm("정말 수정하시겠습니까?")==true){
+		
 			//옵션 값 넣기
 			var list=[];
 	        var items = document.getElementsByName("pdtOptionContent");
@@ -436,15 +474,16 @@
 	        }
 	        $("#test_list").val(JSON.stringify(list));
 	        
-			return true;
+			
 		}else{
 			return false;
 		}   
 	}
+	
 	//제품 삭제
 	function deletePro(){
 		if(confirm("정말 삭제하시겠습니까?")==true){
-	        location.href='${path}/admin/deleteProduct?pdtNo=${product.pdtNo}';
+	        location.href='${path}/admin/deleteProduct?pdtNo='+encodeURI('${product.pdtNo}');
 		}else{
 			return false;
 		}   

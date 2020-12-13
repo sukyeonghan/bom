@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -205,6 +207,15 @@ public class ProductAdminController {
 		m.setViewName("admin/product/updateProduct");
 		return m;
 	}
+	//제품명 중복검사(수정페이지)
+	@ResponseBody
+	@RequestMapping("/admin/updateCheckPdtName")
+	public int updateCheckPdtName(
+			@RequestParam("pdtName") String pdtName,
+			@RequestParam("pdtNo") String pdtNo) {
+		return service.selectPdtName(pdtName,pdtNo);
+		
+	}
 	//제품 수정
 	@RequestMapping("/admin/updateProductEnd")
 	public ModelAndView updateProduct(Product p,ProductOption o,ModelAndView m,
@@ -293,17 +304,22 @@ public class ProductAdminController {
 	
 	//by수경-제품 삭제
 	@RequestMapping("admin/deleteProduct")
-	public ModelAndView deleteProduct(String pdtNo,ModelAndView m) {
-		int result=service.deleteOneProduct(pdtNo);
+	public ModelAndView deleteProduct(
+			@RequestParam("pdtNo") String pdtNo,ModelAndView m) {
+
 		String msg="";
 		String icon = "";
+		int result=service.deleteOneProduct(pdtNo);
+		
 		if(result>0) {
+			
 			msg="삭제가 완료되었습니다.";
 			icon = "success";
 		}else {
 			msg="삭제 실패하였습니다.";
 			icon = "error";
 		}
+	
 		m.addObject("msg", msg);
 		m.addObject("loc","/admin/moveProduct");
 		m.addObject("icon", icon);
