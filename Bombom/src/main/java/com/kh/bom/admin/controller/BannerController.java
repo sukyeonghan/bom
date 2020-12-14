@@ -144,7 +144,7 @@ public class BannerController {
 
 	// 배너수정하기
 	@RequestMapping("/admin/updateBanner")
-	public ModelAndView updateBanner(ModelAndView mv, MainBanner mb,
+	public ModelAndView updateBanner(ModelAndView mv, String pastThumb, MainBanner mb,
 			@RequestParam(value = "upload", required = false) MultipartFile[] upFile, HttpSession session)
 			throws Exception {
 
@@ -156,14 +156,28 @@ public class BannerController {
 		// file명을 재정의 하는것
 		for (MultipartFile f : upFile) {
 			if (!f.isEmpty()) {
-				//원래 파일이름 가져오기
+				// 원래 파일이름 가져오기
 				String oriName = f.getOriginalFilename();
+				// 확장자분리
+				String ext = oriName.substring(oriName.lastIndexOf(".")+1);
+				// 리네임양식정하기
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+				int rndValue = (int) (Math.random() * 1000);
+				String reName = "banner" + sdf.format(System.currentTimeMillis()) + "_" + rndValue + "." + ext;
+				System.out.println(reName);
+				
 				try {
-					f.transferTo(new File(path + "/" + oriName));
+					f.transferTo(new File(path + "/" + reName));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				mb.setBannerThumb(oriName);
+				mb.setBannerThumb(reName); // 리네임한 파일이름 프로필로 넣기
+
+				// 이전에 등록한 프로필 파일 삭제
+				String deletePath = path + "/" + pastThumb;
+				File del = new File(deletePath);
+				if (del.exists())
+					del.delete();
 			}
 		}
 		// & 특수문자 치환하기

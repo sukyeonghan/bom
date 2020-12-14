@@ -37,7 +37,6 @@
 			<div id="bannerFrm">
 				<form action="${path }/admin/updateBanner" method="post"
 					name="insertBannerFrm" enctype="multipart/form-data">
-					<input type="hidden" value="${bannerOne.bannerNo }" name="bannerNo">
 					<div class="term">
 						<label for="pdtNo">연관상품선택</label>
 						<select name="pdtNo" id="pdtNo"	class="form-control" required>
@@ -62,9 +61,13 @@
 					</div>
 					<div class="term">
 						<label for="upFile">노출시킬 배너 이미지선택</label>
-						<input type="file"name="upload" id="upFile" class="form-control" required>
+						<input type="file"name="upload" id="upFile" class="form-control" value="${bannerOne.bannerThumb }" required>
 						<label class="custom-file-label" for="upFile">${bannerOne.bannerThumb }</label>
 					</div>
+					
+					<input type="hidden" value="${bannerOne.bannerNo }" name="bannerNo">
+					<input type="hidden" name="pastThumb" value="${bannerOne.bannerThumb }">
+					
 					<div style="text-align: center;" class="term">
 						<button id="insertBanner" type="submit"
 							class="btn btn-outline-success">배너등록</button>
@@ -83,26 +86,6 @@
 		});
 	})
 	
-	//가져온상품no값 제외하기
-	var no = $("#pdtNo option:selected").val();
-	console.log(no);
-	$("#pdtNo").find("option").each(function(){
-		if(this.value == no){
-			console.log(this);
-			this.value.attr("selected", "selected");
-		}
-	})
-	//수정하기버튼 구현
-	function fn_update(bannerNo) {
-		var url = "${path}/admin/";
-		var no = {
-			bannerNo : bannerNo
-		};
-		var ck = confirm("수정하시겠습니까?");
-		if (ck) {
-			window.location = url + '?' + $.param(no);
-		}
-	}
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
