@@ -4,15 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.admin.model.vo.Event;
 import com.kh.bom.common.page.AdminProAjaxPageBarFactory;
+import com.kh.bom.common.page.AdminProAjaxPageBarFactory2;
 import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
@@ -89,6 +89,34 @@ public class ProductAdminController {
 		m.addObject("sort",sort);
 		m.addObject("count",count);
 		m.setViewName("admin/product/productListAjax");
+		return m;
+	}
+	//제품 목록에서 검색
+	@RequestMapping("/admin/productSearchAjax")
+	public ModelAndView productSearchAjax(ModelAndView m,
+			@RequestParam(value = "searchType", defaultValue = "") String searchType,
+			@RequestParam(value = "keyword", defaultValue = "") String keyword,
+			@RequestParam(value = "cPage", defaultValue = "1") int cPage,
+			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage,
+			@RequestParam(value = "sort", defaultValue = "전체") String sort) {
+		
+		Map<String, String> map = new HashMap();
+		
+		map.put("searchType", searchType);//검색분류
+		map.put("keyword", keyword);
+		map.put("sort", sort);//필터분류
+
+		int count=service.countProduct(map);
+		m.addObject("list", service.selectSearchList(cPage, numPerpage, map));
+		m.addObject("cPage", cPage);
+		m.addObject("count",count);
+		m.addObject("sort", sort);
+		m.addObject("searchType", searchType);
+		m.addObject("keyword", keyword);
+		m.addObject("pageBar", AdminProAjaxPageBarFactory2.getAjaxPageBar(count, cPage, numPerpage,
+				"productSearchAjax", searchType, keyword, sort));
+		m.setViewName("admin/product/productListAjax");
+		
 		return m;
 	}
 	

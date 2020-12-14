@@ -66,12 +66,24 @@ public class AdminServiceImpl implements AdminService {
 
 		return dao.selectProductList(session, cPage, numPerPage, sort);
 	}
+	//제품 검색 목록
+	@Override
+	public List<Product> selectSearchList(int cPage, int numPerPage, Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.selectSearchList(session,cPage,numPerPage,map);
+	}
 
-	// 카테고리별 목록 출력
+	//제품 개수
 	@Override
 	public int countProduct(String category) {
 		// TODO Auto-generated method stub
 		return dao.countProduct(session, category);
+	}
+	//검색별 개수
+	@Override
+	public int countProduct(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.countProduct(session, map);
 	}
 
 	// 제품 선택 삭제
