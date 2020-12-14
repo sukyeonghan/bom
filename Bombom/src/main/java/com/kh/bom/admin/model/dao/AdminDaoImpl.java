@@ -225,6 +225,11 @@ public class AdminDaoImpl implements AdminDao {
 	public MainBanner selectBannerOne(SqlSession session, String no) {
 		return session.selectOne("admin.selectBannerOne", no);
 	}
+	//배너 수정하기
+	@Override
+	public int updateBanner(SqlSession session, MainBanner mb) {
+		return session.update("admin.updateBanner",mb);
+	}
 
 	// 1:1문의 삭제
 	@Override

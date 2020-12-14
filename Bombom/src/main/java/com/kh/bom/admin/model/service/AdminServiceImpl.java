@@ -254,7 +254,7 @@ public class AdminServiceImpl implements AdminService {
 	public List<MainBanner> selectBannerList() {
 		return dao.selectBannerList(session);
 	}
-
+	//배너등록하기
 	@Override
 	public int insertBanner(MainBanner mb) {
 		return dao.insertBanner(session, mb);
@@ -265,7 +265,7 @@ public class AdminServiceImpl implements AdminService {
 	public List<Product> selectProductList() {
 		return dao.selectProductList(session);
 	}
-
+	//배너삭제하기
 	@Override
 	public int deleteBanner(String no) {
 		return dao.deleteBanner(session, no);
@@ -274,6 +274,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public MainBanner selectBannerOne(String no) {
 		return dao.selectBannerOne(session, no);
+	}
+	//배너 수정하기
+	@Override
+	public int updateBanner(MainBanner mb) {
+		return dao.updateBanner(session,mb);
 	}
 
 	@Override
