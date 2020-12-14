@@ -10,7 +10,7 @@
 </jsp:include>
 <style>
    	#flexDiv{display:flex; padding: 0px 10% 0px 10%;}
-	#mypage-container{min-width:800px; width:100%;}
+	#mypage-container{min-width:800px; width:100%; padding-right:100px;}
    div#update-container{
       width:80%;
       padding:40px;
@@ -195,10 +195,11 @@ function fn_updateMember(){
            <h3 id="sub-title">회원정보수정</h3> 
               <form action="${path }/member/updateMemberEnd" method="post" name="updateFrm" enctype="multipart/form-data">
                  <input type="hidden" name="memNo" class="form-control" value="${loginMember.memNo }">
-               <div id="imgDiv">           
+                <div id="imgDiv">           
                     <img src="${path }/resources/upload/profile/${loginMember.memPro}" class="rounded-circle" id="profileImg"  alt="기본프로필" width="150" height="150"><br> 
-                 </div>
-                  <input type="file" id="memPro" name="upload" accept="image/gif, image/jpeg, image/png" style="display:none;">
+                </div>
+                 <input type="file" id="memPro" name="upload" accept="image/gif, image/jpeg, image/png" style="display:none;">
+                 <input type="hidden" name="pastPro" value="${loginMember.memPro}"/>
                  <input type="text" name="memEmail" class="form-control" value="${loginMember.memEmail }" readonly>
                  <br>
                  <input type="password" name="memPwd" id="memPwd" class="form-control" placeholder="비밀번호를 변경하는 경우 입력해주세요">

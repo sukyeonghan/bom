@@ -18,12 +18,10 @@ public interface ProductDao {
 	
 	int reviewCount(SqlSession session);
 
-	int productAllCount(SqlSession session);
-	int productCateCount(SqlSession session,String category);
-	List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,String sort);
-	List<Product> cateProductList(SqlSession session,String category);
-	List<Product> selectNewList(SqlSession session);
+	int productCount(SqlSession session,String category);
+	int countSale(SqlSession session);
+	List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,String sort,String category);
 	List<Product> selectNewCateList(SqlSession session,String category);
-	
-	
+	List<Product> selectSaleList(SqlSession session,int cPage,int numPerPage,String sort,String category);
+
 }

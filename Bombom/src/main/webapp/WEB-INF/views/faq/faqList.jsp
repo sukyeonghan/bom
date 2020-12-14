@@ -10,11 +10,8 @@
 	<jsp:param name="title" value=" "/>
 </jsp:include>
 <style>
-	/*좌측메뉴*/
-	#board-nav{padding-right:100px;}
-	#board-nav a{color:black;font-weight:bolder;}
-	#board-nav a:hover{color: #45A663;}
-
+	#flexDiv{display:flex; padding: 0px 10% 0px 10%;}
+	#board-container{min-width:800px; width:100%; padding-right:100px;}
 	/*아코디언 타이틀*/
 	a.card-link{font-weight:bolder; color:black;} 
 	.card-header{background-color: #F2FFED;border:1px #E0FFDB solid;}
@@ -23,11 +20,8 @@
 	.card-header div:nth-of-type(2){width: 100px;color:#45A663;}
 	.card-header div:nth-of-type(3){width: 450px;}
 	
-	/*최소 컨텐츠 크기*/
-	.media{min-width: 768px;} 
-	
 	/*버튼 가운데정렬*/
-	.btn-box{text-align: center;white-space:normal;}
+	.btn-box{text-align: center;white-space:normal;margin-top:20px;}
 	/*faq 카테고리*/
 	ul#category-nav{padding:0px;}
 	ul#category-nav>li{
@@ -40,23 +34,12 @@
 	ul#category-nav>li:hover{color:#45A663;}
 
 </style>
-<section id="container" class="container">
-	<div class="media">
-	
+<section id="container">
+	<div id="flexDiv">
 		<!-- 좌측 메뉴 -->
-		<div id="board-nav" class=" mr-3">
-		  <ul class="nav flex-column">
-		    <li class="nav-item">
-		      <a class="nav-link" href="${path }/notice/noticeList">공지사항</a>
-		    </li>
-		    <li class="nav-item">
-		      <a class="nav-link " href="${path }/faq/faqList">자주묻는질문</a>
-		    </li>
-		  </ul>
-		</div>
-		
-		<!--좌측메뉴선택시 화면 -->
-		<div id="faq-container" class="media-body">
+		<jsp:include page="/WEB-INF/views/common/boardMenu.jsp"/>
+		<!-- 우측 메뉴내용 -->
+		<div id="board-container" >
 			<h3>자주묻는 질문</h3> 
 			<br>
 			<div class="d-flex justify-content-between">
@@ -78,47 +61,47 @@
 			</div>
 			
 		 	<hr>
-		 	<div id="result">
-			 <div id="accordion">
-				  <c:forEach items="${list}" var="f" varStatus="vs">
-				  
-					 <div class="card">
-						<!-- 타이틀부분 -->
-					    <div class="card-header">
-					      <a class="collapsed card-link" data-toggle="collapse" href="#collapse${vs.index}">
-					         <div><c:out value="${f.rownum }"/></div>
-					         <div><c:out value="${f.faqCategory }"/></div> 
-					         <div><c:out value="${f.faqTitle}"/></div>
-					      </a>
-					    </div>
-					    
-					    <!-- body부분 -->
-					    <div id="collapse${vs.index}" class="collapse" data-parent="#accordion">
-					      <div class="card-body">
-					      	<!-- 줄바꿈 표현 -->
-					        <div >${fn:replace(f.faqContent, newLine, "<br/>")}</div>
-					        <c:if test="${loginMember.memManagerYn=='Y' }">
-								<div class="btn-box">
-									<input type="hidden" value="${f.faqNo }" name="faqNo"/>
-									<button class="btn btn-outline-success" onclick="fn_updateFaq();">수정</button>&nbsp;&nbsp;
-									<button class="btn btn-outline-secondary" onclick="fn_deleteFaq();">삭제</button>
-								</div> 
-							</c:if>
-					      </div>
-					    </div>
-					    
-					  </div>
+			 	<div id="result">
+				 <div id="accordion">
+					  <c:forEach items="${list}" var="f" varStatus="vs">
 					  
-			   	</c:forEach>
+						 <div class="card">
+							<!-- 타이틀부분 -->
+						    <div class="card-header">
+						      <a class="collapsed card-link" data-toggle="collapse" href="#collapse${vs.index}">
+						         <div><c:out value="${f.rownum }"/></div>
+						         <div><c:out value="${f.faqCategory }"/></div> 
+						         <div><c:out value="${f.faqTitle}"/></div>
+						      </a>
+						    </div>
+						    
+						    <!-- body부분 -->
+						    <div id="collapse${vs.index}" class="collapse" data-parent="#accordion">
+						      <div class="card-body">
+						      	<!-- 줄바꿈 표현 -->
+						        <div >${fn:replace(f.faqContent, newLine, "<br/>")}</div>
+						        <c:if test="${loginMember.memManagerYn=='Y' }">
+									<div class="btn-box">
+										<input type="hidden" value="${f.faqNo }" name="faqNo"/>
+										<button class="btn btn-outline-success" onclick="fn_updateFaq();">수정</button>&nbsp;&nbsp;
+										<button class="btn btn-outline-secondary" onclick="fn_deleteFaq();">삭제</button>
+									</div> 
+								</c:if>
+						      </div>
+						    </div>
+						    
+						  </div>
+						  
+				   	</c:forEach>
+				</div>
+				<br>
+				<br>
+				
+				<div id="pageBar">
+					${pageBar }
+			    </div> 
+		        
 			</div>
-			<br>
-			<br>
-			
-			<div id="pageBar">
-				${pageBar }
-		    </div> 
-	        
-		</div>
 		</div>
 	</div>
 </section>

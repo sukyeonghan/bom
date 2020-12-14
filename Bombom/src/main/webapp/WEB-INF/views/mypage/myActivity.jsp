@@ -17,6 +17,7 @@
 #mypage-container {
 	min-width: 800px;
 	width: 100%;
+	padding-right:100px;
 }
 /*버튼 가운데정렬*/
 .btn-box {
@@ -49,6 +50,7 @@
 .movePdt{
 	margin: 20px 0 20px 0;
 }
+
 </style>
 <section id="container">
 	<div id="flexDiv">
