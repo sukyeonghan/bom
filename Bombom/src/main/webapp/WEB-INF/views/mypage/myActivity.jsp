@@ -31,7 +31,7 @@
 }
 /* 테이블 */
 .table th:nth-child(3) {
-	width: 620px;
+	width: 600px;
 }
 
 .table th, .table td {
