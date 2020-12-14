@@ -1,12 +1,14 @@
 package com.kh.bom.admin.model.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
+import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,6 +76,7 @@ public class AdminServiceImpl implements AdminService {
 
 	// 제품 선택 삭제
 	@Override
+	@Transactional
 	public int deleteSelectProduct(List<String> delnum) {
 		// TODO Auto-generated method stub
 		int result = 0;
@@ -87,6 +90,7 @@ public class AdminServiceImpl implements AdminService {
 
 		for (int i = 0; i < delnum.size(); i++) {
 			no = delnum.get(i);
+
 			result = dao.deleteProduct(session, no);
 			/*
 			 * if(result>0) { //제품 삭제하면 해당 제품사진도 같이 삭제하기
@@ -99,12 +103,42 @@ public class AdminServiceImpl implements AdminService {
 		return result;
 	}
 
-	// 제품 하나 삭제
+	//제품 하나 삭제-upload 폴더에 저장되어있는 사진도 같이 삭제 
 	@Override
+	@Transactional
 	public int deleteOneProduct(String pdtNo) {
-		// TODO Auto-generated method stub
+		
+		int fileResult=0;
+		String path="C:\\Users\\gkstn\\git\\final\\Bombom\\src\\main\\webapp\\resources\\upload\\product\\";
+		String thumb="";
+		int result=0;
+		
+		 //상세이미지 삭제
+		 Product p=dao.selectOneProduct(session,pdtNo);
+		 File dfile=new File(path+p.getPdtDetailImage());
+		 if(dfile.exists()) {
+			 dfile.delete();
+			 fileResult=1;
+		 }
+		 //썸네일 이미지 삭제
+		 List<ProductThumb> thumbs=dao.selectThumb(session, pdtNo);
 
-		return dao.deleteProduct(session, pdtNo);
+		 for(ProductThumb th:thumbs) {
+				thumb=th.getPdtThumbImage();
+				
+				File tfile=new File(path+thumb);
+				if(tfile.exists()) {
+					tfile.delete();
+					fileResult=1;
+				}
+		 }
+
+		if(fileResult==1) {
+			result=dao.deleteProduct(session, pdtNo);
+			System.out.println(result);
+		}
+			
+		return result;
 	}
 
 	// 제품등록
@@ -114,15 +148,15 @@ public class AdminServiceImpl implements AdminService {
 		// 트랜잭션 처리하기
 		int result = dao.insertProduct(session, p);
 		if (result > 0) {
-
-			for (int i = 0; i < options.size(); i++) {
-
-				o.setPdtNo(p.getPdtNo());
-				o.setPdtOptionContent((String) (options.get(i).get("pdtOptionContent")));
-				o.setPdtOptionAddprice(Integer.parseInt((String) (options.get(i).get("pdtOptionAddprice"))));
-				result = dao.insertOption(session, o);
+			if(options!=null) {
+				for (int i = 0; i < options.size(); i++) {
+	
+					o.setPdtNo(p.getPdtNo());
+					o.setPdtOptionContent((String) (options.get(i).get("pdtOptionContent")));
+					o.setPdtOptionAddprice(Integer.parseInt((String) (options.get(i).get("pdtOptionAddprice"))));
+					result = dao.insertOption(session, o);
+				}
 			}
-
 			if (result > 0) {
 				if (list != null) {
 					for (ProductThumb th : list) {
@@ -163,7 +197,7 @@ public class AdminServiceImpl implements AdminService {
 		// 제품 업데이트 하면 옵션 업데이트
 		if (result > 0) {
 			System.out.println(options);
-			if (options.size() != 0) {
+			if (options!=null && options.size() != 0) {
 				Product check = dao.checkOption(session, p.getPdtNo());
 				if (check.getPdtOptionNo() != null) {
 					// 이전에 있던 옵션 지우기
@@ -199,6 +233,20 @@ public class AdminServiceImpl implements AdminService {
 
 		}
 		return result;
+	}
+
+	// 제품명 중복 확인
+	@Override
+	public int selectPdtName(String pdtName) {
+		// TODO Auto-generated method stub
+		return dao.selectPdtName(session, pdtName);
+	}
+
+	// 제품명 중복 확인-수정페이지
+	@Override
+	public int selectPdtName(String pdtName, String pdtNo) {
+		// TODO Auto-generated method stub
+		return dao.selectPdtName(session, pdtName, pdtNo);
 	}
 
 	// 회원관리
@@ -270,7 +318,8 @@ public class AdminServiceImpl implements AdminService {
 	public int deleteBanner(String no) {
 		return dao.deleteBanner(session, no);
 	}
-	//배너한개 가져오기
+
+	// 배너한개 가져오기
 	@Override
 	public MainBanner selectBannerOne(String no) {
 		return dao.selectBannerOne(session, no);

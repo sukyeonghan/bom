@@ -176,6 +176,22 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.checkOption", pdtNo);
 	}
+	//제품명 중복 검사
+	@Override
+	public int selectPdtName(SqlSession session, String pdtName) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectPdtName",pdtName);
+	}
+	//제품명 중복 검사-수정페이지
+	@Override
+	public int selectPdtName(SqlSession session, String pdtName, String pdtNo) {
+		// TODO Auto-generated method stub
+		Map map=new HashMap();
+		map.put("pdtName", pdtName);
+		map.put("pdtNo", pdtNo);
+		return session.selectOne("admin.checkPdtName",map);
+	}
+	
 
 	// 1:1목록 가져오기
 	@Override

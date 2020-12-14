@@ -62,6 +62,9 @@
 	}
 	th{cursor: default;}
 	td{vertical-align: middle; cursor:default;}
+	td:nth-of-type(3){text-align:left;}
+	td:nth-of-type(4){text-align:left;}
+	td:nth-of-type(5){text-align:right;}
 
 	/*상품 수정,삭제페이지로 넘어가는 a태그 */
 	/*클릭 안 했을 때*/
@@ -237,7 +240,7 @@
 					</select>
 				</div>
 				<input type="text" id="search-text" size="30">
-				<button class="btn btn-success" id="search-btn"">검색</button>
+				<button class="btn btn-success" id="search-btn">검색</button>
 			</div>
 			
 		</div>
