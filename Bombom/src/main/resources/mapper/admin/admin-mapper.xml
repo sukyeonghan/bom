@@ -123,16 +123,16 @@
 		<if test="sort != '전체'">
 			WHERE PDT_CATEGORY=#{sort}
 		</if>
-		<if test="keyword !=null or keyword != ''">
-			<where>
+		<trim prefix="AND" prefixOverrides="WHERE">
+			<if test="keyword !=null or keyword != ''">
 				<if test="searchType eq 'pdtName'">
 					PDT_NAME LIKE '%'||#{keyword}||'%'
 				</if>
 				<if test="searchType eq 'eventNo'">
 					EVENT_NO_REF LIKE '%'||#{keyword}||'%'
 				</if>
-			</where>
-		</if>
+			</if>
+		</trim>
 	</select>
 	<!-- 제품 삭제 -->
 	<delete id="deleteProduct" parameterType="string">
@@ -226,16 +226,20 @@
 	<!-- 상품 목록 검색 -->
 	<select id="searchProductList" parameterType="map" resultMap="productMap">
 		SELECT * FROM PRODUCT
-		<if test="keyword !=null or keyword != ''">
-			<where>
+	
+		<if test="sort != '전체'">
+			WHERE PDT_CATEGORY=#{sort}
+		</if>
+		<trim prefix="AND" prefixOverrides="WHERE">
+			<if test="keyword !=null or keyword != ''">
 				<if test="searchType eq 'pdtName'">
 					PDT_NAME LIKE '%'||#{keyword}||'%'
 				</if>
 				<if test="searchType eq 'eventNo'">
 					EVENT_NO_REF LIKE '%'||#{keyword}||'%'
 				</if>
-			</where>
-		</if>
+			</if>
+		</trim>
 		ORDER BY PDT_DATE DESC
 	</select>
 

@@ -108,13 +108,13 @@ public class ProductAdminController {
 
 		int count=service.countProduct(map);
 		m.addObject("list", service.selectSearchList(cPage, numPerpage, map));
+		m.addObject("pageBar", AdminProAjaxPageBarFactory2.getAjaxPageBar(count, cPage, numPerpage,
+				"productSearchAjax", searchType, keyword, sort));
 		m.addObject("cPage", cPage);
 		m.addObject("count",count);
 		m.addObject("sort", sort);
 		m.addObject("searchType", searchType);
 		m.addObject("keyword", keyword);
-		m.addObject("pageBar", AdminProAjaxPageBarFactory2.getAjaxPageBar(count, cPage, numPerpage,
-				"productSearchAjax", searchType, keyword, sort));
 		m.setViewName("admin/product/productListAjax");
 		
 		return m;
