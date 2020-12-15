@@ -89,7 +89,7 @@ p.p-info {
 </head>
 
 <body>
-	<header id="spring-main-header" class="container-fluid fixed-top">
+	<header id="spring-main-header" style="min-width: 1000px;">
 		<!-- header -->
 		<div id="header-container">
 			<div id="loginJoin" class="d-flex flex-row-reverse">
@@ -196,7 +196,7 @@ p.p-info {
 	</header>
 
 	<!--모달 회원가입 -->
-	<div class="container">
+	<div class="springHeader">
 
 		<!-- The Modal -->
 		<div class="modal fade" id="myModal">

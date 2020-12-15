@@ -115,6 +115,17 @@ $(function(){
                
       }
    });
+   //비밀번호 표시 체크 여부에따라 비밀번호 타입 바꿔 표시하기
+   $("#pwOpen").change(e=>{
+	  if($("input[name=pwOpen]").is(":checked") == true){
+		  $("#memPwd").prop("type","text")
+		  $("#memPwdCk").prop("type","text");
+	  }else{
+		  $("#memPwd").prop("type","password")
+		  $("#memPwdCk").prop("type","password");
+	  }
+   });
+   
 })
 //파일업로드 실행함수
 function fn_upload(){
@@ -206,7 +217,8 @@ function fn_updateMember(){
                  <p class="guide pwpw left">영문,숫자,특수문자 조합 8자 이상 16자 이하로 입력해주세요</p>
                  <input type="password" name="memPWdCk" id="memPwdCk" class="form-control" placeholder="비밀번호 확인">
                  <p class="guide pwOk left ">비밀번호가 일치합니다.</p>
-               <p class="guide pwError left">비밀번호가 일치하지 않습니다.</p>
+               	 <p class="guide pwError left">비밀번호가 일치하지 않습니다.</p>
+               	 <div style="display:flex; margin-top:10px;"><input id="pwOpen" name="pwOpen" type="checkbox" value="open"><label for="pwOpen">비밀번호표시</label></div>
                <br>
                  <p class="left">닉네임:</p>
                 <input type="text" name="memNick" id="myMemNick" class="form-control" placeholder="${loginMember.memNick }">
