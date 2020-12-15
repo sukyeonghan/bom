@@ -253,7 +253,42 @@ public class memberController {
 		return mv;
 	}
 	
+	//인증번호 후 비밀번호 변경 
+	@RequestMapping("/member/changePw")
+	public ModelAndView changePw(ModelAndView mv,Member m,
+					@RequestParam String newPw, HttpSession session) {
+		
+		String veriEmail=(String)session.getAttribute("veriEmail");
+		System.out.println("이멜인증:"+veriEmail+"새비밀번호:"+ newPw);
+		m.setMemEmail(veriEmail);
+		m.setMemPwd(newPw);
 	
+		if(newPw.length()>0) {
+			m.setMemPwd(pwEncoder.encode(newPw));
+		}else {
+			m.setMemPwd(newPw);
+		}
+		
+		int result=service.updateMemberPw(m);
+		String msg="";
+		String loc="/";
+		String icon="";
+		if(result>0) {
+ 
+			msg="비밀번호가 변경되었습니다.";
+			icon="success";
+		}else {
+			msg="비밀번호를 바꾸는데 실패하였습니다. 다시 시도해주세요.";
+			icon="warning";
+		}
+		
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
+		mv.addObject("icon",icon);
+		mv.setViewName("common/msg");
+		
+		return mv;
+	}
 
 	
 }

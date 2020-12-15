@@ -24,4 +24,6 @@ public interface MemberDao {
 
 	int insertMemPoint(SqlSession session, Point p);
 
+	int updateMemberPw(SqlSession session, Member m);
+
 }
