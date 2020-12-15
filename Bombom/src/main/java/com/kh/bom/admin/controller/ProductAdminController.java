@@ -57,9 +57,11 @@ public class ProductAdminController {
 	
 	//by수경-제품 목록페이지에서 선택 삭제
 	 @RequestMapping("/admin/deleteSelect") 
-	 public ModelAndView deleteSelectProduct(
+	 public ModelAndView deleteSelectProduct(HttpSession session,
 			 @RequestParam List<String> pdtNo,ModelAndView m) { 
-		 int result=service.deleteSelectProduct(pdtNo); 
+		 String path=session.getServletContext().getRealPath("/resources/upload/product");
+		 System.out.println(path);
+		 int result=service.deleteSelectProduct(pdtNo,path); 
 		 String msg="";
 		 String icon="";
 		 if(result>0) {
@@ -331,12 +333,14 @@ public class ProductAdminController {
 	
 	//by수경-제품 삭제
 	@RequestMapping("admin/deleteProduct")
-	public ModelAndView deleteProduct(
+	public ModelAndView deleteProduct(HttpSession session,
 			@RequestParam("pdtNo") String pdtNo,ModelAndView m) {
 
 		String msg="";
 		String icon = "";
-		int result=service.deleteOneProduct(pdtNo);
+		String path=session.getServletContext().getRealPath("/resources/upload/product");
+		System.out.println(path);
+		int result=service.deleteOneProduct(pdtNo,path);
 		
 		if(result>0) {
 			
