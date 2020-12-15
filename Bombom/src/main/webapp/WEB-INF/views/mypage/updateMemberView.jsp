@@ -10,7 +10,7 @@
 </jsp:include>
 <style>
    	#flexDiv{display:flex; padding: 0px 10% 0px 10%;}
-	#mypage-container{min-width:800px; width:100%;}
+	#mypage-container{min-width:800px; width:100%; padding-right:100px;}
    div#update-container{
       width:80%;
       padding:40px;
@@ -115,6 +115,17 @@ $(function(){
                
       }
    });
+   //비밀번호 표시 체크 여부에따라 비밀번호 타입 바꿔 표시하기
+   $("#pwOpen").change(e=>{
+	  if($("input[name=pwOpen]").is(":checked") == true){
+		  $("#memPwd").prop("type","text")
+		  $("#memPwdCk").prop("type","text");
+	  }else{
+		  $("#memPwd").prop("type","password")
+		  $("#memPwdCk").prop("type","password");
+	  }
+   });
+   
 })
 //파일업로드 실행함수
 function fn_upload(){
@@ -195,17 +206,19 @@ function fn_updateMember(){
            <h3 id="sub-title">회원정보수정</h3> 
               <form action="${path }/member/updateMemberEnd" method="post" name="updateFrm" enctype="multipart/form-data">
                  <input type="hidden" name="memNo" class="form-control" value="${loginMember.memNo }">
-               <div id="imgDiv">           
+                <div id="imgDiv">           
                     <img src="${path }/resources/upload/profile/${loginMember.memPro}" class="rounded-circle" id="profileImg"  alt="기본프로필" width="150" height="150"><br> 
-                 </div>
-                  <input type="file" id="memPro" name="upload" accept="image/gif, image/jpeg, image/png" style="display:none;">
+                </div>
+                 <input type="file" id="memPro" name="upload" accept="image/gif, image/jpeg, image/png" style="display:none;">
+                 <input type="hidden" name="pastPro" value="${loginMember.memPro}"/>
                  <input type="text" name="memEmail" class="form-control" value="${loginMember.memEmail }" readonly>
                  <br>
                  <input type="password" name="memPwd" id="memPwd" class="form-control" placeholder="비밀번호를 변경하는 경우 입력해주세요">
                  <p class="guide pwpw left">영문,숫자,특수문자 조합 8자 이상 16자 이하로 입력해주세요</p>
                  <input type="password" name="memPWdCk" id="memPwdCk" class="form-control" placeholder="비밀번호 확인">
                  <p class="guide pwOk left ">비밀번호가 일치합니다.</p>
-               <p class="guide pwError left">비밀번호가 일치하지 않습니다.</p>
+               	 <p class="guide pwError left">비밀번호가 일치하지 않습니다.</p>
+               	 <div style="display:flex; margin-top:10px;"><input id="pwOpen" name="pwOpen" type="checkbox" value="open"><label for="pwOpen">비밀번호표시</label></div>
                <br>
                  <p class="left">닉네임:</p>
                 <input type="text" name="memNick" id="myMemNick" class="form-control" placeholder="${loginMember.memNick }">

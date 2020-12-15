@@ -23,7 +23,7 @@
 	</div>
 	<!-- 제품관리 테이블 -->
 	<div id="product-table-wrap">
-		<table id="product-table">
+		<table id="product-table" class="table table-hover">
 			<tr>
 				<th>선택</th>
 				<th>카테고리</th>

@@ -34,5 +34,12 @@
 	<delete id="deleteReview" parameterType="string">
 		DELETE FROM REVIEW WHERE REV_NO=#{revNo}
 	</delete>
+	<!--나의활동  -->
+	<select id="selectReviewList" parameterType="string" resultMap="reviewMap">
+      SELECT * FROM REVIEW WHERE MEM_NO=#{memNo} ORDER BY REV_DATE DESC
+    </select>
 
+    <select id="selectReviewCount" resultType="_int">
+      SELECT COUNT(*) FROM REVIEW WHERE MEM_NO=#{memNo}
+    </select>
 </mapper>

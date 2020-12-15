@@ -4,34 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
+<link rel="stylesheet" href="${path }/resources/css/main/bannerPage.css">
 
 <style>
-/*좌측메뉴*/
-.admin-nav {
-	padding-right: 100px;
-}
-
-.admin-nav a {
-	font-weight: bolder;
-}
-
-.admin-nav a:hover {
-	color: #45A663;
-}
-
-.select {
-	color: #45A663;
-}
-
-.non-select {
-	color: black;
-}
-
-/*최소 컨텐츠 크기*/
-.media {
-	min-width: 768px;
-}
-
 /*페이지 타이틀*/
 .page-title {
 	margin-bottom: 3%;
@@ -41,45 +16,31 @@
 	display: flex;
 	justify-content: space-between;
 }
-/*정렬*/
-.sort {
-	border: none;
-	outline: none;
-}
 /*선택삭제 버튼*/
 #selectDel {
 	margin-left: 5px;
+}
+
+#flexDiv {
+	display: flex;
+	padding: 0px 10% 0px 10%;
+}
+
+#admin-container {
+	min-width: 800px;
+	width: 100%;
+	padding-right: 100px;
 }
 </style>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="이벤트" />
 </jsp:include>
-
-<section id="container" class="container">
-	<div class="media">
-
-		<!--관리자 내비게이션바 -->
-		<div id="" class=" mr-3 admin-nav">
-			<ul class="nav flex-column">
-				<li class="nav-item"><a class="nav-link non-select"
-					href="path/admin/memberList">회원관리</a></li>
-				<li class="nav-item"><a class="nav-link non-select"
-					href="path/admin/moveProduct">제품관리</a></li>
-				<li class="nav-item"><a class="nav-link non-select"
-					href="path/">주문관리</a></li>
-				<li class="nav-item"><a class="nav-link non-select"
-					href="path/">1:1문의관리</a></li>
-				<li class="nav-item"><a class="nav-link non-select"
-					href="path/admin/moveEvent">이벤트관리</a></li>
-				<li class="nav-item"><a class="nav-link non-select"
-					href="path/">커뮤니티관리</a></li>
-				<li class="nav-item"><a class="nav-link select"
-					href="path/admin/moveMainBanners">메인관리</a></li>
-			</ul>
-		</div>
-
-		<div id="banner-container" class="media-body">
+<section id="container">
+	<div id="flexDiv">
+		<!-- 좌측 메뉴 -->
+		<jsp:include page="/WEB-INF/views/common/adminMenu.jsp" />
+		<div id="admin-container">
 			<!-- 페이지 타이틀 -->
 			<h3 class="page-title">메인관리</h3>
 			<hr>
@@ -89,9 +50,9 @@
 				<div class="btns-category mb-2">
 					<!-- 전체 선택, 선택 삭제 버튼 -->
 					<div class="buttons">
-						<button class="btn btn-success" id="selectAll"
+						<button class="btn btn-outline-success" id="selectAll"
 							onclick="selectAll();">전체 선택</button>
-						<button class="btn btn-success" id="selectDel" onclick="">선택
+						<button class="btn btn-outline-success" id="selectDel" onclick="">선택
 							삭제</button>
 					</div>
 				</div>
@@ -115,33 +76,48 @@
 							<c:if test="${empty list }">
 								<thead>
 									<tr>
-										<td colspan="8" style="text-align: center;">존재하는 배너가 없습니다.</td>
+										<td colspan="8" style="text-align: center;">존재하는 배너가
+											없습니다.</td>
 									</tr>
 								</thead>
 							</c:if>
 							<c:forEach items="${list }" var="b">
 								<tr>
 									<td><input type="checkbox" name="check" value="check"></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
+									<td><p>
+											<c:out value="${b.bannerNo }" />
+										</p></td>
+									<!-- 번호 -->
+									<td><p>
+											<c:out value="${b.pdtName }" />
+										<p></td>
+									<!-- 연관상품 -->
+									<td style="white-space: pre;"><c:out
+											value="${b.bannerTitle }" /></td>
+									<!-- 제목 -->
+									<td style="white-space: pre;"><c:out
+											value="${b.bannerSubtitle }" /></td>
+									<!-- 소제목 -->
+									<!-- 이미지미리보기 -->
+									<td><img class="image_viewer"
+										src="//img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_attach2.gif">
+										<span class="img_span"
+										style="position: absolute; display: none;"> <img
+											src="${path }/resources/images/main/banner/${b.bannerThumb}"
+											height="80">
+									</span></td>
 									<td><button id="banner-update"
 											class="btn btn-sm btn-outline-secondary"
-											onclick="fn_update('');">수정</button></td>
+											onclick="fn_update('${b.bannerNo}');">수정</button></td>
 									<td><button id="banner-delete"
 											class="btn btn-sm btn-outline-danger"
-											onclick="fn_delete('');">삭제</button></td>
+											onclick="fn_delete('${b.bannerNo}');">삭제</button></td>
 								</tr>
 							</c:forEach>
 						</tbody>
-
 					</table>
-					
 				</div>
-				<button class="btn btn-success" id=""
+				<button class="btn btn-outline-success" id=""
 					onclick="location.href='${path}/admin/moveInsertBanner'">배너
 					등록</button>
 			</div>
@@ -149,9 +125,13 @@
 		</div>
 	</div>
 </section>
-
-<script>
-
+<script type="text/javascript">
+	$(".image_viewer").hover(e=> {
+		$(e.target).next().css("display","inline-block");
+	}, function(){
+	  	$(".img_span").not(this).css("display","none");
+	}); 
+	
 	var checkAll = 'false';
 
 	function selectAll() {
@@ -171,9 +151,9 @@
 	}
 	
 	//삭제버튼 구현
-	function fn_delete(){
-		var url = "${path}/admin/";
-		var no = { : };
+	function fn_delete(bannerNo){
+		var url = "${path}/admin/deleteBanner";
+		var no = { bannerNo:bannerNo };
 		var ck = confirm("정말로 삭제하시겠습니까?");
 		if(ck){
 			window.location = url+'?'+$.param(no);
@@ -181,18 +161,13 @@
 	}
 	
 	//수정하기버튼 구현
-	function fn_update(){
-		var url = "${path}/admin/";
-		var no = { : };
-		var ck = confirm("수정하시겠습니까?");
-		if(ck){
-			window.location = url+'?'+$.param(no);
-		}
-		
+	function fn_update(bannerNo){
+		var url = "${path}/admin/moveBannerUpdate";
+		var no = {bannerNo :bannerNo };
+		window.location = url+'?'+$.param(no);
 	}
 	
 </script>
-
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 

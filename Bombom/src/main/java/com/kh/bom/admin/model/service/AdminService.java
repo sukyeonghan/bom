@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.bom.admin.model.vo.Event;
+import com.kh.bom.admin.model.vo.MainBanner;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
@@ -33,6 +34,8 @@ public interface AdminService {
 	List<ProductOption> selectOption(String pdtNo);//옵션 선택
 	List<ProductThumb> selectThumb(String pdtNo);//썸네일 사진 선택
 	int updateProduct(Product p,ProductOption o,List<Map<Object,Object>> options,List<ProductThumb> list);//제품 수정
+	int selectPdtName(String pdtName);//제품명 중복검사
+	int selectPdtName(String pdtName,String pdtNo);//제품명 중복검사(수정페이지)
 	
 	//관리자권한 변경
 	int updateManagerYn(Member m);
@@ -53,8 +56,13 @@ public interface AdminService {
 	//qna 답변대기목록
 	List<Qna> selectQnaWaitList(int cPage, int numPerpage);
 	
-	
-	
+	//메인배너리스트가져오기
+	List<MainBanner> selectBannerList();
+	int insertBanner(MainBanner mb);
+	List<Product> selectProductList();//배너등록에 필요한 상품목록
+	int deleteBanner(String no);
+	MainBanner selectBannerOne(String no);//수정하기를 위한 row한개 가져오기
+	int updateBanner(MainBanner mb); //배너수정하기
 	
 	
 	

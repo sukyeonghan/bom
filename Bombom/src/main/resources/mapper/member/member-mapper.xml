@@ -70,4 +70,10 @@
 	    </selectKey> 
 		UPDATE MEMBER SET MEM_BUY_COUNT=${memBuyCount-10} WHERE MEM_NO=#{memNo}
 	</update>
+	
+	<!--비밀번호 변경  -->
+	<update id="updateMemberPw" parameterType="member">
+		UPDATE MEMBER SET MEM_PWD=#{memPwd} WHERE MEM_EMAIL=#{memEmail}
+	</update>
+	
 </mapper>

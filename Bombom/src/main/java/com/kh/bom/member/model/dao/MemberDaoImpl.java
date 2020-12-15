@@ -71,6 +71,12 @@ public class MemberDaoImpl implements MemberDao {
 		return session.insert("member.insertMemPoint",p);
 	}
 
+	@Override
+	public int updateMemberPw(SqlSession session, Member m) {
+		// TODO Auto-generated method stub
+		return session.update("member.updateMemberPw",m);
+	}
+
 	
 	
 	

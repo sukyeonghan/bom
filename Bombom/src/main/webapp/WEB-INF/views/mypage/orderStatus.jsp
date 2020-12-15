@@ -11,7 +11,7 @@
 <style>
 
 	#flexDiv{display:flex; padding: 0px 10% 0px 10%;}
-	#mypage-container{min-width:800px; width:100%;}
+	#mypage-container{min-width:800px; width:100%; padding-right:100px;}
 	
 	      /* 주문내역 */
       .status {

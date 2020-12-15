@@ -10,7 +10,7 @@
 </jsp:include>
 <style>
 	#flexDiv{display:flex; padding: 0px 10% 0px 10%;}
-	#mypage-container{min-width:800px; width:100%;}
+	#mypage-container{min-width:800px; width:80%; padding-right:100px;}
 	.table th,.table td{text-align:center; }  
 	.table td{vertical-align: middle;}
 	.table td[class=addressTd]{text-align:left; } 
