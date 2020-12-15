@@ -37,7 +37,7 @@
 	#editBox>*{margin-left: 30px;font-weight:bolder; cursor: pointer;}
 	#folderNameUpdate,#folderMove,#allChoice{color:#45A663;}
 	#allChoiceX,#deleteZc,#folderRemove,#edit-cancle{color:#7E7E7E;}
-	#folderRemove{}
+	#folderRemove{color:red;}
 </style>
 <section id="container">
 	<div id="flexDiv">
@@ -52,7 +52,7 @@
 			</div>
 			<div style="height:30px;"><span id="ckCount" style="display:none;"></span></div>
 			<div class="right" id="edit"><span><i class="fas fa-tools"></i> 편집</span></div>
-			<div id="editBox" class="right">
+			<div id="editBox" class="right" style="display:none;">
 				<span id="folderNameUpdate" data-target="#updateZzimModal" data-toggle="modal" >폴더이름변경</span>
 				<span id="folderMove">상품폴더이동</span>
 				<span id="allChoice">상품전체선택</span>
@@ -73,7 +73,7 @@
 					<div class="zzimFolder">
 						<div class="checkFilter"></div>
 						<input type="checkbox" class="zzimContentNoCkBox" name="zzimContentNoCkBox" value="${zc.zzimContentNo }">
-						<a href="#">
+						<a href="${path }/product/selectProductOne?pdtNo=${zc.pdtNo}">
 							<div class="zzimImgDiv">
 								<img src="${path }/resources/upload/product/${zc.zzimPdtImage };" alt="${zc.zzimPdtName }" width="100%">
 							</div>	
@@ -190,11 +190,14 @@ function fn_deleteFolder(){
 	
 }
 
-//체크박스 체크수에 따라 전체선택,해제 표시 / 선택갯수 표시, 삭제텍스트 css주기 함수
+//체크박스 체크수에 따라 전체선택,해제 표시 
 function cssAndCount(){
 	let count=$("input:checkbox[name=zzimContentNoCkBox]:checked").length;
 	let all=$("input:checkbox[name=zzimContentNoCkBox]").length;
-	if(count>0){
+	if(count==0){	
+		$("#ckCount").hide();
+		$("#deleteZc").css("color","#7E7E7E");
+	}else if(count>0){
 		$("#deleteZc").css("color","red");
 		$("#ckCount").show();
 		$("#ckCount").html("(선택 갯수: "+count+"개)");
@@ -238,8 +241,8 @@ $(function(){
    		$("#editBox").css("display","block");
    		$(".zzimContentNoCkBox").css("display","block");
    		
-   		$(".zzimImgDiv>img,.zzimImgDiv").click(e=>{
-   			let editBox=$("#editBox").css("display");
+   		 $(".zzimImgDiv>img,.zzimImgDiv").click(e=>{
+   			 let editBox=$("#editBox").css("display");
    			if(editBox=="block"){
 	   			//편집모드일때
    				$(e.target).parents(".zzimFolder").find(".checkFilter").css("display","block");
@@ -249,17 +252,20 @@ $(function(){
    				//편집모드가 꺼져있을때
    				$(e.target).parents(".zzimFolder").find(".checkFilter").css("display","none");
    	   	   		$(e.target).parents(".zzimFolder").find(".zzimContentNoCkBox").prop("checked",false);
-   			}
-  
-   	   		
+   			} 
+   			cssAndCount();
+   		
    	   	});
    	   	$(".checkFilter").click(e=>{
    	   		$(e.target).next().prop("checked",false);
-   	   		$(e.target).css("display","none");
-   	   	});
+   	   		$(e.target).css("display","none"); 
+   	   		cssAndCount();
+   	   	}); 
+   		
+   	   		
    		
    	});
-   	
+  
    //취소선택시 가존에 편집화면에서 나오는 것 다 지우기, 가리기
    	$("#edit-cancle").click(e=>{
    		$("#editBox").css("display","none");
@@ -268,12 +274,14 @@ $(function(){
    		$(".zzimContentNoCkBox").css("display","none");
    		$("#edit").css("display","block");
    		$("a").attr("onclick","return true");
+   		$("#ckCount").html("");
+ 
    	});
    	
    //체크박스 체크여부에 따라 필터박스 나타나게하기
    $(".zzimContentNoCkBox").click(e=>{
 	   let tf=$(e.target).prop("checked");
-	   if(tf){
+	   if(tf){	  
 		   $(e.target).prev().css("display","block");
 	   }else{
 		   $(e.target).prev().css("display","none");
@@ -339,11 +347,17 @@ $(function(){
    
    //전체선택선택시
 	$("#allChoice").click(e=>{
-   	   	$(".zzimContentNoCkBox").click();
+   	   	$(".zzimContentNoCkBox").prop("checked",true);
+   		$(".checkFilter").css("display","block");
+   		cssAndCount();
    	});
 	$("#allChoiceX").click(e=>{
-		$(".zzimContentNoCkBox").click();
+	 	$(".zzimContentNoCkBox").prop("checked",false);
+  		$(".checkFilter").css("display","none");
+  		cssAndCount();
 	});
+	
+	
 })
 	
 
