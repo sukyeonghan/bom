@@ -3,9 +3,11 @@ package com.kh.bom.admin.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.AdminService;
+import com.kh.bom.order.model.vo.Order;
 
 @Controller
 public class OrderAdminController {
@@ -15,7 +17,11 @@ public class OrderAdminController {
 	
 	//회원들의 주문내역
 	@RequestMapping("/admin/order")
-	public ModelAndView orderList(ModelAndView mv) {
+	public ModelAndView orderList(ModelAndView mv,@RequestParam(value = "cPage", defaultValue = "0") int cPage,
+			@RequestParam(value = "numPerpage", defaultValue = "5") int numPerpage) {
+		
+		Order order=new Order();
+		
 		
 		mv.setViewName("admin/order/orderMng");
 		
