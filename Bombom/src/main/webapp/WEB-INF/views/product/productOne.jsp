@@ -503,7 +503,7 @@ textarea.answer {
                     <div class="information container">
                     	<c:if test="${loginMember!=null }">
 		                    <button type="button" href="#" class="btn btn-success custom">구매하기</button>
-		                    <button type="button" href="#" class="btn btn-outline-success custom">장바구니</button>
+		                    <button type="button" onclick="fn_goBasket(${product.pdtNo});" class="btn btn-outline-success custom">장바구니</button>
 		                    <button type="button" href="#" class="btn btn-outline-success custom">찜하기</button>
 	                    </c:if>
 	                    <c:if test="${loginMember==null }">
@@ -1494,7 +1494,12 @@ textarea.answer {
 			$("#uploadPreview").append(img);
 	   	}
 		reader.readAsDataURL($(e.target)[0].files[0]);
-	});	    
+	});	   
+	
+	//장바구니 버튼 누르면 실행됨
+	function fn_goBasket(pdtNo){
+		
+	}
 		
 </script>
     

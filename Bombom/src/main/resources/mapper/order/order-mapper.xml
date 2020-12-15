@@ -35,14 +35,12 @@
 	
 	<insert id="insertOrder" parameterType="order">
 		INSERT INTO "ORDER"
-		VALUES (#{orderNo},
-				'M1',
-				1500,
-				#{ordUsePoint},
-				#{ordDeliAddr},
-				#{ordMemo},
-				#{ordDeliPrice},
-				'주문대기')
+		VALUES (#{orderNo}, #{memNo},#{ordAmount},
+				#{ordUsePoint}, #{ordZipcode},
+				#{ordDetailAddr},#{ordExtraAddr},
+				#{ordDeliPrice},#{ordConfirmYn},
+				#{ordStatus},#{ordCancel},
+				SYSDATE)
 	</insert>
 	<select id="selectBasketOne" parameterType="string" resultMap="inbasketMap">
 		SELECT * FROM BASKET WHERE MEM_NO=#{memNo}

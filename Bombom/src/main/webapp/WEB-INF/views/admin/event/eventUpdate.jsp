@@ -19,6 +19,7 @@
 	/*페이지 타이틀*/
 	.page-title{margin-bottom:5%;}
 	
+	input[type=number]{	width:50%;}
 	
 	   
 </style>
@@ -80,7 +81,7 @@
                         </div>
                         <div id="e_term" class="d-flex col-10">
                             <div class="col-5">
-                                <h6><label for="start"><small>시작일</small></label></h6>
+                                <h6><label for="start"><small>시작일 / <fmt:formatDate value="${e.eventStartDate }" /></small></label></h6>
                                 <div class="d-flex" id="start">
                                     <input type="date" name="eventStartDate" id="eventStartDate" value="<fmt:formatDate value="${e.eventStartDate }" />"placeholder="YYYY"
                                         class="form-control" max="2100" min="1900" required >
@@ -90,9 +91,9 @@
                                	<h3> ~ </h3>
                             </div>
                             <div class="col-5">
-                                <h6><label for="end"><small>종료일</small></label></h6>
+                                <h6><label for="end"><small>종료일 / <fmt:formatDate value="${e.eventEndDate }" /></small></label></h6>
                                 <div class="d-flex" id="end">
-                                    <input type="date" name="eventEndDate" id="eventEndDate" value="${e.eventEndDate }" placeholder="YYYY"
+                                    <input type="date" name="eventEndDate" id="eventEndDate" value="<fmt:formatDate value="${e.eventEndDate }" />" placeholder="YYYY"
                                         class="form-control" max="2100" min="1900" required>
                                 </div>
                             </div>
@@ -102,7 +103,7 @@
                       <label for="category" class="col-2 control-label">카테고리</label>
                       <div class="col-10">
                           <select name="eventCategory" id="category" class="form-control" required> 
-                              <option selected disabled>카테고리를 선택해주세요</option>
+                              <option selected disabled>${e.eventCategory }</option>
                               <option value="할인">할인</option>
                               <option value="커뮤니티">커뮤니티</option>
                               <option value="기타">기타</option>
@@ -115,7 +116,7 @@
                           <input type="number" id="sale" name="eventSalePer" value="${e.eventSalePer}" class="form-control" required><span>%</span>
                       </div>
                   </div>
-                  <div>
+                  <div style="text-align:center;">
                       <button type="submit" class="btn btn-success" style="text-align:center;">이벤트 수정하기</button>
                   </div>
                 </form>

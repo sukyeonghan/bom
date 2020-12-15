@@ -10,34 +10,9 @@
 	<jsp:param name="title" value="이벤트" />
 </jsp:include>
 
-<section id="container" class="container">
-    <div class="media">
-
-        <!--관리자 내비게이션바 -->
-        <div id="" class=" mr-3 admin-nav">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link non-select" href="${path }/">회원관리</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link select" href="${path }/admin/moveProduct">제품관리</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link non-select" href="${path }/">주문관리</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link non-select" href="${path }/">1:1문의관리</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link non-select" href="${path }/admin/event/moveEvent">이벤트관리</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link non-select" href="${path }/">커뮤니티관리</a>
-                </li>
-            </ul>
-        </div>
-
-        <div id="admin-container" class="media-body">
+<section id="container">
+    <div class="center-sort">
+        <div id="admin-container">
             <!-- 페이지 타이틀 -->
             <h3 class="page-title">이벤트관리</h3>
             <hr>
@@ -52,12 +27,12 @@
                             <input type="text" id="title" name="eventTitle" class="form-control" placeholder="제목입력">
                         </div>
                     </div>
-                    <div class="form-group d-flex">
+                    <div class="d-flex">
                         <div class="col-2">
                             <label for="e_term" class="control-label">이벤트기간</label>
                         </div>
                         <div id="e_term" class="d-flex col-10">
-                            <div class="col-5">
+                            <div class="form-group col-5">
                                 <h6><label for="start"><small>시작일</small></label></h6>
                                 <div class="d-flex" id="start">
                                     <input type="date" name="eventStartDate" id="eventStartDate" placeholder="YYYY"
@@ -71,7 +46,7 @@
                             <div class="col-2">
                                	<h3> ~ </h3>
                             </div>
-                            <div class="col-5">
+                            <div class="form-group col-5">
                                 <h6><label for="end"><small>종료일</small></label></h6>
                                 <div class="d-flex" id="end">
                                     <input type="date" name="eventEndDate" id="eventEndDate" placeholder="YYYY"
@@ -102,7 +77,7 @@
                           <input type="number" id="sale" name="eventSalePer" class="form-control" required><span>%</span>
                       </div>
                   </div>
-                  <div>
+                  <div style="text-align:center;">
                       <button type="submit" class="btn btn-success" style="text-align:center;">이벤트 등록하기</button>
                   </div>
                 </form>
@@ -125,32 +100,13 @@
 
 
 <style>
-/*좌측메뉴*/
-.admin-nav {
-	padding-right: 100px;
+input[type=number]{
+	width:50%;
 }
-
-.admin-nav a {
-	font-weight: bolder;
+.center-sort{
+	margin:0 20%;
+	min-width: 700px;
 }
-
-.admin-nav a:hover {
-	color: #45A663;
-}
-
-.select {
-	color: #45A663;
-}
-
-.non-select {
-	color: black;
-}
-
-/*최소 컨텐츠 크기*/
-.media {
-	min-width: 768px;
-}
-
 /*페이지 타이틀*/
 .page-title {
 	margin-bottom: 5%;
@@ -205,6 +161,10 @@
 	justify-content: center;
 	align-items: center;
 	margin-top: 20px;
+}
+
+.small-form{
+	width: 50%;
 }
 
 </style>
