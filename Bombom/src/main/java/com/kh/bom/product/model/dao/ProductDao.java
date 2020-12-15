@@ -10,6 +10,8 @@ import com.kh.bom.review.model.vo.Review;
 
 public interface ProductDao {
 	
+	Product selectProductOne(SqlSession session, String pdtNo);
+	
 	List<Inquiry> inquiryList(SqlSession session,int cPage,int numPerpage);
 	
 	int inquiryCount(SqlSession session);

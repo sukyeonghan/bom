@@ -47,7 +47,6 @@ a:hover {
 }
 
 .goods_thumbs_image ul li {
-	/* border: 1px blueviolet solid; */
 	float: left;
 	/* padding-right: 7px; */
 	padding: 0 4px 0 0px;
@@ -55,6 +54,7 @@ a:hover {
         height: 100%; */
 	display: inline-block;
 	cursor: pointer;
+	margin: 0;
 }
 
 .goods_thumbs_image ul li img {
@@ -417,23 +417,49 @@ textarea.answer {
 </style>
 
 <section id="container" style="margin:0 5% 0 5%;">
-    <h5><small><a href="${path}">홈</a> > <a href="${path}/product/productAll">제품</a> > <a href="#">욕실</a></small></h5>
+
+    <h5><small><a href="${path}">홈</a> > <a href="${path}/product/productAll">제품</a> > 
+    <c:choose>
+    	<c:when test="${product.pdtCategory eq '식품'}">
+    		<a href="${path}/product/food">식품</a></small></h5>
+    	</c:when>
+    	<c:when test="${product.pdtCategory eq '잡화'}">
+    		<a href="${path}/product/stuff">잡화</a></small></h5>
+    	</c:when>
+    	<c:when test="${product.pdtCategory eq '주방'}">
+    		<a href="${path}/product/kitchen">주방</a></small></h5>
+    	</c:when>
+    	<c:when test="${product.pdtCategory eq '욕실'}">
+    		<a href="${path}/product/bathroom">욕실</a></small></h5>
+    	</c:when>
+    	<c:when test="${product.pdtCategory eq '여성용품'}">
+    		<a href="${path}/product/woman">여성용품</a></small></h5>
+    	</c:when>
+    	<c:when test="${product.pdtCategory eq '반려동물'}">
+    		<a href="${path}/product/pet">반려동물</a></small></h5>
+    	</c:when>
+    </c:choose>
     <div class="row" >
+    <c:out value="${product}"/>
     	<!-- 썸네일 -->
         <div class="col-6" >
-            <!-- <div class="goods_thumbs" id="main_image"> -->
-                <img alt="" class="img-fluid" id="main_image" style="padding-bottom:7px;" src="${path }/resources/upload/product/천연목욕수세미1.jpg"/>
-            <!-- </div> -->
+        	<c:forTokens items="${product.thumbs}" var="th" delims="," varStatus="vs">
+        	<!-- 큰사진 -->
+        	<c:if test="${vs.first }">
+            	<img alt="" class="img-fluid" id="main_image" style="padding-bottom:7px;" src="${path}/resources/upload/product/${th}"/>
+            </c:if>
+            <!-- 작은사진 여러개 -->
             <div class="goods_thumbs_image row container">
                 <ul class="clearfix">
-                    <li class="col-2 small_image"><a href="${path }/resources/upload/product/천연목욕수세미1.jpg"><img src="${path }/resources/upload/product/천연목욕수세미1.jpg"></a></li>
-                    <li class="col-2 small_image"><a href="${path }/resources/upload/product/천연목욕수세미2.jpg"><img src="${path }/resources/upload/product/천연목욕수세미2.jpg"></a></li>
+	                <li class="col-2 small_image"><a href="${path }/resources/upload/product/${th}"><img src="${path }/resources/upload/product/${th}"></a></li>
+                    <%-- <li class="col-2 small_image"><a href="${path }/resources/upload/product/천연목욕수세미2.jpg"><img src="${path }/resources/upload/product/천연목욕수세미2.jpg"></a></li>
                     <li class="col-2 small_image"><a href="${path }/resources/upload/product/천연목욕수세미3.jpg"><img src="${path }/resources/upload/product/천연목욕수세미3.jpg"></a></li>
                     <li class="col-2 small_image"><a href="${path }/resources/upload/product/천연목욕수세미4.jpg"><img src="${path }/resources/upload/product/천연목욕수세미4.jpg"></a></li>
                     <li class="col-2 small_image"><a href="#">5</a></li>
-                    <li class="col-2 small_image"><a href="#">6</a></li>
+                    <li class="col-2 small_image"><a href="#">6</a></li> --%>
                 </ul>
             </div>
+            </c:forTokens>
         </div>
         <!-- 제품 info -->
         <div class="col-6 info-container" style="display:flex;flex-wrap:wrap;">
@@ -445,7 +471,7 @@ textarea.answer {
         			</div>
                     <div class="information size-mid row">
 	                    <div class="col-10">별점</div>
-	                    <div class="col-2"><a href=""><img src="${path}/resources/images/product/SNS.png" width="35px" style="right:0;"></a></div>
+	                    <div class="col-2"><a href=""><img src="${path}/resources/upload/product/SNS.png" width="35px" style="right:0;"></a></div>
                     </div>
                     <hr>
                     <div class="information size-mid">제품 간단설명</div>
@@ -527,7 +553,7 @@ textarea.answer {
 		    	<!-- 상품상세 시작 -->
 		    	<div class="tab_box on">
 					<!--제품이미지 삽입-->
-					<img src="${path}/resources/upload/product/천연목욕수세미5.jpg" style="width:80%; display:block;margin:auto;">
+					<img src="${path}/resources/upload/product/${product.pdtDetailImage}" style="width:80%; display:block;margin:auto;">
 					<!--배송안내 시작!-->
 					<div id="information">
 						<hr>
