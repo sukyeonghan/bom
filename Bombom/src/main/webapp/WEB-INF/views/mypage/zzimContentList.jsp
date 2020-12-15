@@ -35,8 +35,9 @@
 	#edit>span{font-weight:bolder;color: #45A663;cursor: pointer;}
 	#editBox{display:none; }
 	#editBox>*{margin-left: 30px;font-weight:bolder; cursor: pointer;}
-	#folderNameUpdate,#folderMove{color:#45A663;}
-	#deleteZc,#folderRemove{color:red;}
+	#folderNameUpdate,#folderMove,#allChoice{color:#45A663;}
+	#allChoiceX,#deleteZc,#folderRemove,#edit-cancle{color:#7E7E7E;}
+	#folderRemove{}
 </style>
 <section id="container">
 	<div id="flexDiv">
@@ -49,13 +50,16 @@
 				<span><i class="fas fa-angle-right"></i></span>
 				<span><c:out value="${zzimName }"/></span>
 			</div>
+			<div style="height:30px;"><span id="ckCount" style="display:none;"></span></div>
 			<div class="right" id="edit"><span><i class="fas fa-tools"></i> 편집</span></div>
 			<div id="editBox" class="right">
-				<span id="folderNameUpdate" data-target="#updateZzimModal" data-toggle="modal" ><i class="far fa-folder"></i> 폴더이름변경</span>
-				<span id="folderMove"><i class="fas fa-folder-minus"></i> 폴더이동</span>
-				<span id="folderRemove" onclick="fn_deleteFolder();"><i class="far fa-trash-alt"></i> 폴더삭제</span>
-				<span id="deleteZc"><i class="far fa-trash-alt"></i> 상품삭제</span>
-				<span id="edit-cancle" style="color:gray;">취소</span>
+				<span id="folderNameUpdate" data-target="#updateZzimModal" data-toggle="modal" >폴더이름변경</span>
+				<span id="folderMove">상품폴더이동</span>
+				<span id="allChoice">상품전체선택</span>
+				<span id="allChoiceX" style="display:none;">전체선택해제</span>
+				<span id="deleteZc">선택상품삭제</span>
+				<span id="folderRemove" onclick="fn_deleteFolder();">해당폴더삭제</span>
+				<span id="edit-cancle">취소</span>
 			</div>
 			<hr>
 			
@@ -186,6 +190,30 @@ function fn_deleteFolder(){
 	
 }
 
+//체크박스 체크수에 따라 전체선택,해제 표시 / 선택갯수 표시, 삭제텍스트 css주기 함수
+function cssAndCount(){
+	let count=$("input:checkbox[name=zzimContentNoCkBox]:checked").length;
+	let all=$("input:checkbox[name=zzimContentNoCkBox]").length;
+	if(count>0){
+		$("#deleteZc").css("color","red");
+		$("#ckCount").show();
+		$("#ckCount").html("(선택 갯수: "+count+"개)");
+
+	}else{
+		$("#deleteZc").css("color","#7E7E7E");
+		$("#ckCount").hide();
+
+	}
+	if(all==count){
+		$("#allChoice").hide();
+		$("#allChoiceX").show();
+	}else{
+		$("#allChoice").show();
+		$("#allChoiceX").hide();
+		
+	}
+}
+
 $(function(){
 	//창크기 변할떄마다 정사각형으로 폴더 만들기
 	var height=$(".zzimFolder").width();
@@ -198,7 +226,6 @@ $(function(){
 	$(".nameP").hide();
    	$(".zzimImgDiv>img").on({
        	"mouseenter":e=>{
-       		console.log(e.target);
     	   $(e.target).parent().next().css("display","block");
        	},"mouseleave":e=>{
        		$(e.target).parent().next().css("display","none");
@@ -251,6 +278,7 @@ $(function(){
 	   }else{
 		   $(e.target).prev().css("display","none");
 	   }
+	   cssAndCount();
 	   
    });
    //상품삭제 선택시
@@ -307,7 +335,16 @@ $(function(){
 	  $("#zzimModal").modal();//모달열기
 
    });
-
+   
+   
+   //전체선택선택시
+	$("#allChoice").click(e=>{
+   	   	$(".zzimContentNoCkBox").click();
+		
+   	});
+	$("#allChoiceX").click(e=>{
+		$(".zzimContentNoCkBox").click();
+	});
 })
 	
 
