@@ -115,7 +115,7 @@ th, td {
 <section id="container">
 	<div id="flexDiv">
       <!-- 좌측 메뉴 -->
-      <%-- <jsp:include page="/WEB-INF/views/common/adminMenu.jsp" /> --%>
+      <jsp:include page="/WEB-INF/views/common/adminMenu.jsp" />
       <!-- 우측 메뉴내용 -->
       <div id="admin-container">
 			<!-- 페이지 타이틀 -->
@@ -251,11 +251,7 @@ th, td {
 	        success:data =>{
 				console.log(data);
 				$("#event-table-wrap").html("");
-				
-				//왜 다 가져와버릴까.... 테이블만 가져와야 하는딩......				
 				$("#event-table-wrap").html(data);
-			
-	        
 	        }
 		});
 	});

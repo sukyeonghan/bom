@@ -56,6 +56,16 @@
 	max-width: 400px;
 	line-height: 1.3;
 }
+.innerText {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-125%, 0%);
+	text-align: center;
+}
+.introSubject {
+	font-size: 45px;
+}
 </style>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -71,8 +81,7 @@
 				<div class="swiper-slide">
 					<!--swiper-wrap : 이미지와 텍스트를 감싸는 div-->
 					<div class="swiper-wrap" id="customSection">
-						<img class="banner_img"
-							src="${path }/resources/images/main/banner/main-banner1.jpg">
+						<img class="banner_img" src="${path }/resources/images/main/banner/main-banner1.jpg">
 						<!--innerText : 텍스트와 버튼을 감싸는 div -->
 						<div class="innerText">
 							<!-- introText : 소개글 div -->

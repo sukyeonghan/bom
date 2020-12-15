@@ -130,10 +130,20 @@
 	</select>
 	<!-- 제품개수출력 -->
 	<select id="countProduct" parameterType="map" resultType="_int">
-		SELECT COUNT(*) FROM PRODUCT
-		<if test="category != '전체'">
-			WHERE PDT_CATEGORY=#{category}
+		SELECT COUNT(*) FROM PRODUCT 
+		<if test="sort != '전체'">
+			WHERE PDT_CATEGORY=#{sort}
 		</if>
+		<trim prefix="AND" prefixOverrides="WHERE">
+			<if test="keyword !=null or keyword != ''">
+				<if test="searchType eq 'pdtName'">
+					PDT_NAME LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test="searchType eq 'eventNo'">
+					EVENT_NO_REF LIKE '%'||#{keyword}||'%'
+				</if>
+			</if>
+		</trim>
 	</select>
 	<!-- 제품 삭제 -->
 	<delete id="deleteProduct" parameterType="string">
@@ -216,12 +226,41 @@
 		LEFT JOIN PRODUCT_OPTION ON(PDT_NO=PDT_NO_REF)
 		WHERE PDT_NO=#{pdtNo}
 	</select>
+	<!-- 상품명 중복검사 -->
+	<select id="selectPdtName" resultType="int" parameterType="string">
+		SELECT COUNT(*) FROM PRODUCT WHERE PDT_NAME=#{pdtName} AND PDT_NO!=#{pdtNo}
+	</select>
+	<!-- 상품명 중복검사(수정페이지용) -->
+	<select id="checkPdtName" resultType="int" parameterType="map">
+		SELECT COUNT(*) FROM PRODUCT WHERE PDT_NAME=#{pdtName} AND PDT_NO!=#{pdtNo}
+	</select>
+	<!-- 상품 목록 검색 -->
+	<select id="searchProductList" parameterType="map" resultMap="productMap">
+		SELECT * FROM PRODUCT 
+	
+		<if test="sort != '전체'">
+			WHERE PDT_CATEGORY=#{sort}
+		</if>
+		
+		<trim prefix="AND" prefixOverrides="WHERE">
+			<if test="keyword !=null or keyword != ''">
+				<if test="searchType eq 'pdtName'">
+					PDT_NAME LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test="searchType eq 'eventNo'">
+					EVENT_NO_REF LIKE '%'||#{keyword}||'%'
+				</if>
+			</if>
+		</trim>
+		ORDER BY PDT_DATE DESC
+	</select>
+
 
 
 	<!-- 회원관리 -->
 	<!--관리자 전환 -->
 	<update id="updateManagerYn" parameterType="member">
-		UPDATE MEMBER SET
+		UPDATE MEMBER SET 
 		mem_manager_yn = #{memManagerYn} WHERE MEM_NO=#{memNo}
 	</update>
 	<!-- 회원리스트 -->

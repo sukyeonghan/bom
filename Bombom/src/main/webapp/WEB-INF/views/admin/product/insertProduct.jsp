@@ -177,7 +177,7 @@
 					
 		      		<div id="detail-image">
 			      		<p class="title">제품 상세 이미지(총 1장)</p>
-			      		<input type="file" id="tests" class="form-control-file border" name="detailImg">
+			      		<input type="file" id="tests" class="form-control-file border" name="detailImg" accept="image/gif, image/jpeg, image/png">
 		      		</div>
 				</div>
 				

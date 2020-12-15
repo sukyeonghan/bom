@@ -24,7 +24,9 @@ public interface AdminDao {
 	int updateEvent(SqlSession session, Event e);
 	
 	List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,String sort);
+	List<Product> selectSearchList(SqlSession session,int cPage,int numPerpage,Map<String, String> map);
 	int countProduct(SqlSession session,String sort);
+	int countProduct(SqlSession session,Map<String, String> map);
 	int deleteProduct(SqlSession session,String pdtNo);
 	int insertProduct(SqlSession session,Product p);
 	int insertThumb(SqlSession session,ProductThumb th);
