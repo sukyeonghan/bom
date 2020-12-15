@@ -162,6 +162,7 @@ public class ProductController {
 	//상품문의 카운트 - 상품상세 첫화면
 	@RequestMapping("/product/productOne")
 	public ModelAndView productOne(ModelAndView mv,
+			
 			@RequestParam(value="cPage",defaultValue="1") int cPage,
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage
 			,HttpSession session) {

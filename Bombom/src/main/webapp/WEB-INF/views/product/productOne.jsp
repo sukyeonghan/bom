@@ -622,11 +622,12 @@ textarea.answer {
 									    <!-- 타이틀 -->
 									      <div class="accordion_title">
 									      	<div class="col-9">
+									      		<!-- 별점 불러오기 -->
 									      		<c:forEach begin="1" end="${r.revScore}" step="1" varStatus="vs"> 
-									      			<img src="${path}/resources/images/product/star.png" style="width:20px;height:20px;">
+									      			<img src="${path}/resources/images/product/star.png" style="width:20px;height:20px;margin:0 0 5px -3px;">
 									      		</c:forEach>
 									      		<c:forEach begin="1" end="${5-r.revScore}" step="1">
-									      		 	<img src="${path}/resources/images/product/starblank.png" style="width:20px;height:20px;">
+									      		 	<img src="${path}/resources/images/product/starblank.png" style="width:20px;height:20px;margin:0 0 5px -3px;">
 									      		</c:forEach>
 										      	<span><c:out value="${r.revScore}"/></span><br>
 										      	<img src="${path }/resources/upload/profile/${r.memPro}" style="max-width:30px; height:30px;border-radius:50%;">&nbsp;
@@ -683,12 +684,6 @@ textarea.answer {
 		        <!-- Modal body -->
 			        <div class="modal-body container">
 				        	<!-- 상품문의 내용 -->
-				        	<c:forEach begin="1" end="${r.revScore}" step="1" varStatus="vs"> 
-								<img src="${path}/resources/images/product/star.png" style="width:20px;height:20px;">
-							</c:forEach>
-							<c:forEach begin="1" end="${5-r.revScore}" step="1">
-								<img src="${path}/resources/images/product/starblank.png" style="width:20px;height:20px;">
-							</c:forEach>
 				        	<span class="revScore"></span><br>
 				        	<img id="memProimg">
 				        	<strong><span class="memNick"></span></strong>&nbsp;&nbsp;<span class="revDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -750,6 +745,20 @@ textarea.answer {
 			 $(".revScore").text(revScore);
 			 $(".revContent").text(revContent);
 			 
+			 //별점이 있을경우 checked
+			 if(revScore==1){
+				 $("input:checkbox[name='rating']:checkbox[value='1']").prop("checked",true);
+			 }else if(revScore==2){
+				 $("input:checkbox[name='rating']:checkbox[value='2']").prop("checked",true);
+			 }else if(revScore==3){
+				 $("input:checkbox[name='rating']:checkbox[value='3']").prop("checked",true);
+			 }else if(revScore==4){
+				 $("input:checkbox[name='rating']:checkbox[value='4']").prop("checked",true);
+			 }else if(revScore==5){
+				 $("input:checkbox[name='rating']:checkbox[value='5']").prop("checked",true);
+			 }
+			 
+			 //이미지가 있을경우 모달창에 이미지 넣어두기
 			 if(revImage!=""){
 				 $("#imgPreview").prop("src","${path}/resources/upload/review/"+revImage);
 				 $("#imgPreview").prop("style","height:100%;");
@@ -762,6 +771,7 @@ textarea.answer {
 			 $("#memProimg").prop("style","max-width:30px; height:30px;border-radius:50%;");
 		  });
 		  
+		  	//수정누를경우 수정완료로 변경
 			$(this).attr("value",function(index,attr){
 				if(attr.match("수정")){
 					console.log("수정완료");
