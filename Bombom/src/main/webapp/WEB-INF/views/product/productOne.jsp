@@ -577,8 +577,8 @@ textarea.answer {
 							        <div class="wrap_bottom">
 							        <div style="float:left;left:0;bottom:0;">
 							        	<!-- 업로드 사진 -->
-							       		<img class="uploadImage" src="${path}/resources/images/product/gallery.png" style="width:25px;height:25px;">&nbsp;
-							       		<input type="file" id="upload" name="upload" accept="image/gif, image/jpeg, image/png" style="display:none;">
+							       		<img id="uploadImage1" src="${path}/resources/images/product/gallery.png" style="width:25px;height:25px;">&nbsp;
+							       		<input type="file" id="upload1" name="upload1" accept="image/gif, image/jpeg, image/png" style="display:none;">
 							       		<!-- 별점 -->
 								        <div class="rating" style="display:inline-block;">
 											<!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
@@ -595,7 +595,7 @@ textarea.answer {
 										</div>
 									</div>
 									<div style="float:right;">
-									<span class="byteInfo">0</span>/500bytes
+									<span id="byteInfo2">0</span>/500bytes
 										<!-- 로그인 한 사람 및 구매한 사람만 구매평 등록가능-->
 								        <c:if test="${loginMember!=null }">
 								        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
@@ -621,11 +621,17 @@ textarea.answer {
 									    <li class="accordion_inner">
 									    <!-- 타이틀 -->
 									      <div class="accordion_title">
-									      	<div class="col-9" >
-										      	별점:<c:out value="${r.revScore}"/><br>
+									      	<div class="col-9">
+									      		<c:forEach begin="1" end="${r.revScore}" step="1" varStatus="vs"> 
+									      			<img src="${path}/resources/images/product/star.png" style="width:20px;height:20px;">
+									      		</c:forEach>
+									      		<c:forEach begin="1" end="${5-r.revScore}" step="1">
+									      		 	<img src="${path}/resources/images/product/starblank.png" style="width:20px;height:20px;">
+									      		</c:forEach>
+										      	<span><c:out value="${r.revScore}"/></span><br>
 										      	<img src="${path }/resources/upload/profile/${r.memPro}" style="max-width:30px; height:30px;border-radius:50%;">&nbsp;
-											      <strong><c:out value="${r.memNick}"/></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate type="both" timeStyle="short" value="${r.revDate }"/><br>
-											     <c:out value="${r.revContent}" />
+											      <span><strong><c:out value="${r.memNick}" /></strong></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><fmt:formatDate type="both" timeStyle="short" value="${r.revDate }"/></span><br>
+											     <c:out value="${r.revContent}"/>
 									      	</div>
 									      	<div class="col-2"><c:if test="${r.revImage!=null }"><img src="${path}/resources/upload/review/${r.revImage }" style="height: auto;"/></c:if></div>
 									      	<div class="col-1 plusminus"></div>
@@ -638,6 +644,13 @@ textarea.answer {
 										        	<div style="display:inline-block;float:right;">
 										        		<input type="hidden" name="revNo" value="${r.revNo}">
 											        	<input type="button" class="btn btn-outline-success btn-sm updateView" data-toggle="modal" data-target="#updateReview" value="수정">
+											        	<span style="display:none"><c:out value="${r.revNo}"/></span>
+													    <span style="display:none"><c:out value="${r.memNick}"/></span>
+													    <span style="display:none"><c:out value="${r.revScore}"/></span>
+													    <span style="display:none"><c:out value="${r.revContent}"/></span>
+													    <span style="display:none"><c:out value="${r.revImage}"/></span>
+													    <span style="display:none"><fmt:formatDate type="both" timeStyle="short" value="${r.revDate }"/></span>
+													    <span style="display:none"><c:out value="${r.memPro}"/></span>
 						        						<input type="button" class="btn btn-outline-success btn-sm deleteReviewCk" data-confirm="구매평을 삭제하시겠습니까?" value="삭제">
 										        	</div>
 										        </c:if>
@@ -646,14 +659,6 @@ textarea.answer {
 									      	</div>
 									      </div>
 									    </li>
-									    
-									    <span style="display:none"><c:out value="${r.revNo}"/></span>
-									    <span style="display:none"><c:out value="${r.memNick}"/></span>
-									    <span style="display:none"><c:out value="${r.revScore}"/></span>
-									    <span style="display:none"><c:out value="${r.revContent}"/></span>
-									    <span style="display:none"><c:out value="${r.revImage}"/></span>
-									    <span style="display:none"><fmt:formatDate type="both" timeStyle="short" value="${r.revDate }"/></span>
-									    
 									</c:forEach>    
 								</ul>
 							</c:if>
@@ -678,20 +683,27 @@ textarea.answer {
 		        <!-- Modal body -->
 			        <div class="modal-body container">
 				        	<!-- 상품문의 내용 -->
-				        	별점:<span class="revScore"></span>
+				        	<c:forEach begin="1" end="${r.revScore}" step="1" varStatus="vs"> 
+								<img src="${path}/resources/images/product/star.png" style="width:20px;height:20px;">
+							</c:forEach>
+							<c:forEach begin="1" end="${5-r.revScore}" step="1">
+								<img src="${path}/resources/images/product/starblank.png" style="width:20px;height:20px;">
+							</c:forEach>
+				        	<span class="revScore"></span><br>
+				        	<img id="memProimg">
 				        	<strong><span class="memNick"></span></strong>&nbsp;&nbsp;<span class="revDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
 				        	<input type="hidden" name="revNo" class="revNo"/>
 							<div id="secret" style="display:inline-block;">
 					        	<input type="button" class="btn btn-outline-success btn-sm" value="수정완료">
 				        	</div>
 				        	<span class="span_textarea" style="margin: 10px 0 0 0;">
-							    <textarea class="revContent" name="revContent" style="height:50%;"></textarea>
-							    	<div class="imgPreview" style="height:30%;"><img src="${path}"/></div>
+							    <textarea class="revContent" name="revContent" style="height:50%;" onKeyUp="javascript:fnChkByte3(this,'500')"></textarea>
+							    	<div id="uploadPreview" style="height:30%;"><img id="imgPreview" style="height:30%;"></div>
 							        <div class="wrap_bottom">
 							        <div style="float:left;left:0;bottom:0;">
 							        	<!-- 업로드 사진 -->
-							       		<img class="uploadImage" src="${path}/resources/images/product/gallery.png" style="width:25px;height:25px;">&nbsp;
-							       		<input type="file" id="upload" name="upload" accept="image/gif, image/jpeg, image/png" style="display:none;">
+							       		<img id="uploadImage2" src="${path}/resources/images/product/gallery.png" style="width:25px;height:25px;">&nbsp;
+							       		<input type="file" id="upload2" name="upload2" accept="image/gif, image/jpeg, image/png" style="display:none;">
 							       		<!-- 별점 -->
 								        <div class="rating" style="display:inline-block;">
 											<!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
@@ -708,11 +720,10 @@ textarea.answer {
 										</div>
 									</div>
 									<div style="float:right;">
-									<span class="byteInfo">0</span>/500bytes
+									<!--  -->
+									<span id="byteInfo3" style="display:none;">0</span><!-- /500bytes -->
 						        	</div>
 						        	</div>
-							    
-							    
 						    </span>
 				        </div>
 		        
@@ -723,24 +734,32 @@ textarea.answer {
 		  <script>
 		  //구매평 수정창 클릭시 모달창 띄움
 		  $(".updateView").click(function(){
-			 let wrap = $(this).parents(".accordion_wrap");
-			 let choice = wrap.children();
+			 let wrap = $(this).parent();
+			 let choice = wrap.children("span");
 			 
-			 let revNo = choice.eq(1).text();
-			 let memNick = choice.eq(2).text();
-			 let revScore = choice.eq(3).text();
-			 let revContent = choice.eq(4).text();
-			 let revImage = choice.eq(5).text();
-			 let revDate = choice.eq(6).text();
+			 let revNo = choice.eq(0).text();
+			 let memNick = choice.eq(1).text();
+			 let revScore = choice.eq(2).text();
+			 let revContent = choice.eq(3).text();
+			 let revImage = choice.eq(4).text();
+			 let revDate = choice.eq(5).text();
+			 let memPro = choice.eq(6).text();
 			 
 			 $(".revNo").val(revNo);
 			 $(".memNick").text(memNick);
 			 $(".revScore").text(revScore);
 			 $(".revContent").text(revContent);
-			 $(".imgPreview").attr("img", function(index,attr){
-				 return attr.replace();
-			 });
+			 
+			 if(revImage!=""){
+				 $("#imgPreview").prop("src","${path}/resources/upload/review/"+revImage);
+				 $("#imgPreview").prop("style","height:100%;");
+			 }else{
+				 $("#imgPreview").prop("src","");
+			 }
+			 
 			 $(".revDate").text(revDate);
+			 $("#memProimg").prop("src","${path}/resources/upload/profile/"+memPro);
+			 $("#memProimg").prop("style","max-width:30px; height:30px;border-radius:50%;");
 		  });
 		  
 			$(this).attr("value",function(index,attr){
@@ -761,9 +780,9 @@ textarea.answer {
 				            <button type="button" class="btn btn-success showBox">상품문의</button>
 					        <div class="wrap-category" style="display:none;">
 						        <span class="span_textarea">
-							        <textarea name="inqContent" id="inqContent" placeholder="문의내용을 입력해주세요" onKeyUp="javascript:fnChkByte(this,'500')"></textarea>
+							        <textarea name="inqContent" id="inqContent" placeholder="문의내용을 입력해주세요" onKeyUp="javascript:fnChkByte1(this,'500')"></textarea>
 									<div style="float:right;">
-										<span class="byteInfo">0</span>/500bytes
+										<span id="byteInfo1">0</span>/500bytes
 								        <label>
 						 		        	<img id="lockUnlock" src="${path}/resources/images/product/unlock.png" name="inqSecret" style="width:25px;height:25px;">
 								        	<input type="hidden" id="secret" name="inqSecret" value="N">
@@ -1093,7 +1112,7 @@ textarea.answer {
 	});
 	
     //상품문의 Byte 수 체크 제한
-    function fnChkByte(obj, maxByte) {
+    function fnChkByte1(obj, maxByte) {
       var str = obj.value;
       var str_len = str.length;
       var rbyte = 0;
@@ -1104,7 +1123,7 @@ textarea.answer {
       for(var i = 0; i<str_len; i++) {
         one_char = str.charAt(i);
         if(escape(one_char).length > 4) {
-          rbyte += 3; //한글3Byte
+          rbyte += 3; //한글2Byte
         }else{
           rbyte++; //영문 등 나머지 1Byte
         }
@@ -1116,14 +1135,80 @@ textarea.answer {
 
       if(rbyte > maxByte) {
         // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
-        alert("메세지는 최대 " + (maxByte) + "byte를 초과할 수 없습니다.");
+        alert("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
         str2 = str.substr(0, rlen); //문자열 자르기
         obj.value = str2;
-        fnChkByte(obj, maxByte);
+        fnChkByte1(obj, maxByte);
       }else{
-        document.getElementsByClassName("byteInfo").innerText = rbyte;
+        document.getElementById("byteInfo1").innerText = rbyte;
       }
-    }	
+    }
+
+    //구매평 Byte 수 체크 제한
+    function fnChkByte2(obj, maxByte) {
+      var str = obj.value;
+      var str_len = str.length;
+      var rbyte = 0;
+      var rlen = 0;
+      var one_char = "";
+      var str2 = "";
+
+      for(var i = 0; i<str_len; i++) {
+        one_char = str.charAt(i);
+        if(escape(one_char).length > 4) {
+          rbyte += 3; //한글2Byte
+        }else{
+          rbyte++; //영문 등 나머지 1Byte
+        }
+
+        if(rbyte <= maxByte){
+          rlen = i + 1; //return할 문자열 갯수
+        }
+      }
+
+      if(rbyte > maxByte) {
+        // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
+        alert("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
+        str2 = str.substr(0, rlen); //문자열 자르기
+        obj.value = str2;
+        fnChkByte2(obj, maxByte);
+      }else{
+        document.getElementById("byteInfo2").innerText = rbyte;
+      }
+    }   
+    
+    //구매평 수정하기 Byte 수 체크 제한
+    function fnChkByte3(obj, maxByte) {
+      var str = obj.value;
+      var str_len = str.length;
+      var rbyte = 0;
+      var rlen = 0;
+      var one_char = "";
+      var str2 = "";
+
+      for(var i = 0; i<str_len; i++) {
+        one_char = str.charAt(i);
+        if(escape(one_char).length > 4) {
+          rbyte += 3; //한글2Byte
+        }else{
+          rbyte++; //영문 등 나머지 1Byte
+        }
+
+        if(rbyte <= maxByte){
+          rlen = i + 1; //return할 문자열 갯수
+        }
+      }
+
+      if(rbyte > maxByte) {
+        // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
+        alert("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
+        str2 = str.substr(0, rlen); //문자열 자르기
+        obj.value = str2;
+        fnChkByte3(obj, maxByte);
+      }else{
+        document.getElementById("byteInfo3").innerText = rbyte;
+      }
+    }      
     
 
 	//구매하기,장바구니,찜하기,상품문의 클릭 시 로그인 체크
@@ -1341,12 +1426,12 @@ textarea.answer {
 		
 	}
 	
-	//사진 클릭 시 업로드 새창뜨기
-	$(".uploadImage").click(function(){
-		$("#upload").click();
+	//구매평 사진 클릭 시 업로드 새창뜨기
+	$("#uploadImage1").click(function(){
+		$("#upload1").click();
 	});
 		
-	$("#upload").change(e => {
+	$("#upload1").change(e => {
    		let reader = new FileReader();
    		reader.onload = e =>{
    			let img = $("<img>").attr({"src":e.target.result,"style":"width:70px;height:auto"});
@@ -1356,6 +1441,7 @@ textarea.answer {
    		}
    		reader.readAsDataURL($(e.target)[0].files[0]);
 	});	
+	
 	
 	//구매평 아코디언
 	window.onload = init();
@@ -1384,6 +1470,21 @@ textarea.answer {
 			location.replace("${path}/review/deleteReview?revNo="+revNo);
 		}	
 	});	
+    
+	//구매평 수정화면 사진 클릭 시 업로드 새창뜨기
+	$("#uploadImage2").click(function(){
+		$("#upload2").click();
+	});
+			
+	$("#upload2").change(e => {
+		let reader = new FileReader();
+		reader.onload = e =>{
+			let img = $("<img>").attr({"src":e.target.result,"style":"height:100%"});
+			$("#uploadPreview").html("");
+			$("#uploadPreview").append(img);
+	   	}
+		reader.readAsDataURL($(e.target)[0].files[0]);
+	});	    
 		
 </script>
     

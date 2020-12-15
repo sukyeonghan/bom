@@ -22,7 +22,7 @@ public class ReviewController {
 	//구매평 등록
 	@RequestMapping("/review/insertReview")
 	public ModelAndView insertReview(Review r, ModelAndView mv,
-			@RequestParam(value="upload", required=false) MultipartFile[] upFile,
+			@RequestParam(value="upload1", required=false) MultipartFile[] upFile,
 			HttpSession session) throws Exception {
 		
 		//upload 파일경로
