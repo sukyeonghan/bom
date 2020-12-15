@@ -17,6 +17,7 @@ import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.product.model.vo.ProductThumb;
 import com.kh.bom.qna.model.vo.Qna;
 import com.kh.bom.member.model.vo.Member;
+import com.kh.bom.order.model.vo.Order;
 
 @Repository
 public class AdminDaoImpl implements AdminDao {
@@ -261,4 +262,18 @@ public class AdminDaoImpl implements AdminDao {
 		return session.selectList("admin.selectQnaWaitList", "", new RowBounds((cPage - 1) * numPerpage, numPerpage));
 	}
 
+	@Override
+	public List<Order> selectOrderList(SqlSession session, int cPage, int numPerpage) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectOrderList", "", new RowBounds((cPage - 1) * numPerpage, numPerpage));
+	}
+
+	@Override
+	public int selectOrderCount(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectOrderCount");
+	}
+
+	
+	
 }

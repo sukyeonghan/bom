@@ -68,6 +68,17 @@
 		<result property="bannerThumb" column="banner_thumb" />
 		<result property="pdtName" column="pdt_name" />
 	</resultMap>
+	
+	<resultMap type="order" id="orderMap">
+		<result property="orderNo" column="order_no"/>
+		<result property="memNo" column="mem_no"/>
+		<result property="ordAmount" column="ord_amount"/>
+		<result property="ordUsePoint" column="ord_use_point"/>
+		<result property="ordDeliAddr" column="ord_deli_addr"/>
+		<result property="ordMemo" column="ord_memo"/>
+		<result property="ordDeliPrice" column="ord_deli_price"/>
+		<result property="ordStatus" column="ord_status"/>
+	</resultMap>
 
 	<select id="selectEvent" resultMap="eventMap">
 		SELECT * FROM EVENT
@@ -329,6 +340,15 @@
 		SELECT ROWNUM, Q.*FROM
 		(SELECT * FROM QNA WHERE QNA_YN='N' ORDER BY QNA_DATE ASC) Q ORDER BY
 		ROWNUM DESC
+	</select>
+	
+	<!--주문관리  -->
+	<select id="selectOrderList" resultMap="orderMap">
+		
+	</select>
+	
+	<select id="selectOrderCount" resultType="_int">
+		SELECT COUNT(*) FROM ORDER
 	</select>
 
 </mapper>
