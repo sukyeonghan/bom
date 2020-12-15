@@ -19,6 +19,11 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
 	private SqlSession session;
+	
+	@Override
+	public Product selectProductOne(String pdtNo) {
+		return dao.selectProductOne(session, pdtNo);
+	}
 
 	@Override
 	public List<Inquiry> inquiryList(int cPage, int numPerpage) {
@@ -73,6 +78,7 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return dao.selectSaleList(session,cPage,numPerPage,sort,category);
 	}
+
 	
 
 }

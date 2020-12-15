@@ -55,7 +55,7 @@
 						<label for="subTitle">이동시킬 서브타이틀 입력</label>
 						<textarea id="subTitle" name="bannerSubtitle" rows="3"
 							class="form-control" style="resize: none;"
-							placeholder="배너위에 노출시킬 서브타이틀을 입력해주세요. 배너에서 이 문구를 클릭하면 이동합니다."
+							placeholder="배너위에 노출시킬 서브타이틀을 입력해주세요."
 							required></textarea>
 					</div>
 					<div class="term">

@@ -26,9 +26,12 @@ public interface AdminService {
 	int updateEvent(Event e);
 	
 	List<Product> selectProductList(int cpage,int numPerPage,String sort);//제품목록 출력
+	List<Product> selectSearchList(int cPage,int numPerPage, Map<String, String> map);//제품검색목록 출력
 	int countProduct(String sort);//제품 개수
-	int deleteSelectProduct(List<String> delnum);//제품 선택 삭제
-	int deleteOneProduct(String pdtNo);//제품 하나 삭제
+	int countProduct(Map<String, String> map);//키워드별 개수
+	int deleteSelectProduct(List<String> delnum,String path);//제품 선택 삭제
+	int deleteOneProduct(String pdtNo,String path);//제품 하나 삭제
+	int deleteOption(String pdtNo);//옵션 삭제
 	int insertProduct(Product p,ProductOption o,List<Map<Object,Object>> options,List<ProductThumb> list);//제품 등록
 	Product selectOneProduct(String pdtNo);//제품 하나 선택
 	List<ProductOption> selectOption(String pdtNo);//옵션 선택
@@ -62,7 +65,7 @@ public interface AdminService {
 	List<Product> selectProductList();//배너등록에 필요한 상품목록
 	int deleteBanner(String no);
 	MainBanner selectBannerOne(String no);//수정하기를 위한 row한개 가져오기
-	
+	int updateBanner(MainBanner mb); //배너수정하기
 	
 	
 	

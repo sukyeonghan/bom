@@ -26,8 +26,8 @@
 		<result property="pdtOptionNo" column="pdt_option_no" />
 		<result property="pdtNo" column="pdt_no_ref" />
 		<result property="pdtOptionContent" column="pdt_option_content" />
-		<result property="pdtOptionAddprice"
-			column="pdt_option_addprice" />
+		<result property="pdtOptionAddprice" column="pdt_option_addprice" />
+		<result property="pdtOptionStatus" column="pdt_option_status"/>
 	</resultMap>
 	<resultMap type="thumb" id="thumbMap">
 		<result property="pdtThumbNo" column="pdt_thumb_no" />
@@ -119,15 +119,47 @@
 	</select>
 	<!-- 제품개수출력 -->
 	<select id="countProduct" parameterType="map" resultType="_int">
-		SELECT COUNT(*) FROM PRODUCT
-		<if test="category != '전체'">
-			WHERE PDT_CATEGORY=#{category}
+		SELECT COUNT(*) FROM PRODUCT 
+		<choose>
+			<when test="sort=='전체'">
+				<if test="keyword !=null or keyword != ''">
+					<if test="searchType eq 'pdtName'">
+						WHERE PDT_NAME LIKE '%'||#{keyword}||'%' 
+					</if>
+					<if test="searchType eq 'eventNo'">
+						WHERE EVENT_NO_REF LIKE '%'||#{keyword}||'%'
+					</if>
+				</if>
+			</when>
+			<otherwise>
+				WHERE PDT_CATEGORY=#{sort}
+				<if test="keyword !=null or keyword != ''">
+					<if test="searchType eq 'pdtName'">
+						AND PDT_NAME LIKE '%'||#{keyword}||'%'
+					</if>
+					<if test="searchType eq 'eventNo'">
+						AND EVENT_NO_REF LIKE '%'||#{keyword}||'%'
+					</if>
+				</if>
+			</otherwise>
+		</choose>
+		<!-- <if test="sort != '전체'">
+			WHERE PDT_CATEGORY=#{sort}
 		</if>
+		<trim prefix="AND" prefixOverrides="WHERE">
+			<if test="keyword !=null or keyword != ''">
+				<if test="searchType eq 'pdtName'">
+					PDT_NAME LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test="searchType eq 'eventNo'">
+					EVENT_NO_REF LIKE '%'||#{keyword}||'%'
+				</if>
+			</if>
+		</trim> -->
 	</select>
 	<!-- 제품 삭제 -->
 	<delete id="deleteProduct" parameterType="string">
-		DELETE FROM PRODUCT
-		WHERE PDT_NO=#{pdtNo}
+		DELETE FROM PRODUCT WHERE PDT_NO=#{pdtNo}
 	</delete>
 	<!-- 제품 등록 -->
 	<insert id="insertProduct" parameterType="product">
@@ -143,9 +175,8 @@
 	</insert>
 	<!-- 옵션 등록 -->
 	<insert id="insertOption" parameterType="option">
-		INSERT INTO
-		PRODUCT_OPTION
-		VALUES('PO'||SEQ_PDT_OPTION_NO.NEXTVAL,#{pdtNo},#{pdtOptionContent},#{pdtOptionAddprice})
+		INSERT INTO PRODUCT_OPTION
+		VALUES('PO'||SEQ_PDT_OPTION_NO.NEXTVAL,#{pdtNo},#{pdtOptionContent},#{pdtOptionAddprice},'Y')
 	</insert>
 	<!-- 썸네일 이미지 등록 -->
 	<insert id="insertThumb" parameterType="thumb">
@@ -153,8 +184,7 @@
 		VALUES('PT'||SEQ_PDT_THUMB_NO.NEXTVAL,#{pdtNo},#{renamedFileName})
 	</insert>
 	<!-- 제품 하나 선택 -->
-	<select id="selectOneProduct" parameterType="string"
-		resultMap="productMap">
+	<select id="selectOneProduct" parameterType="string" resultMap="productMap">
 		SELECT * FROM PRODUCT WHERE PDT_NO=#{pdtNo}
 	</select>
 	<!-- 제품 번호 해당 옵션 선택 -->
@@ -170,14 +200,14 @@
 	<!-- 제품 수정 -->
 	<update id="updateProduct" parameterType="product">
 		UPDATE PRODUCT SET
-		PDT_CATEGORY=#{pdtCategory},
-		PDT_PRICE=#{pdtPrice},
-		PDT_NAME=#{pdtName},
-		PDT_INTRO=#{pdtIntro},
-		PDT_STATUS=#{pdtStatus},
-		PDT_DATE=SYSDATE,
-		PDT_DETAIL_IMAGE=#{pdtDetailImage},
-		EVENT_NO_REF=#{eventNoRef}
+			PDT_CATEGORY=#{pdtCategory},
+			PDT_PRICE=#{pdtPrice},
+			PDT_NAME=#{pdtName},
+			PDT_INTRO=#{pdtIntro},
+			PDT_STATUS=#{pdtStatus},
+			PDT_DATE=SYSDATE,
+			PDT_DETAIL_IMAGE=#{pdtDetailImage},
+			EVENT_NO_REF=#{eventNoRef}
 		WHERE PDT_NO=#{pdtNo}
 		<selectKey keyProperty="pdtNo" resultType="string"
 			order="AFTER">
@@ -213,12 +243,58 @@
 	<select id="checkPdtName" resultType="int" parameterType="map">
 		SELECT COUNT(*) FROM PRODUCT WHERE PDT_NAME=#{pdtName} AND PDT_NO!=#{pdtNo}
 	</select>
+	<!-- 상품 목록 검색 -->
+	<select id="searchProductList" parameterType="map" resultMap="productMap">
+		SELECT * FROM PRODUCT 
+		<choose>
+			<when test="sort=='전체'">
+				<if test="keyword !=null or keyword != ''">
+					<if test="searchType eq 'pdtName'">
+						WHERE PDT_NAME LIKE '%'||#{keyword}||'%' 
+				
+					</if>
+					<if test="searchType eq 'eventNo'">
+						WHERE EVENT_NO_REF LIKE '%'||#{keyword}||'%'
+						
+					</if>
+				</if>
+			</when>
+			<otherwise>
+				WHERE PDT_CATEGORY=#{sort}
+				<if test="keyword !=null or keyword != ''">
+					<if test="searchType eq 'pdtName'">
+						AND PDT_NAME LIKE '%'||#{keyword}||'%'
+					</if>
+					<if test="searchType eq 'eventNo'">
+						AND EVENT_NO_REF LIKE '%'||#{keyword}||'%'
+					</if>
+				</if>
+			
+			</otherwise>
+		</choose>
+		<!-- <if test="sort != '전체'">
+			WHERE PDT_CATEGORY=#{sort}
+		</if>
+		
+		<trim prefix="AND" prefixOverrides="WHERE">
+			<if test="keyword !=null or keyword != ''">
+				<if test="searchType eq 'pdtName'">
+					AND PDT_NAME LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test="searchType eq 'eventNo'">
+					AND EVENT_NO_REF LIKE '%'||#{keyword}||'%'
+				</if>
+			</if>
+		</trim> -->
+		ORDER BY PDT_DATE DESC
+	</select>
+
 
 
 	<!-- 회원관리 -->
 	<!--관리자 전환 -->
 	<update id="updateManagerYn" parameterType="member">
-		UPDATE MEMBER SET
+		UPDATE MEMBER SET 
 		mem_manager_yn = #{memManagerYn} WHERE MEM_NO=#{memNo}
 	</update>
 	<!-- 회원리스트 -->
@@ -319,6 +395,14 @@
 		MAIN_BANNER
 		JOIN PRODUCT USING(PDT_NO)
 	</select>
+	<update id="updateBanner" parameterType="mainBanner">
+		UPDATE MAIN_BANNER SET 
+		PDT_NO = #{pdtNo} ,
+		BANNER_TITLE = #{bannerTitle} , 
+		BANNER_SUBTITLE = #{bannerSubtitle},
+		BANNER_THUMB = #{bannerThumb}
+		WHERE BANNER_NO = #{bannerNo}
+	</update>
 	<!-- 메인배너관리 끝 -->
 	<delete id="deleteQna" parameterType="string">
 		DELETE FROM QNA WHERE

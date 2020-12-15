@@ -109,8 +109,8 @@ public class BannerController {
 
 		return mv;
 	}
-	
-	//배너 삭제하기
+
+	// 배너 삭제하기
 	@RequestMapping("/admin/deleteBanner")
 	public ModelAndView deleteBanner(ModelAndView mv, String bannerNo) {
 		int result = service.deleteBanner(bannerNo);
@@ -132,12 +132,83 @@ public class BannerController {
 		mv.setViewName("common/msg");
 		return mv;
 	}
-	//배너수정하기로 이동
+
+	// 배너수정하기로 이동
 	@RequestMapping("/admin/moveBannerUpdate")
 	public ModelAndView moveBannerUpdate(ModelAndView mv, String no) {
 		mv.addObject("list", service.selectProductList());
 		mv.addObject("bannerOne", service.selectBannerOne(no));
 		mv.setViewName("admin/main/bannerUpdate");
+		return mv;
+	}
+
+	// 배너수정하기
+	@RequestMapping("/admin/updateBanner")
+	public ModelAndView updateBanner(ModelAndView mv, String pastThumb, MainBanner mb,
+			@RequestParam(value = "upload", required = false) MultipartFile[] upFile, HttpSession session)
+			throws Exception {
+
+		System.out.println("배너등록 : " + mb);
+
+		// upload실제 경로 가져오기
+		String path = session.getServletContext().getRealPath("resources/images/main/banner");
+		// 다중파일업로드하기 MultipartFile객체의 transferTo()메소드이용 파일을 저장
+		// file명을 재정의 하는것
+		for (MultipartFile f : upFile) {
+			if (!f.isEmpty()) {
+				// 원래 파일이름 가져오기
+				String oriName = f.getOriginalFilename();
+				// 확장자분리
+				String ext = oriName.substring(oriName.lastIndexOf(".")+1);
+				// 리네임양식정하기
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+				int rndValue = (int) (Math.random() * 1000);
+				String reName = "banner" + sdf.format(System.currentTimeMillis()) + "_" + rndValue + "." + ext;
+				System.out.println(reName);
+				
+				try {
+					f.transferTo(new File(path + "/" + reName));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				mb.setBannerThumb(reName); // 리네임한 파일이름 프로필로 넣기
+
+				// 이전에 등록한 프로필 파일 삭제
+				String deletePath = path + "/" + pastThumb;
+				File del = new File(deletePath);
+				if (del.exists())
+					del.delete();
+			}
+		}
+		// & 특수문자 치환하기
+		String title = mb.getBannerTitle();
+		String sub = mb.getBannerSubtitle();
+		if (title.contains("&")) {
+			title.replace("$", "'||chr(38)||'");
+			mb.setBannerTitle(title);
+		}
+		if (sub.contains("&")) {
+			sub.replace("$", "'||chr(38)||'");
+			mb.setBannerSubtitle(sub);
+		}
+		int result = service.updateBanner(mb);
+		String msg;
+		String loc;
+		String icon;
+		if (result > 0) {
+			msg = "등록에 성공했어요:)";
+			loc = "/admin/moveMainBanners";
+			icon = "success";// icon 종류 : success,error,warning
+		} else {
+			msg = "등록에 실패했어요:(";
+			loc = "/admin/moveMainBanners";
+			icon = "error";
+		}
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon", icon);
+		mv.setViewName("common/msg");
+
 		return mv;
 	}
 

@@ -13,4 +13,5 @@ public class ProductOption {
 	private String pdtNo;
 	private String pdtOptionContent;
 	private int pdtOptionAddprice;
+	private String pdtOptionStatus;
 }

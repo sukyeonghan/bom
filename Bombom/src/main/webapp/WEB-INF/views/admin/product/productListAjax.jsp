@@ -10,7 +10,7 @@
 		<p id="count">총  ${count }개</p>
 		<!--카테고리 정렬  -->
 		<div class="select-box">
-			<select class="sort">
+			<select class="sort" name="filter">
 				<option value="전체" ${sort=='전체'?"selected":"" }>전체보기</option>
 				<option value="식품" ${sort=='식품'?"selected":"" }>식품</option>
 				<option value="잡화" ${sort=='잡화'?"selected":"" }>잡화</option>
@@ -94,7 +94,21 @@
 		 <div >	
 			${pageBar }
 		</div>
-	
+		
+		<!-- 검색 -->
+		<div id="search-wrap">
+			<!-- 검색 카테고리 -->
+			<div class="select-box">
+				<select class="searchSort" name="searchSort">
+					<option value="">검색타입</option>
+					<option value="pdtName">상품명</option>
+					<option value="eventNo">이벤트명</option>
+				</select>
+			</div>
+			<input type="text" id="search-text" name="keyword" size="30">
+			<button class="btn btn-success" id="search-btn">검색</button>
+		</div>
+		
 	</div>
 			
 <script>
@@ -108,6 +122,25 @@
 			dataType:"html",
 			success:data=>{
 				console.log(data);
+				$("#result").html(data);
+			}
+		});
+	});
+	
+	var category=$("select[name=filter]").val();
+	$("#search-btn").on("click",e=>{
+		console.log($("#search-text").val().trim());
+		console.log($("select[name=searchSort]").val());
+		console.log(category);
+		$.ajax({
+			
+			url:"${path}/admin/productSearchAjax",
+			data:{"searchType":$("select[name=searchSort]").val(),"keyword":$("#search-text").val().trim(),"sort":category},
+			type:"get",
+			dataType:"html",
+			success:data=>{
+				console.log(data);
+				$("#result").html("");
 				$("#result").html(data);
 			}
 		});

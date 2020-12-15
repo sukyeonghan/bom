@@ -91,14 +91,25 @@ public class AdminDaoImpl implements AdminDao {
 				new RowBounds((cPage - 1) * numPerPage, numPerPage));
 
 	}
-
-	// 카테고리별 목록
+	//검색 목록
+	@Override
+	public List<Product> selectSearchList(SqlSession session, int cPage, int numPerpage, Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.searchProductList",map,new RowBounds((cPage - 1) * numPerpage, numPerpage));
+	}
+	//제품 개수
 	@Override
 	public int countProduct(SqlSession session, String category) {
 		// TODO Auto-generated method stub
 		Map<String, String> param = new HashMap();
-		param.put("category", category);
+		param.put("sort", category);
 		return session.selectOne("admin.countProduct", param);
+	}
+	//검색 개수
+	@Override
+	public int countProduct(SqlSession session, Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.countProduct",map);
 	}
 
 	// 제품 삭제
@@ -240,6 +251,11 @@ public class AdminDaoImpl implements AdminDao {
 	@Override
 	public MainBanner selectBannerOne(SqlSession session, String no) {
 		return session.selectOne("admin.selectBannerOne", no);
+	}
+	//배너 수정하기
+	@Override
+	public int updateBanner(SqlSession session, MainBanner mb) {
+		return session.update("admin.updateBanner",mb);
 	}
 
 	// 1:1문의 삭제

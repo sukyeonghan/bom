@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+.<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -88,8 +88,8 @@ p.p-info {
 </style>
 </head>
 
-<body>
-	<header id="spring-main-header" class="container-fluid fixed-top">
+<body style="height: 100%;">
+	<header id="spring-main-header" class="fixed-top" style="min-width: 1000px;">
 		<!-- header -->
 		<div id="header-container">
 			<div id="loginJoin" class="d-flex flex-row-reverse">
@@ -196,7 +196,7 @@ p.p-info {
 	</header>
 
 	<!--모달 회원가입 -->
-	<div class="container">
+	<div class="springHeader">
 
 		<!-- The Modal -->
 		<div class="modal fade" id="myModal">
@@ -227,21 +227,20 @@ p.p-info {
 							</div>
 							<div class="form-group">
 								<input type="email" class="form-control" placeholder="이메일주소"
-									name="email" id="memEmail" required />
-								<label class="guide emailOk">GOOD</label> <label
+									name="email" id="memEmail" required /> <label
+									class="guide emailOk">GOOD</label> <label
 									class="guide emailError">이미 가입된 이메일입니다.</label> <label
 									class="guide emailError2">올바른 이메일 형식이 아닙니다.</label>
 							</div>
 							<div class="form-group">
 								<input type="password" class="form-control" placeholder="비밀번호"
-									name="password" id="memPw" required /> <label
-									class="guide pw">영문,숫자,특수문자 조합 8자 이상 16자 이하로 입력해주세요.</label> <label
-									class="guide pwOk">GOOD</label>
+									name="password" id="memPw" required /> <label class="guide pw">영문,숫자,특수문자
+									조합 8자 이상 16자 이하로 입력해주세요.</label> <label class="guide pwOk">GOOD</label>
 							</div>
 							<div class="form-group form-check">
 								<label class="form-check-label"> <input
-									class="form-check-input" type="checkbox" required /> 다시:봄 이용 약관
-									및 개인정보 취급방침에 대한 내용을 모두 <br /> 확인하였으며, 이에 동의합니다.
+									class="form-check-input" type="checkbox" required /> 다시:봄 이용
+									약관 및 개인정보 취급방침에 대한 내용을 모두 <br /> 확인하였으며, 이에 동의합니다.
 								</label>
 							</div>
 							<button type="submit" class="btn btn-success btn-block"
@@ -259,8 +258,7 @@ p.p-info {
 							<br />
 							<p class="p-class">이미 회원이신가요?</p>
 							<a class="login-link" data-toggle="modal"
-								data-target="#loginModal" data-dismiss="modal">
-								로그인 하기</a>
+								data-target="#loginModal" data-dismiss="modal"> 로그인 하기</a>
 						</div>
 					</form>
 				</div>
@@ -292,8 +290,8 @@ p.p-info {
 
 								<input type="email" class="form-control" placeholder="이메일주소"
 									name="email" id="loginEmail" required
-									value="${cookie.saveId.value }" />
-								<label class="login emailSize">이메일을 입력해주세요.</label> <label
+									value="${cookie.saveId.value }" /> <label
+									class="login emailSize">이메일을 입력해주세요.</label> <label
 									class="login emailOk">GOOD</label> <label
 									class="login emailError">올바른 이메일 형식이 아닙니다.</label>
 
@@ -325,8 +323,7 @@ p.p-info {
 								data-target="#pwModal" data-dismiss="modal">비밀번호를 잊어 버렸어요.</a>
 							<p class="p-class">아직 회원이 아니신가요?</p>
 							<a href="#" class="signUp" data-toggle="modal"
-								data-target="#myModal" data-dismiss="modal">회원
-								가입하기</a>
+								data-target="#myModal" data-dismiss="modal">회원 가입하기</a>
 						</div>
 					</form>
 				</div>
@@ -358,24 +355,23 @@ p.p-info {
 					</div>
 					<div class="modal-body">
 						<input type="email" class="form-control" placeholder="이메일주소"
-							name="email" id="email-find" required /> <input
-							type="hidden" id="oriCode" name="oriCode" value="${veriCode}">
+							name="emailVeri" id="emailFind" required /> <input type="hidden"
+							id="oriCode" name="oriCode" >
 
 						<button type="button" class="btn btn-success btn-block"
 							id="emailSend">이메일발송</button>
 
 						<input type="text" class="form-control" placeholder="인증번호"
-							id="verification" name="code" /> <label
-							for="email">ajax 인증 시간:4분 59초</label>
+							id="verification" name="code" /> <label for="email">ajax
+							인증 시간:4분 59초</label>
 						<div class="row">
 							<div class="col">
 								<button type="button" class="btn btn-success btn-block"
-									data-toggle="modal" data-target="" data-dismiss="modal"
+									data-toggle="modal" data-target="" data-dismiss=""
 									id="confirmBtn">인증확인</button>
-							</div>
-							<div class="col">
-								<button type="submit" class="btn btn-success btn-block" onclick=>
-									재전송</button>
+								<button type="button" class="btn btn-success btn-block" style="display:none"
+									data-toggle="modal" data-target="#resetModal" data-dismiss="modal"
+									id="nextBtn">비밀번호 바꾸기</button>	
 							</div>
 						</div>
 					</div>
@@ -385,8 +381,7 @@ p.p-info {
 					<div class="social-container">
 						<p class="p-class">비밀번호가 기억나셨다고요?</p>
 						<a class="login-link" data-toggle="modal"
-							data-target="#loginModal" data-dismiss="modal">로그인
-							하기</a>
+							data-target="#loginModal" data-dismiss="modal">로그인 하기</a>
 					</div>
 				</div>
 			</div>
@@ -414,18 +409,21 @@ p.p-info {
 
 						</p>
 					</div>
-					<form action="" method="">
+					<form action="${path }/member/changePw" method="post">
 						<div class="modal-body">
 							<div class="form-group">
 								<input type="password" class="form-control" placeholder="새 비밀번호"
-									id="pwd" /> <label for="email">ajax
-									정규표현식?? </label>
+									id="newPwd" name="newPw"/> <label
+									class="newPw pw">영문,숫자,특수문자 조합 8자 이상 16자 이하로 입력해주세요.</label> <label
+									class="newPw ok">GOOD</label>
 							</div>
 							<div class="form-group">
 								<input type="password" class="form-control"
-									placeholder="새 비밀번호 확인" id="pwdCheck" />
-								<label for="pwd">ajax 입력한 새
-									비밀번호와 일치여부. </label>
+									placeholder="새 비밀번호 확인" id="checkPwd" />
+									<label
+									class="checkPw error">비밀번호가 일치하지 않습니다.</label>
+									<label
+									class="checkPw ok">GOOD</label> 
 							</div>
 							<button type="submit" class="btn btn-success btn-block">
 								재설정 완료</button>
@@ -463,6 +461,8 @@ p.p-info {
  $(function(){
 	 $(".guide").hide();
 	 $(".login").hide();
+	 $(".newPw.pw").show();
+     $(".newPw.pwOk").hide();
 
 	 //닉네임중복체크 가이드
 	   $("#memNick").keyup(e=>{
@@ -624,7 +624,7 @@ function fn_signUp(){
  
  //이메일 전송
  	 $("#emailSend").click(e=>{
- 		 const email=$("#email-find").val().trim();
+ 		 const email=$("#emailFind").val().trim();
  		 if(email==null){
  			 swal('이메일을 입력해주세요.')
  		 }
@@ -636,6 +636,7 @@ function fn_signUp(){
 				 if(data!=0){
 					 swal('인증번호를 발송하였습니다.');
 					 console.log(data);
+					 
 				 }else{
 					 swal('가입이력이 없는 이메일입니다.');
 				 }
@@ -652,15 +653,56 @@ function fn_signUp(){
  			type:"post",
  			success:data=>{
  				if(data===true){
- 					console(code);
- 	 				console(data);
- 	 				$("confirmBtn").attr("data-target","#resetModal");
+ 					swal("인증되었습니다.")
+ 					console.log(code);
+ 	 				console.log(data);
+ 	 				$("#resetModal").modal('show');
+ 	 				$("#pwModal").modal('hide');
+ 	 				
  				}else{
- 					console(data);
+ 					swal("인증번호가 일치하지 않습니다. 다시 입력해주세요.")
+ 				
  				}
  				
  			}
  		});
  	}); 
 
+//인증후 비밀번호 유효성
+   $("#newPwd").keyup(e=>{
+         $(".newPw.pw").show();
+         $(".newPw.ok").hide();
+         let newPwd=$("#newPwd").val().trim();
+         let checkPwd=$("#checkPwd").val().trim();
+         let pwReg=/^.*(?=^.{8,15})(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%%^&*()]).*$/;
+         let spaceCk=/\s/;
+         if(pwReg.test(newPwd)){
+            $(".newPw.pw").hide();
+            $(".newPw.ok").show(); 
+         }else{
+            $(".newPw.pw").show();
+            $(".newPw.ok").hide();
+                  
+         }
+ 		
+      });
+
+	$("#checkPwd").keyup(e=>{
+		  $(".checkPw.pw").hide();
+	      $(".checkPw.error").hide();
+        let newPwd=$("#newPwd").val().trim();
+        let checkPwd=$("#checkPwd").val().trim();
+		 if((newPwd.length>0) || (checkPwd.length>0)){
+ 		  	if(newPwd!=checkPwd){
+ 		        $(".checkPw.pw").hide();
+ 		        $(".checkPw.error").show();
+ 		     }else{
+ 		    	$(".checkPw.pw").show();
+ 	 		    $(".checkPw.error").hide();
+ 		     }
+ 		 
+ 	   }
+	})
+	
+ 
  </script>

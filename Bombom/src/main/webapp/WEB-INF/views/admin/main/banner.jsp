@@ -32,50 +32,6 @@
 	padding-right: 100px;
 }
 </style>
-<script type="text/javascript">
-
-	$(".image_viewer").hover(e=> {
-		$(e.target).next().css("display","inline-block");
-	}, function(){
-	  	$(".img_span").not(this).css("display","none");
-	}); 
-
-	var checkAll = 'false';
-
-	function selectAll() {
-		let items = document.getElementsByName("check");
-	
-		if (checkAll == 'false') {
-			for (let i = 0; i < items.length; i++) {
-				items[i].checked = true;
-			}
-			checkAll = "true";
-		} else {
-			for (let i = 0; i < items.length; i++) {
-				items[i].checked = false;
-			}
-			checkAll = "false";
-		}
-	}
-	
-	//삭제버튼 구현
-	function fn_delete(bannerNo){
-		var url = "${path}/admin/deleteBanner";
-		var no = { bannerNo:bannerNo };
-		var ck = confirm("정말로 삭제하시겠습니까?");
-		if(ck){
-			window.location = url+'?'+$.param(no);
-		}
-	}
-	
-	//수정하기버튼 구현
-	function fn_update(bannerNo){
-		var url = "${path}/admin/moveBannerUpdate";
-		var no = {bannerNo :bannerNo };
-		window.location = url+'?'+$.param(no);
-	}
-	
-</script>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="이벤트" />
@@ -169,6 +125,49 @@
 		</div>
 	</div>
 </section>
+<script type="text/javascript">
+	$(".image_viewer").hover(e=> {
+		$(e.target).next().css("display","inline-block");
+	}, function(){
+	  	$(".img_span").not(this).css("display","none");
+	}); 
+	
+	var checkAll = 'false';
+
+	function selectAll() {
+		let items = document.getElementsByName("check");
+	
+		if (checkAll == 'false') {
+			for (let i = 0; i < items.length; i++) {
+				items[i].checked = true;
+			}
+			checkAll = "true";
+		} else {
+			for (let i = 0; i < items.length; i++) {
+				items[i].checked = false;
+			}
+			checkAll = "false";
+		}
+	}
+	
+	//삭제버튼 구현
+	function fn_delete(bannerNo){
+		var url = "${path}/admin/deleteBanner";
+		var no = { bannerNo:bannerNo };
+		var ck = confirm("정말로 삭제하시겠습니까?");
+		if(ck){
+			window.location = url+'?'+$.param(no);
+		}
+	}
+	
+	//수정하기버튼 구현
+	function fn_update(bannerNo){
+		var url = "${path}/admin/moveBannerUpdate";
+		var no = {bannerNo :bannerNo };
+		window.location = url+'?'+$.param(no);
+	}
+	
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 

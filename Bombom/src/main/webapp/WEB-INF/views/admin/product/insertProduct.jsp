@@ -177,12 +177,12 @@
 					
 		      		<div id="detail-image">
 			      		<p class="title">제품 상세 이미지(총 1장)</p>
-			      		<input type="file" id="tests" class="form-control-file border" name="detailImg">
+			      		<input type="file" id="tests" class="form-control-file border" name="detailImg" accept="image/gif, image/jpeg, image/png">
 		      		</div>
 				</div>
 				
 				<div id="bottom-btns">
-					<input type="submit" class="btn btn-success insertPro" value="등록하기" onclick="return insert()">
+					<input type="submit" class="btn btn-success insertPro" value="등록하기" onclick="return insert();">
 					<input type="button" class="btn btn-success goList" onclick="location.href='${path}/admin/moveProduct'" value="목록">
 				</div>
 				
@@ -200,10 +200,10 @@ $("#add-option").click(function(){
     var addOption="";
     addOption+='<tr name="trOption">';
     addOption+='<th>&nbsp&nbsp옵션 내용</th>';
-    addOption+='<td><input type="text" class="content" id="content" name="pdtOptionContent"></td>';
+    addOption+='<td><input type="text" class="content" name="pdtOptionContent"></td>';
     addOption+='<th>추가 요금</th>';
     addOption+='<td><input type="text" class="addprice" name="pdtOptionAddprice">';
-    addOption+='<button class="btn btn-success btn-sm delBtn2" name="delBtn">삭제</button></td>';
+    addOption+='<button class="btn btn-success btn-sm delBtn" name="delBtn">삭제</button></td>';
     addOption+='</tr>';
 
     $("#insert-table").append(addOption);
