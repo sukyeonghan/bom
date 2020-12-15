@@ -34,6 +34,7 @@ public interface AdminDao {
 	int updateProduct(SqlSession session,Product p);
 	Product checkOption(SqlSession session,String pdtNo);
 	int selectPdtName(SqlSession session,String pdtName);
+	int selectPdtName(SqlSession session,String pdtName,String pdtNo);
 	
 	int deleteThumb(SqlSession session,String pdtNo);
 	int deleteOption(SqlSession session,String pdtNo);
@@ -56,9 +57,10 @@ public interface AdminDao {
 	List<Qna> selectQnaWaitList(SqlSession session, int cPage, int numPerpage);
 	
 	//메인배너
-	List<MainBanner> selectBannerList(SqlSession session);
-	int insertBanner(SqlSession session, MainBanner mb);
+	List<MainBanner> selectBannerList(SqlSession session);//배너리스트가져오기
+	int insertBanner(SqlSession session, MainBanner mb);//배너등록하기
 	List<Product> selectProductList(SqlSession session);//배너등록에 필요한 상품목록
-	int deleteBanner(SqlSession session, String no);
-	MainBanner selectBannerOne(SqlSession session, String no);
+	int deleteBanner(SqlSession session, String no);//배너삭제하기
+	MainBanner selectBannerOne(SqlSession session, String no);//배너한개가져오기
+	int updateBanner(SqlSession session, MainBanner mb);//배너수정하기
 }

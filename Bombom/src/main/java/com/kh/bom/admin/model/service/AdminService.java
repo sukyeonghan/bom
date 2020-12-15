@@ -35,6 +35,7 @@ public interface AdminService {
 	List<ProductThumb> selectThumb(String pdtNo);//썸네일 사진 선택
 	int updateProduct(Product p,ProductOption o,List<Map<Object,Object>> options,List<ProductThumb> list);//제품 수정
 	int selectPdtName(String pdtName);//제품명 중복검사
+	int selectPdtName(String pdtName,String pdtNo);//제품명 중복검사(수정페이지)
 	
 	//관리자권한 변경
 	int updateManagerYn(Member m);
@@ -61,7 +62,7 @@ public interface AdminService {
 	List<Product> selectProductList();//배너등록에 필요한 상품목록
 	int deleteBanner(String no);
 	MainBanner selectBannerOne(String no);//수정하기를 위한 row한개 가져오기
-	
+	int updateBanner(MainBanner mb); //배너수정하기
 	
 	
 	

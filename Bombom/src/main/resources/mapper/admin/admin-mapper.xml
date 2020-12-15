@@ -205,10 +205,6 @@
 		LEFT JOIN PRODUCT_OPTION ON(PDT_NO=PDT_NO_REF)
 		WHERE PDT_NO=#{pdtNo}
 	</select>
-	<!-- 상품명 중복검사 -->
-	<select id="selectPdtName" resultType="int" parameterType="string">
-		SELECT COUNT(*) FROM PRODUCT WHERE PDT_NAME=#{pdtName}
-	</select>
 
 
 	<!-- 회원관리 -->
@@ -315,6 +311,14 @@
 		MAIN_BANNER
 		JOIN PRODUCT USING(PDT_NO)
 	</select>
+	<update id="updateBanner" parameterType="mainBanner">
+		UPDATE MAIN_BANNER SET 
+		PDT_NO = #{pdtNo} ,
+		BANNER_TITLE = #{bannerTitle} , 
+		BANNER_SUBTITLE = #{bannerSubtitle},
+		BANNER_THUMB = #{bannerThumb}
+		WHERE BANNER_NO = #{bannerNo}
+	</update>
 	<!-- 메인배너관리 끝 -->
 	<delete id="deleteQna" parameterType="string">
 		DELETE FROM QNA WHERE

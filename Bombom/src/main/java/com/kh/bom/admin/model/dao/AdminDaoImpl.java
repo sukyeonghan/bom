@@ -182,6 +182,15 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectPdtName",pdtName);
 	}
+	//제품명 중복 검사-수정페이지
+	@Override
+	public int selectPdtName(SqlSession session, String pdtName, String pdtNo) {
+		// TODO Auto-generated method stub
+		Map map=new HashMap();
+		map.put("pdtName", pdtName);
+		map.put("pdtNo", pdtNo);
+		return session.selectOne("admin.checkPdtName",map);
+	}
 	
 
 	// 1:1목록 가져오기
@@ -231,6 +240,11 @@ public class AdminDaoImpl implements AdminDao {
 	@Override
 	public MainBanner selectBannerOne(SqlSession session, String no) {
 		return session.selectOne("admin.selectBannerOne", no);
+	}
+	//배너 수정하기
+	@Override
+	public int updateBanner(SqlSession session, MainBanner mb) {
+		return session.update("admin.updateBanner",mb);
 	}
 
 	// 1:1문의 삭제

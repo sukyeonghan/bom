@@ -22,26 +22,7 @@
 	padding-right: 100px;
 }
 </style>
-<script type="text/javascript">
-	//파일 선택하면 파일input의 레이블이 파일이름으로 바뀜
-	$(function() {
-		$('[name=upload]').on("change", function() {
-			var filename = $(this).prop('files')[0].name;
-			$(this).next(".custom-file-label").html(filename);
-		});
-	})
-	//수정하기버튼 구현
-	function fn_update(bannerNo) {
-		var url = "${path}/admin/";
-		var no = {
-			bannerNo : bannerNo
-		};
-		var ck = confirm("수정하시겠습니까?");
-		if (ck) {
-			window.location = url + '?' + $.param(no);
-		}
-	}
-</script>
+
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="" />
@@ -54,12 +35,12 @@
 			<!-- 페이지 타이틀 -->
 			<h3 class="page-title">배너수정</h3>
 			<div id="bannerFrm">
-				<form action="${path }/admin/insertBanner" method="post"
+				<form action="${path }/admin/updateBanner" method="post"
 					name="insertBannerFrm" enctype="multipart/form-data">
 					<div class="term">
-						<label for="pdtNo">연관상품선택</label> <select name="pdtNo" id="pdtNo"
-							class="form-control" required>
-							<option selected disabled>상품을 선택하세요</option>
+						<label for="pdtNo">연관상품선택</label>
+						<select name="pdtNo" id="pdtNo"	class="form-control" required>
+							<option disabled>${bannerOne.pdtNo}/${bannerOne.pdtName }</option>
 							<c:forEach items="${list }" var="p">
 								<option value="${p.pdtNo }">${p.pdtNo }/${p.pdtName }</option>
 							</c:forEach>
@@ -79,10 +60,14 @@
 							required>${bannerOne.bannerSubtitle }</textarea>
 					</div>
 					<div class="term">
-						<label for="upFile">노출시킬 배너 이미지선택</label> <input type="file"
-							name="upload" id="upFile" class="form-control" required><label
-							class="custom-file-label" for="upFile">파일을 선택하세요</label>
+						<label for="upFile">노출시킬 배너 이미지선택</label>
+						<input type="file"name="upload" id="upFile" class="form-control" value="${bannerOne.bannerThumb }" required>
+						<label class="custom-file-label" for="upFile">${bannerOne.bannerThumb }</label>
 					</div>
+					
+					<input type="hidden" value="${bannerOne.bannerNo }" name="bannerNo">
+					<input type="hidden" name="pastThumb" value="${bannerOne.bannerThumb }">
+					
 					<div style="text-align: center;" class="term">
 						<button id="insertBanner" type="submit"
 							class="btn btn-outline-success">배너등록</button>
@@ -92,7 +77,16 @@
 		</div>
 	</div>
 </section>
-
+<script type="text/javascript">
+	//파일 선택하면 파일input의 레이블이 파일이름으로 바뀜
+	$(function() {
+		$('[name=upload]').on("change", function() {
+			var filename = $(this).prop('files')[0].name;
+			$(this).next(".custom-file-label").html(filename);
+		});
+	})
+	
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 
