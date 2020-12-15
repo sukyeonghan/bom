@@ -94,13 +94,9 @@
     }
     
     /*옵션*/
-    .content,.addprice{
-    	width:80%;
-	}
+    .content{width:100%}
+    .addprice{width:80%;}
     .delBtn{
-    	margin-left:10px;
-    }
-    .delBtn2{
     	margin-left:15px;
     }
     

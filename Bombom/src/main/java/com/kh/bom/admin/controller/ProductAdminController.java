@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -356,6 +357,15 @@ public class ProductAdminController {
 		m.addObject("icon", icon);
 		m.setViewName("common/msg");
 	
+		return m;
+	}
+	
+	//옵션 삭제
+	@RequestMapping("admin/deleteOption")
+	public Model deleteOption(Model m,
+			@RequestParam("pdtNo") String pdtNo) {
+		int result= service.deleteOption(pdtNo);
+		m.addAttribute("result",result);
 		return m;
 	}
 }
