@@ -26,5 +26,7 @@ public class Product {
 	private int pdtOptionAddprice;
 	private String thumbs;
 	private int salePer;
+	private String pdtThumbNo;
+	private String pdtThumbImage;
 
 }

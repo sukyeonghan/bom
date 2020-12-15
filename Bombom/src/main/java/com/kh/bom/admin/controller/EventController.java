@@ -14,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.admin.model.vo.Event;
+import com.kh.bom.product.model.service.ProductService;
+import com.kh.bom.product.model.vo.Product;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,7 +29,6 @@ public class EventController {
 	public ModelAndView moveEventList(ModelAndView m) {
 		m.addObject("list", service.selectEvent());
 		m.setViewName("admin/event/eventList");
-
 		return m;
 	}
 

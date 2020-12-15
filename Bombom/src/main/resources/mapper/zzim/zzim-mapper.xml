@@ -28,7 +28,7 @@
           ORDER BY TO_NUMBER(SUBSTR(Z.ZZIM_NO,2)) DESC, ZZIM_DATE DESC
       )WHERE RANKING =1
    </select>
-	
+
 	<!-- 찜폴더 추가-->
 	<insert id="insertZzim" parameterType="zzim">
 		INSERT INTO ZZIM VALUES('Z'||SEQ_ZZIM_NO.NEXTVAL,#{memNo},#{zzimName})

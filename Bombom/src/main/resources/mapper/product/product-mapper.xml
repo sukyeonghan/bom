@@ -13,6 +13,8 @@
 		<result property="eventNoRef" column="event_no_ref"/>
 		<result property="thumbs" column="thumbs"/>
 		<result property="salePer" column="event_sale_per"/>
+		<result property="pdtThumbNo" column="pdt_thumb_no"/>
+		<result property="pdtThumbImage" column="pdt_thumb_image"/>
 	</resultMap>
 	<resultMap type="option" id="optionMap">
 		<result property="pdtOptionNo" column="pdt_option_no"/>
@@ -26,6 +28,17 @@
 		<result property="pdtNo" column="pdt_no_ref"/>
 		<result property="pdtThumbImage" column="pdt_thumb_image"/>
 	</resultMap>
+	
+	<!-- 제품불러오기 -->
+	<select id="selectProductOne" resultMap="productMap" parameterType="string">
+		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_INTRO,PDT_STATUS,PDT_DATE,PDT_DETAIL_IMAGE,EVENT_NO_REF,E.EVENT_SALE_PER,
+		    LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY T.pdt_no_ref) OVER(PARTITION BY T.PDT_NO_REF)AS THUMBS
+		FROM PRODUCT P
+		JOIN  PRODUCT_THUMB T ON(PDT_NO=T.PDT_NO_REF) 
+		LEFT JOIN EVENT E ON(P.EVENT_NO_REF=E.EVENT_NO)
+		 where pdt_no=#{pdtNo}
+		ORDER BY PDT_DATE DESC
+	</select>
 	
 	<!-- 제품 개수 -->
 	<select id="count" resultType="_int" parameterType="map">

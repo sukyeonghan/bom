@@ -15,7 +15,7 @@
 			</c:if>
 			<div class="zzimInfo">
 				<p><c:out value="${zzim.zzimName }"/></p>
-				<p><i class="fas fa-heart"></i> <c:out value="${zzim.zzimContentCount }"/></p>
+				<p><i class="fas fa-heart"></i> <c:out value="${zzim.zzimContentCount==null?0:zzim.zzimContentCount }"/></p>
 			</div>
 		</div>		
 	</a>

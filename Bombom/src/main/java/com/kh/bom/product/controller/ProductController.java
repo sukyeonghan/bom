@@ -222,7 +222,9 @@ public class ProductController {
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage
 			,HttpSession session) {
 		
-		System.out.println(pdtNo);
+		//상품불러오기
+		Product product = service.selectProductOne(pdtNo);
+		
 		//상품문의
 		//로그인 세션에서 현재 사용자 id값 가져오기
 		Member m = (Member)session.getAttribute("loginMember");
@@ -255,20 +257,20 @@ public class ProductController {
 		//구매평 갯수
 		int reviewCount = service.reviewCount(); 
 
-		
+		mv.addObject("product", product);
 		mv.addObject("list", list);
 		mv.addObject("count", totalData);
 		mv.addObject("reviewlist", reviewlist);
 		mv.addObject("reviewCount", reviewCount);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax"));
-		mv.setViewName("product/productOne");
+		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "selectProductOneAjax"));
+		mv.setViewName("product/selectProductOne");
 
 		return mv;
 	}
 	
 	//상품문의 페이징처리
-	@RequestMapping("/product/productOneAjax") 
+	@RequestMapping("/product/selectProductOneAjax") 
 	@ResponseBody
 	public ModelAndView productOneAjax(ModelAndView mv, int cPage,
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage,
@@ -300,8 +302,8 @@ public class ProductController {
 		mv.addObject("list", list);
 		int totalData = service.inquiryCount();
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar", AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax"));
-		mv.setViewName("product/productOneAjax");
+		mv.addObject("pageBar", AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "selectProductOneAjax"));
+		mv.setViewName("product/selectProductOneAjax");
 
 		return mv; 
 	 
