@@ -19,4 +19,6 @@ public interface MemberService {
 	//이메일 중복체크
 	Member selectMemberEmail(String email);
 
+	int updateMemberPw(Member m);
+
 }

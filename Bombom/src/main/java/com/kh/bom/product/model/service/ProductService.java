@@ -8,6 +8,9 @@ import com.kh.bom.review.model.vo.Review;
 
 public interface ProductService {
 	
+	//상품불러오기
+	Product selectProductOne(String pdtNo);
+	
 	//상품문의
 	List<Inquiry> inquiryList(int cPage, int numPerpage);
 	
@@ -15,7 +18,7 @@ public interface ProductService {
 	int inquiryCount();
 	
 	//구매평
-		List<Review> reviewList(int cPage, int numPerpage);
+	List<Review> reviewList(int cPage, int numPerpage);
 		
 	//구매평 갯수
 	int reviewCount();

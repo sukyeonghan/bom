@@ -66,39 +66,65 @@ public class AdminServiceImpl implements AdminService {
 
 		return dao.selectProductList(session, cPage, numPerPage, sort);
 	}
+	//제품 검색 목록
+	@Override
+	public List<Product> selectSearchList(int cPage, int numPerPage, Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.selectSearchList(session,cPage,numPerPage,map);
+	}
 
-	// 카테고리별 목록 출력
+	//제품 개수
 	@Override
 	public int countProduct(String category) {
 		// TODO Auto-generated method stub
 		return dao.countProduct(session, category);
 	}
+	//검색별 개수
+	@Override
+	public int countProduct(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.countProduct(session, map);
+	}
 
 	// 제품 선택 삭제
 	@Override
 	@Transactional
-	public int deleteSelectProduct(List<String> delnum) {
+	public int deleteSelectProduct(List<String> delnum,String path) {
 		// TODO Auto-generated method stub
 		int result = 0;
-		String no = "";
-
-		/*
-		 * String path=((HttpSession)
-		 * session).getServletContext().getRealPath("/resources/upload/product"); File
-		 * file=new File(path);
-		 */
+		String pdtNo = "";
+		int fileResult=0;
+		int fileResult2=0;
+		String thumb="";
+		
 
 		for (int i = 0; i < delnum.size(); i++) {
-			no = delnum.get(i);
+			pdtNo = delnum.get(i);
+			//상세이미지 삭제
+			 Product p=dao.selectOneProduct(session,pdtNo);
+			 System.out.println(p.getPdtDetailImage());
+			 File dfile=new File(path+"/"+p.getPdtDetailImage());
+			 if(dfile.exists()) {
+				 dfile.delete();
+				 fileResult=1;
+			 }
+			 //썸네일 삭제
+			 List<ProductThumb> thumbs=dao.selectThumb(session, pdtNo);
 
-			result = dao.deleteProduct(session, no);
-			/*
-			 * if(result>0) { //제품 삭제하면 해당 제품사진도 같이 삭제하기
-			 * 
-			 * if(file.exists()) { if(file.delete()) { result=dao.deletePicture(no); } }
-			 * 
-			 * }
-			 */
+			 for(ProductThumb th:thumbs) {
+					thumb=th.getPdtThumbImage();
+					
+					File tfile=new File(path+"/"+thumb);
+					if(tfile.exists()) {
+						tfile.delete();
+						fileResult2=1;
+					}
+			 }
+			 
+			if(fileResult==1 && fileResult2==1) {
+				result = dao.deleteProduct(session, pdtNo);
+			}
+
 		}
 		return result;
 	}
@@ -106,19 +132,21 @@ public class AdminServiceImpl implements AdminService {
 	//제품 하나 삭제-upload 폴더에 저장되어있는 사진도 같이 삭제 
 	@Override
 	@Transactional
-	public int deleteOneProduct(String pdtNo) {
+	public int deleteOneProduct(String pdtNo,String path) {
 		
 		int fileResult=0;
-		String path="C:\\Users\\gkstn\\git\\final\\Bombom\\src\\main\\webapp\\resources\\upload\\product\\";
+		int fileResult2=0;
 		String thumb="";
 		int result=0;
 		
 		 //상세이미지 삭제
 		 Product p=dao.selectOneProduct(session,pdtNo);
-		 File dfile=new File(path+p.getPdtDetailImage());
+		 
+		 File dfile=new File(path+"/"+p.getPdtDetailImage());
 		 if(dfile.exists()) {
 			 dfile.delete();
 			 fileResult=1;
+
 		 }
 		 //썸네일 이미지 삭제
 		 List<ProductThumb> thumbs=dao.selectThumb(session, pdtNo);
@@ -126,16 +154,16 @@ public class AdminServiceImpl implements AdminService {
 		 for(ProductThumb th:thumbs) {
 				thumb=th.getPdtThumbImage();
 				
-				File tfile=new File(path+thumb);
+				File tfile=new File(path+"/"+thumb);
 				if(tfile.exists()) {
 					tfile.delete();
-					fileResult=1;
+					fileResult2=1;
 				}
 		 }
 
-		if(fileResult==1) {
+		if(fileResult==1 && fileResult2==1) {
 			result=dao.deleteProduct(session, pdtNo);
-			System.out.println(result);
+
 		}
 			
 		return result;

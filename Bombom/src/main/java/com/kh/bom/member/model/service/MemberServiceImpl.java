@@ -69,6 +69,13 @@ public class MemberServiceImpl implements MemberService {
 		return dao.selectMemberEmail(session, email);
 	}
 
+	@Override
+	public int updateMemberPw(Member m) {
+		// TODO Auto-generated method stub
+		return dao.updateMemberPw(session, m);
+	}
+
+	
 
 	
 	

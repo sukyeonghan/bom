@@ -85,6 +85,9 @@ th, td {
 }
 
 /*검색*/
+.select-box{
+	
+}
 #search-wrap {
 	display: flex;
 	justify-content: center;
@@ -115,7 +118,7 @@ th, td {
 <section id="container">
 	<div id="flexDiv">
       <!-- 좌측 메뉴 -->
-      <%-- <jsp:include page="/WEB-INF/views/common/adminMenu.jsp" /> --%>
+      <jsp:include page="/WEB-INF/views/common/adminMenu.jsp" />
       <!-- 우측 메뉴내용 -->
       <div id="admin-container">
 			<!-- 페이지 타이틀 -->
@@ -128,7 +131,7 @@ th, td {
 				</div>
 				<!--카테고리 정렬  -->
 				<div class="select-box">
-					<select id="event_sort" class="sort">
+					<select id="event_sort" class="sort form-control">
 						<option value="전체보기">전체보기</option>
 						<option value="할인">할인</option>
 						<option value="커뮤니티">커뮤니티</option>
@@ -157,7 +160,6 @@ th, td {
 						<td><p class="eventNo"><c:out value="${e.eventNo}"/></p></td>
 						<td><p class="eventCategory"><c:out value="${e.eventCategory}"/></p></td>
 						<td><c:out value="${e.eventTitle }" /></td>
-						<td><a class="direct-product" href="${path}/product/productAll">상품명---</a></td>
 						<td><c:out value="${e.eventSalePer }" />%</td>
 						<td><fmt:formatDate value="${e.eventStartDate }" /> ~ <fmt:formatDate value="${e.eventEndDate }" /></td>
 						<td><button id="event-delete" class="btn btn-sm btn-outline-danger" onclick="fn_delete('${e.eventNo}');">삭제</button></td>
@@ -170,7 +172,7 @@ th, td {
 			</div>
 			
 			<!-- 페이징바 -->
-			 <div class="w3-center pagebar">	
+			 <!-- <div class="w3-center pagebar">	
 				<div class="w3-bar">
 					<a href="#" class="w3-button w3-hover-black"> < </a>
 					<a href="#" class="w3-button w3-hover-black">1</a>
@@ -179,18 +181,18 @@ th, td {
 					<a href="#" class="w3-button w3-hover-black">4</a>
 					<a href="#" class="w3-button w3-hover-black"> > </a>
 				</div>
-			</div>
+			</div> -->
 			
 			<!-- 검색 -->
-			<div id="search-wrap">
+			<div id="search-wrap" class="form-group">
 				<!-- 검색 카테고리 -->
 				<div class="select-box">
-					<select class="sort">
+					<select class="sort form-control">
 						<option>상품명</option>
 						<option>이벤트명</option>
 					</select>
 				</div>
-				<input type="text" id="search-text">
+				<input type="text" id="search-text" class="form-control col-sm">
 				<button class="btn btn-success" id="search-btn">검색</button>
 			</div>
 			
@@ -251,11 +253,7 @@ th, td {
 	        success:data =>{
 				console.log(data);
 				$("#event-table-wrap").html("");
-				
-				//왜 다 가져와버릴까.... 테이블만 가져와야 하는딩......				
 				$("#event-table-wrap").html(data);
-			
-	        
 	        }
 		});
 	});

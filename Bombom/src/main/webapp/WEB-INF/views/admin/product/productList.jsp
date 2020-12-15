@@ -137,7 +137,7 @@
 					<p id="count">총  ${count }개</p>
 					<!--카테고리 정렬  -->
 					<div class="select-box">
-						<select class="sort">
+						<select class="sort" name="filter">
 							<option value="전체">전체보기</option>
 							<option value="식품">식품</option>
 							<option value="잡화">잡화</option>
@@ -226,22 +226,23 @@
 				 <div class="pageBar" >	
 					${pageBar }
 				</div>
-			</div>
-			
-			
-			
-			<!-- 검색 -->
-			<div id="search-wrap">
-				<!-- 검색 카테고리 -->
-				<div class="select-box">
-					<select class="sort">
-						<option>상품명</option>
-						<option>이벤트명</option>
-					</select>
+				
+				<!-- 검색 -->
+				<div id="search-wrap">
+					<!-- 검색 카테고리 -->
+					<div class="select-box">
+						<select class="searchSort" name="searchSort">
+							<option value="">검색타입</option>
+							<option value="pdtName">상품명</option>
+							<option value="eventNo">이벤트명</option>
+						</select>
+					</div>
+					<input type="text" id="search-text" name="keyword" size="30">
+					<button class="btn btn-success" id="search-btn">검색</button>
 				</div>
-				<input type="text" id="search-text" size="30">
-				<button class="btn btn-success" id="search-btn">검색</button>
+				
 			</div>
+			
 			
 		</div>
 	</div>
@@ -290,7 +291,7 @@
 	    
 	}
 	
-	
+	//상품 목록 분류
 	$(".sort").on("change",e=>{
 		console.log($(e.target).val());
 		$.ajax({
@@ -301,6 +302,27 @@
 			dataType:"html",
 			success:data=>{
 				console.log(data);
+				$("#result").html(data);
+			}
+		});
+	});
+	
+	//상품 검색 분류
+
+	var category=$("select[name=filter]").val().trim();
+	$("#search-btn").on("click",e=>{
+		console.log($("#search-text").val().trim());
+		console.log($("select[name=searchSort]").val());
+		console.log(category);
+		$.ajax({
+			
+			url:"${path}/admin/productSearchAjax",
+			data:{"searchType":$("select[name=searchSort]").val(),"keyword":$("#search-text").val().trim(),"sort":category},
+			type:"get",
+			dataType:"html",
+			success:data=>{
+				console.log(data);
+				$("#result").html("");
 				$("#result").html(data);
 			}
 		});

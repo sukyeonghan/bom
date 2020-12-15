@@ -20,7 +20,7 @@ import com.kh.bom.member.model.service.MemberService;
 import com.kh.bom.member.model.vo.Member;
 
 @Controller
-@SessionAttributes("veriCode")
+
 public class EmailController {
 
 	@Autowired
@@ -28,7 +28,8 @@ public class EmailController {
 	
 	@Autowired
 	private MemberService service;
-
+	
+	//인증번호 이메일 전송 
 	@RequestMapping(value="/email/auth")
 	@ResponseBody
 	public int sendEmail(String email,Model m, HttpSession session) throws Exception{
@@ -62,9 +63,10 @@ public class EmailController {
             e.printStackTrace();
         }
 		
-		System.out.println(code);
-		m.addAttribute("veriCode",code);
-
+		
+		session.setAttribute("veriCode", code);
+		session.setAttribute("veriEmail", email);
+		session.setMaxInactiveInterval(1*60);
 		
 		}else {
 			 System.out.println("없는 이메일입니다.");
@@ -75,21 +77,25 @@ public class EmailController {
 		return code;
 	}
 	
-	
+	//인증번호확인 
 	@RequestMapping(value="/email/confirm")
 	@ResponseBody
-	public boolean codeConfirmation(String code, String oriCode) {
+	public boolean codeConfirmation(int code, HttpSession session) {
 		
+		
+		int oriCode= (int)session.getAttribute("veriCode");
 		System.out.println("인증번호:"+ oriCode);
 		System.out.println("내가 쓴 번호"+ code);
-		if(oriCode.equals(code)) {
-			return true;
-		}
+
+		if(oriCode==code) {
 			
-		
+			return true;
+					
+		}
 			
 		return false; 
 				
 	}
+	
 	
 }
