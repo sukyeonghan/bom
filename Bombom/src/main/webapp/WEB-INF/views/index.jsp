@@ -41,31 +41,54 @@
 	-webkit-align-items: center;
 	align-items: center;
 }
+
+.swiper-slide .title {
+	font-size: 41px;
+	font-weight: 300;
+}
+
+.swiper-slide .subtitle {
+	font-size: 21px;
+}
+
+.swiper-slide .text {
+	font-size: 14px;
+	max-width: 400px;
+	line-height: 1.3;
+}
 </style>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param name="title" value="Welcom springAgain" />
+	<jsp:param name="title" value="Welcome springAgain" />
 </jsp:include>
 
 <section id="container">
 	<!-- 슬라이드 쇼-height400px -->
 	<div id="mainBanner_swiper">
 		<!-- Swiper -->
-		<div class="swiper-container">
+		<div class="swiper-container first-container">
 			<div class="swiper-wrapper">
 				<div class="swiper-slide">
-					<img class="banner_img"
-						src="${path }/resources/images/main/banner/main-banner1.jpg">
+					<!--swiper-wrap : 이미지와 텍스트를 감싸는 div-->
+					<div class="swiper-wrap" id="customSection">
+						<img class="banner_img"
+							src="${path }/resources/images/main/banner/main-banner1.jpg">
+						<!--innerText : 텍스트와 버튼을 감싸는 div -->
+						<div class="innerText">
+							<!-- introText : 소개글 div -->
+							<div class="introText" id="customIntro">
+								<p class="introSubject">
+									<strong>ㅋㅋㅋㅋㅋㅋ</strong>
+								</p>
+								<p>ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="swiper-slide">Slide 2</div>
-				<div class="swiper-slide">Slide 3</div>
-				<div class="swiper-slide">Slide 4</div>
-				<div class="swiper-slide">Slide 5</div>
-				<div class="swiper-slide">Slide 6</div>
-				<div class="swiper-slide">Slide 7</div>
-				<div class="swiper-slide">Slide 8</div>
-				<div class="swiper-slide">Slide 9</div>
-				<div class="swiper-slide">Slide 10</div>
+				</div>
+				<c:forEach items="">
+					<div class="swiper-slide">Slide 2</div>
+				</c:forEach>
 			</div>
 			<!-- Add Pagination -->
 			<div class="swiper-pagination"></div>
@@ -73,26 +96,29 @@
 			<div class="swiper-button-next"></div>
 			<div class="swiper-button-prev"></div>
 		</div>
+	</div>
 
-		<!-- Swiper JS -->
-		<script src="../package/swiper-bundle.min.js"></script>
+	<!-- Swiper JS -->
+	<script src="../package/swiper-bundle.min.js"></script>
 
-		<!-- Initialize Swiper -->
-		<script>
-			var swiper = new Swiper('.swiper-container', {
-				slidesPerView : 1,
-				spaceBetween : 30,
-				loop : true,
-				pagination : {
-					el : '.swiper-pagination',
-					clickable : true,
-				},
-				navigation : {
-					nextEl : '.swiper-button-next',
-					prevEl : '.swiper-button-prev',
-				},
-			});
-		</script>
+	<!-- Initialize Swiper -->
+	<script>
+		var swiper = new Swiper('.first-container', {
+			slidesPerView : 1,
+			spaceBetween : 30,
+			speed: 600,
+		    parallax: true,
+			loop : true,
+			pagination : {
+				el : '.swiper-pagination',
+				clickable : true,
+			},
+			navigation : {
+				nextEl : '.swiper-button-next',
+				prevEl : '.swiper-button-prev',
+			},
+		});
+	</script>
 
 
 
@@ -205,7 +231,7 @@
 			</div>
 			<div id="BestProduct-list" class="media-body">
 				<!-- Swiper -->
-				<div class="swiper-container">
+				<div class="swiper-container ad-container">
 					<div class="swiper-wrapper">
 						<div class="swiper-slide">
 							<div class="col-md-4">
@@ -232,7 +258,7 @@
 
 				<!-- Initialize Swiper -->
 				<script>
-					var swiper = new Swiper('.swiper-container', {
+					var swiper = new Swiper('.ad-container', {
 						slidesPerView : 3,
 						spaceBetween : 30,
 						slidesPerGroup : 2,
