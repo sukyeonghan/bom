@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.admin.model.vo.Event;
 import com.kh.bom.common.page.AdminProAjaxPageBarFactory;
-import com.kh.bom.common.page.AdminProAjaxPageBarFactory2;
+import com.kh.bom.common.page.AdminProSearchAjaxPageBarFactory;
 import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
@@ -108,7 +108,7 @@ public class ProductAdminController {
 
 		int count=service.countProduct(map);
 		m.addObject("list", service.selectSearchList(cPage, numPerpage, map));
-		m.addObject("pageBar", AdminProAjaxPageBarFactory2.getAjaxPageBar(count, cPage, numPerpage,
+		m.addObject("pageBar", AdminProSearchAjaxPageBarFactory.getAjaxPageBar(count, cPage, numPerpage,
 				"productSearchAjax", searchType, keyword, sort));
 		m.addObject("cPage", cPage);
 		m.addObject("count",count);
