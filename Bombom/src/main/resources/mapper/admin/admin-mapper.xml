@@ -245,6 +245,7 @@
 	</select>
 
 
+
 	<!-- 회원관리 -->
 	<!--관리자 전환 -->
 	<update id="updateManagerYn" parameterType="member">
@@ -349,6 +350,14 @@
 		MAIN_BANNER
 		JOIN PRODUCT USING(PDT_NO)
 	</select>
+	<update id="updateBanner" parameterType="mainBanner">
+		UPDATE MAIN_BANNER SET 
+		PDT_NO = #{pdtNo} ,
+		BANNER_TITLE = #{bannerTitle} , 
+		BANNER_SUBTITLE = #{bannerSubtitle},
+		BANNER_THUMB = #{bannerThumb}
+		WHERE BANNER_NO = #{bannerNo}
+	</update>
 	<!-- 메인배너관리 끝 -->
 	<delete id="deleteQna" parameterType="string">
 		DELETE FROM QNA WHERE

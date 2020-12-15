@@ -64,7 +64,7 @@ public interface AdminService {
 	List<Product> selectProductList();//배너등록에 필요한 상품목록
 	int deleteBanner(String no);
 	MainBanner selectBannerOne(String no);//수정하기를 위한 row한개 가져오기
-	
+	int updateBanner(MainBanner mb); //배너수정하기
 	
 	
 	
