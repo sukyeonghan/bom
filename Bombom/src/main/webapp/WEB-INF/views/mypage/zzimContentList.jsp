@@ -340,7 +340,6 @@ $(function(){
    //전체선택선택시
 	$("#allChoice").click(e=>{
    	   	$(".zzimContentNoCkBox").click();
-		
    	});
 	$("#allChoiceX").click(e=>{
 		$(".zzimContentNoCkBox").click();
