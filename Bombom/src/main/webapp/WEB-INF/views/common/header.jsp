@@ -88,8 +88,8 @@ p.p-info {
 </style>
 </head>
 
-<body>
-	<header id="spring-main-header" style="min-width: 1000px;">
+<body style="height: 100%;">
+	<header id="spring-main-header" class="fixed-top" style="min-width: 1000px;">
 		<!-- header -->
 		<div id="header-container">
 			<div id="loginJoin" class="d-flex flex-row-reverse">
