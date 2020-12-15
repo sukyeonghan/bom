@@ -213,13 +213,16 @@ public class ProductController {
 		return m;
 	}
 	
+
 	//상품문의 카운트 - 상품상세 첫화면
-	@RequestMapping("/product/productOne")
+	@RequestMapping("/product/selectProductOne")
 	public ModelAndView productOne(ModelAndView mv,
+			@RequestParam("pdtNo") String pdtNo,
 			@RequestParam(value="cPage",defaultValue="1") int cPage,
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage
 			,HttpSession session) {
 		
+		System.out.println(pdtNo);
 		//상품문의
 		//로그인 세션에서 현재 사용자 id값 가져오기
 		Member m = (Member)session.getAttribute("loginMember");

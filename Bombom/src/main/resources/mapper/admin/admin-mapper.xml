@@ -119,7 +119,7 @@
 	</select>
 	<!-- 제품개수출력 -->
 	<select id="countProduct" parameterType="map" resultType="_int">
-		SELECT COUNT(*) FROM PRODUCT
+		SELECT COUNT(*) FROM PRODUCT 
 		<if test="sort != '전체'">
 			WHERE PDT_CATEGORY=#{sort}
 		</if>
@@ -225,11 +225,12 @@
 	</select>
 	<!-- 상품 목록 검색 -->
 	<select id="searchProductList" parameterType="map" resultMap="productMap">
-		SELECT * FROM PRODUCT
+		SELECT * FROM PRODUCT 
 	
 		<if test="sort != '전체'">
 			WHERE PDT_CATEGORY=#{sort}
 		</if>
+		
 		<trim prefix="AND" prefixOverrides="WHERE">
 			<if test="keyword !=null or keyword != ''">
 				<if test="searchType eq 'pdtName'">
@@ -247,7 +248,7 @@
 	<!-- 회원관리 -->
 	<!--관리자 전환 -->
 	<update id="updateManagerYn" parameterType="member">
-		UPDATE MEMBER SET
+		UPDATE MEMBER SET 
 		mem_manager_yn = #{memManagerYn} WHERE MEM_NO=#{memNo}
 	</update>
 	<!-- 회원리스트 -->
