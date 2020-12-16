@@ -439,11 +439,7 @@ textarea.answer {
     		<a href="${path}/product/pet">반려동물</a></small></h5>
     	</c:when>
     </c:choose>
-    <c:out value="${product}"/><br>
-    상품옵션 : <c:out value="${optionlist }"/>
-    <script>
-    	console.log("${optionlist}");
-    </script>
+    <c:out value="${product }"/>
     <div class="row" >
     	<!-- 썸네일 -->
         <div class="col-6" >
@@ -465,22 +461,39 @@ textarea.answer {
         	<div class="inner_goods_form container">
         		<div class="head" style="margin-top:0px;">
         			<div class="information size-up" style="padding-top:10px;">${product.pdtName }&nbsp;&nbsp;
-        			<c:if test="${product.eventNoRef!=null }">
-        			<img src="${path}/resources/images/product/sale.jpg" width="50px">
+        			<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
+        				<img src="${path}/resources/images/product/sale.jpg" width="50px">
         			</c:if>
         			</div>
-        			<div class="information size-up"><fmt:formatNumber value="${product.pdtPrice }" pattern="#,###"/>원&nbsp;
-        			<c:if test="${product.eventNoRef!=null }">
-        				<span id="sale_price" value="" style="text-decoration:line-through; font-size:18px; color:dimgray;"><fmt:formatNumber value="${product.pdtPrice }" pattern="#,###"/>원</span>
-        			</c:if>
+        			<!-- 세일가격 -->
+					<div class="information size-up">
+						<fmt:parseNumber var="i" integerOnly="true" type="number" value="${product.pdtPrice*(1-(product.salePer/100))}"/><fmt:formatNumber value="${i}"/>원&nbsp;
+	        			<!-- 원래가격 -->
+	        			<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
+	        				<span id="sale_price" value="" style="text-decoration:line-through; font-size:18px; color:dimgray;"><fmt:formatNumber value="${product.pdtPrice }" pattern="#,###"/>원</span>
+	        			</c:if>
         			</div>
+        			<!-- 별점 -->
                     <div class="information size-mid row">
-	                    <div class="col-10">별점</div>
+                    	<c:if test="${reviewAvg==null }">
+                    		<div class="col-10" style="visibility:hidden">별점 <c:out value="${reviewAvg}"/></div>
+                    	</c:if>
+                    	<c:if test="${reviewAvg!=null }">
+	                    	<div class="col-10">별점 <c:out value="${reviewAvg}"/></div>
+	                    </c:if>
 	                    <div class="col-2"><a href=""><img src="${path}/resources/images/product/SNS.png" width="35px" style="right:0;"></a></div>
                     </div>
                     <hr>
                     <div class="information size-mid">${product.pdtIntro }</div>
-                    <div class="information size-mid">구매 시 <fmt:formatNumber value="${product.pdtPrice*0.05 }" pattern="#,###"/>봄 적립</div>
+                    <!-- 적립금 : 옵션이 없을경우에만 표시 -->
+                    <c:if test="${empty optionlist}">
+                    	<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
+                    		<div class="information size-mid">구매 시 <fmt:formatNumber value="${(product.pdtPrice*(1-(product.salePer/100)))*0.05}" pattern="#,###"/>봄 적립</div>
+                    	</c:if>
+                    	<c:if test="${empty product.eventNoRef}">
+                    		<div class="information size-mid">구매 시 <fmt:formatNumber value="${product.pdtPrice*0.05 }" pattern="#,###"/>봄 적립</div>
+                    	</c:if>
+                    </c:if>
                     <div class="information size-mid">배송비 2,500원(50,000원이상 무료배송) | 도서산간 배송비 추가</div>
                     <hr>
                     
@@ -496,8 +509,18 @@ textarea.answer {
 	                    				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
 	                    			</div>
 	                    			<div class="col-3">
-	                    				<input type="text" value="${product.pdtPrice}" id="total_count" hidden="hidden"/>
-	                    				<input type="text" value="${product.pdtPrice}" id="total_count_view" style="width:60px;text-align:right; border:none;" readonly/>원
+	                    			<!-- 원래가격 -->
+	                    				<c:if test="${empty product.eventNoRef}">
+		                    				<input type="text" value="${product.pdtPrice}" id="oriPrice" hidden="hidden"/>
+		                    				<input type="text" value="${product.pdtPrice}" id="totalPrice" hidden="hidden"/>
+		                    				<span id="viewPrice" style="width:60px;text-align:right; border:none;">${product.pdtPrice}</span>원
+	                    				</c:if>
+	                    			<!-- 세일가격 -->
+	                    				<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
+	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="oriPrice" hidden="hidden"/>
+	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="totalPrice" hidden="hidden"/>
+	                    					<span id="viewPrice" style="width:60px;text-align:right; border:none;"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
+	                    				</c:if>
 	                    			</div>
 	                    		</div>
 	                    	</div>
@@ -633,6 +656,7 @@ textarea.answer {
 									<span id="byteInfo2">0</span>/500bytes
 										<!-- 로그인 한 사람 및 구매한 사람만 구매평 등록가능-->
 								        <c:if test="${loginMember!=null }">
+								        	<input type="hidden" name="pdtNo" value="${product.pdtNo }">
 								        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
 								        	<input type="hidden" name="revScore">
 								        	<input type="submit" class="btn btn-success textCheck" value="등록" style="right:0;">
@@ -848,8 +872,8 @@ textarea.answer {
 			        <!-- 상품문의 게시글 -->
 			        <div id="result">
 				        <div class="container">
-					        <table class="table" style=" table-layout: fixed;">
 						    <c:if test="${not empty list }">	
+					        <table class="table" style=" table-layout: fixed;">
 						        <thead>
 						        	<tr>
 						        		<td style="width:10%;">상태</td>
@@ -895,19 +919,21 @@ textarea.answer {
 						        		</tr>
 						        	</thead>
 						        </c:forEach>
+						    	</table>
+						        <div class="pageBar">
+									<span>${pageBar }</span>
+						    	</div>
 					        </c:if>
 					        <c:if test="${empty list }">
+					        <table>
 					        	<thead>
 					        		<tr>
 					        			<td colspan="4">등록된 문의가 없습니다</td>
 					        		</tr>
 					        	</thead>
-					        </c:if>
 					        </table>
+					        </c:if>
 				        </div><!-- 상품문의 게시글 끝 -->			        
-				        <div class="pageBar">
-							<span>${pageBar }</span>
-				    	</div>
 			    	</div><!-- result 끝 -->
 			        
 			      <!-- 상품문의 모달창 -->
@@ -975,14 +1001,42 @@ textarea.answer {
 			<div class="information">연관상품</div>
 			<div class="swiper-container container">
 				<div class="swiper-wrapper">
+				    <c:choose>
+				    	<c:when test="${product.pdtCategory eq '식품'}">
+					    	<c:forTokens items="${product.thumbs}" var="th" delims="," varStatus="vs">
+				            <c:if test="${vs.first }">
+						    	<div class="swiper-slide" style="display: block">
+									<div>
+										<img src="${path}/resources/upload/product/${th}">
+									</div>
+									<div class="slideImg"><span>제품명1</span><br><span>제품가격</span></div>
+								</div>
+							 </c:if>
+				            </c:forTokens>
+				    	</c:when>
+				    	
+				    	<c:when test="${product.pdtCategory eq '잡화'}">
+				    		<a href="${path}/product/stuff">잡화</a></small></h5>
+				    	</c:when>
+				    	<c:when test="${product.pdtCategory eq '주방'}">
+				    		<a href="${path}/product/kitchen">주방</a></small></h5>
+				    	</c:when>
+				    	<c:when test="${product.pdtCategory eq '욕실'}">
+				    		<a href="${path}/product/bathroom">욕실</a></small></h5>
+				    	</c:when>
+				    	<c:when test="${product.pdtCategory eq '여성용품'}">
+				    		<a href="${path}/product/woman">여성용품</a></small></h5>
+				    	</c:when>
+				    	<c:when test="${product.pdtCategory eq '반려동물'}">
+				    		<a href="${path}/product/pet">반려동물</a></small></h5>
+				    	</c:when>
+				    </c:choose>
+				
 					<div class="swiper-slide" style="display: block">
 						<div>
 							<img src="${path}/resources/upload/product/coffee1.jpg">
 						</div>
 						<div class="slideImg"><span>제품명1</span><br><span>제품가격</span></div>
-						<div>
-							<img src="${path}/resources/images/product/sale.jpg" width="50px">
-						</div>
 					</div>
 					<div class="swiper-slide" style="display: block">
 						<div>
@@ -1060,23 +1114,28 @@ textarea.answer {
 			});
 
 	
-	//수량선택 스크립트
+	//수량계산
 	var count = 1;
 	var countEl = document.getElementById("count");
-	var total_count = document.getElementById("total_count");
-	var total_count_view = document.getElementById("total_count_view");
+	var oriPrice = document.getElementById("oriPrice");
+	var totalPrice = document.getElementById("totalPrice");
+	var viewPrice = document.getElementById("viewPrice");
 
 	function minus(){
 		if(count > 1) {
 			count--;
 			countEl.value = count;
-			total_count_view.value = total_count_view.value - total_count.value;
+			totalPrice.value = totalPrice.value - oriPrice.value;
+			finalPrice = totalPrice.value;
+			$(viewPrice).text(finalPrice);
 		}
 	}
 	function plus(){
 		count++;
 		countEl.value = count;
-		total_count_view.value = total_count.value * countEl.value;
+		totalPrice.value = oriPrice.value * countEl.value;
+		finalPrice = totalPrice.value;
+		$(viewPrice).text(finalPrice);
 	}
 
 	

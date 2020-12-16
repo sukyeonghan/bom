@@ -51,6 +51,12 @@ public class ProductServiceImpl implements ProductService{
 	public int reviewCount(String pdtNo) {
 		return dao.reviewCount(session, pdtNo);
 	}
+	
+	//구매평 별점평균
+	@Override
+	public String reviewAvg(String pdtNo) {
+		return dao.reviewAvg(session, pdtNo);
+	}
 
 	//제품 개수
 	@Override
@@ -83,6 +89,7 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return dao.selectSaleList(session,cPage,numPerPage,sort,category);
 	}
+
 
 
 

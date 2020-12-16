@@ -26,7 +26,9 @@ public interface ProductService {
 		
 	//구매평 갯수
 	int reviewCount(String pdtNo);
-
+	
+	//구매평 별점평균
+	String reviewAvg(String pdtNo);
 
 	int productCount(String category);//제품 개수
 	int countSale();//세일제품개수

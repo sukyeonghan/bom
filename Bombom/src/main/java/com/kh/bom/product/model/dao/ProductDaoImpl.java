@@ -46,6 +46,12 @@ public class ProductDaoImpl implements ProductDao {
 	public int reviewCount(SqlSession session, String pdtNo) {
 		return session.selectOne("review.reviewCount",pdtNo);
 	}
+	
+	@Override
+	public String reviewAvg(SqlSession session, String pdtNo) {
+		return session.selectOne("review.reviewAvg", pdtNo);
+	}
+
 
 	@Override
 	public int productCount(SqlSession session, String category) {

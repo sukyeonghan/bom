@@ -259,7 +259,9 @@ public class ProductController {
 		//구매평
 		List<Review> reviewlist = service.reviewList(pdtNo,cPage, numPerpage);
 		//구매평 갯수
-		int reviewCount = service.reviewCount(pdtNo); 
+		int reviewCount = service.reviewCount(pdtNo);
+		//구매평 별점평균
+		String reviewAvg = service.reviewAvg(pdtNo);
 
 		mv.addObject("product", product);
 		mv.addObject("optionlist", optionlist);
@@ -267,6 +269,7 @@ public class ProductController {
 		mv.addObject("count", totalData);
 		mv.addObject("reviewlist", reviewlist);
 		mv.addObject("reviewCount", reviewCount);
+		mv.addObject("reviewAvg", reviewAvg);
 		mv.addObject("cPage", cPage);
 		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax"));
 		mv.setViewName("product/productOne");
