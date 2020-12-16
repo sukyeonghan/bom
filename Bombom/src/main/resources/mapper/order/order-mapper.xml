@@ -15,6 +15,11 @@
 		<result property="ordConfirmYn" column="ord_confirm_yn"/>
 		<result property="ordStatus" column="ord_status"/>
 		<result property="ordCancel" column="ord_cancel"/>
+		<result property="ordDate" column="ord_date"/>
+		<result property="ordOname" column="ord_oname"/>
+		<result property="ordOpone" column="ord_ophone"/>
+		<result property="ordRname" column="ord_rname"/>
+		<result property="ordRphone" column="ord_rphone"/>
 	</resultMap>
 	<resultMap type="inorder" id="inorderMap">
 		<result property="orderNo" column="order_no"/>
@@ -40,10 +45,14 @@
 				#{ordDetailAddr},#{ordExtraAddr},
 				#{ordDeliPrice},#{ordConfirmYn},
 				#{ordStatus},#{ordCancel},
-				SYSDATE)
+				SYSDATE,#{ordOname},<!-- sysdate => ordDate-->
+				#{ordOpone},#{ordRname}, #{ordRphone})
 	</insert>
 	<select id="selectBasketOne" parameterType="string" resultMap="inbasketMap">
 		SELECT * FROM BASKET WHERE MEM_NO=#{memNo}
+	</select>
+	<select id="selectInbasket" parameterType="string" resultMap="inorderMap">
+		SELECT * FROM INORDER WHERE BASKET_NO = #{basketNo}
 	</select>
 
 </mapper>

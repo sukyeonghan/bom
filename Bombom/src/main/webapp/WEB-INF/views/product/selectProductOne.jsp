@@ -529,7 +529,7 @@ textarea.answer {
                     <div class="information container">
                     	<c:if test="${loginMember!=null }">
 		                    <button type="button" href="#" class="btn btn-success custom">구매하기</button>
-		                    <button type="button" href="#" class="btn btn-outline-success custom">장바구니</button>
+		                    <button type="button" onclick="fn_goBasket(${product.pdtNo});" class="btn btn-outline-success custom">장바구니</button>
 		                    <button type="button" href="#" class="btn btn-outline-success custom">찜하기</button>
 	                    </c:if>
 	                    <c:if test="${loginMember==null }">
@@ -1520,7 +1520,37 @@ textarea.answer {
 			$("#uploadPreview").append(img);
 	   	}
 		reader.readAsDataURL($(e.target)[0].files[0]);
-	});	    
+	});
+	
+	//장바구니 insert용 함수
+	function inbasket(){
+		
+	}
+		
+	//장바구니 버튼 누르면 실행됨
+	function fn_goBasket(pdtNo){
+		let basUrl = "${path}/admin/basket";
+		let no = {pdtNo : pdtNo};
+		
+		
+		
+		swal("장바구니에 담으실건가요?",{
+			buttons:{
+				cancel:"취소",
+				defeat:"담기",
+			},
+		}).then((check)=>{
+			switch(ckeck){
+			case "defeat":
+				swal("장바구니에 담겼습니다!","확인해보세요!","success").then(function(){
+					window.location = basUrl + '?' +$.param(no);
+				});
+				break;
+			default:
+				swal("즐거운 쇼핑되세요!");
+			}
+		})
+	};
 		
 </script>
     
