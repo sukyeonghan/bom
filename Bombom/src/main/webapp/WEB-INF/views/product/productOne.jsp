@@ -439,8 +439,8 @@ textarea.answer {
     		<a href="${path}/product/pet">반려동물</a></small></h5>
     	</c:when>
     </c:choose>
-    <div class="row" >
     <c:out value="${product}"/>
+    <div class="row" >
     	<!-- 썸네일 -->
         <div class="col-6" >
         	<c:forTokens items="${product.thumbs}" var="th" delims="," varStatus="vs">
@@ -452,11 +452,6 @@ textarea.answer {
             <div class="goods_thumbs_image row container">
                 <ul class="clearfix">
 	                <li class="col-2 small_image"><a href="${path }/resources/upload/product/${th}"><img src="${path }/resources/upload/product/${th}"></a></li>
-                    <%-- <li class="col-2 small_image"><a href="${path }/resources/upload/product/천연목욕수세미2.jpg"><img src="${path }/resources/upload/product/천연목욕수세미2.jpg"></a></li>
-                    <li class="col-2 small_image"><a href="${path }/resources/upload/product/천연목욕수세미3.jpg"><img src="${path }/resources/upload/product/천연목욕수세미3.jpg"></a></li>
-                    <li class="col-2 small_image"><a href="${path }/resources/upload/product/천연목욕수세미4.jpg"><img src="${path }/resources/upload/product/천연목욕수세미4.jpg"></a></li>
-                    <li class="col-2 small_image"><a href="#">5</a></li>
-                    <li class="col-2 small_image"><a href="#">6</a></li> --%>
                 </ul>
             </div>
             </c:forTokens>
@@ -465,38 +460,68 @@ textarea.answer {
         <div class="col-6 info-container" style="display:flex;flex-wrap:wrap;">
         	<div class="inner_goods_form container">
         		<div class="head" style="margin-top:0px;">
-        			<div class="information size-up" style="padding-top:10px;">제품명&nbsp;&nbsp;<img src="${path}/resources/images/product/sale.jpg" width="50px"></div>
-        			<div class="information size-up">4,000원&nbsp;
-        				<span id="sale_price" value="4000" style="text-decoration:line-through; font-size:18px; color:dimgray;">5,000원</span>
+        			<div class="information size-up" style="padding-top:10px;">${product.pdtName }&nbsp;&nbsp;
+        			<c:if test="${product.eventNoRef!=null }">
+        			<img src="${path}/resources/images/product/sale.jpg" width="50px">
+        			</c:if>
+        			</div>
+        			<div class="information size-up"><fmt:formatNumber value="${product.pdtPrice }" pattern="#,###"/>원&nbsp;
+        			<c:if test="${product.eventNoRef!=null }">
+        				<span id="sale_price" value="" style="text-decoration:line-through; font-size:18px; color:dimgray;"><fmt:formatNumber value="${product.pdtPrice }" pattern="#,###"/>원</span>
+        			</c:if>
         			</div>
                     <div class="information size-mid row">
 	                    <div class="col-10">별점</div>
-	                    <div class="col-2"><a href=""><img src="${path}/resources/upload/product/SNS.png" width="35px" style="right:0;"></a></div>
+	                    <div class="col-2"><a href=""><img src="${path}/resources/images/product/SNS.png" width="35px" style="right:0;"></a></div>
                     </div>
                     <hr>
-                    <div class="information size-mid">제품 간단설명</div>
-                    <div class="information size-mid">구매 시 포인트</div>
+                    <div class="information size-mid">${product.pdtIntro }</div>
+                    <div class="information size-mid">구매 시 <fmt:formatNumber value="${product.pdtPrice*0.05 }" pattern="#,###"/>봄 적립</div>
                     <div class="information size-mid">배송비 2,500원(50,000원이상 무료배송) | 도서산간 배송비 추가</div>
                     <hr>
                     
                     <!-- 1.기본선택창:옵션이 없을 경우 나올 화면 -->
-                   <!--  <div class="information" style="padding-bottom:10px;">
-                    	<div id="info_count" style="border-radius:4px;">
-                    		<div class="information" style="margin:10px;">옵션선택확인</div>
-                    		<div class="inforamtion row">
-                    			<div class="col" style="margin-left:10px;">
-                    				<input type="button" class="input_count" value="-" id="minus" onclick="minus();">
-                    				<input type="text" class="input_count2" value="1" id="count" style="width:40px; text-align:center;">
-                    				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
-                    			</div>
-                    			<div class="col-3">
-                    				<input type="text" value="4000" id="total_count" hidden="hidden"/>
-                    				<input type="text" value="4000" id="total_count_view" style="width:60px;text-align:right; border:none;" readonly/>원
-                    			</div>
-                    		</div>
-                    	</div>
-                    </div>  -->                   
+                    <c:if test="${product.pdtOptionNo==null}">
+	                   <div class="information" style="padding-bottom:10px;">
+	                    	<div id="info_count" style="border-radius:4px;">
+	                    		<div class="information" style="margin:10px;visibility:hidden;">옵션선택확인</div>
+	                    		<div class="inforamtion row">
+	                    			<div class="col" style="margin-left:10px;">
+	                    				<input type="button" class="input_count" value="-" id="minus" onclick="minus();">
+	                    				<input type="text" class="input_count2" value="1" id="count" style="width:40px; text-align:center;">
+	                    				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
+	                    			</div>
+	                    			<div class="col-3">
+	                    				<input type="text" value="${product.pdtPrice}" id="total_count" hidden="hidden"/>
+	                    				<input type="text" value="${product.pdtPrice}" id="total_count_view" style="width:60px;text-align:right; border:none;" readonly/>원
+	                    			</div>
+	                    		</div>
+	                    	</div>
+	                    </div>
+                    </c:if>
+                    <script>
+                	//수량선택 스크립트
+                	var count = 1;
+                	var countEl = document.getElementById("count");
+                	var total_count = document.getElementById("total_count");
+                	var total_count_view = document.getElementById("total_count_view");
+
+                	function minus(){
+                		if(count > 1) {
+                			count--;
+                			countEl.value = count;
+                			total_count_view.value = total_count_view.value - total_count.value;
+                		}
+                	}
+                	function plus(){
+                		count++;
+                		countEl.value = count;
+                		total_count_view.value = total_count.value * countEl.value;
+                	}
+                    </script>                  
+                    
                     <!-- 2.옵션선택창:옵션이 있을 경우 반드시 선택해야함 -->
+                    <c:if test="${product.pdtOptionNo!=null}">
                     <div class="information">
                     	<div class="optionChoice">
                     		<div class="select">
@@ -524,12 +549,13 @@ textarea.answer {
                     			</div>
                     		</div>
                     	</div>
-                    </div>        			
+                    </div>
+                    </c:if>        			
                     <!-- 버튼 3개,로그인 안 할 경우 클릭 못하게 방지 -->        			
                     <div class="information container">
                     	<c:if test="${loginMember!=null }">
 		                    <button type="button" href="#" class="btn btn-success custom">구매하기</button>
-		                    <button type="button" onclick="fn_goBasket(${product.pdtNo});" class="btn btn-outline-success custom">장바구니</button>
+		                    <button type="button" onclick="fn_goBasket();" class="btn btn-outline-success custom">장바구니</button>
 		                    <button type="button" href="#" class="btn btn-outline-success custom">찜하기</button>
 	                    </c:if>
 	                    <c:if test="${loginMember==null }">
@@ -1052,7 +1078,7 @@ textarea.answer {
 
 	
 	//수량선택 스크립트
-	var count = 1;
+	/* var count = 1;
 	var countEl = document.getElementById("count");
 	var total_count = document.getElementById("total_count");
 	var total_count_view = document.getElementById("total_count_view");
@@ -1068,7 +1094,7 @@ textarea.answer {
 		count++;
 		countEl.value = count;
 		total_count_view.value = total_count.value * countEl.value;
-	}
+	} */
 
 	
 	//네비바
@@ -1520,41 +1546,19 @@ textarea.answer {
 			$("#uploadPreview").append(img);
 	   	}
 		reader.readAsDataURL($(e.target)[0].files[0]);
-	});
-	
-	
+	});	    
 		
+	
 	//장바구니 버튼 누르면 실행됨
 	function fn_goBasket(pdtNo){
+		//basket으로 insert시킬 url
 		let basUrl = "${path}/admin/basket";
-		let no = {pdtNo : pdtNo};
+		//넘길 변수들 - 상품번호pdtNo, 옵션번호pdtOptionNo, 갯수 Qty
+		let basket_need = {pdtNo : pdtNo, };
 		
 		//장바구니 insert용 함수
-		function(){
-			$.ajax({
-				
-			})
-		}
 		
-		swal("장바구니에 담으실건가요?",{
-			buttons:{
-				cancel:"취소",
-				defeat:"담기",
-			},
-		}).then((check)=>{
-			switch(ckeck){
-			case "defeat":
-				swal("장바구니에 담겼습니다!","확인해보세요!","success")
-				.then(function(){
-					window.location = basUrl + '?' +$.param(no);
-				});
-				break;
-			default:
-				swal("즐거운 쇼핑되세요!");
-			}
-		})
 	};
-		
 </script>
     
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

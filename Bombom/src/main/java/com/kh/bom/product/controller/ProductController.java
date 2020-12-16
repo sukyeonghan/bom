@@ -215,7 +215,7 @@ public class ProductController {
 	
 
 	//상품문의 카운트 - 상품상세 첫화면
-	@RequestMapping("/product/selectProductOne")
+	@RequestMapping("/product/productOne")
 	public ModelAndView productOne(ModelAndView mv,
 			@RequestParam("pdtNo") String pdtNo,
 			@RequestParam(value="cPage",defaultValue="1") int cPage,
@@ -228,7 +228,7 @@ public class ProductController {
 		//상품문의
 		//로그인 세션에서 현재 사용자 id값 가져오기
 		Member m = (Member)session.getAttribute("loginMember");
-		List<Inquiry> list = service.inquiryList(cPage, numPerpage);
+		List<Inquiry> list = service.inquiryList(pdtNo, cPage, numPerpage);
 		for(Inquiry i : list) {
 			//작성글이 비밀글일 경우
 			if(i.getInqSecret().equals("Y")) {
@@ -263,22 +263,24 @@ public class ProductController {
 		mv.addObject("reviewlist", reviewlist);
 		mv.addObject("reviewCount", reviewCount);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "selectProductOneAjax"));
-		mv.setViewName("product/selectProductOne");
+		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax"));
+		mv.setViewName("product/productOne");
 
 		return mv;
 	}
 	
 	//상품문의 페이징처리
-	@RequestMapping("/product/selectProductOneAjax") 
+	@RequestMapping("/product/productOneAjax") 
 	@ResponseBody
-	public ModelAndView productOneAjax(ModelAndView mv, int cPage,
+	public ModelAndView productOneAjax(ModelAndView mv, 
+			@RequestParam("pdtNo") String pdtNo,
+			int cPage,
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage,
 			HttpSession session) {
 	  
 		//로그인 세션에서 현재 사용자 id값 가져오기
 		Member m = (Member)session.getAttribute("loginMember");
-		List<Inquiry> list = service.inquiryList(cPage, numPerpage);
+		List<Inquiry> list = service.inquiryList(pdtNo,cPage, numPerpage);
 		for(Inquiry i : list) {
 			if(i.getInqSecret().equals("Y")) {
 				//비로그인 상태일 경우 비밀 댓글 처리
@@ -302,8 +304,8 @@ public class ProductController {
 		mv.addObject("list", list);
 		int totalData = service.inquiryCount();
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar", AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "selectProductOneAjax"));
-		mv.setViewName("product/selectProductOneAjax");
+		mv.addObject("pageBar", AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax"));
+		mv.setViewName("product/productOneAjax");
 
 		return mv; 
 	 
