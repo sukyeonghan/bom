@@ -439,7 +439,11 @@ textarea.answer {
     		<a href="${path}/product/pet">반려동물</a></small></h5>
     	</c:when>
     </c:choose>
-    <c:out value="${product}"/>
+    <c:out value="${product}"/><br>
+    상품옵션 : <c:out value="${optionlist }"/>
+    <script>
+    	console.log("${optionlist}");
+    </script>
     <div class="row" >
     	<!-- 썸네일 -->
         <div class="col-6" >
@@ -481,7 +485,7 @@ textarea.answer {
                     <hr>
                     
                     <!-- 1.기본선택창:옵션이 없을 경우 나올 화면 -->
-                    <c:if test="${product.pdtOptionNo==null}">
+                    <c:if test="${empty optionlist}">
 	                   <div class="information" style="padding-bottom:10px;">
 	                    	<div id="info_count" style="border-radius:4px;">
 	                    		<div class="information" style="margin:10px;visibility:hidden;">옵션선택확인</div>
@@ -499,29 +503,8 @@ textarea.answer {
 	                    	</div>
 	                    </div>
                     </c:if>
-                    <script>
-                	//수량선택 스크립트
-                	var count = 1;
-                	var countEl = document.getElementById("count");
-                	var total_count = document.getElementById("total_count");
-                	var total_count_view = document.getElementById("total_count_view");
-
-                	function minus(){
-                		if(count > 1) {
-                			count--;
-                			countEl.value = count;
-                			total_count_view.value = total_count_view.value - total_count.value;
-                		}
-                	}
-                	function plus(){
-                		count++;
-                		countEl.value = count;
-                		total_count_view.value = total_count.value * countEl.value;
-                	}
-                    </script>                  
-                    
                     <!-- 2.옵션선택창:옵션이 있을 경우 반드시 선택해야함 -->
-                    <c:if test="${product.pdtOptionNo!=null}">
+                    <c:if test="${not empty optionlist }">
                     <div class="information">
                     	<div class="optionChoice">
                     		<div class="select">
@@ -1078,7 +1061,7 @@ textarea.answer {
 
 	
 	//수량선택 스크립트
-	/* var count = 1;
+	var count = 1;
 	var countEl = document.getElementById("count");
 	var total_count = document.getElementById("total_count");
 	var total_count_view = document.getElementById("total_count_view");
@@ -1094,7 +1077,7 @@ textarea.answer {
 		count++;
 		countEl.value = count;
 		total_count_view.value = total_count.value * countEl.value;
-	} */
+	}
 
 	
 	//네비바

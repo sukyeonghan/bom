@@ -23,12 +23,13 @@
 	<select id="reviewList" resultMap="reviewMap">
 		SELECT R.*, M.MEM_NICK AS MEMNICK, M.MEM_PRO AS MEMPRO
 		FROM REVIEW R
-		JOIN MEMBER M ON M.MEM_NO=R.MEM_NO 
+		JOIN MEMBER M ON M.MEM_NO=R.MEM_NO
+		WHERE PDT_NO=#{pdtNo}
 		ORDER BY REV_DATE DESC
 	</select>
 	
 	<select id="reviewCount" resultType="_int">
-		SELECT COUNT(*) FROM REVIEW
+		SELECT COUNT(*) FROM REVIEW WHERE PDT_NO=#{pdtNo}
 	</select>
 
 	<delete id="deleteReview" parameterType="string">

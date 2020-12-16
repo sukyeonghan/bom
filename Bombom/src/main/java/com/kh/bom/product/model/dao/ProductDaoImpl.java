@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.review.model.vo.Review;
 
 @Repository
@@ -19,6 +20,11 @@ public class ProductDaoImpl implements ProductDao {
 	public Product selectProductOne(SqlSession session, String pdtNo) {
 		return session.selectOne("product.selectProductOne",pdtNo);
 	}
+	
+	@Override
+	public List<ProductOption> selectpdtOption(SqlSession session, String pdtNo) {
+		return session.selectList("product.selectpdtOption", pdtNo);
+	}
 
 	@Override
 	public List<Inquiry> inquiryList(SqlSession session, String pdtNo, int cPage, int numPerpage) {
@@ -27,18 +33,18 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public int inquiryCount(SqlSession session) {
-		return session.selectOne("inquiry.inquiryCount");
+	public int inquiryCount(SqlSession session, String pdtNo) {
+		return session.selectOne("inquiry.inquiryCount",pdtNo);
 	}
 	
 	@Override
-	public List<Review> reviewList(SqlSession session, int cPage, int numPerpage) {
-		return session.selectList("review.reviewList",null,new RowBounds((cPage-1)*numPerpage,numPerpage));
+	public List<Review> reviewList(SqlSession session, String pdtNo, int cPage, int numPerpage) {
+		return session.selectList("review.reviewList",pdtNo,new RowBounds((cPage-1)*numPerpage,numPerpage));
 	}
 
 	@Override
-	public int reviewCount(SqlSession session) {
-		return session.selectOne("review.reviewCount");
+	public int reviewCount(SqlSession session, String pdtNo) {
+		return session.selectOne("review.reviewCount",pdtNo);
 	}
 
 	@Override
@@ -74,6 +80,8 @@ public class ProductDaoImpl implements ProductDao {
 		map.put("sort", sort);
 		return session.selectList("product.saleList",map);
 	}
+
+	
 
 
 

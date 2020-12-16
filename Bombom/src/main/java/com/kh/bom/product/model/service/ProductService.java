@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.review.model.vo.Review;
 
 public interface ProductService {
@@ -14,14 +15,17 @@ public interface ProductService {
 	//상품문의
 	List<Inquiry> inquiryList(String pdtNo, int cPage, int numPerpage);
 	
+	//상품 옵션 불러오기
+	List<ProductOption> selectpdtOption(String pdtNo);
+	
 	//상품갯수
-	int inquiryCount();
+	int inquiryCount(String pdtNo);
 	
 	//구매평
-	List<Review> reviewList(int cPage, int numPerpage);
+	List<Review> reviewList(String pdtNo, int cPage, int numPerpage);
 		
 	//구매평 갯수
-	int reviewCount();
+	int reviewCount(String pdtNo);
 
 
 	int productCount(String category);//제품 개수

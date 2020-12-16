@@ -26,8 +26,8 @@
 		ORDER BY INQ_DATE DESC
 	</select>
 	
-	<select id="inquiryCount" resultType="_int">
-		SELECT COUNT(*) FROM INQUIRY
+	<select id="inquiryCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM INQUIRY WHERE PDT_NO=#{pdtNo}
 	</select>
 	
 	<update id="insertInquiryAnswer" parameterType="inquiry">

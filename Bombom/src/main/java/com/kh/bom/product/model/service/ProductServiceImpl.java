@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.product.model.dao.ProductDao;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.review.model.vo.Review;
 
 @Service
@@ -24,6 +25,11 @@ public class ProductServiceImpl implements ProductService{
 	public Product selectProductOne(String pdtNo) {
 		return dao.selectProductOne(session, pdtNo);
 	}
+	
+	@Override
+	public List<ProductOption> selectpdtOption(String pdtNo) {
+		return dao.selectpdtOption(session, pdtNo);
+	}
 
 	@Override
 	public List<Inquiry> inquiryList(String pdtNo, int cPage, int numPerpage) {
@@ -31,19 +37,19 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public int inquiryCount() {
+	public int inquiryCount(String pdtNo) {
 		// TODO Auto-generated method stub
-		return dao.inquiryCount(session);
+		return dao.inquiryCount(session, pdtNo);
 	}
 	
 	@Override
-	public List<Review> reviewList(int cPage, int numPerpage) {
-		return dao.reviewList(session, cPage, numPerpage);
+	public List<Review> reviewList(String pdtNo, int cPage, int numPerpage) {
+		return dao.reviewList(session, pdtNo, cPage, numPerpage);
 	}
 	
 	@Override
-	public int reviewCount() {
-		return dao.reviewCount(session);
+	public int reviewCount(String pdtNo) {
+		return dao.reviewCount(session, pdtNo);
 	}
 
 	//제품 개수
@@ -77,6 +83,8 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return dao.selectSaleList(session,cPage,numPerPage,sort,category);
 	}
+
+
 
 
 	
