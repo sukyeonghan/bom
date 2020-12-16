@@ -30,6 +30,6 @@ public class Order {
 	private String ordOpone;//주문자 전화번호
 	private String ordRname;//받는사람 이름
 	private String ordRphone;//받는사람 전화번호
-	private String memNick; //회원닉네임
+
 	
 }

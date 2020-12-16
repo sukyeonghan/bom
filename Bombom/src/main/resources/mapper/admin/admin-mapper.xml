@@ -83,6 +83,11 @@
 		<result property="ordConfirmYn" column="ord_confirm_yn"/>
 		<result property="ordStatus" column="ord_status"/>
 		<result property="ordCancel" column="ord_cancel"/>
+		<result property="ordDate" column="ord_date"/>
+		<result property="ordOname" column="ord_oname"/>
+		<result property="ordOpone" column="ord_ophone"/>
+		<result property="ordRname" column="ord_rname"/>
+		<result property="ordRphone" column="ord_rphone"/>
 		<result property="memNick" column="mem_nick"/>
 	</resultMap>
 	
@@ -441,8 +446,7 @@
 	
 	<!--주문관리  -->
 	<select id="selectOrderList" resultMap="orderMap">
-		  SELECT * FROM "ORDER" O
-   		  LEFT JOIN MEMBER M ON M.MEM_NO=O.MEM_NO 
+		  SELECT * FROM "ORDER"
 	</select>
 	
 	<select id="selectOrderCount" resultType="_int">
@@ -450,8 +454,7 @@
 	</select>
 
 	<select id="selectOrderOne" parameterType="string" resultMap="orderMap">
-		 SELECT * FROM "ORDER" O
-   		 LEFT JOIN MEMBER M ON M.MEM_NO=O.MEM_NO
+		 SELECT * FROM "ORDER"
    		 WHERE ORDER_NO=#{orderNo} 
 	</select>
 </mapper>
