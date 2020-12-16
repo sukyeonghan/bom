@@ -1,13 +1,11 @@
 @charset "UTF-8";
-
+	
 	/*내비바*/
-	.product-nav{padding-right:80px;font-size: 18px;line-height: 1.8;width:250px;}
+ 	.product-nav{font-size: 18px;line-height: 1.8;min-width:200px;}
 	.product-nav ul{list-style:none;}
 	.product-nav ul a{text-decoration: none;font-weight:bolder;}
-	.product-nav a:hover{color: #45A663;}
-	.select{color:#45A663;}
-	.non-select{color:black;}
-	
+	.product-nav li a:hover{color: #45A663;}
+
 	/*큰 div들 설정. 반응형 덜어낸 방식*/
 	.flexDiv{
 		display:flex;
@@ -80,6 +78,7 @@
 	.sale{
     	color:rgb(170, 170, 170);
     	text-decoration: line-through;
+    	margin-left:5px;
 	}
     .item-price,.item-icon{
         display: flex;

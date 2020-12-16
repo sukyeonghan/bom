@@ -18,14 +18,14 @@
 		<!-- 상품 내비게이션바 -->
 		<div class="product-nav">
 			<ul>
-        		<li><a href="${path }/product/productAll" style="${category.equals('전체제품')?'color:#45A663;':'color:black;' }">전체제품</a></li>
-	        	<li><a href="${path }/product/food" style="${category.equals('식품')?'color:#45A663;':'color:black;' }">식품</a></li>
-          	 	<li><a href="${path }/product/stuff" style="${category.equals('잡화')?'color:#45A663;':'color:black;' }">잡화</a></li>
-            	<li><a href="${path }/product/kitchen" style="${category.equals('주방')?'color:#45A663;':'color:black;' }">주방</a></li>
-            	<li><a href="${path }/product/bathroom" style="${category.equals('욕실')?'color:#45A663;':'color:black;' }">욕실</a></li>
-            	<li><a href="${path }/product/woman" style="${category.equals('여성용품')?'color:#45A663;':'color:black;' }">여성용품</a></li>
-            	<li><a href="${path }/product/pet" style="${category.equals('반려동물')?'color:#45A663;':'color:black;' }">반려동물</a></li>
-            	<li><a href="${path }/product/sale" style="${category.equals('할인제품')?'color:#45A663;':'color:black;' }">할인제품</a></li>
+        		<li><a href="${path }/product/productAll" style="${category.equals('전체제품')?'color:#45A663;':'' }">전체제품</a></li>
+	        	<li><a href="${path }/product/food" style="${category.equals('식품')?'color:#45A663;':'' }">식품</a></li>
+          	 	<li><a href="${path }/product/stuff" style="${category.equals('잡화')?'color:#45A663;':'' }">잡화</a></li>
+            	<li><a href="${path }/product/kitchen" style="${category.equals('주방')?'color:#45A663;':'' }">주방</a></li>
+            	<li><a href="${path }/product/bathroom" style="${category.equals('욕실')?'color:#45A663;':'' }">욕실</a></li>
+            	<li><a href="${path }/product/woman" style="${category.equals('여성용품')?'color:#45A663;':'' }">여성용품</a></li>
+            	<li><a href="${path }/product/pet" style="${category.equals('반려동물')?'color:#45A663;':'' }">반려동물</a></li>
+            	<li><a href="${path }/product/sale" style="${category.equals('할인제품')?'color:#45A663;':'' }">할인제품</a></li>
         	</ul>
 		</div>
 
@@ -92,16 +92,19 @@
 					                    <div class="item-price">
 					                    	<c:choose>
 					                    		<c:when test="${not empty p.eventNoRef  and p.salePer!=0 }">
-					                    			<p class="ori-price sale">
-					                    				<fmt:formatNumber value="${p.pdtPrice }" />원
-					                    			</p>
+
 					                    			<fmt:parseNumber var="i" integerOnly="true" type="number" value="${p.pdtPrice*(1-(p.salePer/100))}"/>
 					                    			<p class="sale-price">
 					                    				<fmt:formatNumber value="${i}" />원
 					                    			</p>
+					                    			<p class="ori-price sale">
+					                    				<fmt:formatNumber value="${p.pdtPrice }" />원
+					                    			</p>
 					                    		</c:when>
 					                    		<c:otherwise>
-					                    			<p class="ori-price"><c:out value="${p.pdtPrice }"/>원</p>
+					                    			<p class="ori-price">
+					                    				<fmt:formatNumber value="${p.pdtPrice }" />원
+					                    			</p>
 					                    		</c:otherwise>
 					                        </c:choose>			
 					                    </div>
