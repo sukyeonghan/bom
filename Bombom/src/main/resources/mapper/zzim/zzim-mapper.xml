@@ -5,19 +5,95 @@
 		<result property="zzimNo" column="zzim_no"/>
 		<result property="memNo" column="mem_no"/>
 		<result property="zzimName" column="zzim_name"/>
+		<result property="zzimContentCount" column="count"/>
+		<result property="zzimFolderImg" column="image"/>
 	</resultMap>
 	<resultMap type="zzimContent" id="zzimContentMap">
 		<result property="pdtNo" column="pdt_no"/>
 		<result property="zzimNo" column="zzim_no"/>
 		<result property="zzimDate" column="zzim_date"/>	
+		<result property="zzimContentNo" column="zzimcontent_no"/>	
 	</resultMap>
 	
+	<!-- 전체 찜 폴더 리스트 -->
 	<select id="selectZzimList" parameterType="String" resultMap="zzimMap">
-		SELECT * FROM ZZIM WHERE MEM_NO=#{memNo}
-
+		   SELECT * FROM
+			(
+			 SELECT Z.ZZIM_NO, Z.ZZIM_NAME,Z.MEM_NO, ZC.PDT_NO,ZC.ZZIM_DATE,PT.PDT_THUMB_NO,PT.PDT_THUMB_IMAGE AS IMAGE,
+			 RANK() OVER (
+			    PARTITION BY Z.ZZIM_NO
+			    ORDER BY zc.zzim_date DESC ,TO_NUMBER(SUBSTR(PDT_THUMB_NO,3))ASC) AS RANKING, 
+			    (SELECT COUNT(*) FROM ZZIMCONTENT WHERE ZZIM_NO=Z.ZZIM_NO) AS COUNT
+			FROM ZZIM Z  
+			LEFT JOIN ZZIMCONTENT ZC ON Z.ZZIM_NO=ZC.ZZIM_NO
+			LEFT JOIN PRODUCT_THUMB PT ON ZC.PDT_NO=PT.PDT_NO_REF
+			WHERE Z.MEM_NO=#{memNo}
+			ORDER BY TO_NUMBER(SUBSTR(Z.ZZIM_NO,2)) DESC
+			)WHERE RANKING =1 
 	</select>
 	
-	<insert id="insertZzim">
+
+	<!-- 찜폴더 추가-->
+	<insert id="insertZzim" parameterType="zzim">
 		INSERT INTO ZZIM VALUES('Z'||SEQ_ZZIM_NO.NEXTVAL,#{memNo},#{zzimName})
 	</insert>
+	
+	<!-- 폴더내 찜 상품 리스트 -->
+	<select id="selectZzimContentList" parameterType="string" resultMap="zzimContentMap">
+		SELECT * FROM(
+		    SELECT  ZC.ZZIM_NO,ZC.ZZIMCONTENT_NO,ZC.ZZIM_DATE,ZC.PDT_NO, PT.PDT_THUMB_IMAGE AS zzimPdtImage,PDT_NAME AS zzimPdtName,
+		    RANK() OVER (
+		        PARTITION BY PT.PDT_NO_REF ORDER BY  TO_NUMBER(SUBSTR(PT.PDT_THUMB_NO,3))) AS RANK
+		     FROM ZZIMCONTENT ZC
+		     LEFT JOIN PRODUCT_THUMB PT ON ZC.PDT_NO=PT.PDT_NO_REF 
+             LEFT JOIN PRODUCT PDT ON ZC.PDT_NO=PDT.PDT_NO
+		      ORDER BY ZC.ZZIM_DATE DESC
+		 )WHERE RANK=1 AND ZZIM_NO=#{zzimNo}
+	</select>
+	
+	<!-- 찜 폴더 다중삭제 -->
+	<delete id="deleteZzim" parameterType="java.util.List">
+		DELETE FROM ZZIM WHERE ZZIM_NO IN
+		<foreach collection="list" item="zzimNo" open="(" close=")" separator="," index="index">	
+			 #{zzimNo}
+		</foreach>
+	</delete>	
+	
+	<!-- 최근 찜 폴더 번호 -->
+	<select id="selectSeqZzimNo" resultType="string">
+		SELECT 'Z'||SEQ_ZZIM_NO.CURRVAL FROM DUAL
+	</select>
+	
+	<!-- 찜 폴더 이름 바꾸기 -->
+	<update id="updateZzimName" parameterType="zzim">
+		UPDATE ZZIM SET ZZIM_NAME=#{zzimName} WHERE ZZIM_NO=#{zzimNo}
+	</update>
+	
+	<!-- 찜 폴더 하나 삭제 -->
+	<delete id="deleteZzimOne" parameterType="string">
+		DELETE FROM ZZIM WHERE ZZIM_NO = #{zzimNo}
+	</delete>
+	
+	<!-- 찜 상품 다중 삭제 -->
+	<delete id="deleteZzimContent" parameterType="java.util.List">
+		DELETE FROM ZZIMCONTENT WHERE ZZIMCONTENT_NO IN
+		<foreach collection="list" item="zzimContentNo" open="(" close=")" separator="," index="index">
+			#{zzimContentNo}
+		</foreach>
+	</delete>
+	
+	<!-- 찜 폴더 하나-->
+	<select id="selectZzimOne" parameterType="string" resultMap="zzimMap">
+		SELECT * FROM ZZIM WHERE ZZIM_NO = #{zzimNo}
+	</select>
+	
+	<!-- 찜 폴더 이동하기 -->
+	<update id="updateZzimNo" parameterType="map">
+		UPDATE ZZIMCONTENT SET ZZIM_NO=#{zzimNo}
+		WHERE ZZIMCONTENT_NO IN
+		<foreach collection="zcNoList" item="zzimContentNo" index="idx" separator=","  open="(" close=")">
+        	#{zzimContentNo}
+       	</foreach>
+	</update>
+	
 </mapper>

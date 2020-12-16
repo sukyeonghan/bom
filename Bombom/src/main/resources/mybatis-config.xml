@@ -16,8 +16,15 @@
 		<typeAlias type="com.kh.bom.product.model.vo.ProductOption" alias="option"/>
 		<typeAlias type="com.kh.bom.product.model.vo.ProductThumb" alias="thumb"/>
 		<typeAlias type="com.kh.bom.common.typehandler.DateStringTypeHandler" alias="dateStr"/>
+		<typeAlias type="com.kh.bom.common.typehandler.intTypeHandler" alias="intArr"/>
 		<typeAlias type="com.kh.bom.zzim.model.vo.Zzim" alias="zzim"/>
 		<typeAlias type="com.kh.bom.zzim.model.vo.ZzimContent" alias="zzimContent"/>
 		<typeAlias type="com.kh.bom.community.model.vo.BoardReply" alias="boardReply"/>
+		<typeAlias type="com.kh.bom.order.model.vo.Basket" alias="basket"/>
+		<typeAlias type="com.kh.bom.order.model.vo.Inbasket" alias="inbasket"/>
+		<typeAlias type="com.kh.bom.qna.model.vo.Qna" alias="qna"/>
+		<typeAlias type="com.kh.bom.common.typehandler.CustomTypeHandler" alias="customStr"/>
+		<typeAlias type="com.kh.bom.review.model.vo.Review" alias="review"/>
+		<typeAlias type="com.kh.bom.admin.model.vo.MainBanner" alias="mainBanner"/>
 	</typeAliases>
 </configuration>

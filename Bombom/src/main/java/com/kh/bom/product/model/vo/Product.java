@@ -1,6 +1,7 @@
 package com.kh.bom.product.model.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,5 +24,9 @@ public class Product {
 	private String pdtOptionNo;
 	private String pdtOptionContent;
 	private int pdtOptionAddprice;
+	private String thumbs;
+	private int salePer;
+	private String pdtThumbNo;
+	private String pdtThumbImage;
 
 }

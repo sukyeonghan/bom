@@ -2,26 +2,78 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="order">
 	<resultMap type="order" id="orderMap">
-		<result property="orderNo" column="order_no"/>
-		<result property="memNo" column="mem_no"/>
-		<result property="ordAmount" column="ord_amount"/>
-		<result property="ordUsePoint" column="ord_use_point"/>
-		<result property="ordDeliAddr" column="ord_deli_addr"/>
-		<result property="ordMemo" column="ord_memo"/>
-		<result property="ordDeliPrice" column="ord_deli_price"/>
-		<result property="ordStatus" column="ord_status"/>
+		<result property="orderNo" column="order_no" />
+		<result property="memNo" column="mem_no" />
+		<result property="ordAmount" column="ord_amount" />
+		<result property="ordUsePoint" column="ord_use_point" />
+		<result property="ordZipcode" column="ord_zipcode" />
+		<result property="ordAddr" column="ord_addr" />
+		<result property="ordDetailAddr" column="ord_detail_addr" />
+		<result property="ordExtraAddr" column="ord_extra_addr" />
+		<result property="ordTrack" column="ord_track" />
+		<result property="ordMemo" column="ord_memo" />
+		<result property="ordDeliPrice" column="ord_deli_price" />
+		<result property="ordConfirmYn" column="ord_confirm_yn" />
+		<result property="ordStatus" column="ord_status" />
+		<result property="ordCancel" column="ord_cancel" />
+		<result property="ordDate" column="ord_date" />
+		<result property="ordOname" column="ord_oname" />
+		<result property="ordOpone" column="ord_ophone" />
+		<result property="ordRname" column="ord_rname" />
+		<result property="ordRphone" column="ord_rphone" />
 	</resultMap>
-	
+	<resultMap type="inorder" id="inorderMap">
+		<result property="orderNo" column="order_no" />
+		<result property="pdtNo" column="pdt_no" />
+		<result property="pdtOptionNo" column="pdt_option_no" />
+		<result property="inorderQty" column="inorder_qty" />
+	</resultMap>
+	<resultMap type="basket" id="basketMap">
+		<result property="basketNo" column="basket_no" />
+		<result property="memNo" column="mem_no" />
+	</resultMap>
+	<resultMap type="inbasket" id="inbasketMap">
+		<result property="pdtNo" column="pdt_no" />
+		<result property="basketNo" column="pdt_no" />
+		<result property="pdtOptionNo" column="pdt_option_no" />
+		<result property="inbasQty" column="inbas_qty" />
+		<!-- 장바구니에 뿌려줄 상품정보 가져오기 -->
+		<result property="pdtCategory" column="pdt_category" />
+		<result property="pdtPrice" column="pdt_price" />
+		<result property="pdtName" column="pdt_name" />
+		<result property="pdtIntro" column="pdt_intro" />
+		<result property="pdtStatus" column="pdt_status" />
+		<result property="pdtDate" column="pdt_date" />
+		<result property="pdtDetailImage" column="pdt_detail_image" />
+		<result property="eventNoRef" column="event_no_ref" />
+		<result property="thumbs" column="thumbs" />
+		<result property="salePer" column="event_sale_per" />
+		<result property="pdtThumbNo" column="pdt_thumb_no" />
+		<result property="pdtThumbImage" column="pdt_thumb_image" />
+	</resultMap>
+
 	<insert id="insertOrder" parameterType="order">
-		INSERT INTO "ORDER" 
-		VALUES (#{orderNo},
-				'M1',
-				1500,
-				#{ordUsePoint},
-				#{ordDeliAddr},
-				#{ordMemo},
-				#{ordDeliPrice},
-				'주문대기')
+		INSERT INTO "ORDER"
+		VALUES (#{orderNo}, #{memNo},#{ordAmount},
+		#{ordUsePoint}, #{ordZipcode}, #{ordAddr},
+		#{ordDetailAddr},#{ordExtraAddr},
+		#{ordDeliPrice},#{ordConfirmYn},
+		#{ordStatus},#{ordCancel},
+		SYSDATE,#{ordOname},<!-- sysdate => ordDate -->
+		#{ordOpone},#{ordRname}, #{ordRphone})
+	</insert>
+	<select id="selectBasketOne" parameterType="string"
+		resultMap="basketMap">
+		SELECT * FROM BASKET WHERE MEM_NO=#{memNo}
+	</select>
+	<select id="selectInbasket" parameterType="string"
+		resultMap="inbasketMap">
+		SELECT * FROM INBASKET
+			JOIN PRODUCT USING(PDT_NO)
+		WHERE BASKET_NO = #{basketNo}
+	</select>
+	<insert id="insertInbasket" parameterType="string">
+
 	</insert>
 
 </mapper>

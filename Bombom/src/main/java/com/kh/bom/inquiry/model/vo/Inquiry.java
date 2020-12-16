@@ -1,6 +1,6 @@
 package com.kh.bom.inquiry.model.vo;
 
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 public class Inquiry {
 	
 	private String inqNo;
-	private String pdtNo;
 	private String memNo;
+	private String pdtNo;
 	private String inqContent;
 	private Date inqDate;
 	private String inqSecret;
@@ -22,6 +22,6 @@ public class Inquiry {
 	private Date inqAnswerDate;
 	private String memNick;
 	private String memManagerYn;
-	
+	private String memPro;
 
 }

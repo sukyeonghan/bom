@@ -3,9 +3,12 @@ package com.kh.bom.member.model.service;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.bom.member.model.dao.MemberDao;
 import com.kh.bom.member.model.vo.Member;
+import com.kh.bom.point.model.dao.PointDao;
+import com.kh.bom.point.model.vo.Point;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -13,6 +16,8 @@ public class MemberServiceImpl implements MemberService {
 	private SqlSession session;
 	@Autowired
 	private MemberDao dao;
+	@Autowired
+	private PointDao pointdao;
 	
 	@Override
 	public Member selectMemberOne(String memNo) {
@@ -37,11 +42,18 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.updateMember(session,m);
 	}
-
+//회원가입시 포인트 적립
 	@Override
-	public int insertMember(Member m ) {
-		// TODO Auto-generated method stub
-		return dao.insertMember(session,m);
+	@Transactional
+	public int insertMember(Member m,Point p)  {
+		
+		int result=dao.insertMember(session, m);
+	
+		if(result>0) {
+			p.setMemNo(m.getMemNo());
+			result=dao.insertMemPoint(session,p);
+		}
+		return result;
 	}
 
 //로그인
@@ -57,6 +69,13 @@ public class MemberServiceImpl implements MemberService {
 		return dao.selectMemberEmail(session, email);
 	}
 
+	@Override
+	public int updateMemberPw(Member m) {
+		// TODO Auto-generated method stub
+		return dao.updateMemberPw(session, m);
+	}
+
+	
 
 	
 	

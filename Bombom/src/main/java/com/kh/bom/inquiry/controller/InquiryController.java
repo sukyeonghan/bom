@@ -49,18 +49,6 @@ public class InquiryController {
 		
 	}
 	
-	//상품문의 상세보기 팝업창
-	@RequestMapping("/inquiry/inquiryView") 
-	public String inquiryView(String inqNo,String memNick,Model m) { 
-		
-		Inquiry i = service.selectInquiryOne(inqNo);
-		m.addAttribute("memNick",memNick); 
-		m.addAttribute("inquiry",i); 
-		
-		return "product/inquiry/inquiryView"; 
-	}
-	 
-	
 	//상품문의 모달창에서 답변하기
 	@RequestMapping("/inquiry/insertInquiryAnswer")
 	public ModelAndView inquiryAnswer(Inquiry i,ModelAndView mv) {
@@ -86,6 +74,111 @@ public class InquiryController {
 		mv.setViewName("common/msg");
 		return mv;		
 		
+	}
+	
+	//상품문의 삭제
+	@RequestMapping("/inquiry/deleteInquiry")
+	public ModelAndView deleteInquiry(String inqNo, ModelAndView mv) {
+		
+		int result = service.deleteInquiry(inqNo);
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		
+		if(result>0) {
+			msg = "게시글이 삭제되었습니다";
+			loc = "/product/productOne";
+			icon = "success";
+		}else {
+			msg = "게시글을 다시 삭제해주세요";
+			loc = "/product/productOne";
+			icon = "warning";
+		}
+
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon",icon);
+		mv.setViewName("common/msg");
+		return mv;
+	}	
+	
+	//상품문의 답변삭제
+	@RequestMapping("/inquiry/deleteInquiryAnswer")
+	public ModelAndView deleteInquiryAnswer(String inqNo, ModelAndView mv) {
+		
+		int result = service.deleteInquiryAnswer(inqNo);
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		
+		if(result>0) {
+			msg = "답변이 삭제되었습니다";
+			loc = "/product/productOne";
+			icon = "success";
+		}else {
+			msg = "답변을 다시 삭제해주세요";
+			loc = "/product/productOne";
+			icon = "warning";
+		}
+
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon",icon);
+		mv.setViewName("common/msg");
+		return mv;
+		
+	}
+	
+	//상품문의 수정
+	@RequestMapping("/inquiry/updateInquiry")
+	public ModelAndView updateInquiry(Inquiry i, ModelAndView mv) {
+		
+		int result = service.updateInquiry(i);
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		
+		if(result>0) {
+			msg = "문의가 수정되었습니다";
+			loc = "/product/productOne";
+			icon = "success";
+		}else {
+			msg = "문의를 다시 작성해주세요";
+			loc = "/product/productOne";
+			icon = "warning";
+		}
+
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon",icon);
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
+	//상품문의 관리자답변 수정
+	@RequestMapping("/inquiry/updateInquiryAnswer")
+	public ModelAndView updateInquiryAnswer(Inquiry i, ModelAndView mv) {
+		
+		int result = service.updateInquiryAnswer(i);
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		
+		if(result>0) {
+			msg = "답변이 수정되었습니다";
+			loc = "/product/productOne";
+			icon = "success";
+		}else {
+			msg = "답변을 다시 작성해주세요";
+			loc = "/product/productOne";
+			icon = "warning";
+		}
+
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon",icon);
+		mv.setViewName("common/msg");
+		return mv;	
 	}
 	
 	

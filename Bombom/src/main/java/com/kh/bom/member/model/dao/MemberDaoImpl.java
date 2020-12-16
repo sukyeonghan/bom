@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.bom.member.model.vo.Member;
+import com.kh.bom.point.model.vo.Point;
 
 @Repository
 public class MemberDaoImpl implements MemberDao {
@@ -63,7 +64,20 @@ public class MemberDaoImpl implements MemberDao {
 		return session.update("member.updateMemBuyCount",param);
 	}
 
+	//가입할때 포인트적립
+	@Override
+	public int insertMemPoint(SqlSession session, Point p) {
+		// TODO Auto-generated method stub
+		return session.insert("member.insertMemPoint",p);
+	}
 
+	@Override
+	public int updateMemberPw(SqlSession session, Member m) {
+		// TODO Auto-generated method stub
+		return session.update("member.updateMemberPw",m);
+	}
+
+	
 	
 	
 	

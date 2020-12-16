@@ -19,4 +19,6 @@ public class Qna {
 	private Date qnaDate;
 	private String qnaYn;
 	private String qnaAnswer;
+	private Date qnaAnswerDate;
+	private int rownum;
 }

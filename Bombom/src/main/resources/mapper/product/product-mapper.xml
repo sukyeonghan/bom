@@ -1,5 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="product">
+	<resultMap type="product" id="productMap">
+		<result property="pdtNo" column="pdt_no"/>
+		<result property="pdtCategory" column="pdt_category"/>
+		<result property="pdtPrice" column="pdt_price"/>
+		<result property="pdtName" column="pdt_name"/>
+		<result property="pdtIntro" column="pdt_intro"/>
+		<result property="pdtStatus" column="pdt_status"/>
+		<result property="pdtDate" column="pdt_date"/>
+		<result property="pdtDetailImage" column="pdt_detail_image"/>
+		<result property="eventNoRef" column="event_no_ref"/>
+		<result property="thumbs" column="thumbs"/>
+		<result property="salePer" column="event_sale_per"/>
+		<result property="pdtThumbNo" column="pdt_thumb_no"/>
+		<result property="pdtThumbImage" column="pdt_thumb_image"/>
+	</resultMap>
+	<resultMap type="option" id="optionMap">
+		<result property="pdtOptionNo" column="pdt_option_no"/>
+		<result property="pdtNo" column="pdt_no_ref"/>
+		<result property="pdtOptionContent" column="pdt_option_content"/>
+		<result property="pdtOptionAddprice" column="pdt_option_addprice" />
+		<result property="pdtOptionStatus" column="pdt_option_status"/>
+	</resultMap>
+	<resultMap type="thumb" id="thumbMap">
+		<result property="pdtThumbNo" column="pdt_thumb_no"/>
+		<result property="pdtNo" column="pdt_no_ref"/>
+		<result property="pdtThumbImage" column="pdt_thumb_image"/>
+	</resultMap>
 	
+	<!-- 제품불러오기 -->
+	<select id="selectProductOne" resultMap="productMap" parameterType="string">
+		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_INTRO,PDT_STATUS,PDT_DATE,PDT_DETAIL_IMAGE,EVENT_NO_REF,E.EVENT_SALE_PER,
+		    LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY T.pdt_no_ref) OVER(PARTITION BY T.PDT_NO_REF)AS THUMBS
+		FROM PRODUCT P
+		JOIN  PRODUCT_THUMB T ON(PDT_NO=T.PDT_NO_REF) 
+		LEFT JOIN EVENT E ON(P.EVENT_NO_REF=E.EVENT_NO)
+		 where pdt_no=#{pdtNo}
+		ORDER BY PDT_DATE DESC
+	</select>
+	
+	<!-- 제품 개수 -->
+	<select id="count" resultType="_int" parameterType="map">
+		SELECT COUNT(*) FROM PRODUCT
+		<if test="category != '전체제품'">
+			WHERE PDT_CATEGORY=#{category}
+		</if>
+	</select>
+	<!-- 세일제품 개수 -->
+	<select id="countSale" resultType="_int">
+		SELECT COUNT(*)
+		FROM PRODUCT 
+		JOIN EVENT ON(EVENT_NO=EVENT_NO_REF)
+		WHERE EVENT_NO_REF IS NOT NULL AND EVENT_SALE_PER > 0
+	</select>
+	<!-- 카테고리별 제품 리스트, 정렬 -->
+	<select id="productList" resultMap="productMap" parameterType="map">
+		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_STATUS,PDT_DATE,EVENT_NO_REF,E.EVENT_SALE_PER,
+    		LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY pdt_no_ref) OVER(PARTITION BY PDT_NO_REF)AS THUMBS
+		FROM PRODUCT P
+			JOIN  PRODUCT_THUMB ON(PDT_NO=PDT_NO_REF) 
+			LEFT JOIN EVENT E ON(P.EVENT_NO_REF=E.EVENT_NO)
+		<if test="category != '전체제품'">
+			WHERE PDT_CATEGORY IN(#{category})
+		</if>
+		<if test="sort == '등록일순'">
+			ORDER BY PDT_DATE DESC
+		</if>
+		<if test="sort == '낮은가격순'">
+			ORDER BY PDT_PRICE
+		</if>
+		<if test="sort == '높은가격순'">
+			ORDER BY PDT_PRICE DESC
+		</if>
+	</select>
+	<!-- 세일 리스트, 정렬 -->
+	<select id="saleList" resultMap="productMap" parameterType="map">
+		SELECT DISTINCT PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_STATUS,PDT_DATE,EVENT_NO_REF,E.EVENT_SALE_PER,
+    		LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY pdt_no_ref) OVER(PARTITION BY PDT_NO_REF)AS THUMBS
+		FROM PRODUCT
+			JOIN  PRODUCT_THUMB ON(PDT_NO=PDT_NO_REF) 
+			LEFT JOIN EVENT E ON(EVENT_NO_REF=EVENT_NO)
+		WHERE EVENT_NO_REF IS NOT NULL AND E.EVENT_SALE_PER > 0
+		<if test="sort == '등록일순'">
+			ORDER BY PDT_DATE DESC
+		</if>
+		<if test="sort == '낮은가격순'">
+			ORDER BY PDT_PRICE
+		</if>
+		<if test="sort == '높은가격순'">
+			ORDER BY PDT_PRICE DESC
+		</if>
+	</select>
+	<!-- 7일 이내로 등록한 카테고리별 상품 리스트 -->
+	<select id="newCateList" resultMap="productMap" parameterType="map">
+		SELECT PDT_NO,PDT_DATE FROM PRODUCT WHERE PDT_DATE>SYSDATE-7 
+		<if test="category != '전체제품'">	
+			AND PDT_CATEGORY=#{category}
+		</if>
+	</select>
 </mapper>
