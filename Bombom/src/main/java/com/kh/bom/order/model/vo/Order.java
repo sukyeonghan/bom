@@ -28,9 +28,18 @@ public class Order {
 	private String ordCancel; //취소사유 //단순변심','상품불량','배송지연','상품정보와 상이
 	private Date ordDate;//주문날짜
 	private String ordOname;//주문자이름
-	private String ordOpone;//주문자 전화번호
+	private String ordOphone;//주문자 전화번호
 	private String ordRname;//받는사람 이름
 	private String ordRphone;//받는사람 전화번호
+	private String pdtThumbImage; //상품이미지
+	private String pdtName; //상품명
+	private String pdtOptionContent; //상품옵션
+	private int inorderQty; //상품수량
+	private int pdtPrice; //상품가격 
+	private String memEmail; //주문자 이메일
+	private int pdtOptionAddprice; //옵션 가격 
+	
+	
 
 	
 }

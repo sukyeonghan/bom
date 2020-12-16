@@ -287,9 +287,15 @@ public class AdminDaoImpl implements AdminDao {
 	//주문상세내역
 
 	@Override
+	public List<Order> selectOrderDetail(SqlSession session, String orderNo) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectOrderDetail", orderNo);
+	}
+
+	@Override
 	public Order selectOrderOne(SqlSession session, String orderNo) {
 		// TODO Auto-generated method stub
-		return session.selectOne("admin.selectOrderOne", orderNo);
+		return session.selectOne("admin.selectOrderThumb",orderNo);
 	}
 	
 	

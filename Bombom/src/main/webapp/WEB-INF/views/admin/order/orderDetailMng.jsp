@@ -107,50 +107,58 @@ p {
 				<table class="table">
 					<thead>
 						<tr>
-							<th>상품코드</th>
 							<th>이미지</th>
-							<th>상품정보</th>
+							<th>상품명</th>
+							<th>상품옵션</th>
 							<th>수량</th>
 							<th>상품금액</th>
 							<th>총 금액</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>1001</td>
-							<td>상품이미지</td>
-							<td>대나무칫솔</td>
-							<td>2</td>
-							<td>3,000원</td>
-							<td>6,000원</td>
-						</tr>
-						<tr>
-							<td>1001</td>
-							<td>상품이미지</td>
-							<td>대나무칫솔</td>
-							<td>2</td>
-							<td>3,000원</td>
-							<td>6,000원</td>
-						</tr>
+						<c:set var = "total" value = "0" />
+						<c:forEach items="${product}" var="p" varStatus="vs">
+							<tr>
+								<c:forTokens items="${p.pdtThumbImage}" var="th" delims=","
+									varStatus="vs">
+									<c:if test="${vs.first }">
+
+										<td><img alt="" class="img-fluid" id="main_image"
+											style="height:40px"
+											src="${path}/resources/upload/product/${th}" /></td>
+									</c:if>
+								</c:forTokens>
+								<td><c:out value="${p.pdtName}" /></td>
+								<td><c:out value="${p.pdtOptionContent}" /></td>
+								<td><c:out value="${p.inorderQty}" /></td>
+								<td><fmt:formatNumber pattern="#,###" value="${p.pdtPrice}" />원</td>
+								<td><fmt:formatNumber pattern="#,###" value="${p.inorderQty * p.pdtPrice}"/>원</td>
+							</tr>
+							<c:set var= "total" value="${p.inorderQty * p.pdtPrice + total}"/>
+						</c:forEach>
 						<tr>
 							<td colspan="5">총 합계</td>
-							<td><b>12,000원</b></td>
+							<td><b><fmt:formatNumber pattern="#,###" value="${total }"/>원</b></td>
 						</tr>
+
+
 					</tbody>
 				</table>
 			</div>
 			<div class="order-info">
 				<p>주문 및 결제정보</p>
 				<table class="table table-borderless">
+
 					<tr>
 						<th>주문번호</th>
 						<td><c:out value="${order.orderNo}" /></td>
 						<th>운송장번호</th>
 						<td><input type="text" value="90564613165"></td>
 					</tr>
+
 					<tr>
 						<th>주문날짜</th>
-						<td><fmt:formatDate type="time" timeStyle="short"
+						<td><fmt:formatDate type="both" dateStyle="full"
 								value="${order.ordDate}" /></td>
 						<th>처리상태</th>
 						<td><select id="category">
@@ -175,12 +183,13 @@ p {
 					</tr>
 					<tr>
 						<th>포인트결제액</th>
-						<td>(-)1,000원</td>
+						<td>(-)<c:out value="${order.ordUsePoint}" /></td>
 					</tr>
 					<tr>
 						<th>결제금액</th>
-						<td><b><c:out value="${order.ordAmount }"/></b></td>
+						<td><b><c:out value="${order.ordAmount }" /></b></td>
 					</tr>
+
 				</table>
 			</div>
 
@@ -189,29 +198,15 @@ p {
 				<table class="table table-borderless">
 					<tr>
 						<th>주문자</th>
-						<td><c:out value="${order.ordOname }"/></td>
+						<td><c:out value="${order.ordOname }" /></td>
 					</tr>
 					<tr>
 						<th>휴대폰</th>
-						<td><c:out value="${order.ordOphone }"/></td>
+						<td><c:out value="${order.ordOphone }" /></td>
 					</tr>
 					<tr>
 						<th>이메일</th>
-						<td>hongsi@com.com</td>
-					</tr>
-					<tr>
-						<th>주소</th>
-						<td class="td-address"><input type="text"
-							id="sample4_postcode" placeholder="우편번호" readonly> <input
-							type="button" onclick="sample4_execDaumPostcode()"
-							style="margin-bottom: 6px;" value="주소검색"><br> <input
-							type="text" id="sample4_roadAddress" placeholder="도로명주소" readonly
-							required size=50><br> <input type="hidden"
-							id="sample4_jibunAddress" placeholder="지번주소"> <span
-							id="guide" style="color: #999; display: none"></span> <input
-							type="text" id="sample4_detailAddress" placeholder="상세주소 입력"
-							size=50> <input type="text" id="sample4_extraAddress"
-							placeholder="참고항목" size=30></td>
+						<td><c:out value="${order.memEmail }" /></td>
 					</tr>
 
 				</table>
@@ -222,34 +217,37 @@ p {
 				<table class="table table-borderless">
 					<tr>
 						<th>받는사람</th>
-						<td><c:out value="${order.ordRname }"/></td>
+						<td><c:out value="${order.ordRname }" /></td>
 					</tr>
 					<tr>
 						<th>휴대폰</th>
-						<td><c:out value="${order.ordRphone }"/></td>
+						<td><c:out value="${order.ordRphone }" /></td>
 					</tr>
 					<tr>
 						<th>주소</th>
 						<td class="td-address"><input type="text"
-							id="sample4_postcode" placeholder="우편번호" value="${order.ordZipcode }"readonly> <input
+							id="sample4_postcode" placeholder="우편번호"
+							value="${order.ordZipcode }" readonly> <input
 							type="button" onclick="sample4_execDaumPostcode()"
 							style="margin-bottom: 6px;" value="주소검색"><br> <input
-							type="text" id="sample4_roadAddress" placeholder="도로명주소" value="${order.ordDetailAddr }" readonly
-							required size=50><br> <input type="hidden"
-							id="sample4_jibunAddress" placeholder="지번주소"> <span
-							id="guide" style="color: #999; display: none"></span> <input
+							type="text" id="sample4_roadAddress" placeholder="도로명주소"
+							value="${order.ordAddr }" readonly required size=50><br>
+							<input type="hidden" id="sample4_jibunAddress" placeholder="지번주소">
+							<span id="guide" style="color: #999; display: none"></span> <input
 							type="text" id="sample4_detailAddress" placeholder="상세주소 입력"
-							size=50> <input type="text" id="sample4_extraAddress"
-							placeholder="참고항목" size=30></td>
+							value="${order.ordDetailAddr }" size=50> <input
+							type="text" id="sample4_extraAddress" placeholder="참고항목" size=30></td>
 					</tr>
 					<tr>
 						<th>요청사항</th>
-						<td><c:out value="${order.ordMemo }"/></td>
+						<td><c:out value="${order.ordMemo }" /></td>
 					</tr>
-					<tr>
-						<th>주문취소 사유</th>
-						<td><c:out value="${order.ordCancel }"/></td>
-					</tr>
+					<c:if test="${not empty order.ordCancel }">
+						<tr>
+							<th>주문취소 사유</th>
+							<td><c:out value="${order.ordCancel }" /></td>
+						</tr>
+					</c:if>
 					<tr>
 						<th>관리자메모</th>
 						<td><div class="form-group">

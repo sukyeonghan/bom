@@ -390,10 +390,18 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	public List<Order> selectOrderDetail(String orderNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOrderDetail(session, orderNo);
+	}
+
+	@Override
 	public Order selectOrderOne(String orderNo) {
 		// TODO Auto-generated method stub
 		return dao.selectOrderOne(session, orderNo);
 	}
+	
+	
 
 	
 	
