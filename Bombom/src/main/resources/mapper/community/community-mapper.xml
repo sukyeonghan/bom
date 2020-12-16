@@ -71,7 +71,6 @@
 
 
 	<select id="selectCount" resultType="_int">
-<<<<<<< HEAD
 		SELECT COUNT(*) FROM
 		COMMUNITY
 	</select>
@@ -179,13 +178,10 @@
             reply_id = #{reply_id}
     </update>
 
-=======
-  	SELECT COUNT(*) FROM COMMUNITY
-  </select>
 	
 	<select id="selectComList" parameterType="string" resultMap="communityMap">
 		SELECT * FROM COMMUNITY WHERE CM_WRITER=#{memNo} ORDER BY CM_DATE DESC
 	</select>
 	
->>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
+
 </mapper>
