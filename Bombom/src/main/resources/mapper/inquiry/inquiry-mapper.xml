@@ -18,10 +18,11 @@
 		INSERT INTO INQUIRY VALUES('I'||SEQ_INQ_NO.NEXTVAL,'P16',#{memNo},#{inqContent},DEFAULT,#{inqSecret},DEFAULT,null,null)
 	</insert>
 	
-	<select id="inquiryList" resultMap="inquiryMap">
+	<select id="inquiryList" parameterType="string" resultMap="inquiryMap">
 		SELECT I.*, M.MEM_NICK AS MEMNICK, M.MEM_MANAGER_YN AS MEMMANAGERYN, M.MEM_PRO AS MEMPRO
 		FROM INQUIRY I
 		JOIN MEMBER M ON M.MEM_NO=I.MEM_NO
+		WHERE PDT_NO=#{pdtNo}
 		ORDER BY INQ_DATE DESC
 	</select>
 	

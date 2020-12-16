@@ -12,7 +12,7 @@ public interface ProductService {
 	Product selectProductOne(String pdtNo);
 	
 	//상품문의
-	List<Inquiry> inquiryList(int cPage, int numPerpage);
+	List<Inquiry> inquiryList(String pdtNo, int cPage, int numPerpage);
 	
 	//상품갯수
 	int inquiryCount();
