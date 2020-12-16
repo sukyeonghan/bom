@@ -52,13 +52,12 @@
             <!--좌측메뉴선택시 화면 -->
             <div id="basket-container" class="media-body">
                 <div id="product_view">
-                	<%-- <c:forEach items="" var=""> --%>
+                    <c:forEach items="${list }" var="b">
                     <table class="table">
                         <tbody>
                             <tr>
                                 <td>
-                                	<img src="../제품이미지/욕실/친환경대나무칫솔/1.jpg" style="width: 100px;height: 100px;">
-                                	<input type="hidden" name="thumb" value="대나무칫솔">
+                                	<img src="${path}/resources/upload/product/${b.pdtThumbTmage}" style="width: 100px;height: 100px;">
                                 </td>
                                 <td>
                                 	친환경 대나무 칫솔
@@ -79,7 +78,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <%-- </c:forEach> --%>
+                    </c:forEach>
                 </div>
             </div>
         </div>

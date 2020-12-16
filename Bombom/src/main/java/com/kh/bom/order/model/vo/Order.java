@@ -17,6 +17,7 @@ public class Order {
 	private int ordAmount; //총금액 not null
 	private int ordUsePoint; //사용적립금
 	private String ordZipcode; //우편번호
+	private String ordAddr; //도로명주소
 	private String ordDetailAddr; //상세주소
 	private String ordExtraAddr; //참고주소
 	private int ordTrack; //운송장
