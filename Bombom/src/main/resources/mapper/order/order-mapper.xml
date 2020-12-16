@@ -54,5 +54,8 @@
 	<select id="selectInbasket" parameterType="string" resultMap="inorderMap">
 		SELECT * FROM INORDER WHERE BASKET_NO = #{basketNo}
 	</select>
+	<insert id="insertInbasket" parameterType="string">
+		INSERT INTO INBASKET
+	</insert>
 
 </mapper>
