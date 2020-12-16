@@ -88,8 +88,8 @@ p.p-info {
 </style>
 </head>
 
-<body>
-	<header id="spring-main-header" style="min-width: 1000px;">
+<body style="height: 100%;">
+	<header id="spring-main-header" class="fixed-top" style="min-width: 1000px;">
 		<!-- header -->
 		<div id="header-container">
 			<div id="loginJoin" class="d-flex flex-row-reverse">
@@ -362,7 +362,7 @@ p.p-info {
 							id="emailSend">이메일발송</button>
 
 						<input type="text" class="form-control" placeholder="인증번호"
-							id="verification" name="code" /> <label for="email">ajax
+							id="verification" name="code" /> <label class="timeOut">ajax
 							인증 시간:4분 59초</label>
 						<div class="row">
 							<div class="col">
@@ -462,7 +462,10 @@ p.p-info {
 	 $(".guide").hide();
 	 $(".login").hide();
 	 $(".newPw.pw").show();
-     $(".newPw.pwOk").hide();
+     $(".newPw.ok").hide();
+	 $(".checkPw.ok").hide();
+     $(".checkPw.error").hide();
+     $(".timeOut").hide();
 
 	 //닉네임중복체크 가이드
 	   $("#memNick").keyup(e=>{
@@ -636,6 +639,7 @@ function fn_signUp(){
 				 if(data!=0){
 					 swal('인증번호를 발송하였습니다.');
 					 console.log(data);
+					 $(".timeOut").show();
 					 
 				 }else{
 					 swal('가입이력이 없는 이메일입니다.');
@@ -694,13 +698,12 @@ function fn_signUp(){
         let checkPwd=$("#checkPwd").val().trim();
 		 if((newPwd.length>0) || (checkPwd.length>0)){
  		  	if(newPwd!=checkPwd){
- 		        $(".checkPw.pw").hide();
+ 		        $(".checkPw.ok").hide();
  		        $(".checkPw.error").show();
  		     }else{
- 		    	$(".checkPw.pw").show();
+ 		    	$(".checkPw.ok").show();
  	 		    $(".checkPw.error").hide();
  		     }
- 		 
  	   }
 	})
 	

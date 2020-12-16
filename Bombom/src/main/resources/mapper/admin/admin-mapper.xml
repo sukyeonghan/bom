@@ -26,8 +26,8 @@
 		<result property="pdtOptionNo" column="pdt_option_no" />
 		<result property="pdtNo" column="pdt_no_ref" />
 		<result property="pdtOptionContent" column="pdt_option_content" />
-		<result property="pdtOptionAddprice"
-			column="pdt_option_addprice" />
+		<result property="pdtOptionAddprice" column="pdt_option_addprice" />
+		<result property="pdtOptionStatus" column="pdt_option_status"/>
 	</resultMap>
 	<resultMap type="thumb" id="thumbMap">
 		<result property="pdtThumbNo" column="pdt_thumb_no" />
@@ -67,6 +67,30 @@
 		<result property="bannerSubtitle" column="banner_subtitle" />
 		<result property="bannerThumb" column="banner_thumb" />
 		<result property="pdtName" column="pdt_name" />
+	</resultMap>
+	
+	<resultMap type="order" id="orderMap">
+		<result property="orderNo" column="order_no"/>
+		<result property="memNo" column="mem_no"/>
+		<result property="ordAmount" column="ord_amount"/>
+		<result property="ordUsePoint" column="ord_use_point"/>
+		<result property="ordZipcode" column="ord_zipcode"/>
+		<result property="ordDetailAddr" column="ord_detail_addr"/>
+		<result property="ordExtraAddr" column="ord_extra_addr"/>
+		<result property="ordTrack" column="ord_track"/>
+		<result property="ordMemo" column="ord_memo"/>
+		<result property="ordDeliPrice" column="ord_deli_price"/>
+		<result property="ordConfirmYn" column="ord_confirm_yn"/>
+		<result property="ordStatus" column="ord_status"/>
+		<result property="ordCancel" column="ord_cancel"/>
+		<result property="memNick" column="mem_nick"/>
+	</resultMap>
+	
+	<resultMap type="inorder" id="inorderMap">
+		<result property="orderNo" column="order_no"/>
+		<result property="pdtNo" column="pdt_no"/>
+		<result property="pdtOptionNo" column="pdt_option_no"/>
+		<result property="inorderQty" column="inorder_qty"/>
 	</resultMap>
 
 	<select id="selectEvent" resultMap="eventMap">
@@ -120,7 +144,30 @@
 	<!-- 제품개수출력 -->
 	<select id="countProduct" parameterType="map" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT 
-		<if test="sort != '전체'">
+		<choose>
+			<when test="sort=='전체'">
+				<if test="keyword !=null or keyword != ''">
+					<if test="searchType eq 'pdtName'">
+						WHERE PDT_NAME LIKE '%'||#{keyword}||'%' 
+					</if>
+					<if test="searchType eq 'eventNo'">
+						WHERE EVENT_NO_REF LIKE '%'||#{keyword}||'%'
+					</if>
+				</if>
+			</when>
+			<otherwise>
+				WHERE PDT_CATEGORY=#{sort}
+				<if test="keyword !=null or keyword != ''">
+					<if test="searchType eq 'pdtName'">
+						AND PDT_NAME LIKE '%'||#{keyword}||'%'
+					</if>
+					<if test="searchType eq 'eventNo'">
+						AND EVENT_NO_REF LIKE '%'||#{keyword}||'%'
+					</if>
+				</if>
+			</otherwise>
+		</choose>
+		<!-- <if test="sort != '전체'">
 			WHERE PDT_CATEGORY=#{sort}
 		</if>
 		<trim prefix="AND" prefixOverrides="WHERE">
@@ -132,12 +179,11 @@
 					EVENT_NO_REF LIKE '%'||#{keyword}||'%'
 				</if>
 			</if>
-		</trim>
+		</trim> -->
 	</select>
 	<!-- 제품 삭제 -->
 	<delete id="deleteProduct" parameterType="string">
-		DELETE FROM PRODUCT
-		WHERE PDT_NO=#{pdtNo}
+		DELETE FROM PRODUCT WHERE PDT_NO=#{pdtNo}
 	</delete>
 	<!-- 제품 등록 -->
 	<insert id="insertProduct" parameterType="product">
@@ -153,9 +199,8 @@
 	</insert>
 	<!-- 옵션 등록 -->
 	<insert id="insertOption" parameterType="option">
-		INSERT INTO
-		PRODUCT_OPTION
-		VALUES('PO'||SEQ_PDT_OPTION_NO.NEXTVAL,#{pdtNo},#{pdtOptionContent},#{pdtOptionAddprice})
+		INSERT INTO PRODUCT_OPTION
+		VALUES('PO'||SEQ_PDT_OPTION_NO.NEXTVAL,#{pdtNo},#{pdtOptionContent},#{pdtOptionAddprice},'Y')
 	</insert>
 	<!-- 썸네일 이미지 등록 -->
 	<insert id="insertThumb" parameterType="thumb">
@@ -163,8 +208,7 @@
 		VALUES('PT'||SEQ_PDT_THUMB_NO.NEXTVAL,#{pdtNo},#{renamedFileName})
 	</insert>
 	<!-- 제품 하나 선택 -->
-	<select id="selectOneProduct" parameterType="string"
-		resultMap="productMap">
+	<select id="selectOneProduct" parameterType="string" resultMap="productMap">
 		SELECT * FROM PRODUCT WHERE PDT_NO=#{pdtNo}
 	</select>
 	<!-- 제품 번호 해당 옵션 선택 -->
@@ -180,14 +224,14 @@
 	<!-- 제품 수정 -->
 	<update id="updateProduct" parameterType="product">
 		UPDATE PRODUCT SET
-		PDT_CATEGORY=#{pdtCategory},
-		PDT_PRICE=#{pdtPrice},
-		PDT_NAME=#{pdtName},
-		PDT_INTRO=#{pdtIntro},
-		PDT_STATUS=#{pdtStatus},
-		PDT_DATE=SYSDATE,
-		PDT_DETAIL_IMAGE=#{pdtDetailImage},
-		EVENT_NO_REF=#{eventNoRef}
+			PDT_CATEGORY=#{pdtCategory},
+			PDT_PRICE=#{pdtPrice},
+			PDT_NAME=#{pdtName},
+			PDT_INTRO=#{pdtIntro},
+			PDT_STATUS=#{pdtStatus},
+			PDT_DATE=SYSDATE,
+			PDT_DETAIL_IMAGE=#{pdtDetailImage},
+			EVENT_NO_REF=#{eventNoRef}
 		WHERE PDT_NO=#{pdtNo}
 		<selectKey keyProperty="pdtNo" resultType="string"
 			order="AFTER">
@@ -226,21 +270,46 @@
 	<!-- 상품 목록 검색 -->
 	<select id="searchProductList" parameterType="map" resultMap="productMap">
 		SELECT * FROM PRODUCT 
-	
-		<if test="sort != '전체'">
+		<choose>
+			<when test="sort=='전체'">
+				<if test="keyword !=null or keyword != ''">
+					<if test="searchType eq 'pdtName'">
+						WHERE PDT_NAME LIKE '%'||#{keyword}||'%' 
+				
+					</if>
+					<if test="searchType eq 'eventNo'">
+						WHERE EVENT_NO_REF LIKE '%'||#{keyword}||'%'
+						
+					</if>
+				</if>
+			</when>
+			<otherwise>
+				WHERE PDT_CATEGORY=#{sort}
+				<if test="keyword !=null or keyword != ''">
+					<if test="searchType eq 'pdtName'">
+						AND PDT_NAME LIKE '%'||#{keyword}||'%'
+					</if>
+					<if test="searchType eq 'eventNo'">
+						AND EVENT_NO_REF LIKE '%'||#{keyword}||'%'
+					</if>
+				</if>
+			
+			</otherwise>
+		</choose>
+		<!-- <if test="sort != '전체'">
 			WHERE PDT_CATEGORY=#{sort}
 		</if>
 		
 		<trim prefix="AND" prefixOverrides="WHERE">
 			<if test="keyword !=null or keyword != ''">
 				<if test="searchType eq 'pdtName'">
-					PDT_NAME LIKE '%'||#{keyword}||'%'
+					AND PDT_NAME LIKE '%'||#{keyword}||'%'
 				</if>
 				<if test="searchType eq 'eventNo'">
-					EVENT_NO_REF LIKE '%'||#{keyword}||'%'
+					AND EVENT_NO_REF LIKE '%'||#{keyword}||'%'
 				</if>
 			</if>
-		</trim>
+		</trim> -->
 		ORDER BY PDT_DATE DESC
 	</select>
 
@@ -369,5 +438,20 @@
 		(SELECT * FROM QNA WHERE QNA_YN='N' ORDER BY QNA_DATE ASC) Q ORDER BY
 		ROWNUM DESC
 	</select>
+	
+	<!--주문관리  -->
+	<select id="selectOrderList" resultMap="orderMap">
+		  SELECT * FROM "ORDER" O
+   		  LEFT JOIN MEMBER M ON M.MEM_NO=O.MEM_NO 
+	</select>
+	
+	<select id="selectOrderCount" resultType="_int">
+		SELECT COUNT(*) FROM "ORDER"
+	</select>
 
+	<select id="selectOrderOne" parameterType="string" resultMap="orderMap">
+		 SELECT * FROM "ORDER" O
+   		 LEFT JOIN MEMBER M ON M.MEM_NO=O.MEM_NO
+   		 WHERE ORDER_NO=#{orderNo} 
+	</select>
 </mapper>

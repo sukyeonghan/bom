@@ -6,6 +6,7 @@ import java.util.Map;
 import com.kh.bom.admin.model.vo.Event;
 import com.kh.bom.admin.model.vo.MainBanner;
 import com.kh.bom.member.model.vo.Member;
+import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.product.model.vo.ProductThumb;
@@ -31,6 +32,7 @@ public interface AdminService {
 	int countProduct(Map<String, String> map);//키워드별 개수
 	int deleteSelectProduct(List<String> delnum,String path);//제품 선택 삭제
 	int deleteOneProduct(String pdtNo,String path);//제품 하나 삭제
+	int deleteOption(String pdtNo);//옵션 삭제
 	int insertProduct(Product p,ProductOption o,List<Map<Object,Object>> options,List<ProductThumb> list);//제품 등록
 	Product selectOneProduct(String pdtNo);//제품 하나 선택
 	List<ProductOption> selectOption(String pdtNo);//옵션 선택
@@ -65,6 +67,11 @@ public interface AdminService {
 	int deleteBanner(String no);
 	MainBanner selectBannerOne(String no);//수정하기를 위한 row한개 가져오기
 	int updateBanner(MainBanner mb); //배너수정하기
+	
+	//주문관리 
+	List<Order> selectOrderList(int cPage, int numPerpage);
+	int selectOrderCount();
+	Order selectOrderOne(String orderNo);
 	
 	
 	

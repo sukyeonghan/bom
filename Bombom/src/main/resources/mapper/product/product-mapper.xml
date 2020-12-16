@@ -21,6 +21,7 @@
 		<result property="pdtNo" column="pdt_no_ref"/>
 		<result property="pdtOptionContent" column="pdt_option_content"/>
 		<result property="pdtOptionAddprice" column="pdt_option_addprice" />
+		<result property="pdtOptionStatus" column="pdt_option_status"/>
 	</resultMap>
 	<resultMap type="thumb" id="thumbMap">
 		<result property="pdtThumbNo" column="pdt_thumb_no"/>
