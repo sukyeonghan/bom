@@ -138,18 +138,6 @@ public class ProductAdminController {
 			@RequestParam(value="thumbImgs",required=false) MultipartFile[] thumbImgs,
 			@RequestParam(value="detailImg",required=false) MultipartFile[] detailImg,
 			HttpSession session) {
-		//옵션 등록
-		ObjectMapper mapper=new ObjectMapper();
-		List<Map<Object, Object>> optionMap=null;
-		try {
-			optionMap = mapper.readValue(options, ArrayList.class);
-		} catch (JsonMappingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (JsonProcessingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		String path=session.getServletContext().getRealPath("/resources/upload/product");
 		File dir=new File(path);
@@ -193,6 +181,21 @@ public class ProductAdminController {
 			}
 			p.setPdtDetailImage(reName);
 		}
+		
+		//옵션 등록
+		ObjectMapper mapper=new ObjectMapper();
+		List<Map<Object, Object>> optionMap=null;
+		try {
+			optionMap = mapper.readValue(options, ArrayList.class);
+		} catch (JsonMappingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (JsonProcessingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		
 		int result=service.insertProduct(p,o,optionMap,files);
 		
 		String msg="";
@@ -222,6 +225,7 @@ public class ProductAdminController {
 	@RequestMapping("/admin/productUpdate")
 	public ModelAndView moveProductUpdatePage(String pdtNo,ModelAndView m) {
 		Product p=service.selectOneProduct(pdtNo);
+
 		List<ProductOption> o=service.selectOption(pdtNo);
 		List<ProductThumb> th=service.selectThumb(pdtNo);
 		List<Event> event =service.selectEvent();
@@ -246,6 +250,16 @@ public class ProductAdminController {
 		return service.selectPdtName(pdtName,pdtNo);
 		
 	}
+	
+	//옵션 삭제
+	@RequestMapping("admin/deleteOption")
+	public Model deleteOption(Model m,
+			@RequestParam("pdtNo") String pdtNo) {
+		int result= service.deleteOption(pdtNo);
+		m.addAttribute("result",result);
+		return m;
+	}
+	
 	//제품 수정
 	@RequestMapping("/admin/updateProductEnd")
 	public ModelAndView updateProduct(Product p,ProductOption o,ModelAndView m,
@@ -253,22 +267,10 @@ public class ProductAdminController {
 			@RequestParam(value="test",required = false) String options,
 			@RequestParam(value="thumbImgs",required=false) MultipartFile[] thumbImgs,
 			@RequestParam(value="detailImg",required=false) MultipartFile[] detailImg,
-			HttpSession session
-			) {
+			HttpSession session) {
 
-		//옵션 
-		ObjectMapper mapper=new ObjectMapper();
-		List<Map<Object, Object>> optionMap=null;
-		try {
-			optionMap = mapper.readValue(options, ArrayList.class);
-		} catch (JsonMappingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (JsonProcessingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		System.out.println("컨트롤러에서"+optionMap);
+
+		
 		String path=session.getServletContext().getRealPath("/resources/upload/product");
 		File dir=new File(path);
 		
@@ -314,6 +316,20 @@ public class ProductAdminController {
 			}
 			p.setPdtDetailImage(reName);
 		}
+		//옵션 
+		ObjectMapper mapper=new ObjectMapper();
+		List<Map<Object, Object>> optionMap=null;
+		try {
+			optionMap = mapper.readValue(options, ArrayList.class);
+		} catch (JsonMappingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (JsonProcessingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println("컨트롤러에서"+options);
+		System.out.println("컨트롤러에서"+optionMap);
 		
 		int result=service.updateProduct(p,o,optionMap,files);
 		String msg="";
@@ -359,13 +375,5 @@ public class ProductAdminController {
 	
 		return m;
 	}
-	
-	//옵션 삭제
-	@RequestMapping("admin/deleteOption")
-	public Model deleteOption(Model m,
-			@RequestParam("pdtNo") String pdtNo) {
-		int result= service.deleteOption(pdtNo);
-		m.addAttribute("result",result);
-		return m;
-	}
+
 }

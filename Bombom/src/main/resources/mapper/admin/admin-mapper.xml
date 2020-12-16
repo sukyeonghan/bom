@@ -143,19 +143,6 @@
 				</if>
 			</otherwise>
 		</choose>
-		<!-- <if test="sort != '전체'">
-			WHERE PDT_CATEGORY=#{sort}
-		</if>
-		<trim prefix="AND" prefixOverrides="WHERE">
-			<if test="keyword !=null or keyword != ''">
-				<if test="searchType eq 'pdtName'">
-					PDT_NAME LIKE '%'||#{keyword}||'%'
-				</if>
-				<if test="searchType eq 'eventNo'">
-					EVENT_NO_REF LIKE '%'||#{keyword}||'%'
-				</if>
-			</if>
-		</trim> -->
 	</select>
 	<!-- 제품 삭제 -->
 	<delete id="deleteProduct" parameterType="string">
@@ -251,11 +238,9 @@
 				<if test="keyword !=null or keyword != ''">
 					<if test="searchType eq 'pdtName'">
 						WHERE PDT_NAME LIKE '%'||#{keyword}||'%' 
-				
 					</if>
 					<if test="searchType eq 'eventNo'">
 						WHERE EVENT_NO_REF LIKE '%'||#{keyword}||'%'
-						
 					</if>
 				</if>
 			</when>
@@ -269,23 +254,8 @@
 						AND EVENT_NO_REF LIKE '%'||#{keyword}||'%'
 					</if>
 				</if>
-			
 			</otherwise>
 		</choose>
-		<!-- <if test="sort != '전체'">
-			WHERE PDT_CATEGORY=#{sort}
-		</if>
-		
-		<trim prefix="AND" prefixOverrides="WHERE">
-			<if test="keyword !=null or keyword != ''">
-				<if test="searchType eq 'pdtName'">
-					AND PDT_NAME LIKE '%'||#{keyword}||'%'
-				</if>
-				<if test="searchType eq 'eventNo'">
-					AND EVENT_NO_REF LIKE '%'||#{keyword}||'%'
-				</if>
-			</if>
-		</trim> -->
 		ORDER BY PDT_DATE DESC
 	</select>
 
