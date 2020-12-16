@@ -25,6 +25,9 @@
     label.test{
     	text-align:left;
     }
+    .content{width:100%}
+    .addprice{width:70%}
+    .btnCss{margin-left:15px;}
 </style>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -122,10 +125,20 @@
 						<c:forEach var="o" items="${option }">
 							<tr class="trOption" name="trOption">
 								<th>&nbsp&nbsp옵션 내용</th>
-       							<td><input type="text" name="pdtOptionContent" value="${o.pdtOptionContent}"></td>
+       							<td><input type="text" class="content" name="pdtOptionContent" value="${o.pdtOptionContent}"></td>
         						<th>추가 요금</th>
-        						<td><input type="text" name="pdtOptionAddprice" value="${o.pdtOptionAddprice }">
-        						<button class="btn btn-success btn-sm delBtn2" name="delBtn">삭제</button></td>
+        						<td>
+        							<input type="text" class="addprice" name="pdtOptionAddprice" value="${o.pdtOptionAddprice }">
+	        						<c:choose>
+	        							<c:when test="${ o.pdtOptionStatus eq 'Y'}">
+	        								<button class="btn btn-success btn-sm btnCss" name="">품절</button>
+	        							</c:when>
+	        							<c:otherwise>
+	        								<button class="btn btn-success btn-sm btnCss" name="">입고</button>
+	        							</c:otherwise>
+									</c:choose>
+	        						<button class="btn btn-success btn-sm btnCss" name="delBtn">삭제</button>
+        						</td>
 							</tr>
 						</c:forEach>
 					</c:if>	
@@ -278,4 +291,21 @@
 			return false;
 		}   
 	}
+	
+	function test(e){
+		$(e).parent().parent().remove();
+	}
+	
+	$("button[name=delBtn]").on("click",e=>{
+		$.ajax({
+			url:"${path}/admin/deleteOption",
+			data:{pdtNo:'${product.pdtNo}'},
+			success:data=>{
+				console.log(data);
+				if(data==1){
+					test(e);
+				}
+			}
+		})
+	})
 </script>

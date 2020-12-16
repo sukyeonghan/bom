@@ -27,7 +27,7 @@
 		<!-- 새 폴더 생성 -->
 		<div id="addFolderDiv">
 			<div style="width:50px;height: 50px; background-color:#45A663;border-radius:20%;">
-				<p style="line-height:50px; font-size: 30px; text-align: center; color:#ffffff;"><i class="fas fa-plus"></i><P>
+				<i class="fas fa-plus" style="font-size: 30px; text-align: center; width:100%;color:#ffffff; line-height:50px;"></i>
     	   	</div>
     	   	<div class="folderInfo">
     	   		<p>폴더생성</p>

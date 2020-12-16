@@ -276,7 +276,13 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.selectPdtName(session, pdtName, pdtNo);
 	}
-
+	//옵션 삭제
+	@Override
+	public int deleteOption(String pdtNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteOption(session, pdtNo);
+	}
+	
 	// 회원관리
 	// 관리자권한 변경
 	@Override
