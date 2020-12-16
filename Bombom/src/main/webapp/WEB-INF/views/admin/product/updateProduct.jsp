@@ -125,19 +125,22 @@
 						<c:forEach var="o" items="${option }">
 							<tr class="trOption" name="trOption">
 								<th>&nbsp&nbsp옵션 내용</th>
-       							<td><input type="text" class="content" name="pdtOptionContent" value="${o.pdtOptionContent}"></td>
+       							<td>
+       								<input type="text" class="content" name="pdtOptionContent" value="${o.pdtOptionContent}">
+       								<input type="hidden" name="optNo" value="${o.pdtOptionNo}">
+       							</td>
         						<th>추가 요금</th>
         						<td>
         							<input type="text" class="addprice" name="pdtOptionAddprice" value="${o.pdtOptionAddprice }">
 	        						<c:choose>
 	        							<c:when test="${ o.pdtOptionStatus eq 'Y'}">
-	        								<button class="btn btn-success btn-sm btnCss" name="optionStatus" value="Y" onclick="changeStatus()">품절</button>
+	        								<input type="button" class="btn btn-success btn-sm btnCss" name="optionStatus" value="품절" onclick="">
 	        							</c:when>
 	        							<c:otherwise>
-	        								<button class="btn btn-success btn-sm btnCss" name="optionStatus" value="N" onclick="changeStatus()">입고</button>
+	        								<input type="button" class="btn btn-success btn-sm btnCss" name="optionStatus" value="입고" onclick="">
 	        							</c:otherwise>
 									</c:choose>
-	        						<button class="btn btn-success btn-sm btnCss" name="delBtn">삭제</button>
+	        						<input type="button" class="btn btn-success btn-sm btnCss" name="delBtn" value="삭제">
         						</td>
 							</tr>
 						</c:forEach>
@@ -284,22 +287,48 @@
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 <script>
 
-//옵션 추가하기 
-$("#add-option").click(function(){
-    
-    var addOption="";
-    addOption+='<tr name="trOption">';
-    addOption+='<th>&nbsp&nbsp옵션 내용</th>';
-    addOption+='<td><input type="text" class="content" id="content" name="pdtOptionContent"></td>';
-    addOption+='<th>추가 요금</th>';
-    addOption+='<td><input type="text" class="addprice" name="pdtOptionAddprice">';
-    addOption+='<button class="btn btn-success btn-sm delBtn2" name="delBtn">삭제</button></td>';
-    addOption+='</tr>';
+	//옵션 추가하기 
+	$("#add-option").click(function(){
+	    
+	    var addOption="";
+	    addOption+='<tr name="trOption">';
+	    addOption+='<th>&nbsp&nbsp옵션 내용</th>';
+	    addOption+='<td><input type="text" class="content" id="content" name="pdtOptionContent"></td>';
+	    addOption+='<th>추가 요금</th>';
+	    addOption+='<td><input type="text" class="addprice" name="pdtOptionAddprice">';
+	    addOption+='<button class="btn btn-success btn-sm delBtn2" name="delBtn">삭제</button></td>';
+	    addOption+='</tr>';
+	
+	    $("#insert-table").append(addOption);
+	});
 
-    $("#insert-table").append(addOption);
-});
+	//옵션 품절,입고 상태 변경
+	$("input[name=optionStatus]").on("click",e=>{
+		var status=$(e.target).val();//'입고','품절'
+		
+		$.ajax({
+			url:"${path}/admin/optionStatus",
+			data:{status:status,optNo:$("input[name=optNo]").val()},
+			dataType:"json",
+			success:data=>{
 
-
+				if(data===true){
+					swal("옵션 상태가 변경되었습니다.");
+					console.log($(e.target));
+					console.log($(e.target).val());
+					if($(e.target).val()=='입고'){
+						$(e.target).attr('value','품절');
+					}else{
+						$(e.target).attr('value','입고');
+					}
+				}else{
+					swal("옵션 상태 변경에 실패하였습니다.");
+				}
+			}
+		});
+	});
+		
+	
 	
 	//옵션내용 유효성 검사-따로 밖으로 뺌
 	$(document).on("focusout","input[name=pdtOptionContent]",function(e){
@@ -423,10 +452,10 @@ $("#add-option").click(function(){
 		       $.ajax({
 		            
 		            url:"${path}/admin/updateCheckPdtName",
-		            data:{"pdtName":val,"pdtNo":$(product.pdtNo)},
+		            data:{"pdtName":val,"pdtNo":'${product.pdtNo}'},
 		            type:"get",
 		            success:function(data){
-	 
+	 					
 		            	if(data!=0){
 		                	swal("상품명이 중복됩니다.");
 		                    $("#name").val('');
@@ -497,7 +526,7 @@ $("#add-option").click(function(){
 		$(e).parent().parent().remove();
 	}
 	
-	$("button[name=delBtn]").on("click",e=>{
+	$("input[name=delBtn]").on("click",e=>{
 		$.ajax({
 			url:"${path}/admin/deleteOption",
 			data:{pdtNo:'${product.pdtNo}'},

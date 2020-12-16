@@ -258,6 +258,18 @@
 		</choose>
 		ORDER BY PDT_DATE DESC
 	</select>
+	<update id="updateOptStatus" parameterType="map">
+		<if test="status eq '품절'">
+			UPDATE PRODUCT_OPTION SET 
+			PDT_OPTION_STATUS='N' WHERE PDT_OPTION_NO=#{optNo}
+		</if>
+		<if test="status eq '입고'">
+			UPDATE PRODUCT_OPTION SET 
+			PDT_OPTION_STATUS='Y' WHERE PDT_OPTION_NO=#{optNo}
+		</if>
+
+		
+	</update>
 
 
 

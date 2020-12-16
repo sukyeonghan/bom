@@ -32,6 +32,7 @@ import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.product.model.vo.ProductThumb;
 
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSON;
 
 @Slf4j
 @Controller
@@ -252,12 +253,24 @@ public class ProductAdminController {
 	}
 	
 	//옵션 삭제
-	@RequestMapping("admin/deleteOption")
+	@RequestMapping("/admin/deleteOption")
 	public Model deleteOption(Model m,
 			@RequestParam("pdtNo") String pdtNo) {
 		int result= service.deleteOption(pdtNo);
 		m.addAttribute("result",result);
 		return m;
+	}
+	//옵션 상태 변경
+	@ResponseBody
+	@RequestMapping("/admin/optionStatus")
+	public boolean changeStatus(
+			@RequestParam("status") String status,
+			@RequestParam("optNo") String optNo){
+		
+		int result=service.updateOptStatus(status,optNo);
+		System.out.println(result);
+
+		return result > 0?true:false;
 	}
 	
 	//제품 수정
