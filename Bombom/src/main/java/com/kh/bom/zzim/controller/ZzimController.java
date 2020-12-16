@@ -36,9 +36,11 @@ public class ZzimController {
 	@RequestMapping("/zzim/insertZzim")
 	public ModelAndView insertZzim(ModelAndView mv,Zzim z) {
 		int result =service.insertZzim(z);
+		Zzim zzim = new Zzim();
 		if(result>0) {
-			z.setZzimNo(service.selectSeqZzimNo());	
-			mv.addObject("zzim",z);
+			String zzimNo=service.selectSeqZzimNo();	
+			zzim=service.selectZzimOne(zzimNo);
+			mv.addObject("zzim",zzim);
 			mv.setViewName("mypage/addZzimFolder");
 		}
 		return mv;

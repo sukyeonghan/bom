@@ -14,6 +14,11 @@ import com.kh.bom.review.model.vo.Review;
 
 @Repository
 public class ProductDaoImpl implements ProductDao {
+	
+	@Override
+	public Product selectProductOne(SqlSession session, String pdtNo) {
+		return session.selectOne("product.selectProductOne",pdtNo);
+	}
 
 	@Override
 	public List<Inquiry> inquiryList(SqlSession session, int cPage, int numPerpage) {
@@ -69,5 +74,7 @@ public class ProductDaoImpl implements ProductDao {
 		map.put("sort", sort);
 		return session.selectList("product.saleList",map);
 	}
+
+
 
 }

@@ -14,11 +14,11 @@ $("#add-option").click(function(){
 });
 
 //옵션 삭제 
-$(document).on("click","button[name=delBtn]",function(){
+/*$(document).on("click","button[name=delBtn]",function(){
 
     var trHtml=$(this).parent().parent();
     trHtml.remove();
-});
+});*/
 
 	
 	//옵션내용 유효성 검사-따로 밖으로 뺌

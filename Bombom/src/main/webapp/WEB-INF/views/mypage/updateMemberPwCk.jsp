@@ -35,6 +35,7 @@
 		right: 120px;
 		color:black;
 		font-size: 25px;
+		color:gray;
 	}
 </style>
 <section id="container">
