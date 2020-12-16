@@ -74,10 +74,23 @@
 		<result property="memNo" column="mem_no"/>
 		<result property="ordAmount" column="ord_amount"/>
 		<result property="ordUsePoint" column="ord_use_point"/>
-		<result property="ordDeliAddr" column="ord_deli_addr"/>
+		<result property="ordZipcode" column="ord_zipcode"/>
+		<result property="ordDetailAddr" column="ord_detail_addr"/>
+		<result property="ordExtraAddr" column="ord_extra_addr"/>
+		<result property="ordTrack" column="ord_track"/>
 		<result property="ordMemo" column="ord_memo"/>
 		<result property="ordDeliPrice" column="ord_deli_price"/>
+		<result property="ordConfirmYn" column="ord_confirm_yn"/>
 		<result property="ordStatus" column="ord_status"/>
+		<result property="ordCancel" column="ord_cancel"/>
+		<result property="memNick" column="mem_nick"/>
+	</resultMap>
+	
+	<resultMap type="inorder" id="inorderMap">
+		<result property="orderNo" column="order_no"/>
+		<result property="pdtNo" column="pdt_no"/>
+		<result property="pdtOptionNo" column="pdt_option_no"/>
+		<result property="inorderQty" column="inorder_qty"/>
 	</resultMap>
 
 	<select id="selectEvent" resultMap="eventMap">
@@ -428,11 +441,17 @@
 	
 	<!--주문관리  -->
 	<select id="selectOrderList" resultMap="orderMap">
-		
+		  SELECT * FROM "ORDER" O
+   		  LEFT JOIN MEMBER M ON M.MEM_NO=O.MEM_NO 
 	</select>
 	
 	<select id="selectOrderCount" resultType="_int">
-		SELECT COUNT(*) FROM ORDER
+		SELECT COUNT(*) FROM "ORDER"
 	</select>
 
+	<select id="selectOrderOne" parameterType="string" resultMap="orderMap">
+		 SELECT * FROM "ORDER" O
+   		 LEFT JOIN MEMBER M ON M.MEM_NO=O.MEM_NO
+   		 WHERE ORDER_NO=#{orderNo} 
+	</select>
 </mapper>

@@ -71,6 +71,7 @@ public interface AdminService {
 	//주문관리 
 	List<Order> selectOrderList(int cPage, int numPerpage);
 	int selectOrderCount();
+	Order selectOrderOne(String orderNo);
 	
 	
 	

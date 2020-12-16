@@ -70,6 +70,7 @@ public interface AdminDao {
 	//관리자
 	List<Order> selectOrderList(SqlSession session, int cPage, int numPerpage);
 	int selectOrderCount(SqlSession session);
+	Order selectOrderOne(SqlSession session, String orderNo);
 
 
 

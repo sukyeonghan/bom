@@ -272,19 +272,26 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectList("admin.selectQnaWaitList", "", new RowBounds((cPage - 1) * numPerpage, numPerpage));
 	}
-
+	//주문관리 (주문리스트)
 	@Override
 	public List<Order> selectOrderList(SqlSession session, int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
 		return session.selectList("admin.selectOrderList", "", new RowBounds((cPage - 1) * numPerpage, numPerpage));
 	}
-
+	//주문관리 페이징
 	@Override
 	public int selectOrderCount(SqlSession session) {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectOrderCount");
 	}
+	//주문상세내역
 
+	@Override
+	public Order selectOrderOne(SqlSession session, String orderNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectOrderOne", orderNo);
+	}
+	
 	
 	
 }

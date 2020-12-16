@@ -389,5 +389,12 @@ public class AdminServiceImpl implements AdminService {
 		return dao.selectOrderCount(session);
 	}
 
+	@Override
+	public Order selectOrderOne(String orderNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOrderOne(session, orderNo);
+	}
+
+	
 	
 }

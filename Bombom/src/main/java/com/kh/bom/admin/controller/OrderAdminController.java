@@ -34,8 +34,10 @@ public class OrderAdminController {
 	
 	//주문내역 상세
 	@RequestMapping("/admin/orderDetail")
-	public ModelAndView order(ModelAndView mv) {
+	public ModelAndView orderDetail(ModelAndView mv, String orderNo ) {
 		
+		System.out.println(orderNo);
+		mv.addObject("order", service.selectOrderOne(orderNo));
 		mv.setViewName("admin/order/orderDetailMng");
 		
 		return mv;
