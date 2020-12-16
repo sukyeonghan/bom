@@ -439,7 +439,6 @@ textarea.answer {
     		<a href="${path}/product/pet">반려동물</a></small></h5>
     	</c:when>
     </c:choose>
-    <c:out value="${product }"/>
     <div class="row" >
     	<!-- 썸네일 -->
         <div class="col-6" >
@@ -448,13 +447,15 @@ textarea.answer {
         	<c:if test="${vs.first }">
             	<img alt="" class="img-fluid" id="main_image" style="padding-bottom:7px;" src="${path}/resources/upload/product/${th}"/>
             </c:if>
+            </c:forTokens>
             <!-- 작은사진 여러개 -->
             <div class="goods_thumbs_image row container">
                 <ul class="clearfix">
+                <c:forTokens items="${product.thumbs}" var="th" delims="," varStatus="vs">
 	                <li class="col-2 small_image"><a href="${path }/resources/upload/product/${th}"><img src="${path }/resources/upload/product/${th}"></a></li>
+                </c:forTokens>
                 </ul>
             </div>
-            </c:forTokens>
         </div>
         <!-- 제품 info -->
         <div class="col-6 info-container" style="display:flex;flex-wrap:wrap;">
@@ -495,6 +496,7 @@ textarea.answer {
                     	</c:if>
                     </c:if>
                     <div class="information size-mid">배송비 2,500원(50,000원이상 무료배송) | 도서산간 배송비 추가</div>
+                    ${optionlist}
                     <hr>
                     
                     <!-- 1.기본선택창:옵션이 없을 경우 나올 화면 -->
@@ -519,7 +521,7 @@ textarea.answer {
 	                    				<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
 	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="oriPrice" hidden="hidden"/>
 	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="totalPrice" hidden="hidden"/>
-	                    					<span id="viewPrice" style="width:60px;text-align:right; border:none;"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
+	                    					<span id="viewPrice" style="width:60px;text- align:right; border:none;"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
 	                    				</c:if>
 	                    			</div>
 	                    		</div>
@@ -535,28 +537,63 @@ textarea.answer {
                     		</div>
                     		<input type="hidden" name="option">
                     		<ul class="dropdown-menu">
-                    			<li id="one">1번</li>
-                    			<li id="two">2번</li>
-                    		</ul>
+                    		<c:forEach items="${optionlist}" var="opt" varStatus="vs">
+                    			<li id="${vs.count}" value="${opt.pdtOptionAddprice}" onClick="optionPrice(this)">${opt.pdtOptionContent}&nbsp;&nbsp;+<fmt:formatNumber value="${opt.pdtOptionAddprice}" pattern="#,###"/></li>
+                    		</c:forEach>
+                    		</ul> 
                     	</div>
                     </div>
-                    <div class="information" style="padding-bottom:10px;">
-                    	<div id="info_count" style="border-radius:4px;">
-                    		<div class="information" style="margin:10px;">옵션선택확인</div>
-                    		<div class="inforamtion">
-                    			<div style="float:left;margin:0 0 0 10px;">
-                    				<input type="button" class="input_count" value="-" id="minus" onclick="minus();">
-                    				<input type="text" class="input_count2" value="1" id="count" style="width:40px; text-align:center;">
-                    				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
-                    			</div>
-                    			<div style="float:right;margin:0 10px 0 0;">
-                    				<input type="text" value="4000" id="total_count" hidden="hidden"/>
-                    				<input type="text" value="4000" id="total_count_view" style="width:60px;right:0; border:none;" readonly/>원
-                    			</div>
-                    		</div>
-                    	</div>
-                    </div>
-                    </c:if>        			
+                    <div class="information" id="optionView" style="padding-bottom:10px;display:none;">
+	                    	<div id="info_count" style="border-radius:4px;">
+	                    		<div class="information" id="optionCheck" style="margin:10px;">옵션선택확인</div>
+	                    		<div class="inforamtion row">
+	                    			<div class="col" style="margin-left:10px;">
+	                    				<input type="button" class="input_count" value="-" id="minus" onclick="minus();">
+	                    				<input type="text" class="input_count2" value="1" id="count" style="width:40px; text-align:center;">
+	                    				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
+	                    			</div>
+	                    			<div class="col-3">
+	                    			<!-- 원래가격 -->
+	                    				<c:if test="${empty product.eventNoRef}">
+		                    				<input type="text" value="${product.pdtPrice}" id="oriPrice" hidden="hidden"/>
+		                    				<input type="text" value="${product.pdtPrice}" id="totalPrice" hidden="hidden"/>
+		                    				<span id="viewPrice" style="width:60px;text-align:right; border:none;">${product.pdtPrice}</span>원
+	                    				</c:if>
+	                    			<!-- 세일가격 -->
+	                    				<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
+	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="oriPrice" hidden="hidden"/>
+	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="totalPrice" hidden="hidden"/>
+	                    					<span id="viewPrice" style="width:60px;text- align:right; border:none;"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
+	                    				</c:if>
+	                    			</div>
+	                    		</div>
+	                    	</div>
+	                    </div>
+                    </c:if> 
+                    
+                    <script>
+                    	//옵션선택 시 수량계산 창 나옴
+                    	function optionPrice(option){
+                    		
+                    		var id = option.id;
+                    		var addPrice = option.value;
+                    		console.log(id);
+                    	}
+                    	
+                    	/* $(function(){
+                    		$(".dropdown-menu li").click(function(){
+                    			var oriPrice = document.getElementById("oriPrice").value;
+                    			var optionPrice = document.getElementById($(this)).value;
+                    			if($("#optionView").css("display")=="none"){
+                        			$("#optionView").css("display","");
+                        			$("#viewPrice").text(oriPrice+optionPrice);
+                        		}
+                    			console.log($(this).attr("id"));
+                        		console.log($(this).attr("value"));
+                    		});
+                    	}); */
+                    </script>
+                           			
                     <!-- 버튼 3개,로그인 안 할 경우 클릭 못하게 방지 -->        			
                     <div class="information container">
                     	<c:if test="${loginMember!=null }">
