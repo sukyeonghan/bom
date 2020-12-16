@@ -86,17 +86,20 @@
 					                </div>
 					                <!-- 사진 밑에 부가 사항들 -->
 					                <div class="item-intro">
+					                	<!-- 상품명 -->
 					                    <p class="item-title">
 					                        <a class="title-link" href=""><c:out value="${p.pdtName }"/></a>
 					                    </p>
+					                    <!-- 상품 가격 -->
 					                    <div class="item-price">
 					                    	<c:choose>
 					                    		<c:when test="${not empty p.eventNoRef  and p.salePer!=0 }">
-
+													<!-- 할인 가격 -->
 					                    			<fmt:parseNumber var="i" integerOnly="true" type="number" value="${p.pdtPrice*(1-(p.salePer/100))}"/>
 					                    			<p class="sale-price">
 					                    				<fmt:formatNumber value="${i}" />원
 					                    			</p>
+					                    			<!-- 기본 가격 -->
 					                    			<p class="ori-price sale">
 					                    				<fmt:formatNumber value="${p.pdtPrice }" />원
 					                    			</p>
@@ -108,6 +111,20 @@
 					                    		</c:otherwise>
 					                        </c:choose>			
 					                    </div>
+					                    <!-- 찜횟수,후기 개수,미리보기 페이지 -->
+					                    <div>
+					                    	<!-- 찜횟수 -->
+					                    	<img class="icon" alt="" src="${path}/resources/images/product/heart.png">
+					                    	<c:out value=""></c:out>
+					                    	<!-- 후기 개수 -->
+					                    	<img class="icon" alt="" src="${path}/resources/images/product/message.png">
+					                    	<c:out value=""></c:out>
+					                    	<!-- 미리보기페이지 -->
+					                    	<a>
+					                    		<img class="icon" alt="" src="${path}/resources/images/product/cart.png">
+					                    	</a>
+					                    	
+					                  	</div>
 					                    <!-- 조건에 따라 뜨는 아이콘들 -->
 					                    <div class="item-icon">
 					                    	<!-- 등록한 날짜로 부터 7일 -->

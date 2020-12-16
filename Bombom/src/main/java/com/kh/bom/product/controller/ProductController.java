@@ -19,6 +19,7 @@ import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.service.ProductService;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.review.model.vo.Review;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -27,7 +28,7 @@ public class ProductController {
 
 	@Autowired
 	private ProductService service;
-	
+
 	//전체제품 페이지
 	@RequestMapping("/product/productAll") 
 	public ModelAndView allProduct(ModelAndView m,
@@ -38,6 +39,8 @@ public class ProductController {
 		String cate="전체제품";
 		int count=service.productCount(cate);
 		List<Product> newList=service.selectNewCateList(cate);
+		//찜 횟수
+		//int zzimCount=service.zzimCount();
 		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,cate));
 		m.addObject("pageBar",ProPageBarFactory.getPageBar(count, cPage, numPerpage, "productAll"));
 		m.addObject("cPage",cPage);
@@ -308,7 +311,6 @@ public class ProductController {
 		return mv; 
 	 
 	}
-	
-	
+
 	
 }

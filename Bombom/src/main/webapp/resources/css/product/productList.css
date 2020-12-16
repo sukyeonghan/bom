@@ -73,8 +73,13 @@
         text-decoration: none;
         font-weight: bold;
     }
+    /*찜 횟수,후기개수,미리보기 페이지 아이콘*/
+    .icon{
+    	width:15px;
+    	height:15px;
+    }
     
-    /*가격 및 아이콘*/
+    /*가격 및 할인,품절,뉴 아이콘*/
 	.sale{
     	color:rgb(170, 170, 170);
     	text-decoration: line-through;

@@ -495,10 +495,10 @@
 	
 		    
 		  	//제품 썸네일 사진
-		    if($("#input1").val()==""){
+/* 		    if($("#input1").val()==""){
 		    	swal("대표이미지를 등록해주세요.");
 		    	return false;
-		    }
+		    } */
 		    
 		    //상세 사진 파일 검사
 		    if($("input[name=detailImg]").val()==""){

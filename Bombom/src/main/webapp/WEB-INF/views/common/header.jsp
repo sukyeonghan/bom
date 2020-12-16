@@ -35,6 +35,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 <link rel="stylesheet" href="${path }/resources/css/common/allPage.css">
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 
 <style>
 /*모달차 내 로고  */
@@ -86,6 +87,7 @@ p.p-info {
 	color: #45A663;
 }
 </style>
+
 </head>
 
 <body style="height: 100%;">
@@ -704,5 +706,18 @@ function fn_signUp(){
  	   }
 	})
 	
- 
+  var sock = new SockJS('${path}/replyEcho');
+ sock.onopen = function() {
+     console.log('open');
+     sock.send('test');
+ };
+
+ sock.onmessage = function(e) {
+     console.log('message', e.data);
+     sock.close();
+ };
+
+ sock.onclose = function() {
+     console.log('close');
+ };
  </script>
