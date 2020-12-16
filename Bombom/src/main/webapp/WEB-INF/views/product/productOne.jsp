@@ -598,7 +598,7 @@ textarea.answer {
                     <div class="information container">
                     	<c:if test="${loginMember!=null }">
 		                    <button type="button" href="#" class="btn btn-success custom">구매하기</button>
-		                    <button type="button" href="#" class="btn btn-outline-success custom">장바구니</button>
+		                    <button type="button" onclick="fn_goBasket();" class="btn btn-outline-success custom">장바구니</button>
 		                    <button type="button" href="#" class="btn btn-outline-success custom">찜하기</button>
 	                    </c:if>
 	                    <c:if test="${loginMember==null }">
@@ -1627,6 +1627,17 @@ textarea.answer {
 		reader.readAsDataURL($(e.target)[0].files[0]);
 	});	    
 		
+	
+	//장바구니 버튼 누르면 실행됨
+	function fn_goBasket(pdtNo){
+		//basket으로 insert시킬 url
+		let basUrl = "${path}/admin/basket";
+		//넘길 변수들 - 상품번호pdtNo, 옵션번호pdtOptionNo, 갯수 Qty
+		let basket_need = {pdtNo : pdtNo, };
+		
+		//장바구니 insert용 함수
+		
+	};
 </script>
     
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

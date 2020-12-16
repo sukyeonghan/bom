@@ -11,6 +11,21 @@
 		<result property="cmTitle" column="CM_TITLE" />
 		<result property="cmContent" column="CM_CONTENT" />
 		<result property="cmThumbnail" column="CM_THUMBNAIL" />
+		<result property="memNick" column="MEM_NICK" />
+		<result property="memPro"  column="MEM_PRO"/>
+		<result property="memNo" column="MEM_NO"/>
+	</resultMap>
+	
+		<resultMap type="boardReply" id="boardReplyMap">
+		<result property="reply_id" column="REPLY_ID" />
+		<result property="board_id" column="BOARD_ID" />
+		<result property="parent_id" column="PARENT_ID" />
+		<result property="depth" column="DEPTH" />
+		<result property="reply_content" column="REPLY_CONTENT" />
+		<result property="reply_writer" column="REPLY_WRITER" />
+		<result property="register_datetime" column="REGISTER_DATETIME" typeHandler="dateStr"/>
+		<result property="mem_nick" column="MEM_NICK" />
+		<result property="mem_pro"  column="MEM_PRO"/>
 	</resultMap>
 
 	<insert id="insertCommunity" parameterType="community">
@@ -18,21 +33,33 @@
 		VALUES('CM'||SEQ_CM_NO.NEXTVAL,#{cmWriter},#{cmLike},#{cmView},SYSDATE,#{cmTitle},#{cmContent},#{cmThumbnail})
 	</insert>
 
-	<select id="selectCommunityList" resultType="map">
-		SELECT * FROM COMMUNITY ORDER BY CM_DATE DESC
+
+	<select id="selectCommunityList" resultMap="communityMap">
+		SELECT * FROM
+		COMMUNITY CM 
+		LEFT JOIN MEMBER MB
+		ON CM.CM_WRITER = MB.MEM_NO
+		ORDER BY CM_DATE DESC
 	</select>
+
 
 	<select id="selectCommunityOne" parameterType="string"
 		resultMap="communityMap">
-		SELECT * FROM COMMUNITY WHERE CM_NO=#{cmNo}
+		SELECT * FROM 
+		COMMUNITY CM
+		LEFT JOIN MEMBER MB
+		ON CM.CM_WRITER = MB.MEM_NO
+		WHERE CM_NO=#{cmNo}
 	</select>
 
 	<delete id="deleteCommunity" parameterType="string">
-		DELETE FROM COMMUNITY WHERE CM_NO=#{cmNo}
+		DELETE FROM COMMUNITY
+		WHERE CM_NO=#{cmNo}
 	</delete>
 
 	<update id="updateCommunity" parameterType="community">
-		UPDATE COMMUNITY SET CM_TITLE=#{cmTitle},CM_CONTENT=#{cmContent},
+		UPDATE COMMUNITY SET
+		CM_TITLE=#{cmTitle},CM_CONTENT=#{cmContent},
 		WHERE CM_NO=#{cmNo}
 	</update>
 
@@ -42,19 +69,117 @@
 		WHERE CM_NO =#{cmNo}
 	</update>
 
-	<update id="like_check" parameterType="HashMap">
-		UPDATE COMMUNITY
-		SET CM_LIKE = CM_LIKE + 1
-		WHERE WHERE MEM_NO={memNo} AND CM_NO = #{cmNo}
-	</update>
 
-	<update id="like_check_cancel" parameterType="HashMap">
-		UPDATE COMMUNITY
-		SET CM_LIKE = 0
-		WHERE WHERE MEM_NO={memNo} AND CM_NO = #{cmNo}
-	</update>
-	
 	<select id="selectCount" resultType="_int">
+<<<<<<< HEAD
+		SELECT COUNT(*) FROM
+		COMMUNITY
+	</select>
+	
+	<insert id="insertBoardReply" parameterType="hashmap">
+        insert into board_reply(
+            reply_id,
+            board_id,
+            parent_id,
+            depth,
+            reply_content,
+            reply_writer,
+            register_datetime
+        )values(
+            'REP'||SEQ_REPLY_ID.NEXTVAL,
+            #{board_id},
+            <if test='parent_id == null or parent_id ==" "'>
+            	NULL,
+            </if>
+            <if test='parent_id != null and parent_id!= " "'>
+            	#{parent_id},
+            </if>
+            #{depth},
+            #{reply_content},
+            #{reply_writer},
+            SYSDATE
+        )
+    </insert>
+    <select id="selectBoardReplyList" resultMap="boardReplyMap" parameterType="java.util.HashMap">
+        select
+            reply_id,
+            board_id,
+            parent_id,
+            depth,
+            reply_content,
+            reply_writer,
+            TO_CHAR(REGISTER_DATETIME,'YYYY-MM-DD HH24:MI:SS')AS REGISTER_DATETIME,
+            mem_nick,
+            mem_pro
+            
+        from
+            board_reply br
+            left join member mb 
+            on br.reply_writer = mb.mem_no
+        where
+          board_id = #{cmNo}
+        order by reply_id 
+    </select>
+    
+    
+    <select id="selectSeqReply" resultType="string">
+    SELECT 'REP'||SEQ_REPLY_ID.CURRVAL FROM DUAL
+    </select>
+    
+    
+    <select id="selectBoardReplyOne" parameterType="string" resultMap="boardReplyMap">
+    SELECT 
+    REPLY_ID,BOARD_ID,PARENT_ID,DEPTH,REPLY_CONTENT,REPLY_WRITER,
+    TO_CHAR(REGISTER_DATETIME,'YYYY-MM-DD HH24:MI:SS')AS REGISTER_DATETIME,
+    mem_nick,mem_pro
+    FROM BOARD_REPLY BR
+    LEFT JOIN MEMBER MB
+    ON BR.REPLY_WRITER = MB.MEM_NO 
+    WHERE BR.REPLY_ID =#{reply_id}
+    </select>
+    
+    <delete id="deleteBoardReply" parameterType="java.util.HashMap">
+        delete
+        from
+            board_reply
+        where
+            reply_id = #{reply_id}
+    </delete>
+    <delete id="deleteBoardReplyAll" parameterType="java.util.HashMap">
+        delete
+        from
+            board_reply
+        where
+            reply_id in (
+                select
+                    reply_id
+                from
+                    board_reply
+                where
+                    reply_id = #{reply_id}
+            ) or parent_id in (
+                select
+                    reply_id
+                from
+                    board_reply
+                where
+                    reply_id = #{reply_id}          
+            )
+    </delete>
+    
+    <update id="updateReply" parameterType="java.util.HashMap">
+        update
+            board_reply
+        set
+            parent_id = #{parent_id},
+            depth = #{depth},
+            reply_content = #{reply_content},
+            reply_writer = #{reply_writer},
+        where
+            reply_id = #{reply_id}
+    </update>
+
+=======
   	SELECT COUNT(*) FROM COMMUNITY
   </select>
 	
@@ -62,4 +187,5 @@
 		SELECT * FROM COMMUNITY WHERE CM_WRITER=#{memNo} ORDER BY CM_DATE DESC
 	</select>
 	
+>>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
 </mapper>

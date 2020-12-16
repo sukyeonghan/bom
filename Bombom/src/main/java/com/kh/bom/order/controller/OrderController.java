@@ -27,11 +27,11 @@ public class OrderController {
 	@RequestMapping("/order/basket")
 	public ModelAndView goBasket(ModelAndView mv, String memNo) {
 		System.out.println(memNo);
-		//장바구니를 눌렀을때
-		String basketNo = service.selectBasketOne(memNo);
 		
-		//상품담기를 눌렀을때
-		mv.addObject("list",basketNo);
+		String basketNo = service.selectBasketOne(memNo);
+		List<Inbasket> list = service.selectInbasket(basketNo);
+		
+		mv.addObject("list",list);
 		mv.setViewName("order/basket");
 		return mv;
 	}
