@@ -20,7 +20,7 @@ public class Order {
 	private String ordAddr; //도로명주소
 	private String ordDetailAddr; //상세주소
 	private String ordExtraAddr; //참고주소
-	private int ordTrack; //운송장
+	private long ordTrack; //운송장
 	private String ordMemo; //배송메모
 	private int ordDeliPrice; //배송비
 	private String ordConfirmYn; //구매확정여부
@@ -31,5 +31,6 @@ public class Order {
 	private String ordOpone;//주문자 전화번호
 	private String ordRname;//받는사람 이름
 	private String ordRphone;//받는사람 전화번호
+	private String memNick; //회원닉네임
 	
 }

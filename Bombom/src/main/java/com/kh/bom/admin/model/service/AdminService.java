@@ -6,6 +6,7 @@ import java.util.Map;
 import com.kh.bom.admin.model.vo.Event;
 import com.kh.bom.admin.model.vo.MainBanner;
 import com.kh.bom.member.model.vo.Member;
+import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.product.model.vo.ProductThumb;
@@ -66,6 +67,11 @@ public interface AdminService {
 	int deleteBanner(String no);
 	MainBanner selectBannerOne(String no);//수정하기를 위한 row한개 가져오기
 	int updateBanner(MainBanner mb); //배너수정하기
+	
+	//주문관리 
+	List<Order> selectOrderList(int cPage, int numPerpage);
+	int selectOrderCount();
+	Order selectOrderOne(String orderNo);
 	
 	
 	

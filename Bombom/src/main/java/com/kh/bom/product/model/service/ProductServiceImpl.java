@@ -26,9 +26,8 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<Inquiry> inquiryList(int cPage, int numPerpage) {
-		// TODO Auto-generated method stub
-		return dao.inquiryList(session,cPage,numPerpage);
+	public List<Inquiry> inquiryList(String pdtNo, int cPage, int numPerpage) {
+		return dao.inquiryList(session, pdtNo, cPage, numPerpage);
 	}
 
 	@Override
@@ -78,6 +77,7 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return dao.selectSaleList(session,cPage,numPerPage,sort,category);
 	}
+
 
 	
 

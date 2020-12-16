@@ -146,7 +146,7 @@
             <p>주문정보</p>
             <table class="table table-borderless">
               <tr>
-                <th>주문번호</th>
+                <th><c:out value="${order.orderDate}"/></th>
                 <td>202011190009</td>
                 <th>운송장번호</th>
                 <td><input type="text" value="90564613165"></td>

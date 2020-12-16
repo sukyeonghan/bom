@@ -17,6 +17,7 @@ import com.kh.bom.admin.model.dao.AdminDao;
 import com.kh.bom.admin.model.vo.Event;
 import com.kh.bom.admin.model.vo.MainBanner;
 import com.kh.bom.member.model.vo.Member;
+import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.product.model.vo.ProductThumb;
@@ -376,4 +377,24 @@ public class AdminServiceImpl implements AdminService {
 		return dao.selectQnaWaitList(session, cPage, numPerpage);
 	}
 
+	@Override
+	public List<Order> selectOrderList(int cPage, int numPerpage) {
+		// TODO Auto-generated method stub
+		return dao.selectOrderList(session, cPage, numPerpage);
+	}
+
+	@Override
+	public int selectOrderCount() {
+		// TODO Auto-generated method stub
+		return dao.selectOrderCount(session);
+	}
+
+	@Override
+	public Order selectOrderOne(String orderNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOrderOne(session, orderNo);
+	}
+
+	
+	
 }

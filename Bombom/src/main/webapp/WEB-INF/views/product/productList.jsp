@@ -60,7 +60,7 @@
 			  					<div class="item-wrap">
 			  						<!-- 썸네일 사진 -->
 					                <div>
-					                    <a href="${path }/product/selectProductOne?pdtNo=${p.pdtNo}">
+					                    <a href="${path }/product/productOne?pdtNo=${p.pdtNo}">
 					                    	
 					                    	<c:choose>
 					                    		<c:when test="${fn:contains(p.thumbs,',') }">

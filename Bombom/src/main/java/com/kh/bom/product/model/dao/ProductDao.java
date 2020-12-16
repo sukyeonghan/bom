@@ -12,7 +12,7 @@ public interface ProductDao {
 	
 	Product selectProductOne(SqlSession session, String pdtNo);
 	
-	List<Inquiry> inquiryList(SqlSession session,int cPage,int numPerpage);
+	List<Inquiry> inquiryList(SqlSession session,String pdtNo,int cPage,int numPerpage);
 	
 	int inquiryCount(SqlSession session);
 	
