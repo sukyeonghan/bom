@@ -234,6 +234,26 @@
 			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- 웹소켓 -->
+		<dependency>
+		    <groupId>javax.websocket</groupId>
+		    <artifactId>javax.websocket-api</artifactId>
+		    <version>1.1</version>
+		    <scope>provided</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-websocket</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		<!-- sockJs -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>sockjs-client</artifactId>
+		    <version>1.1.2</version>
+		</dependency>
+		
+		
 	</dependencies>
 	<build>
 		<plugins>

@@ -181,7 +181,16 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.delete("admin.deleteOption", pdtNo);
 	}
-
+    //옵션 상태 변경
+	@Override
+	public int updateOptStatus(SqlSession session, String status,String optNo) {
+		// TODO Auto-generated method stub
+		HashMap map=new HashMap();
+		map.put("status",status);
+		map.put("optNo", optNo);
+		return session.update("admin.updateOptStatus",map);
+	}
+	
 	// 옵션 여부 확인
 	@Override
 	public Product checkOption(SqlSession session, String pdtNo) {

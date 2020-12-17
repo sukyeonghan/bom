@@ -251,6 +251,8 @@ $("#keyword").on("keyup",e=>{
 	 
 })
 
+//
+
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
