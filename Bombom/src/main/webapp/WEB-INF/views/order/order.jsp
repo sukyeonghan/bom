@@ -123,7 +123,6 @@
 	$(function(){$(".point").text(0)});
 
     $(function () { //배송메모 직접입력 선택시 input태그 보이게 하기
-    	
 	    //배송메모 직접입력 input
         let addInput = $("<input>").attr({"type":"text", "name":"ordMemo", "id":"o_memo","class":"form-control"});
         $("#deli_memo").change(e=> {

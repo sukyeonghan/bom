@@ -5,8 +5,10 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.kh.bom.order.model.vo.Basket;
 import com.kh.bom.order.model.vo.Inbasket;
 import com.kh.bom.order.model.vo.Order;
+import com.kh.bom.product.model.vo.ProductOption;
 
 @Repository
 public class OrderDaoImpl implements OrderDao {
@@ -17,7 +19,7 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public String selectBasketOne(SqlSession session, String memNo) {
+	public Basket selectBasketOne(SqlSession session, String memNo) {
 		return session.selectOne("order.selectBasketOne", memNo);
 	}
 
@@ -29,6 +31,11 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public int insertInbasket(SqlSession session, String pdtNo) {
 		return session.insert("order.insertInbasket",pdtNo);
+	}
+
+	@Override
+	public ProductOption selectProductOption(SqlSession session, String opNo) {
+		return session.selectOne("order.selectProductOptionOne",opNo);
 	}
 
 }

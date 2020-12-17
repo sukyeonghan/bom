@@ -1,6 +1,7 @@
 package com.kh.bom.order.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,9 +12,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.order.model.service.OrderService;
+import com.kh.bom.order.model.vo.Basket;
 import com.kh.bom.order.model.vo.Inbasket;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.product.model.vo.ProductOption;
 
 @Controller
 public class OrderController {
@@ -27,10 +30,21 @@ public class OrderController {
 	@RequestMapping("/order/basket")
 	public ModelAndView goBasket(ModelAndView mv, String memNo) {
 		System.out.println(memNo);
+		//회원이 갖고있는 장바구니 불러오기
+		Basket basket = service.selectBasketOne(memNo);
+		//장바구니에 담긴 상품리스트 가져오기
+		List<Inbasket> list = service.selectInbasket(basket.getBasketNo());
+		//상품 옵션값 가져오기
+		List<ProductOption> poList = new ArrayList<ProductOption>();
 		
-		String basketNo = service.selectBasketOne(memNo);
-		List<Inbasket> list = service.selectInbasket(basketNo);
+//		for(Inbasket ib : list) {
+//			if(!ib.getPdtOptionNo().isEmpty()) {
+//				ProductOption po = service.selectProductOption(ib.getPdtOptionNo());
+//				poList.add(po);
+//			}
+//		}
 		
+		mv.addObject("polist",poList);
 		mv.addObject("list",list);
 		mv.setViewName("order/basket");
 		return mv;
@@ -44,9 +58,10 @@ public class OrderController {
 		
 		
 		//멤버에 해당하는 장바구니 불러오기
-		String basketNo = service.selectBasketOne(memNo);
+		Basket basketOne = service.selectBasketOne(memNo);
+		
 		//장바구니 안에 담긴 상품 불러오기
-		List<Inbasket> list = service.selectInbasket(basketNo);
+		List<Inbasket> list = service.selectInbasket(basketOne.getBasketNo());
 		//각 pdtNo에 해당하는 상품을 출력하기 위한 리스트 가져오기
 		List<Product> plist = pService.selectProductList();
 		
