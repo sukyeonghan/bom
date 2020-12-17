@@ -19,7 +19,7 @@
  				<c:forEach var="p" items="${list }" >
  					<div class="item-wrap">
 		                <div>
-		                    <a href="#">
+		                      <a href="${path }/product/productOne?pdtNo=${p.pdtNo}">
 		                    	
 		                    	<c:choose>
 		                    		<c:when test="${fn:contains(p.thumbs,',') }">

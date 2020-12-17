@@ -18,7 +18,9 @@ import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.service.ProductService;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.review.model.vo.Review;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -27,7 +29,7 @@ public class ProductController {
 
 	@Autowired
 	private ProductService service;
-	
+
 	//전체제품 페이지
 	@RequestMapping("/product/productAll") 
 	public ModelAndView allProduct(ModelAndView m,
@@ -38,6 +40,8 @@ public class ProductController {
 		String cate="전체제품";
 		int count=service.productCount(cate);
 		List<Product> newList=service.selectNewCateList(cate);
+		//찜 횟수
+		//int zzimCount=service.zzimCount();
 		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,cate));
 		m.addObject("pageBar",ProPageBarFactory.getPageBar(count, cPage, numPerpage, "productAll"));
 		m.addObject("cPage",cPage);
@@ -215,7 +219,7 @@ public class ProductController {
 	
 
 	//상품문의 카운트 - 상품상세 첫화면
-	@RequestMapping("/product/selectProductOne")
+	@RequestMapping("/product/productOne")
 	public ModelAndView productOne(ModelAndView mv,
 			@RequestParam("pdtNo") String pdtNo,
 			@RequestParam(value="cPage",defaultValue="1") int cPage,
@@ -224,11 +228,13 @@ public class ProductController {
 		
 		//상품불러오기
 		Product product = service.selectProductOne(pdtNo);
+		//상품옵션불러오기
+		List<ProductOption> optionlist = service.selectpdtOption(pdtNo);
 		
 		//상품문의
 		//로그인 세션에서 현재 사용자 id값 가져오기
 		Member m = (Member)session.getAttribute("loginMember");
-		List<Inquiry> list = service.inquiryList(cPage, numPerpage);
+		List<Inquiry> list = service.inquiryList(pdtNo, cPage, numPerpage);
 		for(Inquiry i : list) {
 			//작성글이 비밀글일 경우
 			if(i.getInqSecret().equals("Y")) {
@@ -250,35 +256,41 @@ public class ProductController {
 			}
 		}
 		//상품문의 갯수
-		int totalData = service.inquiryCount();
+		int totalData = service.inquiryCount(pdtNo);
 		
 		//구매평
-		List<Review> reviewlist = service.reviewList(cPage, numPerpage);
+		List<Review> reviewlist = service.reviewList(pdtNo,cPage, numPerpage);
 		//구매평 갯수
-		int reviewCount = service.reviewCount(); 
+		int reviewCount = service.reviewCount(pdtNo);
+		//구매평 별점평균
+		String reviewAvg = service.reviewAvg(pdtNo);
 
 		mv.addObject("product", product);
+		mv.addObject("optionlist", optionlist);
 		mv.addObject("list", list);
 		mv.addObject("count", totalData);
 		mv.addObject("reviewlist", reviewlist);
 		mv.addObject("reviewCount", reviewCount);
+		mv.addObject("reviewAvg", reviewAvg);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "selectProductOneAjax"));
-		mv.setViewName("product/selectProductOne");
+		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax"));
+		mv.setViewName("product/productOne");
 
 		return mv;
 	}
 	
 	//상품문의 페이징처리
-	@RequestMapping("/product/selectProductOneAjax") 
+	@RequestMapping("/product/productOneAjax") 
 	@ResponseBody
-	public ModelAndView productOneAjax(ModelAndView mv, int cPage,
+	public ModelAndView productOneAjax(ModelAndView mv, 
+			String pdtNo,
+			int cPage,
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage,
 			HttpSession session) {
 	  
 		//로그인 세션에서 현재 사용자 id값 가져오기
 		Member m = (Member)session.getAttribute("loginMember");
-		List<Inquiry> list = service.inquiryList(cPage, numPerpage);
+		List<Inquiry> list = service.inquiryList(pdtNo,cPage, numPerpage);
 		for(Inquiry i : list) {
 			if(i.getInqSecret().equals("Y")) {
 				//비로그인 상태일 경우 비밀 댓글 처리
@@ -300,15 +312,14 @@ public class ProductController {
 		}
 		
 		mv.addObject("list", list);
-		int totalData = service.inquiryCount();
+		int totalData = service.inquiryCount(pdtNo);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar", AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "selectProductOneAjax"));
-		mv.setViewName("product/selectProductOneAjax");
+		mv.addObject("pageBar", AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax"));
+		mv.setViewName("product/productOneAjax");
 
 		return mv; 
 	 
 	}
-	
-	
+
 	
 }

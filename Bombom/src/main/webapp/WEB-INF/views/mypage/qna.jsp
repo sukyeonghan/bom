@@ -75,7 +75,7 @@
                 <td><c:out value="${q.rownum}"/></td>
                 <td><c:out value="${q.qnaCategory}" /></td>
                 <td><a href="" data-toggle="modal" data-target="#qnaView" class="qnaTitle"><c:out value="${q.qnaTitle}" /></a></td>
-                <td><fmt:formatDate type="both" timeStyle="short" value="${q.qnaDate }"/></td>
+                <td><fmt:formatDate type="time" timeStyle="short" value="${q.qnaDate }"/></td>
                 <td>
                		<c:out value="${q.qnaYn=='Y'?'답변완료':'답변대기' }"/>
                 </td>

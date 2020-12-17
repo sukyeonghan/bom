@@ -110,7 +110,7 @@
     </div>
     <!-- 결제버튼 -->
     <div class="mb-5" style="text-align: center;">
-        <button type="submit" class="btn btn-outline-success" style="width: 500px;">결제하기</button>
+        <button id="payBtn"type="submit" class="btn btn-outline-success" style="width: 500px;">결제하기</button>
     </div>
     </form>
 </section>
@@ -148,6 +148,9 @@
 <!-- 배송지/결제 api -->
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-
+<script type="text/javascript">
+	//결제 API
+	
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

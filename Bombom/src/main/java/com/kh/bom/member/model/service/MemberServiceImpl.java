@@ -1,11 +1,14 @@
 package com.kh.bom.member.model.service;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.bom.member.model.dao.MemberDao;
+import com.kh.bom.member.model.vo.Alarm;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.point.model.dao.PointDao;
 import com.kh.bom.point.model.vo.Point;
@@ -75,8 +78,23 @@ public class MemberServiceImpl implements MemberService {
 		return dao.updateMemberPw(session, m);
 	}
 
+	@Override
+	public List<Alarm> selectAlarmList(String memNo) {
+		// TODO Auto-generated method stub
+		return dao.selectAlarmList(session,memNo);
+	}
 	
+	@Override
+	public int countAlarm(String memNo) {
+		// TODO Auto-generated method stub
+		return dao.countAlarm(session,memNo);
+	}
 
+	@Override
+	public int insertAlarm(Alarm a) {
+		// TODO Auto-generated method stub
+		return dao.insertAlarm(session,a);
+	}
 	
 	
 	

@@ -39,7 +39,16 @@
 		 where pdt_no=#{pdtNo}
 		ORDER BY PDT_DATE DESC
 	</select>
-	
+
+	<!-- 제품당 찜 횟수 -->
+	<select id="zzimCount" resultType="_int" parameterType="string">
+		SELECT COUNT(*) FROM ZZIMCONTENT WHERE PDT_NO=#{pdtNo}
+	</select>
+
+	<!-- 제품 옵션 불러오기 -->
+	<select id="selectpdtOption" resultMap="optionMap" parameterType="string">
+		SELECT * FROM PRODUCT_OPTION WHERE PDT_NO_REF=#{pdtNo}
+	</select>
 	<!-- 제품 개수 -->
 	<select id="count" resultType="_int" parameterType="map">
 		SELECT COUNT(*) FROM PRODUCT

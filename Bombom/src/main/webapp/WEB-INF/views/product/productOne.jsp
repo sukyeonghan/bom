@@ -47,7 +47,6 @@ a:hover {
 }
 
 .goods_thumbs_image ul li {
-	/* border: 1px blueviolet solid; */
 	float: left;
 	/* padding-right: 7px; */
 	padding: 0 4px 0 0px;
@@ -55,6 +54,7 @@ a:hover {
         height: 100%; */
 	display: inline-block;
 	cursor: pointer;
+	margin: 0;
 }
 
 .goods_thumbs_image ul li img {
@@ -417,21 +417,43 @@ textarea.answer {
 </style>
 
 <section id="container" style="margin:0 5% 0 5%;">
-    <h5><small><a href="${path}">홈</a> > <a href="${path}/product/productAll">제품</a> > <a href="#">욕실</a></small></h5>
+
+    <h5><small><a href="${path}">홈</a> > <a href="${path}/product/productAll">제품</a> > 
+    <c:choose>
+    	<c:when test="${product.pdtCategory eq '식품'}">
+    		<a href="${path}/product/food">식품</a></small></h5>
+    	</c:when>
+    	<c:when test="${product.pdtCategory eq '잡화'}">
+    		<a href="${path}/product/stuff">잡화</a></small></h5>
+    	</c:when>
+    	<c:when test="${product.pdtCategory eq '주방'}">
+    		<a href="${path}/product/kitchen">주방</a></small></h5>
+    	</c:when>
+    	<c:when test="${product.pdtCategory eq '욕실'}">
+    		<a href="${path}/product/bathroom">욕실</a></small></h5>
+    	</c:when>
+    	<c:when test="${product.pdtCategory eq '여성용품'}">
+    		<a href="${path}/product/woman">여성용품</a></small></h5>
+    	</c:when>
+    	<c:when test="${product.pdtCategory eq '반려동물'}">
+    		<a href="${path}/product/pet">반려동물</a></small></h5>
+    	</c:when>
+    </c:choose>
     <div class="row" >
     	<!-- 썸네일 -->
         <div class="col-6" >
-            <!-- <div class="goods_thumbs" id="main_image"> -->
-                <img alt="" class="img-fluid" id="main_image" style="padding-bottom:7px;" src="${path }/resources/upload/product/천연목욕수세미1.jpg"/>
-            <!-- </div> -->
+        	<c:forTokens items="${product.thumbs}" var="th" delims="," varStatus="vs">
+        	<!-- 큰사진 -->
+        	<c:if test="${vs.first }">
+            	<img alt="" class="img-fluid" id="main_image" style="padding-bottom:7px;" src="${path}/resources/upload/product/${th}"/>
+            </c:if>
+            </c:forTokens>
+            <!-- 작은사진 여러개 -->
             <div class="goods_thumbs_image row container">
                 <ul class="clearfix">
-                    <li class="col-2 small_image"><a href="${path }/resources/upload/product/천연목욕수세미1.jpg"><img src="${path }/resources/upload/product/천연목욕수세미1.jpg"></a></li>
-                    <li class="col-2 small_image"><a href="${path }/resources/upload/product/천연목욕수세미2.jpg"><img src="${path }/resources/upload/product/천연목욕수세미2.jpg"></a></li>
-                    <li class="col-2 small_image"><a href="${path }/resources/upload/product/천연목욕수세미3.jpg"><img src="${path }/resources/upload/product/천연목욕수세미3.jpg"></a></li>
-                    <li class="col-2 small_image"><a href="${path }/resources/upload/product/천연목욕수세미4.jpg"><img src="${path }/resources/upload/product/천연목욕수세미4.jpg"></a></li>
-                    <li class="col-2 small_image"><a href="#">5</a></li>
-                    <li class="col-2 small_image"><a href="#">6</a></li>
+                <c:forTokens items="${product.thumbs}" var="th" delims="," varStatus="vs">
+	                <li class="col-2 small_image"><a href="${path }/resources/upload/product/${th}"><img src="${path }/resources/upload/product/${th}"></a></li>
+                </c:forTokens>
                 </ul>
             </div>
         </div>
@@ -439,71 +461,271 @@ textarea.answer {
         <div class="col-6 info-container" style="display:flex;flex-wrap:wrap;">
         	<div class="inner_goods_form container">
         		<div class="head" style="margin-top:0px;">
-        			<div class="information size-up" style="padding-top:10px;">제품명&nbsp;&nbsp;<img src="${path}/resources/images/product/sale.jpg" width="50px"></div>
-        			<div class="information size-up">4,000원&nbsp;
-        				<span id="sale_price" value="4000" style="text-decoration:line-through; font-size:18px; color:dimgray;">5,000원</span>
+        			<div class="information size-up" style="padding-top:10px;">${product.pdtName }&nbsp;&nbsp;
+        			<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
+        				<img src="${path}/resources/images/product/sale.jpg" width="50px">
+        			</c:if>
         			</div>
+        			<!-- 세일가격 -->
+					<div class="information size-up">
+						<fmt:parseNumber var="i" integerOnly="true" type="number" value="${product.pdtPrice*(1-(product.salePer/100))}"/><fmt:formatNumber value="${i}"/>원&nbsp;
+	        			<!-- 원래가격 -->
+	        			<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
+	        				<span id="sale_price" value="" style="text-decoration:line-through; font-size:18px; color:dimgray;"><fmt:formatNumber value="${product.pdtPrice }" pattern="#,###"/>원</span>
+	        			</c:if>
+        			</div>
+        			<!-- 별점 -->
                     <div class="information size-mid row">
-	                    <div class="col-10">별점</div>
+                    	<c:if test="${reviewAvg==null }">
+                    		<div class="col-10" style="visibility:hidden">별점 <c:out value="${reviewAvg}"/></div>
+                    	</c:if>
+                    	<c:if test="${reviewAvg!=null }">
+	                    	<div class="col-10">별점 <c:out value="${reviewAvg}"/></div>
+	                    </c:if>
 	                    <div class="col-2"><a href=""><img src="${path}/resources/images/product/SNS.png" width="35px" style="right:0;"></a></div>
                     </div>
                     <hr>
-                    <div class="information size-mid">제품 간단설명</div>
-                    <div class="information size-mid">구매 시 포인트</div>
+                    <div class="information size-mid">${product.pdtIntro }</div>
+                    <!-- 적립금 : 옵션이 없을경우에만 표시 -->
+                    <c:if test="${empty optionlist}">
+                    	<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
+                    		<div class="information size-mid">구매 시 <fmt:formatNumber value="${(product.pdtPrice*(1-(product.salePer/100)))*0.05}" pattern="#,###"/>봄 적립</div>
+                    	</c:if>
+                    	<c:if test="${empty product.eventNoRef}">
+                    		<div class="information size-mid">구매 시 <fmt:formatNumber value="${product.pdtPrice*0.05 }" pattern="#,###"/>봄 적립</div>
+                    	</c:if>
+                    </c:if>
                     <div class="information size-mid">배송비 2,500원(50,000원이상 무료배송) | 도서산간 배송비 추가</div>
+                    <%-- ${optionlist} --%>
                     <hr>
                     
                     <!-- 1.기본선택창:옵션이 없을 경우 나올 화면 -->
-                   <!--  <div class="information" style="padding-bottom:10px;">
-                    	<div id="info_count" style="border-radius:4px;">
-                    		<div class="information" style="margin:10px;">옵션선택확인</div>
-                    		<div class="inforamtion row">
-                    			<div class="col" style="margin-left:10px;">
-                    				<input type="button" class="input_count" value="-" id="minus" onclick="minus();">
-                    				<input type="text" class="input_count2" value="1" id="count" style="width:40px; text-align:center;">
-                    				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
-                    			</div>
-                    			<div class="col-3">
-                    				<input type="text" value="4000" id="total_count" hidden="hidden"/>
-                    				<input type="text" value="4000" id="total_count_view" style="width:60px;text-align:right; border:none;" readonly/>원
-                    			</div>
-                    		</div>
-                    	</div>
-                    </div>  -->                   
+                    <c:if test="${empty optionlist}">
+	                   <div class="information" style="padding-bottom:10px;">
+	                    	<div id="info_count" style="border-radius:4px;">
+	                    		<div class="information" style="margin:10px;visibility:hidden;">옵션선택확인</div>
+	                    		<div class="inforamtion row">
+	                    			<div class="col" style="margin-left:10px;">
+	                    				<input type="button" class="input_count" value="-" id="minus" onclick="minus();">
+	                    				<input type="text" class="input_count2" value="1" id="count" style="width:40px; text-align:center;">
+	                    				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
+	                    			</div>
+	                    			<div class="col-3">
+	                    			<!-- 원래가격 -->
+	                    				<c:if test="${empty product.eventNoRef}">
+		                    				<input type="text" value="${product.pdtPrice}" id="oriPrice" hidden="hidden"/>
+		                    				<input type="text" value="${product.pdtPrice}" id="totalPrice" hidden="hidden"/>
+		                    				<span id="viewPrice" style="width:60px;text-align:right; border:none;">${product.pdtPrice}</span>원
+	                    				</c:if>
+	                    			<!-- 세일가격 -->
+	                    				<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
+	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="oriPrice" hidden="hidden"/>
+	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="totalPrice" hidden="hidden"/>
+	                    					<span id="viewPrice" style="width:60px;text- align:right; border:none;"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
+	                    				</c:if>
+	                    			</div>
+	                    		</div>
+	                    	</div>
+	                    </div>
+                    </c:if>
                     <!-- 2.옵션선택창:옵션이 있을 경우 반드시 선택해야함 -->
+                    <c:if test="${not empty optionlist }">
                     <div class="information">
-                    	<div class="optionChoice">
+                    	<%-- <div class="optionChoice">
                     		<div class="select">
                     			<span class="size-mid">옵션선택</span>
                     		</div>
                     		<input type="hidden" name="option">
                     		<ul class="dropdown-menu">
-                    			<li id="one">1번</li>
-                    			<li id="two">2번</li>
-                    		</ul>
-                    	</div>
+                    		<c:forEach items="${optionlist}" var="opt" varStatus="vs">
+                    			<li id="${vs.count}" value="${opt.pdtOptionAddprice}" onClick="optionPrice(this)">${opt.pdtOptionContent}&nbsp;&nbsp;+<fmt:formatNumber value="${opt.pdtOptionAddprice}" pattern="#,###"/></li>
+                    		</c:forEach>
+                    		</ul> 
+                    	</div> --%>
+                    	<select class="form-control" id="optionSelect" style="height:45px;">
+                    		<option selected disabled>옵션선택</option>
+                    		<c:forEach items="${optionlist}" var="opt" varStatus="vs">
+                    			<option value="${opt.pdtOptionContent}" value2="${opt.pdtOptionAddprice}">${opt.pdtOptionContent}&nbsp;&nbsp;+${opt.pdtOptionAddprice}</option>
+                    		</c:forEach>	
+                    	</select>
                     </div>
-                    <div class="information" style="padding-bottom:10px;">
-                    	<div id="info_count" style="border-radius:4px;">
-                    		<div class="information" style="margin:10px;">옵션선택확인</div>
-                    		<div class="inforamtion">
-                    			<div style="float:left;margin:0 0 0 10px;">
-                    				<input type="button" class="input_count" value="-" id="minus" onclick="minus();">
-                    				<input type="text" class="input_count2" value="1" id="count" style="width:40px; text-align:center;">
-                    				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
-                    			</div>
-                    			<div style="float:right;margin:0 10px 0 0;">
-                    				<input type="text" value="4000" id="total_count" hidden="hidden"/>
-                    				<input type="text" value="4000" id="total_count_view" style="width:60px;right:0; border:none;" readonly/>원
-                    			</div>
-                    		</div>
-                    	</div>
-                    </div>        			
+                    <div class="information" id="optionView" style="padding-bottom:10px;">
+	                    	<div id="info_count" style="border-radius:4px;">
+	                    		<div class="information" style="margin:10px;">
+	                    			<span id="optionCheck"></span>
+	                    			<span id="optionClose" style="float:right;cursor:pointer">X</span>
+	                    		</div>
+	                    		<div class="inforamtion row">
+	                    			<div class="col" style="margin-left:10px;">
+	                    				<!-- <input type="button" class="input_count" value="-" id="minus">
+	                    				<input type="text" class="input_count2" value="1" id="count" style="width:40px; text-align:center;">
+	                    				<input type="button" class="input_count" value="+" id="plus"> -->
+								        <table>
+								        <tr style="text-align:center;">
+										    <td>수량</td>
+										    <td class="bseq_ea">7</td>
+										    <td>
+										        <button type="button" id="minus" onclick="fnCalCount('m', this);">-</button>
+										        <input type="text" name="pop_out" value="0" readonly="readonly" style="text-align:center;"/>
+										        <button type ="button" onclick="fnCalCount('p',this);">+</button>
+										    </td>
+										</tr>
+										</table>
+	
+
+									</div>
+									
+									<script>
+				                  //수량버튼 
+				                   function fnCalCount(type, ths){
+									    var $input = $(ths).parents("td").find("input[name='pop_out']");
+									    var tCount = Number($input.val());
+									    //var tEqCount = Number($(ths).parents("tr").find("td.bseq_ea").html());
+									    var qty = 0;
+									    
+									    if(type=='p'){
+									       $input.val(Number(tCount)+1);
+											qty = tCount+1;
+									    }else{
+									       if(tCount>1){
+									    	   $input.val(Number(tCount)-1);
+									    	   qty = tCount-1;
+									       }else if(tCount==1){
+									    	   $input.val(Number(tCount));
+									    	   qty = 1;
+									    	   
+									    	   $("#minus").attr("disabled",true);
+									    	   
+									    	  
+									    	   
+									       }
+									       qty = tCount-1;
+									    }
+										console.log(qty);
+									    
+									    
+									}
+				                  
+				                  
+				                  
+				                    
+				                    $("#optionClose").click(function(){
+				                		$("#optionView").css("display","none");
+				                	});
+				                    
+				                    /*  $("#optionSelect").change(function(){
+				         			if($("#optionView").css("display")=="none"){
+				         				$("#optionView").css("display","");
+				         			} */
+				                    
+				                    </script>
+									
+									
+	                    			<div class="col-3">
+	                    			<!-- 원래가격 -->
+	                    				<c:if test="${empty product.eventNoRef}">
+		                    				<input type="text" value="${product.pdtPrice}" id="oriPrice" hidden="hidden"/>
+		                    				<input type="text" value="${product.pdtPrice}" id="totalPrice" hidden="hidden"/>
+		                    				<input type="text" id="optionPrice" />
+		                    				<span id="viewPrice" style="width:60px;text-align:right; border:none;">${product.pdtPrice}</span>원
+	                    				</c:if>
+	                    			<!-- 세일가격 -->
+	                    				<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
+	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="oriPrice" hidden="hidden"/>
+	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="totalPrice" hidden="hidden"/>
+	                    					<input type="text" id="optionPrice" />
+	                    					<span id="viewPrice" style="width:60px;text- align:right; border:none;"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
+	                    				</c:if>
+	                    			</div>
+	                    		</div>
+	                    	</div>
+	                    </div>
+                    </c:if> 
+                    
+                    
+                    
+                    
+                    
+                    	<!-- /* var count = 1;	
+                    
+                    	if("#plus").click(function(){
+                    		count = ("#count").val();
+                    		
+                    	});
+                     */
+                    
+                    	//옵션선택 시 수량계산 창 나옴
+                    	/* $(function(){
+                    		$("#optionSelect").change(function(){
+                    			if($("#optionView").css("display")=="none"){
+                    				$("#optionView").css("display","");
+                    			}
+                    			
+                    			var optionPrice = $("#optionPrice").val();
+                    			
+                    			//선택된 옵션 확인창에 넣기
+                    			/* var content = $("#optionSelect").val(); //옵션명
+                    			var price = $("#optionSelect > option:selected").attr("value2"); //옵션가격
+                    			console.log("확인"+price);
+                    			$("#optionCheck").text(content);
+                    			$("#optionPrice").val(price);
+                    			console.log("optionPrice에 찍힌 값"+$("#optionPrice").val()); */
+                    			//선택된 옵션 원래가격에서 더하기
+                    			
+                    			/* var count = 1;
+                    			//var countEl = $("#count");
+                    			var countEl = document.getElementById("count");
+                    			var oriPrice = document.getElementById("oriPrice");
+                    			var optionPrice = document.getElementById("optionPrice");
+                    			var totalPrice = document.getElementById("totalPrice");
+                    			var viewPrice = document.getElementById("viewPrice");
+                    			console.log(optionPrice.value);
+                    			$("#viewPrice").text( Number($("#totalPrice").val()) + Number($("#optionPrice").val()) );
+                    			
+                    		});
+                    	}); */
+                    	
+                    	
+                    	
+                    	/* function minus(){
+            				if(count > 1) {
+            					count--;
+            					//$("#countEl").val(count);
+            					//console.log($("#countEl").val(count));
+            					$("#totalPrice").text( Number($("#totalPrice").val()) - Numeber($("#oriPrice").val()) + Number($("#optionPrice").val()) );
+            					finalPrice = $("#totalPrice").val();
+            					$("#viewPrice").text(finalPrice);
+            				}
+            			}
+            			function plus(){
+            				//count = Number($("#count").val());
+            				//count++;
+            				//countEl.value = count;
+        					//console.log(countEl.value);
+        					//$("#totalPrice").text( Number($("#totalPrice").val()) + Numeber($("#optionPrice").val()) * count );
+        					//console.log($("#count").val());
+        					//$("#totalPrice").text( (Number($("#totalPrice").val()) + Number($("#optionPrice").val()) * $("#count").val()));
+        					//finalPrice = $("#totalPrice").val();
+        					//$("#viewPrice").text(finalPrice);
+            				count++;
+            				var count = Number($("#count").val()) + count;
+            				$("#viewPrice").text( ((Number($("#totalPrice").val()) + Number($("#optionPrice").val())) * count ));
+            				console.log(count);
+            			}  */
+            	
+            			
+            			
+            			
+                    	//옵션선택창 X 클릭 시 옵션창 없애기
+                    	$("#optionClose").click(function(){
+                    		$("#optionView").css("display","none");
+                    	}); -->
+                           			
                     <!-- 버튼 3개,로그인 안 할 경우 클릭 못하게 방지 -->        			
                     <div class="information container">
                     	<c:if test="${loginMember!=null }">
 		                    <button type="button" href="#" class="btn btn-success custom">구매하기</button>
-		                    <button type="button" onclick="fn_goBasket(${product.pdtNo});" class="btn btn-outline-success custom">장바구니</button>
+		                    <button type="button" onclick="fn_goBasket();" class="btn btn-outline-success custom">장바구니</button>
 		                    <button type="button" href="#" class="btn btn-outline-success custom">찜하기</button>
 	                    </c:if>
 	                    <c:if test="${loginMember==null }">
@@ -527,7 +749,7 @@ textarea.answer {
 		    	<!-- 상품상세 시작 -->
 		    	<div class="tab_box on">
 					<!--제품이미지 삽입-->
-					<img src="${path}/resources/upload/product/천연목욕수세미5.jpg" style="width:80%; display:block;margin:auto;">
+					<img src="${path}/resources/upload/product/${product.pdtDetailImage}" style="width:80%; display:block;margin:auto;">
 					<!--배송안내 시작!-->
 					<div id="information">
 						<hr>
@@ -598,6 +820,7 @@ textarea.answer {
 									<span id="byteInfo2">0</span>/500bytes
 										<!-- 로그인 한 사람 및 구매한 사람만 구매평 등록가능-->
 								        <c:if test="${loginMember!=null }">
+								        	<input type="hidden" name="pdtNo" value="${product.pdtNo }">
 								        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
 								        	<input type="hidden" name="revScore">
 								        	<input type="submit" class="btn btn-success textCheck" value="등록" style="right:0;">
@@ -772,12 +995,12 @@ textarea.answer {
 		  });
 		  
 		  	//수정누를경우 수정완료로 변경
-			$(this).attr("value",function(index,attr){
+			/* $(this).attr("value",function(index,attr){
 				if(attr.match("수정")){
 					console.log("수정완료");
 					return attr.replace("수정","수정완료");
 				}
-			});
+			}); */
 		  
 		  </script>
 		    	
@@ -813,8 +1036,8 @@ textarea.answer {
 			        <!-- 상품문의 게시글 -->
 			        <div id="result">
 				        <div class="container">
-					        <table class="table" style=" table-layout: fixed;">
 						    <c:if test="${not empty list }">	
+					        <table class="table" style=" table-layout: fixed;">
 						        <thead>
 						        	<tr>
 						        		<td style="width:10%;">상태</td>
@@ -860,19 +1083,21 @@ textarea.answer {
 						        		</tr>
 						        	</thead>
 						        </c:forEach>
+						    	</table>
+						        <div class="pageBar">
+									<span>${pageBar }</span>
+						    	</div>
 					        </c:if>
 					        <c:if test="${empty list }">
+					        <table>
 					        	<thead>
 					        		<tr>
 					        			<td colspan="4">등록된 문의가 없습니다</td>
 					        		</tr>
 					        	</thead>
-					        </c:if>
 					        </table>
+					        </c:if>
 				        </div><!-- 상품문의 게시글 끝 -->			        
-				        <div class="pageBar">
-							<span>${pageBar }</span>
-				    	</div>
 			    	</div><!-- result 끝 -->
 			        
 			      <!-- 상품문의 모달창 -->
@@ -940,14 +1165,42 @@ textarea.answer {
 			<div class="information">연관상품</div>
 			<div class="swiper-container container">
 				<div class="swiper-wrapper">
+				    <c:choose>
+				    	<c:when test="${product.pdtCategory eq '식품'}">
+					    	<c:forTokens items="${product.thumbs}" var="th" delims="," varStatus="vs">
+				            <c:if test="${vs.first }">
+						    	<div class="swiper-slide" style="display: block">
+									<div>
+										<img src="${path}/resources/upload/product/${th}">
+									</div>
+									<div class="slideImg"><span>제품명1</span><br><span>제품가격</span></div>
+								</div>
+							 </c:if>
+				            </c:forTokens>
+				    	</c:when>
+				    	
+				    	<c:when test="${product.pdtCategory eq '잡화'}">
+				    		<a href="${path}/product/stuff">잡화</a></small></h5>
+				    	</c:when>
+				    	<c:when test="${product.pdtCategory eq '주방'}">
+				    		<a href="${path}/product/kitchen">주방</a></small></h5>
+				    	</c:when>
+				    	<c:when test="${product.pdtCategory eq '욕실'}">
+				    		<a href="${path}/product/bathroom">욕실</a></small></h5>
+				    	</c:when>
+				    	<c:when test="${product.pdtCategory eq '여성용품'}">
+				    		<a href="${path}/product/woman">여성용품</a></small></h5>
+				    	</c:when>
+				    	<c:when test="${product.pdtCategory eq '반려동물'}">
+				    		<a href="${path}/product/pet">반려동물</a></small></h5>
+				    	</c:when>
+				    </c:choose>
+				
 					<div class="swiper-slide" style="display: block">
 						<div>
 							<img src="${path}/resources/upload/product/coffee1.jpg">
 						</div>
 						<div class="slideImg"><span>제품명1</span><br><span>제품가격</span></div>
-						<div>
-							<img src="${path}/resources/images/product/sale.jpg" width="50px">
-						</div>
 					</div>
 					<div class="swiper-slide" style="display: block">
 						<div>
@@ -1006,43 +1259,30 @@ textarea.answer {
 		});
 	});
 
-	//옵션선택 스크립트
-	$('.optionChoice').click(function() {
-		$(this).attr('tabindex', 1).focus();
-		$(this).toggleClass('active');
-		$(this).find('.dropdown-menu').slideToggle(300);
-	});
-	$('.optionChoice').focusout(function() {
-		$(this).removeClass('active');
-		$(this).find('.dropdown-menu').slideUp(300);
-	});
-	$('.optionChoice .dropdown-menu li').click(
-			function() {
-				$(this).parents('.optionChoice').find('span').text(
-						$(this).text());
-				$(this).parents('.optionChoice').find('input').attr('value',
-						$(this).attr('id'));
-			});
-
 	
-	//수량선택 스크립트
-	var count = 1;
+	//수량계산
+	/* var count = 1;
 	var countEl = document.getElementById("count");
-	var total_count = document.getElementById("total_count");
-	var total_count_view = document.getElementById("total_count_view");
+	var oriPrice = document.getElementById("oriPrice");
+	var totalPrice = document.getElementById("totalPrice");
+	var viewPrice = document.getElementById("viewPrice");
 
 	function minus(){
 		if(count > 1) {
 			count--;
 			countEl.value = count;
-			total_count_view.value = total_count_view.value - total_count.value;
+			totalPrice.value = totalPrice.value - oriPrice.value;
+			finalPrice = totalPrice.value;
+			$(viewPrice).text(finalPrice);
 		}
 	}
 	function plus(){
 		count++;
 		countEl.value = count;
-		total_count_view.value = total_count.value * countEl.value;
-	}
+		totalPrice.value = oriPrice.value * countEl.value;
+		finalPrice = totalPrice.value;
+		$(viewPrice).text(finalPrice);
+	} */
 
 	
 	//네비바
@@ -1494,13 +1734,19 @@ textarea.answer {
 			$("#uploadPreview").append(img);
 	   	}
 		reader.readAsDataURL($(e.target)[0].files[0]);
-	});	   
+	});	    
+		
 	
 	//장바구니 버튼 누르면 실행됨
 	function fn_goBasket(pdtNo){
+		//basket으로 insert시킬 url
+		let basUrl = "${path}/admin/basket";
+		//넘길 변수들 - 상품번호pdtNo, 옵션번호pdtOptionNo, 갯수 Qty
+		let basket_need = {pdtNo : pdtNo, };
 		
-	}
+		//장바구니 insert용 함수
 		
+	};
 </script>
     
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

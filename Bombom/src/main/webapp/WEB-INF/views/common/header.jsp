@@ -10,6 +10,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SpringAgain</title>
 <c:set var="path" value="${pageContext.request.contextPath}" />
+<c:set var="alarmList" value="${sessionScope.alarmList }" scope="application"/>
+<c:set var="countAlarm" value="${sessionScope.countAlarm }" scope="application"/>
 <script src="${path}/resources/js/jquery-3.5.1.min.js"></script>
 <!-- swiper -->
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
@@ -35,6 +37,8 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 <link rel="stylesheet" href="${path }/resources/css/common/allPage.css">
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 
 <style>
 /*모달차 내 로고  */
@@ -85,7 +89,83 @@ p.p-info {
 	left: 6px;
 	color: #45A663;
 }
+
+
+/*알림*/
+#alarm-div{
+	position: relative;
+	width: 30px;	
+	height: 30px;}
+#alarm{
+	position:absolute;
+	font-size: 20px;
+    padding-top: 8px;
+    color: 45A663;
+}
+#alarm-countbox{
+	position:absolute;
+	top:2px;
+	right: 3px;
+	background-color: red;
+	border:none;
+	border-radius: 100%;
+	width: 15px;	
+	height: 15px;	
+	color: white;
+	font-size: 13px;
+	text-align: center;
+	font-weight:bolder;
+	line-height:15px;
+	display:none;
+]
+}
+/* 알림 리스트 팝업창 */
+
+.listPop {
+	position: absolute;
+	right: 60px;
+	top: 30px;
+	z-index: 9999;
+}
+
+.listDisNone {
+	display: none;
+}
+
+#popupContent {
+    width: 250px;
+    height: 290px;
+    background: white;
+    border: 1.5px solid #45A663;
+    border-radius: 10px;
+    margin: 10px;
+}
+.alarmUl{
+	padding:10px;
+}
+.alarmLi{
+	border-bottom: 1px solid lightgray;
+    padding: 0;
+    font-size: 18px;
+    padding: 10px;
+}
+.alarmDate{
+	color:#b1b1b1;
+	font-size:15px;
+	margin-bottom:5px;
+}
+.messageP{
+	text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    width: 200px;
+    overflow: hidden;
+}
+.alarmUl>li:last-of-type{
+	border:none;
+}
 </style>
+
 </head>
 
 <body style="height: 100%;">
@@ -116,6 +196,40 @@ p.p-info {
 							onclick="location.replace('${path}/member/logout');">로그아웃</a></li>
 						<li class="nav-item"><a class="nav-link"
 							href="${path }/mypage/orderStatus">마이페이지</a></li>
+						<li class="nav-item">
+							<div id="alarm-div">
+								<i class="far fa-bell" id="alarm"></i>
+								
+								<div id="alarm-countbox">
+									<fmt:parseNumber var="i" type="number" value="${applicationScope.countAlarm}"/>
+									
+									<c:out value="${i}"/>
+								</div>
+								
+							</div>
+						</li>
+						<!-- 알림 리스트 팝업 -->
+						<div class="listPop listDisNone">										
+							<div id="popupContent">						
+								<a alt="" href="${path }/member/alarmPage">
+								
+									<ul class="alarmUl">
+										<c:forEach begin="0" end="2" var="a" items="${alarmList }">
+											
+											<li class="alarmLi">
+												<p class="alarmDate" style="">
+													<c:out value="${a.alarmDate }"/>
+												</p>
+												<p  class="messageP"> 
+													<c:out value="${a.message }"/>
+												</p>
+											</li>
+										</c:forEach>		
+									</ul>
+								</a>
+							</div>											
+						</div>
+						
 						<li class="nav-item"><a class="nav-link"
 							href="${path }/order/basket?memNo=${loginMember.memNo}"> <svg
 									class="header_icon" width="20" height="20" viewBox="0 0 24 24"
@@ -125,6 +239,8 @@ p.p-info {
 										d="M4 5h18l-2.6 10.5a2 2 0 0 1-2 1.5H8.6a2 2 0 0 1-2-1.5L4 5zm4 15.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0zm7 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0z"></path>
                     				<path d="M1 2h3v3"></path></svg>
 						</a></li>
+
+						
 					</c:if>
 					<li class="nav-item"><a class="nav-link" data-toggle="modal"
 						data-target="#searchModal"> <svg class="header_icon"
@@ -362,7 +478,7 @@ p.p-info {
 							id="emailSend">이메일발송</button>
 
 						<input type="text" class="form-control" placeholder="인증번호"
-							id="verification" name="code" /> <label for="email">ajax
+							id="verification" name="code" /> <label class="timeOut">ajax
 							인증 시간:4분 59초</label>
 						<div class="row">
 							<div class="col">
@@ -459,10 +575,52 @@ p.p-info {
 
  
  $(function(){
+	 
+	 //구매횟수에따른 스탬프선문받기 알림보내기
+	 let buyCount="${loginMember.memBuyCount}";
+	 if(buyCount >= 10){
+			
+	 	   	//알림 DB저장
+	 	   	$.ajax({
+	 	   		type : 'post',
+	 	   		url : '${path}/member/insertAlarm',
+	 	   		data : {receiverNo:"${loginMember.memNo}",message:"스탬프 10개 달성하였습니다. 선물을 받으러 가세요!"}, 
+	 	   		dataType : 'json',
+	 	   		success : function(data){
+	 	   			if(data===true){
+	 	   				console.log("ajax갔다옴2:"+data);
+	 	   				if(sock){
+	 	   					console.log("소켓생성됨2:"+sock);
+	 	   				let socketMsg = "stamp,관리자,M0,"+"${loginMember.memNo}" +","+"0";
+	 	   				console.log("알림전송내역2 : " + socketMsg);
+	 	   				sock.send(socketMsg);
+	 	   				}
+	 	   			}
+	 	   			
+	 	    
+	 	   		},
+	 	   		error : function(err){
+	 	   			console.log(err);
+	 	   		}
+	 	   	});
+		}
+	 
+	 	//알림메세지 카운팅
+		if(countResult >0){
+			$('#alarm-countbox').show();
+			$('#alarm-countbox').html(countResult);
+			
+		}else{
+			$('#alarm-countbox').hide();
+		}
+	 
 	 $(".guide").hide();
 	 $(".login").hide();
 	 $(".newPw.pw").show();
-     $(".newPw.pwOk").hide();
+     $(".newPw.ok").hide();
+	 $(".checkPw.ok").hide();
+     $(".checkPw.error").hide();
+     $(".timeOut").hide();
 
 	 //닉네임중복체크 가이드
 	   $("#memNick").keyup(e=>{
@@ -636,6 +794,7 @@ function fn_signUp(){
 				 if(data!=0){
 					 swal('인증번호를 발송하였습니다.');
 					 console.log(data);
+					 $(".timeOut").show();
 					 
 				 }else{
 					 swal('가입이력이 없는 이메일입니다.');
@@ -694,15 +853,78 @@ function fn_signUp(){
         let checkPwd=$("#checkPwd").val().trim();
 		 if((newPwd.length>0) || (checkPwd.length>0)){
  		  	if(newPwd!=checkPwd){
- 		        $(".checkPw.pw").hide();
+ 		        $(".checkPw.ok").hide();
  		        $(".checkPw.error").show();
  		     }else{
- 		    	$(".checkPw.pw").show();
+ 		    	$(".checkPw.ok").show();
  	 		    $(".checkPw.error").hide();
  		     }
- 		 
  	   }
 	})
 	
- 
+	//알림 리스트 팝업
+
+	$(document).ready(function () {
+	  $("#alarm-div").on("click",function(e){
+	    	$(".listPop").toggleClass("listDisNone");
+	 	});
+/* 	  $("#alarm-div").on("click",function(e){
+	      $(".listPop").addClass("listDisNone");
+	    });   */ 		    		 		    		    
+  	});
+	
+	
+	
+	//웹소켓 관련 스크립트
+	var sock = null;
+	var countResult="${countAlarm}";	
+	$(document).ready( function(){
+		connectWS();
+		
+	});
+	
+	function connectWS(){
+		
+		sock = new SockJS('${path}/replyEcho');
+		
+		 sock.onopen = function() {
+		     console.log('open');
+		     sock.send('test');
+		 };
+		 
+		 sock.onmessage = function(e) {
+			 
+		     console.log('message', e.data);
+		     var data = e.data;
+			   	console.log("ReceivMessage : " + data + "\n");
+		 
+			   	$.ajax({
+					url : '${path}/member/countAlarm',
+					type : 'POST',
+					dataType: 'json',
+					success : function(data) {
+						if(data >0){
+							$('#alarm-countbox').show();
+							$('#alarm-countbox').html(data);
+							
+						}else{
+							$('#alarm-countbox').hide();
+						}
+					},
+					error : function(err){
+						alert('err');
+					}
+			   	});
+		 };
+	
+	}
+
+	
+	
+
+	 sock.onclose = function() {
+	     console.log('close');
+	 };
+	 
+
  </script>
