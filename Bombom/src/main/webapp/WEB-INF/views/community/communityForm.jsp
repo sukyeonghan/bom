@@ -53,7 +53,7 @@ font-size: 35px;
 	</c:if>
 	<br>
 	<div id="community-container" class="media-body">
-		<form name="communityFrm" action="${path }/community/insertCommunity" onsubmit="return fn_check()">
+		<form name="communityFrm" action="${path }/community/insertCommunity" enctype="multipart/form-data" method="post" onsubmit="return fn_check()">
 			<br> 
 			<input type="text" class="form-control w3-input title" name="cmTitle" placeholder="제목을 입력해주세요" required>
 			  <br>
@@ -74,10 +74,10 @@ font-size: 35px;
 					      reader.readAsDataURL(event.target.files[0]); 
 					      } 
 				 </script>
-
+   
 
 			<br>
-				<input type="text" class="form-control w3-input" name="cmWriter" value="${loginMember.memNo }"> <br>
+				<input type="hidden" class="form-control w3-input" name="cmWriter" value="${loginMember.memNo }"> <br>
 
 			<input type="hidden" class="form-control" name="cmLike" value="0">
 			 <br> 
