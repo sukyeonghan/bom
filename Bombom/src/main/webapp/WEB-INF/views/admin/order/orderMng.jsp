@@ -172,24 +172,24 @@
                 <tr>
                   
                   <td><fmt:formatDate type="date" dateStyle="short" value="${o.ordDate}"/></td>
-                  <td><a href="${path }/admin/orderDetail?orderNo=${o.orderNo}"><c:out value="${o.orderNo }"/></a></td>
+                  <td><a name="orderNo" href="${path }/admin/orderDetail?orderNo=${o.orderNo}"><c:out value="${o.orderNo }"/></a></td>
                   <td><c:out value="${o.ordOname}"/></td>
                   <td><c:out value="${o.ordAmount}"/></td>
                   <td>
-                    <select class="form-control" id="category">
-                    <option value="주문대기" ${o.ordStatus eq "주문대기"? "selected":"" }>주문대기</option>
-                    <option value="주문완료" ${o.ordStatus eq "주문완료"? "selected":"" }>주문완료</option>
-                    <option value="주문취소" ${o.ordStatus eq "주문취소"? "selected":"" }>주문취소</option>
-                    <option value="배송준비" ${o.ordStatus eq "배송준비"? "selected":"" }>배송준비</option>
-                    <option value="배송중" ${o.ordStatus eq "배송중"? "selected":"" }>배송중</option>
-                    <option value="배송완료" ${o.ordStatus eq "배송완료"? "selected":"" }>배송완료</option>
-                    <option value="취소완료" ${o.ordStatus eq "취소완료"? "selected":"" }>취소완료</option>
+                    <select class="form-control status" id="category">
+	                    <option value="주문대기" ${o.ordStatus eq "주문대기"? "selected":"" }>주문대기</option>
+	                    <option value="주문완료" ${o.ordStatus eq "주문완료"? "selected":"" }>주문완료</option>
+	                    <option value="주문취소" ${o.ordStatus eq "주문취소"? "selected":"" }>주문취소</option>
+	                    <option value="배송준비" ${o.ordStatus eq "배송준비"? "selected":"" }>배송준비</option>
+	                    <option value="배송중" ${o.ordStatus eq "배송중"? "selected":"" }>배송중</option>
+	                    <option value="배송완료" ${o.ordStatus eq "배송완료"? "selected":"" }>배송완료</option>
+	                    <option value="취소완료" ${o.ordStatus eq "취소완료"? "selected":"" }>취소완료</option>
                     </select>
                   </td>
                   <td>
-                    <button type="button" class="btn btn-outline-success">
-                      적용
-                    </button>
+                    <input type="button" value="적용" id="updateShip" class="btn btn-outline-success updateShip" >
+					<%-- <input type="hidden" id= "orderNo" value="${o.orderNo }"/> --%>
+                    
                   </td>
               </tbody>
               </c:forEach>
@@ -200,6 +200,44 @@
         </div>
 	</div>
 </section>
+<script>
+
+
+			
+
+			
+ 		  $(".status").on("change", e=>{
+			let ordStatus=$(e.target).val();
+			//let status=$("#category").val();
+			//let orderNo=$("#orderNo").val();
+			console.log(ordStatus);
+			let orderNo=$(e.target).parent().prev().prev().prev().children().text();
+			console.log(orderNo);
+	 			
+	 		$(".updateShip").on("click",e=>{
+	 				location.replace("${path}/admin/orderShipUpdate?orderNo="+orderNo+"&ordStatus="+ordStatus);
+	 			});
+		
+	 		
+			}) 
+			
+		/* $("#category").change(function(){
+			let status = $("#category").val();
+			let orderNo = $(e.target).parent().prev().prev().prev().children().text();
+			
+			$("#updateShip").click(function(){
+				location.replace("${path}/admin/orderShipUpdate?orderNo="+orderNo+"&status="+status);
+			});
+		});
+			 */
+		
+		
+
+	
+	
+
+			
+</script>
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

@@ -400,6 +400,12 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.selectOrderOne(session, orderNo);
 	}
+
+	@Override
+	public int orderShipUpdate(Order o) {
+		// TODO Auto-generated method stub
+		return dao.orderShipUpdate(session, o);
+	}
 	
 	
 

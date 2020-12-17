@@ -47,4 +47,38 @@ public class OrderAdminController {
 		return mv;
 	}
 	
+	//주문내역에서 배송상태 바꾸기
+	@RequestMapping(value="/admin/orderShipUpdate")
+	public ModelAndView orderShipUpdate(ModelAndView mv, 
+			String ordStatus, String orderNo 
+		) {
+	
+		Order o=new Order();
+		o.setOrderNo(orderNo);
+		o.setOrdStatus(ordStatus);
+
+		int result = service.orderShipUpdate(o);
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		
+		if(result>0) {
+			msg = "배송상태가 수정되었습니다";
+			loc = "/admin/order";
+			icon = "success";
+		}else {
+			msg = "다시 시도해주세요";
+			loc = "/admin/order";
+			icon = "warning";
+		}
+
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon",icon);
+		mv.setViewName("common/msg");
+		
+		return mv;
+	
+	}
+	
 }

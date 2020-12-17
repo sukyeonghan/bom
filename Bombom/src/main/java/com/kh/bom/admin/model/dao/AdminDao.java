@@ -67,11 +67,12 @@ public interface AdminDao {
 	MainBanner selectBannerOne(SqlSession session, String no);//배너한개가져오기
 	int updateBanner(SqlSession session, MainBanner mb);//배너수정하기
 	
-	//관리자
+	//주문
 	List<Order> selectOrderList(SqlSession session, int cPage, int numPerpage);
 	int selectOrderCount(SqlSession session);
 	List<Order> selectOrderDetail(SqlSession session, String orderNo);
 	Order selectOrderOne(SqlSession session, String orderNo);
+	int orderShipUpdate(SqlSession session, Order o);
 
 
 

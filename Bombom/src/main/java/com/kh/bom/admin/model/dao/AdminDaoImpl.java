@@ -297,6 +297,12 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectOrderThumb",orderNo);
 	}
+
+	@Override
+	public int orderShipUpdate(SqlSession session, Order o) {
+		// TODO Auto-generated method stub
+		return session.update("admin.orderShipUpdate", o);
+	}
 	
 	
 	
