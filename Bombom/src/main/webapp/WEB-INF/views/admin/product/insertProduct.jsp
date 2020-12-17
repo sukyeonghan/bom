@@ -216,6 +216,36 @@ $(document).on("click","button[name=delBtn]",function(){
     trHtml.remove();
 });
 
+//옵션내용 유효성 검사-하나만 됨
+$(document).on("focusout","input[name=pdtOptionContent]",function(e){
+    var check=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9%()-_,/ ]*$/;
+    var name=$("input[name=pdtOptionContent]").val();
+
+    if(!check.test(name)){
+           swal("옵션명에 특수문자는 입력할 수 없습니다.");
+           $(e.target).val('');
+           return false;
+       }
+    if(name==''){
+        swal("옵션 내용을 입력해주세요.");
+        return false;
+	}
+});
+
+//옵션가격 유효성 검사
+$(document).on("focusout","input[name=pdtOptionAddprice]",function(e) {
+    var check=/^[-0-9]*$/;
+    if(!check.test($("input[name=pdtOptionAddprice]").val())){
+           swal("옵션 가격에 숫자 외에는 입력하실 수 없습니다.");
+           $(e.target).val('');
+           return false;
+       } 
+    if($("input[name=pdtOptionAddprice]").val()==''){
+        swal("옵션 가격을 입력해주세요.");
+        return false;
+    }
+    
+});
 
 //제품 등록하기 버튼 누르면 실행되는 함수
 function insert(){
@@ -285,39 +315,11 @@ function insert(){
         });
     });
 
-  	//옵션내용 유효성 검사
-  	var val3=$("input[name=pdtOptionContent]").val();
-    if(val3.length>0){
-    	var check=/^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9%()-_,/ ]*$/;
-    	if(!check.test(name)){
-            swal("옵션명에 특수문자는 입력할 수 없습니다.");
-            $(e.target).val('');
-            return false;
-        }
-    }else{
-    	 swal("옵션 내용을 입력해주세요.");
-         return false;
-    }    
-
-    //옵션가격 유효성 검사
-    var val4=$("input[name=pdtOptionAddprice]").val();
-    if(val4.length>0){
-    	var check=/^[-0-9]*$/;
-        if(!check.test(val4)){
-               swal("옵션 가격에 숫자 외에는 입력하실 수 없습니다.");
-               val4="";
-               return false;
-        }
-    }else{
-  	  swal("옵션 가격을 입력해주세요.");
-      return false;
-	}
-
     //제품 썸네일 사진
-    if($("#input1").val()==""){
+     if($("#input1").val()==""){
         swal("대표이미지를 등록해주세요.");
         return false;
-    }
+    } 
     
     //상세 사진 파일 검사
     if($("input[name=detailImg]").val()==""){

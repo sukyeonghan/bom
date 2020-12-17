@@ -1,11 +1,13 @@
 package com.kh.bom.member.model.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.kh.bom.member.model.vo.Alarm;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.point.model.vo.Point;
 
@@ -77,9 +79,17 @@ public class MemberDaoImpl implements MemberDao {
 		return session.update("member.updateMemberPw",m);
 	}
 
+	@Override
+	public List<Alarm> selectAlarmList(SqlSession session, String memNo) {
+		// TODO Auto-generated method stub
+		return session.selectList("member.selectAlarmAll",memNo);
+	}
 	
-	
-	
+	@Override
+	public int countAlarm(SqlSession session, String memNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.countAlarm",memNo);
+	}
 	
 
 	

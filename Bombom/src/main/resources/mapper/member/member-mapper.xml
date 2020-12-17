@@ -14,6 +14,13 @@
 		<result property="memPoint" column="mem_point"/>
 	
 	</resultMap>
+	<resultMap type="alarm" id="alarmMap">
+		<result property="arlarmNo" column="alarm_no"/>
+		<result property="receiverNo" column="receiver_no"/>
+		<result property="message" column="message"/>
+		<result property="alarmDate" column="alarm_date"/>
+	</resultMap>
+	
 	<select id="selectMemberOne" parameterType="string" resultMap="memberMap">
 		SELECT * FROM MEMBER WHERE MEM_NO=#{memNo}
 	</select>
@@ -76,4 +83,13 @@
 		UPDATE MEMBER SET MEM_PWD=#{memPwd} WHERE MEM_EMAIL=#{memEmail}
 	</update>
 	
+	<!-- 알림 리스트 가져오기 -->
+	<select id="selectAlarmAll" parameterType="string" resultMap="alarmMap">
+		SELECT * FROM ALARM WHERE RECEIVER_NO=#{receiverNo} ORDER BY ALARM_DATE DESC
+   	</select>
+   	
+   	<!-- 알림 개수 세기 -->
+   	<select id="countAlarm" parameterType="string" resultType="_int" >
+		SELECT COUNT(*) FROM ALARM WHERE RECEIVER_NO=#{receiverNo}
+   	</select>
 </mapper>
