@@ -56,10 +56,10 @@ public class EchoHandler extends TextWebSocketHandler{
 		String msg=message.getPayload();
 		
 		//모든 유저에게 보낸다 - 브로드 캐스팅
-		for (WebSocketSession sess : sessionList) {
-			sess.sendMessage(new TextMessage(memNo + ": " +  message.getPayload()));
-		}
-		
+//		for (WebSocketSession sess : sessionList) {
+//			sess.sendMessage(new TextMessage(memNo + ": " +  message.getPayload()));
+//		}
+//		
 		if(msg != null) {
 			
 			String[] strs=msg.split(",");
@@ -176,6 +176,7 @@ public class EchoHandler extends TextWebSocketHandler{
 		//System.out.println("afterConnectionClosed " + session + ", " + status);
 		
 		System.out.println("연결 해제");
+		sessionList.remove(session.getId());
 		user.remove(session);
 		/*
 		 * userSessionsMap.remove(session.getId()); sessions.remove(session);
