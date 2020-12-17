@@ -68,6 +68,42 @@
 		<result property="bannerThumb" column="banner_thumb" />
 		<result property="pdtName" column="pdt_name" />
 	</resultMap>
+	
+	<resultMap type="order" id="orderMap">
+		<result property="orderNo" column="order_no"/>
+		<result property="memNo" column="mem_no"/>
+		<result property="ordAmount" column="ord_amount"/>
+		<result property="ordUsePoint" column="ord_use_point"/>
+		<result property="ordZipcode" column="ord_zipcode"/>
+		<result property="ordAddr" column="ord_addr"/>
+		<result property="ordDetailAddr" column="ord_detail_addr"/>
+		<result property="ordExtraAddr" column="ord_extra_addr"/>
+		<result property="ordTrack" column="ord_track"/>
+		<result property="ordMemo" column="ord_memo"/>
+		<result property="ordDeliPrice" column="ord_deli_price"/>
+		<result property="ordConfirmYn" column="ord_confirm_yn"/>
+		<result property="ordStatus" column="ord_status"/>
+		<result property="ordCancel" column="ord_cancel"/>
+		<result property="ordDate" column="ord_date"/>
+		<result property="ordOname" column="ord_oname"/>
+		<result property="ordOphone" column="ord_ophone"/>
+		<result property="ordRname" column="ord_rname"/>
+		<result property="ordRphone" column="ord_rphone"/>
+		<result property="pdtThumbImage" column="thumbs"/>
+		<result property="pdtName" column="pdt_name"/>
+		<result property="pdtOptionContent" column="pdt_option_content"/>
+		<result property="inorderQty" column="inorder_qty"/>
+		<result property="pdtPrice" column="pdt_price"/>
+		<result property="memEmail" column="mem_email"/>
+		<result property="pdtOptionAddprice" column="pdt_option_addprice"/>
+	</resultMap>
+	
+	<resultMap type="inorder" id="inorderMap">
+		<result property="orderNo" column="order_no"/>
+		<result property="pdtNo" column="pdt_no"/>
+		<result property="pdtOptionNo" column="pdt_option_no"/>
+		<result property="inorderQty" column="inorder_qty"/>
+	</resultMap>
 
 	<select id="selectEvent" resultMap="eventMap">
 		SELECT * FROM EVENT
@@ -258,6 +294,7 @@
 		</choose>
 		ORDER BY PDT_DATE DESC
 	</select>
+	<!-- 옵션 상태 변경 -->
 	<update id="updateOptStatus" parameterType="map">
 		<if test="status eq '품절'">
 			UPDATE PRODUCT_OPTION SET 
@@ -270,6 +307,7 @@
 
 		
 	</update>
+
 
 
 
@@ -396,5 +434,32 @@
 		(SELECT * FROM QNA WHERE QNA_YN='N' ORDER BY QNA_DATE ASC) Q ORDER BY
 		ROWNUM DESC
 	</select>
+	
+	<!--주문관리  -->
+	<select id="selectOrderList" resultMap="orderMap">
+		  SELECT * FROM "ORDER"
+	</select>
+	
+	<select id="selectOrderCount" resultType="_int">
+		SELECT COUNT(*) FROM "ORDER"
+	</select>
 
+	<select id="selectOrderDetail" parameterType="string" resultMap="orderMap">
+		 SELECT DISTINCT P.PDT_PRICE, P.PDT_NAME,PDT_OPTION_CONTENT, PDT_OPTION_ADDPRICE, INORDER_QTY,
+         LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY TH.pdt_no_ref) OVER(PARTITION BY TH.PDT_NO_REF)AS THUMBS
+         FROM "ORDER" O
+		 LEFT JOIN MEMBER M ON (M.MEM_NO=O.MEM_NO)
+		 LEFT JOIN INORDER I ON (I.ORDER_NO=O.ORDER_NO)
+         LEFT JOIN PRODUCT P ON (P.PDT_NO=I.PDT_NO)
+         LEFT JOIN PRODUCT_OPTION OP ON (OP.PDT_OPTION_NO=I.PDT_OPTION_NO)
+         LEFT JOIN PRODUCT_THUMB TH ON (TH.PDT_NO_REF=I.PDT_NO)
+         WHERE O.ORDER_NO=#{ordNo}
+	</select>
+	
+	<select id="selectOrderThumb" parameterType="string" resultMap="orderMap">
+		SELECT ORDER_NO, ORD_AMOUNT, ORD_USE_POINT, ORD_ZIPCODE, ORD_ADDR, ORD_DETAIL_ADDR, ORD_EXTRA_ADDR, ORD_TRACK, ORD_MEMO, ORD_CONFIRM_YN, ORD_STATUS, ORD_CANCEL, ORD_DATE, ORD_ONAME, ORD_OPHONE, ORD_RNAME, ORD_RPHONE
+         FROM "ORDER" O
+		 LEFT JOIN MEMBER M ON (M.MEM_NO=O.MEM_NO)
+		 WHERE ORDER_NO=#{ordNo}
+	</select>
 </mapper>

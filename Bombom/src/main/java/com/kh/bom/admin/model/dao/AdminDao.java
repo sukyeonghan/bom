@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.kh.bom.admin.model.vo.Event;
 import com.kh.bom.admin.model.vo.MainBanner;
 import com.kh.bom.member.model.vo.Member;
+import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.product.model.vo.ProductThumb;
@@ -65,4 +66,13 @@ public interface AdminDao {
 	int deleteBanner(SqlSession session, String no);//배너삭제하기
 	MainBanner selectBannerOne(SqlSession session, String no);//배너한개가져오기
 	int updateBanner(SqlSession session, MainBanner mb);//배너수정하기
+	
+	//관리자
+	List<Order> selectOrderList(SqlSession session, int cPage, int numPerpage);
+	int selectOrderCount(SqlSession session);
+	List<Order> selectOrderDetail(SqlSession session, String orderNo);
+	Order selectOrderOne(SqlSession session, String orderNo);
+
+
+
 }

@@ -21,6 +21,9 @@ public class Community {
 	private String cmTitle;
 	private String cmContent;
 	private String cmThumbnail;
+	private String memNick;
+    private String memPro;
+    private String memNo;
 	
  
 }
