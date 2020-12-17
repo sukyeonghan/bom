@@ -17,7 +17,7 @@ import com.kh.bom.member.model.vo.Member;
 
 public class EchoHandler extends TextWebSocketHandler{
 	//로그인 한 전체
-	//List<WebSocketSession> sessions = new ArrayList<WebSocketSession>();
+	List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
 	// 1대1
 	Map<String, WebSocketSession> user = new HashMap<String, WebSocketSession>();
 		
@@ -25,11 +25,14 @@ public class EchoHandler extends TextWebSocketHandler{
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		System.out.println("시작!");
-		//sessions.add(session);
+		sessionList.add(session);
 		String memNo=getMemberNo(session);
 		System.out.println(memNo);
 		if(memNo!=null) {
 			user.put(memNo,session);
+			//연결된 사용자의 해당 아이디가 키값으로 세션이 들어감
+			//로그인한 멤버: 자신의 아이디
+			//로그인안한 멤버: 세션아이디
 		}
 		System.out.println(user);
 		/*
@@ -44,10 +47,7 @@ public class EchoHandler extends TextWebSocketHandler{
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 //		String senderEmail = getEmail(session);
-		//모든 유저에게 보낸다 - 브로드 캐스팅
-//		for (WebSocketSession sess : sessions) {
-//			sess.sendMessage(new TextMessage(senderNickname + ": " +  message.getPayload()));
-//		}
+
 		
 		//protocol : cmd , 댓글작성자, 게시글 작성자 , seq (reply , user2 , user1 , 12)
 		System.out.println("메세지");
@@ -55,26 +55,64 @@ public class EchoHandler extends TextWebSocketHandler{
 		String memNo=getMemberNo(session);
 		String msg=message.getPayload();
 		
+		//모든 유저에게 보낸다 - 브로드 캐스팅
+		for (WebSocketSession sess : sessionList) {
+			sess.sendMessage(new TextMessage(memNo + ": " +  message.getPayload()));
+		}
+		
 		if(msg != null) {
 			
 			String[] strs=msg.split(",");
 			System.out.println(strs.toString());
 			
-			if(strs!= null && strs.length==3) {
+			if(strs!= null && strs.length==6) {
 				String cmd = strs[0];
-				String receiver = strs[1];//회원닉네임
-				String receiverNo = strs[2];//회원번호
-				String bascket = strs[3];//매개변수갑
+				String caller=strs[1];//보낸사람 닉네임
+				String callerNo=strs[2];//보낸사람 번로
+				String receiver = strs[3];//회원닉네임
+				String receiverNo = strs[4];//회원번호
+				String bascket = strs[5];//매개변수값
 				
-				WebSocketSession loginSession = user.get(memNo);
+				WebSocketSession receiverSession = user.get(memNo);
 				TextMessage tmpMsg=null;
-				if("reply".equals(cmd)) {
+				if("adminYn".equals(cmd)&&receiverSession!=null) {
+					//관리자 여부 메세지
 					if(bascket=="Y") {
 						tmpMsg= new TextMessage("축하드립니다.관리자가 되었습니다.");
 					}else {
 						tmpMsg= new TextMessage("관리자 권한이 회수되었습니다.");
 					}
-					loginSession.sendMessage(tmpMsg);
+					
+				}else if("delivery".equals(cmd)&&receiverSession!=null) {
+					//배송시작 메세지
+					tmpMsg=new TextMessage("주문하신 상품이 배송 시작되었습니다.");
+					
+				}else if("review".equals(cmd)&&receiverSession!=null) {
+					//리뷰 작성 촉구 메세지
+					tmpMsg=new TextMessage("구매확정되었습니다. 리뷰를 작성해주세요.");
+					
+				}else if("oneQna".equals(cmd)&&receiverSession!=null) {
+					//1:1문의 답변완료 메세지
+					tmpMsg=new TextMessage("1:1문의글에 답변이 등록되었습니다.");
+				}else if("productQna".equals(cmd)&&receiverSession!=null) {
+					//상품문의 답변완료 메세지
+					tmpMsg=new TextMessage("상품문의글에 답변이 등록되었습니다.");
+				}else if("communityOut".equals(cmd)&&receiverSession!=null) {
+					//커뮤니티 권한 박탈
+					tmpMsg=new TextMessage("커뮤니티 권한이 박탈되었습니다.");
+				}else if("communityLike".equals(cmd)&&receiverSession!=null) {
+					//커뮤니티 게시글 좋아요
+					tmpMsg=new TextMessage(caller+"님이 회원님의 '"+bascket+"' 글을 좋아합니다.");
+				}else if("communityComment".equals(cmd)&&receiverSession!=null) {
+					//커뮤니티 댓글 여부 
+					tmpMsg=new TextMessage(caller+"님이 회원님의  '"+bascket+"' 글에 댓글을 달았습니다.");
+				}else if("stamp".equals(cmd)&&receiverSession!=null) {
+					//스탬프 10개 달성 여부 
+					tmpMsg=new TextMessage("스탬프 10개 달성하였습니다. 선물을 받으러 가세요!");
+				}
+					
+				receiverSession.sendMessage(tmpMsg);
+				
 				
 				/*}else if("follow".equals(cmd) && boardWriterSession != null) {
 					TextMessage tmpMsg = new TextMessage(caller + "님이 " + receiver +
@@ -130,7 +168,7 @@ public class EchoHandler extends TextWebSocketHandler{
 		 * meetingboard_seq +"&pseq="+ participation_seq +"'>신청서 보기</a>");
 		 * mentorSession.sendMessage(tmpMsg); } } }
 		 */
-	}
+	
 	
 	//연결 해제될때
 	@Override
@@ -164,8 +202,10 @@ public class EchoHandler extends TextWebSocketHandler{
 			Member m=(Member)httpSession.get("loginMember");
 			memNo=m.getMemNo();
 			System.out.println("getMemberNo : "+memNo);
+			return memNo;
+		}else {
+			return session.getId();
 		}
-		
-		return memNo;
+
 	}
 }

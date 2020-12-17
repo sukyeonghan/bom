@@ -86,6 +86,29 @@ p.p-info {
 	left: 6px;
 	color: #45A663;
 }
+
+/* 알림 팝업창 */
+
+.listPop {
+	position: absolute;
+	right: 60px;
+	top: 30px;
+	z-index: 9999;
+}
+
+.listDisNone {
+	display: none;
+}
+
+#popupContent {
+    width: 250px;
+    height: 300px;
+    background: white;
+    border: 1.5px solid #45A663;
+    border-radius: 10px;
+    padding: 5%;
+}
+
 </style>
 
 </head>
@@ -127,6 +150,14 @@ p.p-info {
 										d="M4 5h18l-2.6 10.5a2 2 0 0 1-2 1.5H8.6a2 2 0 0 1-2-1.5L4 5zm4 15.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0zm7 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0z"></path>
                     				<path d="M1 2h3v3"></path></svg>
 						</a></li>
+						<!-- 알림 리스트 팝업 -->
+						<div class="listPop">										
+							<div id="popupContent">						
+
+					
+							</div>											
+						</div>
+						
 					</c:if>
 					<li class="nav-item"><a class="nav-link" data-toggle="modal"
 						data-target="#searchModal"> <svg class="header_icon"
@@ -709,18 +740,37 @@ function fn_signUp(){
  	   }
 	})
 	
-  var sock = new SockJS('${path}/replyEcho');
- sock.onopen = function() {
-     console.log('open');
-     sock.send('test');
- };
+	
+	//웹소켓 관련 스크립트
+	var sock = null;
+		
+	$(document).ready( function(){
+		connectWS();
+		
+	});
+	
+	function connectWS(){
+		
+		sock = new SockJS('${path}/replyEcho');
+		
+		 sock.onopen = function() {
+		     console.log('open');
+		     sock.send('test');
+		 };
+	
 
- sock.onmessage = function(e) {
-     console.log('message', e.data);
-     sock.close();
- };
+	}
+	
+	 sock.onmessage = function(e) {
+		 
+	     console.log('message', e.data);
+	     sock.close();
+	 };
 
- sock.onclose = function() {
-     console.log('close');
- };
+	 sock.onclose = function() {
+	     console.log('close');
+	 };
+	 
+	 
+
  </script>
