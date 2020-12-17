@@ -90,8 +90,14 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("member.countAlarm",memNo);
 	}
-	
 
+	@Override
+	public int insertAlarm(SqlSession session, Alarm a) {
+		// TODO Auto-generated method stub
+		return session.insert("member.insertAlarm",a);
+	}
+	
+	
 	
 
 	

@@ -317,4 +317,12 @@ public class memberController {
 		return service.countAlarm(memNo);
 	}
 	
+	//알림저장
+	@ResponseBody
+	@RequestMapping("/member/insertAlarm")
+	public boolean insertAlarm(Alarm a) {
+		int result=service.insertAlarm(a);
+		return result>0?true:false;
+	}
+	
 }

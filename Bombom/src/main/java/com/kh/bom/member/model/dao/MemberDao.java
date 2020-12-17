@@ -32,4 +32,6 @@ public interface MemberDao {
 	List<Alarm> selectAlarmList(SqlSession session,String memNo);
 	
 	int countAlarm(SqlSession session,String memNo);
+
+	int insertAlarm(SqlSession session,Alarm a);
 }

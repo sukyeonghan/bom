@@ -89,6 +89,12 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.countAlarm(session,memNo);
 	}
+
+	@Override
+	public int insertAlarm(Alarm a) {
+		// TODO Auto-generated method stub
+		return dao.insertAlarm(session,a);
+	}
 	
 	
 	
