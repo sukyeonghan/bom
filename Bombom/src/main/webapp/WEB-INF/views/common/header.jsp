@@ -36,6 +36,7 @@
 
 <link rel="stylesheet" href="${path }/resources/css/common/allPage.css">
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 
 <style>
 /*모달차 내 로고  */
@@ -87,7 +88,35 @@ p.p-info {
 	color: #45A663;
 }
 
-/* 알림 팝업창 */
+
+/*알림*/
+#alarm-div{
+	position: relative;
+	width: 30px;	
+	height: 30px;}
+#alarm{
+	position:absolute;
+	font-size: 20px;
+    padding-top: 8px;
+    color: 45A663;
+}
+#alarm-countbox{
+	position:absolute;
+	top:2px;
+	right: 3px;
+	background-color: red;
+	border:none;
+	border-radius: 100%;
+	width: 15px;	
+	height: 15px;	
+	color: white;
+	font-size: 13px;
+	text-align: center;
+	font-weight:bolder;
+	line-height:15px;
+	/* display:none; */
+}
+/* 알림 리스트 팝업창 */
 
 .listPop {
 	position: absolute;
@@ -141,6 +170,12 @@ p.p-info {
 							onclick="location.replace('${path}/member/logout');">로그아웃</a></li>
 						<li class="nav-item"><a class="nav-link"
 							href="${path }/mypage/orderStatus">마이페이지</a></li>
+						<li class="nav-item">
+							<div id="alarm-div">
+							<i class="far fa-bell" id="alarm"></i>
+							<div id="alarm-countbox">0</div>
+							</div>
+						</li>
 						<li class="nav-item"><a class="nav-link"
 							href="${path }/order/basket?memNo=${loginMember.memNo}"> <svg
 									class="header_icon" width="20" height="20" viewBox="0 0 24 24"
