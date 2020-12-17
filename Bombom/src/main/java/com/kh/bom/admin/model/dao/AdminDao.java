@@ -38,7 +38,7 @@ public interface AdminDao {
 	Product checkOption(SqlSession session,String pdtNo);
 	int selectPdtName(SqlSession session,String pdtName);
 	int selectPdtName(SqlSession session,String pdtName,String pdtNo);
-	
+	int updateOptStatus(SqlSession session,String status,String pdtNo);
 	int deleteThumb(SqlSession session,String pdtNo);
 	int deleteOption(SqlSession session,String pdtNo);
 	
@@ -70,6 +70,7 @@ public interface AdminDao {
 	//관리자
 	List<Order> selectOrderList(SqlSession session, int cPage, int numPerpage);
 	int selectOrderCount(SqlSession session);
+	List<Order> selectOrderDetail(SqlSession session, String orderNo);
 	Order selectOrderOne(SqlSession session, String orderNo);
 
 

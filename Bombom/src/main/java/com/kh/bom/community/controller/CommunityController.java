@@ -2,6 +2,11 @@ package com.kh.bom.community.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.bom.community.model.vo.BoardReply;
 import com.kh.bom.community.model.vo.Community;
 import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.community.model.service.CommunityService;
@@ -50,17 +58,20 @@ public class CommunityController {
 	// community 등록
 	// 클라이언트가 보낸 파일 받기!
 	@RequestMapping("/community/insertCommunity")
-	public ModelAndView insertCommunity(Community community, ModelAndView mv,
-			@RequestParam(value = "upFile", required = false) MultipartFile upFile, HttpSession session) {
+	public ModelAndView insertCommunity(Community community, ModelAndView mv, MultipartFile upFile,
+			HttpSession session) {
 
 		System.out.println(community);
 		System.out.println(upFile);
-		
-		String on = upFile.getOriginalFilename(); //원본 파일 명
-		
-		System.out.println(on);
-		
-		
+
+		String on = upFile.getOriginalFilename(); // 원본 파일
+		String ext = on.substring(on.lastIndexOf(".") + 1);
+
+		// 리네임규칙
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+		int rndValue = (int) (Math.random() * 10000);
+		String reName = sdf.format(System.currentTimeMillis()) + "_" + rndValue + "." + ext;
+
 		// 클라이언트가 바이너리파일로 보낸 데이터를 MultipartFile 객체로 대입됨.
 		// getName(), getOriginalFilename(), getSize(), transferTo()
 
@@ -73,11 +84,11 @@ public class CommunityController {
 
 		if (upFile != null) {
 			try {
-				upFile.transferTo(new File(path + "/" + on));
+				upFile.transferTo(new File(path + File.separator + reName)); // 슬러시가 안될때
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-              community.setCmThumbnail(on);
+			community.setCmThumbnail(reName);
 		}
 
 		int result = service.insertCommunity(community);
@@ -103,9 +114,10 @@ public class CommunityController {
 
 	// 게시글 상세보기
 	@RequestMapping("/community/communityView.do")
-	public ModelAndView commmunityView(String cmNo, ModelAndView mv) {
-		mv.addObject("community", service.communityView(cmNo));
+	public ModelAndView commmunityView(String cmNo, ModelAndView mv, @RequestParam Map<String, Object> paramMap) {
+
 		mv.addObject("community", service.selectCommunityOne(cmNo));
+		mv.addObject("replyList", service.getReplyList(paramMap));
 		mv.setViewName("community/communityView");
 
 		return mv;
@@ -163,4 +175,103 @@ public class CommunityController {
 		return mv;
 
 	}
+
+	// 댓글 등록 Ajax호출
+
+	@RequestMapping(value = "/board/reply/save", method = RequestMethod.POST)
+	@ResponseBody
+	public Object boardReplySave(@RequestParam Map<String, Object> objParams) {
+
+		System.out.println("매개변수:" + objParams);
+		// 리턴값
+		Map<String, Object> retVal = new HashMap<String, Object>();
+
+		// 정보입력
+		int result = service.regReply(objParams);
+
+		System.out.println("결과값 " + result);
+
+		if (result > 0) {
+			String number = service.selectSeqReply();
+			BoardReply rp = service.selectBoardReplyOne(number);
+
+			retVal.put("code", "OK");
+			retVal.put("board_id", rp.getBoard_id());
+			retVal.put("parent_id", rp.getParent_id());
+			retVal.put("depth", rp.getDepth());
+			retVal.put("reply_writer", rp.getReply_writer());
+			retVal.put("mem_nick", rp.getMem_nick());
+			retVal.put("mem_pro", rp.getMem_pro());
+			retVal.put("register_datetime", rp.getRegister_datetime());
+			retVal.put("reply_content", rp.getReply_content());
+			retVal.put("message", "등록에 성공 하였습니다.");
+		} else {
+			retVal.put("code", "FAIL");
+			retVal.put("message", "등록에 실패 하였습니다.");
+		}
+
+		return retVal;
+
+	}
+
+	// AJAX 호출 (댓글 삭제)
+	@RequestMapping(value = "/board/reply/del", method = RequestMethod.POST)
+	@ResponseBody
+	public Object boardReplyDel(@RequestParam Map<String, Object> paramMap) {
+
+		// 리턴값
+		Map<String, Object> retVal = new HashMap<String, Object>();
+
+		// 정보입력
+		int result = service.delReply(paramMap);
+
+		if (result > 0) {
+			retVal.put("code", "OK");
+		} else {
+			retVal.put("code", "FAIL");
+			retVal.put("message", "삭제에 실패했습니다. 패스워드를 확인해주세요.");
+		}
+
+		return retVal;
+
+	}
+
+	// AJAX 호출 (댓글 패스워드 확인)
+	@RequestMapping(value = "/board/reply/check", method = RequestMethod.POST)
+	@ResponseBody
+	public Object boardReplyCheck(@RequestParam Map<String, Object> paramMap) {
+
+		// 리턴값
+		Map<String, Object> retVal = new HashMap<String, Object>();
+
+		return retVal;
+
+	}
+
+	// AJAX 호출 (댓글 수정)
+	@RequestMapping(value = "/board/reply/update", method = RequestMethod.POST)
+	@ResponseBody
+	public Object boardReplyUpdate(@RequestParam Map<String, Object> paramMap) {
+
+		// 리턴값
+		Map<String, Object> retVal = new HashMap<String, Object>();
+
+		System.out.println(paramMap);
+
+		// 정보입력
+		boolean check = service.updateReply(paramMap);
+
+		if (check) {
+			retVal.put("code", "OK");
+			retVal.put("reply_id", paramMap.get("reply_id"));
+			retVal.put("message", "수정에 성공 하였습니다.");
+		} else {
+			retVal.put("code", "FAIL");
+			retVal.put("message", "수정에 실패 하였습니다.");
+		}
+
+		return retVal;
+
+	}
+
 }

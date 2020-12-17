@@ -13,22 +13,28 @@
 	</resultMap>
 	
 	<insert id="insertReview" parameterType="review">
-		INSERT INTO REVIEW VALUES('R'||SEQ_REV_NO.NEXTVAL,'P16',#{memNo},NULL,
+		INSERT INTO REVIEW VALUES('R'||SEQ_REV_NO.NEXTVAL,#{pdtNo},#{memNo},NULL,
 		#{revScore},#{revContent},
 		<if test="revImage!=null">#{revImage},</if>
 		<if test="revImage==null">null,</if>
 		DEFAULT)
 	</insert>
 	
-	<select id="reviewList" resultMap="reviewMap">
+	<select id="reviewList" parameterType="string" resultMap="reviewMap">
 		SELECT R.*, M.MEM_NICK AS MEMNICK, M.MEM_PRO AS MEMPRO
 		FROM REVIEW R
-		JOIN MEMBER M ON M.MEM_NO=R.MEM_NO 
+		JOIN MEMBER M ON M.MEM_NO=R.MEM_NO
+		WHERE PDT_NO=#{pdtNo}
 		ORDER BY REV_DATE DESC
 	</select>
 	
-	<select id="reviewCount" resultType="_int">
-		SELECT COUNT(*) FROM REVIEW
+	<select id="reviewCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM REVIEW WHERE PDT_NO=#{pdtNo}
+	</select>
+	
+	<!-- 구매평 평균 -->
+	<select id="reviewAvg" parameterType="string" resultType="string">
+		SELECT AVG(REV_SCORE) FROM REVIEW WHERE PDT_NO=#{pdtNo}
 	</select>
 
 	<delete id="deleteReview" parameterType="string">

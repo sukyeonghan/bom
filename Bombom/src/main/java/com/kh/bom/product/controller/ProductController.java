@@ -18,7 +18,9 @@ import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.service.ProductService;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.review.model.vo.Review;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -27,7 +29,7 @@ public class ProductController {
 
 	@Autowired
 	private ProductService service;
-	
+
 	//전체제품 페이지
 	@RequestMapping("/product/productAll") 
 	public ModelAndView allProduct(ModelAndView m,
@@ -38,6 +40,8 @@ public class ProductController {
 		String cate="전체제품";
 		int count=service.productCount(cate);
 		List<Product> newList=service.selectNewCateList(cate);
+		//찜 횟수
+		//int zzimCount=service.zzimCount();
 		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,cate));
 		m.addObject("pageBar",ProPageBarFactory.getPageBar(count, cPage, numPerpage, "productAll"));
 		m.addObject("cPage",cPage);
@@ -224,6 +228,8 @@ public class ProductController {
 		
 		//상품불러오기
 		Product product = service.selectProductOne(pdtNo);
+		//상품옵션불러오기
+		List<ProductOption> optionlist = service.selectpdtOption(pdtNo);
 		
 		//상품문의
 		//로그인 세션에서 현재 사용자 id값 가져오기
@@ -250,18 +256,22 @@ public class ProductController {
 			}
 		}
 		//상품문의 갯수
-		int totalData = service.inquiryCount();
+		int totalData = service.inquiryCount(pdtNo);
 		
 		//구매평
-		List<Review> reviewlist = service.reviewList(cPage, numPerpage);
+		List<Review> reviewlist = service.reviewList(pdtNo,cPage, numPerpage);
 		//구매평 갯수
-		int reviewCount = service.reviewCount(); 
+		int reviewCount = service.reviewCount(pdtNo);
+		//구매평 별점평균
+		String reviewAvg = service.reviewAvg(pdtNo);
 
 		mv.addObject("product", product);
+		mv.addObject("optionlist", optionlist);
 		mv.addObject("list", list);
 		mv.addObject("count", totalData);
 		mv.addObject("reviewlist", reviewlist);
 		mv.addObject("reviewCount", reviewCount);
+		mv.addObject("reviewAvg", reviewAvg);
 		mv.addObject("cPage", cPage);
 		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax"));
 		mv.setViewName("product/productOne");
@@ -273,7 +283,7 @@ public class ProductController {
 	@RequestMapping("/product/productOneAjax") 
 	@ResponseBody
 	public ModelAndView productOneAjax(ModelAndView mv, 
-			@RequestParam("pdtNo") String pdtNo,
+			String pdtNo,
 			int cPage,
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage,
 			HttpSession session) {
@@ -302,7 +312,7 @@ public class ProductController {
 		}
 		
 		mv.addObject("list", list);
-		int totalData = service.inquiryCount();
+		int totalData = service.inquiryCount(pdtNo);
 		mv.addObject("cPage", cPage);
 		mv.addObject("pageBar", AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax"));
 		mv.setViewName("product/productOneAjax");
@@ -310,7 +320,6 @@ public class ProductController {
 		return mv; 
 	 
 	}
-	
-	
+
 	
 }
