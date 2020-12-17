@@ -496,7 +496,7 @@ textarea.answer {
                     	</c:if>
                     </c:if>
                     <div class="information size-mid">배송비 2,500원(50,000원이상 무료배송) | 도서산간 배송비 추가</div>
-                    ${optionlist}
+                    <%-- ${optionlist} --%>
                     <hr>
                     
                     <!-- 1.기본선택창:옵션이 없을 경우 나올 화면 -->
@@ -531,7 +531,7 @@ textarea.answer {
                     <!-- 2.옵션선택창:옵션이 있을 경우 반드시 선택해야함 -->
                     <c:if test="${not empty optionlist }">
                     <div class="information">
-                    	<div class="optionChoice">
+                    	<%-- <div class="optionChoice">
                     		<div class="select">
                     			<span class="size-mid">옵션선택</span>
                     		</div>
@@ -541,28 +541,99 @@ textarea.answer {
                     			<li id="${vs.count}" value="${opt.pdtOptionAddprice}" onClick="optionPrice(this)">${opt.pdtOptionContent}&nbsp;&nbsp;+<fmt:formatNumber value="${opt.pdtOptionAddprice}" pattern="#,###"/></li>
                     		</c:forEach>
                     		</ul> 
-                    	</div>
+                    	</div> --%>
+                    	<select class="form-control" id="optionSelect" style="height:45px;">
+                    		<option selected disabled>옵션선택</option>
+                    		<c:forEach items="${optionlist}" var="opt" varStatus="vs">
+                    			<option value="${opt.pdtOptionContent}" value2="${opt.pdtOptionAddprice}">${opt.pdtOptionContent}&nbsp;&nbsp;+${opt.pdtOptionAddprice}</option>
+                    		</c:forEach>	
+                    	</select>
                     </div>
-                    <div class="information" id="optionView" style="padding-bottom:10px;display:none;">
+                    <div class="information" id="optionView" style="padding-bottom:10px;">
 	                    	<div id="info_count" style="border-radius:4px;">
-	                    		<div class="information" id="optionCheck" style="margin:10px;">옵션선택확인</div>
+	                    		<div class="information" style="margin:10px;">
+	                    			<span id="optionCheck"></span>
+	                    			<span id="optionClose" style="float:right;cursor:pointer">X</span>
+	                    		</div>
 	                    		<div class="inforamtion row">
 	                    			<div class="col" style="margin-left:10px;">
-	                    				<input type="button" class="input_count" value="-" id="minus" onclick="minus();">
+	                    				<!-- <input type="button" class="input_count" value="-" id="minus">
 	                    				<input type="text" class="input_count2" value="1" id="count" style="width:40px; text-align:center;">
-	                    				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
-	                    			</div>
+	                    				<input type="button" class="input_count" value="+" id="plus"> -->
+								        <table>
+								        <tr style="text-align:center;">
+										    <td>수량</td>
+										    <td class="bseq_ea">7</td>
+										    <td>
+										        <button type="button" id="minus" onclick="fnCalCount('m', this);">-</button>
+										        <input type="text" name="pop_out" value="0" readonly="readonly" style="text-align:center;"/>
+										        <button type ="button" onclick="fnCalCount('p',this);">+</button>
+										    </td>
+										</tr>
+										</table>
+	
+
+									</div>
+									
+									<script>
+				                  //수량버튼 
+				                   function fnCalCount(type, ths){
+									    var $input = $(ths).parents("td").find("input[name='pop_out']");
+									    var tCount = Number($input.val());
+									    //var tEqCount = Number($(ths).parents("tr").find("td.bseq_ea").html());
+									    var qty = 0;
+									    
+									    if(type=='p'){
+									       $input.val(Number(tCount)+1);
+											qty = tCount+1;
+									    }else{
+									       if(tCount>1){
+									    	   $input.val(Number(tCount)-1);
+									    	   qty = tCount-1;
+									       }else if(tCount==1){
+									    	   $input.val(Number(tCount));
+									    	   qty = 1;
+									    	   
+									    	   $("#minus").attr("disabled",true);
+									    	   
+									    	  
+									    	   
+									       }
+									       qty = tCount-1;
+									    }
+										console.log(qty);
+									    
+									    
+									}
+				                  
+				                  
+				                  
+				                    
+				                    $("#optionClose").click(function(){
+				                		$("#optionView").css("display","none");
+				                	});
+				                    
+				                    /*  $("#optionSelect").change(function(){
+				         			if($("#optionView").css("display")=="none"){
+				         				$("#optionView").css("display","");
+				         			} */
+				                    
+				                    </script>
+									
+									
 	                    			<div class="col-3">
 	                    			<!-- 원래가격 -->
 	                    				<c:if test="${empty product.eventNoRef}">
 		                    				<input type="text" value="${product.pdtPrice}" id="oriPrice" hidden="hidden"/>
 		                    				<input type="text" value="${product.pdtPrice}" id="totalPrice" hidden="hidden"/>
+		                    				<input type="text" id="optionPrice" />
 		                    				<span id="viewPrice" style="width:60px;text-align:right; border:none;">${product.pdtPrice}</span>원
 	                    				</c:if>
 	                    			<!-- 세일가격 -->
 	                    				<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
 	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="oriPrice" hidden="hidden"/>
 	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="totalPrice" hidden="hidden"/>
+	                    					<input type="text" id="optionPrice" />
 	                    					<span id="viewPrice" style="width:60px;text- align:right; border:none;"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
 	                    				</c:if>
 	                    			</div>
@@ -571,28 +642,84 @@ textarea.answer {
 	                    </div>
                     </c:if> 
                     
-                    <script>
-                    	//옵션선택 시 수량계산 창 나옴
-                    	function optionPrice(option){
+                    
+                    
+                    
+                    
+                    	<!-- /* var count = 1;	
+                    
+                    	if("#plus").click(function(){
+                    		count = ("#count").val();
                     		
-                    		var id = option.id;
-                    		var addPrice = option.value;
-                    		console.log(id);
-                    	}
-                    	
+                    	});
+                     */
+                    
+                    	//옵션선택 시 수량계산 창 나옴
                     	/* $(function(){
-                    		$(".dropdown-menu li").click(function(){
-                    			var oriPrice = document.getElementById("oriPrice").value;
-                    			var optionPrice = document.getElementById($(this)).value;
+                    		$("#optionSelect").change(function(){
                     			if($("#optionView").css("display")=="none"){
-                        			$("#optionView").css("display","");
-                        			$("#viewPrice").text(oriPrice+optionPrice);
-                        		}
-                    			console.log($(this).attr("id"));
-                        		console.log($(this).attr("value"));
+                    				$("#optionView").css("display","");
+                    			}
+                    			
+                    			var optionPrice = $("#optionPrice").val();
+                    			
+                    			//선택된 옵션 확인창에 넣기
+                    			/* var content = $("#optionSelect").val(); //옵션명
+                    			var price = $("#optionSelect > option:selected").attr("value2"); //옵션가격
+                    			console.log("확인"+price);
+                    			$("#optionCheck").text(content);
+                    			$("#optionPrice").val(price);
+                    			console.log("optionPrice에 찍힌 값"+$("#optionPrice").val()); */
+                    			//선택된 옵션 원래가격에서 더하기
+                    			
+                    			/* var count = 1;
+                    			//var countEl = $("#count");
+                    			var countEl = document.getElementById("count");
+                    			var oriPrice = document.getElementById("oriPrice");
+                    			var optionPrice = document.getElementById("optionPrice");
+                    			var totalPrice = document.getElementById("totalPrice");
+                    			var viewPrice = document.getElementById("viewPrice");
+                    			console.log(optionPrice.value);
+                    			$("#viewPrice").text( Number($("#totalPrice").val()) + Number($("#optionPrice").val()) );
+                    			
                     		});
                     	}); */
-                    </script>
+                    	
+                    	
+                    	
+                    	/* function minus(){
+            				if(count > 1) {
+            					count--;
+            					//$("#countEl").val(count);
+            					//console.log($("#countEl").val(count));
+            					$("#totalPrice").text( Number($("#totalPrice").val()) - Numeber($("#oriPrice").val()) + Number($("#optionPrice").val()) );
+            					finalPrice = $("#totalPrice").val();
+            					$("#viewPrice").text(finalPrice);
+            				}
+            			}
+            			function plus(){
+            				//count = Number($("#count").val());
+            				//count++;
+            				//countEl.value = count;
+        					//console.log(countEl.value);
+        					//$("#totalPrice").text( Number($("#totalPrice").val()) + Numeber($("#optionPrice").val()) * count );
+        					//console.log($("#count").val());
+        					//$("#totalPrice").text( (Number($("#totalPrice").val()) + Number($("#optionPrice").val()) * $("#count").val()));
+        					//finalPrice = $("#totalPrice").val();
+        					//$("#viewPrice").text(finalPrice);
+            				count++;
+            				var count = Number($("#count").val()) + count;
+            				$("#viewPrice").text( ((Number($("#totalPrice").val()) + Number($("#optionPrice").val())) * count ));
+            				console.log(count);
+            			}  */
+            	
+            			
+            			
+            			
+                    	//옵션선택창 X 클릭 시 옵션창 없애기
+                    	$("#optionClose").click(function(){
+                    		$("#optionView").css("display","none");
+                    	}); -->
                            			
                     <!-- 버튼 3개,로그인 안 할 경우 클릭 못하게 방지 -->        			
                     <div class="information container">
@@ -868,12 +995,12 @@ textarea.answer {
 		  });
 		  
 		  	//수정누를경우 수정완료로 변경
-			$(this).attr("value",function(index,attr){
+			/* $(this).attr("value",function(index,attr){
 				if(attr.match("수정")){
 					console.log("수정완료");
 					return attr.replace("수정","수정완료");
 				}
-			});
+			}); */
 		  
 		  </script>
 		    	
@@ -1132,27 +1259,9 @@ textarea.answer {
 		});
 	});
 
-	//옵션선택 스크립트
-	$('.optionChoice').click(function() {
-		$(this).attr('tabindex', 1).focus();
-		$(this).toggleClass('active');
-		$(this).find('.dropdown-menu').slideToggle(300);
-	});
-	$('.optionChoice').focusout(function() {
-		$(this).removeClass('active');
-		$(this).find('.dropdown-menu').slideUp(300);
-	});
-	$('.optionChoice .dropdown-menu li').click(
-			function() {
-				$(this).parents('.optionChoice').find('span').text(
-						$(this).text());
-				$(this).parents('.optionChoice').find('input').attr('value',
-						$(this).attr('id'));
-			});
-
 	
 	//수량계산
-	var count = 1;
+	/* var count = 1;
 	var countEl = document.getElementById("count");
 	var oriPrice = document.getElementById("oriPrice");
 	var totalPrice = document.getElementById("totalPrice");
@@ -1173,7 +1282,7 @@ textarea.answer {
 		totalPrice.value = oriPrice.value * countEl.value;
 		finalPrice = totalPrice.value;
 		$(viewPrice).text(finalPrice);
-	}
+	} */
 
 	
 	//네비바
