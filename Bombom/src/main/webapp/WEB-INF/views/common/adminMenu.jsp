@@ -31,6 +31,7 @@
 	    <li class="nav-item">
 	      	<a class="nav-link" href="${path }/admin/moveMainBanners">메인관리</a>
 	    </li>
+
 	  </ul>
 	</div> 
 

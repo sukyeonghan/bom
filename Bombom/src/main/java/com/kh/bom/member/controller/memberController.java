@@ -3,6 +3,7 @@ package com.kh.bom.member.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.member.model.service.MemberService;
+import com.kh.bom.member.model.vo.Alarm;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.point.model.vo.Point;
 
@@ -290,5 +291,38 @@ public class memberController {
 		return mv;
 	}
 
+	//알람 페이지 이동
+	@RequestMapping("/member/alarmPage")
+	public ModelAndView selectAlarmAll(
+			HttpSession session,
+			ModelAndView mv
+			
+			) {
+		Member m=(Member)session.getAttribute("loginMember");
+		String memNo=m.getMemNo();
+		
+		List<Alarm> alarmList=service.selectAlarmList(memNo);
+		mv.addObject("alarmList",alarmList);
+		mv.setViewName("common/alarm");
+		return mv;
+	}
+	
+	//알림 개수 세기
+	@ResponseBody
+	@RequestMapping("/member/countAlarm")
+	public int countAlarm(HttpSession session) {
+		Member m=(Member)session.getAttribute("loginMember");
+		String memNo=m.getMemNo();
+		
+		return service.countAlarm(memNo);
+	}
+	
+	//알림저장
+	@ResponseBody
+	@RequestMapping("/member/insertAlarm")
+	public boolean insertAlarm(Alarm a) {
+		int result=service.insertAlarm(a);
+		return result>0?true:false;
+	}
 	
 }

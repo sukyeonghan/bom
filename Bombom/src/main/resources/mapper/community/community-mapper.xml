@@ -178,8 +178,16 @@
             reply_id = #{reply_id}
     </update>
 
+<<<<<<< HEAD
+=======
+	
+>>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
 	<select id="selectComList" parameterType="string" resultMap="communityMap">
 		SELECT * FROM COMMUNITY WHERE CM_WRITER=#{memNo} ORDER BY CM_DATE DESC
 	</select>
 	
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
 </mapper>

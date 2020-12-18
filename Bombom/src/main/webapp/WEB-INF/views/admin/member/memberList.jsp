@@ -209,6 +209,45 @@ $(function(){
  	    		}
  	    		
  	    	});
+ 	    	
+ 	    	
+ 	    	/* var AlarmData = {
+ 	 	   			"receiver_no" : memNo,
+ 	 	   			"myAlarm_callerNickname" : memNickname,
+ 	 	   			"myAlarm_title" : "스크랩 알림",
+ 	 	   			"myAlarm_content" :  memNickname + "님이 <a type='external' href='/mentor/essayboard/essayboardView?pg=1&seq="+essayboard_seq+"&mentors="+ memberSeq +"'>" + essayboard_seq + "</a>번 에세이를 스크랩 했습니다."
+ 	 	   	};
+ 	    	 */
+ 	    	let alarmMsg="";
+ 	    	if(yn=="Y") {
+ 	    		alarmMsg="축하드립니다.관리자가 되었습니다.";
+			}else {
+				alarmMsg="관리자 권한이 회수되었습니다.";
+			}
+ 	 	   	//알림 DB저장
+ 	 	   	$.ajax({
+ 	 	   		type : 'post',
+ 	 	   		url : '${path}/member/insertAlarm',
+ 	 	   		data : {receiverNo:memNo,message:alarmMsg}, //json을 스트링으로 변환
+ 	 	   		dataType : 'json',
+ 	 	   		success : function(data){
+ 	 	   			if(data===true){
+ 	 	   				console.log("ajax갔다옴:"+data);
+ 	 	   				if(sock){
+ 	 	   					console.log("소켓생성됨:"+sock);
+ 	 	   				let socketMsg = "adminYn,관리자,M0,"+ memNo +","+yn;
+ 	 	   				console.log("알림전송내역 : " + socketMsg);
+ 	 	   				sock.send(socketMsg);
+ 	 	   				}
+ 	 	   			}
+ 	 	   			
+ 	 	    
+ 	 	   		},
+ 	 	   		error : function(err){
+ 	 	   			console.log(err);
+ 	 	   		}
+ 	 	   	});
+ 	    	
  	     }
  	});
  });
@@ -250,6 +289,8 @@ $("#keyword").on("keyup",e=>{
 	 
 	 
 })
+
+//
 
 </script>
 

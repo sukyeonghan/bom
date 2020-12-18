@@ -283,6 +283,12 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.deleteOption(session, pdtNo);
 	}
+	//옵션 상태 수정
+	@Override
+	public int updateOptStatus(String status,String pdtNo) {
+		// TODO Auto-generated method stub
+		return dao.updateOptStatus(session,status,pdtNo);
+	}
 	
 	// 회원관리
 	// 관리자권한 변경
@@ -390,10 +396,18 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	public List<Order> selectOrderDetail(String orderNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOrderDetail(session, orderNo);
+	}
+
+	@Override
 	public Order selectOrderOne(String orderNo) {
 		// TODO Auto-generated method stub
 		return dao.selectOrderOne(session, orderNo);
 	}
+	
+	
 
 	
 	
