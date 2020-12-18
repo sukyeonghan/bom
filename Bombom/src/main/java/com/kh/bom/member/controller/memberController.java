@@ -313,8 +313,9 @@ public class memberController {
 	public int countAlarm(HttpSession session) {
 		Member m=(Member)session.getAttribute("loginMember");
 		String memNo=m.getMemNo();
-		
-		return service.countAlarm(memNo);
+		int count=service.countAlarm(memNo);
+		session.setAttribute("countAlarm", count);
+		return count;
 	}
 	
 	//알림저장
@@ -324,5 +325,14 @@ public class memberController {
 		int result=service.insertAlarm(a);
 		return result>0?true:false;
 	}
+	
+	//헤더 알림모달창의 알림리스트
+	@ResponseBody
+	@RequestMapping("/member/selectAlarmList")
+	public List<Alarm> selectAlarmList(String memNo){
+		List<Alarm> alarmList=service.selectAlarmList(memNo);
+		return alarmList;
+	}
+	
 	
 }

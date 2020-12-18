@@ -115,101 +115,29 @@ public class EchoHandler extends TextWebSocketHandler{
 				receiverSession.sendMessage(tmpMsg);
 				
 				
-				/*}else if("follow".equals(cmd) && boardWriterSession != null) {
-					TextMessage tmpMsg = new TextMessage(caller + "님이 " + receiver +
-							 "님을 팔로우를 시작했습니다.");
-					boardWriterSession.sendMessage(tmpMsg);
-					
-				}else if("scrap".equals(cmd) && boardWriterSession != null) {
-					TextMessage tmpMsg = new TextMessage(caller + "님이 " +
-										//변수를 하나더 보낼수 없어서 receiver 변수에 member_seq를 넣어서 썼다.
-										"<a type='external' href='/mentor/essayboard/essayboardView?pg=1&seq="+seq+"&mentors="+ receiver +"'>" + seq + "</a>번 에세이를 스크랩 했습니다.");
-					boardWriterSession.sendMessage(tmpMsg);
-				}*/
 				
 			}
 		}
 		
 		}
-		/*
-		 * String msg = message.getPayload(); if(StringUtils.isNotEmpty(msg)) { String[]
-		 * strs = msg.split(",");
-		 * 
-		 * if(strs != null && strs.length == 5) { String cmd = strs[0]; String caller =
-		 * strs[1]; String receiver = strs[2]; String receiverEmail = strs[3]; String
-		 * seq = strs[4];
-		 * 
-		 * //작성자가 로그인 해서 있다면 WebSocketSession boardWriterSession =
-		 * userSessionsMap.get(receiverEmail);
-		 * 
-		 * if("reply".equals(cmd) && boardWriterSession != null) { TextMessage tmpMsg =
-		 * new TextMessage(caller + "님이 " +
-		 * "<a type='external' href='/mentor/menteeboard/menteeboardView?seq="+seq+
-		 * "&pg=1'>" + seq + "</a> 번 게시글에 댓글을 남겼습니다.");
-		 * boardWriterSession.sendMessage(tmpMsg);
-		 * 
-		 * }else if("follow".equals(cmd) && boardWriterSession != null) { TextMessage
-		 * tmpMsg = new TextMessage(caller + "님이 " + receiver + "님을 팔로우를 시작했습니다.");
-		 * boardWriterSession.sendMessage(tmpMsg);
-		 * 
-		 * }else if("scrap".equals(cmd) && boardWriterSession != null) { TextMessage
-		 * tmpMsg = new TextMessage(caller + "님이 " + //변수를 하나더 보낼수 없어서 receiver 변수에
-		 * member_seq를 넣어서 썼다.
-		 * "<a type='external' href='/mentor/essayboard/essayboardView?pg=1&seq="+seq+
-		 * "&mentors="+ receiver +"'>" + seq + "</a>번 에세이를 스크랩 했습니다.");
-		 * boardWriterSession.sendMessage(tmpMsg); } } // 모임 신청 했을때 if(strs != null &&
-		 * strs.length == 5) { String cmd = strs[0]; String mentee_name = strs[1];
-		 * String mentor_email = strs[2]; String meetingboard_seq = strs[3]; String
-		 * participation_seq = strs[4];
-		 * 
-		 * // 모임 작성한 멘토가 로그인 해있으면 WebSocketSession mentorSession =
-		 * userSessionsMap.get(mentor_email); if(cmd.equals("apply") && mentorSession !=
-		 * null) { TextMessage tmpMsg = new TextMessage( mentee_name + "님이 모임을 신청했습니다. "
-		 * +"<a type='external' href='/mentor/participation/participationView?mseq="+
-		 * meetingboard_seq +"&pseq="+ participation_seq +"'>신청서 보기</a>");
-		 * mentorSession.sendMessage(tmpMsg); } } }
-		 */
-	
+		
 	
 	//연결 해제될때
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		//System.out.println("afterConnectionClosed " + session + ", " + status);
 		
 		System.out.println("연결 해제");
 		sessionList.remove(session.getId());
 		user.remove(session);
-		/*
-		 * userSessionsMap.remove(session.getId()); sessions.remove(session);
-		 */
+		
 	}
 	
-	//웹소켓 email 가져오기
-	/*
-	 * private String getEmail(WebSocketSession session) { Map<String, Object>
-	 * httpSession = session.getAttributes(); MemberDTO loginUser =
-	 * (MemberDTO)httpSession.get("memDTO");
-	 * 
-	 * if(loginUser == null) { return session.getId(); } else { return
-	 * loginUser.getMember_email(); } }
-	 */
+	
 	
 	private String getMemberNo(WebSocketSession session) {
 		
 		Map<String,Object> httpSession=session.getAttributes();
-		//이전
-		//String memNo="";
-		//System.out.println(httpSession);
-//		if((Member)httpSession.get("loginMember")!=null) {
-//			Member m=(Member)httpSession.get("loginMember");
-//			memNo=m.getMemNo();
-//			System.out.println("getMemberNo : "+memNo);
-//			return memNo;
-//		}else {
-//			return session.getId();
-//		}
-//		
-		//새거
+
 		Member m=(Member)httpSession.get("loginMember");
 		if(null==m) {
 			return session.getId();
