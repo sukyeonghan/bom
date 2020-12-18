@@ -5,9 +5,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 
+			        <!-- 상품문의 게시글 -->
+			        <div id="result">
 				        <div class="container">
-					        <table class="table" style=" table-layout: fixed;">
 						    <c:if test="${not empty list }">	
+					        <table class="table" style=" table-layout: fixed;">
 						        <thead>
 						        	<tr>
 						        		<td style="width:10%;">상태</td>
@@ -53,17 +55,24 @@
 						        		</tr>
 						        	</thead>
 						        </c:forEach>
+						    	</table>
+						        <div class="pageBar">
+									<span>${pageBar }</span>
+						    	</div>
 					        </c:if>
 					        <c:if test="${empty list }">
+					        <table>
 					        	<thead>
 					        		<tr>
 					        			<td colspan="4">등록된 문의가 없습니다</td>
 					        		</tr>
 					        	</thead>
-					        </c:if>
 					        </table>
+					        </c:if>
 				        </div><!-- 상품문의 게시글 끝 -->			        
-				        <div class="pageBar">
-							<span>${pageBar }</span>
-				    	</div>
+			    	</div><!-- result 끝 -->
 
+<script>
+
+
+</script>

@@ -414,6 +414,11 @@ textarea.answer {
 	border-style: solid;
 	margin: 10px 0 0 0;
 }
+
+.pageBar{
+	text-align: center;
+}
+
 </style>
 
 <section id="container" style="margin:0 5% 0 5%;">
@@ -1398,10 +1403,12 @@ textarea.answer {
 	//상품문의 페이징
 	$(function(){
 		$(".pageBar").click(e=>{
+			console.log($(e.target).val());
 			$.ajax({
 				url:"${path}/product/productOneAjax",
-				data:{cPage:"${cPage}",numPerpage:"${numPerPage}"},
+				data:{cPage:"${cPage}",numPerpage:"${numPerPage}",pdtNo:"${pdtNo}"},
 				type:"get",
+				dataType:"html",
 				success:data=>{
 					console.log(data);
 					$("#result").html("");
