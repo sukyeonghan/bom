@@ -65,19 +65,20 @@ public class EchoHandler extends TextWebSocketHandler{
 			String[] strs=msg.split(",");
 			System.out.println(strs.toString());
 			
-			if(strs!= null && strs.length==6) {
+			if(strs!= null && strs.length==5) {
 				String cmd = strs[0];
 				String caller=strs[1];//보낸사람 닉네임
 				String callerNo=strs[2];//보낸사람 번로
-				String receiver = strs[3];//회원닉네임
-				String receiverNo = strs[4];//회원번호
-				String bascket = strs[5];//매개변수값
+				String receiverNo = strs[3];//받는회원번호
+				String bascket = strs[4];//매개변수값
 				
-				WebSocketSession receiverSession = user.get(memNo);
+//				WebSocketSession receiverSession = user.get(memNo);
+				System.out.println(receiverNo);
+				WebSocketSession receiverSession = user.get(receiverNo);
 				TextMessage tmpMsg=null;
 				if("adminYn".equals(cmd)&&receiverSession!=null) {
 					//관리자 여부 메세지
-					if(bascket=="Y") {
+					if(bascket.equals("Y")) {
 						tmpMsg= new TextMessage("축하드립니다.관리자가 되었습니다.");
 					}else {
 						tmpMsg= new TextMessage("관리자 권한이 회수되었습니다.");
@@ -196,17 +197,28 @@ public class EchoHandler extends TextWebSocketHandler{
 	private String getMemberNo(WebSocketSession session) {
 		
 		Map<String,Object> httpSession=session.getAttributes();
-		String memNo="";
-		System.out.println(httpSession);
-		
-		if((Member)httpSession.get("loginMember")!=null) {
-			Member m=(Member)httpSession.get("loginMember");
-			memNo=m.getMemNo();
-			System.out.println("getMemberNo : "+memNo);
-			return memNo;
-		}else {
+		//이전
+		//String memNo="";
+		//System.out.println(httpSession);
+//		if((Member)httpSession.get("loginMember")!=null) {
+//			Member m=(Member)httpSession.get("loginMember");
+//			memNo=m.getMemNo();
+//			System.out.println("getMemberNo : "+memNo);
+//			return memNo;
+//		}else {
+//			return session.getId();
+//		}
+//		
+		//새거
+		Member m=(Member)httpSession.get("loginMember");
+		if(null==m) {
 			return session.getId();
+		}else {
+			return m.getMemNo();
 		}
-
+		
+		
+		
+		
 	}
 }

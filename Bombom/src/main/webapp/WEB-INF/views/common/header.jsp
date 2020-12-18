@@ -10,6 +10,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SpringAgain</title>
 <c:set var="path" value="${pageContext.request.contextPath}" />
+<c:set var="alarmList" value="${sessionScope.alarmList }" scope="application"/>
+<c:set var="countAlarm" value="${sessionScope.countAlarm }" scope="application"/>
 <script src="${path}/resources/js/jquery-3.5.1.min.js"></script>
 <!-- swiper -->
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
@@ -114,6 +116,7 @@ p.p-info {
 	text-align: center;
 	font-weight:bolder;
 	line-height:15px;
+	display:none;
 ]
 }
 /* 알림 리스트 팝업창 */
@@ -195,12 +198,14 @@ p.p-info {
 							href="${path }/mypage/orderStatus">마이페이지</a></li>
 						<li class="nav-item">
 							<div id="alarm-div">
-							<i class="far fa-bell" id="alarm"></i>
-							<c:if test="${countAlarm > 0}">
+								<i class="far fa-bell" id="alarm"></i>
+								
 								<div id="alarm-countbox">
-									<c:out value="${countAlarm}"/>
+									<fmt:parseNumber var="i" type="number" value="${applicationScope.countAlarm}"/>
+									
+									<c:out value="${i}"/>
 								</div>
-							</c:if>
+								
 							</div>
 						</li>
 						<!-- 알림 리스트 팝업 -->
@@ -570,6 +575,45 @@ p.p-info {
 
  
  $(function(){
+	 
+	 //구매횟수에따른 스탬프선문받기 알림보내기
+	 let buyCount="${loginMember.memBuyCount}";
+	 if(buyCount >= 10){
+			
+	 	   	//알림 DB저장
+	 	   	$.ajax({
+	 	   		type : 'post',
+	 	   		url : '${path}/member/insertAlarm',
+	 	   		data : {receiverNo:"${loginMember.memNo}",message:"스탬프 10개 달성하였습니다. 선물을 받으러 가세요!"}, 
+	 	   		dataType : 'json',
+	 	   		success : function(data){
+	 	   			if(data===true){
+	 	   				console.log("ajax갔다옴2:"+data);
+	 	   				if(sock){
+	 	   					console.log("소켓생성됨2:"+sock);
+	 	   				let socketMsg = "stamp,관리자,M0,"+"${loginMember.memNo}" +","+"0";
+	 	   				console.log("알림전송내역2 : " + socketMsg);
+	 	   				sock.send(socketMsg);
+	 	   				}
+	 	   			}
+	 	   			
+	 	    
+	 	   		},
+	 	   		error : function(err){
+	 	   			console.log(err);
+	 	   		}
+	 	   	});
+		}
+	 
+	 	//알림메세지 카운팅
+		if(countResult >0){
+			$('#alarm-countbox').show();
+			$('#alarm-countbox').html(countResult);
+			
+		}else{
+			$('#alarm-countbox').hide();
+		}
+	 
 	 $(".guide").hide();
 	 $(".login").hide();
 	 $(".newPw.pw").show();
@@ -833,7 +877,7 @@ function fn_signUp(){
 	
 	//웹소켓 관련 스크립트
 	var sock = null;
-		
+	var countResult="${countAlarm}";	
 	$(document).ready( function(){
 		connectWS();
 		
@@ -847,32 +891,36 @@ function fn_signUp(){
 		     console.log('open');
 		     sock.send('test');
 		 };
+		 
+		 sock.onmessage = function(e) {
+			 
+		     console.log('message', e.data);
+		     var data = e.data;
+			   	console.log("ReceivMessage : " + data + "\n");
+		 
+			   	$.ajax({
+					url : '${path}/member/countAlarm',
+					type : 'POST',
+					dataType: 'json',
+					success : function(data) {
+						if(data >0){
+							$('#alarm-countbox').show();
+							$('#alarm-countbox').html(data);
+							
+						}else{
+							$('#alarm-countbox').hide();
+						}
+					},
+					error : function(err){
+						alert('err');
+					}
+			   	});
+		 };
 	
 	}
+
 	
-	 sock.onmessage = function(e) {
-		 
-	     console.log('message', e.data);
-	     var data = e.data;
-		   	console.log("ReceivMessage : " + data + "\n");
-	 
-		   	$.ajax({
-				url : '${path}/member/countAlarm',
-				type : 'POST',
-				dataType: 'text',
-				success : function(data) {
-					if(data == '0'){
-					}else{
-						let a=$('#alarm-countbox').text()+1;
-						$('#alarm-countbox').html(a);
-						$('#alarm-countbox').show();
-					}
-				},
-				error : function(err){
-					alert('err');
-				}
-		   	});
-	 };
+	
 
 	 sock.onclose = function() {
 	     console.log('close');

@@ -414,6 +414,11 @@ textarea.answer {
 	border-style: solid;
 	margin: 10px 0 0 0;
 }
+
+.pageBar{
+	text-align: center;
+}
+
 </style>
 
 <section id="container" style="margin:0 5% 0 5%;">
@@ -439,6 +444,7 @@ textarea.answer {
     		<a href="${path}/product/pet">반려동물</a></small></h5>
     	</c:when>
     </c:choose>
+    <input type="hidden" name="pdtNo" id="pdtNo" value="${product.pdtNo}"/>
     <div class="row" >
     	<!-- 썸네일 -->
         <div class="col-6" >
@@ -531,15 +537,23 @@ textarea.answer {
                     <!-- 2.옵션선택창:옵션이 있을 경우 반드시 선택해야함 -->
                     <c:if test="${not empty optionlist }">
                     <div class="information">
+<<<<<<< HEAD
+                    	<select class="form-control" id="optionSelect">
+                    		<option readonly>옵션선택</option>
+=======
                     	<%-- <div class="optionChoice">
                     		<div class="select">
                     			<span class="size-mid">옵션선택</span>
                     		</div>
                     		<input type="hidden" name="option">
                     		<ul class="dropdown-menu">
+>>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
                     		<c:forEach items="${optionlist}" var="opt" varStatus="vs">
-                    			<li id="${vs.count}" value="${opt.pdtOptionAddprice}" onClick="optionPrice(this)">${opt.pdtOptionContent}&nbsp;&nbsp;+<fmt:formatNumber value="${opt.pdtOptionAddprice}" pattern="#,###"/></li>
+                    			<option value="${opt.pdtOptionAddprice}">${opt.pdtOptionContent}&nbsp;&nbsp;+<fmt:formatNumber value="${opt.pdtOptionAddprice}" pattern="#,###"/></option>
                     		</c:forEach>
+<<<<<<< HEAD
+                    	</select>	
+=======
                     		</ul> 
                     	</div> --%>
                     	<select class="form-control" id="optionSelect" style="height:45px;">
@@ -548,11 +562,17 @@ textarea.answer {
                     			<option value="${opt.pdtOptionContent}" value2="${opt.pdtOptionAddprice}">${opt.pdtOptionContent}&nbsp;&nbsp;+${opt.pdtOptionAddprice}</option>
                     		</c:forEach>	
                     	</select>
+>>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
                     </div>
                     <div class="information" id="optionView" style="padding-bottom:10px;">
 	                    	<div id="info_count" style="border-radius:4px;">
+<<<<<<< HEAD
+	                    		<div class="information" id="optionCheck" style="margin:10px;">
+	                    			<span id="optionCheck">옵션확인란</span>
+=======
 	                    		<div class="information" style="margin:10px;">
 	                    			<span id="optionCheck"></span>
+>>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
 	                    			<span id="optionClose" style="float:right;cursor:pointer">X</span>
 	                    		</div>
 	                    		<div class="inforamtion row">
@@ -626,15 +646,24 @@ textarea.answer {
 	                    				<c:if test="${empty product.eventNoRef}">
 		                    				<input type="text" value="${product.pdtPrice}" id="oriPrice" hidden="hidden"/>
 		                    				<input type="text" value="${product.pdtPrice}" id="totalPrice" hidden="hidden"/>
+<<<<<<< HEAD
+		                    				<input type="text" value="0" id="optionPrice"/>
+=======
 		                    				<input type="text" id="optionPrice" />
+>>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
 		                    				<span id="viewPrice" style="width:60px;text-align:right; border:none;">${product.pdtPrice}</span>원
 	                    				</c:if>
 	                    			<!-- 세일가격 -->
 	                    				<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
 	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="oriPrice" hidden="hidden"/>
 	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="totalPrice" hidden="hidden"/>
+<<<<<<< HEAD
+	                    					<input type="text" value="0" id="optionPrice"/>
+	                    					<span id="viewPrice" style="width:60px;text-align:right; border:none;"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
+=======
 	                    					<input type="text" id="optionPrice" />
 	                    					<span id="viewPrice" style="width:60px;text- align:right; border:none;"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
+>>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
 	                    				</c:if>
 	                    			</div>
 	                    		</div>
@@ -642,6 +671,54 @@ textarea.answer {
 	                    </div>
                     </c:if> 
                     
+<<<<<<< HEAD
+                    <script>
+                    	//옵션선택 시 수량계산 창 나옴
+                    	$("#optionSelect").change(function(){
+                    		if($("#optionView").css("display")=="none"){
+                    			$("#optionView").css("display","");
+                    		}
+                    		//옵션가격을 optionPrice value에 넣기
+                    		var price = $("#optionSelect option:selected").val();
+                    		$("#optionPrice").val(price);
+
+                    		//옵션명 optionCheck에 넣기
+                    		var text = $("#optionSelect option:selected").text();
+                    		var optionName = text.substring(0,text.indexOf("+")).trim();
+                    		$("#optionCheck").text(optionName);	
+                    	});
+                    	
+                    	//수량계산창 닫기
+                    	$("#optionClose").click(function(){
+                    		$("#optionView").css("display","none");
+                    	});
+                    	
+                    	
+                    	
+                    	var count = 1;
+                    	var countEl = document.getElementById("count");
+                    	var oriPrice = document.getElementById("oriPrice");
+                    	var totalPrice = document.getElementById("totalPrice");
+                    	var viewPrice = document.getElementById("viewPrice");
+
+                    	function minus(){
+                    		if(count > 1) {
+                    			count--;
+                    			countEl.value = count;
+                    			totalPrice.value = totalPrice.value - oriPrice.value;
+                    			finalPrice = totalPrice.value;
+                    			$(viewPrice).text(finalPrice);
+                    		}
+                    	}
+                    	function plus(){
+                    		count++;
+                    		countEl.value = count;
+                    		totalPrice.value = oriPrice.value * countEl.value;
+                    		finalPrice = totalPrice.value;
+                    		$(viewPrice).text(finalPrice);
+                    	}
+                    </script>
+=======
                     
                     
                     
@@ -720,6 +797,7 @@ textarea.answer {
                     	$("#optionClose").click(function(){
                     		$("#optionView").css("display","none");
                     	}); -->
+>>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
                            			
                     <!-- 버튼 3개,로그인 안 할 경우 클릭 못하게 방지 -->        			
                     <div class="information container">
@@ -1021,6 +1099,7 @@ textarea.answer {
 								        	<input type="hidden" id="secret" name="inqSecret" value="N">
 								        </label>
 								        <c:if test="${loginMember!=null }">
+								        	<input type="hidden" name="pdtNo" value="${product.pdtNo}">
 								        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
 								        	<input type="submit" class="btn btn-success" value="등록" style="right:0;">
 								        </c:if>
@@ -1143,6 +1222,7 @@ textarea.answer {
 											<c:if test="${loginMember!=null }">
 												<input type="hidden" name="memNo" value="${loginMember.memNo}">
 												<input type="hidden" name="inqNo" class="inqNo"/>
+												<input type="hidden" name="pdtNo" value="${product.pdtNo}">
 												<input type="submit" class="btn btn-success" value="등록" style="right:0;">
 											</c:if>
 											<c:if test="${loginMember==null }">
@@ -1282,6 +1362,7 @@ textarea.answer {
 		totalPrice.value = oriPrice.value * countEl.value;
 		finalPrice = totalPrice.value;
 		$(viewPrice).text(finalPrice);
+	} 
 	} */
 
 	
@@ -1480,10 +1561,12 @@ textarea.answer {
 	//상품문의 페이징
 	$(function(){
 		$(".pageBar").click(e=>{
+			console.log($(e.target).val());
 			$.ajax({
 				url:"${path}/product/productOneAjax",
-				data:{cPage:"${cPage}",numPerpage:"${numPerPage}"},
+				data:{cPage:"${cPage}",numPerpage:"${numPerPage}",pdtNo:"${pdtNo}"},
 				type:"get",
+				dataType:"html",
 				success:data=>{
 					console.log(data);
 					$("#result").html("");
@@ -1508,17 +1591,19 @@ textarea.answer {
 		var choice = confirm($(this).attr('data-confirm'));
 		if(choice){
 			let inqNo = $(event.target).parents().children('input[name=inqNo]').val();
-			location.replace("${path}/inquiry/deleteInquiry?inqNo="+inqNo);
+			let pdtNo = $("#pdtNo").val();
+			location.replace("${path}/inquiry/deleteInquiry?inqNo="+inqNo+"&pdtNo="+pdtNo);
 		}
 	});
 	
-	//상품문의 답변삭제
+	//상품문의 관리자 답변삭제
 	$(".deleteAnswerCk").on("click",function(e){
 		e.preventDefault();
 		var choice = confirm($(this).attr('data-confirm'));
 		if(choice){
 			let inqNo = $(event.target).parents().children('input[name=inqNo]').val();
-			location.replace("${path}/inquiry/deleteInquiryAnswer?inqNo="+inqNo);
+			let pdtNo = $("#pdtNo").val();
+			location.replace("${path}/inquiry/deleteInquiryAnswer?inqNo="+inqNo+"&pdtNo="+pdtNo);
 		}	
 	});
 	
@@ -1543,9 +1628,10 @@ textarea.answer {
 			//수정완료 누를 시 수정한 내용 update
 			$(this).attr("value",function(index,attr){
 				if(attr.match("수정완료")){
+					let pdtNo = $("#pdtNo").val();
 					let inqNo = $(event.target).parents().children('input[type=hidden][name=inqNo]').val();
 					let inqContent = $(event.target).parents().children('textarea[name=inqContent]').val();
-					location.replace("${path}/inquiry/updateInquiry?inqNo="+inqNo+"&inqContent="+inqContent);
+					location.replace("${path}/inquiry/updateInquiry?inqNo="+inqNo+"&pdtNo="+pdtNo+"&inqContent="+inqContent);
 				}
 			});
 			$("textarea[id=textCk]").attr("style","background-color:#fff;");
@@ -1569,11 +1655,10 @@ textarea.answer {
 			//수정완료 누를 시 수정한 내용 update
 			$(this).attr("value",function(index,attr){
 				if(attr.match("수정완료")){
+					let pdtNo = $("#pdtNo").val();
 					let inqNo = $(event.target).parents().children('input[type=hidden][name=inqNo]').val();
 					let inqAnswer = $(event.target).parents().children('textarea[name=inqAnswer]').val();
-					console.log(inqNo);
-					console.log(inqAnswer);
-					location.replace("${path}/inquiry/updateInquiryAnswer?inqNo="+inqNo+"&inqAnswer="+inqAnswer);
+					location.replace("${path}/inquiry/updateInquiryAnswer?inqNo="+inqNo+"&inqAnswer="+inqAnswer+"&pdtNo="+pdtNo);
 				}
 			});
 			$("textarea[id=textAnswerCk]").attr("style","background-color:#fff;");

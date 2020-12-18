@@ -41,12 +41,17 @@ public class HomeController {
 			System.out.println("홈컨트롤러에서 "+m);
 			System.out.println(m.getMemNo());
 			//List<Alarm> alarmList=;
-			mv.addObject("countAlarm",memberService.countAlarm(m.getMemNo()));
-			mv.addObject("alarmList",memberService.selectAlarmList(m.getMemNo()));
+			//mv.addObject("countAlarm",memberService.countAlarm(m.getMemNo()));
+			//mv.addObject("alarmList",memberService.selectAlarmList(m.getMemNo()));
+			session.setAttribute("countAlarm", memberService.countAlarm(m.getMemNo()));
+			session.setAttribute("alarmList", memberService.selectAlarmList(m.getMemNo()));
+			
 			//System.out.println("알림리스트"+alarmList);
 		}
+		mv.addObject("loginMember", m);
 		mv.setViewName("index");
 		return mv;
 	}
+	
 	
 }

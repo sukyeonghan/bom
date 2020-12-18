@@ -92,4 +92,9 @@
    	<select id="countAlarm" parameterType="string" resultType="_int" >
 		SELECT COUNT(*) FROM ALARM WHERE RECEIVER_NO=#{receiverNo}
    	</select>
+   	
+   	<!-- 알림저장 -->
+   	<insert id="insertAlarm" parameterType="alarm">
+   		INSERT INTO ALARM VALUES('A'||SEQ_FAQ_NO.NEXTVAL,#{receiverNo},#{message},SYSDATE)
+   	</insert>
 </mapper>

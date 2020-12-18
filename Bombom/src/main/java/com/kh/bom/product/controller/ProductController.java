@@ -218,7 +218,7 @@ public class ProductController {
 	}
 	
 
-	//상품문의 카운트 - 상품상세 첫화면
+	//상품상세 첫화면
 	@RequestMapping("/product/productOne")
 	public ModelAndView productOne(ModelAndView mv,
 			@RequestParam("pdtNo") String pdtNo,
@@ -273,7 +273,7 @@ public class ProductController {
 		mv.addObject("reviewCount", reviewCount);
 		mv.addObject("reviewAvg", reviewAvg);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax"));
+		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax", pdtNo));
 		mv.setViewName("product/productOne");
 
 		return mv;
@@ -314,7 +314,7 @@ public class ProductController {
 		mv.addObject("list", list);
 		int totalData = service.inquiryCount(pdtNo);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar", AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax"));
+		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax", pdtNo));
 		mv.setViewName("product/productOneAjax");
 
 		return mv; 

@@ -22,8 +22,9 @@ public class InquiryController {
 	
 	//상품문의 등록 
 	@RequestMapping("/product/insertInquiry")
-	public ModelAndView inquiry(Inquiry i, ModelAndView mv, HttpSession session) {
+	public ModelAndView inquiry(String pdtNo, Inquiry i, ModelAndView mv, HttpSession session) {
 
+		System.out.println("상품문의등록"+pdtNo);
 		Member m = (Member)session.getAttribute("loginMember");
 		int result = service.insertInquiry(i);
 		String msg = "";
@@ -33,11 +34,11 @@ public class InquiryController {
 		if(result>0) {
 			mv.addObject("loginMember", memberservice.selectMemberOne(m.getMemNick()));
 			msg = "문의글이 등록되었습니다";
-			loc = "/product/productOne";
+			loc = "/product/productOne?pdtNo="+pdtNo;
 			icon = "success";
 		}else {
 			msg = "문의글을 다시 등록해주세요";
-			loc = "/product/productOne";
+			loc = "/product/productOne?pdtNo="+pdtNo;
 			icon = "warning";
 		}
 		
@@ -51,7 +52,7 @@ public class InquiryController {
 	
 	//상품문의 모달창에서 답변하기
 	@RequestMapping("/inquiry/insertInquiryAnswer")
-	public ModelAndView inquiryAnswer(Inquiry i,ModelAndView mv) {
+	public ModelAndView inquiryAnswer(String pdtNo, Inquiry i,ModelAndView mv) {
 		
 		int result = service.insertInquiryAnswer(i);
 		String msg = "";
@@ -60,11 +61,11 @@ public class InquiryController {
 		
 		if(result>0) {
 			msg = "답변이 등록되었습니다";
-			loc = "/product/productOne";
+			loc = "/product/productOne?pdtNo="+pdtNo;
 			icon = "success";
 		}else {
 			msg = "답변을 다시 등록해주세요";
-			loc = "/product/productOne";
+			loc = "/product/productOne?pdtNo="+pdtNo;
 			icon = "warning";
 		}
 
@@ -78,8 +79,9 @@ public class InquiryController {
 	
 	//상품문의 삭제
 	@RequestMapping("/inquiry/deleteInquiry")
-	public ModelAndView deleteInquiry(String inqNo, ModelAndView mv) {
+	public ModelAndView deleteInquiry(String pdtNo, String inqNo, ModelAndView mv) {
 		
+		System.out.println("문의삭제"+pdtNo);
 		int result = service.deleteInquiry(inqNo);
 		String msg = "";
 		String loc = "";
@@ -87,11 +89,11 @@ public class InquiryController {
 		
 		if(result>0) {
 			msg = "게시글이 삭제되었습니다";
-			loc = "/product/productOne";
+			loc = "/product/productOne?pdtNo="+pdtNo;
 			icon = "success";
 		}else {
 			msg = "게시글을 다시 삭제해주세요";
-			loc = "/product/productOne";
+			loc = "/product/productOne?pdtNo="+pdtNo;
 			icon = "warning";
 		}
 
@@ -104,7 +106,7 @@ public class InquiryController {
 	
 	//상품문의 답변삭제
 	@RequestMapping("/inquiry/deleteInquiryAnswer")
-	public ModelAndView deleteInquiryAnswer(String inqNo, ModelAndView mv) {
+	public ModelAndView deleteInquiryAnswer(String pdtNo, String inqNo, ModelAndView mv) {
 		
 		int result = service.deleteInquiryAnswer(inqNo);
 		String msg = "";
@@ -113,11 +115,11 @@ public class InquiryController {
 		
 		if(result>0) {
 			msg = "답변이 삭제되었습니다";
-			loc = "/product/productOne";
+			loc = "/product/productOne?pdtNo="+pdtNo;
 			icon = "success";
 		}else {
 			msg = "답변을 다시 삭제해주세요";
-			loc = "/product/productOne";
+			loc = "/product/productOne?pdtNo="+pdtNo;
 			icon = "warning";
 		}
 
@@ -131,7 +133,7 @@ public class InquiryController {
 	
 	//상품문의 수정
 	@RequestMapping("/inquiry/updateInquiry")
-	public ModelAndView updateInquiry(Inquiry i, ModelAndView mv) {
+	public ModelAndView updateInquiry(String pdtNo, Inquiry i, ModelAndView mv) {
 		
 		int result = service.updateInquiry(i);
 		String msg = "";
@@ -140,11 +142,11 @@ public class InquiryController {
 		
 		if(result>0) {
 			msg = "문의가 수정되었습니다";
-			loc = "/product/productOne";
+			loc = "/product/productOne?pdtNo="+pdtNo;
 			icon = "success";
 		}else {
 			msg = "문의를 다시 작성해주세요";
-			loc = "/product/productOne";
+			loc = "/product/productOne?pdtNo="+pdtNo;
 			icon = "warning";
 		}
 
@@ -157,7 +159,7 @@ public class InquiryController {
 	
 	//상품문의 관리자답변 수정
 	@RequestMapping("/inquiry/updateInquiryAnswer")
-	public ModelAndView updateInquiryAnswer(Inquiry i, ModelAndView mv) {
+	public ModelAndView updateInquiryAnswer(String pdtNo, Inquiry i, ModelAndView mv) {
 		
 		int result = service.updateInquiryAnswer(i);
 		String msg = "";
@@ -166,11 +168,11 @@ public class InquiryController {
 		
 		if(result>0) {
 			msg = "답변이 수정되었습니다";
-			loc = "/product/productOne";
+			loc = "/product/productOne?pdtNo="+pdtNo;
 			icon = "success";
 		}else {
 			msg = "답변을 다시 작성해주세요";
-			loc = "/product/productOne";
+			loc = "/product/productOne?pdtNo="+pdtNo;
 			icon = "warning";
 		}
 
