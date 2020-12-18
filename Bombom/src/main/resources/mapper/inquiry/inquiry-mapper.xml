@@ -15,7 +15,7 @@
 	</resultMap>
 
 	<insert id="insertInquiry" parameterType="inquiry">
-		INSERT INTO INQUIRY VALUES('I'||SEQ_INQ_NO.NEXTVAL,'P16',#{memNo},#{inqContent},DEFAULT,#{inqSecret},DEFAULT,null,null)
+		INSERT INTO INQUIRY VALUES('I'||SEQ_INQ_NO.NEXTVAL,#{pdtNo},#{memNo},#{inqContent},DEFAULT,#{inqSecret},DEFAULT,null,null)
 	</insert>
 	
 	<select id="inquiryList" parameterType="string" resultMap="inquiryMap">
