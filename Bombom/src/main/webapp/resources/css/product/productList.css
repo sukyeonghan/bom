@@ -78,7 +78,7 @@
     	width:15px;
     	height:15px;
     }
-    
+    .margin{margin-left:5px;}
     /*가격 및 할인,품절,뉴 아이콘*/
 	.sale{
     	color:rgb(170, 170, 170);
@@ -91,7 +91,9 @@
         align-items: center;
         font-size:15px;
     }
+
     .item-icon{
+    	margin-top:10px;
     	font-size:13px;
     }
     .sale-price,.sale-icon,.soldout-icon{

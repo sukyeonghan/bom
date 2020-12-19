@@ -88,7 +88,7 @@
 					                <div class="item-intro">
 					                	<!-- 상품명 -->
 					                    <p class="item-title">
-					                        <a class="title-link" href=""><c:out value="${p.pdtName }"/></a>
+					                        <a class="title-link" href="${path }/product/productOne?pdtNo=${p.pdtNo}"><c:out value="${p.pdtName }"/></a>
 					                    </p>
 					                    <!-- 상품 가격 -->
 					                    <div class="item-price">
@@ -117,11 +117,11 @@
 					                    	<img class="icon" alt="" src="${path}/resources/images/product/heart.png">
 					                    	<c:out value="${p.zzimCount }"/>
 					                    	<!-- 후기 개수 -->
-					                    	<img class="icon" alt="" src="${path}/resources/images/product/message.png">
+					                    	<img class="icon margin" alt="" src="${path}/resources/images/product/message.png">
 					                    	<c:out value="${p.reviewCount }"/>
 					                    	<!-- 미리보기페이지 -->
 					                    	<a>
-					                    		<img class="icon" alt="" src="${path}/resources/images/product/cart.png">
+					                    		<img class="icon margin" alt="" src="${path}/resources/images/product/cart.png">
 					                    	</a>
 					                   
 					                  	</div>
