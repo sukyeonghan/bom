@@ -39,9 +39,11 @@ public class ProductController {
 		
 		String cate="전체제품";
 		int count=service.productCount(cate);
+		/*
+		 * List<Product> zzimCount=service.zzimCount(); List<Product>
+		 * reviewCount=service.reviewCount();
+		 */
 		List<Product> newList=service.selectNewCateList(cate);
-		//찜 횟수
-		//int zzimCount=service.zzimCount();
 		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,cate));
 		m.addObject("pageBar",ProPageBarFactory.getPageBar(count, cPage, numPerpage, "productAll"));
 		m.addObject("cPage",cPage);

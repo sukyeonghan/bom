@@ -115,15 +115,15 @@
 					                    <div>
 					                    	<!-- 찜횟수 -->
 					                    	<img class="icon" alt="" src="${path}/resources/images/product/heart.png">
-					                    	<c:out value=""></c:out>
+					                    	<c:out value="${p.zzimCount }"/>
 					                    	<!-- 후기 개수 -->
 					                    	<img class="icon" alt="" src="${path}/resources/images/product/message.png">
-					                    	<c:out value=""></c:out>
+					                    	<c:out value="${p.reviewCount }"/>
 					                    	<!-- 미리보기페이지 -->
 					                    	<a>
 					                    		<img class="icon" alt="" src="${path}/resources/images/product/cart.png">
 					                    	</a>
-					                    	
+					                   
 					                  	</div>
 					                    <!-- 조건에 따라 뜨는 아이콘들 -->
 					                    <div class="item-icon">
