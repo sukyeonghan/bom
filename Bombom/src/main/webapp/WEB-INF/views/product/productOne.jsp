@@ -55,51 +55,10 @@ a:hover {
 	object-fit: contain;
 }
 /*셀렉트박스 디자인*/
-.optionChoice {
-	width: 100%;
-	height: 45px;
-	display: inline-block;
-	background-color: #fff;
-	border-radius: 4px;
-	border: #28a745 1px solid;
-	transition: all .5s ease;
-	position: relative;
-	cursor: pointer;
+.form-control{
+	margin:0 0 5px 0;
 }
-.optionChoice .select {
-	cursor: pointer;
-	padding: 10px;
-	-webkit-appearance: none;
-	/* 네이티브 외형 감추기 */
-	-moz-appearance: none;
-	appearance: none;
-}
-.optionChoice .dropdown-menu {
-	position: absolute;
-	background-color: #fff;
-	text-align: left;
-	width: 100%;
-	border-radius: 0 0 4px 4px;
-	border: #28a745 1px solid;
-	overflow: hidden;
-	display: none;
-	overflow-y: auto;
-}
-.optionChoice .dropdown-menu li {
-	padding: 10px;
-	transition: all .2s ease-in-out;
-	cursor: pointer;
-}
-.optionChoice .dropdown-menu {
-	padding: 0;
-	list-style: none
-}
-.optionChoice .dropdown-menu li:hover {
-	color: #28a745;
-}
-.optionChoice .dropdown-menu li:active {
-	background-color: #28a745;
-}
+
 /*수량 스타일*/
 #info_count {
 	border: #28a745 1px solid;
@@ -107,7 +66,7 @@ a:hover {
 	height: 100px;
 }
 .input_count {
-	border: #28a745 1px solid;
+	border:none;
 	background-color: #fff;
 	color: 00000;
 	width: 26px;
@@ -116,20 +75,16 @@ a:hover {
 	vertical-align: middle;
 	text-align: center;
 }
-.input_count2 {
-	border: #28a745 1px solid;
-	background-color: #fff;
-	color: 00000;
-	width: 26px;
-	font-size: 13px;
-	display: table-cell;
-	vertical-align: middle;
-	text-align: center;
+.input_count:focus{
+	border:none;
+	outline:none;
 }
+
 /* 버튼 크기 조절 */
 .custom {
-	width: 163px !important;
-}
+	width: 32.8% !important;
+} 
+
 /* 네비바 스타일 */
 button {
 	background: none;
@@ -396,7 +351,7 @@ textarea.answer {
             </c:if>
             </c:forTokens>
             <!-- 작은사진 여러개 -->
-            <div class="goods_thumbs_image row container">
+            <div class="goods_thumbs_image">
                 <ul class="clearfix">
                 <c:forTokens items="${product.thumbs}" var="th" delims="," varStatus="vs">
 	                <li class="col-2 small_image"><a href="${path }/resources/upload/product/${th}"><img src="${path }/resources/upload/product/${th}"></a></li>
@@ -448,7 +403,7 @@ textarea.answer {
                     
                     <!-- 1.기본선택창:옵션이 없을 경우 나올 화면 -->
                     <c:if test="${empty optionlist}">
-	                   <div class="information" style="padding-bottom:10px;">
+	                   <div class="" style="padding-bottom:10px;">
 	                    	<div id="info_count" style="border-radius:4px;">
 	                    		<div class="information" style="margin:10px;visibility:hidden;">옵션선택확인</div>
 	                    		<div class="inforamtion row">
@@ -477,7 +432,7 @@ textarea.answer {
                     </c:if>
                     <!-- 2.옵션선택창:옵션이 있을 경우 반드시 선택해야함 -->
                     <c:if test="${not empty optionlist }">
-                    <div class="information">
+                    <div class="">
                     	<select class="form-control" id="optionSelect">
                     		<option readonly>옵션선택</option>
                     		<c:forEach items="${optionlist}" var="opt" varStatus="vs">
@@ -485,7 +440,7 @@ textarea.answer {
                     		</c:forEach>
                     	</select>	
                     </div>
-                    <div class="information" id="optionView" style="padding-bottom:10px;display:none;">
+                    <div class="" id="optionView" style="padding-bottom:10px;display:none;">
 	                    	<div id="info_count" style="border-radius:4px;">
 	                    		<div class="information" id="optionCheck" style="margin:10px;">
 	                    			<span id="optionCheck">옵션확인란</span>
@@ -564,7 +519,7 @@ textarea.answer {
                     </script>
                            			
                     <!-- 버튼 3개,로그인 안 할 경우 클릭 못하게 방지 -->        			
-                    <div class="information container">
+                    <div>
                     	<c:if test="${loginMember!=null }">
 		                    <button type="button" href="#" class="btn btn-success custom">구매하기</button>
 		                    <button type="button" onclick="fn_goBasket();" class="btn btn-outline-success custom">장바구니</button>
@@ -575,7 +530,7 @@ textarea.answer {
 		                    <button type="button" href="#" class="btn btn-outline-success custom loginCheck">장바구니</button>
 		                    <button type="button" href="#" class="btn btn-outline-success custom loginCheck">찜하기</button>
 	                    </c:if>
-                    </div>                            			     			
+                    </div>                                 			     			
         		</div><!-- class="head" 끝 -->
         	</div>
         </div><!-- 제품 div끝 -->
@@ -753,7 +708,7 @@ textarea.answer {
 				        	<img id="memProimg">
 				        	<strong><span class="memNick"></span></strong>&nbsp;&nbsp;<span class="revDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
 				        	<input type="hidden" name="revNo" class="revNo"/>
-							<div id="secret" style="display:inline-block;">
+							<div style="display:inline-block;">
 					        	<input type="button" class="btn btn-outline-success btn-sm" value="수정완료">
 				        	</div>
 				        	<span class="span_textarea" style="margin: 10px 0 0 0;">
@@ -836,13 +791,7 @@ textarea.answer {
 			 $("#memProimg").prop("style","max-width:30px; height:30px;border-radius:50%;");
 		  });
 		  
-		  	//수정누를경우 수정완료로 변경
-			$(this).attr("value",function(index,attr){
-				if(attr.match("수정")){
-					console.log("수정완료");
-					return attr.replace("수정","수정완료");
-				}
-			});
+		  	
 		  
 		  </script>
 		    	
@@ -959,7 +908,7 @@ textarea.answer {
 				        	<!-- 상품문의 내용 -->
 				        	<strong><span id="memNick"></span></strong>&nbsp;&nbsp;<span id="inqDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
 				        	<input type="hidden" name="inqNo" class="inqNo"/>
-							<div id="secret" style="display:inline-block;">
+							<div id="btn_secret" style="display:inline-block;">
 					        	<input type="button" class="btn btn-outline-success btn-sm fn_updateInquiry" value="수정">
 					        	<input type="button" class="btn btn-outline-success btn-sm deleteInquiryCk" data-confirm="문의를 삭제하시겠습니까?" value="삭제"><br>
 				        	</div>
@@ -978,25 +927,27 @@ textarea.answer {
 				        </div>
 				        <!-- 모달창 상품문의 답변창 시작, 관리자일 경우에만 답변창 생김-->
 				        <c:if test="${loginMember.memManagerYn=='Y'}">
-					        <form name="frm_inquiryAnswer" action="${path}/inquiry/insertInquiryAnswer" onsubmit="return fn_answerCheck()">
-						        <div class="writebox_wrap container" style="float:none; margin:10px 0 10px 0;">
-								    <span class="span_textarea" style="height:150px; ">
-										<textarea name="inqAnswer" class="inqAnswer" placeholder="답변을 입력해주세요" style="height:70%;"></textarea>
-										<div style="float:right;">
-											<c:if test="${loginMember!=null }">
-												<input type="hidden" name="memNo" value="${loginMember.memNo}">
-												<input type="hidden" name="inqNo" class="inqNo"/>
-												<input type="hidden" name="pdtNo" value="${product.pdtNo}">
-												<input type="submit" class="btn btn-success" value="등록" style="right:0;">
-											</c:if>
-											<c:if test="${loginMember==null }">
-												<input type="button" class="btn btn-success loginCheck" value="등록" style="right:0;">
-											</c:if>
-									    </div>
-								    </span>
-						        </div>
-					        </form><!-- 모달창 상품문의 답변창  끝 -->
-				        </c:if>			        	
+					        <div id="answerCheck">
+						        <form name="frm_inquiryAnswer" action="${path}/inquiry/insertInquiryAnswer" onsubmit="return fn_answerCheck()">
+							        <div class="writebox_wrap container" style="float:none; margin:10px 0 10px 0;">
+									    <span class="span_textarea" style="height:150px; ">
+											<textarea name="inqAnswer" class="inqAnswer" placeholder="답변을 입력해주세요" style="height:70%;"></textarea>
+											<div style="float:right;">
+												<c:if test="${loginMember!=null }">
+													<input type="hidden" name="memNo" value="${loginMember.memNo}">
+													<input type="hidden" name="inqNo" class="inqNo"/>
+													<input type="hidden" name="pdtNo" value="${product.pdtNo}">
+													<input type="submit" class="btn btn-success" value="등록" style="right:0;">
+												</c:if>
+												<c:if test="${loginMember==null }">
+													<input type="button" class="btn btn-success loginCheck" value="등록" style="right:0;">
+												</c:if>
+										    </div>
+									    </span>
+							        </div>
+						        </form>
+					        </div>
+				        </c:if><!-- 모달창 상품문의 답변창  끝 -->			        	
 				      </div>
 				    </div>
 				  </div><!-- 상품문의 모달창 끝! -->
@@ -1445,16 +1396,18 @@ textarea.answer {
   			
   			//로그인 한 사람==게시글 작성자 일 경우에만 수정,삭제버튼 생성
             if(memNo==loginno){
-            	$("div[id=secret]").show();
+            	$("div[id=btn_secret]").show();
             }else{
-            	$("div[id=secret]").hide();
+            	$("div[id=btn_secret]").hide();
             }
   			
-  			//관리자로 로그인 시, 답변이 있을경우에만 수정,삭제버튼 생성
+  			//관리자로 로그인 시, 1.답변이 있을경우에만 수정,삭제버튼 생성, 2.답변완료 시 답변창 없애기
   			if(answerYn=='Y'){
   				$("div[id=secret2]").show();
+  				$("div[id=answerCheck]").hide();
   			}else{
   				$("div[id=secret2]").hide();
+  				$("div[id=answerCheck]").show();
   			}
   			
   			modal.find(".inqNo").val(inqNo);
@@ -1561,7 +1514,8 @@ textarea.answer {
 		var choice = confirm($(this).attr('data-confirm'));
 		if(choice){
 			let revNo = $(event.target).parents().children('input[name=revNo]').val();
-			location.replace("${path}/review/deleteReview?revNo="+revNo);
+			let pdtNo = $("#pdtNo").val();
+			location.replace("${path}/review/deleteReview?revNo="+revNo+"&pdtNo="+pdtNo);
 		}	
 	});	
     

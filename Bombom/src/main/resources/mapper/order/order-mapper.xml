@@ -18,7 +18,7 @@
 		<result property="ordCancel" column="ord_cancel" />
 		<result property="ordDate" column="ord_date" />
 		<result property="ordOname" column="ord_oname" />
-		<result property="ordOpone" column="ord_ophone" />
+		<result property="ordRphone" column="ord_ophone" /> 
 		<result property="ordRname" column="ord_rname" />
 		<result property="ordRphone" column="ord_rphone" />
 	</resultMap>
@@ -75,5 +75,11 @@
 	<insert id="insertInbasket" parameterType="string">
 
 	</insert>
+	
+	<select id="selectOneOrder" parameterType="map" resultMap="orderMap">
+		SELECT * FROM "ORDER" O
+		JOIN INORDER I ON I.ORDER_NO=O.ORDER_NO
+		WHERE PDT_NO=#{pdtNo} AND MEM_NO=#{memNo}
+	</select>
 
 </mapper>

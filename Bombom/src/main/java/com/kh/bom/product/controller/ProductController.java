@@ -273,14 +273,14 @@ public class ProductController {
 		mv.addObject("reviewCount", reviewCount);
 		mv.addObject("reviewAvg", reviewAvg);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax", pdtNo));
+		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "inquiryAjax", pdtNo));
 		mv.setViewName("product/productOne");
 
 		return mv;
 	}
 	
 	//상품문의 페이징처리
-	@RequestMapping("/product/productOneAjax") 
+	@RequestMapping("/product/inquiryAjax") 
 	@ResponseBody
 	public ModelAndView productOneAjax(ModelAndView mv, 
 			String pdtNo,
@@ -314,8 +314,8 @@ public class ProductController {
 		mv.addObject("list", list);
 		int totalData = service.inquiryCount(pdtNo);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax", pdtNo));
-		mv.setViewName("product/productOneAjax");
+		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "inquiryAjax", pdtNo));
+		mv.setViewName("product/inquiryAjax");
 
 		return mv; 
 	 

@@ -1,8 +1,11 @@
-package com.kh.bom.review.controller;
+ package com.kh.bom.review.controller;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.kh.bom.member.model.vo.Member;
+import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.review.model.service.ReviewService;
 import com.kh.bom.review.model.vo.Review;
 
@@ -21,7 +27,7 @@ public class ReviewController {
 	
 	//구매평 등록
 	@RequestMapping("/review/insertReview")
-	public ModelAndView insertReview(Review r, ModelAndView mv,
+	public ModelAndView insertReview(String pdtNo, Review r, ModelAndView mv,
 			@RequestParam(value="upload1", required=false) MultipartFile[] upFile,
 			HttpSession session) throws Exception {
 		
@@ -56,17 +62,33 @@ public class ReviewController {
 			
 		}
 		
-		
-		int result = service.insertReview(r);
+		//로그인 세션에서 현재 사용자 id값 가져오기
+		Member m = (Member)session.getAttribute("loginMember");
+		//로그인 한 사람이 상품을 구매한 경우에만 상품평 작성 가능
+		Map map = new HashMap();
+		map.put("pdtNo",pdtNo);
+		map.put("memNo",m.getMemNo());
+		Order order = service.selectOneOrder(map); 
 		String msg = "";
-		String loc = "/product/productOne";
+		String loc = "/product/productOne?pdtNo="+pdtNo;
 		String icon = "";
+		System.out.println("주문확인"+order);
 		
-		if(result>0) {
-			msg = "상품평이 등록되었습니다. 적립금을 확인해주세요";
-			icon = "success";
+		
+		//상품을 구매한 경우에만 구매평 작성 가능
+		if(order!=null) {
+			int result2 = service.insertReview(r);
+			
+			if(result2>0) {
+				msg = "상품평이 등록되었습니다. 적립금을 확인해주세요";
+				icon = "success";
+			}else {
+				msg = "상품평을 다시 등록해주세요";
+				icon = "warning";
+			}
+		//상품 구매하지 않은 경우 경고창	
 		}else {
-			msg = "상품평을 다시 등록해주세요";
+			msg = "상품평은 구매한 경우에만 작성하실 수 있습니다";
 			icon = "warning";
 		}
 		
@@ -81,20 +103,18 @@ public class ReviewController {
 	
 	//구매평삭제
 	@RequestMapping("/review/deleteReview")
-	public ModelAndView deleteReview(String revNo, ModelAndView mv) {
+	public ModelAndView deleteReview(String pdtNo, String revNo, ModelAndView mv) {
 		
 		int result = service.deleteRevivew(revNo);
 		String msg = "";
-		String loc = "";
+		String loc = "/product/productOne?pdtNo="+pdtNo;
 		String icon = "";
 		
 		if(result>0) {
 			msg = "구매평이 삭제되었습니다";
-			loc = "/product/productOne";
 			icon = "success";
 		}else {
 			msg = "구매평을 다시 삭제해주세요";
-			loc = "/product/productOne";
 			icon = "warning";
 		}
 
