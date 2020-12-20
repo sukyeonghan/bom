@@ -94,6 +94,11 @@
 			
 		}else if(category=="productQna") {
 			//상품문의 답변완료 메세지
+			caller="관리자";
+			callerNo="M0";
+			receiverNo="${receiverNo}";
+			bascket="${bascket}";
+			message="'"+bascket+"'상품에 대한 상품문의글에 답변이 등록되었습니다.";
 			//tmpMsg=new TextMessage("상품문의글에 답변이 등록되었습니다.");
 		}else if(category=="communityOut") {
 			//커뮤니티 권한 박탈

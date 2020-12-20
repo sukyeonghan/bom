@@ -987,6 +987,8 @@ textarea.answer {
 												<input type="hidden" name="memNo" value="${loginMember.memNo}">
 												<input type="hidden" name="inqNo" class="inqNo"/>
 												<input type="hidden" name="pdtNo" value="${product.pdtNo}">
+												<input type="hidden" name="receiver" class="receiver" value=""><!-- 상품문의 알림을위해  추가 -->
+												<input type="hidden" name="pdtName" value="${product.pdtName}"><!-- 상품문의 알림을 위해 추가 -->
 												<input type="submit" class="btn btn-success" value="등록" style="right:0;">
 											</c:if>
 											<c:if test="${loginMember==null }">
@@ -1464,6 +1466,7 @@ textarea.answer {
   			modal.find(".answerYn").text(answerYn);
   			modal.find(".answer").text(answer);
   			modal.find(".answerDate").text(answerDate);
+  			modal.find(".receiver").val(memNo); //알림창 데이터 필요로  작성자 회원번호 추가
   		});
 	});	
 	
