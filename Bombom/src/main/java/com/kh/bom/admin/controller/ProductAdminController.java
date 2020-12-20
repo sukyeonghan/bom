@@ -60,9 +60,10 @@ public class ProductAdminController {
 	//by수경-제품 목록페이지에서 선택 삭제
 	 @RequestMapping("/admin/deleteSelect") 
 	 public ModelAndView deleteSelectProduct(HttpSession session,
-			 @RequestParam List<String> pdtNo,ModelAndView m) { 
+			 @RequestParam List<String> pdtNo,ModelAndView m) {
+		 
 		 String path=session.getServletContext().getRealPath("/resources/upload/product");
-		 System.out.println(path);
+
 		 int result=service.deleteSelectProduct(pdtNo,path); 
 		 String msg="";
 		 String icon="";
