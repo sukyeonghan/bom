@@ -33,14 +33,14 @@ public class QnaAdminController {
 		String loc = "";
 		String icon = "";
 		String category="";
-		String basket="";
+		String receiverNo="";
 	
 		if(result>0) {
 			msg = "답변이 등록되었습니다";
 			loc = "/admin/qnaList";
 			icon = "success";
 			category="oneQna";
-			basket=qnaWriter;
+			receiverNo=qnaWriter;
 		}else {
 			msg = "답변을 다시 등록해주세요";
 			loc = "/admin/qnaList";
@@ -51,7 +51,7 @@ public class QnaAdminController {
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.addObject("icon",icon);
-		mv.addObject("basket",basket);
+		mv.addObject("receiverNo",receiverNo);
 		mv.setViewName("common/msg");
 		
 		return mv;

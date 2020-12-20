@@ -1,4 +1,5 @@
 	var sock = null;
+	
 	$(document).ready( function(){
 			connectWS();
 			
@@ -6,15 +7,13 @@
 	
 	function connectWS(){
 		
-		/*sock = new SockJS( "/bom/replyEcho");*/
-		sock = new SockJS( "<c:url value='/replyEcho'/>");
-
-		
-		
+		sock = new SockJS('/bom/replyEcho');
+	
 		 sock.onopen = function() {
 		     console.log('open');
 		     sock.send('test');
 		 };
+		 
 		 sock.onmessage = function(e) {
 			 
 		     console.log('message', e.data);
@@ -40,13 +39,13 @@
 			   	});
 		 };
 		 
-		 
-		 sock.onclose = function() {
-		     console.log('close');
-		 };
+		
 		 
 	
 	}
-		
+	 
+		 sock.onclose = function() {
+		     console.log('close');
+		 };	
 		
 		
