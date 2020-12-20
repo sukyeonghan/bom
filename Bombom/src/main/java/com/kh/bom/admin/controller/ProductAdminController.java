@@ -53,16 +53,17 @@ public class ProductAdminController {
 		m.addObject("cPage",cPage);
 		m.addObject("pageBar",PageBarFactory.getPageBar(count, cPage, numPerpage, "moveProduct"));
 		m.addObject("count",count);
-		m.setViewName("admin/product/productList");
+		m.setViewName("admin/product/adminProductList");
 		return m;
 	}
 	
 	//by수경-제품 목록페이지에서 선택 삭제
 	 @RequestMapping("/admin/deleteSelect") 
 	 public ModelAndView deleteSelectProduct(HttpSession session,
-			 @RequestParam List<String> pdtNo,ModelAndView m) { 
+			 @RequestParam List<String> pdtNo,ModelAndView m) {
+		 
 		 String path=session.getServletContext().getRealPath("/resources/upload/product");
-		 System.out.println(path);
+
 		 int result=service.deleteSelectProduct(pdtNo,path); 
 		 String msg="";
 		 String icon="";
@@ -92,7 +93,7 @@ public class ProductAdminController {
 		m.addObject("cPage",cPage);
 		m.addObject("sort",sort);
 		m.addObject("count",count);
-		m.setViewName("admin/product/productListAjax");
+		m.setViewName("admin/product/adminProductListAjax");
 		return m;
 	}
 	//제품 목록에서 검색
@@ -119,7 +120,7 @@ public class ProductAdminController {
 		m.addObject("sort", sort);
 		m.addObject("searchType", searchType);
 		m.addObject("keyword", keyword);
-		m.setViewName("admin/product/productListAjax");
+		m.setViewName("admin/product/adminProductListAjax");
 		
 		return m;
 	}

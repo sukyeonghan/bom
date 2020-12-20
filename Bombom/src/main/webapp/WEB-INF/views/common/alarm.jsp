@@ -6,12 +6,21 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
 <style>
+/*타이틀&개수*/
+#titleWrap{
+	display:flex;
+}
 /*페이지 타이틀*/
 #title{
 	font-size: 30px;
-    margin-left: 10%;
-    margin-bottom: 3%;
+    margin: 0 2% 3% 10%;
 }
+/*알림 개수*/
+#allCount{
+	font-size: 19px;
+	margin-top:10px;
+}
+
 /*알람 전체 감싼 div*/
 #alarmWrap{
 	width:80%;
@@ -34,12 +43,18 @@
 </jsp:include>
 
 <section id="container">
-	<p id="title">알림 메세지</p>
+	<!-- 알림메세지 상세화면 -->
+	<div id="titleWrap">
+		<p id="title">알림 메세지</p>
+		<p id="allCount">총 <c:out value="${countAlarm}"/>개</p>
+	</div>
 	<div id="alarmWrap">
 	<c:forEach var="a" items="${alarmList }">
 		
 		<div class="alert alert-light alert-dismissible fade show" style="border: 1px gray solid; height:10%">
-    		<button type="button" class="close" data-dismiss="alert">X</button>
+			<!--x버튼 누르면 알림 삭제 -->
+    		<button type="button" class="close" data-dismiss="alert" 
+    			onclick="location.href='${path}/member/deleteAlarm?alarmNo=${a.alarmNo}'">X</button>
     		<strong>${a.message }</strong>
 		</div>
   

@@ -39,9 +39,11 @@ public class ProductController {
 		
 		String cate="전체제품";
 		int count=service.productCount(cate);
+		/*
+		 * List<Product> zzimCount=service.zzimCount(); List<Product>
+		 * reviewCount=service.reviewCount();
+		 */
 		List<Product> newList=service.selectNewCateList(cate);
-		//찜 횟수
-		//int zzimCount=service.zzimCount();
 		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,cate));
 		m.addObject("pageBar",ProPageBarFactory.getPageBar(count, cPage, numPerpage, "productAll"));
 		m.addObject("cPage",cPage);
@@ -218,7 +220,7 @@ public class ProductController {
 	}
 	
 
-	//상품문의 카운트 - 상품상세 첫화면
+	//상품상세 첫화면
 	@RequestMapping("/product/productOne")
 	public ModelAndView productOne(ModelAndView mv,
 			@RequestParam("pdtNo") String pdtNo,
@@ -273,7 +275,7 @@ public class ProductController {
 		mv.addObject("reviewCount", reviewCount);
 		mv.addObject("reviewAvg", reviewAvg);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax"));
+		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax", pdtNo));
 		mv.setViewName("product/productOne");
 
 		return mv;
@@ -314,7 +316,7 @@ public class ProductController {
 		mv.addObject("list", list);
 		int totalData = service.inquiryCount(pdtNo);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar", AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax"));
+		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productOneAjax", pdtNo));
 		mv.setViewName("product/productOneAjax");
 
 		return mv; 

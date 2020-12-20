@@ -166,22 +166,6 @@
             )
     </delete>
     
-    <update id="updateReply" parameterType="java.util.HashMap">
-        update
-            board_reply
-        set
-            parent_id = #{parent_id},
-            depth = #{depth},
-            reply_content = #{reply_content},
-            reply_writer = #{reply_writer},
-        where
-            reply_id = #{reply_id}
-    </update>
-
+    
 	
-	<select id="selectComList" parameterType="string" resultMap="communityMap">
-		SELECT * FROM COMMUNITY WHERE CM_WRITER=#{memNo} ORDER BY CM_DATE DESC
-	</select>
-	
-
 </mapper>

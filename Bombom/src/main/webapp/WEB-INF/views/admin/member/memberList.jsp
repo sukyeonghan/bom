@@ -28,9 +28,9 @@
 	#searchBox>*{height: 40px;}
 	
 </style>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param name="title" value="소개" />
-</jsp:include>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+<%-- 	<jsp:param name="countAlarm" value="${applicationScpoe.countAlarm }" />
+</jsp:include> --%>
 
 <section id="container">
 	<div id="flexDiv">
@@ -211,13 +211,7 @@ $(function(){
  	    	});
  	    	
  	    	
- 	    	/* var AlarmData = {
- 	 	   			"receiver_no" : memNo,
- 	 	   			"myAlarm_callerNickname" : memNickname,
- 	 	   			"myAlarm_title" : "스크랩 알림",
- 	 	   			"myAlarm_content" :  memNickname + "님이 <a type='external' href='/mentor/essayboard/essayboardView?pg=1&seq="+essayboard_seq+"&mentors="+ memberSeq +"'>" + essayboard_seq + "</a>번 에세이를 스크랩 했습니다."
- 	 	   	};
- 	    	 */
+ 	    	
  	    	let alarmMsg="";
  	    	if(yn=="Y") {
  	    		alarmMsg="축하드립니다.관리자가 되었습니다.";
