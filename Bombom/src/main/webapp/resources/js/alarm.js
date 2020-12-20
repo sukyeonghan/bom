@@ -39,13 +39,13 @@
 			   	});
 		 };
 		 
-		
+		sock.onclose = function() {
+		     console.log('close');
+		 };	
 		 
 	
 	}
 	 
-		 sock.onclose = function() {
-		     console.log('close');
-		 };	
+		 
 		
 		

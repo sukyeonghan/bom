@@ -68,7 +68,7 @@
 			message="1:1문의글에 답변이 등록되었습니다.";
 			receiverNo="${receiverNo}";
 			
-			sockSend(category,caller, callerNo, message, receiverNo, bascket);
+			//sockSend(category,caller, callerNo, message, receiverNo, bascket);
 			//알림 DB저장
 	 	   	// $.ajax({
 	 	   	/* 	type : 'post',
@@ -109,6 +109,7 @@
 			//tmpMsg=new TextMessage("스탬프 10개 달성하였습니다. 선물을 받으러 가세요!");
 		}	
 		
+		sockSend(category,caller, callerNo, message, receiverNo, bascket);
 	});
 		
 
