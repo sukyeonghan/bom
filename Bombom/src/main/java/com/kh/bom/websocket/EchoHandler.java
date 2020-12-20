@@ -96,7 +96,7 @@ public class EchoHandler extends TextWebSocketHandler{
 					tmpMsg=new TextMessage("1:1문의글에 답변이 등록되었습니다.");
 				}else if("productQna".equals(cmd)&&receiverSession!=null) {
 					//상품문의 답변완료 메세지
-					tmpMsg=new TextMessage("상품문의글에 답변이 등록되었습니다.");
+					tmpMsg=new TextMessage("'"+bascket+"'상품에 대한 상품문의글에 답변이 등록되었습니다.");
 				}else if("communityOut".equals(cmd)&&receiverSession!=null) {
 					//커뮤니티 권한 박탈
 					tmpMsg=new TextMessage("커뮤니티 권한이 박탈되었습니다.");
