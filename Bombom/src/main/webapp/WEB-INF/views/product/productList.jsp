@@ -121,7 +121,7 @@
 					                    	<c:out value="${p.reviewCount }"/>
 					                    	<!-- 미리보기페이지 -->
 					                    	<a>
-					                    		<img class="icon margin" alt="" src="${path}/resources/images/product/cart.png">
+					                    		<img class="icon margin" alt="" src="${path}/resources/images/product/search.png">
 					                    	</a>
 					                   
 					                  	</div>
