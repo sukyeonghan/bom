@@ -15,7 +15,7 @@
 	
 	</resultMap>
 	<resultMap type="alarm" id="alarmMap">
-		<result property="arlarmNo" column="alarm_no"/>
+		<result property="alarmNo" column="alarm_no"/>
 		<result property="receiverNo" column="receiver_no"/>
 		<result property="message" column="message"/>
 		<result property="alarmDate" column="alarm_date"/>
@@ -97,4 +97,8 @@
    	<insert id="insertAlarm" parameterType="alarm">
    		INSERT INTO ALARM VALUES('A'||SEQ_FAQ_NO.NEXTVAL,#{receiverNo},#{message},SYSDATE)
    	</insert>
+   	<!-- 알림 삭제 -->
+   	<delete id="deleteAlarm" parameterType="string">
+   		DELETE FROM ALARM WHERE ALARM_NO=#{alarmNo}
+   	</delete>
 </mapper>

@@ -302,6 +302,8 @@ public class memberController {
 		String memNo=m.getMemNo();
 		
 		List<Alarm> alarmList=service.selectAlarmList(memNo);
+		int count=service.countAlarm(memNo);
+		mv.addObject("countAlarm", count);
 		mv.addObject("alarmList",alarmList);
 		mv.setViewName("common/alarm");
 		return mv;
@@ -333,6 +335,36 @@ public class memberController {
 		List<Alarm> alarmList=service.selectAlarmList(memNo);
 		return alarmList;
 	}
+	
+	//알림 삭제
+	@RequestMapping("/member/deleteAlarm")
+	public ModelAndView deleteAlarm(HttpSession session,
+			ModelAndView mv, String alarmNo) {
+		
+		int result=service.deleteAlarm(alarmNo);
+		String msg="";
+		String loc="/member/alarmPage";
+		String icon="";
+		if(result>0) {
+			msg="알림이 삭제되었습니다.";
+			icon="success";
+		}else {
+			msg="알림 삭제에 실패하였습니다.";
+			icon="warning";
+		}
+		//변경된 알림 개수 띄우기
+		Member m=(Member)session.getAttribute("loginMember");
+		String memNo=m.getMemNo();
+		int count=service.countAlarm(memNo);
+		
+		session.setAttribute("countAlarm", count);
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
+		mv.addObject("icon",icon);
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
 	
 	
 }
