@@ -10,6 +10,7 @@
 <title>Insert title here</title>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <c:set var="reserved" value="${reservedSeat}" />
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script src="${path}/resources/js/jquery-3.5.1.min.js"></script>
 <script src="${path}/resources/js/alarm.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -19,9 +20,37 @@
 </head>
 <body>
 	<script>
-
-	
+	//알림저장, 소켓전송 함수
+	function sockSend(category, caller, callerNo, message, receiverNo, bascket){
+		$.ajax({
+ 	   		type : 'post',
+ 	   		url : '${path}/member/insertAlarm',
+ 	   		data : {receiverNo:receiverNo,message:message}, 
+ 	   		dataType : 'json',
+ 	   		success : function(data){
+ 	   			console.log("ajax성공"+data);
+ 	   			if(data===true){
+ 	   				console.log("sock:"+sock);
+ 	   				if(sock){
+ 	   					if(bascket==""||bascket==null){bascket="0"};
+ 	   					let socketMsg = category+","+caller+","+callerNo+","+receiverNo+","+bascket;
+ 	   					console.log("msg.jsp알림전송내역 : " + socketMsg);
+ 	   					sock.send(socketMsg);
+ 	   				}
+ 	   			}
+ 	   		},
+ 	   		error : function(err){
+ 	   			console.log(err);
+ 	   		}
+ 	   	});
+	}	
+	$(function(){
 		let category="${category}";
+		let caller="";
+		let callerNo="";
+		let message="";
+		let receiverNo="";
+		let bascket="";
 		if(category=="delivery") {
 			//배송시작 메세지
 			//tmpMsg=new TextMessage("주문하신 상품이 배송 시작되었습니다.");
@@ -33,17 +62,23 @@
 		}else if(category=="oneQna") {
 			//1:1문의 답변완료 메세지
 			console.log("도착");
-			 
+			
+			caller="관리자";
+			callerNo="M0";
+			message="1:1문의글에 답변이 등록되었습니다.";
+			receiverNo="${receiverNo}";
+			
+			//sockSend(category,caller, callerNo, message, receiverNo, bascket);
 			//알림 DB저장
-	 	   	$.ajax({
-	 	   		type : 'post',
+	 	   	// $.ajax({
+	 	   	/* 	type : 'post',
 	 	   		url : '${path}/member/insertAlarm',
 	 	   		data : {receiverNo:"${basket}",message:"1:1문의글에 답변이 등록되었습니다."}, 
 	 	   		dataType : 'json',
-	 	   	 	async: false,
 	 	   		success : function(data){
 	 	   			console.log("ajax성공"+data);
 	 	   			if(data===true){
+	 	   				console.log("sock:"+sock);
 	 	   				if(sock){
 	 	   				let socketMsg = "oneQna,관리자,M0,"+"${basket}" +","+"0";
 	 	   				console.log("알림전송내역3 : " + socketMsg);
@@ -55,7 +90,7 @@
 	 	   			console.log(err);
 	 	   		}
 	 	   	});
-		 	
+		 	 */
 			
 		}else if(category=="productQna") {
 			//상품문의 답변완료 메세지
@@ -74,7 +109,10 @@
 			//tmpMsg=new TextMessage("스탬프 10개 달성하였습니다. 선물을 받으러 가세요!");
 		}	
 		
+		sockSend(category,caller, callerNo, message, receiverNo, bascket);
+	});
 		
+
 		
 		
 	swal({

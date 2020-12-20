@@ -14,7 +14,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.kh.bom.member.model.vo.Member;
 
 @Component
-
 public class EchoHandler extends TextWebSocketHandler{
 	//로그인 한 전체
 	List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
