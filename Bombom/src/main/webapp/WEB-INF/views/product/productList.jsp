@@ -221,19 +221,23 @@
 	})
 
 	//상품 미리보기 div
-	$(".test").on("click",e=>{
-		var pdtNo=$(e.target).next().val();
-		console.log(pdtNo);
-		var div=document.getElementById(pdtNo).getAttribute('id');
-		console.log(div);
-		if(pdtNo==div){
-			$("#"+div).toggleClass("previewDivNone");
-		}
-		
+	$(document).ready(function () {
+	 	$(".test").on("click",e=>{
+			var pdtNo=$(e.target).next().val();
+			console.log(pdtNo);
+			var div=document.getElementById(pdtNo).getAttribute('id');
+			console.log(div);
+			if(pdtNo==div){
+				$("#"+div).removeClass("previewDivNone");
+			}
+			
+		}); 
+	 	$(".delBtn").on("click",e=>{
+			$(".previewDivShow").addClass("previewDivNone");
+		}) 
 	});
-	$(".delBtn").on("click",e=>{
-		$(".previewDivShow").toggleClass("previewDivNone");
-	})
+	
+
 	//스와이퍼
 	var slideIndex = 1;
 	showDivs(slideIndex);
