@@ -53,7 +53,7 @@ public class ProductAdminController {
 		m.addObject("cPage",cPage);
 		m.addObject("pageBar",PageBarFactory.getPageBar(count, cPage, numPerpage, "moveProduct"));
 		m.addObject("count",count);
-		m.setViewName("admin/product/productList");
+		m.setViewName("admin/product/adminProductList");
 		return m;
 	}
 	
@@ -92,7 +92,7 @@ public class ProductAdminController {
 		m.addObject("cPage",cPage);
 		m.addObject("sort",sort);
 		m.addObject("count",count);
-		m.setViewName("admin/product/productListAjax");
+		m.setViewName("admin/product/adminProductListAjax");
 		return m;
 	}
 	//제품 목록에서 검색
@@ -119,7 +119,7 @@ public class ProductAdminController {
 		m.addObject("sort", sort);
 		m.addObject("searchType", searchType);
 		m.addObject("keyword", keyword);
-		m.setViewName("admin/product/productListAjax");
+		m.setViewName("admin/product/adminProductListAjax");
 		
 		return m;
 	}
