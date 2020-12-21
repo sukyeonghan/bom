@@ -31,6 +31,9 @@
 	    <li class="nav-item">
 	      	<a class="nav-link" href="${path }/admin/moveMainBanners">메인관리</a>
 	    </li>
+	    <li>
+	    <li><a class="" href="${path }/admin/community/communityMng">커뮤니티관리</a>
+	    </li>
 	  </ul>
 	</div> 
 

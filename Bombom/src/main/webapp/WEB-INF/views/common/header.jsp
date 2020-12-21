@@ -178,6 +178,7 @@ p.p-info {
 								<li><a class="" href="${path }/admin/qnaList">1:1문의 관리</a></li>
 								<li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
 								<li><a class="" href="${path }/admin/moveMainBanners">메인관리</a></li>
+								<li><a class="" href="${path }/admin/community/communityMng">커뮤니티관리</a>
 
 							</ul></li>
 					</ul>
@@ -188,7 +189,7 @@ p.p-info {
                 $(function(){
                     $(".dropmenu ul li").hover(function(){
                        $(this).find("ul").stop().fadeToggle(300);
-                    });
+                    })
                 })
 
             </script>
