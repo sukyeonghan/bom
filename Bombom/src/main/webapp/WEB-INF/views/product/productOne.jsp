@@ -703,7 +703,7 @@ textarea.answer {
 		        
 		        <!-- Modal body -->
 			        <div class="modal-body container">
-				        	<!-- 상품문의 내용 -->
+				        	<!-- 구매평 내용 -->
 				        	<span class="revScore"></span><br>
 				        	<img id="memProimg">
 				        	<strong><span class="memNick"></span></strong>&nbsp;&nbsp;<span class="revDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -722,15 +722,15 @@ textarea.answer {
 							       		<!-- 별점 -->
 								        <div class="rating" style="display:inline-block;">
 											<!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
-											<input type="checkbox" id="revrating1" name="rating" class="rate_radio" value="1">
+											<input type="checkbox" id="revrating1" name="revrating" class="rate_radio" value="1">
 											<label for="revrating1"></label>
-											<input type="checkbox" id="revrating2" name="rating" class="rate_radio" value="2">
+											<input type="checkbox" id="revrating2" name="revrating" class="rate_radio" value="2">
 											<label for="revrating2"></label>
-											<input type="checkbox" id="revrating3" name="rating" class="rate_radio" value="3">
+											<input type="checkbox" id="revrating3" name="revrating" class="rate_radio" value="3">
 											<label for="revrating3"></label>
-											<input type="checkbox" id="revrating4" name="rating" class="rate_radio" value="4">
+											<input type="checkbox" id="revrating4" name="revrating" class="rate_radio" value="4">
 											<label for="revrating4"></label>
-											<input type="checkbox" id="revrating5" name="rating" class="rate_radio" value="5">
+											<input type="checkbox" id="revrating5" name="revrating" class="rate_radio" value="5">
 											<label for="revrating5"></label>
 										</div>
 									</div>
@@ -765,17 +765,15 @@ textarea.answer {
 			 $(".revScore").text(revScore);
 			 $(".revContent").text(revContent);
 			 
-			 //별점이 있을경우 checked
-			 if(revScore==1){
-				 $("input:checkbox[name='rating']:checkbox[value='1']").prop("checked",true);
-			 }else if(revScore==2){
-				 $("input:checkbox[name='rating']:checkbox[value='2']").prop("checked",true);
-			 }else if(revScore==3){
-				 $("input:checkbox[name='rating']:checkbox[value='3']").prop("checked",true);
-			 }else if(revScore==4){
-				 $("input:checkbox[name='rating']:checkbox[value='4']").prop("checked",true);
-			 }else if(revScore==5){
-				 $("input:checkbox[name='rating']:checkbox[value='5']").prop("checked",true);
+			 
+			 //별점이 있을경우 모달창에 별점 checked
+			 for(var i=1; i<=revScore; i++){
+				 //$("input:checkbox[name='revrating']:checkbox[value='i']").prop("checked",checked);
+				 $("input:checkbox[name='revrating']").each(function(){
+					if(this.value==i){
+					 this.checked = true;
+					}
+				 });
 			 }
 			 
 			 //이미지가 있을경우 모달창에 이미지 넣어두기
@@ -783,7 +781,7 @@ textarea.answer {
 				 $("#imgPreview").prop("src","${path}/resources/upload/review/"+revImage);
 				 $("#imgPreview").prop("style","height:100%;");
 			 }else{
-				 $("#imgPreview").prop("src","");
+				 $("#imgPreview").hide();
 			 }
 			 
 			 $(".revDate").text(revDate);
