@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Alarm {
    
-   private String arlarmNo;
+   private String alarmNo;
    private String receiverNo;
    private String message;
    private Date alarmDate;

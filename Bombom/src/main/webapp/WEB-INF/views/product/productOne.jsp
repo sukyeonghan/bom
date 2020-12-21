@@ -14,38 +14,31 @@ a:link {
 	color: black;
 	text-decoration: none;
 }
-
 a:visited {
 	color: black;
 	text-decoration: none;
 }
-
 a:hover {
 	color: #45A663;
 	text-decoration: none;
 }
-
 /* 글씨크기 조정 스타일 */
 .information {
 	padding: 4px;
 	font-size: 15px;
 }
-
 .size-up {
 	font-size: 23px;
 }
-
 .size-mid {
 	font-size: 17px;
 }
-
 /* 썸네일 이미지 */
 .goods_thumbs_image ul {
 	padding: 0;
 	list-style: none;
 	margin-bottom: 0;
 }
-
 .goods_thumbs_image ul li {
 	float: left;
 	/* padding-right: 7px; */
@@ -56,13 +49,11 @@ a:hover {
 	cursor: pointer;
 	margin: 0;
 }
-
 .goods_thumbs_image ul li img {
 	width: 100%;
 	/*  height:100%; */
 	object-fit: contain;
 }
-
 /*셀렉트박스 디자인*/
 .optionChoice {
 	width: 100%;
@@ -75,7 +66,6 @@ a:hover {
 	position: relative;
 	cursor: pointer;
 }
-
 .optionChoice .select {
 	cursor: pointer;
 	padding: 10px;
@@ -84,7 +74,6 @@ a:hover {
 	-moz-appearance: none;
 	appearance: none;
 }
-
 .optionChoice .dropdown-menu {
 	position: absolute;
 	background-color: #fff;
@@ -96,33 +85,27 @@ a:hover {
 	display: none;
 	overflow-y: auto;
 }
-
 .optionChoice .dropdown-menu li {
 	padding: 10px;
 	transition: all .2s ease-in-out;
 	cursor: pointer;
 }
-
 .optionChoice .dropdown-menu {
 	padding: 0;
 	list-style: none
 }
-
 .optionChoice .dropdown-menu li:hover {
 	color: #28a745;
 }
-
 .optionChoice .dropdown-menu li:active {
 	background-color: #28a745;
 }
-
 /*수량 스타일*/
 #info_count {
 	border: #28a745 1px solid;
 	width: 100%;
 	height: 100px;
 }
-
 .input_count {
 	border: #28a745 1px solid;
 	background-color: #fff;
@@ -133,7 +116,6 @@ a:hover {
 	vertical-align: middle;
 	text-align: center;
 }
-
 .input_count2 {
 	border: #28a745 1px solid;
 	background-color: #fff;
@@ -144,12 +126,10 @@ a:hover {
 	vertical-align: middle;
 	text-align: center;
 }
-
 /* 버튼 크기 조절 */
 .custom {
 	width: 163px !important;
 }
-
 /* 네비바 스타일 */
 button {
 	background: none;
@@ -157,57 +137,46 @@ button {
 	outline: 0;
 	cursor: pointer;
 }
-
 button:focus {
 	border: none;
 	outline: none;
 }
-
 .tab_menu_container {
 	text-align: center;
 	padding-top: 80px;
 }
-
 .tab_menu_btn {
 	width: 200px;
 	height: 40px;
 	transition: 0.3s all;
 }
-
 .tab_menu_btn.on {
 	border-bottom: 1px solid #45A663;
 	color: #45A663;
 }
-
 .tab_menu_btn:hover {
 	color: #45A663;
 }
-
 .tab_box {
 	display: none;
 	padding: 25px;
 }
-
 .tab_box.on {
 	display: block;
 }
-
 .tab_box img {
 	width: 100%;
 }
-
 /* 배송 안내사항 */
 #information p {
 	font-size: 12px;
 }
-
 /* 연관상품 스와이프 css */
 .swiper-container {
 	/* width:1100px; */
 	width: 100%;
 	height: 300px;
 }
-
 .swiper-slide {
 	font-size: 13px;
 	background: #fff;
@@ -226,24 +195,20 @@ button:focus {
 	-webkit-align-items: center;
 	align-items: center;
 }
-
 .swiper-slide img {
 	/* 이미지 최대너비 제한 */
 	max-width: 100%;
 	max-height: 100%;
 	object-fit: contain;
 }
-
 .slideImg {
 	padding-top: 10px;
 }
-
 /*상품문의 박스 스타일*/
 div.wrap-category {
 	margin: 7px 0px 7px 0px;
 	text-align: left;
 }
-
 .span_textarea {
 	position: relative;
 	padding: 8px;
@@ -254,18 +219,15 @@ div.wrap-category {
 	width: 100%;
 	height: 200px;
 }
-
 textarea {
 	width: 99%;
 	height: 80%;
 	resize: none;
 	border: none;
 }
-
 textarea:focus {
 	outline: none;
 }
-
 textarea.inqContent {
 	width: 100%;
 	height: 100%;
@@ -273,7 +235,6 @@ textarea.inqContent {
 	border: none;
 	margin: 7px 0 7px 0;
 }
-
 textarea.answer {
 	width: 100%;
 	height: 100%;
@@ -281,12 +242,10 @@ textarea.answer {
 	border: none;
 	margin: 7px 0 7px 0;
 }
-
 /* 상품문의 모달창 */
 #modalClick {
 	cursor: pointer;
 }
-
 /* 위로가기 버튼 */
 .scrollTop {
 	width: 50px;
@@ -297,7 +256,6 @@ textarea.answer {
 	bottom: 40px;
 	display: none;
 }
-
 /* 스타 체크박스 옆으로 조절 */
 .rating .rate_radio {
 	position: relative;
@@ -312,7 +270,6 @@ textarea.answer {
 	/* 체크박스 안 보이게  */
 	display: none;
 }
-
 .rating .rate_radio+label {
 	position: relative;
 	display: inline-block;
@@ -327,25 +284,20 @@ textarea.answer {
 	cursor: pointer;
 	background-color:
 }
-
 .rating .rate_radio:checked+label {
 	background-image: url('../resources/images/product/star.png');
 }
-
 /* 구매평 */
 .review_span {
 	height: 250px;
 }
-
 #review_textarea {
 	height: 50%;
 }
-
 .accordion_title {
 	display: flex;
 	position: relative;
 }
-
 .plusminus::before {
 	content: '';
 	display: block;
@@ -358,7 +310,6 @@ textarea.answer {
 	transition: .5s;
 	margin: 10px;
 }
-
 .plusminus::after {
 	content: '';
 	display: block;
@@ -370,23 +321,18 @@ textarea.answer {
 	transform: rotate(0deg);
 	margin: 10px;
 }
-
 .plusminus.active::before {
 	transform: rotate(0deg);
 }
-
 .accordion_title:hover {
 	cursor: pointer;
 }
-
 .accordion_title {
 	margin: 10px;
 }
-
 .accordion_title:active .shortContent {
 	style: none;
 }
-
 .accordion_content {
 	display: block;
 	margin: 0;
@@ -394,11 +340,9 @@ textarea.answer {
 	overflow: hidden;
 	transition: .5s;
 }
-
 .accordion_content.show {
 	margin: 10px;
 }
-
 .accordion_wrap {
 	border-color: #E2E2E2;
 	list-style: none;
@@ -406,7 +350,6 @@ textarea.answer {
 	border-style: solid;
 	padding: 0px;
 }
-
 .accordion_inner {
 	border-color: #E2E2E2;
 	list-style: none;
@@ -414,11 +357,9 @@ textarea.answer {
 	border-style: solid;
 	margin: 10px 0 0 0;
 }
-
 .pageBar{
 	text-align: center;
 }
-
 </style>
 
 <section id="container" style="margin:0 5% 0 5%;">
@@ -502,7 +443,7 @@ textarea.answer {
                     	</c:if>
                     </c:if>
                     <div class="information size-mid">배송비 2,500원(50,000원이상 무료배송) | 도서산간 배송비 추가</div>
-                    <%-- ${optionlist} --%>
+                    ${optionlist}
                     <hr>
                     
                     <!-- 1.기본선택창:옵션이 없을 경우 나올 화면 -->
@@ -537,133 +478,39 @@ textarea.answer {
                     <!-- 2.옵션선택창:옵션이 있을 경우 반드시 선택해야함 -->
                     <c:if test="${not empty optionlist }">
                     <div class="information">
-<<<<<<< HEAD
                     	<select class="form-control" id="optionSelect">
                     		<option readonly>옵션선택</option>
-=======
-                    	<%-- <div class="optionChoice">
-                    		<div class="select">
-                    			<span class="size-mid">옵션선택</span>
-                    		</div>
-                    		<input type="hidden" name="option">
-                    		<ul class="dropdown-menu">
->>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
                     		<c:forEach items="${optionlist}" var="opt" varStatus="vs">
                     			<option value="${opt.pdtOptionAddprice}">${opt.pdtOptionContent}&nbsp;&nbsp;+<fmt:formatNumber value="${opt.pdtOptionAddprice}" pattern="#,###"/></option>
                     		</c:forEach>
-<<<<<<< HEAD
                     	</select>	
-=======
-                    		</ul> 
-                    	</div> --%>
-                    	<select class="form-control" id="optionSelect" style="height:45px;">
-                    		<option selected disabled>옵션선택</option>
-                    		<c:forEach items="${optionlist}" var="opt" varStatus="vs">
-                    			<option value="${opt.pdtOptionContent}" value2="${opt.pdtOptionAddprice}">${opt.pdtOptionContent}&nbsp;&nbsp;+${opt.pdtOptionAddprice}</option>
-                    		</c:forEach>	
-                    	</select>
->>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
                     </div>
-                    <div class="information" id="optionView" style="padding-bottom:10px;">
+                    <div class="information" id="optionView" style="padding-bottom:10px;display:none;">
 	                    	<div id="info_count" style="border-radius:4px;">
-<<<<<<< HEAD
 	                    		<div class="information" id="optionCheck" style="margin:10px;">
 	                    			<span id="optionCheck">옵션확인란</span>
-=======
-	                    		<div class="information" style="margin:10px;">
-	                    			<span id="optionCheck"></span>
->>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
 	                    			<span id="optionClose" style="float:right;cursor:pointer">X</span>
 	                    		</div>
 	                    		<div class="inforamtion row">
 	                    			<div class="col" style="margin-left:10px;">
-	                    				<!-- <input type="button" class="input_count" value="-" id="minus">
+	                    				<input type="button" class="input_count" value="-" id="minus" onclick="minus();">
 	                    				<input type="text" class="input_count2" value="1" id="count" style="width:40px; text-align:center;">
-	                    				<input type="button" class="input_count" value="+" id="plus"> -->
-								        <table>
-								        <tr style="text-align:center;">
-										    <td>수량</td>
-										    <td class="bseq_ea">7</td>
-										    <td>
-										        <button type="button" id="minus" onclick="fnCalCount('m', this);">-</button>
-										        <input type="text" name="pop_out" value="0" readonly="readonly" style="text-align:center;"/>
-										        <button type ="button" onclick="fnCalCount('p',this);">+</button>
-										    </td>
-										</tr>
-										</table>
-	
-
-									</div>
-									
-									<script>
-				                  //수량버튼 
-				                   function fnCalCount(type, ths){
-									    var $input = $(ths).parents("td").find("input[name='pop_out']");
-									    var tCount = Number($input.val());
-									    //var tEqCount = Number($(ths).parents("tr").find("td.bseq_ea").html());
-									    var qty = 0;
-									    
-									    if(type=='p'){
-									       $input.val(Number(tCount)+1);
-											qty = tCount+1;
-									    }else{
-									       if(tCount>1){
-									    	   $input.val(Number(tCount)-1);
-									    	   qty = tCount-1;
-									       }else if(tCount==1){
-									    	   $input.val(Number(tCount));
-									    	   qty = 1;
-									    	   
-									    	   $("#minus").attr("disabled",true);
-									    	   
-									    	  
-									    	   
-									       }
-									       qty = tCount-1;
-									    }
-										console.log(qty);
-									    
-									    
-									}
-				                  
-				                  
-				                  
-				                    
-				                    $("#optionClose").click(function(){
-				                		$("#optionView").css("display","none");
-				                	});
-				                    
-				                    /*  $("#optionSelect").change(function(){
-				         			if($("#optionView").css("display")=="none"){
-				         				$("#optionView").css("display","");
-				         			} */
-				                    
-				                    </script>
-									
-									
+	                    				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
+	                    			</div>
 	                    			<div class="col-3">
 	                    			<!-- 원래가격 -->
 	                    				<c:if test="${empty product.eventNoRef}">
 		                    				<input type="text" value="${product.pdtPrice}" id="oriPrice" hidden="hidden"/>
 		                    				<input type="text" value="${product.pdtPrice}" id="totalPrice" hidden="hidden"/>
-<<<<<<< HEAD
 		                    				<input type="text" value="0" id="optionPrice"/>
-=======
-		                    				<input type="text" id="optionPrice" />
->>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
 		                    				<span id="viewPrice" style="width:60px;text-align:right; border:none;">${product.pdtPrice}</span>원
 	                    				</c:if>
 	                    			<!-- 세일가격 -->
 	                    				<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
 	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="oriPrice" hidden="hidden"/>
 	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="totalPrice" hidden="hidden"/>
-<<<<<<< HEAD
 	                    					<input type="text" value="0" id="optionPrice"/>
 	                    					<span id="viewPrice" style="width:60px;text-align:right; border:none;"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
-=======
-	                    					<input type="text" id="optionPrice" />
-	                    					<span id="viewPrice" style="width:60px;text- align:right; border:none;"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
->>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
 	                    				</c:if>
 	                    			</div>
 	                    		</div>
@@ -671,7 +518,6 @@ textarea.answer {
 	                    </div>
                     </c:if> 
                     
-<<<<<<< HEAD
                     <script>
                     	//옵션선택 시 수량계산 창 나옴
                     	$("#optionSelect").change(function(){
@@ -681,7 +527,6 @@ textarea.answer {
                     		//옵션가격을 optionPrice value에 넣기
                     		var price = $("#optionSelect option:selected").val();
                     		$("#optionPrice").val(price);
-
                     		//옵션명 optionCheck에 넣기
                     		var text = $("#optionSelect option:selected").text();
                     		var optionName = text.substring(0,text.indexOf("+")).trim();
@@ -700,7 +545,6 @@ textarea.answer {
                     	var oriPrice = document.getElementById("oriPrice");
                     	var totalPrice = document.getElementById("totalPrice");
                     	var viewPrice = document.getElementById("viewPrice");
-
                     	function minus(){
                     		if(count > 1) {
                     			count--;
@@ -718,86 +562,6 @@ textarea.answer {
                     		$(viewPrice).text(finalPrice);
                     	}
                     </script>
-=======
-                    
-                    
-                    
-                    
-                    	<!-- /* var count = 1;	
-                    
-                    	if("#plus").click(function(){
-                    		count = ("#count").val();
-                    		
-                    	});
-                     */
-                    
-                    	//옵션선택 시 수량계산 창 나옴
-                    	/* $(function(){
-                    		$("#optionSelect").change(function(){
-                    			if($("#optionView").css("display")=="none"){
-                    				$("#optionView").css("display","");
-                    			}
-                    			
-                    			var optionPrice = $("#optionPrice").val();
-                    			
-                    			//선택된 옵션 확인창에 넣기
-                    			/* var content = $("#optionSelect").val(); //옵션명
-                    			var price = $("#optionSelect > option:selected").attr("value2"); //옵션가격
-                    			console.log("확인"+price);
-                    			$("#optionCheck").text(content);
-                    			$("#optionPrice").val(price);
-                    			console.log("optionPrice에 찍힌 값"+$("#optionPrice").val()); */
-                    			//선택된 옵션 원래가격에서 더하기
-                    			
-                    			/* var count = 1;
-                    			//var countEl = $("#count");
-                    			var countEl = document.getElementById("count");
-                    			var oriPrice = document.getElementById("oriPrice");
-                    			var optionPrice = document.getElementById("optionPrice");
-                    			var totalPrice = document.getElementById("totalPrice");
-                    			var viewPrice = document.getElementById("viewPrice");
-                    			console.log(optionPrice.value);
-                    			$("#viewPrice").text( Number($("#totalPrice").val()) + Number($("#optionPrice").val()) );
-                    			
-                    		});
-                    	}); */
-                    	
-                    	
-                    	
-                    	/* function minus(){
-            				if(count > 1) {
-            					count--;
-            					//$("#countEl").val(count);
-            					//console.log($("#countEl").val(count));
-            					$("#totalPrice").text( Number($("#totalPrice").val()) - Numeber($("#oriPrice").val()) + Number($("#optionPrice").val()) );
-            					finalPrice = $("#totalPrice").val();
-            					$("#viewPrice").text(finalPrice);
-            				}
-            			}
-            			function plus(){
-            				//count = Number($("#count").val());
-            				//count++;
-            				//countEl.value = count;
-        					//console.log(countEl.value);
-        					//$("#totalPrice").text( Number($("#totalPrice").val()) + Numeber($("#optionPrice").val()) * count );
-        					//console.log($("#count").val());
-        					//$("#totalPrice").text( (Number($("#totalPrice").val()) + Number($("#optionPrice").val()) * $("#count").val()));
-        					//finalPrice = $("#totalPrice").val();
-        					//$("#viewPrice").text(finalPrice);
-            				count++;
-            				var count = Number($("#count").val()) + count;
-            				$("#viewPrice").text( ((Number($("#totalPrice").val()) + Number($("#optionPrice").val())) * count ));
-            				console.log(count);
-            			}  */
-            	
-            			
-            			
-            			
-                    	//옵션선택창 X 클릭 시 옵션창 없애기
-                    	$("#optionClose").click(function(){
-                    		$("#optionView").css("display","none");
-                    	}); -->
->>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
                            			
                     <!-- 버튼 3개,로그인 안 할 경우 클릭 못하게 방지 -->        			
                     <div class="information container">
@@ -1073,12 +837,12 @@ textarea.answer {
 		  });
 		  
 		  	//수정누를경우 수정완료로 변경
-			/* $(this).attr("value",function(index,attr){
+			$(this).attr("value",function(index,attr){
 				if(attr.match("수정")){
 					console.log("수정완료");
 					return attr.replace("수정","수정완료");
 				}
-			}); */
+			});
 		  
 		  </script>
 		    	
@@ -1223,6 +987,8 @@ textarea.answer {
 												<input type="hidden" name="memNo" value="${loginMember.memNo}">
 												<input type="hidden" name="inqNo" class="inqNo"/>
 												<input type="hidden" name="pdtNo" value="${product.pdtNo}">
+												<input type="hidden" name="receiver" class="receiver" value=""><!-- 상품문의 알림을위해  추가 -->
+												<input type="hidden" name="pdtName" value="${product.pdtName}"><!-- 상품문의 알림을 위해 추가 -->
 												<input type="submit" class="btn btn-success" value="등록" style="right:0;">
 											</c:if>
 											<c:if test="${loginMember==null }">
@@ -1338,15 +1104,30 @@ textarea.answer {
 			return false;
 		});
 	});
-
+	//옵션선택 스크립트
+	$('.optionChoice').click(function() {
+		$(this).attr('tabindex', 1).focus();
+		$(this).toggleClass('active');
+		$(this).find('.dropdown-menu').slideToggle(300);
+	});
+	$('.optionChoice').focusout(function() {
+		$(this).removeClass('active');
+		$(this).find('.dropdown-menu').slideUp(300);
+	});
+	$('.optionChoice .dropdown-menu li').click(
+			function() {
+				$(this).parents('.optionChoice').find('span').text(
+						$(this).text());
+				$(this).parents('.optionChoice').find('input').attr('value',
+						$(this).attr('id'));
+			});
 	
 	//수량계산
-	/* var count = 1;
+	var count = 1;
 	var countEl = document.getElementById("count");
 	var oriPrice = document.getElementById("oriPrice");
 	var totalPrice = document.getElementById("totalPrice");
 	var viewPrice = document.getElementById("viewPrice");
-
 	function minus(){
 		if(count > 1) {
 			count--;
@@ -1363,22 +1144,17 @@ textarea.answer {
 		finalPrice = totalPrice.value;
 		$(viewPrice).text(finalPrice);
 	} 
-	} */
-
 	
 	//네비바
 	$(".tab_menu_btn").on("click", function() {
 		//버튼 색 제거,추가
 		$(".tab_menu_btn").removeClass("on");
 		$(this).addClass("on");
-
 		//컨텐츠 제거 후 인덱스에 맞는 컨텐츠 노출
 		var idx = $(".tab_menu_btn").index(this);
-
 		$(".tab_box").hide();
 		$(".tab_box").eq(idx).show();
 	});
-
 	//연관상품 스와이프 스크립트
 	var swiper = new Swiper('.swiper-container', {
 		slidesPerView : 5, //보여줄 슬라이드 갯수
@@ -1406,7 +1182,6 @@ textarea.answer {
 		mySwiper.autoplay.start();
 		console.log('slider started again');
 	});
-
 	
 	//상품문의 클릭 시 박스 보였다가 안보였다가 이벤트
 	$(function() {
@@ -1450,7 +1225,6 @@ textarea.answer {
       var rlen = 0;
       var one_char = "";
       var str2 = "";
-
       for(var i = 0; i<str_len; i++) {
         one_char = str.charAt(i);
         if(escape(one_char).length > 4) {
@@ -1458,12 +1232,10 @@ textarea.answer {
         }else{
           rbyte++; //영문 등 나머지 1Byte
         }
-
         if(rbyte <= maxByte){
           rlen = i + 1; //return할 문자열 갯수
         }
       }
-
       if(rbyte > maxByte) {
         // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
         alert("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
@@ -1474,7 +1246,6 @@ textarea.answer {
         document.getElementById("byteInfo1").innerText = rbyte;
       }
     }
-
     //구매평 Byte 수 체크 제한
     function fnChkByte2(obj, maxByte) {
       var str = obj.value;
@@ -1483,7 +1254,6 @@ textarea.answer {
       var rlen = 0;
       var one_char = "";
       var str2 = "";
-
       for(var i = 0; i<str_len; i++) {
         one_char = str.charAt(i);
         if(escape(one_char).length > 4) {
@@ -1491,12 +1261,10 @@ textarea.answer {
         }else{
           rbyte++; //영문 등 나머지 1Byte
         }
-
         if(rbyte <= maxByte){
           rlen = i + 1; //return할 문자열 갯수
         }
       }
-
       if(rbyte > maxByte) {
         // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
         alert("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
@@ -1516,7 +1284,6 @@ textarea.answer {
       var rlen = 0;
       var one_char = "";
       var str2 = "";
-
       for(var i = 0; i<str_len; i++) {
         one_char = str.charAt(i);
         if(escape(one_char).length > 4) {
@@ -1524,12 +1291,10 @@ textarea.answer {
         }else{
           rbyte++; //영문 등 나머지 1Byte
         }
-
         if(rbyte <= maxByte){
           rlen = i + 1; //return할 문자열 갯수
         }
       }
-
       if(rbyte > maxByte) {
         // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
         alert("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
@@ -1541,7 +1306,6 @@ textarea.answer {
       }
     }      
     
-
 	//구매하기,장바구니,찜하기,상품문의 클릭 시 로그인 체크
 	$(function() {
 		$(".loginCheck").click(function() {
@@ -1611,7 +1375,6 @@ textarea.answer {
 	function secretCk(){
 		alert("작성자와 관리자만 접근할 수 있는 글입니다");
 	}
-
 	//상품문의 수정버튼 클릭 시 
 	$(".fn_updateInquiry").click(function(){
 		//수정 -> 수정완료버튼으로 바꾸고, textarea 활성화
@@ -1703,6 +1466,7 @@ textarea.answer {
   			modal.find(".answerYn").text(answerYn);
   			modal.find(".answer").text(answer);
   			modal.find(".answerDate").text(answerDate);
+  			modal.find(".receiver").val(memNo); //알림창 데이터 필요로  작성자 회원번호 추가
   		});
 	});	
 	
@@ -1735,7 +1499,6 @@ textarea.answer {
 		});
 	}
 	let rating = new Rating();//별점 인스턴스 생성
-
 	//별점선택
 	$(document).ready(function(){
 		$("input[name=rating]").click(function(){
@@ -1747,7 +1510,6 @@ textarea.answer {
 			}
 		});
 	});
-
 	//별점선택 안 했을 시 알림, 리뷰 5자 미만 시 알림
 	function fn_reviewCheck(){
 		if($("#review_textarea").val().length<5){

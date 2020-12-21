@@ -65,6 +65,22 @@
 		                    		</c:otherwise>
 		                        </c:choose>			
 		                    </div>
+		                    
+                   			<!-- 찜횟수,후기 개수,미리보기 페이지 -->
+		                    <div>
+		                    	<!-- 찜횟수 -->
+		                    	<img class="icon" alt="" src="${path}/resources/images/product/heart.png">
+		                    	<c:out value="${p.zzimCount }"/>
+		                    	<!-- 후기 개수 -->
+		                    	<img class="icon" alt="" src="${path}/resources/images/product/message.png">
+		                    	<c:out value="${p.reviewCount }"/>
+		                    	<!-- 미리보기페이지 -->
+		                    	<a>
+		                    		<img class="icon" alt="" src="${path}/resources/images/product/cart.png">
+		                    	</a>
+		                    	
+		                  	</div>
+		                  	
 		                    <div class="item-icon">
 		                    	<!-- 등록한 날짜로 부터 7일 -->
 		                    	<c:forEach var="n" items="${newList }">
@@ -93,4 +109,6 @@
     <div class="pagebar">
     	${pageBar }
     </div>
+    
+
 	

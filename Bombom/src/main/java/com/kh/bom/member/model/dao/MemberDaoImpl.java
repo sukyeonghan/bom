@@ -97,7 +97,11 @@ public class MemberDaoImpl implements MemberDao {
 		return session.insert("member.insertAlarm",a);
 	}
 	
-	
+	@Override
+	public int deleteAlarm(SqlSession session, String alarmNo) {
+		// TODO Auto-generated method stub
+		return session.delete("member.deleteAlarm",alarmNo);
+	}
 	
 
 	

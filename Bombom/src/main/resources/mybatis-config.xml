@@ -28,4 +28,5 @@
 		<typeAlias type="com.kh.bom.admin.model.vo.MainBanner" alias="mainBanner"/>
 		<typeAlias type="com.kh.bom.member.model.vo.Alarm" alias="alarm"/>
 	</typeAliases>
+
 </configuration>

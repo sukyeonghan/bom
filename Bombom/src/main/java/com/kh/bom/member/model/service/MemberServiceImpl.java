@@ -96,6 +96,11 @@ public class MemberServiceImpl implements MemberService {
 		return dao.insertAlarm(session,a);
 	}
 	
+	@Override
+	public int deleteAlarm(String alarmNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteAlarm(session,alarmNo);
+	}
 	
 	
 }
