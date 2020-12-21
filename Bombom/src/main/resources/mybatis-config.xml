@@ -26,6 +26,7 @@
 		<typeAlias type="com.kh.bom.review.model.vo.Review" alias="review"/>
 		<typeAlias type="com.kh.bom.admin.model.vo.MainBanner" alias="mainBanner"/>
 		<typeAlias type="com.kh.bom.member.model.vo.Alarm" alias="alarm"/>
+		<typeAlias type="com.kh.bom.common.typehandler.StringArrayTypeHandler" alias="stringStr"/>
 	</typeAliases>
 
 </configuration>
