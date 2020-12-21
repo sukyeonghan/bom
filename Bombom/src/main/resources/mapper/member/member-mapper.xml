@@ -12,7 +12,7 @@
 		<result property="memManagerYn" column="mem_manager_yn"/>
 		<result property="memStatus" column="mem_status"/>
 		<result property="memPoint" column="mem_point"/>
-	
+		<result property="memCmLike" column="mem_cm_like" />
 	</resultMap>
 	<resultMap type="alarm" id="alarmMap">
 		<result property="alarmNo" column="alarm_no"/>

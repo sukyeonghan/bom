@@ -7,6 +7,7 @@
 	src="http://code.jquery.com/jquery-1.11.3.js"></script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="${path }/resources/css/community/likeBtn.css">
 <c:set var="path" value="${pageContext.request.contextPath }" />
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -166,7 +167,7 @@ table#tbl-comment textarea {
 	margin: 4px 0 0 0;
 }
 
-/* 좋아요버튼  */
+/* 좋아요버튼  관련 css*/
 .fa {
 	font-size: 40px;
 	cursor: pointer;
@@ -180,6 +181,9 @@ table#tbl-comment textarea {
 margin-left:20px;
 display:none;
 }
+
+}
+
 </style>
 <section id="content" class="container">
 	<div id="community-container">
@@ -207,11 +211,29 @@ display:none;
 		<br>
 		<textarea id="editor" class="form-control" rows="10" name="cmContent"
 			placeholder="내용을 입력해주세요" required><c:out
-				value="${community.cmContent }" /></textarea>
-		<br> <label> Like </label> <i onclick="myFunction(this)"
+				value="${community.cmContent }" /></textarea><br>
+		
+		<!-- 좋아요 -->		
+<%-- 		 <label> Like </label> <i onclick="myFunction(this)"
 			class="fa fa-thumbs-up"></i>
 		<c:out value="${community.cmLike }" />
-		<br> <br>
+		<br> <br> --%>
+
+		<!-- 테스트 -->
+		<div class='middle-wrapper'>
+		  <div class='like-wrapper'>
+		    <a class='like-button'>
+		      <span class='like-icon'>
+		        <div class='heart-animation-1'></div>
+		        <div class='heart-animation-2'></div>
+		      </span>
+		      좋아요 <c:out value="${community.cmLike }" />
+		    </a>
+		  </div>
+		</div>
+		<br>
+
+
 		<!-- 해당 게시글 작성자에게만 수정 / 삭제 버튼 보인다 -->
 
 		<div id="btn-box">
@@ -282,9 +304,24 @@ display:none;
 </section>
 
 <script>
-	//좋아요 ajax 
+	//좋아요 버튼
+	$('a.like-button').on('click', function(e) {
+	  $(this).toggleClass('liked');
+	  
+	});
+	//좋아요 ajax
 	function myFunction(x) {
 		x.classList.toggle("fa-thumbs-down");	
+		//숫자 카운트,member에 insert
+		$.ajax({
+			url:"${path}/community/insertLike",
+			data:{memNo:"${loginMember.memNo}",cmNo:"${community.cmNo }",likeCount:"${community.cmLike }"},
+			dataType:"json",
+			sucess:data=>{
+				//글번호insert결과값, 카운트 수 
+				
+			}
+		});
 	}
   
 
@@ -298,6 +335,7 @@ display:none;
 		let cmNo = $(event.target).parent().children('input[name=cmNo]').val();
 		location.replace("${path}/community/deleteCommunity?cmNo=" + cmNo);
 	};
+	
 	//댓글 시작
 	$(document)
 			.ready(
@@ -505,7 +543,334 @@ display:none;
 $(document).on("click",".btn-reply",e=>{
 	$(e.target).parent().next(".replyDiv").toggle(800);
 });
-  	
+
 	
 </script>
+<style>
+	/*커뮤니티 좋아요 버튼*/
+	body {
+	  font-size: 16px;
+	}
+	
+	a {
+	  cursor: pointer;
+	}
+	
+	.middle-wrapper {
+	  display: -webkit-box;
+	  display: flex;
+	  -webkit-box-pack: center;
+	  /*  justify-content: center; */
+	  -webkit-box-align: center;
+	   align-items: center;
+	  /* width: 100%; */
+	  /* height: 95vh; */
+	}
+	
+	.like-wrapper {
+	  display: -webkit-box;
+	  display: flex;
+	  justify-content: space-around;
+	  -webkit-box-orient: horizontal;
+	  -webkit-box-direction: normal;
+	  flex-flow: row wrap;
+	  /* width: 50%; */
+	}
+	
+	.like-button {
+	  border: 2px solid #c7c7c7;
+	  border-radius: 40px;
+	  padding: .45rem .75rem;
+	  color: #878787;
+	  font-weight: bold;
+	  display: -webkit-box;
+	  display: flex;
+	  -webkit-box-align: center;
+	          align-items: center;
+	  -webkit-box-pack: center;
+	          justify-content: center;
+	  font-size: 1rem;
+	  -webkit-transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	  -webkit-filter: grayscale(100%);
+	          filter: grayscale(100%);
+	  -webkit-user-select: none;
+	     -moz-user-select: none;
+	      -ms-user-select: none;
+	          user-select: none;
+	}
+	.like-button.liked {
+	  color: #ff6e6f;
+	  border-color: currentColor;
+	  -webkit-filter: grayscale(0);
+	          filter: grayscale(0);
+	}
+	.like-button:hover {
+	  border-color: currentColor;
+	}
+	
+	.like-icon {
+	  width: 18px;
+	  height: 16px;
+	  display: inline-block;
+	  position: relative;
+	  margin-right: .25em;
+	  font-size: 1.5rem;
+	  background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAyMSAxOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTAuMTAxIDQuNDE3UzguODk1LjIwNyA1LjExMS4yMDdjLTQuNDY1IDAtMTAuOTY3IDYuODQ2IDUuMDgyIDE3LjU5MkMyNS4yMzcgNy4wMyAxOS42NjUuMjAyIDE1LjUwMS4yMDJjLTQuMTYyIDAtNS40IDQuMjE1LTUuNCA0LjIxNXoiIGZpbGw9IiNGRjZFNkYiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==") no-repeat center;
+	  background-size: 100%;
+	  -webkit-animation: heartUnlike 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+	          animation: heartUnlike 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+	}
+	
+	.liked .like-icon {
+	  -webkit-animation: heartPulse 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+	          animation: heartPulse 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+	}
+	.liked .like-icon [class^="heart-animation-"] {
+	  background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAyMSAxOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTAuMTAxIDQuNDE3UzguODk1LjIwNyA1LjExMS4yMDdjLTQuNDY1IDAtMTAuOTY3IDYuODQ2IDUuMDgyIDE3LjU5MkMyNS4yMzcgNy4wMyAxOS42NjUuMjAyIDE1LjUwMS4yMDJjLTQuMTYyIDAtNS40IDQuMjE1LTUuNCA0LjIxNXoiIGZpbGw9IiNGRjZFNkYiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==") no-repeat center;
+	  background-size: 100%;
+	  display: block;
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  width: 16px;
+	  height: 14px;
+	  opacity: 0;
+	}
+	.liked .like-icon [class^="heart-animation-"]::before, .liked .like-icon [class^="heart-animation-"]::after {
+	  content: '';
+	  background: inherit;
+	  background-size: 100%;
+	  width: inherit;
+	  height: inherit;
+	  display: inherit;
+	  position: relative;
+	  top: inherit;
+	  left: inherit;
+	  opacity: 0;
+	}
+	.liked .like-icon .heart-animation-1 {
+	  -webkit-animation: heartFloatMain-1 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+	          animation: heartFloatMain-1 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+	}
+	.liked .like-icon .heart-animation-1::before, .liked .like-icon .heart-animation-1::after {
+	  width: 12px;
+	  height: 10px;
+	  visibility: hidden;
+	}
+	.liked .like-icon .heart-animation-1::before {
+	  opacity: .6;
+	  -webkit-animation: heartFloatSub-1 1s 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+	          animation: heartFloatSub-1 1s 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+	}
+	.liked .like-icon .heart-animation-1::after {
+	  -webkit-animation: heartFloatSub-2 1s 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+	          animation: heartFloatSub-2 1s 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+	  opacity: .75;
+	}
+	.liked .like-icon .heart-animation-2 {
+	  -webkit-animation: heartFloatMain-2 1s 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+	          animation: heartFloatMain-2 1s 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+	}
+	.liked .like-icon .heart-animation-2::before, .liked .like-icon .heart-animation-2::after {
+	  width: 10px;
+	  height: 8px;
+	  visibility: hidden;
+	}
+	.liked .like-icon .heart-animation-2::before {
+	  -webkit-animation: heartFloatSub-3 1s 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+	          animation: heartFloatSub-3 1s 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+	  opacity: .25;
+	}
+	.liked .like-icon .heart-animation-2::after {
+	  -webkit-animation: heartFloatSub-4 1s 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+	          animation: heartFloatSub-4 1s 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+	  opacity: .4;
+	}
+	
+	@-webkit-keyframes heartPulse {
+	  0% {
+	    -webkit-transform: scale(1);
+	            transform: scale(1);
+	  }
+	  50% {
+	    -webkit-transform: scale(1.5);
+	            transform: scale(1.5);
+	  }
+	}
+	
+	@keyframes heartPulse {
+	  0% {
+	    -webkit-transform: scale(1);
+	            transform: scale(1);
+	  }
+	  50% {
+	    -webkit-transform: scale(1.5);
+	            transform: scale(1.5);
+	  }
+	}
+	@-webkit-keyframes heartUnlike {
+	  50% {
+	    -webkit-transform: scale(0.75);
+	            transform: scale(0.75);
+	  }
+	}
+	@keyframes heartUnlike {
+	  50% {
+	    -webkit-transform: scale(0.75);
+	            transform: scale(0.75);
+	  }
+	}
+	@-webkit-keyframes heartFloatMain-1 {
+	  0% {
+	    opacity: 0;
+	    -webkit-transform: translate(0) rotate(0);
+	            transform: translate(0) rotate(0);
+	  }
+	  50% {
+	    opacity: 1;
+	    -webkit-transform: translate(0, -25px) rotate(-20deg);
+	            transform: translate(0, -25px) rotate(-20deg);
+	  }
+	}
+	@keyframes heartFloatMain-1 {
+	  0% {
+	    opacity: 0;
+	    -webkit-transform: translate(0) rotate(0);
+	            transform: translate(0) rotate(0);
+	  }
+	  50% {
+	    opacity: 1;
+	    -webkit-transform: translate(0, -25px) rotate(-20deg);
+	            transform: translate(0, -25px) rotate(-20deg);
+	  }
+	}
+	@-webkit-keyframes heartFloatMain-2 {
+	  0% {
+	    opacity: 0;
+	    -webkit-transform: translate(0) rotate(0) scale(0);
+	            transform: translate(0) rotate(0) scale(0);
+	  }
+	  50% {
+	    opacity: .9;
+	    -webkit-transform: translate(-10px, -38px) rotate(25deg) scale(1);
+	            transform: translate(-10px, -38px) rotate(25deg) scale(1);
+	  }
+	}
+	@keyframes heartFloatMain-2 {
+	  0% {
+	    opacity: 0;
+	    -webkit-transform: translate(0) rotate(0) scale(0);
+	            transform: translate(0) rotate(0) scale(0);
+	  }
+	  50% {
+	    opacity: .9;
+	    -webkit-transform: translate(-10px, -38px) rotate(25deg) scale(1);
+	            transform: translate(-10px, -38px) rotate(25deg) scale(1);
+	  }
+	}
+	@-webkit-keyframes heartFloatSub-1 {
+	  0% {
+	    visibility: hidden;
+	    -webkit-transform: translate(0) rotate(0);
+	            transform: translate(0) rotate(0);
+	  }
+	  50% {
+	    visibility: visible;
+	    -webkit-transform: translate(13px, -13px) rotate(30deg);
+	            transform: translate(13px, -13px) rotate(30deg);
+	  }
+	}
+	@keyframes heartFloatSub-1 {
+	  0% {
+	    visibility: hidden;
+	    -webkit-transform: translate(0) rotate(0);
+	            transform: translate(0) rotate(0);
+	  }
+	  50% {
+	    visibility: visible;
+	    -webkit-transform: translate(13px, -13px) rotate(30deg);
+	            transform: translate(13px, -13px) rotate(30deg);
+	  }
+	}
+	@-webkit-keyframes heartFloatSub-2 {
+	  0% {
+	    visibility: hidden;
+	    -webkit-transform: translate(0) rotate(0);
+	            transform: translate(0) rotate(0);
+	  }
+	  50% {
+	    visibility: visible;
+	    -webkit-transform: translate(18px, -10px) rotate(55deg);
+	            transform: translate(18px, -10px) rotate(55deg);
+	  }
+	}
+	@keyframes heartFloatSub-2 {
+	  0% {
+	    visibility: hidden;
+	    -webkit-transform: translate(0) rotate(0);
+	            transform: translate(0) rotate(0);
+	  }
+	  50% {
+	    visibility: visible;
+	    -webkit-transform: translate(18px, -10px) rotate(55deg);
+	            transform: translate(18px, -10px) rotate(55deg);
+	  }
+	}
+	@-webkit-keyframes heartFloatSub-3 {
+	  0% {
+	    visibility: hidden;
+	    -webkit-transform: translate(0) rotate(0);
+	            transform: translate(0) rotate(0);
+	  }
+	  50% {
+	    visibility: visible;
+	    -webkit-transform: translate(-10px, -10px) rotate(-40deg);
+	            transform: translate(-10px, -10px) rotate(-40deg);
+	  }
+	  100% {
+	    -webkit-transform: translate(-50px, 0);
+	            transform: translate(-50px, 0);
+	  }
+	}
+	@keyframes heartFloatSub-3 {
+	  0% {
+	    visibility: hidden;
+	    -webkit-transform: translate(0) rotate(0);
+	            transform: translate(0) rotate(0);
+	  }
+	  50% {
+	    visibility: visible;
+	    -webkit-transform: translate(-10px, -10px) rotate(-40deg);
+	            transform: translate(-10px, -10px) rotate(-40deg);
+	  }
+	  100% {
+	    -webkit-transform: translate(-50px, 0);
+	            transform: translate(-50px, 0);
+	  }
+	}
+	@-webkit-keyframes heartFloatSub-4 {
+	  0% {
+	    visibility: hidden;
+	    -webkit-transform: translate(0) rotate(0);
+	            transform: translate(0) rotate(0);
+	  }
+	  50% {
+	    visibility: visible;
+	    -webkit-transform: translate(2px, -18px) rotate(-25deg);
+	            transform: translate(2px, -18px) rotate(-25deg);
+	  }
+	}
+	@keyframes heartFloatSub-4 {
+	  0% {
+	    visibility: hidden;
+	    -webkit-transform: translate(0) rotate(0);
+	            transform: translate(0) rotate(0);
+	  }
+	  50% {
+	    visibility: visible;
+	    -webkit-transform: translate(2px, -18px) rotate(-25deg);
+	            transform: translate(2px, -18px) rotate(-25deg);
+	  }
+</style>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

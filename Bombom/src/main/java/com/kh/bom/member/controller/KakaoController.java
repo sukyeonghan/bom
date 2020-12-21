@@ -184,7 +184,6 @@ public class KakaoController {
             		System.out.println("넘어갈값2:"+mem.getMemNick());
             		
             		viewName="common/duplicateNick";
-            
             		    		
             	}else {
             		result=memberService.insertMember(loginMember, p);
