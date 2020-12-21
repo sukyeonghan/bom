@@ -172,10 +172,12 @@ public class memberController {
 			@RequestParam(value="nick") String nick,
 			@RequestParam(value="email") String email,
 			@RequestParam(value="password") String password,
+			@RequestParam(value="pro", defaultValue = "basic.png") String pro,
 			Model m) {
 		mem.setMemNick(nick);
 		mem.setMemEmail(email);
 		mem.setMemPwd(password);
+		mem.setMemPro(pro);
 		Point p=new Point();
 		p.setPointContent("회원가입");
 		p.setPointChange(2000);
