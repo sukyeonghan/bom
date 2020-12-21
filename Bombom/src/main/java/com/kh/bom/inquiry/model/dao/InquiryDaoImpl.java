@@ -1,6 +1,5 @@
 package com.kh.bom.inquiry.model.dao;
 
-import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 

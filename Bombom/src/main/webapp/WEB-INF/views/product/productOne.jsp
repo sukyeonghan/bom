@@ -14,38 +14,31 @@ a:link {
 	color: black;
 	text-decoration: none;
 }
-
 a:visited {
 	color: black;
 	text-decoration: none;
 }
-
 a:hover {
 	color: #45A663;
 	text-decoration: none;
 }
-
 /* 글씨크기 조정 스타일 */
 .information {
 	padding: 4px;
 	font-size: 15px;
 }
-
 .size-up {
 	font-size: 23px;
 }
-
 .size-mid {
 	font-size: 17px;
 }
-
 /* 썸네일 이미지 */
 .goods_thumbs_image ul {
 	padding: 0;
 	list-style: none;
 	margin-bottom: 0;
 }
-
 .goods_thumbs_image ul li {
 	float: left;
 	/* padding-right: 7px; */
@@ -56,13 +49,11 @@ a:hover {
 	cursor: pointer;
 	margin: 0;
 }
-
 .goods_thumbs_image ul li img {
 	width: 100%;
 	/*  height:100%; */
 	object-fit: contain;
 }
-
 /*셀렉트박스 디자인*/
 .optionChoice {
 	width: 100%;
@@ -75,7 +66,6 @@ a:hover {
 	position: relative;
 	cursor: pointer;
 }
-
 .optionChoice .select {
 	cursor: pointer;
 	padding: 10px;
@@ -84,7 +74,6 @@ a:hover {
 	-moz-appearance: none;
 	appearance: none;
 }
-
 .optionChoice .dropdown-menu {
 	position: absolute;
 	background-color: #fff;
@@ -96,33 +85,27 @@ a:hover {
 	display: none;
 	overflow-y: auto;
 }
-
 .optionChoice .dropdown-menu li {
 	padding: 10px;
 	transition: all .2s ease-in-out;
 	cursor: pointer;
 }
-
 .optionChoice .dropdown-menu {
 	padding: 0;
 	list-style: none
 }
-
 .optionChoice .dropdown-menu li:hover {
 	color: #28a745;
 }
-
 .optionChoice .dropdown-menu li:active {
 	background-color: #28a745;
 }
-
 /*수량 스타일*/
 #info_count {
 	border: #28a745 1px solid;
 	width: 100%;
 	height: 100px;
 }
-
 .input_count {
 	border: #28a745 1px solid;
 	background-color: #fff;
@@ -133,7 +116,6 @@ a:hover {
 	vertical-align: middle;
 	text-align: center;
 }
-
 .input_count2 {
 	border: #28a745 1px solid;
 	background-color: #fff;
@@ -144,12 +126,10 @@ a:hover {
 	vertical-align: middle;
 	text-align: center;
 }
-
 /* 버튼 크기 조절 */
 .custom {
 	width: 163px !important;
 }
-
 /* 네비바 스타일 */
 button {
 	background: none;
@@ -157,57 +137,46 @@ button {
 	outline: 0;
 	cursor: pointer;
 }
-
 button:focus {
 	border: none;
 	outline: none;
 }
-
 .tab_menu_container {
 	text-align: center;
 	padding-top: 80px;
 }
-
 .tab_menu_btn {
 	width: 200px;
 	height: 40px;
 	transition: 0.3s all;
 }
-
 .tab_menu_btn.on {
 	border-bottom: 1px solid #45A663;
 	color: #45A663;
 }
-
 .tab_menu_btn:hover {
 	color: #45A663;
 }
-
 .tab_box {
 	display: none;
 	padding: 25px;
 }
-
 .tab_box.on {
 	display: block;
 }
-
 .tab_box img {
 	width: 100%;
 }
-
 /* 배송 안내사항 */
 #information p {
 	font-size: 12px;
 }
-
 /* 연관상품 스와이프 css */
 .swiper-container {
 	/* width:1100px; */
 	width: 100%;
 	height: 300px;
 }
-
 .swiper-slide {
 	font-size: 13px;
 	background: #fff;
@@ -226,24 +195,20 @@ button:focus {
 	-webkit-align-items: center;
 	align-items: center;
 }
-
 .swiper-slide img {
 	/* 이미지 최대너비 제한 */
 	max-width: 100%;
 	max-height: 100%;
 	object-fit: contain;
 }
-
 .slideImg {
 	padding-top: 10px;
 }
-
 /*상품문의 박스 스타일*/
 div.wrap-category {
 	margin: 7px 0px 7px 0px;
 	text-align: left;
 }
-
 .span_textarea {
 	position: relative;
 	padding: 8px;
@@ -254,18 +219,15 @@ div.wrap-category {
 	width: 100%;
 	height: 200px;
 }
-
 textarea {
 	width: 99%;
 	height: 80%;
 	resize: none;
 	border: none;
 }
-
 textarea:focus {
 	outline: none;
 }
-
 textarea.inqContent {
 	width: 100%;
 	height: 100%;
@@ -273,7 +235,6 @@ textarea.inqContent {
 	border: none;
 	margin: 7px 0 7px 0;
 }
-
 textarea.answer {
 	width: 100%;
 	height: 100%;
@@ -281,12 +242,10 @@ textarea.answer {
 	border: none;
 	margin: 7px 0 7px 0;
 }
-
 /* 상품문의 모달창 */
 #modalClick {
 	cursor: pointer;
 }
-
 /* 위로가기 버튼 */
 .scrollTop {
 	width: 50px;
@@ -297,7 +256,6 @@ textarea.answer {
 	bottom: 40px;
 	display: none;
 }
-
 /* 스타 체크박스 옆으로 조절 */
 .rating .rate_radio {
 	position: relative;
@@ -312,7 +270,6 @@ textarea.answer {
 	/* 체크박스 안 보이게  */
 	display: none;
 }
-
 .rating .rate_radio+label {
 	position: relative;
 	display: inline-block;
@@ -327,25 +284,20 @@ textarea.answer {
 	cursor: pointer;
 	background-color:
 }
-
 .rating .rate_radio:checked+label {
 	background-image: url('../resources/images/product/star.png');
 }
-
 /* 구매평 */
 .review_span {
 	height: 250px;
 }
-
 #review_textarea {
 	height: 50%;
 }
-
 .accordion_title {
 	display: flex;
 	position: relative;
 }
-
 .plusminus::before {
 	content: '';
 	display: block;
@@ -358,7 +310,6 @@ textarea.answer {
 	transition: .5s;
 	margin: 10px;
 }
-
 .plusminus::after {
 	content: '';
 	display: block;
@@ -370,23 +321,18 @@ textarea.answer {
 	transform: rotate(0deg);
 	margin: 10px;
 }
-
 .plusminus.active::before {
 	transform: rotate(0deg);
 }
-
 .accordion_title:hover {
 	cursor: pointer;
 }
-
 .accordion_title {
 	margin: 10px;
 }
-
 .accordion_title:active .shortContent {
 	style: none;
 }
-
 .accordion_content {
 	display: block;
 	margin: 0;
@@ -394,11 +340,9 @@ textarea.answer {
 	overflow: hidden;
 	transition: .5s;
 }
-
 .accordion_content.show {
 	margin: 10px;
 }
-
 .accordion_wrap {
 	border-color: #E2E2E2;
 	list-style: none;
@@ -406,13 +350,15 @@ textarea.answer {
 	border-style: solid;
 	padding: 0px;
 }
-
 .accordion_inner {
 	border-color: #E2E2E2;
 	list-style: none;
 	border-width: 0 0 1px 0;
 	border-style: solid;
 	margin: 10px 0 0 0;
+}
+.pageBar{
+	text-align: center;
 }
 </style>
 
@@ -439,7 +385,7 @@ textarea.answer {
     		<a href="${path}/product/pet">반려동물</a></small></h5>
     	</c:when>
     </c:choose>
-    <c:out value="${product}"/>
+    <input type="hidden" name="pdtNo" id="pdtNo" value="${product.pdtNo}"/>
     <div class="row" >
     	<!-- 썸네일 -->
         <div class="col-6" >
@@ -448,40 +394,60 @@ textarea.answer {
         	<c:if test="${vs.first }">
             	<img alt="" class="img-fluid" id="main_image" style="padding-bottom:7px;" src="${path}/resources/upload/product/${th}"/>
             </c:if>
+            </c:forTokens>
             <!-- 작은사진 여러개 -->
             <div class="goods_thumbs_image row container">
                 <ul class="clearfix">
+                <c:forTokens items="${product.thumbs}" var="th" delims="," varStatus="vs">
 	                <li class="col-2 small_image"><a href="${path }/resources/upload/product/${th}"><img src="${path }/resources/upload/product/${th}"></a></li>
+                </c:forTokens>
                 </ul>
             </div>
-            </c:forTokens>
         </div>
         <!-- 제품 info -->
         <div class="col-6 info-container" style="display:flex;flex-wrap:wrap;">
         	<div class="inner_goods_form container">
         		<div class="head" style="margin-top:0px;">
         			<div class="information size-up" style="padding-top:10px;">${product.pdtName }&nbsp;&nbsp;
-        			<c:if test="${product.eventNoRef!=null }">
-        			<img src="${path}/resources/images/product/sale.jpg" width="50px">
+        			<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
+        				<img src="${path}/resources/images/product/sale.jpg" width="50px">
         			</c:if>
         			</div>
-        			<div class="information size-up"><fmt:formatNumber value="${product.pdtPrice }" pattern="#,###"/>원&nbsp;
-        			<c:if test="${product.eventNoRef!=null }">
-        				<span id="sale_price" value="" style="text-decoration:line-through; font-size:18px; color:dimgray;"><fmt:formatNumber value="${product.pdtPrice }" pattern="#,###"/>원</span>
-        			</c:if>
+        			<!-- 세일가격 -->
+					<div class="information size-up">
+						<fmt:parseNumber var="i" integerOnly="true" type="number" value="${product.pdtPrice*(1-(product.salePer/100))}"/><fmt:formatNumber value="${i}"/>원&nbsp;
+	        			<!-- 원래가격 -->
+	        			<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
+	        				<span id="sale_price" value="" style="text-decoration:line-through; font-size:18px; color:dimgray;"><fmt:formatNumber value="${product.pdtPrice }" pattern="#,###"/>원</span>
+	        			</c:if>
         			</div>
+        			<!-- 별점 -->
                     <div class="information size-mid row">
-	                    <div class="col-10">별점</div>
+                    	<c:if test="${reviewAvg==null }">
+                    		<div class="col-10" style="visibility:hidden">별점 <c:out value="${reviewAvg}"/></div>
+                    	</c:if>
+                    	<c:if test="${reviewAvg!=null }">
+	                    	<div class="col-10">별점 <c:out value="${reviewAvg}"/></div>
+	                    </c:if>
 	                    <div class="col-2"><a href=""><img src="${path}/resources/images/product/SNS.png" width="35px" style="right:0;"></a></div>
                     </div>
                     <hr>
                     <div class="information size-mid">${product.pdtIntro }</div>
-                    <div class="information size-mid">구매 시 <fmt:formatNumber value="${product.pdtPrice*0.05 }" pattern="#,###"/>봄 적립</div>
+                    <!-- 적립금 : 옵션이 없을경우에만 표시 -->
+                    <c:if test="${empty optionlist}">
+                    	<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
+                    		<div class="information size-mid">구매 시 <fmt:formatNumber value="${(product.pdtPrice*(1-(product.salePer/100)))*0.05}" pattern="#,###"/>봄 적립</div>
+                    	</c:if>
+                    	<c:if test="${empty product.eventNoRef}">
+                    		<div class="information size-mid">구매 시 <fmt:formatNumber value="${product.pdtPrice*0.05 }" pattern="#,###"/>봄 적립</div>
+                    	</c:if>
+                    </c:if>
                     <div class="information size-mid">배송비 2,500원(50,000원이상 무료배송) | 도서산간 배송비 추가</div>
+                    ${optionlist}
                     <hr>
                     
                     <!-- 1.기본선택창:옵션이 없을 경우 나올 화면 -->
-                    <c:if test="${product.pdtOptionNo==null}">
+                    <c:if test="${empty optionlist}">
 	                   <div class="information" style="padding-bottom:10px;">
 	                    	<div id="info_count" style="border-radius:4px;">
 	                    		<div class="information" style="margin:10px;visibility:hidden;">옵션선택확인</div>
@@ -492,65 +458,111 @@ textarea.answer {
 	                    				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
 	                    			</div>
 	                    			<div class="col-3">
-	                    				<input type="text" value="${product.pdtPrice}" id="total_count" hidden="hidden"/>
-	                    				<input type="text" value="${product.pdtPrice}" id="total_count_view" style="width:60px;text-align:right; border:none;" readonly/>원
+	                    			<!-- 원래가격 -->
+	                    				<c:if test="${empty product.eventNoRef}">
+		                    				<input type="text" value="${product.pdtPrice}" id="oriPrice" hidden="hidden"/>
+		                    				<input type="text" value="${product.pdtPrice}" id="totalPrice" hidden="hidden"/>
+		                    				<span id="viewPrice" style="width:60px;text-align:right; border:none;">${product.pdtPrice}</span>원
+	                    				</c:if>
+	                    			<!-- 세일가격 -->
+	                    				<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
+	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="oriPrice" hidden="hidden"/>
+	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="totalPrice" hidden="hidden"/>
+	                    					<span id="viewPrice" style="width:60px;text- align:right; border:none;"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
+	                    				</c:if>
 	                    			</div>
 	                    		</div>
 	                    	</div>
 	                    </div>
                     </c:if>
-                    <script>
-                	//수량선택 스크립트
-                	var count = 1;
-                	var countEl = document.getElementById("count");
-                	var total_count = document.getElementById("total_count");
-                	var total_count_view = document.getElementById("total_count_view");
-
-                	function minus(){
-                		if(count > 1) {
-                			count--;
-                			countEl.value = count;
-                			total_count_view.value = total_count_view.value - total_count.value;
-                		}
-                	}
-                	function plus(){
-                		count++;
-                		countEl.value = count;
-                		total_count_view.value = total_count.value * countEl.value;
-                	}
-                    </script>                  
-                    
                     <!-- 2.옵션선택창:옵션이 있을 경우 반드시 선택해야함 -->
-                    <c:if test="${product.pdtOptionNo!=null}">
+                    <c:if test="${not empty optionlist }">
                     <div class="information">
-                    	<div class="optionChoice">
-                    		<div class="select">
-                    			<span class="size-mid">옵션선택</span>
-                    		</div>
-                    		<input type="hidden" name="option">
-                    		<ul class="dropdown-menu">
-                    			<li id="one">1번</li>
-                    			<li id="two">2번</li>
-                    		</ul>
-                    	</div>
+                    	<select class="form-control" id="optionSelect">
+                    		<option readonly>옵션선택</option>
+                    		<c:forEach items="${optionlist}" var="opt" varStatus="vs">
+                    			<option value="${opt.pdtOptionAddprice}">${opt.pdtOptionContent}&nbsp;&nbsp;+<fmt:formatNumber value="${opt.pdtOptionAddprice}" pattern="#,###"/></option>
+                    		</c:forEach>
+                    	</select>	
                     </div>
-                    <div class="information" style="padding-bottom:10px;">
-                    	<div id="info_count" style="border-radius:4px;">
-                    		<div class="information" style="margin:10px;">옵션선택확인</div>
-                    		<div class="inforamtion">
-                    			<div style="float:left;margin:0 0 0 10px;">
-                    				<input type="button" class="input_count" value="-" id="minus" onclick="minus();">
-                    				<input type="text" class="input_count2" value="1" id="count" style="width:40px; text-align:center;">
-                    				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
-                    			</div>
-                    			<div style="float:right;margin:0 10px 0 0;">
-                    				<input type="text" value="4000" id="total_count" hidden="hidden"/>
-                    				<input type="text" value="4000" id="total_count_view" style="width:60px;right:0; border:none;" readonly/>원
-                    			</div>
-                    		</div>
-                    	</div>
-                    </div>
-                    </c:if>        			
+                    <div class="information" id="optionView" style="padding-bottom:10px;display:none;">
+	                    	<div id="info_count" style="border-radius:4px;">
+	                    		<div class="information" id="optionCheck" style="margin:10px;">
+	                    			<span id="optionCheck">옵션확인란</span>
+	                    			<span id="optionClose" style="float:right;cursor:pointer">X</span>
+	                    		</div>
+	                    		<div class="inforamtion row">
+	                    			<div class="col" style="margin-left:10px;">
+	                    				<input type="button" class="input_count" value="-" id="minus" onclick="minus();">
+	                    				<input type="text" class="input_count2" value="1" id="count" style="width:40px; text-align:center;">
+	                    				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
+	                    			</div>
+	                    			<div class="col-3">
+	                    			<!-- 원래가격 -->
+	                    				<c:if test="${empty product.eventNoRef}">
+		                    				<input type="text" value="${product.pdtPrice}" id="oriPrice" hidden="hidden"/>
+		                    				<input type="text" value="${product.pdtPrice}" id="totalPrice" hidden="hidden"/>
+		                    				<input type="text" value="0" id="optionPrice"/>
+		                    				<span id="viewPrice" style="width:60px;text-align:right; border:none;">${product.pdtPrice}</span>원
+	                    				</c:if>
+	                    			<!-- 세일가격 -->
+	                    				<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
+	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="oriPrice" hidden="hidden"/>
+	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="totalPrice" hidden="hidden"/>
+	                    					<input type="text" value="0" id="optionPrice"/>
+	                    					<span id="viewPrice" style="width:60px;text-align:right; border:none;"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
+	                    				</c:if>
+	                    			</div>
+	                    		</div>
+	                    	</div>
+	                    </div>
+                    </c:if> 
+                    
+                    <script>
+                    	//옵션선택 시 수량계산 창 나옴
+                    	$("#optionSelect").change(function(){
+                    		if($("#optionView").css("display")=="none"){
+                    			$("#optionView").css("display","");
+                    		}
+                    		//옵션가격을 optionPrice value에 넣기
+                    		var price = $("#optionSelect option:selected").val();
+                    		$("#optionPrice").val(price);
+                    		//옵션명 optionCheck에 넣기
+                    		var text = $("#optionSelect option:selected").text();
+                    		var optionName = text.substring(0,text.indexOf("+")).trim();
+                    		$("#optionCheck").text(optionName);	
+                    	});
+                    	
+                    	//수량계산창 닫기
+                    	$("#optionClose").click(function(){
+                    		$("#optionView").css("display","none");
+                    	});
+                    	
+                    	
+                    	
+                    	var count = 1;
+                    	var countEl = document.getElementById("count");
+                    	var oriPrice = document.getElementById("oriPrice");
+                    	var totalPrice = document.getElementById("totalPrice");
+                    	var viewPrice = document.getElementById("viewPrice");
+                    	function minus(){
+                    		if(count > 1) {
+                    			count--;
+                    			countEl.value = count;
+                    			totalPrice.value = totalPrice.value - oriPrice.value;
+                    			finalPrice = totalPrice.value;
+                    			$(viewPrice).text(finalPrice);
+                    		}
+                    	}
+                    	function plus(){
+                    		count++;
+                    		countEl.value = count;
+                    		totalPrice.value = oriPrice.value * countEl.value;
+                    		finalPrice = totalPrice.value;
+                    		$(viewPrice).text(finalPrice);
+                    	}
+                    </script>
+                           			
                     <!-- 버튼 3개,로그인 안 할 경우 클릭 못하게 방지 -->        			
                     <div class="information container">
                     	<c:if test="${loginMember!=null }">
@@ -650,6 +662,7 @@ textarea.answer {
 									<span id="byteInfo2">0</span>/500bytes
 										<!-- 로그인 한 사람 및 구매한 사람만 구매평 등록가능-->
 								        <c:if test="${loginMember!=null }">
+								        	<input type="hidden" name="pdtNo" value="${product.pdtNo }">
 								        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
 								        	<input type="hidden" name="revScore">
 								        	<input type="submit" class="btn btn-success textCheck" value="등록" style="right:0;">
@@ -850,6 +863,7 @@ textarea.answer {
 								        	<input type="hidden" id="secret" name="inqSecret" value="N">
 								        </label>
 								        <c:if test="${loginMember!=null }">
+								        	<input type="hidden" name="pdtNo" value="${product.pdtNo}">
 								        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
 								        	<input type="submit" class="btn btn-success" value="등록" style="right:0;">
 								        </c:if>
@@ -865,8 +879,8 @@ textarea.answer {
 			        <!-- 상품문의 게시글 -->
 			        <div id="result">
 				        <div class="container">
-					        <table class="table" style=" table-layout: fixed;">
 						    <c:if test="${not empty list }">	
+					        <table class="table" style=" table-layout: fixed;">
 						        <thead>
 						        	<tr>
 						        		<td style="width:10%;">상태</td>
@@ -912,19 +926,21 @@ textarea.answer {
 						        		</tr>
 						        	</thead>
 						        </c:forEach>
+						    	</table>
+						        <div class="pageBar">
+									<span>${pageBar }</span>
+						    	</div>
 					        </c:if>
 					        <c:if test="${empty list }">
+					        <table>
 					        	<thead>
 					        		<tr>
 					        			<td colspan="4">등록된 문의가 없습니다</td>
 					        		</tr>
 					        	</thead>
-					        </c:if>
 					        </table>
+					        </c:if>
 				        </div><!-- 상품문의 게시글 끝 -->			        
-				        <div class="pageBar">
-							<span>${pageBar }</span>
-				    	</div>
 			    	</div><!-- result 끝 -->
 			        
 			      <!-- 상품문의 모달창 -->
@@ -970,6 +986,9 @@ textarea.answer {
 											<c:if test="${loginMember!=null }">
 												<input type="hidden" name="memNo" value="${loginMember.memNo}">
 												<input type="hidden" name="inqNo" class="inqNo"/>
+												<input type="hidden" name="pdtNo" value="${product.pdtNo}">
+												<input type="hidden" name="receiver" class="receiver" value=""><!-- 상품문의 알림을위해  추가 -->
+												<input type="hidden" name="pdtName" value="${product.pdtName}"><!-- 상품문의 알림을 위해 추가 -->
 												<input type="submit" class="btn btn-success" value="등록" style="right:0;">
 											</c:if>
 											<c:if test="${loginMember==null }">
@@ -992,14 +1011,42 @@ textarea.answer {
 			<div class="information">연관상품</div>
 			<div class="swiper-container container">
 				<div class="swiper-wrapper">
+				    <c:choose>
+				    	<c:when test="${product.pdtCategory eq '식품'}">
+					    	<c:forTokens items="${product.thumbs}" var="th" delims="," varStatus="vs">
+				            <c:if test="${vs.first }">
+						    	<div class="swiper-slide" style="display: block">
+									<div>
+										<img src="${path}/resources/upload/product/${th}">
+									</div>
+									<div class="slideImg"><span>제품명1</span><br><span>제품가격</span></div>
+								</div>
+							 </c:if>
+				            </c:forTokens>
+				    	</c:when>
+				    	
+				    	<c:when test="${product.pdtCategory eq '잡화'}">
+				    		<a href="${path}/product/stuff">잡화</a></small></h5>
+				    	</c:when>
+				    	<c:when test="${product.pdtCategory eq '주방'}">
+				    		<a href="${path}/product/kitchen">주방</a></small></h5>
+				    	</c:when>
+				    	<c:when test="${product.pdtCategory eq '욕실'}">
+				    		<a href="${path}/product/bathroom">욕실</a></small></h5>
+				    	</c:when>
+				    	<c:when test="${product.pdtCategory eq '여성용품'}">
+				    		<a href="${path}/product/woman">여성용품</a></small></h5>
+				    	</c:when>
+				    	<c:when test="${product.pdtCategory eq '반려동물'}">
+				    		<a href="${path}/product/pet">반려동물</a></small></h5>
+				    	</c:when>
+				    </c:choose>
+				
 					<div class="swiper-slide" style="display: block">
 						<div>
 							<img src="${path}/resources/upload/product/coffee1.jpg">
 						</div>
 						<div class="slideImg"><span>제품명1</span><br><span>제품가격</span></div>
-						<div>
-							<img src="${path}/resources/images/product/sale.jpg" width="50px">
-						</div>
 					</div>
 					<div class="swiper-slide" style="display: block">
 						<div>
@@ -1057,7 +1104,6 @@ textarea.answer {
 			return false;
 		});
 	});
-
 	//옵션선택 스크립트
 	$('.optionChoice').click(function() {
 		$(this).attr('tabindex', 1).focus();
@@ -1075,41 +1121,40 @@ textarea.answer {
 				$(this).parents('.optionChoice').find('input').attr('value',
 						$(this).attr('id'));
 			});
-
 	
-	//수량선택 스크립트
-	/* var count = 1;
+	//수량계산
+	var count = 1;
 	var countEl = document.getElementById("count");
-	var total_count = document.getElementById("total_count");
-	var total_count_view = document.getElementById("total_count_view");
-
+	var oriPrice = document.getElementById("oriPrice");
+	var totalPrice = document.getElementById("totalPrice");
+	var viewPrice = document.getElementById("viewPrice");
 	function minus(){
 		if(count > 1) {
 			count--;
 			countEl.value = count;
-			total_count_view.value = total_count_view.value - total_count.value;
+			totalPrice.value = totalPrice.value - oriPrice.value;
+			finalPrice = totalPrice.value;
+			$(viewPrice).text(finalPrice);
 		}
 	}
 	function plus(){
 		count++;
 		countEl.value = count;
-		total_count_view.value = total_count.value * countEl.value;
-	} */
-
+		totalPrice.value = oriPrice.value * countEl.value;
+		finalPrice = totalPrice.value;
+		$(viewPrice).text(finalPrice);
+	} 
 	
 	//네비바
 	$(".tab_menu_btn").on("click", function() {
 		//버튼 색 제거,추가
 		$(".tab_menu_btn").removeClass("on");
 		$(this).addClass("on");
-
 		//컨텐츠 제거 후 인덱스에 맞는 컨텐츠 노출
 		var idx = $(".tab_menu_btn").index(this);
-
 		$(".tab_box").hide();
 		$(".tab_box").eq(idx).show();
 	});
-
 	//연관상품 스와이프 스크립트
 	var swiper = new Swiper('.swiper-container', {
 		slidesPerView : 5, //보여줄 슬라이드 갯수
@@ -1137,7 +1182,6 @@ textarea.answer {
 		mySwiper.autoplay.start();
 		console.log('slider started again');
 	});
-
 	
 	//상품문의 클릭 시 박스 보였다가 안보였다가 이벤트
 	$(function() {
@@ -1181,7 +1225,6 @@ textarea.answer {
       var rlen = 0;
       var one_char = "";
       var str2 = "";
-
       for(var i = 0; i<str_len; i++) {
         one_char = str.charAt(i);
         if(escape(one_char).length > 4) {
@@ -1189,12 +1232,10 @@ textarea.answer {
         }else{
           rbyte++; //영문 등 나머지 1Byte
         }
-
         if(rbyte <= maxByte){
           rlen = i + 1; //return할 문자열 갯수
         }
       }
-
       if(rbyte > maxByte) {
         // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
         alert("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
@@ -1205,7 +1246,6 @@ textarea.answer {
         document.getElementById("byteInfo1").innerText = rbyte;
       }
     }
-
     //구매평 Byte 수 체크 제한
     function fnChkByte2(obj, maxByte) {
       var str = obj.value;
@@ -1214,7 +1254,6 @@ textarea.answer {
       var rlen = 0;
       var one_char = "";
       var str2 = "";
-
       for(var i = 0; i<str_len; i++) {
         one_char = str.charAt(i);
         if(escape(one_char).length > 4) {
@@ -1222,12 +1261,10 @@ textarea.answer {
         }else{
           rbyte++; //영문 등 나머지 1Byte
         }
-
         if(rbyte <= maxByte){
           rlen = i + 1; //return할 문자열 갯수
         }
       }
-
       if(rbyte > maxByte) {
         // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
         alert("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
@@ -1247,7 +1284,6 @@ textarea.answer {
       var rlen = 0;
       var one_char = "";
       var str2 = "";
-
       for(var i = 0; i<str_len; i++) {
         one_char = str.charAt(i);
         if(escape(one_char).length > 4) {
@@ -1255,12 +1291,10 @@ textarea.answer {
         }else{
           rbyte++; //영문 등 나머지 1Byte
         }
-
         if(rbyte <= maxByte){
           rlen = i + 1; //return할 문자열 갯수
         }
       }
-
       if(rbyte > maxByte) {
         // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
         alert("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
@@ -1272,7 +1306,6 @@ textarea.answer {
       }
     }      
     
-
 	//구매하기,장바구니,찜하기,상품문의 클릭 시 로그인 체크
 	$(function() {
 		$(".loginCheck").click(function() {
@@ -1292,10 +1325,12 @@ textarea.answer {
 	//상품문의 페이징
 	$(function(){
 		$(".pageBar").click(e=>{
+			console.log($(e.target).val());
 			$.ajax({
 				url:"${path}/product/productOneAjax",
-				data:{cPage:"${cPage}",numPerpage:"${numPerPage}"},
+				data:{cPage:"${cPage}",numPerpage:"${numPerPage}",pdtNo:"${pdtNo}"},
 				type:"get",
+				dataType:"html",
 				success:data=>{
 					console.log(data);
 					$("#result").html("");
@@ -1320,17 +1355,19 @@ textarea.answer {
 		var choice = confirm($(this).attr('data-confirm'));
 		if(choice){
 			let inqNo = $(event.target).parents().children('input[name=inqNo]').val();
-			location.replace("${path}/inquiry/deleteInquiry?inqNo="+inqNo);
+			let pdtNo = $("#pdtNo").val();
+			location.replace("${path}/inquiry/deleteInquiry?inqNo="+inqNo+"&pdtNo="+pdtNo);
 		}
 	});
 	
-	//상품문의 답변삭제
+	//상품문의 관리자 답변삭제
 	$(".deleteAnswerCk").on("click",function(e){
 		e.preventDefault();
 		var choice = confirm($(this).attr('data-confirm'));
 		if(choice){
 			let inqNo = $(event.target).parents().children('input[name=inqNo]').val();
-			location.replace("${path}/inquiry/deleteInquiryAnswer?inqNo="+inqNo);
+			let pdtNo = $("#pdtNo").val();
+			location.replace("${path}/inquiry/deleteInquiryAnswer?inqNo="+inqNo+"&pdtNo="+pdtNo);
 		}	
 	});
 	
@@ -1338,7 +1375,6 @@ textarea.answer {
 	function secretCk(){
 		alert("작성자와 관리자만 접근할 수 있는 글입니다");
 	}
-
 	//상품문의 수정버튼 클릭 시 
 	$(".fn_updateInquiry").click(function(){
 		//수정 -> 수정완료버튼으로 바꾸고, textarea 활성화
@@ -1355,9 +1391,10 @@ textarea.answer {
 			//수정완료 누를 시 수정한 내용 update
 			$(this).attr("value",function(index,attr){
 				if(attr.match("수정완료")){
+					let pdtNo = $("#pdtNo").val();
 					let inqNo = $(event.target).parents().children('input[type=hidden][name=inqNo]').val();
 					let inqContent = $(event.target).parents().children('textarea[name=inqContent]').val();
-					location.replace("${path}/inquiry/updateInquiry?inqNo="+inqNo+"&inqContent="+inqContent);
+					location.replace("${path}/inquiry/updateInquiry?inqNo="+inqNo+"&pdtNo="+pdtNo+"&inqContent="+inqContent);
 				}
 			});
 			$("textarea[id=textCk]").attr("style","background-color:#fff;");
@@ -1381,11 +1418,10 @@ textarea.answer {
 			//수정완료 누를 시 수정한 내용 update
 			$(this).attr("value",function(index,attr){
 				if(attr.match("수정완료")){
+					let pdtNo = $("#pdtNo").val();
 					let inqNo = $(event.target).parents().children('input[type=hidden][name=inqNo]').val();
 					let inqAnswer = $(event.target).parents().children('textarea[name=inqAnswer]').val();
-					console.log(inqNo);
-					console.log(inqAnswer);
-					location.replace("${path}/inquiry/updateInquiryAnswer?inqNo="+inqNo+"&inqAnswer="+inqAnswer);
+					location.replace("${path}/inquiry/updateInquiryAnswer?inqNo="+inqNo+"&inqAnswer="+inqAnswer+"&pdtNo="+pdtNo);
 				}
 			});
 			$("textarea[id=textAnswerCk]").attr("style","background-color:#fff;");
@@ -1430,6 +1466,7 @@ textarea.answer {
   			modal.find(".answerYn").text(answerYn);
   			modal.find(".answer").text(answer);
   			modal.find(".answerDate").text(answerDate);
+  			modal.find(".receiver").val(memNo); //알림창 데이터 필요로  작성자 회원번호 추가
   		});
 	});	
 	
@@ -1462,7 +1499,6 @@ textarea.answer {
 		});
 	}
 	let rating = new Rating();//별점 인스턴스 생성
-
 	//별점선택
 	$(document).ready(function(){
 		$("input[name=rating]").click(function(){
@@ -1474,7 +1510,6 @@ textarea.answer {
 			}
 		});
 	});
-
 	//별점선택 안 했을 시 알림, 리뷰 5자 미만 시 알림
 	function fn_reviewCheck(){
 		if($("#review_textarea").val().length<5){

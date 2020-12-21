@@ -166,6 +166,7 @@
 
 	       <!-- 상품문의 관리자 답변 내용 -->
 	      		 <form name="frm_qnaAnswer" action="${path }/admin/qnaAnswer" onsubmit="return fn_answerCk()">
+	      		 
 	      		 <div class=answerContainer>
 	       			<strong><span>관리자 답변</span></strong>&nbsp;&nbsp;<span class="answerDate"></span><br>
 			       	  <div class="form-group">
@@ -182,6 +183,7 @@
 		         </div>
 	        		<div class="btnBox">
 	        		   	<input type="hidden" class="qNo" name="qnaNo" readonly>
+	        		   	<input type="hidden" class="qnaWriter" name="qnaWriter"><!-- 알림전송용 -->
 	        			<input type="button" class="btn btn-outline-success btn-sm deleteQna " data-confirm="답변을 삭제하시겠습니까?" value="문의글 삭제"><br>	        			
 	        		   	<input type="submit" class="btn btn-success btn-sm insertQna " value="답변등록"><br>
 	        		   	<input type="hidden" class="btn btn-success btn-sm editQna " value="답변수정">
@@ -206,6 +208,7 @@
 			
 			let category=td.eq(1).text();
 			let title=td.eq(2).text();
+			let qnaWriter=td.eq(3).text(); //알림전송용
 			let qnaYn=td.eq(5).text();
 			let content=td.eq(6).text();
 			let qnaAnswer=td.eq(7).text();
@@ -214,6 +217,7 @@
 			
 			$(".qNo").val(qnaNo); //문의 고유번호
 			$(".qCategory").val(category); //카테고리
+			$(".qnaWriter").val(qnaWriter); //알림전송용
 			$(".qTitle").text(title); //문의제목
 			$(".qContent").val(content); //문의내용
 			$(".qAnswer").val(qnaAnswer); //관리자답변
@@ -250,7 +254,9 @@
 				swal("답변을 입력해주세요");
 				return false;
 			}
-			return true;
+				
+				return true;
+			
 		}
 		
 		//답변 글자 제한

@@ -3,16 +3,13 @@ package com.kh.bom.community.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,10 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.bom.community.model.vo.BoardReply;
-import com.kh.bom.community.model.vo.Community;
 import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.community.model.service.CommunityService;
+import com.kh.bom.community.model.vo.BoardReply;
+import com.kh.bom.community.model.vo.Community;
+
+import net.sf.json.JSON;
+import net.sf.json.JSONObject;
 
 @Controller
 public class CommunityController {
@@ -251,4 +251,14 @@ public class CommunityController {
 
 	}
 
+	//좋아요
+	@RequestMapping("/community/insertLike")
+	@ResponseBody
+	public JSON insertLike(String memNo,String cmNo,int likeCount) {
+		
+		//테스트
+		JSONObject obj=new JSONObject();
+		obj.put("key", memNo);
+		return obj;
+	}
 }

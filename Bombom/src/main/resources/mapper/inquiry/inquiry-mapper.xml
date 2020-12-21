@@ -15,7 +15,7 @@
 	</resultMap>
 
 	<insert id="insertInquiry" parameterType="inquiry">
-		INSERT INTO INQUIRY VALUES('I'||SEQ_INQ_NO.NEXTVAL,'P16',#{memNo},#{inqContent},DEFAULT,#{inqSecret},DEFAULT,null,null)
+		INSERT INTO INQUIRY VALUES('I'||SEQ_INQ_NO.NEXTVAL,#{pdtNo},#{memNo},#{inqContent},DEFAULT,#{inqSecret},DEFAULT,null,null)
 	</insert>
 	
 	<select id="inquiryList" parameterType="string" resultMap="inquiryMap">
@@ -26,8 +26,8 @@
 		ORDER BY INQ_DATE DESC
 	</select>
 	
-	<select id="inquiryCount" resultType="_int">
-		SELECT COUNT(*) FROM INQUIRY
+	<select id="inquiryCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM INQUIRY WHERE PDT_NO=#{pdtNo}
 	</select>
 	
 	<update id="insertInquiryAnswer" parameterType="inquiry">

@@ -1,14 +1,12 @@
 package com.kh.bom.admin.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,9 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.AdminService;
-import com.kh.bom.admin.model.vo.Event;
 import com.kh.bom.common.page.MemberPageBarFactory;
 import com.kh.bom.common.page.PageBarFactory;
+import com.kh.bom.member.model.service.MemberService;
 import com.kh.bom.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +27,8 @@ public class AdminController {
 
 	@Autowired
 	private AdminService service;
+	@Autowired
+	private MemberService memberService;
 
 	// 회원관리
 	// 회원목록
@@ -56,7 +56,7 @@ public class AdminController {
 	// 관리지 권한 변경
 	@RequestMapping("/admin/updateManagerYn")
 	@ResponseBody
-	public boolean updateManagerYn(Member m) {
+	public boolean updateManagerYn(Member m,HttpSession session) {
 		int result = service.updateManagerYn(m);
 		return result > 0 ? true : false;
 	}

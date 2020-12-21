@@ -100,6 +100,7 @@
     }
     #search-text{
     	margin:0 15px;
+    	width:500px;
     }
     
 </style>
@@ -231,17 +232,17 @@
 				<div id="search-wrap">
 					<!-- 검색 카테고리 -->
 					<div class="select-box">
-						<select class="searchSort" name="searchSort">
+						<select class="searchSort form-control" name="searchSort">
 							<option value="">검색타입</option>
 							<option value="pdtName">상품명</option>
 							<option value="eventNo">이벤트명</option>
 						</select>
 					</div>
-					<input type="text" id="search-text" name="keyword" size="30">
+					<input type="text" id="search-text"  class="form-control"  name="keyword">
 					<button class="btn btn-success" id="search-btn">검색</button>
 				</div>
 				
-			</div>
+			</div><!-- result 끝 -->
 			
 			
 		</div>
@@ -308,12 +309,13 @@
 	});
 	
 	//상품 검색 분류
-
 	var category=$("select[name=filter]").val().trim();
 	$("#search-btn").on("click",e=>{
-		console.log($("#search-text").val().trim());
-		console.log($("select[name=searchSort]").val());
-		console.log(category);
+
+		if($("select[name=searchSort]").val()==""){
+			swal("검색 타입을 설정해주세요.");
+		}
+		
 		$.ajax({
 			
 			url:"${path}/admin/productSearchAjax",
@@ -321,9 +323,22 @@
 			type:"get",
 			dataType:"html",
 			success:data=>{
-				console.log(data);
+				
 				$("#result").html("");
-				$("#result").html(data);
+				var tbody=$("#result").html(data).find('tbody');
+				var tr=tbody.find('tr');
+				//검색 결과가 없으면
+				if(tr.length==1){
+					let tr=$("<tr>").html();
+					let td=$("<td colspan=9>").html("해당하는 제품이 없습니다.");
+					tbody.append(td);
+					tbody.append(tr);
+					
+				} else {
+					$("#result").html(data);
+				}
+				
+				
 			}
 		});
 	});

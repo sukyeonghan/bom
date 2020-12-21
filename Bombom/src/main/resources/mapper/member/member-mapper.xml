@@ -12,8 +12,15 @@
 		<result property="memManagerYn" column="mem_manager_yn"/>
 		<result property="memStatus" column="mem_status"/>
 		<result property="memPoint" column="mem_point"/>
-	
+		<result property="memCmLike" column="mem_cm_like" />
 	</resultMap>
+	<resultMap type="alarm" id="alarmMap">
+		<result property="alarmNo" column="alarm_no"/>
+		<result property="receiverNo" column="receiver_no"/>
+		<result property="message" column="message"/>
+		<result property="alarmDate" column="alarm_date"/>
+	</resultMap>
+	
 	<select id="selectMemberOne" parameterType="string" resultMap="memberMap">
 		SELECT * FROM MEMBER WHERE MEM_NO=#{memNo}
 	</select>
@@ -44,7 +51,7 @@
 	</update>
 	
 	<insert id="insertMember" parameterType="member">
-		INSERT INTO MEMBER VALUES('M'||SEQ_MEM_NO.NEXTVAL,#{memNick},#{memPwd},#{memEmail},'basic.png',0,0,default,default,default)
+		INSERT INTO MEMBER VALUES('M'||SEQ_MEM_NO.NEXTVAL,#{memNick},#{memPwd},#{memEmail},'basic.png',0,0,default,default,default,default)
 		<selectKey keyProperty="memNo" resultType="string" order="AFTER">
 			SELECT 'M'||SEQ_MEM_NO.CURRVAL FROM DUAL
 		</selectKey>
@@ -76,4 +83,22 @@
 		UPDATE MEMBER SET MEM_PWD=#{memPwd} WHERE MEM_EMAIL=#{memEmail}
 	</update>
 	
+	<!-- 알림 리스트 가져오기 -->
+	<select id="selectAlarmAll" parameterType="string" resultMap="alarmMap">
+		SELECT * FROM ALARM WHERE RECEIVER_NO=#{receiverNo} ORDER BY ALARM_DATE DESC
+   	</select>
+   	
+   	<!-- 알림 개수 세기 -->
+   	<select id="countAlarm" parameterType="string" resultType="_int" >
+		SELECT COUNT(*) FROM ALARM WHERE RECEIVER_NO=#{receiverNo}
+   	</select>
+   	
+   	<!-- 알림저장 -->
+   	<insert id="insertAlarm" parameterType="alarm">
+   		INSERT INTO ALARM VALUES('A'||SEQ_FAQ_NO.NEXTVAL,#{receiverNo},#{message},SYSDATE)
+   	</insert>
+   	<!-- 알림 삭제 -->
+   	<delete id="deleteAlarm" parameterType="string">
+   		DELETE FROM ALARM WHERE ALARM_NO=#{alarmNo}
+   	</delete>
 </mapper>

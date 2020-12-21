@@ -186,4 +186,72 @@
 	com_status = #{com_status} where reply_writer=#{reply_writer}
 	</update> 
 
+    <select id="selectBoardReplyList" resultMap="boardReplyMap" parameterType="java.util.HashMap">
+        select
+            reply_id,
+            board_id,
+            parent_id,
+            depth,
+            reply_content,
+            reply_writer,
+            TO_CHAR(REGISTER_DATETIME,'YYYY-MM-DD HH24:MI:SS')AS REGISTER_DATETIME,
+            mem_nick,
+            mem_pro
+            
+        from
+            board_reply br
+            left join member mb 
+            on br.reply_writer = mb.mem_no
+        where
+          board_id = #{cmNo}
+        order by reply_id 
+    </select>
+    
+    
+    <select id="selectSeqReply" resultType="string">
+    SELECT 'REP'||SEQ_REPLY_ID.CURRVAL FROM DUAL
+    </select>
+    
+    
+    <select id="selectBoardReplyOne" parameterType="string" resultMap="boardReplyMap">
+    SELECT 
+    REPLY_ID,BOARD_ID,PARENT_ID,DEPTH,REPLY_CONTENT,REPLY_WRITER,
+    TO_CHAR(REGISTER_DATETIME,'YYYY-MM-DD HH24:MI:SS')AS REGISTER_DATETIME,
+    mem_nick,mem_pro
+    FROM BOARD_REPLY BR
+    LEFT JOIN MEMBER MB
+    ON BR.REPLY_WRITER = MB.MEM_NO 
+    WHERE BR.REPLY_ID =#{reply_id}
+    </select>
+    
+    <delete id="deleteBoardReply" parameterType="java.util.HashMap">
+        delete
+        from
+            board_reply
+        where
+            reply_id = #{reply_id}
+    </delete>
+    <delete id="deleteBoardReplyAll" parameterType="java.util.HashMap">
+        delete
+        from
+            board_reply
+        where
+            reply_id in (
+                select
+                    reply_id
+                from
+                    board_reply
+                where
+                    reply_id = #{reply_id}
+            ) or parent_id in (
+                select
+                    reply_id
+                from
+                    board_reply
+                where
+                    reply_id = #{reply_id}          
+            )
+    </delete>
+    
+  
 </mapper>

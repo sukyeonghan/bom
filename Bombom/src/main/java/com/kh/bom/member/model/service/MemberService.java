@@ -1,5 +1,8 @@
 package com.kh.bom.member.model.service;
 
+import java.util.List;
+
+import com.kh.bom.member.model.vo.Alarm;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.point.model.vo.Point;
 
@@ -20,5 +23,13 @@ public interface MemberService {
 	Member selectMemberEmail(String email);
 
 	int updateMemberPw(Member m);
-
+	
+	//알림 리스트
+	List<Alarm> selectAlarmList(String memNo);
+	//알림 개수
+	int countAlarm(String memNo);
+	//알림저장
+	int insertAlarm(Alarm a);
+	//알림삭제
+	int deleteAlarm(String alarmNo);
 }
