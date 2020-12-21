@@ -33,12 +33,13 @@
 		<result property="mem_pro" column="MEM_PRO" />
 	</resultMap>
 
+  <!--  커뮤 글 등록 -->
 	<insert id="insertCommunity" parameterType="community">
 		INSERT INTO COMMUNITY
 		VALUES('CM'||SEQ_CM_NO.NEXTVAL,#{cmWriter},#{cmLike},#{cmView},SYSDATE,#{cmTitle},#{cmContent},#{cmThumbnail})
 	</insert>
 
-
+    <!--  커뮤니티 게시글 목록 -->
 	<select id="selectCommunityList" resultMap="communityMap">
 		SELECT * FROM
 		COMMUNITY CM
@@ -46,14 +47,8 @@
 		ON CM.CM_WRITER = MB.MEM_NO
 		ORDER BY CM_DATE DESC
 	</select>
-
-	<select id="selectReplyList" resultMap="boardReplyMap">
-		SELECT REPLY_WRITER,COM_REASON,REPLY_CONTENT,COM_DATE,COM_STATUS
-		FROM BOARD_REPLY
-		WHERE COM_STATUS IS NOT NULL
-	</select>
-
-
+	
+	<!-- 커뮤니티 글 상세보기 -->
 	<select id="selectCommunityOne" parameterType="string"
 		resultMap="communityMap">
 		SELECT * FROM
@@ -63,17 +58,20 @@
 		WHERE CM_NO=#{cmNo}
 	</select>
 
+    <!-- 커뮤 글 삭제 -->
 	<delete id="deleteCommunity" parameterType="string">
 		DELETE FROM COMMUNITY
 		WHERE CM_NO=#{cmNo}
 	</delete>
-
+    
+    <!-- 커뮤 글 수정 -->
 	<update id="updateCommunity" parameterType="community">
 		UPDATE COMMUNITY SET
 		CM_TITLE=#{cmTitle},CM_CONTENT=#{cmContent},
 		WHERE CM_NO=#{cmNo}
 	</update>
-
+   
+    <!-- 커뮤 조회수 증가 -->
 	<update id="communityView" parameterType="string">
 		UPDATE COMMUNITY SET
 		CM_VIEW = CM_VIEW +1
@@ -85,6 +83,7 @@
 		COMMUNITY
 	</select>
 	
+	<!-- 댓글 등록 -->
 	<insert id="insertBoardReply" parameterType="hashmap">
 		insert into board_reply(
 		reply_id,
@@ -109,6 +108,8 @@
 		SYSDATE
 		)
 	</insert>
+	
+	<!-- 커뮤니티 댓글 + 대댓글 목록 -->
 	<select id="selectBoardReplyList" resultMap="boardReplyMap"
 		parameterType="java.util.HashMap">
 		select
@@ -121,7 +122,6 @@
 		TO_CHAR(REGISTER_DATETIME,'YYYY-MM-DD HH24:MI:SS')AS REGISTER_DATETIME,
 		mem_nick,
 		mem_pro
-
 		from
 		board_reply br
 		left join member mb
@@ -131,12 +131,12 @@
 		order by reply_id
 	</select>
 
-
+   
 	<select id="selectSeqReply" resultType="string">
 		SELECT 'REP'||SEQ_REPLY_ID.CURRVAL FROM DUAL
 	</select>
 
-
+    
 	<select id="selectBoardReplyOne" parameterType="string"
 		resultMap="boardReplyMap">
 		SELECT
@@ -149,6 +149,7 @@
 		WHERE BR.REPLY_ID =#{reply_id}
 	</select>
 
+    <!--  댓글 삭제 -->
 	<delete id="deleteReply" parameterType="string">
 		delete
 		from
@@ -157,19 +158,7 @@
 		reply_id = #{reply_id}
 	</delete>
 
-	
-	<update id="updateReply" parameterType="java.util.HashMap">
-		update
-		board_reply
-		set
-		parent_id = #{parent_id},
-		depth = #{depth},
-		reply_content = #{reply_content},
-		reply_writer = #{reply_writer},
-		where
-		reply_id = #{reply_id}
-	</update>
-	
+	<!-- 댓글 신고하기 -->
 	<update id="reportReply" parameterType="boardReply">
 	update board_reply 
 	set
@@ -180,78 +169,20 @@
 	reply_id = #{reply_id}
 	</update>
 	
-	<!-- 댓글 신고 처리 -->
+	<!-- 관리자 댓글 목록 -->
+	<select id="selectReplyList" resultMap="boardReplyMap">
+		SELECT REPLY_WRITER,COM_REASON,REPLY_CONTENT,COM_DATE,COM_STATUS
+		FROM BOARD_REPLY
+		WHERE COM_STATUS IS NOT NULL
+	</select>
+	
+	<!-- 관리자 댓글 신고 처리 -->
 	<update id="warnMemberYn" parameterType="boardReply">
 	update board_reply set
 	com_status = #{com_status} where reply_writer=#{reply_writer}
 	</update> 
 
-    <select id="selectBoardReplyList" resultMap="boardReplyMap" parameterType="java.util.HashMap">
-        select
-            reply_id,
-            board_id,
-            parent_id,
-            depth,
-            reply_content,
-            reply_writer,
-            TO_CHAR(REGISTER_DATETIME,'YYYY-MM-DD HH24:MI:SS')AS REGISTER_DATETIME,
-            mem_nick,
-            mem_pro
-            
-        from
-            board_reply br
-            left join member mb 
-            on br.reply_writer = mb.mem_no
-        where
-          board_id = #{cmNo}
-        order by reply_id 
-    </select>
-    
-    
-    <select id="selectSeqReply" resultType="string">
-    SELECT 'REP'||SEQ_REPLY_ID.CURRVAL FROM DUAL
-    </select>
-    
-    
-    <select id="selectBoardReplyOne" parameterType="string" resultMap="boardReplyMap">
-    SELECT 
-    REPLY_ID,BOARD_ID,PARENT_ID,DEPTH,REPLY_CONTENT,REPLY_WRITER,
-    TO_CHAR(REGISTER_DATETIME,'YYYY-MM-DD HH24:MI:SS')AS REGISTER_DATETIME,
-    mem_nick,mem_pro
-    FROM BOARD_REPLY BR
-    LEFT JOIN MEMBER MB
-    ON BR.REPLY_WRITER = MB.MEM_NO 
-    WHERE BR.REPLY_ID =#{reply_id}
-    </select>
-    
-    <delete id="deleteBoardReply" parameterType="java.util.HashMap">
-        delete
-        from
-            board_reply
-        where
-            reply_id = #{reply_id}
-    </delete>
-    <delete id="deleteBoardReplyAll" parameterType="java.util.HashMap">
-        delete
-        from
-            board_reply
-        where
-            reply_id in (
-                select
-                    reply_id
-                from
-                    board_reply
-                where
-                    reply_id = #{reply_id}
-            ) or parent_id in (
-                select
-                    reply_id
-                from
-                    board_reply
-                where
-                    reply_id = #{reply_id}          
-            )
-    </delete>
-    
+   
+   
   
 </mapper>

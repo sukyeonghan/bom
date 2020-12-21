@@ -143,6 +143,7 @@
 				 <div class="pageBar" >	
 					${pageBar }
 				</div>
+				
               <!-- 검색 -->
 				<div id="search-wrap">
 					<!-- 검색 카테고리 -->
