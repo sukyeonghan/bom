@@ -70,9 +70,9 @@ public class KakaoService {
 	}
 	
 	
-	 public HashMap<String, String> getUserInfo (String access_Token) {
+	 public HashMap<String, Object> getUserInfo (String access_Token) {
 
-         HashMap<String, String> userInfo = new HashMap<>();
+         HashMap<String, Object> userInfo = new HashMap<>();
          String reqURL = "https://kapi.kakao.com/v2/user/me";
          try {
              URL url = new URL(reqURL);

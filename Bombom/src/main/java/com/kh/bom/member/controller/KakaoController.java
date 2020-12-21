@@ -24,46 +24,54 @@ public class KakaoController {
 	
 	@RequestMapping("/oauth")
     public ModelAndView kakaoLogin(ModelAndView mv, @RequestParam(value = "code", required = false) String code, HttpSession session) throws Exception{
-        System.out.println("#########" + code);
+        System.out.println("#code#" + code);
+        //access_token 받아오기
         String access_Token=kakaoService.getAccessToken(code); 
-        HashMap<String,String> userInfo=kakaoService.getUserInfo(access_Token);
+        //access_token으로 로그인정보 가져오기
+        HashMap<String,Object> userInfo=kakaoService.getUserInfo(access_Token);
         Member loginMember=new Member();
+        int result=0;
+    	String memNo="";
         if(userInfo.get("email")!=null) {
-        	loginMember.setMemEmail(userInfo.get("email"));
-        	loginMember.setMemPro(userInfo.get("profile_image"));
-        	loginMember.setMemNick(userInfo.get("nickname"));
-        	Member m=memberService.selectOneMember(userInfo.get("email"));
-        	int result=0;
-        	String memNo="";
+        	//받아온정보가 있을경우, 각 정보를 로그인회원으로 세팅
+        	loginMember.setMemEmail(userInfo.get("email").toString());
+        	loginMember.setMemPro(userInfo.get("profile_image").toString());
+        	loginMember.setMemNick(userInfo.get("nickname").toString());
+        	
+        	//받아온 이메일 정보로 가입된 회원이 있는지 여부 확인하기
+        	Member m=memberService.selectOneMember(userInfo.get("email").toString());
+
         	//해당이메일주소로 가입한 회원이 있을경우, 없을 경우 어떻게 할지 정해야할 필요 잆음.
-        	//소셜로그인 회원 따로 저장? sns_mem??, 그냥 컬럼 추가?
+        	//소셜로그인 회원 따로 저장? sns_mem테이블에 ???, 그냥 컬럼 추가?
         	if(m!=null) {
-        		//해당 이메일로 가입한 회원이 있을경우
-        		//기존정보 업데이트
-        		memNo=m.getMemNo();
-        		loginMember.setMemNo(memNo);
-        		result=memberService.updateMember(loginMember);
+        		//해당 이메일로 가입한 회원이 있을경우 기존정보 업데이트하기
+        		memNo=m.getMemNo(); //해당 이메일로 가입한 회원번호 가져오기
+        		loginMember.setMemNo(memNo); //회원번호 로그인한 회원객체에 추가 세팅
+        		result=memberService.updateMember(loginMember); //받아온 정보로 업데이트
         		if(result>0) {
-        			loginMember=memberService.selectOneMember(userInfo.get("email"));
+        			//업데이트가 성공적으로 이루어졌을경우, 해당 이메일 정보로 등록된 회원정보 다시 가져오기
+        			loginMember=memberService.selectOneMember(userInfo.get("email").toString()); 
         			System.out.println("소셜로그인 세션에 올라갈 정보:"+loginMember);
+        			//받아온정보 로그인한회원으로 세션에 올리기
         			session.setAttribute("loginMember",loginMember);
             		session.setAttribute("access_Tocken", access_Token);
             		mv.setViewName("index");
+            		
         		}else {
         			mv.addObject("msg","소셜로그인실패");
             		mv.addObject("loc","/");
             		mv.setViewName("common/msg");
         		}
         		
+       		//해당이메일로 가입한 회원이 없을경우 , 가입하기
         	}else {
-        		//해당이메일로 가입한 회원이 없을경우 , 가입
         		Point p=new Point();
             	p.setPointContent("회원가입");
             	p.setPointChange(2000);
             	loginMember.setMemPwd("0000");//비밀번호 낫널처리 해제 필요 , 마이페이지 메뉴 접근 어디까지 할지 의논필요
             	result=memberService.insertMember(loginMember, p);
             	if(result>0) {
-            		Member member=memberService.selectOneMember(userInfo.get("email"));
+            		Member member=memberService.selectOneMember(userInfo.get("email").toString());
             		loginMember.setMemNo(member.getMemNo());
             		session.setAttribute("loginMember",loginMember);
             		session.setAttribute("access_Tocken", access_Token);
