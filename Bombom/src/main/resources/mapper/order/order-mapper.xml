@@ -69,8 +69,7 @@
 	</insert>
 
 
-	<select id="selectBasket" parameterType="string"
-		resultMap="basketMap">
+	<select id="selectBasket" parameterType="string" resultMap="basketMap">
 		SELECT DISTINCT
 			P.PDT_PRICE,P.PDT_NO,
 			P.PDT_NAME,OP.PDT_OPTION_CONTENT,OP.PDT_OPTION_NO,
@@ -93,10 +92,8 @@
 	<delete id="deleteBasketPdt" parameterType="basket">
 		DELETE FROM INBASKET
 		WHERE BASKET_NO = #{basketNo} AND PDT_NO = #{pdtNo}
-		<if test="pdtOpionNo != null ">
-			AND PDT_OPTION_NO = #{pdtOptionNo}
-		</if>
 	</delete>
+	
 	<delete id="deleteBasketOption" parameterType="string">
 		DELETE FROM
 		INBASKET WHERE PDT_OPTION_NO = #{pdtOptionNo}
