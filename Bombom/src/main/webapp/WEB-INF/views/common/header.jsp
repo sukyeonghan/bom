@@ -29,16 +29,15 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- icon -->
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- 부트스트랩 -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-<link rel="stylesheet" href="${path }/resources/css/common/allPage.css">
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 
+<link rel="stylesheet" href="${path }/resources/css/common/allPage.css">
 <style>
 /*모달차 내 로고  */
 .logoimg {
@@ -314,6 +313,7 @@ p.p-info {
 								<li><a class="" href="${path }/admin/qnaList">1:1문의 관리</a></li>
 								<li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
 								<li><a class="" href="${path }/admin/moveMainBanners">메인관리</a></li>
+								<li><a class="" href="${path }/admin/community/communityMng">커뮤니티관리</a>
 
 							</ul></li>
 					</ul>
@@ -324,7 +324,7 @@ p.p-info {
                 $(function(){
                     $(".dropmenu ul li").hover(function(){
                        $(this).find("ul").stop().fadeToggle(300);
-                    });
+                    })
                 })
 
             </script>
