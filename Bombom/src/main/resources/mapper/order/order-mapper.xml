@@ -76,10 +76,15 @@
 
 	</insert>
 	
-	<select id="selectOneOrder" parameterType="map" resultMap="orderMap">
-		SELECT * FROM "ORDER" O
-		JOIN INORDER I ON I.ORDER_NO=O.ORDER_NO
-		WHERE PDT_NO=#{pdtNo} AND MEM_NO=#{memNo}
+	<select id="selectOrder" parameterType="map" resultMap="orderMap">
+		SELECT ROWNUM, Q.*
+		FROM(
+		SELECT O.ORDER_NO FROM "ORDER" O
+		LEFT JOIN INORDER INO ON O.ORDER_NO=INO.ORDER_NO
+		LEFT JOIN REVIEW R ON O.ORDER_NO=R.ORDER_NO
+		WHERE O.MEM_NO=#{memNo} AND INO.PDT_NO=#{pdtNo} AND R.REV_NO IS NULL
+		ORDER BY O.ORD_DATE DESC) Q
+		WHERE ROWNUM=1
 	</select>
-
+	
 </mapper>

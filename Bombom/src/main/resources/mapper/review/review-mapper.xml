@@ -12,8 +12,8 @@
 		<result property="revDate" column="rev_date" typeHandler="customStr"/>
 	</resultMap>
 	
-	<insert id="insertReview" parameterType="review">
-		INSERT INTO REVIEW VALUES('R'||SEQ_REV_NO.NEXTVAL,#{pdtNo},#{memNo},NULL,
+	<insert id="insertReview" parameterType="map">
+		INSERT INTO REVIEW VALUES('R'||SEQ_REV_NO.NEXTVAL,#{pdtNo},#{memNo},#{orderNo},
 		#{revScore},#{revContent},
 		<if test="revImage!=null">#{revImage},</if>
 		<if test="revImage==null">null,</if>

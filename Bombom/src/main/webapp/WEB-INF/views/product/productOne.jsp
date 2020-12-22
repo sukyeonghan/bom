@@ -620,6 +620,7 @@ textarea.answer {
 								        	<input type="hidden" name="pdtNo" value="${product.pdtNo }">
 								        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
 								        	<input type="hidden" name="revScore">
+								        	<input type="hidden" name="orderNo">
 								        	<input type="submit" class="btn btn-success textCheck" value="등록" style="right:0;">
 								        </c:if>
 								        <c:if test="${loginMember==null }">
@@ -703,13 +704,15 @@ textarea.answer {
 		        
 		        <!-- Modal body -->
 			        <div class="modal-body container">
-				        	<!-- 구매평 내용 -->
+			        	<!-- 구매평 내용 -->
+			        	<form name="frm_inquiry" action="${path}/review/updateReview">
 				        	<span class="revScore"></span><br>
 				        	<img id="memProimg">
 				        	<strong><span class="memNick"></span></strong>&nbsp;&nbsp;<span class="revDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
 				        	<input type="hidden" name="revNo" class="revNo"/>
 							<div style="display:inline-block;">
-					        	<input type="button" class="btn btn-outline-success btn-sm" value="수정완료">
+								<input type="hidden" name="pdtNo" value="${product.pdtNo}"/>
+					        	<input type="submit" class="btn btn-outline-success btn-sm" value="수정완료">
 				        	</div>
 				        	<span class="span_textarea" style="margin: 10px 0 0 0;">
 							    <textarea class="revContent" name="revContent" style="height:50%;" onKeyUp="javascript:fnChkByte3(this,'500')"></textarea>
@@ -740,7 +743,8 @@ textarea.answer {
 						        	</div>
 						        	</div>
 						    </span>
-				        </div>
+					    </form>
+			        </div>
 		        
 		      </div>
 		    </div>
@@ -1130,16 +1134,37 @@ textarea.answer {
 		console.log('slider started again');
 	});
 	
-	//상품문의 클릭 시 박스 보였다가 안보였다가 이벤트
+	//구매평 작성 클릭 시 이벤트
 	$(function() {
 		$(".showBox").click(function() {
-			if ($(this).next().css("display") == "none") {
-				$(this).next().show(1000);
-			} else {
-				$(this).next().hide(1000);
-			}
+			
+			//구매평 작성 전 로그인 한 사람이 구매한 지 확인!!!
+			$.ajax({
+				url:"${path}/review/selectOrder",
+				data:{pdtNo:$("#pdtNo").val(), memNo:"${loginMember.memNo}"},
+				type:"get",
+				dataType:"text", //String 형으로 가져올 때
+				success:data=>{
+					console.log("야야야!!!"+data); 
+					
+					if(data!=""){
+						let orderNo = $("input[name='orderNo']").val(data);
+						//상품문의 클릭 시 박스 보였다가 안보였다가 이벤트
+						if ($(this).next().css("display") == "none") {
+							$(this).next().show(1000);
+						} else {
+							$(this).next().hide(1000);
+						}
+					}else{
+						swal("상품평은 구매한 경우에만 작성하실 수 있습니다");
+						return false;
+					}
+				}
+			});
+			
 		});
 	});
+	
 	
 	//상품문의 자물쇠그림바꾸기 + 비밀글 파라미터값 넘기기
 	$("#lockUnlock").click(function() {
@@ -1185,7 +1210,7 @@ textarea.answer {
       }
       if(rbyte > maxByte) {
         // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
-        alert("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
+        swal("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
         str2 = str.substr(0, rlen); //문자열 자르기
         obj.value = str2;
         fnChkByte1(obj, maxByte);
@@ -1214,7 +1239,7 @@ textarea.answer {
       }
       if(rbyte > maxByte) {
         // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
-        alert("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
+        swal("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
         str2 = str.substr(0, rlen); //문자열 자르기
         obj.value = str2;
         fnChkByte2(obj, maxByte);
@@ -1244,7 +1269,7 @@ textarea.answer {
       }
       if(rbyte > maxByte) {
         // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
-        alert("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
+        swal("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
         str2 = str.substr(0, rlen); //문자열 자르기
         obj.value = str2;
         fnChkByte3(obj, maxByte);
@@ -1320,7 +1345,7 @@ textarea.answer {
 	
 	//비밀글 접근제한
 	function secretCk(){
-		alert("작성자와 관리자만 접근할 수 있는 글입니다");
+		swal("작성자와 관리자만 접근할 수 있는 글입니다");
 	}
 	//상품문의 수정버튼 클릭 시 
 	$(".fn_updateInquiry").click(function(){

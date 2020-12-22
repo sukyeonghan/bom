@@ -40,6 +40,7 @@ public class Order {
 	private int pdtOptionAddprice; //옵션 가격 
 	private String pdtNo; //상품번호 
 	private String pdtOptionNo;//상품옵션번호
+	private String rownum;
 	
 	
 

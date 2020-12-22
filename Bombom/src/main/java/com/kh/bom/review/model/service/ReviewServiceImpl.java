@@ -23,8 +23,8 @@ public class ReviewServiceImpl implements ReviewService {
 	private PointDao pointdao;
 	
 	@Override
-	public Order selectOneOrder(Map map) {
-		return dao.selectOneOrder(session, map);
+	public Order selectOrder(Map map) {
+		return dao.selectOrder(session, map);
 	}
 	
 	@Override
@@ -59,6 +59,10 @@ public class ReviewServiceImpl implements ReviewService {
 	public int deleteRevivew(String revNo) {
 		return dao.deleteRevivew(session, revNo);
 	}
+
+	
+
+	
 
 
 }

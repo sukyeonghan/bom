@@ -9,7 +9,7 @@ import com.kh.bom.review.model.vo.Review;
 
 public interface ReviewDao {
 	
-	Order selectOneOrder(SqlSession session, Map map);
+	Order selectOrder(SqlSession session, Map map);
 	
 	int insertReview(SqlSession session, Review r);
 	
