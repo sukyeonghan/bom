@@ -21,6 +21,7 @@ import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.community.model.service.CommunityService;
 import com.kh.bom.community.model.vo.BoardReply;
 import com.kh.bom.community.model.vo.Community;
+import com.kh.bom.member.model.vo.Member;
 
 import net.sf.json.JSON;
 import net.sf.json.JSONObject;
@@ -35,8 +36,13 @@ public class CommunityController {
 	@RequestMapping("/community/communityList")
 	public ModelAndView selectCommunityList(ModelAndView mv,
 			@RequestParam(value = "cPage", defaultValue = "1") int cPage,
-			@RequestParam(value = "numPerpage", defaultValue = "6") int numPerpage) {
+			@RequestParam(value = "numPerpage", defaultValue = "6") int numPerpage,
+	        HttpSession session)
+	       {
 
+	     Member loginMember = (Member)session.getAttribute("loginMember");
+	     System.out.println(loginMember.getMemWarnCount());
+		
 		mv.addObject("list", service.selectCommunityList(cPage, numPerpage));
 		int totalData = service.selectCount();
 

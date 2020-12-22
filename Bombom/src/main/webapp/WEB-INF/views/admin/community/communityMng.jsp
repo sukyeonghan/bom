@@ -109,7 +109,7 @@
      <table id="reply-table" class="table table-hover">
      <thead>
      <tr>
-     <th>신고한 회원</th>
+     <th>신고된 회원</th>
      <th>신고사유</th>
      <th>원문내용</th>
      <th>신고날짜</th>
@@ -124,12 +124,12 @@
      <td><c:out value="${b.reply_content }"/></td>
      <td><fmt:formatDate value="${b.com_date}" pattern="yyyy-MM-dd"/></td>
       <td> <span><c:out value="${b.com_status }"/></span>
-      <input type="hidden" value="${b.reply_writer }" name="reply_writer"/>
+      <input type="hidden" value="${b.reply_id }" name="reply_id"/>
       <c:if test="${b.com_status eq 'N' }">
       <button class="btn btn-info memWarnYnBtn">신고접수</button>
       </c:if>
       <c:if test="${b.com_status eq 'Y' }">
-      <button class="btn btn-outline-info memWarnYnBtn">신고회수</button>
+      <button class="btn btn-outline-info memWarnYnBtn">신고거절</button>
      				 </c:if>
      			</td>
 			</tr>
@@ -168,13 +168,13 @@ $(document).on("click",".memWarnYnBtn",e=>{
 	let memWarnYn=$(e.target).text();
 	let yn="";
 	let msg="";
-	let reply_writer=$(e.target).prev().val();
+	let reply_id=$(e.target).prev().val();
 	if(memWarnYn=="신고접수"){
 		yn="Y";
 		msg="댓글 신고를 접수하시겠습니까?";
 	}else{
 		yn="N";
-		msg="댓글 신고를 회수 하시겠습니까?";
+		msg="댓글 신고를 거절 하시겠습니까?";
 	}
 	swal({
 		text:msg,
@@ -184,26 +184,27 @@ $(document).on("click",".memWarnYnBtn",e=>{
 		if(yes){
 			$.ajax({
 				url:"${path }/admin/community/warnMemberYn",
-				data:{com_status:yn,reply_writer:reply_writer},
+				data:{com_status:yn,reply_id:reply_id},
 				dataType:"json",
 				success:data=>{
+					console.log(data);
 					if(data===true){
 						if(memWarnYn=="신고접수"){
 							$(e.target).addClass("btn-outline-info");
 							$(e.target).removeClass("btn-info");
-							$(e.target).html("신고회수");
+							$(e.target).html("신고거절");
 							$(e.target).prev().prev().html("Y");
-						}else{
+						     }else{
 							$(e.target).removeClass("btn-outline-info");
 							$(e.target).addClass("btn-info");
 							$(e.target).html("신고접수");
 							$(e.target).prev().prev().html("N");
-						}
+						}  
  	    			}else{
- 	    				swal("관리자 권한 변경 실패");
+ 	    				swal("신고 접수 실패");
  	    			}
  	    		},error:(error)=>{
- 	    			swal("관리자 권한 변경 실패");
+ 	    			swal("신고 접수 실패");
  	    		}
  	    		
  	    	});

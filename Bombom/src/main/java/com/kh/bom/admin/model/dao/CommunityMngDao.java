@@ -12,7 +12,7 @@ public interface CommunityMngDao {
 	
 	List<BoardReply> selectReplyList(SqlSession session,int cPage, int numPerpage);
 	
-	int selectCount(SqlSession session);
+	int selectPage(SqlSession session);
 	
 	List<BoardReply> selectSearchList(SqlSession session,int cPage,int numPerpage,Map<String,String> map);
     

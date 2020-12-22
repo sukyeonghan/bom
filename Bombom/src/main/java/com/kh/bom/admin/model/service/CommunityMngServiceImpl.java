@@ -25,9 +25,9 @@ public class CommunityMngServiceImpl implements CommunityMngService {
 	}
 
 	@Override
-	public int selectCount() {
+	public int selectPage() {
 		// TODO Auto-generated method stub
-		return dao.selectCount(session);
+		return dao.selectPage(session);
 	}
 	
 	//댓글 검색 목록
