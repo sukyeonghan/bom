@@ -191,10 +191,10 @@ p.p-info {
 						<c:if test="${loginMember.memManagerYn eq 'N' }">
 							<li class="nav-item">
 								<p class="nav-link user_basic cur-default">
-									<c:if test="${loginMember.memPwd == '0000' }">
+									<c:if test="${fn:startsWith(loginMember.memPro,'http')==true}">
 									<img class="headerMemPro" src="${loginMember.memPro}"/>
 									</c:if>
-									<c:if test="${loginMember.memPwd != '0000'}">
+									<c:if test="${fn:startsWith(loginMember.memPro,'http')==false}">
 									<img class="headerMemPro" src="${path }/resources/upload/profile/${loginMember.memPro}" />
 									</c:if>
 									<c:out value="${loginMember.memNick }" />
@@ -204,10 +204,10 @@ p.p-info {
 						<c:if test="${loginMember.memManagerYn eq 'Y' }">
 							<li class="nav-item">
 								<p class="nav-link user_manager cur-default">
-									<c:if test="${loginMember.memPwd == '0000' }">
+									<c:if test="${fn:startsWith(loginMember.memPro,'http')==true}">
 									<img class="headerMemPro" src="${loginMember.memPro}"/>
 									</c:if>
-									<c:if test="${loginMember.memPwd != '0000'}">
+									<c:if test="${fn:startsWith(loginMember.memPro,'http')==false}">
 									<img class="headerMemPro" src="${path }/resources/upload/profile/${loginMember.memPro}" />
 									</c:if>
 									<c:out value="${loginMember.memNick }" />

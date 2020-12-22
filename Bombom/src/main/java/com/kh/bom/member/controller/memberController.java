@@ -190,7 +190,10 @@ public class memberController {
 		int result=service.insertMember(mem,p);
 		m.addAttribute("msg",result>0?"다시:봄 회원이 되셨습니다.":"회원가입 실패!!!!!!");
 		m.addAttribute("loc","/");
-		
+		if(result>0) {//회원가입성공시 로그인
+			Member login=service.selectOneMember(email);
+			m.addAttribute("loginMember",login);
+		}
 		
 		return "common/msg";
 	}
