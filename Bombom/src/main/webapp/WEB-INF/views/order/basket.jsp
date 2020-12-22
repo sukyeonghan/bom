@@ -9,8 +9,8 @@
 <c:set var="totalSale" value="0"/>
 <c:set var="totalPrice" value="0"/>
 <c:forEach items="${list}" var="l">
-	<c:set var="totalPdtPrice" value="${l.inbasQty * l.pdtPrice}"/>
-	<c:set var="totalSale" value="${l.pdtPrice - (l.pdtPrice * l.salePer/100)}"/>
+	<c:set var="totalPdtPrice" value="${totalPdtPrice+ (l.inbasQty * l.pdtPrice)}"/>
+	<c:set var="totalSale" value="${totalSale+(l.pdtPrice - (l.pdtPrice * l.salePer/100))}"/>
 	<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * (l.pdtPrice - (l.pdtPrice * l.salePer/100)))}" />
 </c:forEach>
 
@@ -71,7 +71,8 @@
 											class="img-fluid" style="width: 50px; height: 50px;">
 									</c:if>
 								</c:forTokens>
-								<p class="pdtName_p"><c:out value="${b.pdtName }" /></p>
+								<!-- 제품명 -->
+								<div class="pdtName_p"><p><c:out value="${b.pdtName }" /></p></div>
 								</a>
 								<input type="hidden" name="pdtNo" value="${b.pdtNo }" class="pNo"> 
 								<input type="hidden" name="pdtOptionNo" value="${b.pdtOptionNo }" class="opNo">
@@ -82,10 +83,13 @@
 							<!-- 수량 -->
 							<td>
 								<div class="input_number_wrap option-count-input">
-									<input type="text" name="inbasQty" 
-										class="form-control amount" value="${b.inbasQty }"
-										pattern="[0-9]*" size="3" min="1"
-										style="width: 80px; text-align: center;"/>
+									<button  class="form-button_minus" type="button">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+											<path fill="currentColor" d="M7 11.5h10v1H7z"></path>
+										</svg>
+									</button>
+									<input type="text" name="inbasQty" 	class="form-control amount" value="${b.inbasQty }"
+										pattern="[0-9]*" size="3" min="1" style="width: 80px; text-align: center;"/>
 								</div>
 							</td>
 							
@@ -200,6 +204,10 @@
 	
 </script>
 <style>
+a:hover{
+	text-decoration: none;
+	color: #45A663;
+}
 ol, ul {
 	list-style: none;
 }
@@ -240,8 +248,6 @@ svg[Attributes Style] {
 .basket_header>h1 {
 	margin: 50px 0;
 }
-
-
 
 .product-small-item__image {
 	flex: 0 0 auto;
@@ -348,6 +354,7 @@ svg[Attributes Style] {
 
 .pdtName_p {
 	font-size: 14px;
+	
 }
 </style>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
