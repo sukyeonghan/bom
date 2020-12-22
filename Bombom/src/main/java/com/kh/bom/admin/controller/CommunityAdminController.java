@@ -27,7 +27,7 @@ public class CommunityAdminController {
 			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage) {
 
 		mv.addObject("list", service.selectReplyList(cPage, numPerpage));
-		int totalData = service.selectCount();
+		int totalData = service.selectPage();
 
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalData, cPage, numPerpage, "communityMng"));
 		mv.addObject("totalData", totalData);
@@ -81,7 +81,7 @@ public class CommunityAdminController {
 		map.put("keyword", keyword); // 검색한 키워드(글자)
 		map.put("sort", sort); // 필터 분류
 
-		int totalData = service.selectCount();
+		int totalData = service.selectPage();
 		m.addObject("list", service.selectSearchList(cPage, numPerpage, map));
 		m.addObject("pageBar", AdminProSearchAjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage,
 				"replySearchAjax", searchType, keyword, sort));

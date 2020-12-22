@@ -24,9 +24,9 @@ public class CommunityMngDaoImpl implements CommunityMngDao {
 	}
 
 	@Override
-	public int selectCount(SqlSession session) {
+	public int selectPage(SqlSession session) {
 		// TODO Auto-generated method stub
-		return session.selectOne("community.selectCount");
+		return session.selectOne("community.selectPage");
 	}
     //검색목록
 	@Override

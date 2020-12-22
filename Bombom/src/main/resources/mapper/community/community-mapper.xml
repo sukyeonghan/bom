@@ -171,18 +171,24 @@
 	
 	<!-- 관리자 댓글 목록 -->
 	<select id="selectReplyList" resultMap="boardReplyMap">
-		SELECT REPLY_WRITER,COM_REASON,REPLY_CONTENT,COM_DATE,COM_STATUS
+		SELECT REPLY_WRITER,REPLY_ID,COM_REASON,REPLY_CONTENT,COM_DATE,COM_STATUS
 		FROM BOARD_REPLY
 		WHERE COM_STATUS IS NOT NULL
+		ORDER BY COM_DATE DESC
 	</select>
 	
 	<!-- 관리자 댓글 신고 처리 -->
 	<update id="warnMemberYn" parameterType="boardReply">
 	update board_reply set
-	com_status = #{com_status} where reply_writer=#{reply_writer}
+	com_status = #{com_status} where reply_id=#{reply_id}
 	</update> 
-
-   
+	
+	
+   <!--  댓글 페이징 처리 -->
+   <select id="selectPage" resultType="_int">
+		SELECT COUNT(*) FROM
+		BOARD_REPLY
+	</select>
    
   
 </mapper>

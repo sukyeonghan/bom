@@ -464,8 +464,8 @@ table#tbl-comment textarea {
 												<input type="hidden" name="reply_writer" class="replyWriter">
 												<input
 													type="hidden" name="com_status" value="Y" />  <br> 
+													 <input type="hidden" class="replyId" name="reply_id">	
 												<button type="submit" class="reporty" class="btn btn-outline-success">신고하기</button>
-												 <input type="hidden" class="replyId" name="reply_id">	
 											</form>
 
 										</div>

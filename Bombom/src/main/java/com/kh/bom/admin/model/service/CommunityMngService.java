@@ -9,7 +9,7 @@ public interface CommunityMngService {
 	
 	List<BoardReply> selectReplyList(int cPage, int numPerpage);
 	
-	int selectCount();
+	int selectPage();
 	
 	List <BoardReply> selectSearchList(int cPage,int numPerpage,Map<String,String>map); //제품검색목록 출력
 	
