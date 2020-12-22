@@ -12,11 +12,10 @@ import com.kh.bom.product.model.vo.ProductOption;
 public interface OrderDao {
 	int insertOrder(SqlSession session, Order order);
 
-	Basket selectBasketOne(SqlSession session, String memNo);
+	List<Basket> selectBasket(SqlSession session, String memNo);
 
-	List<Inbasket> selectInbasket(SqlSession session, String basketNo);
-	
-	int insertInbasket(SqlSession session, String pdtNo);
-	
-	ProductOption selectProductOption(SqlSession session, String opNo);
+	int deleteBasketOne(SqlSession session, Basket b);
+
+	int deleteBasketOption(SqlSession session, String optionNo);
+
 }

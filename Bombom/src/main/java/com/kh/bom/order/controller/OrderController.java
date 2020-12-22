@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +18,6 @@ import com.kh.bom.order.model.vo.Basket;
 import com.kh.bom.order.model.vo.Inbasket;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.product.model.vo.Product;
-import com.kh.bom.product.model.vo.ProductOption;
 
 @Controller
 public class OrderController {
@@ -30,51 +31,56 @@ public class OrderController {
 	@RequestMapping("/order/basket")
 	public ModelAndView goBasket(ModelAndView mv, String memNo) {
 		System.out.println(memNo);
-		//회원이 갖고있는 장바구니 불러오기
-		Basket basket = service.selectBasketOne(memNo);
-		//장바구니에 담긴 상품리스트 가져오기
-		List<Inbasket> list = service.selectInbasket(basket.getBasketNo());
-		//상품 옵션값 가져오기
-		List<ProductOption> poList = new ArrayList<ProductOption>();
-		
-//		for(Inbasket ib : list) {
-//			if(!ib.getPdtOptionNo().isEmpty()) {
-//				ProductOption po = service.selectProductOption(ib.getPdtOptionNo());
-//				poList.add(po);
-//			}
-//		}
-		
-		mv.addObject("polist",poList);
-		mv.addObject("list",list);
-		mv.setViewName("order/basket");
-		return mv;
-	}
-	
-	//상품상세페이지에서 장바구니 화면으로 전환
-	@RequestMapping("order/productBasket")
-	public ModelAndView goBasketWithProduct(ModelAndView mv, String memNo, String pdtNo) {
-		//상품번호랑 갯수 가져와서 insert하기
-		int result = service.insertInbasket(pdtNo);
-		
-		
-		//멤버에 해당하는 장바구니 불러오기
-		Basket basketOne = service.selectBasketOne(memNo);
-		
-		//장바구니 안에 담긴 상품 불러오기
-		List<Inbasket> list = service.selectInbasket(basketOne.getBasketNo());
-		//각 pdtNo에 해당하는 상품을 출력하기 위한 리스트 가져오기
-		List<Product> plist = pService.selectProductList();
-		
-		mv.addObject("list",list);
-		mv.addObject("plist",plist);
+		// 회원이 갖고있는 장바구니 불러오기
+		List<Basket> list = service.selectBasket(memNo);
+
+		mv.addObject("list", list);
 		mv.setViewName("order/basket");
 		return mv;
 	}
 
+	// 상품상세페이지에서 장바구니 화면으로 전환
+	@RequestMapping("order/productBasket")
+	public ModelAndView goBasketWithProduct(ModelAndView mv, String memNo, String pdtNo) {
+		// 상품번호랑 갯수 가져와서 insert하기
+		// 멤버에 해당하는 장바구니 불러오기
+		// 장바구니 안에 담긴 상품 불러오기
+		// 각 pdtNo에 해당하는 상품을 출력하기 위한 리스트 가져오기
+		List<Product> plist = pService.selectProductList();
+
+		mv.addObject("plist", plist);
+		mv.setViewName("order/basket");
+		return mv;
+	}
+
+	// 장바구니에서 상품 하나 삭제하기
+	@RequestMapping("/order/deleteBasketOne")
+	public List<Basket> deleteBasketOne(ModelAndView mv, String pdtNo, String basketNo, String pdtOptionNo) {
+		System.out.println(pdtNo);
+		System.out.println(basketNo);
+		System.out.println(pdtOptionNo);
+		
+		List<Basket> list = new ArrayList<Basket>();
+		int result = service
+				.deleteBasketOne(Basket.builder().pdtNo(pdtNo).basketNo(basketNo).pdtOptionNo(pdtOptionNo).build());
+		// 삭제가 성공하면 삭제된 이후 리스트 넘겨주기
+		if (result > 0) {
+			list = service.selectBasket(basketNo);
+		} else {
+			
+		}
+		return list;
+	}
+
 	// 결제화면으로 전환
 	@RequestMapping("/order/doOrder")
-	public String doOrder() {
-		return "order/order";
+	public ModelAndView doOrder(ModelAndView mv, Basket b) {
+		System.out.println("session memNo : "+b.getMemNo());
+		
+		List<Basket> list = service.selectBasket(b.getMemNo());
+		mv.addObject("list", list);
+		mv.setViewName("order/order");
+		return mv;
 	}
 
 	// 결제하기
@@ -96,11 +102,11 @@ public class OrderController {
 		if (result > 0) {
 			msg = "주문이 완료되었습니다! 금방 배송해 드릴게요!";
 			loc = "redirect:/mypage/orderStatus";
-			icon="success";
+			icon = "success";
 		} else {
 			msg = "결제에 실패했어요ㅠㅠ";
 			loc = "/";
-			icon="warning";
+			icon = "warning";
 		}
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);

@@ -33,9 +33,9 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-<link rel="stylesheet" href="${path }/resources/css/common/allPage.css">
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 
+<link rel="stylesheet" href="${path }/resources/css/common/allPage.css">
 <style>
 /*모달차 내 로고  */
 .logoimg {

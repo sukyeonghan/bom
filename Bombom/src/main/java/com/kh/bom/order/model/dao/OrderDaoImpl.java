@@ -14,28 +14,22 @@ import com.kh.bom.product.model.vo.ProductOption;
 public class OrderDaoImpl implements OrderDao {
 
 	@Override
-	public int insertOrder(SqlSession session,Order order) {
-		return session.insert("order.insertOrder",order);
+	public int insertOrder(SqlSession session, Order order) {
+		return session.insert("order.insertOrder", order);
 	}
 
 	@Override
-	public Basket selectBasketOne(SqlSession session, String memNo) {
-		return session.selectOne("order.selectBasketOne", memNo);
+	public List<Basket> selectBasket(SqlSession session, String memNo) {
+		return session.selectList("order.selectBasket", memNo);
 	}
 
 	@Override
-	public List<Inbasket> selectInbasket(SqlSession session, String basketNo) {
-		return session.selectList("order.selectInbasket",basketNo);
+	public int deleteBasketOne(SqlSession session, Basket b) {
+		return session.delete("order.deleteBasketPdt",b);
 	}
-
 	@Override
-	public int insertInbasket(SqlSession session, String pdtNo) {
-		return session.insert("order.insertInbasket",pdtNo);
-	}
-
-	@Override
-	public ProductOption selectProductOption(SqlSession session, String opNo) {
-		return session.selectOne("order.selectProductOptionOne",opNo);
+	public int deleteBasketOption(SqlSession session, String optionNo) {
+		return session.delete("order.deleteBasketOption",optionNo);
 	}
 
 }

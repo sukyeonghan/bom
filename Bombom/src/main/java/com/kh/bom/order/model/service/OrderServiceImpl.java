@@ -26,22 +26,17 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Basket selectBasketOne(String memNo) {
-		return dao.selectBasketOne(session, memNo);
+	public List<Basket> selectBasket(String memNo) {
+		return dao.selectBasket(session, memNo);
 	}
 
 	@Override
-	public List<Inbasket> selectInbasket(String basketNo) {
-		return dao.selectInbasket(session, basketNo);
+	public int deleteBasketOne(Basket b) {
+		return dao.deleteBasketOne(session, b);
+	}
+	@Override
+	public int deleteBasketOption(String optionNo) {
+		return dao.deleteBasketOption(session, optionNo);
 	}
 
-	@Override
-	public int insertInbasket(String pdtNo) {
-		return dao.insertInbasket(session, pdtNo);
-	}
-
-	@Override
-	public ProductOption selectProductOption(String opNo) {
-		return dao.selectProductOption(session, opNo);
-	}
 }
