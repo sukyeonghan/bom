@@ -22,21 +22,16 @@ public interface CommunityService{
 
 	int communityView(String cmNo);
 	
-
 	List<BoardReply> getReplyList(Map<String, Object> paramMap);
 	
 	int regReply(Map<String, Object> paramMap);
 
-	boolean checkReply(Map<String, Object> paramMap);
-
-	boolean updateReply(Map<String, Object> paramMap);
-
-	int delReply(Map<String, Object> paramMap);
+	int deleteReply(String reply_id);
 	
 	String selectSeqReply();
 
 	BoardReply selectBoardReplyOne(String number);
 	
-
+    int reportReply(BoardReply reply);
 
 }

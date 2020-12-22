@@ -28,5 +28,7 @@ public class Product {
 	private int salePer;
 	private String pdtThumbNo;
 	private String pdtThumbImage;
+	private int zzimCount;
+	private int reviewCount;
 
 }

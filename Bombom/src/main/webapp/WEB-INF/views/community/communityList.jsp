@@ -43,6 +43,25 @@ section {
 .banner {
 	width: 100%;
 }
+.item3  img {
+    -webkit-transform:scale(1);
+    -moz-transform:scale(1);
+    -ms-transform:scale(1); 
+    -o-transform:scale(1);  
+    transform:scale(1);
+    -webkit-transition:.3s;
+    -moz-transition:.3s;
+    -ms-transition:.3s;
+    -o-transition:.3s;
+    transition:.3s;
+}
+.item3:hover img {
+    -webkit-transform:scale(1.2);
+    -moz-transform:scale(1.2);
+    -ms-transform:scale(1.2);   
+    -o-transform:scale(1.2);
+    transform:scale(1.2);
+}
 </style>
 <!-- 로그인 되어야 커뮤니티 이용 가능  -->
 <section class="container">
@@ -82,10 +101,9 @@ section {
 						<fmt:formatDate pattern="yyyy-MM-dd" value="${c.cmDate }" />
 					</div>
 					<div class="item item3">
-						<%-- <c:out value="${c.CM_THUMBNAIL }" /> --%>
 						<a href="${path }/community/communityView.do?cmNo=${c.cmNo}">
 						<img src="${path }/resources/upload/community/${c.cmThumbnail}"
-							width="300" height="200">
+							width="300" height="200" class="img">
 					</div>
 					<div class="item item2">
 						<a href="${path }/community/communityView.do?cmNo=${c.cmNo}">

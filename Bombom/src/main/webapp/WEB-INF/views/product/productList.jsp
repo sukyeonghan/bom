@@ -7,7 +7,13 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="${path }/resources/css/product/productList.css">
 
-
+<style>
+  /*스와이퍼*/
+  
+  	.mySlides {display:none;}
+	.w3-badge {height:13px;width:13px;padding:0}
+	.w3-left, .w3-right, .w3-badge {cursor:pointer}
+</style>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="소개" />
 </jsp:include>
@@ -88,7 +94,7 @@
 					                <div class="item-intro">
 					                	<!-- 상품명 -->
 					                    <p class="item-title">
-					                        <a class="title-link" href=""><c:out value="${p.pdtName }"/></a>
+					                        <a class="title-link" href="${path }/product/productOne?pdtNo=${p.pdtNo}"><c:out value="${p.pdtName }"/></a>
 					                    </p>
 					                    <!-- 상품 가격 -->
 					                    <div class="item-price">
@@ -115,16 +121,37 @@
 					                    <div>
 					                    	<!-- 찜횟수 -->
 					                    	<img class="icon" alt="" src="${path}/resources/images/product/heart.png">
-					                    	<c:out value=""></c:out>
+					                    	<c:out value="${p.zzimCount }"/>
 					                    	<!-- 후기 개수 -->
-					                    	<img class="icon" alt="" src="${path}/resources/images/product/message.png">
-					                    	<c:out value=""></c:out>
+					                    	<img class="icon margin" alt="" src="${path}/resources/images/product/message.png">
+					                    	<c:out value="${p.reviewCount }"/>
 					                    	<!-- 미리보기페이지 -->
-					                    	<a>
-					                    		<img class="icon" alt="" src="${path}/resources/images/product/cart.png">
-					                    	</a>
-					                    	
+					                    	<img class="test icon margin" alt="" src="${path}/resources/images/product/search.png" >
+											<input type="hidden" name="pdtNo" value="${p.pdtNo}">
 					                  	</div>
+					                  	<!-- 상품 미리보기 -->
+					                  	<div class="previewDivShow previewDivNone" id="${p.pdtNo}">
+					                  		<div class="popupContent" >
+					                  			
+					                  			<input type="button" class="delBtn" value="X">
+					                  			
+					                  			<!-- 스와이퍼 -->
+					                  			<div class="w3-content w3-display-container swiper " style="position:absolute">
+													<img class="mySlides" src="${path}/resources/images/product/noItem2.png" style="width:100%">
+													<img class="mySlides" src="${path}/resources/images/product/heart.png" style="width:100%">
+													<img class="mySlides" src="${path}/resources/images/product/cart.png" style="width:100%">
+													
+	  												<div class="w3-center w3-container w3-section w3-large w3-text-black w3-display-middle" style="width:100%">
+												    	<div class="w3-left " onclick="plusDivs(-1)">&#10094;</div>
+												    	<div class="w3-right " onclick="plusDivs(1)">&#10095;</div>
+												    </div>
+												</div>
+												
+												
+												
+					                  		</div>
+					                  	</div>
+					                  	
 					                    <!-- 조건에 따라 뜨는 아이콘들 -->
 					                    <div class="item-icon">
 					                    	<!-- 등록한 날짜로 부터 7일 -->
@@ -193,4 +220,47 @@
 		
 	})
 
+	//상품 미리보기 div
+	$(document).ready(function () {
+	 	$(".test").on("click",e=>{
+			var pdtNo=$(e.target).next().val();
+			console.log(pdtNo);
+			var div=document.getElementById(pdtNo).getAttribute('id');
+			console.log(div);
+			if(pdtNo==div){
+				$("#"+div).removeClass("previewDivNone");
+			}
+			
+		}); 
+	 	$(".delBtn").on("click",e=>{
+			$(".previewDivShow").addClass("previewDivNone");
+		}) 
+	});
+	
+
+	//스와이퍼
+	var slideIndex = 1;
+	showDivs(slideIndex);
+	
+	function plusDivs(n) {
+	  showDivs(slideIndex += n);
+	}
+	
+	
+	function showDivs(n) {
+	  var i;
+	  var x = document.getElementsByClassName("mySlides");
+	  var dots = document.getElementsByClassName("demo");
+	  if (n > x.length) {slideIndex = 1}
+	  if (n < 1) {slideIndex = x.length}
+	  for (i = 0; i < x.length; i++) {
+	    x[i].style.display = "none";  
+	  }
+	  for (i = 0; i < dots.length; i++) {
+	    dots[i].className = dots[i].className.replace(" w3-white", "");
+	  }
+	  x[slideIndex-1].style.display = "block";  
+	  //dots[slideIndex-1].className += " w3-white";
+	}
+	
 </script>

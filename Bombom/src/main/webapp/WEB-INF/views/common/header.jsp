@@ -11,6 +11,7 @@
 <title>SpringAgain</title>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <script src="${path}/resources/js/jquery-3.5.1.min.js"></script>
+<script src="${path}/resources/js/alarm.js"></script>
 <!-- swiper -->
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
 <link rel="stylesheet"
@@ -34,6 +35,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 
 <link rel="stylesheet" href="${path }/resources/css/common/allPage.css">
 <style>
@@ -85,6 +87,81 @@ p.p-info {
 	left: 6px;
 	color: #45A663;
 }
+
+
+/*알림*/
+#alarm-div{
+	position: relative;
+	width: 30px;	
+	height: 30px;}
+#alarm{
+	position:absolute;
+	font-size: 20px;
+    padding-top: 8px;
+    color: 45A663;
+}
+#alarm-countbox{
+	position:absolute;
+	top:2px;
+	right: 3px;
+	background-color: red;
+	border:none;
+	border-radius: 100%;
+	width: 15px;	
+	height: 15px;	
+	color: white;
+	font-size: 13px;
+	text-align: center;
+	font-weight:bolder;
+	line-height:15px;
+	display:none;
+]
+}
+/* 알림 리스트 팝업창 */
+
+.listPop {
+	position: absolute;
+	right: 60px;
+	top: 30px;
+	z-index: 9999;
+}
+
+.listDisNone {
+	display: none;
+}
+
+#popupContent {
+    width: 250px;
+    height: 290px;
+    background: white;
+    border: 1.5px solid #45A663;
+    border-radius: 10px;
+    margin: 10px;
+}
+.alarmUl{
+	padding:10px;
+}
+.alarmLi{
+	border-bottom: 1px solid lightgray;
+    padding: 0;
+    font-size: 18px;
+    padding: 10px;
+}
+.alarmDate{
+	color:#b1b1b1;
+	font-size:15px;
+	margin-bottom:5px;
+}
+.messageP{
+	text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    width: 200px;
+    overflow: hidden;
+}
+.alarmUl>li:last-of-type{
+	border:none;
+}
 </style>
 
 </head>
@@ -117,6 +194,38 @@ p.p-info {
 							onclick="location.replace('${path}/member/logout');">로그아웃</a></li>
 						<li class="nav-item"><a class="nav-link"
 							href="${path }/mypage/orderStatus">마이페이지</a></li>
+						<li class="nav-item">
+							<div id="alarm-div">
+								<i class="far fa-bell" id="alarm"></i>
+								<div id="alarm-countbox">
+									<fmt:parseNumber var="i" type="number" value="${sessionScope.countAlarm }"/>
+									<c:out value="${i}"/> 
+								</div>
+								
+							</div>
+						</li>
+						<!-- 알림 리스트 팝업 -->
+						<div class="listPop listDisNone">										
+							<div id="popupContent">						
+								<a alt="" href="${path }/member/alarmPage">
+								
+									<ul class="alarmUl">
+										<c:forEach begin="0" end="2" var="a" items="${alarmList }">
+											
+											<li class="alarmLi">
+												<p class="alarmDate" style="">
+													<c:out value="${a.alarmDate }"/>
+												</p>
+												<p  class="messageP"> 
+													<c:out value="${a.message }"/>
+												</p>
+											</li>
+										</c:forEach>		
+									</ul>
+								</a>
+							</div>											
+						</div>
+						
 						<li class="nav-item"><a class="nav-link"
 							href="${path }/order/basket?memNo=${loginMember.memNo}"> <svg
 									class="header_icon" width="20" height="20" viewBox="0 0 24 24"
@@ -126,6 +235,8 @@ p.p-info {
 										d="M4 5h18l-2.6 10.5a2 2 0 0 1-2 1.5H8.6a2 2 0 0 1-2-1.5L4 5zm4 15.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0zm7 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0z"></path>
                     				<path d="M1 2h3v3"></path></svg>
 						</a></li>
+
+						
 					</c:if>
 					<li class="nav-item"><a class="nav-link" data-toggle="modal"
 						data-target="#searchModal"> <svg class="header_icon"
@@ -179,6 +290,7 @@ p.p-info {
 								<li><a class="" href="${path }/admin/qnaList">1:1문의 관리</a></li>
 								<li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
 								<li><a class="" href="${path }/admin/moveMainBanners">메인관리</a></li>
+								<li><a class="" href="${path }/admin/community/communityMng">커뮤니티관리</a>
 
 							</ul></li>
 					</ul>
@@ -189,7 +301,7 @@ p.p-info {
                 $(function(){
                     $(".dropmenu ul li").hover(function(){
                        $(this).find("ul").stop().fadeToggle(300);
-                    });
+                    })
                 })
 
             </script>
@@ -460,6 +572,16 @@ p.p-info {
 
  
  $(function(){
+	
+ 	//알림메세지 카운팅
+	if(countResult >0){
+		$('#alarm-countbox').show();
+		$('#alarm-countbox').html(countResult);
+		
+	}else{
+		$('#alarm-countbox').hide();
+	}
+	 
 	 $(".guide").hide();
 	 $(".login").hide();
 	 $(".newPw.pw").show();
@@ -707,19 +829,124 @@ function fn_signUp(){
  		     }
  	   }
 	})
+	//날짜 변환함수
+	function getFormatDate(date){
+	    var year = date.getFullYear();              //yyyy
+	    var month = (1 + date.getMonth());          //M
+	    month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
+	    var day = date.getDate();                   //d
+	    day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
+	    return  year + '-' + month + '-' + day;       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
+	}
+	//알림 리스트 팝업
+	$(document).ready(function () {
+	  $("#alarm-div").on("click",function(e){
+		  
+		  console.log("내가왔다!"+e.target);
+			$.ajax({
+				url:"${path}/member/selectAlarmList",
+				data:{memNo:"${loginMember.memNo}"},
+				dataType:"json",
+				success:function(data){
+					 $(".alarmUl").html("");
+					 console.log(data);
+					 $.each(data, function(index, a){
+						 if(index<3){
+							 console.log("alarm:"+a);
+							 let li=$("<li>").attr("class","alarmLi");
+							 //날짜변환
+							 var b = a.alarmDate; 
+							 var date = new Date(b);
+							 date = getFormatDate(date);
+							 let dateP=$("<p class='alarmDate'>").html(date);
+							 let messageP=$("<p class='messageP'>").html(a.message);
+
+							 li.append(dateP);
+							 li.append(messageP);
+							$(".alarmUl").append(li);
+						 }
+					 });
+					
+				}
+			})		  
+		  
+		  
+	    	$(".listPop").toggleClass("listDisNone");
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	
+	 	});
+/* 	  $("#alarm-div").on("click",function(e){
+	      $(".listPop").addClass("listDisNone");
+	    });   */ 		    		 		    		    
+  	});
 	
-  var sock = new SockJS('${path}/replyEcho');
- sock.onopen = function() {
-     console.log('open');
-     sock.send('test');
- };
+	
+/* 	
+	//웹소켓 관련 스크립트
+	var sock = null;
+	var countResult="${countAlarm}";	
+	$(document).ready( function(){
+		connectWS();
+		
+	});
+	
+	function connectWS(){
+		
+		sock = new SockJS('${path}/replyEcho');
+		
+		 sock.onopen = function() {
+		     console.log('open');
+		     sock.send('test');
+		 };
+		 
+		 sock.onmessage = function(e) {
+			 
+		     console.log('message', e.data);
+		     var data = e.data;
+			   	console.log("ReceivMessage : " + data + "\n");
+		 
+			   	$.ajax({
+					url : '${path}/member/countAlarm',
+					type : 'POST',
+					dataType: 'json',
+					success : function(data) {
+						if(data >0){
+							$('#alarm-countbox').show();
+							$('#alarm-countbox').html(data);
+							
+						}else{
+							$('#alarm-countbox').hide();
+						}
+					},
+					error : function(err){
+						alert('err');
+					}
+			   	});
+		 };
+		 
+		 sock.onclose = function() {
+		     console.log('close');
+		 };
+		 
+	
+	} */
 
- sock.onmessage = function(e) {
-     console.log('message', e.data);
-     sock.close();
- };
+	
+	//웹소켓 관련 스크립트
+	var countResult="${countAlarm}";
+	
+	/* $(document).ready( function(){
+		connectWS();
+		
+	}); */
+	
+	
+	 
+	
 
- sock.onclose = function() {
-     console.log('close');
- };
  </script>

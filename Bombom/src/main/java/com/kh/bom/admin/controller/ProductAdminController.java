@@ -41,28 +41,29 @@ public class ProductAdminController {
 	@Autowired
 	private AdminService service;
 
-	//by수경-제품 관리페이지 전환
+	//by수경-제품 관리페이지 전환 , 
 	@RequestMapping("/admin/moveProduct")
 	public ModelAndView moveProductListPage(ModelAndView m,
-			@RequestParam(value = "sort",defaultValue="전체") String sort,
+			@RequestParam(value = "sort",defaultValue="전체") String sort,//위에 있는 필터
 			@RequestParam(value="cPage", defaultValue="1") int cPage, 
 			@RequestParam(value="numPerpage", defaultValue="10") int numPerpage) {
 
-		int count=service.countProduct(sort);
+		int count=service.countProduct(sort); //전체 상품의 갯수 
 		m.addObject("list",service.selectProductList(cPage,numPerpage,sort));
 		m.addObject("cPage",cPage);
 		m.addObject("pageBar",PageBarFactory.getPageBar(count, cPage, numPerpage, "moveProduct"));
 		m.addObject("count",count);
-		m.setViewName("admin/product/productList");
+		m.setViewName("admin/product/adminProductList");
 		return m;
 	}
 	
 	//by수경-제품 목록페이지에서 선택 삭제
 	 @RequestMapping("/admin/deleteSelect") 
 	 public ModelAndView deleteSelectProduct(HttpSession session,
-			 @RequestParam List<String> pdtNo,ModelAndView m) { 
+			 @RequestParam List<String> pdtNo,ModelAndView m) {
+		 
 		 String path=session.getServletContext().getRealPath("/resources/upload/product");
-		 System.out.println(path);
+
 		 int result=service.deleteSelectProduct(pdtNo,path); 
 		 String msg="";
 		 String icon="";
@@ -79,7 +80,7 @@ public class ProductAdminController {
 		 m.setViewName("common/msg");
 		 return m; 
 	}
-	//제품 목록 페이지에서 ajax
+	//제품 목록 페이지에서 ajax  
 	@RequestMapping("/admin/productListAjax")
 	public ModelAndView productListAjax(ModelAndView m,
 			@RequestParam(value = "sort",defaultValue="전체") String sort,
@@ -92,7 +93,7 @@ public class ProductAdminController {
 		m.addObject("cPage",cPage);
 		m.addObject("sort",sort);
 		m.addObject("count",count);
-		m.setViewName("admin/product/productListAjax");
+		m.setViewName("admin/product/adminProductListAjax");
 		return m;
 	}
 	//제품 목록에서 검색
@@ -102,12 +103,12 @@ public class ProductAdminController {
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
 			@RequestParam(value = "cPage", defaultValue = "1") int cPage,
 			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage,
-			@RequestParam(value = "sort", defaultValue = "전체") String sort) {
+			@RequestParam(value = "sort", defaultValue = "전체") String sort) { //분류했을때 리스트가 
 		
 		Map<String, String> map = new HashMap();
 		
 		map.put("searchType", searchType);//검색분류
-		map.put("keyword", keyword);
+		map.put("keyword", keyword); //검색한 키워드(글자) 
 		map.put("sort", sort);//필터분류
 
 		int count=service.countProduct(map);
@@ -119,7 +120,7 @@ public class ProductAdminController {
 		m.addObject("sort", sort);
 		m.addObject("searchType", searchType);
 		m.addObject("keyword", keyword);
-		m.setViewName("admin/product/productListAjax");
+		m.setViewName("admin/product/adminProductListAjax");
 		
 		return m;
 	}

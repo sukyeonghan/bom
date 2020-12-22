@@ -89,10 +89,7 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return dao.selectSaleList(session,cPage,numPerPage,sort,category);
 	}
-
-
-
-
+	
 
 	
 

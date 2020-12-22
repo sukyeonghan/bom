@@ -67,7 +67,7 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,String sort,String category) {
 		// TODO Auto-generated method stub
-		Map<String,String> map=new HashMap();
+		Map<String,Object> map=new HashMap();
 		map.put("sort", sort);
 		map.put("category", category);
 		return session.selectList("product.productList",map,new RowBounds((cPage-1)*numPerPage,numPerPage));
@@ -87,7 +87,6 @@ public class ProductDaoImpl implements ProductDao {
 		return session.selectList("product.saleList",map);
 	}
 
-	
 
 
 

@@ -42,11 +42,11 @@
 
   <!-- 인터셉터설정하기 -->
 	<interceptors>
-		<interceptor>
+		<!-- <interceptor>
 			<mapping path="/community/*"/>
 			<mapping path="/mypage/*"/>
 			<beans:bean id="logincheck" class="com.kh.bom.common.interceptor.LoginCheckInterceptor"/>	
-		</interceptor>
+		</interceptor> -->
 		<interceptor>
 			<mapping path="/admin/*"/>
 			<beans:bean id="adminCheck" class="com.kh.bom.common.interceptor.AdminCheckInterceptor"/>
