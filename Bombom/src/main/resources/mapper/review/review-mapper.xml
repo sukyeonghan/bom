@@ -34,7 +34,7 @@
 	
 	<!-- 구매평 평균 -->
 	<select id="reviewAvg" parameterType="string" resultType="string">
-		SELECT AVG(REV_SCORE) FROM REVIEW WHERE PDT_NO=#{pdtNo}
+		SELECT ROUND(AVG(REV_SCORE),1) FROM REVIEW WHERE PDT_NO=#{pdtNo}
 	</select>
 
 	<delete id="deleteReview" parameterType="string">

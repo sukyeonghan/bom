@@ -120,7 +120,7 @@ button:focus {
 	display: block;
 }
 .tab_box img {
-	width: 100%;
+	width: 80%;
 }
 /* 배송 안내사항 */
 #information p {
