@@ -150,6 +150,13 @@ textarea.answer {
 .reviewpageBar{
 	text-align: center;
 }
+
+#uploadImage1:hover{
+	cursor:pointer;
+}
+#uploadImage2:hover{
+	cursor:pointer;
+}
 </style>
 
 	    	<!-- 구매평 시작 -->
@@ -284,6 +291,7 @@ textarea.answer {
 								<input type="hidden" class="revNo" name="revNo" />
 								<input type="hidden" name="pdtNo" value="${pdtNo}"/>
 								<input type="hidden" class="revScore" name="revScore">
+								<input type="hidden" class="revImage" name="revImage">
 					        	<input type="submit" class="btn btn-outline-success btn-sm" value="수정완료">
 				        	</div>
 				        	<span class="span_textarea" style="margin: 10px 0 0 0;">
@@ -389,7 +397,7 @@ textarea.answer {
 		 $(".memNick").text(memNick);
 		 $(".revScore").val(revScore);
 		 $(".revContent").text(revContent);
-		 
+		 $(".revImage").val(revImage);
 		 
 		 //별점이 있을경우 모달창에 별점 checked
 		 for(var i=1; i<=revScore; i++){
