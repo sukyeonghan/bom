@@ -135,11 +135,17 @@ public class CommunityDaoImpl implements CommunityDao {
 			// TODO Auto-generated method stub
 			return session.selectOne("community.selectLikeCount",cmNo);
 		}
-		
+		//좋아요 한 글 번호 넣기
 		@Override
 		public int updateLikeNo(SqlSession session, Map<String,Object> map) {
 			// TODO Auto-generated method stub
 			return session.update("community.updateLikeNo",map);
+		}
+		//좋아요 취소 시 글 번호 업데이트
+		@Override
+		public int deleteLikeNo(SqlSession session, Map<String, Object> map) {
+			// TODO Auto-generated method stub
+			return session.update("community.deleteLikeNo",map);
 		}
 
 	

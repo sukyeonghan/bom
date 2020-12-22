@@ -44,6 +44,8 @@ public interface CommunityDao {
 	
 	int updateLikeNo(SqlSession session,Map<String,Object> map);
 	
+	int deleteLikeNo(SqlSession session,Map<String,Object> map);
+	
 	
 	
 

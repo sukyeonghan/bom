@@ -1,6 +1,7 @@
 package com.kh.bom.community.model.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -155,14 +156,24 @@ public class CommunityServiceImpl implements CommunityService {
 		map.put("cmNo",cmNo);
 		map.put("value",value);
 		map.put("memNo", memNo);
-			
+		
 		//좋아요한 글 업데이트
 		//좋아요를 눌렀을 때
 		if(value==1) {
 			result=dao.updateLikeNo(session,map);
 		}else if(memCmLike!=null && value==0){
 			//좋아요를 취소했을 때
-			//result=dao.
+			for(String l : memCmLike) {
+				System.out.println("좋아요글번호"+l);
+				if(l.equals(cmNo)) {
+					//배열을 리스트로 바꿔서 삭제 후 다시 배열로 만듦
+					List<String> list = new ArrayList<>(Arrays.asList(memCmLike));
+					list.remove(cmNo);
+					memCmLike = list.toArray(new String[list.size()]);
+					map.put("memCmLike", memCmLike);
+					result=dao.deleteLikeNo(session,map);
+				}
+			}
 		}
 		
 		if(result>0) {

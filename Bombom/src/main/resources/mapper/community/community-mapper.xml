@@ -195,4 +195,8 @@
 		</if>
 		WHERE MEM_NO=#{memNo} 
 	</insert>
+	<!-- 좋아요 취소 시 글 번호 넣기 -->
+	<update id="deleteLikeNo" parameterType="map">
+		UPDATE MEMBER SET MEM_CM_LIKE=#{memCmLike, typeHandler=stringArr} WHERE MEM_NO=#{memNo} 
+	</update>
 </mapper>
