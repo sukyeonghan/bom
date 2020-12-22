@@ -166,6 +166,33 @@
             )
     </delete>
     
-    
-	
+    <!-- 좋아요 수 업데이트 -->
+    <update id="updateLikeCount" parameterType="map">
+    	UPDATE COMMUNITY 
+    	<if test="value==1">
+    		SET CM_LIKE=CM_LIKE+1 
+    	</if>
+    	<if test="value==0">
+    		SET CM_LIKE=CM_LIKE-1
+    	</if>
+    	WHERE CM_NO=#{cmNo}
+    </update>
+    <!-- 좋아요 수만 가져오기 -->
+	<select id="selectLikeCount" parameterType="string" resultType="_int">
+		SELECT CM_LIKE FROM COMMUNITY WHERE CM_NO=#{cmNo}
+	</select>
+	<!-- 좋아요한 글 번호 넣기 -->
+	<insert id="updateLikeNo" parameterType="map">
+		<selectKey keyProperty="memCmLike" resultType="string" order="BEFORE">
+			SELECT MEM_CM_LIKE FROM MEMBER WHERE MEM_NO=#{memNo}
+		</selectKey>
+		UPDATE MEMBER 
+		<if test="memCmLike == null">
+			SET MEM_CM_LIKE=#{cmNo} 
+		</if>
+		<if test="memCmLike != null">
+			SET MEM_CM_LIKE=MEM_CM_LIKE||','||#{cmNo}
+		</if>
+		WHERE MEM_NO=#{memNo} 
+	</insert>
 </mapper>

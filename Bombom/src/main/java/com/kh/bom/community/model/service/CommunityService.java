@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.kh.bom.community.model.vo.BoardReply;
 import com.kh.bom.community.model.vo.Community;
+import com.kh.bom.member.model.vo.Member;
 
 public interface CommunityService{
 
@@ -37,6 +38,8 @@ public interface CommunityService{
 
 	BoardReply selectBoardReplyOne(String number);
 	
-
-
+	//좋아요
+	int insertLike(Member m,String cmNo,int likeCount,int value);
+	//바뀐 좋아요 수
+	int selectLikeCount(String cmNo);
 }

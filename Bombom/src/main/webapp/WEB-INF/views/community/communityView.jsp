@@ -227,7 +227,7 @@ display:none;
 		        <div class='heart-animation-1'></div>
 		        <div class='heart-animation-2'></div>
 		      </span>
-		      좋아요 <c:out value="${community.cmLike }" />
+		      	좋아요 &nbsp;<span class="cmLike"><c:out value="${community.cmLike }" /></span>
 		    </a>
 		  </div>
 		</div>
@@ -306,24 +306,38 @@ display:none;
 <script>
 	//좋아요 버튼
 	$('a.like-button').on('click', function(e) {
-	  $(this).toggleClass('liked');
-	  
-	});
-	//좋아요 ajax
-	function myFunction(x) {
-		x.classList.toggle("fa-thumbs-down");	
+		var value;
+		$(e.target).toggleClass('liked');
+		//좋아요 누른 상태
+		if($(e.target).hasClass('liked') === true) value=1;
+		//좋아요 취소 상태
+		else value=0;
+			
 		//숫자 카운트,member에 insert
+	
+/* 		var cmNo="${community.cmNo }";
+		var test=new Array;
+		test.push(cmNo); */
+
+		
 		$.ajax({
 			url:"${path}/community/insertLike",
-			data:{memNo:"${loginMember.memNo}",cmNo:"${community.cmNo }",likeCount:"${community.cmLike }"},
+			data:{cmNo:"${community.cmNo }",likeCount:"${community.cmLike }",value:value},
 			dataType:"json",
-			sucess:data=>{
+			success:data=>{
 				//글번호insert결과값, 카운트 수 
-				
+				console.log(data);
+				console.log(data.likeCount);
+				//좋아요 수 출력 
+				$(".cmLike").text(data.likeCount);
 			}
 		});
-	}
-  
+	});
+	
+/* 	function myFunction(x) {
+		x.classList.toggle("fa-thumbs-down");
+	} */
+	//좋아요 ajax
 
 	function fn_updateNotice() {
 		let noticeNo = $(event.target).parent()
@@ -607,6 +621,7 @@ $(document).on("click",".btn-reply",e=>{
 	}
 	.like-button:hover {
 	  border-color: currentColor;
+	  text-decoration:none;
 	}
 	
 	.like-icon {

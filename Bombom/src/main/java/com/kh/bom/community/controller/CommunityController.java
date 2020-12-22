@@ -21,6 +21,7 @@ import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.community.model.service.CommunityService;
 import com.kh.bom.community.model.vo.BoardReply;
 import com.kh.bom.community.model.vo.Community;
+import com.kh.bom.member.model.vo.Member;
 
 import net.sf.json.JSON;
 import net.sf.json.JSONObject;
@@ -277,11 +278,23 @@ public class CommunityController {
 	//좋아요
 	@RequestMapping("/community/insertLike")
 	@ResponseBody
-	public JSON insertLike(String memNo,String cmNo,int likeCount) {
+	public JSON insertLike(HttpSession session,String cmNo,int likeCount,int value) {
 		
-		//테스트
+		//커뮤니티 테이블 좋아요 수 업데이트
+		//좋아요눌렀으면 
+		//멤버 테이블에 글 번호 넣기
+		//좋아요 취소 눌렀으면 
+		//멤버 테이블에 글 번호 삭제
+		
+		Member m=(Member)session.getAttribute("loginMember");
+		int result=service.insertLike(m,cmNo,likeCount,value);
+		System.out.println("컨트롤러에서"+result);
+		
+		//json객체로 보내기
 		JSONObject obj=new JSONObject();
-		obj.put("key", memNo);
+		//바뀐 좋아요 수 
+		obj.put("likeCount",service.selectLikeCount(cmNo));
+		System.out.println("컨트롤러 json"+obj);
 		return obj;
 	}
 }

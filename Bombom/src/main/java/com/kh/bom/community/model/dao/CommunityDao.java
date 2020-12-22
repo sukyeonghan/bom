@@ -38,7 +38,11 @@ public interface CommunityDao {
 
 	BoardReply selectBoardReplyOne(SqlSession session, String number);
 	
+	int updateCount(SqlSession session,Map<String,Object> map);
 	
+	int selectLikeCount(SqlSession session,String cmNo);
+	
+	int updateLikeNo(SqlSession session,Map<String,Object> map);
 	
 	
 	

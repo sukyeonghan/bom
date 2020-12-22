@@ -122,8 +122,25 @@ public class CommunityDaoImpl implements CommunityDao {
 			return session.selectOne("community.selectBoardReplyOne",number);
 		}
     
-		
+		//좋아요 수 업데이트
+		@Override
+		public int updateCount(SqlSession session,Map<String,Object> map) {
+			// TODO Auto-generated method stub
+			return session.update("community.updateLikeCount",map);
+		}
 
+		//좋아요 수만 가져오기
+		@Override
+		public int selectLikeCount(SqlSession session, String cmNo) {
+			// TODO Auto-generated method stub
+			return session.selectOne("community.selectLikeCount",cmNo);
+		}
+		
+		@Override
+		public int updateLikeNo(SqlSession session, Map<String,Object> map) {
+			// TODO Auto-generated method stub
+			return session.update("community.updateLikeNo",map);
+		}
 
 	
 }
