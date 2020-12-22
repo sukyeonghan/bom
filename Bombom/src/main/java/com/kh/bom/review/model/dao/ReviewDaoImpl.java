@@ -26,6 +26,11 @@ public class ReviewDaoImpl implements ReviewDao {
 		return session.delete("review.deleteReview", revNo);
 	}
 
+	@Override
+	public int updateReview(SqlSession session, Review r) {
+		return session.update("review.updateReview", r);
+	}
+
 
 
 

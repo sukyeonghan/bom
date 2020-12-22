@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.bom.common.page.AjaxPageBarFactory;
 import com.kh.bom.common.page.ProAjaxPageBarFactory;
 import com.kh.bom.common.page.ProPageBarFactory;
+import com.kh.bom.common.page.ReviewInquiryAjaxPageBarFactory;
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.service.ProductService;
@@ -218,7 +219,7 @@ public class ProductController {
 	}
 	
 
-	//상품상세 첫화면
+	//상품상세화면 첫화면
 	@RequestMapping("/product/productOne")
 	public ModelAndView productOne(ModelAndView mv,
 			@RequestParam("pdtNo") String pdtNo,
@@ -230,6 +231,65 @@ public class ProductController {
 		Product product = service.selectProductOne(pdtNo);
 		//상품옵션불러오기
 		List<ProductOption> optionlist = service.selectpdtOption(pdtNo);
+		
+		//상품문의 카운트 
+		int totalData = service.inquiryCount(pdtNo);
+		//구매평 갯수
+		int reviewCount = service.reviewCount(pdtNo);
+		//구매평 별점평균
+		String reviewAvg = service.reviewAvg(pdtNo);
+
+		mv.addObject("product", product);
+		mv.addObject("optionlist", optionlist);
+		mv.addObject("count", totalData);
+		mv.addObject("reviewCount", reviewCount);
+		mv.addObject("reviewAvg", reviewAvg);
+		mv.setViewName("product/productOne");
+
+		return mv;
+	}
+	
+	//상품상세 눌렀을 때
+	@RequestMapping("/product/productDetail")
+	public ModelAndView productDetail(String pdtNo, ModelAndView mv) {
+		
+		//상품불러오기
+		Product product = service.selectProductOne(pdtNo);
+		
+		mv.addObject("product", product);
+		mv.setViewName("/product/productDetail");
+		return mv;
+	}
+	
+	
+	//구매평 눌렀을 때
+	@RequestMapping("/product/productReview")
+	@ResponseBody
+	public ModelAndView productReview(String pdtNo, ModelAndView mv,
+			@RequestParam(value="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage) {
+		
+		//구매평
+		List<Review> reviewlist = service.reviewList(pdtNo,cPage, numPerpage);
+		//구매평 갯수
+		int reviewCount = service.reviewCount(pdtNo);
+		
+		mv.addObject("reviewlist", reviewlist);
+		mv.addObject("cPage", cPage);
+		mv.addObject("reviewpageBar", AjaxPageBarFactory.getAjaxPageBar(reviewCount, cPage, numPerpage, "productReview", pdtNo));
+		mv.addObject("pdtNo", pdtNo);
+		mv.setViewName("product/productReview");
+		
+		return mv;
+	}
+	
+	//상품문의 눌렀을 때
+	@RequestMapping("/product/productInquiry")
+	@ResponseBody
+	public ModelAndView productInquiry(String pdtNo, ModelAndView mv,
+			@RequestParam(value="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage,
+			HttpSession session) {
 		
 		//상품문의
 		//로그인 세션에서 현재 사용자 id값 가져오기
@@ -258,42 +318,32 @@ public class ProductController {
 		//상품문의 갯수
 		int totalData = service.inquiryCount(pdtNo);
 		
-		//구매평
-		List<Review> reviewlist = service.reviewList(pdtNo,cPage, numPerpage);
-		//구매평 갯수
-		int reviewCount = service.reviewCount(pdtNo);
-		//구매평 별점평균
-		String reviewAvg = service.reviewAvg(pdtNo);
-
-		mv.addObject("product", product);
-		mv.addObject("optionlist", optionlist);
 		mv.addObject("list", list);
 		mv.addObject("count", totalData);
-		mv.addObject("reviewlist", reviewlist);
-		mv.addObject("reviewCount", reviewCount);
-		mv.addObject("reviewAvg", reviewAvg);
+		mv.addObject("pdtNo", pdtNo);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "inquiryAjax", pdtNo));
-		mv.setViewName("product/productOne");
-
+		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productInquiry", pdtNo));
+		mv.setViewName("product/productInquiry");
+		
 		return mv;
 	}
 	
 	//상품문의 페이징처리
-	@RequestMapping("/product/inquiryAjax") 
+	@RequestMapping("/product/productInquiryAjax")
 	@ResponseBody
-	public ModelAndView productOneAjax(ModelAndView mv, 
-			String pdtNo,
+	public ModelAndView ajaxInqiry(String pdtNo, ModelAndView mv,
 			int cPage,
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage,
 			HttpSession session) {
-	  
+		
+		//상품문의
 		//로그인 세션에서 현재 사용자 id값 가져오기
 		Member m = (Member)session.getAttribute("loginMember");
-		List<Inquiry> list = service.inquiryList(pdtNo,cPage, numPerpage);
+		List<Inquiry> list = service.inquiryList(pdtNo, cPage, numPerpage);
 		for(Inquiry i : list) {
+			//작성글이 비밀글일 경우
 			if(i.getInqSecret().equals("Y")) {
-				//비로그인 상태일 경우 비밀 댓글 처리
+				//비로그인 상태인 경우 작성자여도 비밀글로 처리 -> 모든 비밀글 비밀글로 보여주기 
 				if(m==null) {
 					i.setInqContent("비밀글입니다");
 				}else {
@@ -310,16 +360,21 @@ public class ProductController {
 				i.setInqAnswer("관리자의 답변을 기다려주세요");
 			}
 		}
+		//상품문의 갯수
+		int totalData = service.inquiryCount(pdtNo);
 		
 		mv.addObject("list", list);
-		int totalData = service.inquiryCount(pdtNo);
+		mv.addObject("count", totalData);
+		mv.addObject("pdtNo", pdtNo);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "inquiryAjax", pdtNo));
-		mv.setViewName("product/inquiryAjax");
-
-		return mv; 
-	 
+		mv.addObject("pageBar",ReviewInquiryAjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productInquiryAjax", pdtNo));
+		mv.setViewName("product/productInquiryAjax");
+		
+		return mv;
 	}
+	
+	
+	
 
 	
 }

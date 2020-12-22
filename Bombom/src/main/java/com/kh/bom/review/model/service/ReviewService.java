@@ -14,6 +14,6 @@ public interface ReviewService {
 	
 	int deleteRevivew(String revNo);
 
-
+	int updateReview(Review r);
 
 }

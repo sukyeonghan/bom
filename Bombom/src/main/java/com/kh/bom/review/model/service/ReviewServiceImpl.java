@@ -60,6 +60,11 @@ public class ReviewServiceImpl implements ReviewService {
 		return dao.deleteRevivew(session, revNo);
 	}
 
+	@Override
+	public int updateReview(Review r) {
+		return dao.updateReview(session, r);
+	}
+
 	
 
 	

@@ -1,6 +1,6 @@
 package com.kh.bom.common.page;
 
-public class AjaxPageBarFactory {
+public class ReviewInquiryAjaxPageBarFactory {
 
 	public static String getAjaxPageBar(int reviewCount,int cPage,int numPerpage,String url, String pdtNo) {
 
@@ -48,7 +48,7 @@ public class AjaxPageBarFactory {
 		
 		pageBar+="<script>";
 
-		pageBar+="function fn_paging(cPage,pdtNo){";
+		pageBar+="function fn_paging(cPage,numPerpage,pdtNo){";
 		pageBar+="$.ajax({";
 		pageBar+="url:'"+url+"',";
 		pageBar+="data:{cPage:cPage,numPerpage:5,pdtNo:pdtNo},";
@@ -56,7 +56,7 @@ public class AjaxPageBarFactory {
 		pageBar+="success:data=>{";
 		pageBar+="console.log(data);";
 					
-		pageBar+="document.getElementById('detailResult').innerHTML=data";
+		pageBar+="document.getElementById('result').innerHTML=data";
 		pageBar+="}";	
 		pageBar+="});";
 		

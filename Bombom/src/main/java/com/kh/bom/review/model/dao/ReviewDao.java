@@ -14,5 +14,7 @@ public interface ReviewDao {
 	int insertReview(SqlSession session, Review r);
 	
 	int deleteRevivew(SqlSession session, String revNo);
+	
+	int updateReview(SqlSession session, Review r);
 
 }

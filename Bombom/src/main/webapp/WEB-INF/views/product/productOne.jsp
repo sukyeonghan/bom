@@ -159,48 +159,7 @@ button:focus {
 .slideImg {
 	padding-top: 10px;
 }
-/*상품문의 박스 스타일*/
-div.wrap-category {
-	margin: 7px 0px 7px 0px;
-	text-align: left;
-}
-.span_textarea {
-	position: relative;
-	padding: 8px;
-	width: auto;
-	border: lightslategray 1px solid;
-	border-radius: 4px;
-	display: inline-block;
-	width: 100%;
-	height: 200px;
-}
-textarea {
-	width: 99%;
-	height: 80%;
-	resize: none;
-	border: none;
-}
-textarea:focus {
-	outline: none;
-}
-textarea.inqContent {
-	width: 100%;
-	height: 100%;
-	resize: none;
-	border: none;
-	margin: 7px 0 7px 0;
-}
-textarea.answer {
-	width: 100%;
-	height: 100%;
-	resize: none;
-	border: none;
-	margin: 7px 0 7px 0;
-}
-/* 상품문의 모달창 */
-#modalClick {
-	cursor: pointer;
-}
+
 /* 위로가기 버튼 */
 .scrollTop {
 	width: 50px;
@@ -211,110 +170,8 @@ textarea.answer {
 	bottom: 40px;
 	display: none;
 }
-/* 스타 체크박스 옆으로 조절 */
-.rating .rate_radio {
-	position: relative;
-	display: inline-block;
-	z-index: 20;
-	opacity: 0.001;
-	width: 20px;
-	height: 20px;
-	background-color: #fff;
-	cursor: pointer;
-	vertical-align: top;
-	/* 체크박스 안 보이게  */
-	display: none;
-}
-.rating .rate_radio+label {
-	position: relative;
-	display: inline-block;
-	/* margin-left: -4px; */
-	margin: 0 0 -4px -3px;
-	z-index: 10;
-	width: 20px;
-	height: 20px;
-	background-image: url('../resources/images/product/starblank.png');
-	background-repeat: no-repeat;
-	background-size: 20px 20px;
-	cursor: pointer;
-	background-color:
-}
-.rating .rate_radio:checked+label {
-	background-image: url('../resources/images/product/star.png');
-}
-/* 구매평 */
-.review_span {
-	height: 250px;
-}
-#review_textarea {
-	height: 50%;
-}
-.accordion_title {
-	display: flex;
-	position: relative;
-}
-.plusminus::before {
-	content: '';
-	display: block;
-	width: 24px;
-	height: 3px;
-	background-color: #45A663;
-	position: absolute;
-	right: 0;
-	transform: rotate(90deg);
-	transition: .5s;
-	margin: 10px;
-}
-.plusminus::after {
-	content: '';
-	display: block;
-	width: 24px;
-	height: 3px;
-	background-color: #45A663;
-	position: absolute;
-	right: 0;
-	transform: rotate(0deg);
-	margin: 10px;
-}
-.plusminus.active::before {
-	transform: rotate(0deg);
-}
-.accordion_title:hover {
-	cursor: pointer;
-}
-.accordion_title {
-	margin: 10px;
-}
-.accordion_title:active .shortContent {
-	style: none;
-}
-.accordion_content {
-	display: block;
-	margin: 0;
-	height: 0;
-	overflow: hidden;
-	transition: .5s;
-}
-.accordion_content.show {
-	margin: 10px;
-}
-.accordion_wrap {
-	border-color: #E2E2E2;
-	list-style: none;
-	border-width: 1px 0 0 0;
-	border-style: solid;
-	padding: 0px;
-}
-.accordion_inner {
-	border-color: #E2E2E2;
-	list-style: none;
-	border-width: 0 0 1px 0;
-	border-style: solid;
-	margin: 10px 0 0 0;
-}
-.pageBar{
-	text-align: center;
-}
+
+
 </style>
 
 <section id="container" style="margin:0 5% 0 5%;">
@@ -538,13 +395,14 @@ textarea.answer {
 		<!-- 네비바 -->
 		<div class="tab_wrap container">
 		    <div class="tab_menu_container container">
-			    <button class="tab_menu_btn on" type="button">상품상세</button>
-			    <button class="tab_menu_btn" type="button">구매평(<c:out value="${reviewCount }"/>)</button>
-			    <button class="tab_menu_btn" type="button">상품문의(<c:out value="${count }"/>)</button>
+			    <button class="tab_menu_btn" id="productDetail" type="button">상품상세</button>
+			    <button class="tab_menu_btn" id="productReview" type="button">구매평(<c:out value="${reviewCount }"/>)</button>
+			    <button class="tab_menu_btn" id="productInquiry" type="button">상품문의(<c:out value="${count }"/>)</button>
 		    </div> <!-- tab_menu_container e -->
-		    <div class="tab_box_container">
+		    
+		    <div class="tab_box_container" style="padding-top:20px;">
 		    	<!-- 상품상세 시작 -->
-		    	<div class="tab_box on">
+		    	<div id="detailResult">
 					<!--제품이미지 삽입-->
 					<img src="${path}/resources/upload/product/${product.pdtDetailImage}" style="width:80%; display:block;margin:auto;">
 					<!--배송안내 시작!-->
@@ -580,382 +438,12 @@ textarea.answer {
 							현저히 감소된 경우</p>
 					</div>
 					<!-- 위로가기 버튼 -->
-					<a href="#" class="scrollTop"><img src="${path}/resources/images/product/up-arrow.png"></a>
+					<a href="#" class="scrollTop"><img src="${path}/resources/images/product/up-arrow.png" style="height:100%;"></a>
 				</div>
 				
-		    	<!-- 구매평 시작 -->
-		    	<div class="tab_box">
-			        <!--구매평 작성창-->
-			        <form name="frm_review" action="${path}/review/insertReview" method="post" enctype="multipart/form-data" onsubmit="return fn_reviewCheck()" >
-				        <div class="writebox_wrap container" style="float:none; margin:10px 0 10px 0;">
-				            <button type="button" class="btn btn-success showBox">구매평 작성</button>
-					        <div class="wrap-category" style="display:none;">
-						        <span class="span_textarea review_span">
-							        <textarea name="revContent" id="review_textarea" placeholder="구매평을 입력해주세요" onKeyUp="javascript:fnChkByte2(this,'500')"></textarea>
-							        <div class="imgPreview" style="height:30%;"></div>
-							        <div class="wrap_bottom">
-							        <div style="float:left;left:0;bottom:0;">
-							        	<!-- 업로드 사진 -->
-							       		<img id="uploadImage1" src="${path}/resources/images/product/gallery.png" style="width:25px;height:25px;">&nbsp;
-							       		<input type="file" id="upload1" name="upload1" accept="image/gif, image/jpeg, image/png" style="display:none;">
-							       		<!-- 별점 -->
-								        <div class="rating" style="display:inline-block;">
-											<!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
-											<input type="checkbox" id="rating1" name="rating" class="rate_radio" value="1">
-											<label for="rating1"></label>
-											<input type="checkbox" id="rating2" name="rating" class="rate_radio" value="2">
-											<label for="rating2"></label>
-											<input type="checkbox" id="rating3" name="rating" class="rate_radio" value="3">
-											<label for="rating3"></label>
-											<input type="checkbox" id="rating4" name="rating" class="rate_radio" value="4">
-											<label for="rating4"></label>
-											<input type="checkbox" id="rating5" name="rating" class="rate_radio" value="5">
-											<label for="rating5"></label>
-										</div>
-									</div>
-									<div style="float:right;">
-									<span id="byteInfo2">0</span>/500bytes
-										<!-- 로그인 한 사람 및 구매한 사람만 구매평 등록가능-->
-								        <c:if test="${loginMember!=null }">
-								        	<input type="hidden" name="pdtNo" value="${product.pdtNo }">
-								        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
-								        	<input type="hidden" name="revScore">
-								        	<input type="hidden" name="orderNo">
-								        	<input type="submit" class="btn btn-success textCheck" value="등록" style="right:0;">
-								        </c:if>
-								        <c:if test="${loginMember==null }">
-								        	<input type="button" class="btn btn-success loginCheck" value="등록" style="right:0;">
-								        </c:if>
-						        	</div>
-						        	</div>
-						        </span>
-					        </div>
-				        </div>
-			        </form><!-- 구매평 작성창 끝 -->
-			        
-			        <!-- 구매평 게시글 -->
-			        <div id="reviewResult">
-			        	<div class="container">
-				        	 <c:if test="${not empty reviewlist }">	
-				        		 <ul class="accordion_wrap">
-					        		 <c:forEach items="${reviewlist}" var="r">
-									    <li class="accordion_inner">
-									    <!-- 타이틀 -->
-									      <div class="accordion_title">
-									      	<div class="col-9">
-									      		<!-- 별점 불러오기 -->
-									      		<c:forEach begin="1" end="${r.revScore}" step="1" varStatus="vs"> 
-									      			<img src="${path}/resources/images/product/star.png" style="width:20px;height:20px;margin:0 0 5px -3px;">
-									      		</c:forEach>
-									      		<c:forEach begin="1" end="${5-r.revScore}" step="1">
-									      		 	<img src="${path}/resources/images/product/starblank.png" style="width:20px;height:20px;margin:0 0 5px -3px;">
-									      		</c:forEach>
-										      	<span><c:out value="${r.revScore}"/></span><br>
-										      	<img src="${path }/resources/upload/profile/${r.memPro}" style="max-width:30px; height:30px;border-radius:50%;">&nbsp;
-											      <span><strong><c:out value="${r.memNick}" /></strong></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><fmt:formatDate type="both" timeStyle="short" value="${r.revDate }"/></span><br>
-											     <c:out value="${r.revContent}"/>
-									      	</div>
-									      	<div class="col-2"><c:if test="${r.revImage!=null }"><img src="${path}/resources/upload/review/${r.revImage }" style="height: auto;"/></c:if></div>
-									      	<div class="col-1 plusminus"></div>
-									      </div>
-									      <!-- 상세보기 -->
-									      <div class="accordion_content">
-									      	<div>
-										        <!-- 작성자와 로그인한 사람이 같을경우 수정, 삭제 버튼 생성 -->
-										        <c:if test="${loginMember.memNo==r.memNo }">
-										        	<div style="display:inline-block;float:right;">
-										        		<input type="hidden" name="revNo" value="${r.revNo}">
-											        	<input type="button" class="btn btn-outline-success btn-sm updateView" data-toggle="modal" data-target="#updateReview" value="수정">
-											        	<span style="display:none"><c:out value="${r.revNo}"/></span>
-													    <span style="display:none"><c:out value="${r.memNick}"/></span>
-													    <span style="display:none"><c:out value="${r.revScore}"/></span>
-													    <span style="display:none"><c:out value="${r.revContent}"/></span>
-													    <span style="display:none"><c:out value="${r.revImage}"/></span>
-													    <span style="display:none"><fmt:formatDate type="both" timeStyle="short" value="${r.revDate }"/></span>
-													    <span style="display:none"><c:out value="${r.memPro}"/></span>
-						        						<input type="button" class="btn btn-outline-success btn-sm deleteReviewCk" data-confirm="구매평을 삭제하시겠습니까?" value="삭제">
-										        	</div>
-										        </c:if>
-										        <br><br>
-										        <c:if test="${r.revImage!=null }"><img src="${path}/resources/upload/review/${r.revImage }" style="max-width:40%; height: auto;"/></c:if>
-									      	</div>
-									      </div>
-									    </li>
-									</c:forEach>    
-								</ul>
-							</c:if>
-							<c:if test="${empty reviewlist }">
-						    	등록된 구매평이 없습니다
-						    </c:if>		    
-			        	</div>
-			        </div>
-		    	</div><!-- 구매평 끝 -->
-		    	
-		    	<!-- 구매평 수정 모달창 -->
-		   <div class="modal fade" id="updateReview">
-		    <div class="modal-dialog modal-dialog-centered">
-		      <div class="modal-content">
-		      
-		        <!-- Modal Header -->
-		        <div class="modal-header">
-		          <h4 class="modal-title">구매평 수정하기</h4>
-		          <button type="button" class="close" data-dismiss="modal">X</button>
-		        </div>
-		        
-		        <!-- Modal body -->
-			        <div class="modal-body container">
-			        	<!-- 구매평 내용 -->
-			        	<form name="frm_inquiry" action="${path}/review/updateReview">
-				        	<span class="revScore"></span><br>
-				        	<img id="memProimg">
-				        	<strong><span class="memNick"></span></strong>&nbsp;&nbsp;<span class="revDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-				        	<input type="hidden" name="revNo" class="revNo"/>
-							<div style="display:inline-block;">
-								<input type="hidden" name="pdtNo" value="${product.pdtNo}"/>
-					        	<input type="submit" class="btn btn-outline-success btn-sm" value="수정완료">
-				        	</div>
-				        	<span class="span_textarea" style="margin: 10px 0 0 0;">
-							    <textarea class="revContent" name="revContent" style="height:50%;" onKeyUp="javascript:fnChkByte3(this,'500')"></textarea>
-							    	<div id="uploadPreview" style="height:30%;"><img id="imgPreview" style="height:30%;"></div>
-							        <div class="wrap_bottom">
-							        <div style="float:left;left:0;bottom:0;">
-							        	<!-- 업로드 사진 -->
-							       		<img id="uploadImage2" src="${path}/resources/images/product/gallery.png" style="width:25px;height:25px;">&nbsp;
-							       		<input type="file" id="upload2" name="upload2" accept="image/gif, image/jpeg, image/png" style="display:none;">
-							       		<!-- 별점 -->
-								        <div class="rating" style="display:inline-block;">
-											<!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
-											<input type="checkbox" id="revrating1" name="revrating" class="rate_radio" value="1">
-											<label for="revrating1"></label>
-											<input type="checkbox" id="revrating2" name="revrating" class="rate_radio" value="2">
-											<label for="revrating2"></label>
-											<input type="checkbox" id="revrating3" name="revrating" class="rate_radio" value="3">
-											<label for="revrating3"></label>
-											<input type="checkbox" id="revrating4" name="revrating" class="rate_radio" value="4">
-											<label for="revrating4"></label>
-											<input type="checkbox" id="revrating5" name="revrating" class="rate_radio" value="5">
-											<label for="revrating5"></label>
-										</div>
-									</div>
-									<div style="float:right;">
-									<!--  -->
-									<span id="byteInfo3" style="display:none;">0</span><!-- /500bytes -->
-						        	</div>
-						        	</div>
-						    </span>
-					    </form>
-			        </div>
-		        
-		      </div>
-		    </div>
-		  </div><!-- 구매평 모달창 끝 -->
-		  
-		  <script>
-		  //구매평 수정창 클릭시 모달창 띄움
-		  $(".updateView").click(function(){
-			 let wrap = $(this).parent();
-			 let choice = wrap.children("span");
-			 
-			 let revNo = choice.eq(0).text();
-			 let memNick = choice.eq(1).text();
-			 let revScore = choice.eq(2).text();
-			 let revContent = choice.eq(3).text();
-			 let revImage = choice.eq(4).text();
-			 let revDate = choice.eq(5).text();
-			 let memPro = choice.eq(6).text();
-			 
-			 $(".revNo").val(revNo);
-			 $(".memNick").text(memNick);
-			 $(".revScore").text(revScore);
-			 $(".revContent").text(revContent);
-			 
-			 
-			 //별점이 있을경우 모달창에 별점 checked
-			 for(var i=1; i<=revScore; i++){
-				 //$("input:checkbox[name='revrating']:checkbox[value='i']").prop("checked",checked);
-				 $("input:checkbox[name='revrating']").each(function(){
-					if(this.value==i){
-					 this.checked = true;
-					}
-				 });
-			 }
-			 
-			 //이미지가 있을경우 모달창에 이미지 넣어두기
-			 if(revImage!=""){
-				 $("#imgPreview").prop("src","${path}/resources/upload/review/"+revImage);
-				 $("#imgPreview").prop("style","height:100%;");
-			 }else{
-				 $("#imgPreview").hide();
-			 }
-			 
-			 $(".revDate").text(revDate);
-			 $("#memProimg").prop("src","${path}/resources/upload/profile/"+memPro);
-			 $("#memProimg").prop("style","max-width:30px; height:30px;border-radius:50%;");
-		  });
-		  
-		  	
-		  
-		  </script>
-		    	
-		    	
-		    	<!-- 상품문의 시작 -->
-				<div class="tab_box">
-			        <!--상품문의 작성창-->
-			        <form name="frm_inquiry" action="${path}/product/insertInquiry" onsubmit="return fn_check()">
-				        <div class="writebox_wrap container" style="float:none; margin:10px 0 10px 0;">
-				            <button type="button" class="btn btn-success showBox">상품문의</button>
-					        <div class="wrap-category" style="display:none;">
-						        <span class="span_textarea">
-							        <textarea name="inqContent" id="inqContent" placeholder="문의내용을 입력해주세요" onKeyUp="javascript:fnChkByte1(this,'500')"></textarea>
-									<div style="float:right;">
-										<span id="byteInfo1">0</span>/500bytes
-								        <label>
-						 		        	<img id="lockUnlock" src="${path}/resources/images/product/unlock.png" name="inqSecret" style="width:25px;height:25px;">
-								        	<input type="hidden" id="secret" name="inqSecret" value="N">
-								        </label>
-								        <c:if test="${loginMember!=null }">
-								        	<input type="hidden" name="pdtNo" value="${product.pdtNo}">
-								        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
-								        	<input type="submit" class="btn btn-success" value="등록" style="right:0;">
-								        </c:if>
-								        <c:if test="${loginMember==null }">
-								        	<input type="button" class="btn btn-success loginCheck" value="등록" style="right:0;">
-								        </c:if>
-						        	</div>
-						        </span>
-					        </div>
-				        </div>
-			        </form><!-- 상품문의 작성창 끝 -->
-			        
-			        <!-- 상품문의 게시글 -->
-			        <div id="result">
-				        <div class="container">
-						    <c:if test="${not empty list }">	
-					        <table class="table" style=" table-layout: fixed;">
-						        <thead>
-						        	<tr>
-						        		<td style="width:10%;">상태</td>
-						        		<td style="width:65%;">내용</td>
-						        		<td style="width:20%;">문의날짜</td>
-						        		<td style="width:15%;">작성자</td>
-						        	</tr>
-						        </thead>
-								<c:forEach items="${list}" var="i">
-						        	<thead>
-						        		<tr>
-						        			<td>
-						        				<c:out value="${i.inqAnswerYn=='Y'?'답변완료':'답변대기'}"/>
-						        			</td>					        		
-						        			<td style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
-						        				<c:if test="${i.inqSecret=='N'}">
-						        					<a href="#" data-toggle="modal" data-target="#inquiryView" data-no='<c:out value="${i.inqNo}"/>' data-content='<c:out value="${i.inqContent }"/>'
-						        						data-answeryn='<c:out value="${i.inqAnswerYn}"/>' data-date='<fmt:formatDate type="both" timeStyle="short" value="${i.inqDate }"/>' data-memnick='<c:out value="${i.memNick}"/>'
-						        						data-answer='<c:out value="${i.inqAnswer}"/>' data-answerdate='<fmt:formatDate type="both" timeStyle="short" value="${i.inqAnswerDate}"/>'
-						        						data-secret='<c:out value="${i.inqSecret}"/>' data-memno='<c:out value="${i.memNo}"/>' data-loginno='<c:out value="${loginMember.memNo}"/>'>
-						        						<c:out value="${i.inqContent }"/>
-						        					</a>
-						        				</c:if>
-						        				<c:if test="${i.inqSecret=='Y' and loginMember.memNo==i.memNo }">
-						        					<img src="${path}/resources/images/product/lock.png" style="width:20px;height:20px;">
-						        					<a href="#" data-toggle="modal" data-target="#inquiryView" data-no='<c:out value="${i.inqNo}"/>' data-content='<c:out value="${i.inqContent }"/>'
-						        						data-answeryn='<c:out value="${i.inqAnswerYn}"/>' data-date='<fmt:formatDate type="both" timeStyle="short" value="${i.inqDate }"/>' data-memnick='<c:out value="${i.memNick}"/>'
-						        						data-answer='<c:out value="${i.inqAnswer}"/>' data-answerdate='<fmt:formatDate type="both" timeStyle="short" value="${i.inqAnswerDate}"/>'
-						        						data-secret='<c:out value="${i.inqSecret}"/>' data-memno='<c:out value="${i.memNo}"/>' data-loginno='<c:out value="${loginMember.memNo}"/>'>
-						        						<c:out value="${i.inqContent }"/>
-						        					</a>
-						        				</c:if>
-						        				<c:if test="${i.inqSecret=='Y' and loginMember.memNo!=i.memNo}">
-						        					<img src="${path}/resources/images/product/lock.png" style="width:20px;height:20px;">
-						        					<a href="#" onclick="secretCk();">
-						        					<c:out value="${i.inqContent }"/></a>
-						        				</c:if>					        		
-						        			</td>
-						        			<td><fmt:formatDate type="both" timeStyle="short" value="${i.inqDate }"/></td>
-						        			<td>
-						        				<c:out value="${i.memNick}"/>
-						        			</td>
-						        		</tr>
-						        	</thead>
-						        </c:forEach>
-						    	</table>
-						        <div class="pageBar">
-									<span>${pageBar }</span>
-						    	</div>
-					        </c:if>
-					        <c:if test="${empty list }">
-					        <table>
-					        	<thead>
-					        		<tr>
-					        			<td colspan="4">등록된 문의가 없습니다</td>
-					        		</tr>
-					        	</thead>
-					        </table>
-					        </c:if>
-				        </div><!-- 상품문의 게시글 끝 -->			        
-			    	</div><!-- result 끝 -->
-			        
-			      <!-- 상품문의 모달창 -->
-				  <div class="modal fade" id="inquiryView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				    <div class="modal-dialog">
-				      <div class="modal-content">
-				      
-				        <!-- Modal Header -->
-				        <div class="modal-header">
-				          <h5 class="modal-title">상품문의</h5>
-				          <button type="button" class="close" data-dismiss="modal">X</button>
-				        </div>
-				        
-				        <!-- Modal body --> 
-				        <div class="modal-body container">
-				        	<!-- 상품문의 내용 -->
-				        	<strong><span id="memNick"></span></strong>&nbsp;&nbsp;<span id="inqDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-				        	<input type="hidden" name="inqNo" class="inqNo"/>
-							<div id="btn_secret" style="display:inline-block;">
-					        	<input type="button" class="btn btn-outline-success btn-sm fn_updateInquiry" value="수정">
-					        	<input type="button" class="btn btn-outline-success btn-sm deleteInquiryCk" data-confirm="문의를 삭제하시겠습니까?" value="삭제"><br>
-				        	</div>
-				        	<textarea class="inqContent" name="inqContent" id="textCk" style="background-color:#fff;" disabled></textarea>
-				        	<hr>
-				        	<!-- 상품문의 관리자 답변 내용 -->
-				        	<strong><span>관리자</span></strong>&nbsp;&nbsp;<span class="answerDate"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-				        	<!-- 관리자로 로그인 했을시&&답변이 있을경우에만 수정,삭제창 생김 -->
-				        	<c:if test="${loginMember.memManagerYn=='Y'}">
-				        		<div id="secret2" style="display:inline-block;">
-					        		<input type="button" class="btn btn-outline-success btn-sm fn_updateInquiryAnswer" value="수정">
-					        		<input type="button" class="btn btn-outline-success btn-sm deleteAnswerCk" data-confirm="답변을 삭제하시겠습니까?" value="삭제"><br>
-				        		</div>
-				        	</c:if>
-				        	<textarea class="answer" name="inqAnswer" id="textAnswerCk" style="background-color:#fff;" disabled></textarea>
-				        </div>
-				        <!-- 모달창 상품문의 답변창 시작, 관리자일 경우에만 답변창 생김-->
-				        <c:if test="${loginMember.memManagerYn=='Y'}">
-					        <div id="answerCheck">
-						        <form name="frm_inquiryAnswer" action="${path}/inquiry/insertInquiryAnswer" onsubmit="return fn_answerCheck()">
-							        <div class="writebox_wrap container" style="float:none; margin:10px 0 10px 0;">
-									    <span class="span_textarea" style="height:150px; ">
-											<textarea name="inqAnswer" class="inqAnswer" placeholder="답변을 입력해주세요" style="height:70%;"></textarea>
-											<div style="float:right;">
-												<c:if test="${loginMember!=null }">
-													<input type="hidden" name="memNo" value="${loginMember.memNo}">
-													<input type="hidden" name="inqNo" class="inqNo"/>
-													<input type="hidden" name="pdtNo" value="${product.pdtNo}">
-													<input type="submit" class="btn btn-success" value="등록" style="right:0;">
-												</c:if>
-												<c:if test="${loginMember==null }">
-													<input type="button" class="btn btn-success loginCheck" value="등록" style="right:0;">
-												</c:if>
-										    </div>
-									    </span>
-							        </div>
-						        </form>
-					        </div>
-				        </c:if><!-- 모달창 상품문의 답변창  끝 -->			        	
-				      </div>
-				    </div>
-				  </div><!-- 상품문의 모달창 끝! -->
-				</div>
 			</div><!-- tab_box_container -->
 		</div><!--네비바 끝 -->
+		
 		
 		<!--연관상품 스와이프-->
 		<div id="recommand_wrap" style="padding-top: 50px;">
@@ -1044,6 +532,55 @@ textarea.answer {
 </section>
 
 <script type="text/javascript">
+	//상품상세 눌렀을 때
+	$("#productDetail").click(e=>{
+		console.log($(e.target).html());
+		$.ajax({
+			url:"${path}/product/productDetail",
+			data:{pdtNo:$("#pdtNo").val()},
+			type:"get",
+			dataType:"html",
+			success:data=>{
+				console.log(data);
+				$("#detailResult").html("");
+				$("#detailResult").html(data);
+			}
+		});
+	});
+	
+	//구매평 눌렀을 때
+	$("#productReview").click(e=>{
+		console.log($(e.target).html());
+		$.ajax({
+			url:"${path}/product/productReview",
+			data:{cPage:"${cPage}",numPerpage:"${numPerpage}",pdtNo:$("#pdtNo").val()},
+			type:"get",
+			dataType:"html",
+			success:data=>{
+				console.log(data);
+				$("#detailResult").html("");
+				$("#detailResult").html(data);
+			}
+		});
+	});
+	
+	//상품문의 눌렀을 때
+	$("#productInquiry").click(e=>{
+		console.log($(e.target).html());
+		$.ajax({
+			url:"${path}/product/productInquiry",
+			data:{cPage:"${cPage}",numPerpage:"${numPerpage}",pdtNo:$("#pdtNo").val()},
+			type:"get",
+			dataType:"html",
+			success:data=>{
+				console.log(data);
+				$("#detailResult").html("");
+				$("#detailResult").html(data);
+			}
+		});
+	});
+
+
 	//썸네일 바꾸기 스크립트
 	$(function() {
 		$(".small_image a").click(function() {
@@ -1096,16 +633,7 @@ textarea.answer {
 		$(viewPrice).text(finalPrice);
 	} 
 	
-	//네비바
-	$(".tab_menu_btn").on("click", function() {
-		//버튼 색 제거,추가
-		$(".tab_menu_btn").removeClass("on");
-		$(this).addClass("on");
-		//컨텐츠 제거 후 인덱스에 맞는 컨텐츠 노출
-		var idx = $(".tab_menu_btn").index(this);
-		$(".tab_box").hide();
-		$(".tab_box").eq(idx).show();
-	});
+	
 	//연관상품 스와이프 스크립트
 	var swiper = new Swiper('.swiper-container', {
 		slidesPerView : 5, //보여줄 슬라이드 갯수
@@ -1134,314 +662,13 @@ textarea.answer {
 		console.log('slider started again');
 	});
 	
-	//구매평 작성 클릭 시 이벤트
-	$(function() {
-		$(".showBox").click(function() {
-			
-			//구매평 작성 전 로그인 한 사람이 구매한 지 확인!!!
-			$.ajax({
-				url:"${path}/review/selectOrder",
-				data:{pdtNo:$("#pdtNo").val(), memNo:"${loginMember.memNo}"},
-				type:"get",
-				dataType:"text", //String 형으로 가져올 때
-				success:data=>{
-					console.log("야야야!!!"+data); 
-					
-					if(data!=""){
-						let orderNo = $("input[name='orderNo']").val(data);
-						//상품문의 클릭 시 박스 보였다가 안보였다가 이벤트
-						if ($(this).next().css("display") == "none") {
-							$(this).next().show(1000);
-						} else {
-							$(this).next().hide(1000);
-						}
-					}else{
-						swal("상품평은 구매한 경우에만 작성하실 수 있습니다");
-						return false;
-					}
-				}
-			});
-			
-		});
-	});
 	
-	
-	//상품문의 자물쇠그림바꾸기 + 비밀글 파라미터값 넘기기
-	$("#lockUnlock").click(function() {
-		$(this).attr("src", function(index, attr) {
-			if(attr.match("unlock")) {
-				$("#secret").attr("value",function(index,attr){ 
-					if(attr.match("N")){
-						console.log("Y");
-						return attr.replace("N","Y");
-					}
-				});
-				return attr.replace("unlock.png", "lock.png");
-			} else {
-				$("#secret").attr("value",function(index,attr){
-					if(attr.match("Y")){
-						console.log("N");
-						return attr.replace("Y","N");
-					}
-				});
-				return attr.replace("lock.png", "unlock.png");
-			}
-		});
-	});
-	
-    //상품문의 Byte 수 체크 제한
-    function fnChkByte1(obj, maxByte) {
-      var str = obj.value;
-      var str_len = str.length;
-      var rbyte = 0;
-      var rlen = 0;
-      var one_char = "";
-      var str2 = "";
-      for(var i = 0; i<str_len; i++) {
-        one_char = str.charAt(i);
-        if(escape(one_char).length > 4) {
-          rbyte += 3; //한글2Byte
-        }else{
-          rbyte++; //영문 등 나머지 1Byte
-        }
-        if(rbyte <= maxByte){
-          rlen = i + 1; //return할 문자열 갯수
-        }
-      }
-      if(rbyte > maxByte) {
-        // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
-        swal("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
-        str2 = str.substr(0, rlen); //문자열 자르기
-        obj.value = str2;
-        fnChkByte1(obj, maxByte);
-      }else{
-        document.getElementById("byteInfo1").innerText = rbyte;
-      }
-    }
-    //구매평 Byte 수 체크 제한
-    function fnChkByte2(obj, maxByte) {
-      var str = obj.value;
-      var str_len = str.length;
-      var rbyte = 0;
-      var rlen = 0;
-      var one_char = "";
-      var str2 = "";
-      for(var i = 0; i<str_len; i++) {
-        one_char = str.charAt(i);
-        if(escape(one_char).length > 4) {
-          rbyte += 3; //한글2Byte
-        }else{
-          rbyte++; //영문 등 나머지 1Byte
-        }
-        if(rbyte <= maxByte){
-          rlen = i + 1; //return할 문자열 갯수
-        }
-      }
-      if(rbyte > maxByte) {
-        // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
-        swal("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
-        str2 = str.substr(0, rlen); //문자열 자르기
-        obj.value = str2;
-        fnChkByte2(obj, maxByte);
-      }else{
-        document.getElementById("byteInfo2").innerText = rbyte;
-      }
-    }   
-    
-    //구매평 수정하기 Byte 수 체크 제한
-    function fnChkByte3(obj, maxByte) {
-      var str = obj.value;
-      var str_len = str.length;
-      var rbyte = 0;
-      var rlen = 0;
-      var one_char = "";
-      var str2 = "";
-      for(var i = 0; i<str_len; i++) {
-        one_char = str.charAt(i);
-        if(escape(one_char).length > 4) {
-          rbyte += 3; //한글2Byte
-        }else{
-          rbyte++; //영문 등 나머지 1Byte
-        }
-        if(rbyte <= maxByte){
-          rlen = i + 1; //return할 문자열 갯수
-        }
-      }
-      if(rbyte > maxByte) {
-        // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
-        swal("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
-        str2 = str.substr(0, rlen); //문자열 자르기
-        obj.value = str2;
-        fnChkByte3(obj, maxByte);
-      }else{
-        document.getElementById("byteInfo3").innerText = rbyte;
-      }
-    }      
-    
 	//구매하기,장바구니,찜하기,상품문의 클릭 시 로그인 체크
 	$(function() {
 		$(".loginCheck").click(function() {
 			swal("로그인을 먼저 해주세요");
 		});
 	});
-	
-	//상품문의 클릭 시 입력확인
-	function fn_check(){
-		if(frm_inquiry.inqContent.value==""){
-			swal("문의내용을 입력해주세요");
-			return false;
-		}
-		return true;
-	}	
-	
-	//상품문의 페이징
-	$(function(){
-		$(".pageBar").click(e=>{
-			console.log($(e.target).val());
-			$.ajax({
-				url:"${path}/product/productOneAjax",
-				data:{cPage:"${cPage}",numPerpage:"${numPerPage}",pdtNo:"${pdtNo}"},
-				type:"get",
-				dataType:"html",
-				success:data=>{
-					console.log(data);
-					$("#result").html("");
-					$("#result").html(data);
-				}
-			});
-		});
-	});	
-	
-  	//상품문의 상세보기 답변입력확인
-	function fn_answerCheck(){
-		if(frm_inquiryAnswer.inqAnswer.value==""){
-			swal("답변을 입력해주세요");
-			return false;
-		}
-		return true;
-	}	
-	
-	//상품문의 답변삭제
-	$(".deleteInquiryCk").on("click",function(e){
-		e.preventDefault();
-		var choice = confirm($(this).attr('data-confirm'));
-		if(choice){
-			let inqNo = $(event.target).parents().children('input[name=inqNo]').val();
-			let pdtNo = $("#pdtNo").val();
-			location.replace("${path}/inquiry/deleteInquiry?inqNo="+inqNo+"&pdtNo="+pdtNo);
-		}
-	});
-	
-	//상품문의 관리자 답변삭제
-	$(".deleteAnswerCk").on("click",function(e){
-		e.preventDefault();
-		var choice = confirm($(this).attr('data-confirm'));
-		if(choice){
-			let inqNo = $(event.target).parents().children('input[name=inqNo]').val();
-			let pdtNo = $("#pdtNo").val();
-			location.replace("${path}/inquiry/deleteInquiryAnswer?inqNo="+inqNo+"&pdtNo="+pdtNo);
-		}	
-	});
-	
-	//비밀글 접근제한
-	function secretCk(){
-		swal("작성자와 관리자만 접근할 수 있는 글입니다");
-	}
-	//상품문의 수정버튼 클릭 시 
-	$(".fn_updateInquiry").click(function(){
-		//수정 -> 수정완료버튼으로 바꾸고, textarea 활성화
-		if($("textarea[id=textCk]").attr("disabled")){
-			$(this).attr("value",function(index,attr){
-				if(attr.match("수정")){
-					console.log("수정완료");
-					return attr.replace("수정","수정완료");
-				}
-			});
-			$("textarea[id=textCk]").attr("style","border:lightslategray 1px solid;border-radius:4px;padding:8px;");
-			return $("textarea[id=textCk]").removeAttr("disabled");
-		}else{
-			//수정완료 누를 시 수정한 내용 update
-			$(this).attr("value",function(index,attr){
-				if(attr.match("수정완료")){
-					let pdtNo = $("#pdtNo").val();
-					let inqNo = $(event.target).parents().children('input[type=hidden][name=inqNo]').val();
-					let inqContent = $(event.target).parents().children('textarea[name=inqContent]').val();
-					location.replace("${path}/inquiry/updateInquiry?inqNo="+inqNo+"&pdtNo="+pdtNo+"&inqContent="+inqContent);
-				}
-			});
-			$("textarea[id=textCk]").attr("style","background-color:#fff;");
-			return $("textarea[id=textCk]").attr("disabled","");
-		}
-	});	
-	
-	//상품문의 관리자답변 수정버튼 클릭 시 
-	$(".fn_updateInquiryAnswer").click(function(){
-		//수정 -> 수정완료버튼으로 바꾸고, textarea 활성화
-		if($("textarea[id=textAnswerCk]").attr("disabled")){
-			$(this).attr("value",function(index,attr){
-				if(attr.match("수정")){
-					console.log("수정완료");
-					return attr.replace("수정","수정완료");
-				}
-			});
-			$("textarea[id=textAnswerCk]").attr("style","border:lightslategray 1px solid;border-radius:4px;padding:8px;");
-			return $("textarea[id=textAnswerCk]").removeAttr("disabled");
-		}else{
-			//수정완료 누를 시 수정한 내용 update
-			$(this).attr("value",function(index,attr){
-				if(attr.match("수정완료")){
-					let pdtNo = $("#pdtNo").val();
-					let inqNo = $(event.target).parents().children('input[type=hidden][name=inqNo]').val();
-					let inqAnswer = $(event.target).parents().children('textarea[name=inqAnswer]').val();
-					location.replace("${path}/inquiry/updateInquiryAnswer?inqNo="+inqNo+"&inqAnswer="+inqAnswer+"&pdtNo="+pdtNo);
-				}
-			});
-			$("textarea[id=textAnswerCk]").attr("style","background-color:#fff;");
-			return $("textarea[id=textAnswerCk]").attr("disabled","");
-		}
-	});
-	
-	//상품문의 상세보기 모달창
-	$(document).ready(function(){
-  		$("#inquiryView").on("show.bs.modal",function(event){ //modal 윈도우가 오픈할 때 아래 옵션 적용
-  			var a = $(event.relatedTarget); //이벤트 적용시 모달 윈도우 오픈하는 a 태그
-  			var inqNo = a.data("no");
-  			var inqContent = a.data("content"); //a태그에서 data-content 값을 inqContent에 저장
-  			var inqDate = a.data("date");
-  			var memNick = a.data("memnick");
-  			var answerYn = a.data("answeryn");
-  			var answer = a.data("answer");
-  			var answerDate = a.data("answerdate");
-  			var inqSecret = a.data("secret");
-  			var memNo = a.data("memno");
-  			var loginno = a.data("loginno");
-  			var modal = $(this);
-  			
-  			//로그인 한 사람==게시글 작성자 일 경우에만 수정,삭제버튼 생성
-            if(memNo==loginno){
-            	$("div[id=btn_secret]").show();
-            }else{
-            	$("div[id=btn_secret]").hide();
-            }
-  			
-  			//관리자로 로그인 시, 1.답변이 있을경우에만 수정,삭제버튼 생성, 2.답변완료 시 답변창 없애기
-  			if(answerYn=='Y'){
-  				$("div[id=secret2]").show();
-  				$("div[id=answerCheck]").hide();
-  			}else{
-  				$("div[id=secret2]").hide();
-  				$("div[id=answerCheck]").show();
-  			}
-  			
-  			modal.find(".inqNo").val(inqNo);
-  			modal.find(".inqContent").text(inqContent); //모달창에서 .modal-body에 inqContent값을 출력
-  			modal.find("#inqDate").text(inqDate);
-  			modal.find("#memNick").text(memNick);
-  			modal.find(".answerYn").text(answerYn);
-  			modal.find(".answer").text(answer);
-  			modal.find(".answerDate").text(answerDate);
-  		});
-	});	
 	
 	
 	//위로가기 버튼
@@ -1456,106 +683,6 @@ textarea.answer {
 		});
 	});
 	
-	//별점 마킹 모듈 프로토타입으로 생성
-	function Rating(){};
-	Rating.prototype.rate = 0;
-	Rating.prototype.setRate = function(newrate){
-		//별점 마킹 - 클릭한 별 이하 모든 별 체크 처리
-		this.rate = newrate;
-		let items = document.querySelectorAll('.rate_radio');
-		items.forEach(function(item, idx){
-			if(idx < newrate){
-				item.checked = true;
-			}else{
-				item.checked = false;
-			}
-		});
-	}
-	let rating = new Rating();//별점 인스턴스 생성
-	//별점선택
-	$(document).ready(function(){
-		$("input[name=rating]").click(function(){
-			if($(this).find("rate_radio")){
-				rating.setRate(parseInt($(this).val()));
-				//별점 점수
-				console.log(rating.rate);
-				$("input[type=hidden][name=revScore]").val(rating.rate);
-			}
-		});
-	});
-	//별점선택 안 했을 시 알림, 리뷰 5자 미만 시 알림
-	function fn_reviewCheck(){
-		if($("#review_textarea").val().length<5){
-			swal("상품평을 5글자 이상 입력해주세요");
-			return false;
-		}
-		if(rating.rate==0){
-			swal("별점을 선택해주세요")
-			return false;
-		}
-		
-	}
-	
-	//구매평 사진 클릭 시 업로드 새창뜨기
-	$("#uploadImage1").click(function(){
-		$("#upload1").click();
-	});
-		
-	$("#upload1").change(e => {
-   		let reader = new FileReader();
-   		reader.onload = e =>{
-   			let img = $("<img>").attr({"src":e.target.result,"style":"width:70px;height:auto"});
-   			
-   			$(".imgPreview").html("");
-   			$(".imgPreview").append(img);
-   		}
-   		reader.readAsDataURL($(e.target)[0].files[0]);
-	});	
-	
-	
-	//구매평 아코디언
-	window.onload = init();
-    function init() {
-        const accordion_items = document.querySelectorAll(".accordion_title");
-        for (var i = 0; i < accordion_items.length; i++) {
-          accordion_items[i].addEventListener("click", function () {
-            this.nextElementSibling.classList.toggle("show");
-            this.classList.toggle("active");
-            if (this.classList.contains("active")) {
-              this.nextElementSibling.style.height =
-                this.nextElementSibling.children[0].clientHeight + 40 + "px";
-            } else {
-              this.nextElementSibling.style.height = 0;
-            }
-          });
-        }
-      }
-    
-    //구매평 삭제, 구매평 지우려면 revNo가 필요할 것 같은데?
-	$(".deleteReviewCk").on("click",function(e){
-		e.preventDefault();
-		var choice = confirm($(this).attr('data-confirm'));
-		if(choice){
-			let revNo = $(event.target).parents().children('input[name=revNo]').val();
-			let pdtNo = $("#pdtNo").val();
-			location.replace("${path}/review/deleteReview?revNo="+revNo+"&pdtNo="+pdtNo);
-		}	
-	});	
-    
-	//구매평 수정화면 사진 클릭 시 업로드 새창뜨기
-	$("#uploadImage2").click(function(){
-		$("#upload2").click();
-	});
-			
-	$("#upload2").change(e => {
-		let reader = new FileReader();
-		reader.onload = e =>{
-			let img = $("<img>").attr({"src":e.target.result,"style":"height:100%"});
-			$("#uploadPreview").html("");
-			$("#uploadPreview").append(img);
-	   	}
-		reader.readAsDataURL($(e.target)[0].files[0]);
-	});	    
 		
 	
 	//장바구니 버튼 누르면 실행됨

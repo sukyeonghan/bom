@@ -40,6 +40,14 @@
 	<delete id="deleteReview" parameterType="string">
 		DELETE FROM REVIEW WHERE REV_NO=#{revNo}
 	</delete>
+	
+	<update id="updateReview" parameterType="review">
+		UPDATE REVIEW SET REV_SCORE=#{revScore}, REV_CONTENT=#{revContent}, 
+		<if test="revImage!=null">REV_IMAGE=#{revImage}</if>
+		<if test="revImage==null">REV_IMAGE=null</if>
+		WHERE REV_NO=#{revNo}
+	</update>
+	
 	<!--나의활동  -->
 	<select id="selectReviewList" parameterType="string" resultMap="reviewMap">
       SELECT * FROM REVIEW WHERE MEM_NO=#{memNo} ORDER BY REV_DATE DESC
