@@ -103,6 +103,13 @@
 input[type=number]{
 	width:50%;
 }
+input[type='number'], input[type='text'], input[type='password'], input[type='file'],
+	input[type='tel'], input[type='email'], select, option, textarea, input[type='submit'],
+	button {
+	-webkit-appearance: none;
+	-moz-appearance: textfield;
+}
+
 .center-sort{
 	margin:0 20%;
 	min-width: 700px;

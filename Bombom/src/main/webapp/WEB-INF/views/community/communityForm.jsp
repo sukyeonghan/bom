@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
-<script src="//cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/24.0.0/classic/ckeditor.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="커뮤니티 등록" />
@@ -88,7 +88,12 @@ font-size: 35px;
 			<textarea name="cmContent" id="cmContent" rows="5" cols="60"></textarea>
 			<script>
 				//ckeditor 적용
-				CKEDITOR.replace("cmContent");
+			  	ClassicEditor
+			  	.create(document.querySelector('#cmContent'))
+			  	.catch(error=>{
+			  		console.error(error);
+			  	});
+	
 			</script>
 			
 			<br><br>
@@ -101,7 +106,7 @@ font-size: 35px;
 				</c:if>
 			</div>
 	</div>
-</section>
+</section> 
 
 <script>
 	function fn_check() {

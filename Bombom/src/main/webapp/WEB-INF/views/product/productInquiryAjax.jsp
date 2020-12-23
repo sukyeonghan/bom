@@ -71,8 +71,5 @@
 					        </c:if>
 				        </div><!-- 상품문의 게시글 끝 -->			        
 			    	</div><!-- result 끝 -->
-
-<script>
-
-
-</script>
+			    	
+	

@@ -32,19 +32,38 @@ public class CommunityController {
 	@Autowired
 	private CommunityService service;
 
-	// communityList, 로그인 후 접근 가능
+	
+	//communityList 화면 전환
 	@RequestMapping("/community/communityList")
-	public ModelAndView selectCommunityList(ModelAndView mv,
+	public String selectCommunityList() {
+		
+		
+		return "/community/communityList";
+	}
+	
+	// communityList, 로그인 후 접근 가능
+	@RequestMapping(value="/community/communityListAjax", produces="text/plain; charset=UTF-8")
+	@ResponseBody //ajax 반환용
+	public ModelAndView selectCommunityList(String order, ModelAndView mv,
 			@RequestParam(value = "cPage", defaultValue = "1") int cPage,
-			@RequestParam(value = "numPerpage", defaultValue = "6") int numPerpage) {
-
-		mv.addObject("list", service.selectCommunityList(cPage, numPerpage));
+			@RequestParam(value = "numPerpage", defaultValue = "6") int numPerpage,
+	        HttpSession session)
+	       {
+		System.out.println("순서 :"+order);
+		
+		Map m = new HashMap();
+		m.put("order",order); //string 오류를 고쳐준 것. 
+		
+	     Member loginMember = (Member)session.getAttribute("loginMember");
+	     System.out.println(loginMember.getMemWarnCount());
+		
+		mv.addObject("list", service.selectCommunityList(cPage, numPerpage, m));
 		int totalData = service.selectCount();
 
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalData, cPage, numPerpage, "communityList"));
 		mv.addObject("totalData", totalData);
 
-		mv.setViewName("/community/communityList");
+		mv.setViewName("/community/communityListAjax");
 
 		return mv;
 	}
@@ -117,6 +136,8 @@ public class CommunityController {
 	@RequestMapping("/community/communityView.do")
 	public ModelAndView commmunityView(String cmNo, ModelAndView mv, @RequestParam Map<String, Object> paramMap) {
 
+		service.communityView(cmNo); //조횟수
+		
 		mv.addObject("community", service.selectCommunityOne(cmNo));
 		mv.addObject("replyList", service.getReplyList(paramMap));
 		mv.setViewName("community/communityView");
@@ -136,7 +157,7 @@ public class CommunityController {
 			loc = "/community/communityList";
 		} else {
 			msg = " 삭제 실패";
-			loc = "/community/communityForm";
+			loc = "/community/communityView";
 			icon = "warning";
 		}
 		mv.addObject("msg", msg);
@@ -198,13 +219,14 @@ public class CommunityController {
 
 			retVal.put("code", "OK");
 			retVal.put("board_id", rp.getBoard_id());
+			retVal.put("reply_id", rp.getReply_id());
 			retVal.put("parent_id", rp.getParent_id());
+			retVal.put("reply_content", rp.getReply_content());
 			retVal.put("depth", rp.getDepth());
 			retVal.put("reply_writer", rp.getReply_writer());
 			retVal.put("mem_nick", rp.getMem_nick());
 			retVal.put("mem_pro", rp.getMem_pro());
 			retVal.put("register_datetime", rp.getRegister_datetime());
-			retVal.put("reply_content", rp.getReply_content());
 			retVal.put("message", "등록에 성공 하였습니다.");
 		} else {
 			retVal.put("code", "FAIL");
@@ -215,63 +237,37 @@ public class CommunityController {
 
 	}
 
-	// AJAX 호출 (댓글 삭제)
-	@RequestMapping(value = "/board/reply/del", method = RequestMethod.POST)
-	@ResponseBody
-	public Object boardReplyDel(@RequestParam Map<String, Object> paramMap) {
+	// 댓글 삭제
+	@RequestMapping("/community/deleteReply")
+	public ModelAndView deleteReply(String reply_id, ModelAndView mv) {
+		int result = service.deleteReply(reply_id);
 
-		// 리턴값
-		Map<String, Object> retVal = new HashMap<String, Object>();
-
-		// 정보입력
-		int result = service.delReply(paramMap);
-
+		String msg = "";
+		String loc = "";
+		String icon = "";
 		if (result > 0) {
-			retVal.put("code", "OK");
+			msg = "댓글 삭제 성공";
+			loc = "/community/communityView?";
 		} else {
-			retVal.put("code", "FAIL");
-			retVal.put("message", "삭제에 실패했습니다. 패스워드를 확인해주세요.");
+			msg = " 삭제 실패";
+			loc = "/community/communityList";
+			icon = "warning";
 		}
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon", icon);
+		mv.setViewName("common/msg");
 
-		return retVal;
-
+		return mv;
 	}
 
-	// AJAX 호출 (댓글 패스워드 확인)
-	@RequestMapping(value = "/board/reply/check", method = RequestMethod.POST)
-	@ResponseBody
-	public Object boardReplyCheck(@RequestParam Map<String, Object> paramMap) {
+	// 댓글 신고
+	@RequestMapping("/community/reportReply")
+	public ModelAndView reportReply(BoardReply reply, ModelAndView mv) {
 
-		// 리턴값
-		Map<String, Object> retVal = new HashMap<String, Object>();
+		int result = service.reportReply(reply);
 
-		return retVal;
-
-	}
-
-	// AJAX 호출 (댓글 수정)
-	@RequestMapping(value = "/board/reply/update", method = RequestMethod.POST)
-	@ResponseBody
-	public Object boardReplyUpdate(@RequestParam Map<String, Object> paramMap) {
-
-		// 리턴값
-		Map<String, Object> retVal = new HashMap<String, Object>();
-
-		System.out.println(paramMap);
-
-		// 정보입력
-		boolean check = service.updateReply(paramMap);
-
-		if (check) {
-			retVal.put("code", "OK");
-			retVal.put("reply_id", paramMap.get("reply_id"));
-			retVal.put("message", "수정에 성공 하였습니다.");
-		} else {
-			retVal.put("code", "FAIL");
-			retVal.put("message", "수정에 실패 하였습니다.");
-		}
-
-		return retVal;
+		return mv;
 
 	}
 

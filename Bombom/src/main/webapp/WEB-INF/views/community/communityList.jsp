@@ -43,6 +43,25 @@ section {
 .banner {
 	width: 100%;
 }
+.item3  img {
+    -webkit-transform:scale(1);
+    -moz-transform:scale(1);
+    -ms-transform:scale(1); 
+    -o-transform:scale(1);  
+    transform:scale(1);
+    -webkit-transition:.3s;
+    -moz-transition:.3s;
+    -ms-transition:.3s;
+    -o-transition:.3s;
+    transition:.3s;
+}
+.item3:hover img {
+    -webkit-transform:scale(1.2);
+    -moz-transform:scale(1.2);
+    -ms-transform:scale(1.2);   
+    -o-transform:scale(1.2);
+    transform:scale(1.2);
+}
 </style>
 <!-- 로그인 되어야 커뮤니티 이용 가능  -->
 <section class="container">
@@ -68,56 +87,49 @@ section {
 	<br>
 	<br>
 <form>
-  <select name="litup" >
+  <select id="listup" name="listup" onchange="orderChange(this.value)">
+   <option value="update" selected>최신순</option>
     <option value="like">좋아요</option>
     <option value="view">조회순</option>
-    <option value="update">최신순</option>
   </select>
 </form>
-	<div class="wrapper">
-		<c:forEach items="${list }" var="c">
-			<div>
-				<div id="community-container" class="section">
-					<div class="item item1">
-						<fmt:formatDate pattern="yyyy-MM-dd" value="${c.cmDate }" />
-					</div>
-					<div class="item item3">
-						<%-- <c:out value="${c.CM_THUMBNAIL }" /> --%>
-						<a href="${path }/community/communityView.do?cmNo=${c.cmNo}">
-						<img src="${path }/resources/upload/community/${c.cmThumbnail}"
-							width="300" height="200">
-					</div>
-					<div class="item item2">
-						<a href="${path }/community/communityView.do?cmNo=${c.cmNo}">
-							<c:out value="${c.cmTitle }" />
-						</a>
-					</div>
-					<div class="item item3">
-					<img src="${path }/resources/upload/profile/${c.memPro}"
-					 class="rounded-circle" id="profileImg"  alt="기본프로필" width="30" height="30">
-					 <c:out value="${c.memNick }" />
-					</div>
-					<div class="item item5">
-						<span>좋아요 <c:out value="${c.cmLike }" /></span> 
-						<span>조회수<c:out value="${c.cmView }" />
-						</span>
-					</div>
-				</div>
-			</div>
-		</c:forEach>
-	</div>
-	<div id="pageBar">${pageBar }</div>
+	<div id="communityAjax"> </div>
 </section>
 <script>
-	//좋아요 하트 그림 바꾸기
 	
-	// 로그인 체크
-	$(function() {
+	//화면이 켜졌을때 바로 실행되는 함수
+	$(function(){ 
+		//커뮤니티 정렬
+		$.ajax({
+		url:"${path }/community/communityListAjax",
+		data:{order:"update"},
+		success: data =>{
+			$("#communityAjax").html(data);
+		}
+		
+		})
+		
+		
 		$(".loginCheck").click(function() {
 			swal("로그인을 먼저 해주세요");
 		});
 	});
 	
+	function orderChange(value){
+		console.log(value);
+		
+		$.ajax({
+			url:"${path }/community/communityListAjax",
+			data:{order:value},
+			success: data =>{
+				$("#communityAjax").html(data);
+			}
+	});
+	}
+	
+	
 </script>
+
+
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

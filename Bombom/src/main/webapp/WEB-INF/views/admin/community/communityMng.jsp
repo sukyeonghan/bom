@@ -1,0 +1,216 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-1.11.3.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<c:set var="path" value="${pageContext.request.contextPath }" />
+<style>
+/*좌측메뉴*/
+	.admin-nav{padding-right:100px;}
+	.admin-nav a{font-weight:bolder;}
+	.admin-nav a:hover{color: #45A663;}
+	.select{color:#45A663;}
+	.non-select{color:black;}
+	
+	/*반응형 없앤 css*/
+	#flexDiv {
+	display: flex;
+	padding: 0px 10%;
+   	}
+   	
+   	#admin-container {
+   	min-width: 800px;
+   	width: 100%;
+   	padding-right:60px;
+   	}
+   	
+   	/*페이지 타이틀*/
+	.page-title{margin-bottom:5%;}
+	
+	/*제품개수와 필터 정렬*/
+	.count-filter{
+		display:flex;
+		justify-content:space-between;
+	}
+	
+	/*정렬*/
+	.sort{
+	border:none;
+	outline:none;
+	}
+	
+	/*상품 관리 테이블*/
+	#reply-table{
+		width:100%;
+		margin-bottom:20px;
+		border-collapse: collapse;
+		text-align:center;
+		/* padding:5px; */
+	}
+	th{cursor: default;}
+	td{vertical-align: middle; cursor:default;}
+	td:nth-of-type(3){text-align:left;}
+	td:nth-of-type(4){text-align:left;}
+	td:nth-of-type(5){text-align:right;}
+	
+	/*페이지바*/
+    .pageBar{
+    	margin:5% 0;
+    	text-align:center;
+    }
+    
+     /*검색*/
+    #search-wrap{
+    	display: flex;
+    	justify-content: center;
+    	align-items: center;
+    }
+    #search-text{
+    	margin:0 15px;
+    }
+   	
+</style>
+
+<jsp:include page="/WEB-INF/views/common/header.jsp">
+	<jsp:param name="communityMng" value="커뮤니티 관리하기" />
+</jsp:include>
+
+<section id="container">
+<div id="flexDiv">
+
+<!--관리자 내비게이션바 -->
+		<jsp:include page="/WEB-INF/views/common/adminMenu.jsp"/>
+
+
+   <div id="admin-container">
+   <!-- 페이지 타이틀 -->
+			<h3 class="page-title">커뮤니티 관리</h3> 
+   
+   <div id="result">
+   
+                   <div class="count-filter">
+					<!-- 카테고리별 개수 -->
+					<p >댓글 관리</p>
+					<!--카테고리 정렬  -->
+					<div class="select-box">
+						<select class="sort" name="filter">
+							<option value="전체">N</option>
+							<option value="신고">Y</option>
+						</select>
+					</div>
+				</div>
+				
+     <!-- 제품관리 테이블 -->
+     <div id="reply-table-wrap">
+     <table id="reply-table" class="table table-hover">
+     <thead>
+     <tr>
+     <th>신고된 회원</th>
+     <th>신고사유</th>
+     <th>원문내용</th>
+     <th>신고날짜</th>
+     <th>신고처리현황</th>
+     </tr>
+     </thead>
+     <tbody>
+     <c:forEach var="b" items="${list }">
+     <tr>
+     <td><c:out value="${b.mem_nick}"/></td>
+     <td><c:out value="${b.com_reason }"/></td>
+     <td><c:out value="${b.reply_content }"/></td>
+     <td><fmt:formatDate value="${b.com_date}" pattern="yyyy-MM-dd"/></td>
+      <td> <span><c:out value="${b.com_status }"/></span>
+      <input type="hidden" value="${b.reply_id }" name="reply_id"/>
+      <c:if test="${b.com_status eq 'N' }">
+      <button class="btn btn-info memWarnYnBtn">신고접수</button>
+      </c:if>
+      <c:if test="${b.com_status eq 'Y' }">
+      <button class="btn btn-outline-info memWarnYnBtn">신고거절</button>
+     				 </c:if>
+     			</td>
+			</tr>
+    	 </c:forEach>
+   	<thead>
+ </table>  
+     <br>
+     </div>
+     
+     	<!-- 페이징바 -->
+				 <div class="pageBar" >	
+					${pageBar }
+				</div>
+				
+              <!-- 검색 -->
+				<div id="search-wrap">
+					<!-- 검색 카테고리 -->
+					<div class="select-box">
+						<select class="searchSort" name="searchSort">
+							<option value="아이디">아이디</option>
+						</select>
+					</div>
+					<input type="text" id="search-text" name="keyword" size="30">
+					<button class="btn btn-success" id="search-btn">검색</button>
+				</div>
+     
+   </div>
+  
+  </div>
+</div>
+</section>
+
+<script>
+//신고접수 버튼 클릭시
+$(document).on("click",".memWarnYnBtn",e=>{
+	let memWarnYn=$(e.target).text();
+	let yn="";
+	let msg="";
+	let reply_id=$(e.target).prev().val();
+	if(memWarnYn=="신고접수"){
+		yn="Y";
+		msg="댓글 신고를 접수하시겠습니까?";
+	}else{
+		yn="N";
+		msg="댓글 신고를 거절 하시겠습니까?";
+	}
+	swal({
+		text:msg,
+		icon:"info",
+		buttons:["아니오","네"],
+	}).then((yes) => {
+		if(yes){
+			$.ajax({
+				url:"${path }/admin/community/warnMemberYn",
+				data:{com_status:yn,reply_id:reply_id},
+				dataType:"json",
+				success:data=>{
+					console.log(data);
+					if(data===true){
+						if(memWarnYn=="신고접수"){
+							$(e.target).addClass("btn-outline-info");
+							$(e.target).removeClass("btn-info");
+							$(e.target).html("신고거절");
+							$(e.target).prev().prev().html("Y");
+						     }else{
+							$(e.target).removeClass("btn-outline-info");
+							$(e.target).addClass("btn-info");
+							$(e.target).html("신고접수");
+							$(e.target).prev().prev().html("N");
+						}  
+ 	    			}else{
+ 	    				swal("신고 접수 실패");
+ 	    			}
+ 	    		},error:(error)=>{
+ 	    			swal("신고 접수 실패");
+ 	    		}
+ 	    		
+ 	    	});
+ 	     }
+ 	});
+ });
+
+</script>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

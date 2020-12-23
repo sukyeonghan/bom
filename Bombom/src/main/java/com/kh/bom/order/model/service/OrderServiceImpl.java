@@ -7,36 +7,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.bom.order.model.dao.OrderDao;
+import com.kh.bom.order.model.vo.Basket;
 import com.kh.bom.order.model.vo.Inbasket;
 import com.kh.bom.order.model.vo.Order;
+import com.kh.bom.product.model.vo.ProductOption;
 
 @Service
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private OrderDao dao;
 	@Autowired
 	private SqlSession session;
-	
+
 	@Override
 	public int insertOrder(Order order) {
 		return dao.insertOrder(session, order);
 	}
 
 	@Override
-	public String selectBasketOne(String memNo) {
-		return dao.selectBasketOne(session, memNo);
+	public List<Basket> selectBasket(String memNo) {
+		return dao.selectBasket(session, memNo);
 	}
 
 	@Override
-	public List<Inbasket> selectInbasket(String basketNo) {
-		return dao.selectInbasket(session, basketNo);
+	public int deleteBasketOne(Basket b) {
+		return dao.deleteBasketOne(session, b);
 	}
-
 	@Override
-	public int insertInbasket(String pdtNo) {
-		return dao.insertInbasket(session, pdtNo);
+	public int deleteBasketOption(String optionNo) {
+		return dao.deleteBasketOption(session, optionNo);
 	}
-	
 
 }
