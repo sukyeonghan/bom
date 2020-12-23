@@ -113,8 +113,9 @@
 			//스탬프 10개 달성 여부 
 			//tmpMsg=new TextMessage("스탬프 10개 달성하였습니다. 선물을 받으러 가세요!");
 		}	
-		
-		sockSend(category,caller, callerNo, message, receiverNo, bascket);
+		if(category!="" && message!=""){
+			sockSend(category,caller, callerNo, message, receiverNo, bascket);
+		}
 	});
 		
 

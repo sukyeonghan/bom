@@ -74,6 +74,11 @@ public interface AdminService {
 	int selectOrderCount();
 	List<Order> selectOrderDetail(String orderNo);
 	Order selectOrderOne(String orderNo);
+	int orderShipUpdate(Order o);
+	List<Order> selectOrdWaitList(int cPage, int numPerpage, Map map);
+	int selectOrdWaitCount(Map map);
+	int updateOrder(Order o);
+
 	
 	
 	

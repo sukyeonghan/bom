@@ -10,7 +10,7 @@
 
 <!-- swiper css -->
 <style>
-#mainBanner_swiper .swiper-container {
+#mainBanner_swiper .first-container {
 	width: 100%;
 	height: 100%;
 	margin-left: auto;

@@ -2,16 +2,18 @@ package com.kh.bom.order.model.service;
 
 import java.util.List;
 
+import com.kh.bom.order.model.vo.Basket;
 import com.kh.bom.order.model.vo.Inbasket;
 import com.kh.bom.order.model.vo.Order;
+import com.kh.bom.product.model.vo.ProductOption;
 
 public interface OrderService {
 	// 결제하기
 	int insertOrder(Order order);
 
-	String selectBasketOne(String memNo);
+	List<Basket> selectBasket(String memNo);
 
-	List<Inbasket> selectInbasket(String basketNo);
-	
-	int insertInbasket(String pdtNo);
+	int deleteBasketOne(Basket b);
+
+	int deleteBasketOption(String optionNo);
 }

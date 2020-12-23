@@ -110,8 +110,12 @@ public class EchoHandler extends TextWebSocketHandler{
 					//스탬프 10개 달성 여부 
 					tmpMsg=new TextMessage("스탬프 10개 달성하였습니다. 선물을 받으러 가세요!");
 				}
-					
-				receiverSession.sendMessage(tmpMsg);
+				
+				if(receiverSession!=null) {
+					receiverSession.sendMessage(tmpMsg);
+				}else {
+					System.out.println("받는 회원 미접속");
+				}
 				
 				
 				

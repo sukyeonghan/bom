@@ -96,6 +96,7 @@
 		<result property="pdtPrice" column="pdt_price"/>
 		<result property="memEmail" column="mem_email"/>
 		<result property="pdtOptionAddprice" column="pdt_option_addprice"/>
+		<result property="ordMngMemo" column="ord_mng_memo"/>
 	</resultMap>
 	
 	<resultMap type="inorder" id="inorderMap">
@@ -456,10 +457,66 @@
          WHERE O.ORDER_NO=#{ordNo}
 	</select>
 	
-	<select id="selectOrderThumb" parameterType="string" resultMap="orderMap">
-		SELECT ORDER_NO, ORD_AMOUNT, ORD_USE_POINT, ORD_ZIPCODE, ORD_ADDR, ORD_DETAIL_ADDR, ORD_EXTRA_ADDR, ORD_TRACK, ORD_MEMO, ORD_CONFIRM_YN, ORD_STATUS, ORD_CANCEL, ORD_DATE, ORD_ONAME, ORD_OPHONE, ORD_RNAME, ORD_RPHONE
+	<select id="selectOrderInfo" parameterType="string" resultMap="orderMap">
+		SELECT ORDER_NO, ORD_AMOUNT, ORD_USE_POINT, ORD_ZIPCODE, ORD_ADDR, ORD_DETAIL_ADDR, ORD_EXTRA_ADDR, ORD_TRACK, ORD_MEMO, ORD_CONFIRM_YN, ORD_STATUS, ORD_CANCEL, ORD_DATE, ORD_ONAME, ORD_OPHONE, ORD_RNAME, ORD_RPHONE,MEM_EMAIL,ORD_MNG_MEMO
          FROM "ORDER" O
 		 LEFT JOIN MEMBER M ON (M.MEM_NO=O.MEM_NO)
 		 WHERE ORDER_NO=#{ordNo}
 	</select>
+	
+	<update id="orderShipUpdate" parameterType="order">
+		UPDATE "ORDER" SET ORD_STATUS=#{ordStatus} WHERE ORDER_NO=#{orderNo}
+	</update>
+	
+	<select id="selectOrdWaitList" parameterType="string" resultMap="orderMap">
+		SELECT * FROM "ORDER" 
+		<if test='keyword == null or keyword == ""'>
+			<where>
+					ORD_STATUS=#{sort}
+			</where>
+			
+		</if>
+		<if test='sort ==null or sort ==""'>
+			<where>
+				<if test='searchType eq "ordNo"'>
+					ORDER_NO LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test='searchType eq "ordOname"'>
+					ORD_ONAME LIKE '%'||#{keyword}||'%'
+				</if>
+			</where>
+		</if>
+			ORDER BY ORD_DATE DESC
+	</select>
+	
+	<select id="selectOrdWaitCount" resultType="_int">
+		SELECT COUNT(*) FROM "ORDER" 
+		<if test='keyword == null or keyword == ""'>
+			<where>
+					ORD_STATUS=#{sort}
+			</where>
+			
+		</if>
+		<if test='sort ==null or sort ==""'>
+			<where>
+				<if test='searchType eq "ordNo"'>
+					ORDER_NO LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test='searchType eq "ordOname"'>
+					ORD_ONAME LIKE '%'||#{keyword}||'%'
+				</if>
+			</where>
+		</if>
+			ORDER BY ORD_DATE DESC
+	</select>
+	
+	<update id="updateOrder" parameterType="order">
+		UPDATE "ORDER" 
+				SET ORD_TRACK=#{ordTrack}, ORD_STATUS=#{ordStatus},
+				ORD_ZIPCODE=#{ordZipcode}, ORD_DETAIL_ADDR=#{ordDetailAddr}, ORD_EXTRA_ADDR=#{ordExtraAddr},			
+				ORD_MNG_MEMO=#{ordMngMemo}			
+		WHERE ORDER_NO=#{orderNo}
+	</update>
+	
+	
 </mapper>
