@@ -26,9 +26,10 @@ public interface MemberService {
 	
 	//알림 리스트
 	List<Alarm> selectAlarmList(String memNo);
-	
 	//알림 개수
 	int countAlarm(String memNo);
 	//알림저장
 	int insertAlarm(Alarm a);
+	//알림삭제
+	int deleteAlarm(String alarmNo);
 }

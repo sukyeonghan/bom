@@ -78,7 +78,7 @@
     	width:15px;
     	height:15px;
     }
-    
+    .margin{margin-left:5px;}
     /*가격 및 할인,품절,뉴 아이콘*/
 	.sale{
     	color:rgb(170, 170, 170);
@@ -91,7 +91,9 @@
         align-items: center;
         font-size:15px;
     }
+
     .item-icon{
+    	margin-top:10px;
     	font-size:13px;
     }
     .sale-price,.sale-icon,.soldout-icon{
@@ -122,4 +124,43 @@
     .noItem{
     	margin-left:30%;
     }
+    
+    /*제품 미리보기*/
+
+    .previewDivShow{
+	    position: absolute;
+	    left: 350px;
+	    top: 250px;
+
+    }
+    
+    .previewDivNone{
+    	display:none;
+    }
+
+    
+    .popupContent {
+	    width: 900px;
+	    height: 450px;
+	    background: white;
+	    border: 1.5px solid #45A663;
+	    border-radius: 10px;
+	    padding: 10px;
+	}
+	
+	.delBtn{
+		float:right;
+		background: white;
+    	border: none;
+    	font-size:18px;
+	}
+  /*스와이퍼*/
   
+  	.mySlides {display:none;}
+	.w3-badge {height:13px;width:13px;padding:0}
+	.w3-left, .w3-right, .w3-badge {cursor:pointer}
+	.swiper{
+		width: 400px;
+		z-index: 9999;
+		position: absolute;
+	}

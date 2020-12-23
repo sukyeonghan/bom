@@ -10,9 +10,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SpringAgain</title>
 <c:set var="path" value="${pageContext.request.contextPath}" />
-<c:set var="alarmList" value="${sessionScope.alarmList }" scope="application"/>
-<c:set var="countAlarm" value="${sessionScope.countAlarm }" scope="application"/>
 <script src="${path}/resources/js/jquery-3.5.1.min.js"></script>
+<script src="${path}/resources/js/alarm.js"></script>
 <!-- swiper -->
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
 <link rel="stylesheet"
@@ -30,16 +29,15 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- icon -->
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- 부트스트랩 -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-<link rel="stylesheet" href="${path }/resources/css/common/allPage.css">
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 
+<link rel="stylesheet" href="${path }/resources/css/common/allPage.css">
 <style>
 /*모달차 내 로고  */
 .logoimg {
@@ -164,10 +162,16 @@ p.p-info {
 .alarmUl>li:last-of-type{
 	border:none;
 }
+/*헤더 닉네임 옆 프로필사진*/
+.headerMemPro{
+	border-radius: 100%; width:20px; height:20px; 
+}
+/*커서*/
+.cur-pointer{cursor:pointer;}
+.cur-default{cursor:default;}
 </style>
 
 </head>
-
 <body style="height: 100%;">
 	<header id="spring-main-header" class="fixed-top" style="min-width: 1000px;">
 		<!-- header -->
@@ -182,15 +186,32 @@ p.p-info {
 					</c:if>
 
 					<c:if test="${loginMember!=null }">
+					
 						<c:if test="${loginMember.memManagerYn eq 'N' }">
-							<li class="nav-item user_basic"><p class="nav-link">
+							<li class="nav-item">
+								<p class="nav-link user_basic cur-default">
+									<c:if test="${fn:startsWith(loginMember.memPro,'http')==true}">
+									<img class="headerMemPro" src="${loginMember.memPro}"/>
+									</c:if>
+									<c:if test="${fn:startsWith(loginMember.memPro,'http')==false}">
+									<img class="headerMemPro" src="${path }/resources/upload/profile/${loginMember.memPro}" />
+									</c:if>
 									<c:out value="${loginMember.memNick }" />
-								</p></li>
+								</p>
+							</li>
 						</c:if>
 						<c:if test="${loginMember.memManagerYn eq 'Y' }">
-							<li class="nav-item user_manager"><p class="nav-link">
+							<li class="nav-item">
+								<p class="nav-link user_manager cur-default">
+									<c:if test="${fn:startsWith(loginMember.memPro,'http')==true}">
+									<img class="headerMemPro" src="${loginMember.memPro}"/>
+									</c:if>
+									<c:if test="${fn:startsWith(loginMember.memPro,'http')==false}">
+									<img class="headerMemPro" src="${path }/resources/upload/profile/${loginMember.memPro}" />
+									</c:if>
 									<c:out value="${loginMember.memNick }" />
-								</p></li>
+								</p>
+							</li>
 						</c:if>
 						<li class="nav-item"><a class="nav-link"
 							onclick="location.replace('${path}/member/logout');">로그아웃</a></li>
@@ -198,12 +219,10 @@ p.p-info {
 							href="${path }/mypage/orderStatus">마이페이지</a></li>
 						<li class="nav-item">
 							<div id="alarm-div">
-								<i class="far fa-bell" id="alarm"></i>
-								
+								<i class="far fa-bell cur-pointer" id="alarm"></i>
 								<div id="alarm-countbox">
-									<fmt:parseNumber var="i" type="number" value="${applicationScope.countAlarm}"/>
-									
-									<c:out value="${i}"/>
+									<fmt:parseNumber var="i" type="number" value="${sessionScope.countAlarm }"/>
+									<c:out value="${i}"/> 
 								</div>
 								
 							</div>
@@ -294,6 +313,7 @@ p.p-info {
 								<li><a class="" href="${path }/admin/qnaList">1:1문의 관리</a></li>
 								<li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
 								<li><a class="" href="${path }/admin/moveMainBanners">메인관리</a></li>
+								<li><a class="" href="${path }/admin/community/communityMng">커뮤니티관리</a>
 
 							</ul></li>
 					</ul>
@@ -304,7 +324,7 @@ p.p-info {
                 $(function(){
                     $(".dropmenu ul li").hover(function(){
                        $(this).find("ul").stop().fadeToggle(300);
-                    });
+                    })
                 })
 
             </script>
@@ -432,7 +452,11 @@ p.p-info {
 							<p>소셜 계정으로 간편하게 로그인 하세요 !</p>
 							<div class="row">
 								<div class="col">구글</div>
-								<div class="col">카카오</div>
+								<div class="col">
+									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=http://localhost:9090/bom/oauth&response_type=code">
+    									<img src="${path }/resources/images/login/kakao_login_small.png" alt="카카오"/>
+									</a>
+								</div>
 								<div class="col">네이버</div>
 							</div>
 							<br /> <a class="lostPwd" data-toggle="modal"
@@ -575,44 +599,15 @@ p.p-info {
 
  
  $(function(){
-	 
-	 //구매횟수에따른 스탬프선문받기 알림보내기
-	 let buyCount="${loginMember.memBuyCount}";
-	 if(buyCount >= 10){
-			
-	 	   	//알림 DB저장
-	 	   	$.ajax({
-	 	   		type : 'post',
-	 	   		url : '${path}/member/insertAlarm',
-	 	   		data : {receiverNo:"${loginMember.memNo}",message:"스탬프 10개 달성하였습니다. 선물을 받으러 가세요!"}, 
-	 	   		dataType : 'json',
-	 	   		success : function(data){
-	 	   			if(data===true){
-	 	   				console.log("ajax갔다옴2:"+data);
-	 	   				if(sock){
-	 	   					console.log("소켓생성됨2:"+sock);
-	 	   				let socketMsg = "stamp,관리자,M0,"+"${loginMember.memNo}" +","+"0";
-	 	   				console.log("알림전송내역2 : " + socketMsg);
-	 	   				sock.send(socketMsg);
-	 	   				}
-	 	   			}
-	 	   			
-	 	    
-	 	   		},
-	 	   		error : function(err){
-	 	   			console.log(err);
-	 	   		}
-	 	   	});
-		}
-	 
-	 	//알림메세지 카운팅
-		if(countResult >0){
-			$('#alarm-countbox').show();
-			$('#alarm-countbox').html(countResult);
-			
-		}else{
-			$('#alarm-countbox').hide();
-		}
+	
+ 	//알림메세지 카운팅
+	if(countResult >0){
+		$('#alarm-countbox').show();
+		$('#alarm-countbox').html(countResult);
+		
+	}else{
+		$('#alarm-countbox').hide();
+	}
 	 
 	 $(".guide").hide();
 	 $(".login").hide();
@@ -861,12 +856,56 @@ function fn_signUp(){
  		     }
  	   }
 	})
-	
+	//날짜 변환함수
+	function getFormatDate(date){
+	    var year = date.getFullYear();              //yyyy
+	    var month = (1 + date.getMonth());          //M
+	    month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
+	    var day = date.getDate();                   //d
+	    day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
+	    return  year + '-' + month + '-' + day;       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
+	}
 	//알림 리스트 팝업
-
 	$(document).ready(function () {
 	  $("#alarm-div").on("click",function(e){
+		  
+		  console.log("내가왔다!"+e.target);
+			$.ajax({
+				url:"${path}/member/selectAlarmList",
+				data:{memNo:"${loginMember.memNo}"},
+				dataType:"json",
+				success:function(data){
+					 $(".alarmUl").html("");
+					 console.log(data);
+					 $.each(data, function(index, a){
+						 if(index<3){
+							 console.log("alarm:"+a);
+							 let li=$("<li>").attr("class","alarmLi");
+							 //날짜변환
+							 var b = a.alarmDate; 
+							 var date = new Date(b);
+							 date = getFormatDate(date);
+							 let dateP=$("<p class='alarmDate'>").html(date);
+							 let messageP=$("<p class='messageP'>").html(a.message);
+
+							 li.append(dateP);
+							 li.append(messageP);
+							$(".alarmUl").append(li);
+						 }
+					 });
+					
+				}
+			})		  
+		  
+		  
 	    	$(".listPop").toggleClass("listDisNone");
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	
 	 	});
 /* 	  $("#alarm-div").on("click",function(e){
 	      $(".listPop").addClass("listDisNone");
@@ -874,7 +913,7 @@ function fn_signUp(){
   	});
 	
 	
-	
+/* 	
 	//웹소켓 관련 스크립트
 	var sock = null;
 	var countResult="${countAlarm}";	
@@ -916,15 +955,25 @@ function fn_signUp(){
 					}
 			   	});
 		 };
+		 
+		 sock.onclose = function() {
+		     console.log('close');
+		 };
+		 
 	
-	}
+	} */
 
 	
+	//웹소켓 관련 스크립트
+	var countResult="${countAlarm}";
 	
-
-	 sock.onclose = function() {
-	     console.log('close');
-	 };
+	/* $(document).ready( function(){
+		connectWS();
+		
+	}); */
+	
+	
 	 
+	
 
  </script>

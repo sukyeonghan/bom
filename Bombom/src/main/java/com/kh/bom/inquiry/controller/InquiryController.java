@@ -49,16 +49,23 @@ public class InquiryController {
 	
 	//상품문의 모달창에서 답변하기
 	@RequestMapping("/inquiry/insertInquiryAnswer")
-	public ModelAndView inquiryAnswer(String pdtNo, Inquiry i,ModelAndView mv) {
+	public ModelAndView inquiryAnswer(String pdtNo, Inquiry i, String pdtName, String receiver,ModelAndView mv) {
 		
 		int result = service.insertInquiryAnswer(i);
+		System.out.println("상품문의 내용:"+i);
 		String msg = "";
 		String loc = "/product/productOne?pdtNo="+pdtNo;
 		String icon = "";
+		String category="";
+		String receiverNo="";
+		String bascket="";
 		
 		if(result>0) {
 			msg = "답변이 등록되었습니다";
 			icon = "success";
+			category="productQna";
+			receiverNo=receiver;
+			bascket=pdtName;
 		}else {
 			msg = "답변을 다시 등록해주세요";
 			icon = "warning";
@@ -67,6 +74,9 @@ public class InquiryController {
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.addObject("icon",icon);
+		mv.addObject("category",category);
+		mv.addObject("receiverNo",receiverNo);
+		mv.addObject("bascket",bascket);
 		mv.setViewName("common/msg");
 		return mv;		
 		

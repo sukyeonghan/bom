@@ -23,29 +23,35 @@ public class QnaAdminController {
 	private AdminService service;
 	
 	@RequestMapping("/admin/qnaAnswer")
-	public ModelAndView qnaAnswer(String qnaAnswer, String qnaNo,ModelAndView mv) {
+	public ModelAndView qnaAnswer(String qnaAnswer, String qnaNo, String qnaWriter,ModelAndView mv) {
 		Qna q= new Qna();
 		q.setQnaAnswer(qnaAnswer);
 		q.setQnaNo(qnaNo);
-		System.out.println(qnaAnswer+qnaNo);
+		System.out.println(qnaAnswer+qnaNo+qnaWriter);
 		int result=service.insertQnaAnswer(q);
 		String msg = "";
 		String loc = "";
 		String icon = "";
-		
+		String category="";
+		String receiverNo="";
+	
 		if(result>0) {
 			msg = "답변이 등록되었습니다";
 			loc = "/admin/qnaList";
 			icon = "success";
+			category="oneQna";
+			receiverNo=qnaWriter;
 		}else {
 			msg = "답변을 다시 등록해주세요";
 			loc = "/admin/qnaList";
 			icon = "warning";
 		}
-
+		
+		mv.addObject("category", category);
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.addObject("icon",icon);
+		mv.addObject("receiverNo",receiverNo);
 		mv.setViewName("common/msg");
 		
 		return mv;

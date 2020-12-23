@@ -172,10 +172,12 @@ public class memberController {
 			@RequestParam(value="nick") String nick,
 			@RequestParam(value="email") String email,
 			@RequestParam(value="password") String password,
+			@RequestParam(value="pro", defaultValue = "basic.png") String pro,
 			Model m) {
 		mem.setMemNick(nick);
 		mem.setMemEmail(email);
 		mem.setMemPwd(password);
+		mem.setMemPro(pro);
 		Point p=new Point();
 		p.setPointContent("회원가입");
 		p.setPointChange(2000);
@@ -188,7 +190,10 @@ public class memberController {
 		int result=service.insertMember(mem,p);
 		m.addAttribute("msg",result>0?"다시:봄 회원이 되셨습니다.":"회원가입 실패!!!!!!");
 		m.addAttribute("loc","/");
-		
+		if(result>0) {//회원가입성공시 로그인
+			Member login=service.selectOneMember(email);
+			m.addAttribute("loginMember",login);
+		}
 		
 		return "common/msg";
 	}
@@ -302,6 +307,8 @@ public class memberController {
 		String memNo=m.getMemNo();
 		
 		List<Alarm> alarmList=service.selectAlarmList(memNo);
+		int count=service.countAlarm(memNo);
+		mv.addObject("countAlarm", count);
 		mv.addObject("alarmList",alarmList);
 		mv.setViewName("common/alarm");
 		return mv;
@@ -313,8 +320,9 @@ public class memberController {
 	public int countAlarm(HttpSession session) {
 		Member m=(Member)session.getAttribute("loginMember");
 		String memNo=m.getMemNo();
-		
-		return service.countAlarm(memNo);
+		int count=service.countAlarm(memNo);
+		session.setAttribute("countAlarm", count);
+		return count;
 	}
 	
 	//알림저장
@@ -324,5 +332,44 @@ public class memberController {
 		int result=service.insertAlarm(a);
 		return result>0?true:false;
 	}
+	
+	//헤더 알림모달창의 알림리스트
+	@ResponseBody
+	@RequestMapping("/member/selectAlarmList")
+	public List<Alarm> selectAlarmList(String memNo){
+		List<Alarm> alarmList=service.selectAlarmList(memNo);
+		return alarmList;
+	}
+	
+	//알림 삭제
+	@RequestMapping("/member/deleteAlarm")
+	public ModelAndView deleteAlarm(HttpSession session,
+			ModelAndView mv, String alarmNo) {
+		
+		int result=service.deleteAlarm(alarmNo);
+		String msg="";
+		String loc="/member/alarmPage";
+		String icon="";
+		if(result>0) {
+			msg="알림이 삭제되었습니다.";
+			icon="success";
+		}else {
+			msg="알림 삭제에 실패하였습니다.";
+			icon="warning";
+		}
+		//변경된 알림 개수 띄우기
+		Member m=(Member)session.getAttribute("loginMember");
+		String memNo=m.getMemNo();
+		int count=service.countAlarm(memNo);
+		
+		session.setAttribute("countAlarm", count);
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
+		mv.addObject("icon",icon);
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
+	
 	
 }

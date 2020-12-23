@@ -18,14 +18,28 @@
     <!-- 주문상품 -->
     <div class="mb-5">
         <h3>주문상품</h3>
+        <c:forEach items="${list }" var="b">
         <table>
             <tr>
-                <td><img src="../제품이미지/잡화/면화장솜/1.jpg" alt="" style="width: 150px;height: 150px;"></td>
+                <td>
+                	<div>
+						<a href="${path }/product/productOne?pdtNo=${b.pdtNo}" class="d-flex"> 
+							<c:forTokens items="${b.pdtThumbImage}" var="th" delims="," varStatus="vs">
+								<c:if test="${vs.first }">
+									<img src="${path}/resources/upload/product/${th}" class="img-fluid" style="width: 100px; height: 100px;">
+								</c:if>
+							</c:forTokens>
+							<p class="pdtName_p"><c:out value="${b.pdtName }" /></p>
+						</a>
+					</div>
+                	<img src="../제품이미지/잡화/면화장솜/1.jpg" alt="" style="width: 150px;height: 150px;">
+                </td>
                 <td>면화장솜</td>
                 <td>3,000원</td>
                 <td>3개</td>
             </tr>
         </table>
+        </c:forEach>
     </div>
     <!-- 배송지 -->
     <div class="mb-5">
@@ -123,7 +137,6 @@
 	$(function(){$(".point").text(0)});
 
     $(function () { //배송메모 직접입력 선택시 input태그 보이게 하기
-    	
 	    //배송메모 직접입력 input
         let addInput = $("<input>").attr({"type":"text", "name":"ordMemo", "id":"o_memo","class":"form-control"});
         $("#deli_memo").change(e=> {

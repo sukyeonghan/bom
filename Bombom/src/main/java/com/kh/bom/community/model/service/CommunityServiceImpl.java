@@ -109,22 +109,13 @@ public class CommunityServiceImpl implements CommunityService {
 		return newBoardReplyList;
 	}
 
-	@Override
-	public int delReply(Map<String, Object> paramMap) {
-		return dao.delReply(session,paramMap);
-	}
-
-	@Override
-	public boolean checkReply(Map<String, Object> paramMap) {
-		return dao.checkReply(session,paramMap);
-	}
-
-	@Override
-	public boolean updateReply(Map<String, Object> paramMap) {
-		return dao.updateReply(session,paramMap);
-	}
-
 	
+	@Override
+	public int deleteReply(String reply_id) {
+		// TODO Auto-generated method stub
+		return dao.deleteReply(session, reply_id);
+	}
+
 	@Override
 	public String selectSeqReply() {
 		// TODO Auto-generated method stub
@@ -135,6 +126,12 @@ public class CommunityServiceImpl implements CommunityService {
 	public BoardReply selectBoardReplyOne(String number) {
 		// TODO Auto-generated method stub
 		return dao.selectBoardReplyOne(session,number);
+	}
+
+	@Override
+	public int reportReply(BoardReply reply) {
+		// TODO Auto-generated method stub
+		return dao.reportReply(session,reply);
 	}
 
 	

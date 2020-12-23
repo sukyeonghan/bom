@@ -35,4 +35,5 @@ public interface ProductService {
 	List<Product> selectProductList(int cPage,int numPerPage,String sort,String category);//전체 제품 출력
 	List<Product> selectNewCateList(String category);//카테고리별 새상품 리스트
 	List<Product> selectSaleList(int cPage,int numPerPage,String sort,String category);//세일제품 리스트
+
 }

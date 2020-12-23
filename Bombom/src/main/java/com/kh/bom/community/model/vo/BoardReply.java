@@ -17,6 +17,10 @@ public class BoardReply {
 	private String reply_content;
 	private String reply_writer;
 	private Date register_datetime;
+	private Date com_date;
+	private String com_reason;
+	private String com_status;
     private String mem_nick;
     private String mem_pro;
+ 
 }

@@ -31,4 +31,5 @@ public interface ProductDao {
 	List<Product> selectNewCateList(SqlSession session,String category);
 	List<Product> selectSaleList(SqlSession session,int cPage,int numPerPage,String sort,String category);
 
+
 }
