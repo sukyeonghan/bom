@@ -192,4 +192,11 @@ public class CommunityServiceImpl implements CommunityService {
 		return dao.selectLikeCount(session,cmNo);
 	}
 
+	//좋아요한 글인지 체크하기
+	//@Override
+	/*public boolean checkLike(Member m) {
+		// TODO Auto-generated method stub
+		//회원번호 셀렉트..
+		return dao.checkLike(session,m);
+	}*/
 }

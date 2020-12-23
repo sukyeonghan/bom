@@ -275,26 +275,34 @@ public class CommunityController {
 
 	}
 
-	//좋아요
+	// 좋아요
 	@RequestMapping("/community/insertLike")
 	@ResponseBody
-	public JSON insertLike(HttpSession session,String cmNo,int likeCount,int value) {
-		
-		//커뮤니티 테이블 좋아요 수 업데이트
-		//좋아요눌렀으면 
-		//멤버 테이블에 글 번호 넣기
-		//좋아요 취소 눌렀으면 
-		//멤버 테이블에 글 번호 삭제
-		
-		Member m=(Member)session.getAttribute("loginMember");
-		int result=service.insertLike(m,cmNo,likeCount,value);
-		System.out.println("컨트롤러에서"+result);
-		
-		//json객체로 보내기
-		JSONObject obj=new JSONObject();
-		//바뀐 좋아요 수 
-		obj.put("likeCount",service.selectLikeCount(cmNo));
-		System.out.println("컨트롤러 json"+obj);
+	public JSON insertLike(HttpSession session, String cmNo, int likeCount, int value) {
+
+		// 커뮤니티 테이블 좋아요 수 업데이트
+		// 좋아요눌렀으면
+		// 멤버 테이블에 글 번호 넣기
+		// 좋아요 취소 눌렀으면
+		// 멤버 테이블에 글 번호 삭제
+
+		Member m = (Member) session.getAttribute("loginMember");
+		int result = service.insertLike(m, cmNo, likeCount, value);
+		System.out.println("컨트롤러에서" + result);
+
+		// json객체로 보내기
+		JSONObject obj = new JSONObject();
+		// 바뀐 좋아요 수
+		obj.put("likeCount", service.selectLikeCount(cmNo));
+		System.out.println("컨트롤러 json" + obj);
 		return obj;
 	}
+
+	// 좋아요한 글인지 확인
+	/*
+	 * @RequestMapping("/community/checkLike")
+	 * 
+	 * @ResponseBody public boolean checkLike(HttpSession session) { Member
+	 * m=(Member)session.getAttribute("loginMember"); return service.checkLike(m); }
+	 */
 }

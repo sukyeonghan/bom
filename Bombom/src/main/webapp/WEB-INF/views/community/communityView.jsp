@@ -304,6 +304,56 @@ display:none;
 </section>
 
 <script>
+	//좋아요한 글인지 확인
+	$(document).ready(function(){
+		let like=new Array();
+		/* <c:forEach items="${loginMember.memCmLike}" var="cm">
+			var json=new Object();
+			json.id="memCmLike";
+			json.name="${loginMember.memCmLike}";
+			like.push(json);
+		</c:forEach> */
+		//alert("결과="+JSON.stringify(like));
+		like[0]="${loginMember.memCmLike}";
+		var test="${loginMember.memCmLike}";
+		console.log("${loginMember}");
+
+		console.log("${community.cmNo }");
+		if(like.indexOf("${community.cmNo }")!=-1){
+			console.log("있어!");
+		
+		}else{
+			console.log("없어");			
+		}
+	
+/* 		var test=["1","2","3"];
+		console.log(typeof test);
+		console.log(test); */
+		
+/* 		if(like!=null){
+			console.log(like);
+			//console.log(like.includes("C"));
+			like.forEach(function(val,index){
+		            console.log(index,val);
+		        });
+			 
+			  $(like).each(function(i,v){
+				  //$.each(like,function(i,v){
+	                console.log(v);
+	            });
+			/* for(var i=0;i<like.length;i++){
+				if(like[i]="${community.cmNo }"){
+					console.log(like[i]);
+					console.log("${community.cmNo }");
+					$(".like-button").addClass('liked');
+				}
+			} */
+	/*	} */
+	/* 	$.ajax({
+			url:"${path}/community/checkLike",
+			data:
+		}) */
+	});
 	//좋아요 버튼
 	$('a.like-button').on('click', function(e) {
 		var value;
@@ -313,31 +363,16 @@ display:none;
 		//좋아요 취소 상태
 		else value=0;
 			
-		//숫자 카운트,member에 insert
-	
-/* 		var cmNo="${community.cmNo }";
-		var test=new Array;
-		test.push(cmNo); */
-
-		
 		$.ajax({
 			url:"${path}/community/insertLike",
 			data:{cmNo:"${community.cmNo }",likeCount:"${community.cmLike }",value:value},
 			dataType:"json",
 			success:data=>{
-				//글번호insert결과값, 카운트 수 
-				console.log(data);
-				console.log(data.likeCount);
 				//좋아요 수 출력 
 				$(".cmLike").text(data.likeCount);
 			}
 		});
 	});
-	
-/* 	function myFunction(x) {
-		x.classList.toggle("fa-thumbs-down");
-	} */
-	//좋아요 ajax
 
 	function fn_updateNotice() {
 		let noticeNo = $(event.target).parent()

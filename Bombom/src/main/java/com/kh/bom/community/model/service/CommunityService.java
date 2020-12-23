@@ -38,8 +38,10 @@ public interface CommunityService{
 
 	BoardReply selectBoardReplyOne(String number);
 	
-	//좋아요
+	//좋아요 업데이트
 	int insertLike(Member m,String cmNo,int likeCount,int value);
 	//바뀐 좋아요 수
 	int selectLikeCount(String cmNo);
+	//좋아요한 글인지 체크
+	//boolean checkLike(Member m);
 }
