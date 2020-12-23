@@ -144,10 +144,7 @@ public class CommunityServiceImpl implements CommunityService {
 		int result=0;
 		String memNo=m.getMemNo();//회원 번호
 		String[] memCmLike=m.getMemCmLike();//좋아요 누른 글번호들
-		/*
-		 * System.out.println(memCmLike); int length=memCmLike.length;//배열 길이
-		 * System.out.println(length); memCmLike[length]=cmNo;
-		 */
+
 		Map<String,Object> map=new HashMap();
 		map.put("cmNo",cmNo);
 		map.put("value",value);
@@ -160,7 +157,6 @@ public class CommunityServiceImpl implements CommunityService {
 		}else if(memCmLike!=null && value==0){
 			//좋아요를 취소했을 때
 			for(String l : memCmLike) {
-				System.out.println("좋아요글번호"+l);
 				if(l.equals(cmNo)) {
 					//배열을 리스트로 바꿔서 삭제 후 다시 배열로 만듦
 					List<String> list = new ArrayList<>(Arrays.asList(memCmLike));
@@ -171,13 +167,11 @@ public class CommunityServiceImpl implements CommunityService {
 				}
 			}
 		}
-		
 		if(result>0) {
 			//커뮤니티글 좋아요 수 변경
 			result=dao.updateCount(session,map);
 		}
-		
-		System.out.println(result);
+
 		return result;
 	}
 	
@@ -187,12 +181,10 @@ public class CommunityServiceImpl implements CommunityService {
 		// TODO Auto-generated method stub
 		return dao.selectLikeCount(session,cmNo);
 	}
-
-	//좋아요한 글인지 체크하기
-	//@Override
-	/*public boolean checkLike(Member m) {
+	//좋아요누른 글 번호만 가져오기
+	@Override
+	public Member selectLikeNo(String memNo) {
 		// TODO Auto-generated method stub
-		//회원번호 셀렉트..
-		return dao.checkLike(session,m);
-	}*/
+		return dao.selectLikeNo(session,memNo);
+	}
 }

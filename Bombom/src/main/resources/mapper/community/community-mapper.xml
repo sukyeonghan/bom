@@ -32,6 +32,20 @@
 		<result property="mem_nick" column="MEM_NICK" />
 		<result property="mem_pro" column="MEM_PRO" />
 	</resultMap>
+	<resultMap type="member" id="memberMap">
+		<result property="memNo" column="mem_no"/>
+		<result property="memNick" column="mem_nick"/>
+		<result property="memPwd" column="mem_pwd"/>
+		<result property="memEmail" column="mem_email"/>
+		<result property="memPro" column="mem_pro"/>
+		<result property="memBuyCount" column="mem_buy_count"/>
+		<result property="memWarnCount" column="mem_warn_count"/>
+		<result property="memManagerYn" column="mem_manager_yn"/>
+		<result property="memStatus" column="mem_status"/>
+		<result property="memPoint" column="mem_point"/>
+		<result property="memCmLike" column="mem_cm_like" typeHandler="stringArr"/>
+		<result property="memSns" column="mem_sns" />
+	</resultMap>
 
  	<!--  커뮤 글 등록 -->
 	<insert id="insertCommunity" parameterType="community"> <!-- parmeterType은 하나만 쓸 수 있는데 두개 이상일때는 객체나 맵에 담는다. -->
@@ -129,7 +143,7 @@
 		parent_id,
 		depth,
 		reply_content,
-		mem_no,
+		br.mem_no,
 		TO_CHAR(REGISTER_DATETIME,'YYYY-MM-DD HH24:MI:SS')AS REGISTER_DATETIME,
 		mem_nick,
 		mem_pro
@@ -236,5 +250,8 @@
 	<update id="deleteLikeNo" parameterType="map">
 		UPDATE MEMBER SET MEM_CM_LIKE=#{memCmLike, typeHandler=stringArr} WHERE MEM_NO=#{memNo} 
 	</update>
-  
+  	<!-- 좋아요한 글 가져오기-->
+  	<select id="selectLikeNo" parameterType="string" resultMap="memberMap">
+  		SELECT MEM_CM_LIKE FROM MEMBER WHERE MEM_NO=#{memNo}
+  	</select>
 </mapper>

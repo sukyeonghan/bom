@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.bom.community.model.vo.BoardReply;
 import com.kh.bom.community.model.vo.Community;
+import com.kh.bom.member.model.vo.Member;
 
 @Repository
 public class CommunityDaoImpl implements CommunityDao {
@@ -120,6 +121,12 @@ public class CommunityDaoImpl implements CommunityDao {
 		public int deleteLikeNo(SqlSession session, Map<String, Object> map) {
 			// TODO Auto-generated method stub
 			return session.update("community.deleteLikeNo",map);
+		}
+		//업데이트한 글 번호 가져오기
+		@Override
+		public Member selectLikeNo(SqlSession session, String memNo) {
+			// TODO Auto-generated method stub
+			return session.selectOne("community.selectLikeNo", memNo);
 		}
 
 	

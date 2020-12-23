@@ -21,13 +21,13 @@ public class CommunityAdminController {
 	@Autowired
 	private CommunityMngService service;
 
-	//댓글 페이지 매핑 주소
-	@RequestMapping("/admin/community/communityMng")
-	public String replyList() {
-		
-		return "/admin/community/communityMng";
-	}
-	
+	/*
+	 * //댓글 페이지 매핑 주소
+	 * 
+	 * @RequestMapping("/admin/community/communityMng") public String replyList() {
+	 * 
+	 * return "/admin/community/communityMng"; }
+	 */
 	// 댓글 첫 페이지
 	@RequestMapping("/admin/community/communityMng") //페이지 매핑 주소
 	public ModelAndView replyList(ModelAndView mv, @RequestParam(value = "cPage", defaultValue = "1") int cPage,

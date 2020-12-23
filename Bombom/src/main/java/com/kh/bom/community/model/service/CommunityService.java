@@ -40,6 +40,6 @@ public interface CommunityService{
 	//바뀐 좋아요 수
 	int selectLikeCount(String cmNo);
 	//좋아요한 글인지 체크
-	//boolean checkLike(Member m);
+	Member selectLikeNo(String memNo);
 
 }

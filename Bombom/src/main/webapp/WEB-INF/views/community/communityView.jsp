@@ -304,23 +304,13 @@ table#tbl-comment textarea {
 		<textarea id="editor" class="form-control" rows="10" name="cmContent"
 			placeholder="내용을 입력해주세요" required><c:out
 				value="${community.cmContent }" /></textarea>
-				
-				<!-- 좋아요 -->
-		<br> <label> Like </label> <i onclick="myFunction(this)"
-				value="${community.cmContent }" /></textarea><br>
+		<br>		
 		
-		<!-- 좋아요 -->		
-<%-- 		 <label> Like </label> <i onclick="myFunction(this)"
->>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
-			class="fa fa-thumbs-up"></i>
-		<c:out value="${community.cmLike }" />
-<<<<<<< HEAD
-		<br> <br>
-		
-=======
-		<br> <br> --%>
+<%-- 		<label> Like </label> <i onclick="myFunction(this)"
+				value="${community.cmContent }" /></textarea><br> --%>
 
-		<!-- 테스트 -->
+		<!-- 좋아요 -->
+		<label> Like </label>
 		<div class='middle-wrapper'>
 		  <div class='like-wrapper'>
 		    <a class='like-button'>
@@ -495,69 +485,22 @@ table#tbl-comment textarea {
 <script>
 	//좋아요한 글인지 확인
 	$(document).ready(function(){
-		let like=new Array();
-		/* <c:forEach items="${loginMember.memCmLike}" var="cm">
-			var json=new Object();
-			json.id="memCmLike";
-			json.name="${loginMember.memCmLike}";
-			like.push(json);
-		</c:forEach> */
-		//alert("결과="+JSON.stringify(like));
-		like[0]="${loginMember.memCmLike}";
-		var test="${loginMember.memCmLike}";
-		console.log("${loginMember}");
-
-		console.log("${community.cmNo }");
-		if(like.indexOf("${community.cmNo }")!=-1){
-			console.log("있어!");
 		
-		}else{
-			console.log("없어");			
-		}
-	
-/* 		var test=["1","2","3"];
-		console.log(typeof test);
-		console.log(test); */
-		
-/* 		if(like!=null){
-			console.log(like);
-			//console.log(like.includes("C"));
-			like.forEach(function(val,index){
-		            console.log(index,val);
-		        });
-			 
-			  $(like).each(function(i,v){
-				  //$.each(like,function(i,v){
-	                console.log(v);
-	            });
-			/* for(var i=0;i<like.length;i++){
-				if(like[i]="${community.cmNo }"){
-					console.log(like[i]);
-					console.log("${community.cmNo }");
-					$(".like-button").addClass('liked');
-				}
-			} */
-	/*	} */
-	/* 	$.ajax({
+	 	$.ajax({
 			url:"${path}/community/checkLike",
-			data:
-		}) */
+			dataType:"json",
+			success:data=>{
+			  $(data).each(function(i,v){
+				  //좋아요한 글이면 버튼 눌러진 상태로 띄우기
+				  if(data.indexOf("${community.cmNo }")!=-1){
+	            	$(".like-button").addClass('liked');
+				  }
+	            });
+			}
+		})
+	
 	});
-
-
-     
-     //모달에 고유값을 클릭했을 때 
-     $(".replyModal").click(function(){
-    	 let replyId = $(this).parent().children('input[name="reply_id"]').val(); //변수에 답글번호를 가져온다.
-    	 let replyWriter = $(this).parent().children('input[name="reply_writer"]').val();
-    	 console.log(replyId);
-    	 
-    	 $(".replyId").val(replyId); //모달창에 답글 번호 쏴주기 
-    	 $(".replyWriter").val(replyWriter)
-    	 
-     })
-     
-
+	
 	//좋아요 버튼
 	$('a.like-button').on('click', function(e) {
 
@@ -574,13 +517,24 @@ table#tbl-comment textarea {
 			dataType:"json",
 			success:data=>{
 				//좋아요 수 출력 
-				$(".cmLike").text(data.likeCount);
+				console.log(data);
+				$(".cmLike").text(data);
 			}
 		});
 
 	});
 
-
+     
+     //모달에 고유값을 클릭했을 때 
+     $(".replyModal").click(function(){
+    	 let replyId = $(this).parent().children('input[name="reply_id"]').val(); //변수에 답글번호를 가져온다.
+    	 let replyWriter = $(this).parent().children('input[name="reply_writer"]').val();
+    	 console.log(replyId);
+    	 
+    	 $(".replyId").val(replyId); //모달창에 답글 번호 쏴주기 
+    	 $(".replyWriter").val(replyWriter)
+    	 
+     })
 
 	function fn_updateNotice() {
 		let noticeNo = $(event.target).parent()

@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.kh.bom.community.model.vo.BoardReply;
 import com.kh.bom.community.model.vo.Community;
+import com.kh.bom.member.model.vo.Member;
 
 public interface CommunityDao {
 
@@ -45,7 +46,7 @@ public interface CommunityDao {
 
 	int reportReply(SqlSession session,BoardReply reply);
 
-	
+	Member selectLikeNo(SqlSession session,String memNo);
 	
 	
 

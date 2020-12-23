@@ -17,7 +17,7 @@ public class memberWarnInterceptor extends HandlerInterceptorAdapter{
 		HttpSession session=request.getSession();
 		Member loginMember=(Member)session.getAttribute("loginMember");
 		
-		if(loginMember.getMemWarnCount() >= 10 ){
+		if(loginMember.getMemWarnCount()>= 10 ){
 			request.setAttribute("msg","활동이 차단되셨습니다. 관리자에게 문의하여 주세요");
 			request.setAttribute("loc","/");
 			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request,response);
