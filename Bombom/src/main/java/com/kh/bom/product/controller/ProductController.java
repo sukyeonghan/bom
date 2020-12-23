@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.bom.common.page.AjaxPageBarFactory;
 import com.kh.bom.common.page.ProAjaxPageBarFactory;
 import com.kh.bom.common.page.ProPageBarFactory;
-import com.kh.bom.common.page.ReviewInquiryAjaxPageBarFactory;
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.product.model.service.ProductService;
@@ -265,20 +264,43 @@ public class ProductController {
 	//구매평 눌렀을 때
 	@RequestMapping("/product/productReview")
 	@ResponseBody
-	public ModelAndView productReview(String pdtNo, ModelAndView mv,
+	public ModelAndView productReview(ModelAndView mv,
+			@RequestParam("pdtNo") String pdtNo,
 			@RequestParam(value="cPage",defaultValue="1") int cPage,
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage) {
 		
 		//구매평
 		List<Review> reviewlist = service.reviewList(pdtNo,cPage, numPerpage);
 		//구매평 갯수
-		int reviewCount = service.reviewCount(pdtNo);
+		int totalData = service.reviewCount(pdtNo);
 		
 		mv.addObject("reviewlist", reviewlist);
 		mv.addObject("cPage", cPage);
-		mv.addObject("reviewpageBar", AjaxPageBarFactory.getAjaxPageBar(reviewCount, cPage, numPerpage, "productReview", pdtNo));
+		mv.addObject("pageBar", AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productReviewAjax", pdtNo));
 		mv.addObject("pdtNo", pdtNo);
 		mv.setViewName("product/productReview");
+		
+		return mv;
+	}
+	
+	//구매평 페이징
+	@RequestMapping("/product/productReviewAjax")
+	@ResponseBody
+	public ModelAndView productReviewAjax(ModelAndView mv,
+			String pdtNo,
+			int cPage,
+			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage) {
+		
+		//구매평
+		List<Review> reviewlist = service.reviewList(pdtNo,cPage, numPerpage);
+		//구매평 갯수
+		int totalData = service.reviewCount(pdtNo);
+		
+		mv.addObject("reviewlist", reviewlist);
+		mv.addObject("cPage", cPage);
+		mv.addObject("pageBar", AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productReviewAjax", pdtNo));
+		mv.addObject("pdtNo", pdtNo);
+		mv.setViewName("product/productReviewAjax");
 		
 		return mv;
 	}
@@ -286,7 +308,8 @@ public class ProductController {
 	//상품문의 눌렀을 때
 	@RequestMapping("/product/productInquiry")
 	@ResponseBody
-	public ModelAndView productInquiry(String pdtNo, ModelAndView mv,
+	public ModelAndView productInquiry(ModelAndView mv,
+			@RequestParam("pdtNo") String pdtNo, 
 			@RequestParam(value="cPage",defaultValue="1") int cPage,
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage,
 			HttpSession session) {
@@ -304,7 +327,7 @@ public class ProductController {
 				}else {
 					//게시글 작성자 저장
 					String memNo = i.getMemNo();
-					//로그인한 사용자가 게시물 작성자가 아닐거나 매니저가 아닐 경우 비밀글로 처리
+					//로그인한 사용자가 게시물 작성자가 아니거나 매니저가 아닐 경우 비밀글로 처리
 					if(!m.getMemManagerYn().equals("Y")&&!m.getMemNo().equals(memNo)) {
 						i.setInqContent("비밀글입니다");
 					}
@@ -322,7 +345,7 @@ public class ProductController {
 		mv.addObject("count", totalData);
 		mv.addObject("pdtNo", pdtNo);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productInquiry", pdtNo));
+		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productInquiryAjax", pdtNo));
 		mv.setViewName("product/productInquiry");
 		
 		return mv;
@@ -331,7 +354,8 @@ public class ProductController {
 	//상품문의 페이징처리
 	@RequestMapping("/product/productInquiryAjax")
 	@ResponseBody
-	public ModelAndView ajaxInqiry(String pdtNo, ModelAndView mv,
+	public ModelAndView ajaxInqiry(ModelAndView mv,
+			String pdtNo, 
 			int cPage,
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage,
 			HttpSession session) {
@@ -349,7 +373,7 @@ public class ProductController {
 				}else {
 					//게시글 작성자 저장
 					String memNo = i.getMemNo();
-					//로그인한 사용자가 게시물 작성자가 아닐거나 매니저가 아닐 경우 비밀글로 처리
+					//로그인한 사용자가 게시물 작성자가 아니거나 매니저가 아닐 경우 비밀글로 처리
 					if(!m.getMemManagerYn().equals("Y")&&!m.getMemNo().equals(memNo)) {
 						i.setInqContent("비밀글입니다");
 					}
@@ -367,7 +391,7 @@ public class ProductController {
 		mv.addObject("count", totalData);
 		mv.addObject("pdtNo", pdtNo);
 		mv.addObject("cPage", cPage);
-		mv.addObject("pageBar",ReviewInquiryAjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productInquiryAjax", pdtNo));
+		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productInquiryAjax", pdtNo));
 		mv.setViewName("product/productInquiryAjax");
 		
 		return mv;

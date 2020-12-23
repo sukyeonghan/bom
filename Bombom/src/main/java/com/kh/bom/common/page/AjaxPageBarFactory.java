@@ -2,14 +2,14 @@ package com.kh.bom.common.page;
 
 public class AjaxPageBarFactory {
 
-	public static String getAjaxPageBar(int reviewCount,int cPage,int numPerpage,String url, String pdtNo) {
+	public static String getAjaxPageBar(int totalData,int cPage,int numPerpage,String url, String pdtNo) {
 
 		String pageBar="";
 		
 		int pageBarSize=5;
 		
 		//전체페이지수=전체데이터수/한페이지당 데이터수
-		int totalPage=(int)Math.ceil((double)reviewCount/numPerpage); 
+		int totalPage=(int)Math.ceil((double)totalData/numPerpage); 
 		//페이지바시작번호 
 		int pageNo=((cPage-1)/pageBarSize)*pageBarSize+1;
 		//페이지바 마지막번호
@@ -56,7 +56,7 @@ public class AjaxPageBarFactory {
 		pageBar+="success:data=>{";
 		pageBar+="console.log(data);";
 					
-		pageBar+="document.getElementById('detailResult').innerHTML=data";
+		pageBar+="document.getElementById('result').innerHTML=data";
 		pageBar+="}";	
 		pageBar+="});";
 		

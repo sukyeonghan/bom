@@ -532,55 +532,6 @@ button:focus {
 </section>
 
 <script type="text/javascript">
-	//상품상세 눌렀을 때
-	$("#productDetail").click(e=>{
-		console.log($(e.target).html());
-		$.ajax({
-			url:"${path}/product/productDetail",
-			data:{pdtNo:$("#pdtNo").val()},
-			type:"get",
-			dataType:"html",
-			success:data=>{
-				console.log(data);
-				$("#detailResult").html("");
-				$("#detailResult").html(data);
-			}
-		});
-	});
-	
-	//구매평 눌렀을 때
-	$("#productReview").click(e=>{
-		console.log($(e.target).html());
-		$.ajax({
-			url:"${path}/product/productReview",
-			data:{cPage:"${cPage}",numPerpage:"${numPerpage}",pdtNo:$("#pdtNo").val()},
-			type:"get",
-			dataType:"html",
-			success:data=>{
-				console.log(data);
-				$("#detailResult").html("");
-				$("#detailResult").html(data);
-			}
-		});
-	});
-	
-	//상품문의 눌렀을 때
-	$("#productInquiry").click(e=>{
-		console.log($(e.target).html());
-		$.ajax({
-			url:"${path}/product/productInquiry",
-			data:{cPage:"${cPage}",numPerpage:"${numPerpage}",pdtNo:$("#pdtNo").val()},
-			type:"get",
-			dataType:"html",
-			success:data=>{
-				console.log(data);
-				$("#detailResult").html("");
-				$("#detailResult").html(data);
-			}
-		});
-	});
-
-
 	//썸네일 바꾸기 스크립트
 	$(function() {
 		$(".small_image a").click(function() {
@@ -633,6 +584,53 @@ button:focus {
 		$(viewPrice).text(finalPrice);
 	} 
 	
+	//상품상세 눌렀을 때
+	$("#productDetail").click(e=>{
+		console.log($(e.target).html());
+		$.ajax({
+			url:"${path}/product/productDetail",
+			data:{pdtNo:$("#pdtNo").val()},
+			type:"get",
+			dataType:"html",
+			success:data=>{
+				console.log(data);
+				$("#detailResult").html("");
+				$("#detailResult").html(data);
+			}
+		});
+	});
+	
+	//구매평 눌렀을 때
+	$("#productReview").click(e=>{
+		console.log($(e.target).html());
+		$.ajax({
+			url:"${path}/product/productReview",
+			data:{cPage:"${cPage}",numPerpage:"${numPerpage}",pdtNo:$("#pdtNo").val()},
+			type:"get",
+			dataType:"html",
+			success:data=>{
+				console.log(data);
+				$("#detailResult").html("");
+				$("#detailResult").html(data);
+			}
+		});
+	});
+	
+	//상품문의 눌렀을 때
+	$("#productInquiry").click(e=>{
+		console.log($(e.target).html());
+		$.ajax({
+			url:"${path}/product/productInquiry",
+			data:{cPage:"${cPage}",numPerpage:"${numPerpage}",pdtNo:$("#pdtNo").val()},
+			type:"get",
+			dataType:"html",
+			success:data=>{
+				console.log(data);
+				$("#detailResult").html("");
+				$("#detailResult").html(data);
+			}
+		});
+	});
 	
 	//연관상품 스와이프 스크립트
 	var swiper = new Swiper('.swiper-container', {

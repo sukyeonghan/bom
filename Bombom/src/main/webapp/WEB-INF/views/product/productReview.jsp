@@ -147,7 +147,7 @@ textarea.answer {
 	border-style: solid;
 	margin: 10px 0 0 0;
 }
-.reviewpageBar{
+.pageBar{
 	text-align: center;
 }
 
@@ -259,8 +259,8 @@ textarea.answer {
 									    </li>
 									</c:forEach>    
 								</ul>
-								<div class="reviewpageBar">
-									<span>${reviewpageBar }</span>
+								<div class="pageBar">
+									<span>${pageBar }</span>
 						    	</div>
 							</c:if>
 							<c:if test="${empty reviewlist }">
@@ -484,11 +484,11 @@ textarea.answer {
 
 
 	//구매평 페이징
-	/* $(function(){
-		$(".reviewpageBar").click(e=>{
+	$(function(){
+		$(".pageBar").click(e=>{
 			console.log($(e.target).val());
 			$.ajax({
-				url:"${path}/product/productReview",
+				url:"${path}/product/productReviewAjax",
 				data:{cPage:"${cPage}",numPerpage:"${numPerPage}",pdtNo:"${pdtNo}"},
 				type:"get",
 				dataType:"html",
@@ -499,7 +499,7 @@ textarea.answer {
 				}
 			});
 		});
-	});	 */
+	});
 
 	//별점 마킹 모듈 프로토타입으로 생성
 	function Rating(){};

@@ -300,8 +300,8 @@ textarea.answer {
 		$(".pageBar").click(e=>{
 			console.log($(e.target).val());
 			$.ajax({
-				url:"${path}/product/inquiryAjax",
-				data:{cPage:"${cPage}",numPerpage:"${numPerPage}",pdtNo:$("#pdtNo").val()},
+				url:"${path}/product/productInquiryAjax",
+				data:{cPage:"${cPage}",numPerpage:"${numPerPage}",pdtNo:"${pdtNo}"},
 				type:"get",
 				dataType:"html",
 				success:data=>{
