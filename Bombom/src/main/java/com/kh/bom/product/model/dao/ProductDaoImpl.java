@@ -52,6 +52,10 @@ public class ProductDaoImpl implements ProductDao {
 		return session.selectOne("review.reviewAvg", pdtNo);
 	}
 
+	@Override
+	public Product selectproductDate(SqlSession session, String pdtNo) {
+		return session.selectOne("product.selectproductDate", pdtNo);
+	}
 
 	@Override
 	public int productCount(SqlSession session, String category) {
@@ -86,6 +90,7 @@ public class ProductDaoImpl implements ProductDao {
 		map.put("sort", sort);
 		return session.selectList("product.saleList",map);
 	}
+
 
 
 

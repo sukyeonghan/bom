@@ -57,6 +57,12 @@ public class ProductServiceImpl implements ProductService{
 	public String reviewAvg(String pdtNo) {
 		return dao.reviewAvg(session, pdtNo);
 	}
+	
+	//제품 등록날짜
+	@Override
+	public Product selectproductDate(String pdtNo) {
+		return dao.selectproductDate(session, pdtNo);
+	}
 
 	//제품 개수
 	@Override
@@ -89,6 +95,8 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return dao.selectSaleList(session,cPage,numPerPage,sort,category);
 	}
+
+
 	
 
 	

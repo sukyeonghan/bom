@@ -24,6 +24,8 @@ public interface ProductDao {
 	int reviewCount(SqlSession session, String pdtNo);
 	
 	String reviewAvg(SqlSession session, String pdtNo);
+	
+	Product selectproductDate(SqlSession session, String pdtNo);
 
 	int productCount(SqlSession session,String category);
 	int countSale(SqlSession session);

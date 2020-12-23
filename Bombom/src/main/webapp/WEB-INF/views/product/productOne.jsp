@@ -170,7 +170,20 @@ button:focus {
 	bottom: 40px;
 	display: none;
 }
-
+/* 세일아이콘 */
+.sale-icon{
+    background-color: #e04545;
+    color: white;
+    padding: 1px 5px;
+    width:60px;
+}
+/* NEW 아이콘 */
+.new-icon{
+	background-color: #45A663;
+    color: white;
+    padding: 1px 5px;
+    width:58px;
+}
 
 </style>
 
@@ -221,8 +234,13 @@ button:focus {
         	<div class="inner_goods_form container">
         		<div class="head" style="margin-top:0px;">
         			<div class="information size-up" style="padding-top:10px;">${product.pdtName }&nbsp;&nbsp;
+        			<!-- 등록한 날짜로부터 7일이면 NEW -->
+        			<c:if test="${dateResult.pdtDate==product.pdtDate}">
+        				<div class="new-icon" style="display:inline-block;">NEW</div>
+        			<!-- 세일하면 배너 -->
+        			</c:if>
         			<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
-        				<img src="${path}/resources/images/product/sale.jpg" width="50px">
+        				<div class="sale-icon" style="display:inline-block;">SALE</div>
         			</c:if>
         			</div>
         			<!-- 세일가격 -->

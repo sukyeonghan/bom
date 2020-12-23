@@ -121,4 +121,8 @@
 			AND PDT_CATEGORY=#{category}
 		</if>
 	</select>
+	
+	<select id="selectproductDate" parameterType="string" resultMap="productMap">
+		SELECT PDT_NO, PDT_DATE FROM PRODUCT WHERE PDT_NO=#{pdtNo} AND PDT_DATE>SYSDATE-7
+	</select>
 </mapper>
