@@ -352,25 +352,25 @@ public class AdminServiceImpl implements AdminService {
 	public int updateBanner(MainBanner mb) {
 		return dao.updateBanner(session,mb);
 	}
-
+	//QNA 삭제
 	@Override
 	public int deleteQna(String qnaNo) {
 		// TODO Auto-generated method stub
 		return dao.deleteQna(session, qnaNo);
 	}
-
+	//QNA답변대기만 보기 
 	@Override
 	public List<Qna> selectQnaWaitList(int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
 		return dao.selectQnaWaitList(session, cPage, numPerpage);
 	}
-
+	//주문내역 전체보기
 	@Override
 	public List<Order> selectOrderList(int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
 		return dao.selectOrderList(session, cPage, numPerpage);
 	}
-
+	//주문내역 카운트
 	@Override
 	public int selectOrderCount() {
 		// TODO Auto-generated method stub
@@ -382,11 +382,35 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.selectOrderDetail(session, orderNo);
 	}
-
+	
 	@Override
 	public Order selectOrderOne(String orderNo) {
 		// TODO Auto-generated method stub
 		return dao.selectOrderOne(session, orderNo);
+	}
+	//주문내역에서 배송상태 변경 
+	@Override
+	public int orderShipUpdate(Order o) {
+		// TODO Auto-generated method stub
+		return dao.orderShipUpdate(session, o);
+	}
+	//배송상태별로
+	@Override
+	public List<Order> selectOrdWaitList(int cPage, int numPerpage, Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectOrdWaitList(session,map);
+	}
+
+	@Override
+	public int selectOrdWaitCount(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectOrdWaitCount(session,map);
+	}
+
+	@Override
+	public int updateOrder(Order o) {
+		// TODO Auto-generated method stub
+		return dao.updateOrder(session,o);
 	}
 	
 	

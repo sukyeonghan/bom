@@ -162,10 +162,16 @@ p.p-info {
 .alarmUl>li:last-of-type{
 	border:none;
 }
+/*헤더 닉네임 옆 프로필사진*/
+.headerMemPro{
+	border-radius: 100%; width:20px; height:20px; 
+}
+/*커서*/
+.cur-pointer{cursor:pointer;}
+.cur-default{cursor:default;}
 </style>
 
 </head>
-
 <body style="height: 100%;">
 	<header id="spring-main-header" class="fixed-top" style="min-width: 1000px;">
 		<!-- header -->
@@ -180,15 +186,32 @@ p.p-info {
 					</c:if>
 
 					<c:if test="${loginMember!=null }">
+					
 						<c:if test="${loginMember.memManagerYn eq 'N' }">
-							<li class="nav-item user_basic"><p class="nav-link">
+							<li class="nav-item">
+								<p class="nav-link user_basic cur-default">
+									<c:if test="${fn:startsWith(loginMember.memPro,'http')==true}">
+									<img class="headerMemPro" src="${loginMember.memPro}"/>
+									</c:if>
+									<c:if test="${fn:startsWith(loginMember.memPro,'http')==false}">
+									<img class="headerMemPro" src="${path }/resources/upload/profile/${loginMember.memPro}" />
+									</c:if>
 									<c:out value="${loginMember.memNick }" />
-								</p></li>
+								</p>
+							</li>
 						</c:if>
 						<c:if test="${loginMember.memManagerYn eq 'Y' }">
-							<li class="nav-item user_manager"><p class="nav-link">
+							<li class="nav-item">
+								<p class="nav-link user_manager cur-default">
+									<c:if test="${fn:startsWith(loginMember.memPro,'http')==true}">
+									<img class="headerMemPro" src="${loginMember.memPro}"/>
+									</c:if>
+									<c:if test="${fn:startsWith(loginMember.memPro,'http')==false}">
+									<img class="headerMemPro" src="${path }/resources/upload/profile/${loginMember.memPro}" />
+									</c:if>
 									<c:out value="${loginMember.memNick }" />
-								</p></li>
+								</p>
+							</li>
 						</c:if>
 						<li class="nav-item"><a class="nav-link"
 							onclick="location.replace('${path}/member/logout');">로그아웃</a></li>
@@ -196,7 +219,7 @@ p.p-info {
 							href="${path }/mypage/orderStatus">마이페이지</a></li>
 						<li class="nav-item">
 							<div id="alarm-div">
-								<i class="far fa-bell" id="alarm"></i>
+								<i class="far fa-bell cur-pointer" id="alarm"></i>
 								<div id="alarm-countbox">
 									<fmt:parseNumber var="i" type="number" value="${sessionScope.countAlarm }"/>
 									<c:out value="${i}"/> 
@@ -429,7 +452,11 @@ p.p-info {
 							<p>소셜 계정으로 간편하게 로그인 하세요 !</p>
 							<div class="row">
 								<div class="col">구글</div>
-								<div class="col">카카오</div>
+								<div class="col">
+									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=http://localhost:9090/bom/oauth&response_type=code">
+    									<img src="${path }/resources/images/login/kakao_login_small.png" alt="카카오"/>
+									</a>
+								</div>
 								<div class="col">네이버</div>
 							</div>
 							<br /> <a class="lostPwd" data-toggle="modal"
