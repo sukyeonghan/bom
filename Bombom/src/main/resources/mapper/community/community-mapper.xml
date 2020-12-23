@@ -22,7 +22,7 @@
 		<result property="parent_id" column="PARENT_ID" />
 		<result property="depth" column="DEPTH" />
 		<result property="reply_content" column="REPLY_CONTENT" />
-		<result property="reply_writer" column="REPLY_WRITER" />
+		<result property="mem_no" column="MEM_NO" />
 		<result property="register_datetime" column="REGISTER_DATETIME"
 			typeHandler="dateStr" />
 		<result property="com_reason" column="COM_REASON" />
@@ -102,7 +102,7 @@
 		parent_id,
 		depth,
 		reply_content,
-		reply_writer,
+		mem_no,
 		register_datetime
 		)values(
 		'REP'||SEQ_REPLY_ID.NEXTVAL,
@@ -115,7 +115,7 @@
 		</if>
 		#{depth},
 		#{reply_content},
-		#{reply_writer},
+		#{mem_no},
 		SYSDATE
 		)
 	</insert>
@@ -129,14 +129,14 @@
 		parent_id,
 		depth,
 		reply_content,
-		reply_writer,
+		br.mem_no,
 		TO_CHAR(REGISTER_DATETIME,'YYYY-MM-DD HH24:MI:SS')AS REGISTER_DATETIME,
 		mem_nick,
 		mem_pro
 		from
 		board_reply br
 		left join member mb
-		on br.reply_writer = mb.mem_no
+		on br.mem_no = mb.mem_no
 		where
 		board_id = #{cmNo}
 		order by reply_id
@@ -151,12 +151,12 @@
 	<select id="selectBoardReplyOne" parameterType="string"
 		resultMap="boardReplyMap">
 		SELECT
-		REPLY_ID,BOARD_ID,PARENT_ID,DEPTH,REPLY_CONTENT,REPLY_WRITER,
+		REPLY_ID,BOARD_ID,PARENT_ID,DEPTH,REPLY_CONTENT,MEM_NO,
 		TO_CHAR(REGISTER_DATETIME,'YYYY-MM-DD HH24:MI:SS')AS REGISTER_DATETIME,
 		mem_nick,mem_pro
 		FROM BOARD_REPLY BR
 		LEFT JOIN MEMBER MB
-		ON BR.REPLY_WRITER = MB.MEM_NO
+		ON BR.MEM_NO = MB.MEM_NO
 		WHERE BR.REPLY_ID =#{reply_id}
 	</select>
 
@@ -173,7 +173,7 @@
 	<update id="reportReply" parameterType="boardReply">
 	update board_reply 
 	set
-	reply_writer = #{reply_writer},
+	mem_no = #{mem_no},
 	com_reason = #{com_reason},
 	com_status = #{com_status}
 	where 
@@ -181,12 +181,18 @@
 	</update>
 	
 	<!-- 관리자 댓글 목록 -->
-	<select id="selectReplyList" resultMap="boardReplyMap">
+	<select id="selectReplyList" parameterType="map" resultMap="boardReplyMap">
 		SELECT *
 		FROM BOARD_REPLY BR
 		LEFT JOIN MEMBER MB
 		ON BR.MEM_NO = MB.MEM_NO
-		WHERE COM_STATUS IS NOT NULL
+		WHERE COM_STATUS IS NOT NULL 
+		<if test="order != ''">
+		AND COM_STATUS = #{order} 
+		</if>
+		<if test="keyword!=null or keyword!=''">
+		AND MEM_NICK LIKE '%'||#{keyword}||'%' 
+		</if>
 		ORDER BY COM_DATE DESC
 	</select>
 	

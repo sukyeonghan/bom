@@ -19,9 +19,9 @@ public class CommunityMngServiceImpl implements CommunityMngService {
 	private SqlSession session;
 
 	@Override
-	public List<BoardReply> selectReplyList(int cPage, int numPerpage) {
+	public List<BoardReply> selectReplyList(int cPage, int numPerpage,Map m) {
 		// TODO Auto-generated method stub
-		return dao.selectReplyList(session, cPage, numPerpage);
+		return dao.selectReplyList(session, cPage, numPerpage,m);
 	}
 
 	@Override

@@ -5,23 +5,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 
- <div id="result">
-   
-                   <div class="count-filter">
-					<!-- 카테고리별 개수 -->
-					<p >댓글 관리</p>
-					<!--카테고리 정렬  -->
-					<div class="select-box">
-						<select class="sort" name="filter">
-							<option value="전체">N</option>
-							<option value="신고">Y</option>
-						</select>
-					</div>
-				</div>
-				
-     <!-- 제품관리 테이블 -->
+      <!-- 제품관리 테이블 -->
      <div id="reply-table-wrap">
-     <table id="reply-table" class="table table-hover">
+     <table id="reply-table" class="table table-hover" >
      <thead>
      <tr>
      <th>신고된 회원</th>
@@ -58,4 +44,3 @@
 				 <div class="pageBar" >	
 					${pageBar }
 				</div>
-				

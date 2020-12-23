@@ -29,20 +29,30 @@ public class CommunityAdminController {
 	}
 	
 	// 댓글 첫 페이지
-	@RequestMapping("/admin/community/communityMng") //페이지 매핑 주소
+	@RequestMapping("/admin/community/communityMngAjax") //페이지 매핑 주소
 	public ModelAndView replyList(ModelAndView mv, @RequestParam(value = "cPage", defaultValue = "1") int cPage,
-			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage) {
+			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage, String order, String keyword) {
 
-		mv.addObject("list", service.selectReplyList(cPage, numPerpage));
+		System.out.println("순서" + order);
+		
+		Map m = new HashMap();
+		m.put("order", order);
+		m.put("keyword", keyword);
+		
+		mv.addObject("list", service.selectReplyList(cPage, numPerpage,m));
 		int totalData = service.selectPage();
 
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalData, cPage, numPerpage, "communityMng"));
 		mv.addObject("totalData", totalData);
 
-		mv.setViewName("/admin/community/communityMng"); //매핑된 페이지에서 보여주는 화면
+		mv.setViewName("/admin/community/communityMngAjax"); //매핑된 페이지에서 보여주는 화면
 		return mv;
 
 	}
+	
+	//신고된 아이디 찾기
+	
+	
 	
 	//신고 내용
 	@RequestMapping("/admin/community/reportReply")
@@ -72,36 +82,6 @@ public class CommunityAdminController {
 		return mv;
 	}
 	
-
-	// 제품 목록에서 검색
-	@RequestMapping("/admin/community/replySearchAjax")
-	public ModelAndView replySearchAjax(ModelAndView m,
-			@RequestParam(value = "searchType", defaultValue = "") String searchType,
-			@RequestParam(value = "keyword", defaultValue = "") String keyword,
-			@RequestParam(value = "cPage", defaultValue = "1") int cPage,
-			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage,
-			@RequestParam(value = "sort", defaultValue = "전체") String sort) { // 분류했을때 리스트가
-
-		Map<String, String> map = new HashMap();
-
-		map.put("searchType", searchType); // 검색분류
-		map.put("keyword", keyword); // 검색한 키워드(글자)
-		map.put("sort", sort); // 필터 분류
-
-		int totalData = service.selectPage();
-		m.addObject("list", service.selectSearchList(cPage, numPerpage, map));
-		m.addObject("pageBar", AdminProSearchAjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage,
-				"replySearchAjax", searchType, keyword, sort));
-		m.addObject("cPage", cPage);
-		m.addObject("totalData", totalData);
-		m.addObject("sort", sort);
-		m.addObject("searchType", searchType);
-		m.addObject("keyword", keyword);
-		m.setViewName("admin/community/replyListAjax");
-
-		return m;
-
-	}
 	
 	//댓글 신고 상태 변경
 	@RequestMapping("/admin/community/warnMemberYn")

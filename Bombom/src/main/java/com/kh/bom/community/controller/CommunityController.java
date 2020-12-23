@@ -240,6 +240,7 @@ public class CommunityController {
 	// 댓글 삭제
 	@RequestMapping("/community/deleteReply")
 	public ModelAndView deleteReply(String reply_id, ModelAndView mv) {
+		
 		int result = service.deleteReply(reply_id);
 
 		String msg = "";
@@ -247,7 +248,7 @@ public class CommunityController {
 		String icon = "";
 		if (result > 0) {
 			msg = "댓글 삭제 성공";
-			loc = "/community/communityView?";
+			loc = "/community/communityView.do? ";
 		} else {
 			msg = " 삭제 실패";
 			loc = "/community/communityList";
