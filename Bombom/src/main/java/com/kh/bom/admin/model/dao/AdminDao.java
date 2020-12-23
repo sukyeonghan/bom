@@ -73,7 +73,11 @@ public interface AdminDao {
 	List<Order> selectOrderDetail(SqlSession session, String orderNo);
 	Order selectOrderOne(SqlSession session, String orderNo);
 	int orderShipUpdate(SqlSession session, Order o);
+	List<Order> selectOrdWaitList(SqlSession session, Map map);
+	int selectOrdWaitCount(SqlSession session, Map map);
+	int updateOrder(SqlSession session, Order o);
 
+	
 
 
 }

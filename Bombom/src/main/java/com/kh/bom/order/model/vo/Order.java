@@ -38,6 +38,7 @@ public class Order {
 	private int pdtPrice; //상품가격 
 	private String memEmail; //주문자 이메일
 	private int pdtOptionAddprice; //옵션 가격 
+	private String ordMngMemo; //관리자메모
 	
 	
 

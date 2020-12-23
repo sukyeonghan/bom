@@ -293,24 +293,42 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectOrderCount");
 	}
-	//주문상세내역
-
+	//주문상세내역 (제품사진,정보,가격...)
 	@Override
 	public List<Order> selectOrderDetail(SqlSession session, String orderNo) {
 		// TODO Auto-generated method stub
 		return session.selectList("admin.selectOrderDetail", orderNo);
 	}
-
+	//주문상세내역 기본정보
 	@Override
 	public Order selectOrderOne(SqlSession session, String orderNo) {
 		// TODO Auto-generated method stub
-		return session.selectOne("admin.selectOrderThumb",orderNo);
+		return session.selectOne("admin.selectOrderInfo",orderNo);
 	}
-
+	//주문내역 배송상태 변경
 	@Override
 	public int orderShipUpdate(SqlSession session, Order o) {
 		// TODO Auto-generated method stub
 		return session.update("admin.orderShipUpdate", o);
+	}
+	//배송상태별/검색 리스트
+	@Override
+	public List<Order> selectOrdWaitList(SqlSession session, Map map) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectOrdWaitList",map);
+	}
+	//배송상태/검색 카운트
+	@Override
+	public int selectOrdWaitCount(SqlSession session, Map map) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectOrdWaitCount",map);
+	}
+	//주문상세내역 수정
+
+	@Override
+	public int updateOrder(SqlSession session, Order o) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateOrder", o);
 	}
 	
 	
