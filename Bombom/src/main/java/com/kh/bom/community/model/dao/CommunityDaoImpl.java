@@ -72,44 +72,6 @@ public class CommunityDaoImpl implements CommunityDao {
 	        return session.selectList("community.selectBoardReplyList", paramMap);
 	    }
 	 
-	    @Override
-	    public int delReply(SqlSession session,Map<String, Object> paramMap) {
-	        if(paramMap.get("r_type").equals("main")) {
-	            //부모부터 하위 다 지움
-	            return session.delete("community.deleteBoardReplyAll", paramMap);
-	        }else {
-	            //자기 자신만 지움
-	            return session.delete("community.deleteBoardReply", paramMap);
-	        }
-	        
-	        
-	    }
-	
-	 
-	    @Override
-	    public boolean checkReply(SqlSession session,Map<String, Object> paramMap) {
-	        int result = session.selectOne("community.selectReplyPassword", paramMap);
-	                
-	        if(result>0) {
-	            return true;
-	        }else {
-	            return false;
-	        }
-	        
-	    }
-	 
-	    @Override
-	    public boolean updateReply(SqlSession session,Map<String, Object> paramMap) {
-	        int result = session.update("community.updateReply", paramMap);
-	        
-	        if(result>0) {
-	            return true;
-	        }else {
-	            return false;
-	        }
-	    }
-
-
 		@Override
 		public String selectSeqReply(SqlSession session) {
 			// TODO Auto-generated method stub
@@ -120,6 +82,18 @@ public class CommunityDaoImpl implements CommunityDao {
 		public BoardReply selectBoardReplyOne(SqlSession session, String number) {
 			// TODO Auto-generated method stub
 			return session.selectOne("community.selectBoardReplyOne",number);
+		}
+
+		@Override
+		public int deleteReply(SqlSession session, String reply_id) {
+			// TODO Auto-generated method stub
+			return session.delete("community.deleteReply",reply_id);
+		}
+
+		@Override
+		public int reportReply(SqlSession session, BoardReply reply) {
+			// TODO Auto-generated method stub
+			return session.insert("community.reportReply",reply);
 		}
     
 		

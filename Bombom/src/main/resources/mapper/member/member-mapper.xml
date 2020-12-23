@@ -12,7 +12,8 @@
 		<result property="memManagerYn" column="mem_manager_yn"/>
 		<result property="memStatus" column="mem_status"/>
 		<result property="memPoint" column="mem_point"/>
-	
+		<result property="memCmLike" column="mem_cm_like" />
+		<result property="memSns" column="mem_sns" />
 	</resultMap>
 	<resultMap type="alarm" id="alarmMap">
 		<result property="alarmNo" column="alarm_no"/>
@@ -45,13 +46,19 @@
 			<if test="memNick!=null and !memNick.equals('')">
 				MEM_NICK=#{memNick},
 			</if>
+			<if test="memSns!=null and !memSns.equals('')">
+				MEM_SNS=#{memSns},
+			</if>
 			MEM_STATUS='N'
 		</set>
 		 WHERE MEM_NO=#{memNo}
 	</update>
 	
 	<insert id="insertMember" parameterType="member">
-		INSERT INTO MEMBER VALUES('M'||SEQ_MEM_NO.NEXTVAL,#{memNick},#{memPwd},#{memEmail},'basic.png',0,0,default,default,default)
+		INSERT INTO MEMBER VALUES('M'||SEQ_MEM_NO.NEXTVAL,#{memNick},#{memPwd},#{memEmail},#{memPro},0,0,default,default,default,default,
+		<if test="memSns != null">#{memSns}</if>
+		<if test="memSns == null">null</if>
+		)
 		<selectKey keyProperty="memNo" resultType="string" order="AFTER">
 			SELECT 'M'||SEQ_MEM_NO.CURRVAL FROM DUAL
 		</selectKey>

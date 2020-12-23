@@ -18,7 +18,7 @@
 		url(../font/Roboto-Thin.otf) format('opentype');
 }
 
-*{
+*,h1,h2,h3,h4,h5,h6{
 	font-family: 'Cafe24Simplehae';
 	box-sizing: border-box;
 }
@@ -181,9 +181,10 @@ div#menuNav {
 
 /*스크롤*/
 html {overflow:auto;} 
+
 /* header만큼 top 주기 */
 section#container {
-	padding-top: 250px;
+	padding-top: 20%;
 }
 
 img.productAd {

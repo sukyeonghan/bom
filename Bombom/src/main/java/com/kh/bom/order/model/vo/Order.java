@@ -28,7 +28,7 @@ public class Order {
 	private String ordCancel; //취소사유 //단순변심','상품불량','배송지연','상품정보와 상이
 	private Date ordDate;//주문날짜
 	private String ordOname;//주문자이름
-	private String ordOphone;//주문자 전화번호
+	private String ordrOphone;//주문자 전화번호
 	private String ordRname;//받는사람 이름
 	private String ordRphone;//받는사람 전화번호
 	private String pdtThumbImage; //상품이미지
@@ -38,9 +38,15 @@ public class Order {
 	private int pdtPrice; //상품가격 
 	private String memEmail; //주문자 이메일
 	private int pdtOptionAddprice; //옵션 가격 
+<<<<<<< HEAD
 	private String ordMngMemo; //관리자메모
 	
 	
+=======
+	private String pdtNo; //상품번호 
+	private String pdtOptionNo;//상품옵션번호
+	private String rownum;
+>>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
 
 	
 }
