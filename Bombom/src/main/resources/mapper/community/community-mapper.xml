@@ -32,8 +32,22 @@
 		<result property="mem_nick" column="MEM_NICK" />
 		<result property="mem_pro" column="MEM_PRO" />
 	</resultMap>
+	<resultMap type="member" id="memberMap">
+		<result property="memNo" column="mem_no"/>
+		<result property="memNick" column="mem_nick"/>
+		<result property="memPwd" column="mem_pwd"/>
+		<result property="memEmail" column="mem_email"/>
+		<result property="memPro" column="mem_pro"/>
+		<result property="memBuyCount" column="mem_buy_count"/>
+		<result property="memWarnCount" column="mem_warn_count"/>
+		<result property="memManagerYn" column="mem_manager_yn"/>
+		<result property="memStatus" column="mem_status"/>
+		<result property="memPoint" column="mem_point"/>
+		<result property="memCmLike" column="mem_cm_like" typeHandler="stringArr"/>
+		<result property="memSns" column="mem_sns" />
+	</resultMap>
 
-  <!--  커뮤 글 등록 -->
+ 	<!--  커뮤 글 등록 -->
 	<insert id="insertCommunity" parameterType="community"> <!-- parmeterType은 하나만 쓸 수 있는데 두개 이상일때는 객체나 맵에 담는다. -->
 		INSERT INTO COMMUNITY
 		VALUES('CM'||SEQ_CM_NO.NEXTVAL,#{cmWriter},#{cmLike},#{cmView},SYSDATE,#{cmTitle},#{cmContent},#{cmThumbnail})
@@ -203,11 +217,47 @@
 	</update> 
 	
 	
-   <!--  댓글 페이징 처리 -->
+   <!-- 댓글 페이징 처리 -->
    <select id="selectPage" resultType="_int">
 		SELECT COUNT(*) FROM
 		BOARD_REPLY
 	</select>
    
-  
+    <!-- 좋아요 수 업데이트 -->
+    <update id="updateLikeCount" parameterType="map">
+    	UPDATE COMMUNITY 
+    	<if test="value==1">
+    		SET CM_LIKE=CM_LIKE+1 
+    	</if>
+    	<if test="value==0">
+    		SET CM_LIKE=CM_LIKE-1
+    	</if>
+    	WHERE CM_NO=#{cmNo}
+    </update>
+    <!-- 좋아요 수만 가져오기 -->
+	<select id="selectLikeCount" parameterType="string" resultType="_int">
+		SELECT CM_LIKE FROM COMMUNITY WHERE CM_NO=#{cmNo}
+	</select>
+	<!-- 좋아요한 글 번호 넣기 -->
+	<insert id="updateLikeNo" parameterType="map">
+		<selectKey keyProperty="memCmLike" resultType="string" order="BEFORE">
+			SELECT MEM_CM_LIKE FROM MEMBER WHERE MEM_NO=#{memNo}
+		</selectKey>
+		UPDATE MEMBER 
+		<if test="memCmLike == null">
+			SET MEM_CM_LIKE=#{cmNo} 
+		</if>
+		<if test="memCmLike != null">
+			SET MEM_CM_LIKE=MEM_CM_LIKE||','||#{cmNo}
+		</if>
+		WHERE MEM_NO=#{memNo} 
+	</insert>
+	<!-- 좋아요 취소 시 글 번호 넣기 -->
+	<update id="deleteLikeNo" parameterType="map">
+		UPDATE MEMBER SET MEM_CM_LIKE=#{memCmLike, typeHandler=stringArr} WHERE MEM_NO=#{memNo} 
+	</update>
+  	<!-- 좋아요한 글 가져오기-->
+  	<select id="selectLikeNo" parameterType="string" resultMap="memberMap">
+  		SELECT MEM_CM_LIKE FROM MEMBER WHERE MEM_NO=#{memNo}
+  	</select>
 </mapper>

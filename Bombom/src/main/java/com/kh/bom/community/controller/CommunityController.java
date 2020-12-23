@@ -275,11 +275,23 @@ public class CommunityController {
 	//좋아요
 	@RequestMapping("/community/insertLike")
 	@ResponseBody
-	public JSON insertLike(String memNo,String cmNo,int likeCount) {
-		
-		//테스트
-		JSONObject obj=new JSONObject();
-		obj.put("key", memNo);
-		return obj;
+	public int insertLike(HttpSession session, String cmNo, int likeCount, int value) {
+
+		Member m = (Member) session.getAttribute("loginMember");
+		//좋아요 수 및 좋아요한 글번호 업데이트
+		int result = service.insertLike(m, cmNo, likeCount, value);
+		//좋아요 수만 보내기
+		return service.selectLikeCount(cmNo);
 	}
+
+	//좋아요한 글인지 확인
+	@RequestMapping("/community/checkLike")
+	@ResponseBody 
+	public String[] checkLike(HttpSession session) { 
+		 
+		 Member m=(Member)session.getAttribute("loginMember");
+		 Member newM=service.selectLikeNo(m.getMemNo());
+		 return newM.getMemCmLike();
+	}
+	 
 }
