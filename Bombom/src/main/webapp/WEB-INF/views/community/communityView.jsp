@@ -635,7 +635,9 @@ table#tbl-comment textarea {
 															let span4 = $(
 																	'<span>')
 																	.html(
-																			"신고하기"); //신고하기 
+																			"신고하기"); 
+															//신고하기 
+																			
 														    let span5 =$('<span>').html("삭제하기");				
 															let replyDiv=$('<div>').prop("class","replyDiv");				
 															replyDiv.css("display","none");

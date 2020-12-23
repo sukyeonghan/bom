@@ -34,18 +34,29 @@
 	</resultMap>
 
   <!--  커뮤 글 등록 -->
-	<insert id="insertCommunity" parameterType="community">
+	<insert id="insertCommunity" parameterType="community"> <!-- parmeterType은 하나만 쓸 수 있는데 두개 이상일때는 객체나 맵에 담는다. -->
 		INSERT INTO COMMUNITY
 		VALUES('CM'||SEQ_CM_NO.NEXTVAL,#{cmWriter},#{cmLike},#{cmView},SYSDATE,#{cmTitle},#{cmContent},#{cmThumbnail})
 	</insert>
 
     <!--  커뮤니티 게시글 목록 -->
-	<select id="selectCommunityList" resultMap="communityMap">
+	<select id="selectCommunityList" parameterType="map" resultMap="communityMap">
 		SELECT * FROM
 		COMMUNITY CM
 		LEFT JOIN MEMBER MB
 		ON CM.CM_WRITER = MB.MEM_NO
-		ORDER BY CM_DATE DESC
+		ORDER BY 
+		<if test="order == 'update'">
+		CM_DATE 
+		</if>
+		<if test="order == 'like'">
+		CM_LIKE
+		</if>
+		<if test="order == 'view'">
+		CM_VIEW
+		</if>
+		
+		 DESC
 	</select>
 	
 	<!-- 커뮤니티 글 상세보기 -->
@@ -78,7 +89,7 @@
 		WHERE CM_NO =#{cmNo}
 	</update>
 
-	<select id="selectCount" resultType="_int">
+	<select id="selectCount" resultType="_int">   <!-- select일때 select에서 가져오는 자료형  -->
 		SELECT COUNT(*) FROM
 		COMMUNITY
 	</select>
@@ -171,8 +182,10 @@
 	
 	<!-- 관리자 댓글 목록 -->
 	<select id="selectReplyList" resultMap="boardReplyMap">
-		SELECT REPLY_WRITER,REPLY_ID,COM_REASON,REPLY_CONTENT,COM_DATE,COM_STATUS
-		FROM BOARD_REPLY
+		SELECT *
+		FROM BOARD_REPLY BR
+		LEFT JOIN MEMBER MB
+		ON BR.MEM_NO = MB.MEM_NO
 		WHERE COM_STATUS IS NOT NULL
 		ORDER BY COM_DATE DESC
 	</select>

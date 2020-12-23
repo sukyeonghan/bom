@@ -32,24 +32,38 @@ public class CommunityController {
 	@Autowired
 	private CommunityService service;
 
-	// communityList, 로그인 후 접근 가능
+	
+	//communityList 화면 전환
 	@RequestMapping("/community/communityList")
-	public ModelAndView selectCommunityList(ModelAndView mv,
+	public String selectCommunityList() {
+		
+		
+		return "/community/communityList";
+	}
+	
+	// communityList, 로그인 후 접근 가능
+	@RequestMapping(value="/community/communityListAjax", produces="text/plain; charset=UTF-8")
+	@ResponseBody //ajax 반환용
+	public ModelAndView selectCommunityList(String order, ModelAndView mv,
 			@RequestParam(value = "cPage", defaultValue = "1") int cPage,
 			@RequestParam(value = "numPerpage", defaultValue = "6") int numPerpage,
 	        HttpSession session)
 	       {
-
+		System.out.println("순서 :"+order);
+		
+		Map m = new HashMap();
+		m.put("order",order); //string 오류를 고쳐준 것. 
+		
 	     Member loginMember = (Member)session.getAttribute("loginMember");
 	     System.out.println(loginMember.getMemWarnCount());
 		
-		mv.addObject("list", service.selectCommunityList(cPage, numPerpage));
+		mv.addObject("list", service.selectCommunityList(cPage, numPerpage, m));
 		int totalData = service.selectCount();
 
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalData, cPage, numPerpage, "communityList"));
 		mv.addObject("totalData", totalData);
 
-		mv.setViewName("/community/communityList");
+		mv.setViewName("/community/communityListAjax");
 
 		return mv;
 	}

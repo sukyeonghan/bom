@@ -10,7 +10,7 @@ public interface CommunityService{
 
 	int insertCommunity(Community community);
 
-	List<Community> selectCommunityList(int cPage, int numPerpage);
+	List<Community> selectCommunityList(int cPage, int numPerpage, Map m);
 
 	int selectCount();
 

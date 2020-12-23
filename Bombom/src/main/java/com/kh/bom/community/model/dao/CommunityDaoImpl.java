@@ -25,9 +25,9 @@ public class CommunityDaoImpl implements CommunityDao {
 	}
 
 	@Override
-	public List<Community> selectCommunityList(SqlSession session,int cPage, int numPerpage) {
+	public List<Community> selectCommunityList(SqlSession session,int cPage, int numPerpage, Map m) {
 		// TODO Auto-generated method stub
-		return session.selectList("community.selectCommunityList",null,
+		return session.selectList("community.selectCommunityList",m,
 				new RowBounds((cPage-1)*numPerpage,numPerpage));
 	}
 	

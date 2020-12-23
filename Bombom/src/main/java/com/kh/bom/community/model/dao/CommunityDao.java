@@ -12,7 +12,7 @@ public interface CommunityDao {
 
 	int insertCommunity(SqlSession session, Community community);
 
-	List<Community> selectCommunityList(SqlSession session, int cPage, int numPerpage);
+	List<Community> selectCommunityList(SqlSession session, int cPage, int numPerpage,Map m);
 
 	int selectCount(SqlSession session);
 

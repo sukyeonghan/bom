@@ -27,9 +27,9 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public List<Community> selectCommunityList(int cPage, int numPerpage) {
+	public List<Community> selectCommunityList(int cPage, int numPerpage, Map m) {
 		// TODO Auto-generated method stub
-		return dao.selectCommunityList(session, cPage, numPerpage);
+		return dao.selectCommunityList(session, cPage, numPerpage, m);
 	}
 
 	@Override

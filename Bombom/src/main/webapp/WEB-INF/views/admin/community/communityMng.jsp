@@ -119,7 +119,7 @@
      <tbody>
      <c:forEach var="b" items="${list }">
      <tr>
-     <td><c:out value="${b.reply_writer}"/></td>
+     <td><c:out value="${b.mem_nick}"/></td>
      <td><c:out value="${b.com_reason }"/></td>
      <td><c:out value="${b.reply_content }"/></td>
      <td><fmt:formatDate value="${b.com_date}" pattern="yyyy-MM-dd"/></td>
