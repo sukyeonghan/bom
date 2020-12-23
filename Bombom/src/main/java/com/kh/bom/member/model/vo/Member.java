@@ -21,5 +21,7 @@ public class Member {
     private String memStatus;
     private int memPoint;
     private String memCmLike;
-    private String memSns;
+    private String googleId;
+    private String naverId;
+    private String kakaoId;
 }
