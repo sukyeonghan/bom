@@ -392,9 +392,21 @@ p.p-info {
 						<div class="social-container">
 							<p>소셜 계정으로 간편하게 로그인 하세요 !</p>
 							<div class="row">
-								<div class="col">구글</div>
-								<div class="col">카카오</div>
-								<div class="col">네이버</div>
+								<div class="col">
+									<a href="${google_url }">
+									<img src="${path }/resources/images/login/google.png" alt="구글로그인" class="sns-icon" />
+									</a>
+								</div>
+								<div class="col">
+									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=http://localhost:9090/bom/auth/kakao/callback&response_type=code">
+    									<img src="${path }/resources/images/login/kakao.png" alt="카카오로그인" class="sns-icon" />
+									</a>
+								</div>
+								<div class="col">
+									<a href="${naver_url }">
+									<img src="${path }/resources/images/login/naver.png" alt="네이버로그인" class="sns-icon" />
+									</a>
+								</div>
 							</div>
 							<br />
 							<p class="p-class">이미 회원이신가요?</p>
@@ -468,8 +480,9 @@ p.p-info {
 									</a>
 								</div>
 								<div class="col">
-								<a href="${naver_url }">
-									<img src="${path }/resources/images/login/naver.png" alt="네이버로그인" class="sns-icon" /></a>
+									<a href="${naver_url }">
+									<img src="${path }/resources/images/login/naver.png" alt="네이버로그인" class="sns-icon" />
+									</a>
 								</div>
 							</div>
 							<br /> <a class="lostPwd" data-toggle="modal"
