@@ -18,4 +18,10 @@ public interface OrderDao {
 
 	int deleteBasketOption(SqlSession session, String optionNo);
 
+	List<Order> selectOrderList(SqlSession session, String memNo, int cPage, int numPerpage);
+
+	int selectOrderCount(SqlSession session, String memNo);
+
+	int shipReadyCount(SqlSession session, String memNo);
+
 }

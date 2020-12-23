@@ -16,4 +16,10 @@ public interface OrderService {
 	int deleteBasketOne(Basket b);
 
 	int deleteBasketOption(String optionNo);
+
+	List<Order> selectOrderList(String memNo, int cPage, int numPerpage);
+
+	int selectOrderCount(String memNo);
+
+	int shipReadyCount(String memNo);
 }

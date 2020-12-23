@@ -36,14 +36,14 @@ public class memberController {
     BCryptPasswordEncoder pwEncoder;
     
     
-	@RequestMapping("/mypage/orderStatus")
-	public ModelAndView order(ModelAndView mv) {
-		
-		//주문내역
-		
-		mv.setViewName("mypage/orderStatus");
-		return mv;
-	}
+//	@RequestMapping("/mypage/orderStatus")
+//	public ModelAndView order(ModelAndView mv) {
+//		
+//		//주문내역
+//		
+//		mv.setViewName("mypage/orderStatus");
+//		return mv;
+//	}
 	//회원정보수정 전 비밀번호 체크화면
 	@RequestMapping("/mypage/updateMember")
 	public String updateMember() {

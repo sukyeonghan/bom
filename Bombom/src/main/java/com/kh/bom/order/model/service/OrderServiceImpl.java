@@ -39,4 +39,26 @@ public class OrderServiceImpl implements OrderService {
 		return dao.deleteBasketOption(session, optionNo);
 	}
 
+	@Override
+	public List<Order> selectOrderList(String memNo, int cPage, int numPerpage) {
+		// TODO Auto-generated method stub
+		return dao.selectOrderList(session,memNo,cPage,numPerpage);
+	}
+	
+	@Override
+	public int selectOrderCount(String memNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOrderCount(session,memNo);
+	}
+	//배송준비 ct
+	@Override
+	public int shipReadyCount(String memNo) {
+		// TODO Auto-generated method stub
+		return dao.shipReadyCount(session,memNo);
+	}
+	
+	
+	
+	
+	
 }

@@ -5,15 +5,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.AdminService;
+import com.kh.bom.common.page.PageBarFactory;
+import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.order.model.service.OrderService;
 import com.kh.bom.order.model.vo.Basket;
 import com.kh.bom.order.model.vo.Inbasket;
@@ -122,5 +126,42 @@ public class OrderController {
 
 		return mv;
 	}
+	//나의 주문내역 
+	@RequestMapping("/mypage/orderStatus")
+	public ModelAndView order(ModelAndView mv, HttpSession session,
+			@RequestParam(value="cPage", defaultValue="0") int cPage,
+			@RequestParam(value="numPerpage", defaultValue="5") int numPerpage) {
+		
+		Member login= (Member) session.getAttribute("loginMember");
+		String memNo=login.getMemNo();
+		
+		mv.addObject("list",service.selectOrderList(memNo,cPage,numPerpage));
+		int totalData=service.selectOrderCount(memNo);
+		//배송준비
+		int shipReady=service.shipReadyCount(memNo);
+		
+		mv.addObject("loginMember", login);
+		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "orderStatus"));
+		mv.addObject("totalData", totalData);
+		mv.addObject("shipReady", shipReady);
 
+		mv.setViewName("mypage/orderStatus");
+		return mv;
+	}
+	
+	//상세주문내역 
+	@RequestMapping("/mypage/orderDetail")
+	public ModelAndView orderDetail(ModelAndView mv, String orderNo ) {
+		
+//		System.out.println(orderNo);
+//		//상품명, 상품가격, 옵션명, 옵션가격, 수량, 썸네일 뽑아오는것 
+//		mv.addObject("product", service.selectOrderDetail(orderNo));
+//		//기본주문 정보 불러오기 
+//		mv.addObject("order", service.selectOrderOne(orderNo));
+		mv.setViewName("mypage/ordDetail");
+		
+		return mv;
+	}
+	
+	
 }

@@ -27,8 +27,8 @@
 		<result property="inorderQty" column="inorder_qty" />
 		<result property="pdtPrice" column="pdt_price" />
 		<result property="memEmail" column="mem_email" />
-		<result property="pdtOptionAddprice"
-			column="pdt_option_addprice" />
+		<result property="pdtOptionAddprice" column="pdt_option_addprice" />
+		<result property="pdtNo" column="pdt_no"/>
 	</resultMap>
 	<resultMap type="inorder" id="inorderMap">
 		<result property="orderNo" column="order_no" />
@@ -108,5 +108,29 @@
 		DELETE FROM
 		INBASKET WHERE PDT_OPTION_NO = #{pdtOptionNo}
 	</delete>
+	
+	<select id="selectOrderList" parameterType="string" resultMap="orderMap">
+		SELECT DISTINCT O.ORD_DATE, O.ORDER_NO,I.INORDER_QTY,P.PDT_PRICE,P.PDT_NAME,O.ORD_STATUS,P.PDT_NO,LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY TH.pdt_no_ref) OVER(PARTITION BY TH.PDT_NO_REF)AS THUMBS 
+		FROM "ORDER" O
+		 LEFT JOIN MEMBER M ON (M.MEM_NO=O.MEM_NO)
+		 LEFT JOIN INORDER I ON (I.ORDER_NO=O.ORDER_NO)
+         LEFT JOIN PRODUCT P ON (P.PDT_NO=I.PDT_NO)
+         LEFT JOIN PRODUCT_OPTION OP ON (OP.PDT_OPTION_NO=I.PDT_OPTION_NO)
+         LEFT JOIN PRODUCT_THUMB TH ON (TH.PDT_NO_REF=I.PDT_NO)
+		WHERE M.MEM_NO=#{memNo}
+		ORDER BY ORD_DATE DESC
+	</select>
+	
+	<select id="selectOrderCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM "ORDER" 
+
+		WHERE MEM_NO=#{memNo}
+	</select>
+	
+	<select id="shipReadyCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM "ORDER" 
+
+		WHERE MEM_NO=#{memNo} AND ORD_STATUS='배송준비'
+	</select>
 
 </mapper>
