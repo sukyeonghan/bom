@@ -18,7 +18,7 @@
 		<result property="ordCancel" column="ord_cancel" />
 		<result property="ordDate" column="ord_date" />
 		<result property="ordOname" column="ord_oname" />
-		<result property="ordOphone" column="ord_ophone" />
+		<result property="ordRphone" column="ord_ophone" /> 
 		<result property="ordRname" column="ord_rname" />
 		<result property="ordRphone" column="ord_rphone" />
 		<result property="pdtThumbImage" column="thumbs" />
@@ -68,9 +68,18 @@
 		#{ordOpone},#{ordRname}, #{ordRphone})
 	</insert>
 
+	<select id="selectOrder" parameterType="map" resultMap="orderMap">
+		SELECT ROWNUM, Q.*
+		FROM(
+		SELECT O.ORDER_NO FROM "ORDER" O
+		LEFT JOIN INORDER INO ON O.ORDER_NO=INO.ORDER_NO
+		LEFT JOIN REVIEW R ON O.ORDER_NO=R.ORDER_NO
+		WHERE O.MEM_NO=#{memNo} AND INO.PDT_NO=#{pdtNo} AND R.REV_NO IS NULL
+		ORDER BY O.ORD_DATE DESC) Q
+		WHERE ROWNUM=1
+	</select>
 
-	<select id="selectBasket" parameterType="string"
-		resultMap="basketMap">
+	<select id="selectBasket" parameterType="string" resultMap="basketMap">
 		SELECT DISTINCT
 			P.PDT_PRICE,P.PDT_NO,
 			P.PDT_NAME,OP.PDT_OPTION_CONTENT,OP.PDT_OPTION_NO,
@@ -93,14 +102,11 @@
 	<delete id="deleteBasketPdt" parameterType="basket">
 		DELETE FROM INBASKET
 		WHERE BASKET_NO = #{basketNo} AND PDT_NO = #{pdtNo}
-		<if test="pdtOpionNo != null ">
-			AND PDT_OPTION_NO = #{pdtOptionNo}
-		</if>
 	</delete>
+	
 	<delete id="deleteBasketOption" parameterType="string">
 		DELETE FROM
 		INBASKET WHERE PDT_OPTION_NO = #{pdtOptionNo}
 	</delete>
-
 
 </mapper>

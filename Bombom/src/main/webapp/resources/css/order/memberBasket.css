@@ -1,2 +1,166 @@
 @charset "UTF-8";
 
+a:hover {
+	text-decoration: none;
+	color: #45A663;
+}
+
+ol, ul {
+	list-style: none;
+}
+/* 상품선택 체크박스 */
+path[Attributes Style] {
+	fill: currentcolor;
+	d: path("M 6.185 10.247 l 7.079 -7.297 l 1.435 1.393 l -8.443 8.703 L 1.3 8.432 l 1.363 -1.464 Z"
+		);
+}
+
+svg:not(:root) {
+	overflow: hidden;
+}
+
+input[type='number'], input[type='text'], input[type='password'], input[type='file'],
+	input[type='tel'], input[type='email'], select, option, textarea, input[type='submit'],
+	button {
+	-webkit-appearance: none;
+	-moz-appearance: textfield;
+}
+
+svg[Attributes Style] {
+	width: 10;
+	height: 10;
+}
+
+table td, table th {
+	vertical-align: middle;
+	vertical-align: -webkit-baseline-middle;
+}
+
+.basket_container_wrap {
+	display: flex;
+	justify-content: space-around;
+}
+
+.basket_sidebar {
+	position: absolute;
+	left: 100px;
+	top: 30px;
+	width: 150px;
+}
+
+.basket_header>h1 {
+	margin: 50px 0;
+}
+
+.show_pdt-wrap {
+	padding: 15px 0 15px 10px;
+}
+
+.product-small-item__image {
+	flex: 0 0 auto;
+	position: relative;
+	display: block;
+	width: 70px;
+	height: 70px;
+	border-radius: 6px;
+	background-color: #ededed;
+	overflow: hidden;
+}
+
+.product-small-item__image>img {
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 100%;
+	transition: transform .2s;
+	transform: translate(-50%, -50%) scale(1.0001);
+}
+
+.carted-product {
+	position: relative;
+}
+
+.carted-product__delete {
+	position: absolute;
+	display: inline-block;
+	top: 15px;
+	right: 10px;
+	padding: 5px;
+	background: none;
+	border: none;
+	font-size: 0;
+	transition: opacity .1s;
+	color: #424242;
+}
+
+.check_input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	cursor: inherit;
+	opacity: 0;
+	box-sizing: border-box;
+}
+
+.form-relative {
+	position: relative;
+}
+
+.option-count-input {
+	width: 80px;
+}
+
+.input_number_wrap>.form-control {
+	height: 24px;
+	padding: 0 10px;
+	font-size: 13px;
+	line-height: 22px;
+	border-radius: 3px;
+	text-align: center;
+	font-family: Tahoma, sans;
+}
+
+.pdtName_p {
+	font-size: 16px;
+	text-align: center;
+}
+
+.form-number>.form-number_control {
+	width: 26px;
+}
+
+.form-number {
+	display: flex;
+	box-sizing: border-box;
+	transition: box-shadow .24s ease-out;
+}
+
+.form-number_control {
+	display: block;
+	width: 38px;
+	height: 100%;
+	padding: 0;
+	background: none;
+	border: none;
+	font-size: 0;
+	outline: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	cursor: pointer;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.form-number_control svg {
+	display: block;
+	margin: 0 auto;
+	width: 24px;
+	height: 24px;
+	color: #98999b;
+}

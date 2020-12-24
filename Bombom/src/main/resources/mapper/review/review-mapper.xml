@@ -12,8 +12,8 @@
 		<result property="revDate" column="rev_date" typeHandler="customStr"/>
 	</resultMap>
 	
-	<insert id="insertReview" parameterType="review">
-		INSERT INTO REVIEW VALUES('R'||SEQ_REV_NO.NEXTVAL,#{pdtNo},#{memNo},NULL,
+	<insert id="insertReview" parameterType="map">
+		INSERT INTO REVIEW VALUES('R'||SEQ_REV_NO.NEXTVAL,#{pdtNo},#{memNo},#{orderNo},
 		#{revScore},#{revContent},
 		<if test="revImage!=null">#{revImage},</if>
 		<if test="revImage==null">null,</if>
@@ -34,12 +34,20 @@
 	
 	<!-- 구매평 평균 -->
 	<select id="reviewAvg" parameterType="string" resultType="string">
-		SELECT AVG(REV_SCORE) FROM REVIEW WHERE PDT_NO=#{pdtNo}
+		SELECT ROUND(AVG(REV_SCORE),1) FROM REVIEW WHERE PDT_NO=#{pdtNo}
 	</select>
 
 	<delete id="deleteReview" parameterType="string">
 		DELETE FROM REVIEW WHERE REV_NO=#{revNo}
 	</delete>
+	
+	<update id="updateReview" parameterType="review">
+		UPDATE REVIEW SET REV_SCORE=#{revScore}, REV_CONTENT=#{revContent}, 
+		<if test="revImage!=null">REV_IMAGE=#{revImage}</if>
+		<if test="revImage==null">REV_IMAGE=null</if>
+		WHERE REV_NO=#{revNo}
+	</update>
+	
 	<!--나의활동  -->
 	<select id="selectReviewList" parameterType="string" resultMap="reviewMap">
       SELECT * FROM REVIEW WHERE MEM_NO=#{memNo} ORDER BY REV_DATE DESC

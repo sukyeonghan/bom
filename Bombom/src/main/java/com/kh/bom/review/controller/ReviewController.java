@@ -1,16 +1,24 @@
-package com.kh.bom.review.controller;
+ package com.kh.bom.review.controller;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.kh.bom.member.model.vo.Member;
+import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.review.model.service.ReviewService;
 import com.kh.bom.review.model.vo.Review;
 
@@ -19,9 +27,24 @@ public class ReviewController {
 	@Autowired
 	private ReviewService service;
 	
+	//구매평 등록 전 상품구입 확인
+	@RequestMapping("/review/selectOrder")
+	@ResponseBody //Ajax로 json이나 text로 받을 경우 사용한다
+	public String selectOrder(String pdtNo, String memNo) {
+		
+		Map map = new HashMap();
+		map.put("pdtNo", pdtNo);
+		map.put("memNo", memNo);
+		
+		Order order = service.selectOrder(map);
+		
+		return order!=null?order.getOrderNo():"";
+	}
+	
+	
 	//구매평 등록
 	@RequestMapping("/review/insertReview")
-	public ModelAndView insertReview(Review r, ModelAndView mv,
+	public ModelAndView insertReview(String pdtNo, Review r, ModelAndView mv,
 			@RequestParam(value="upload1", required=false) MultipartFile[] upFile,
 			HttpSession session) throws Exception {
 		
@@ -55,11 +78,11 @@ public class ReviewController {
 			}
 			
 		}
-		
-		
+		System.out.println("구매평입력 : "+r);
 		int result = service.insertReview(r);
+		
 		String msg = "";
-		String loc = "/product/productOne";
+		String loc = "/product/productOne?pdtNo="+pdtNo;
 		String icon = "";
 		
 		if(result>0) {
@@ -77,24 +100,84 @@ public class ReviewController {
 		
 		return mv;
 	}
+	
+	
+	//구매평수정
+	@RequestMapping("/review/updateReview")
+	public ModelAndView updateReview(String pdtNo, Review r, ModelAndView mv,
+			@RequestParam(value="upload2", required=false) MultipartFile[] upFile,
+			HttpSession session) throws Exception {
+		
+		//upload 파일경로
+		String path = session.getServletContext().getRealPath("/resources/upload/review");
+		File dir = new File(path);
+		// 폴더 없을 경우 폴더생성
+		if (!dir.exists())
+			dir.mkdirs();
 
+		for (MultipartFile f : upFile) {
+			if(!f.isEmpty()) {
+				// 본래파일명
+				String originalName = f.getOriginalFilename();
+				// 확장자 버리기
+				String ext = originalName.substring(originalName.lastIndexOf(".") + 1);
+				// 리네임
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+
+				int rndValue = (int) (Math.random() * 1000);
+				String reName = "rev" + sdf.format(System.currentTimeMillis()) + "_" + rndValue + "." + ext;
+
+				// 파일 입출력
+				try {
+					f.transferTo(new File(path + "/" + reName));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				// 리네임한 파일이름 review에 넣기
+				r.setRevImage(reName);
+			}	
+		}
+		
+		System.out.println("구매평수정 : "+r);
+		int result = service.updateReview(r);
+		
+		String msg = "";
+		String loc = "/product/productOne?pdtNo="+pdtNo;
+		String icon = "";
+		
+		if(result>0) {
+			msg = "상품평이 수정되었습니다. 적립금을 확인해주세요";
+			icon = "success";
+		}else {
+			msg = "상품평을 다시 등록해주세요";
+			icon = "warning";
+		}
+		
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon", icon);
+		mv.setViewName("common/msg");
+		
+		return mv;		
+		
+	}
+	
 	
 	//구매평삭제
 	@RequestMapping("/review/deleteReview")
-	public ModelAndView deleteReview(String revNo, ModelAndView mv) {
+	public ModelAndView deleteReview(String pdtNo, String revNo, ModelAndView mv) {
 		
 		int result = service.deleteRevivew(revNo);
 		String msg = "";
-		String loc = "";
+		String loc = "/product/productOne?pdtNo="+pdtNo;
 		String icon = "";
 		
 		if(result>0) {
 			msg = "구매평이 삭제되었습니다";
-			loc = "/product/productOne";
 			icon = "success";
 		}else {
 			msg = "구매평을 다시 삭제해주세요";
-			loc = "/product/productOne";
 			icon = "warning";
 		}
 
@@ -104,7 +187,6 @@ public class ReviewController {
 		mv.setViewName("common/msg");		
 		return mv;
 	}
-	
 	
 	
 	

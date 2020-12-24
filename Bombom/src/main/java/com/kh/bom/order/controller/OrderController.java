@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.AdminService;
@@ -20,6 +21,7 @@ import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.product.model.vo.Product;
 
 @Controller
+@SessionAttributes("loginMember")
 public class OrderController {
 
 	@Autowired
@@ -54,22 +56,27 @@ public class OrderController {
 	}
 
 	// 장바구니에서 상품 하나 삭제하기
-	@RequestMapping("/order/deleteBasketOne")
-	public List<Basket> deleteBasketOne(ModelAndView mv, String pdtNo, String basketNo, String pdtOptionNo) {
+	@RequestMapping("order/deleteBasketOne")
+	public ModelAndView deleteBasketOne(ModelAndView m, String pdtNo, String basketNo, String memNo) {
 		System.out.println(pdtNo);
 		System.out.println(basketNo);
-		System.out.println(pdtOptionNo);
 		
-		List<Basket> list = new ArrayList<Basket>();
 		int result = service
-				.deleteBasketOne(Basket.builder().pdtNo(pdtNo).basketNo(basketNo).pdtOptionNo(pdtOptionNo).build());
+				.deleteBasketOne(Basket.builder().pdtNo(pdtNo).basketNo(basketNo).build());
+		List<Basket> list = new ArrayList<Basket>();
 		// 삭제가 성공하면 삭제된 이후 리스트 넘겨주기
 		if (result > 0) {
-			list = service.selectBasket(basketNo);
-		} else {
-			
+			System.out.println("삭제성공!");
+			list = service.selectBasket(memNo);
+			m.addObject("list", list);
+			m.setViewName("order/basket");
+		}else {
+			m.addObject("msg", "서버에러");
+			m.addObject("loc","/order/basket");
+			m.addObject("icon","error");
+			m.setViewName("common/msg");
 		}
-		return list;
+		return m;
 	}
 
 	// 결제화면으로 전환

@@ -1,5 +1,9 @@
 package com.kh.bom.admin.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +23,8 @@ public class OrderAdminController {
 	
 	//회원들의 주문내역
 	@RequestMapping("/admin/order")
-	public ModelAndView orderList(ModelAndView mv,@RequestParam(value = "cPage", defaultValue = "0") int cPage,
+	public ModelAndView orderList(ModelAndView mv,
+			@RequestParam(value = "cPage", defaultValue = "0") int cPage,
 			@RequestParam(value = "numPerpage", defaultValue = "5") int numPerpage) {
 		
 		Order order=new Order();
@@ -46,5 +51,97 @@ public class OrderAdminController {
 		
 		return mv;
 	}
+	
+	//주문내역에서 배송상태 바꾸기
+	@RequestMapping(value="/admin/orderShipUpdate")
+	public ModelAndView orderShipUpdate(ModelAndView mv, 
+			String ordStatus, String orderNo 
+		) {
+	
+		Order o=new Order();
+		o.setOrderNo(orderNo);
+		o.setOrdStatus(ordStatus);
+
+		int result = service.orderShipUpdate(o);
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		
+		if(result>0) {
+			msg = "배송상태가 수정되었습니다";
+			loc = "/admin/order";
+			icon = "success";
+		}else {
+			msg = "다시 시도해주세요";
+			loc = "/admin/order";
+			icon = "warning";
+		}
+
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon",icon);
+		mv.setViewName("common/msg");
+		
+		return mv;
+	
+	}
+	//주문상태별로 보기 & 주문번호/주문자명으로 검색 
+	@RequestMapping(value="/admin/order/ordSort")
+	public ModelAndView orderWaitList(ModelAndView mv, 
+			@RequestParam(value = "sort", defaultValue = "") String sort, 
+			@RequestParam(value = "searchType", defaultValue = "") String searchType, 
+			@RequestParam(value = "keyword", defaultValue ="") String keyword,
+			@RequestParam(value = "cPage", defaultValue = "0") int cPage,
+			@RequestParam(value = "numPerpage", defaultValue = "5") int numPerpage) {		
+		System.out.println(searchType);
+		System.out.println(keyword);
+		System.out.println(sort);
+		Map<String,String> map = new HashMap();
+		map.put("searchType",  searchType);
+		map.put("keyword", keyword);
+		map.put("sort", sort);
+		
+		
+		List<Order> list =service.selectOrdWaitList(cPage, numPerpage,map);
+		int totalData = service.selectOrdWaitCount(map);
+		mv.addObject("list", list);		
+		mv.addObject("pageBar", PageBarFactory.getPageBar(totalData, cPage, numPerpage, "ordSort"));
+		mv.addObject("totalData", totalData);
+		mv.setViewName("admin/order/orderMng");
+		return mv;
+	}
+
+
+	//주문상세보기 수정
+	@RequestMapping(value="/admin/order/updateOrder")
+	public ModelAndView updateOrder(Order o, ModelAndView mv) {
+		
+		System.out.println(o.getOrdStatus());
+		System.out.println(o.getOrdTrack());
+		System.out.println(o.getOrdZipcode());
+		System.out.println(o.getOrdMngMemo());
+		int result=service.updateOrder(o);
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		
+		if(result>0) {
+			msg = "주문상세내용이 수정되었습니다";
+			loc = "/admin/orderDetail?orderNo="+o.getOrderNo();
+			icon = "success";
+		}else {
+			msg = "다시 시도해주세요";
+			loc = "/admin/orderDetail?orderNo="+o.getOrderNo();;
+			icon = "warning";
+		}
+
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon",icon);
+		mv.setViewName("common/msg");
+		
+		return mv;
+	}
+	
 	
 }

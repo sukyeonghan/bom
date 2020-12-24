@@ -9,8 +9,10 @@
 <c:set var="totalSale" value="0"/>
 <c:set var="totalPrice" value="0"/>
 <c:forEach items="${list}" var="l">
-	<c:set var="totalPdtPrice" value="${l.inbasQty * l.pdtPrice}"/>
-	<c:set var="totalSale" value="${l.pdtPrice - (l.pdtPrice * l.salePer/100)}"/>
+	<c:set var="totalPdtPrice" value="${totalPdtPrice+ (l.inbasQty * l.pdtPrice)}"/>
+	<c:if test="${l.salePer != 0 }">
+		<c:set var="totalSale" value="${totalSale+((l.pdtPrice * l.salePer/100))}"/>
+	</c:if>
 	<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * (l.pdtPrice - (l.pdtPrice * l.salePer/100)))}" />
 </c:forEach>
 
@@ -25,7 +27,7 @@
 
 <!-- 따라오는 div.js -->
 <script src="${path }/resources/js/jquery.scrollfollow.js"></script>
-
+<link rel="stylesheet" href="${path }/resources/css/order/memberBasket.css"/>
 
 <script>
 	//움직이는 사이드바
@@ -48,10 +50,11 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>선택한 상품</th>
-							<th>수량</th>
-							<th>가격</th>
-							<th></th><!-- 삭제 -->
+							<th style="width: 40%;">선택한 상품</th>
+							<th style="width: 20%;">수량</th>
+							<th style="width: 20%;">가격</th>
+							<th style="width: 10%;">할인</th>
+							<th style="width: 10%;"></th><!-- 삭제 -->
 						</tr>
 					</thead>
 					<form name="basketFrm" id="basketFrm" action="${path}/order/doOrder">
@@ -61,31 +64,41 @@
 							
 							<td>
 							<!-- 상품보여주기 -->
-							<div>
+							<div class="show_pdt-wrap">
 								<a href="${path }/product/productOne?pdtNo=${b.pdtNo}"
 									class="d-flex">
 								<!-- 제품썸네일 -->
 								<c:forTokens items="${b.pdtThumbImage}" var="th" delims="," varStatus="vs">
 									<c:if test="${vs.first }">
 										<img src="${path}/resources/upload/product/${th}"
-											class="img-fluid" style="width: 50px; height: 50px;">
+											class="img-fluid" style="width:80px; height: 80px;">
 									</c:if>
 								</c:forTokens>
-								<p class="pdtName_p"><c:out value="${b.pdtName }" /></p>
+								<!-- 제품명 -->
+								<div class="pdtName_p"><p><c:out value="${b.pdtName }" /><br>
+									<fmt:formatNumber value="${b.pdtPrice}" pattern="#,###,###" />원</p></div>
 								</a>
-								<input type="hidden" name="pdtNo" value="${b.pdtNo }" class="pNo"> 
-								<input type="hidden" name="pdtOptionNo" value="${b.pdtOptionNo }" class="opNo">
-								<input type="hidden" name="basketNo" value="${b.basketNo }" class="bNo">
 							</div>
+							<input type="hidden" class="pNo" name="pdtNo" value="${b.pdtNo }" > 
+							<input type="hidden" class="opNo" name="pdtOptionNo" value="${b.pdtOptionNo }" >
+							<input type="hidden" class="bNo" name="basketNo" value="${b.basketNo }">
 							</td>
 							
 							<!-- 수량 -->
 							<td>
-								<div class="input_number_wrap option-count-input">
-									<input type="text" name="inbasQty" 
-										class="form-control amount" value="${b.inbasQty }"
-										pattern="[0-9]*" size="3" min="1"
-										style="width: 80px; text-align: center;"/>
+								<div class="input_number_wrap option-count-input form-number">
+									<button  class="minus form-number_control" type="button">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+											<path fill="currentColor" d="M 7 11.5 h 10 v 1 H 7 Z"></path>
+										</svg>
+									</button>
+										<input type="text" name="inbasQty" 	class="form-control amount" value="${b.inbasQty }"
+										pattern="[0-9]*" size="3" min="1" style="width: 80px; text-align: center;"/>
+									<button  class="plus form-number_control" type="button">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+											<path fill="currentColor" d="M 11.5 11.5 V 6 h 1 v 5.5 H 18 v 1 h -5.5 V 18 h -1 v -5.5 H 6 v -1 h 5.5 Z"></path>
+										</svg>
+									</button>
 								</div>
 							</td>
 							
@@ -98,12 +111,17 @@
 									원
 								</div>
 							</td>
+							<td>
+								<div>
+									(-)<fmt:formatNumber pattern="#,###,###" value="${b.salePer != 0? b.pdtPrice*(b.salePer/100) : 0 }" />원
+								</div>
+							</td>
 							<!-- 삭제버튼 -->
 							<td class="carted-product">
-								<button type="button" class="remove carted-product__delete" onclick="fn_delete();">
-									<svg width="12" height="12" viewBox="0 0 12 12"
-										fill="currentColor">
-                         				<path fill-rule="nonzero"
+								<button type="button" class="remove carted-product__delete" 
+									onclick="fn_delete('${b.pdtNo}','${b.basketNo }','${b.memNo }');">
+									
+                         				<svg fill="currentColor" style="width: 15px;height:15px;"><path fill-rule="nonzero"
 											d="M6 4.6L10.3.3l1.4 1.4L7.4 6l4.3 4.3-1.4 1.4L6 7.4l-4.3 4.3-1.4-1.4L4.6 6 .3 1.7 1.7.3 6 4.6z"></path></svg>
 								</button>
 							</td>
@@ -119,7 +137,6 @@
 			<div class="col-4">
 				<!-- 따라오는 사이드바 -->
 				<div class="basket_sidebar">
-				
 					<div>
 						<p>
 							상품금액 <span id="plusPrice">
@@ -129,7 +146,7 @@
 					</div>
 					<div>
 						<p>
-							할인금액 <span id="salePrice">
+							할인금액 <span id="salePrice" style="color: red;font-weight: 800;">
 								(-)<fmt:formatNumber pattern="#,###,###" value="${totalSale }"/>
 							</span>원
 						</p>
@@ -137,7 +154,7 @@
 					<hr>
 					<div>
 						<p>
-							결제금액 <span id="totalPrice">
+							결제금액 <span id="totalPrice" style="font-weight: 800;font-size: 18px;">
 							<fmt:formatNumber pattern="#,###,###" value="${totalPrice }"/>
 							</span>원
 						</p>
@@ -166,26 +183,15 @@
 
 	
 	//장바구니 상품삭제하기
-	var pNo;
-	var bNo;
-	var opNo;
-	$(document).on("click",".remove",function(e){
+	function fn_delete(pdtNo, basketNo,memNo){
 		console.log("삭제");
+		var no = {"pdtNo":pdtNo, "basketNo":basketNo,"memNo":memNo};
+		var url = "${path}/order/deleteBasketOne";
 		var ck = confirm("삭제하시겠습니까?");
 		if(ck){
-			$.ajax({
-				url : "${path}/order/deleteBasketOne",
-				data : {"pdtNo": pNo, "basketNo":bNo,"pdtOptionNo":opNo},
-				dataType : "html",
-				success : data =>{
-					console.log(data);
-					$("table").html("");
-					$("table").html(data);
-				}
-			});
+			window.location = url + "?" + $.param(no);
 		}
-	});
-	
+	}
 	
 	//수량값변경
 	var amounts = $(".amount");
@@ -200,154 +206,6 @@
 	
 </script>
 <style>
-ol, ul {
-	list-style: none;
-}
-/* 상품선택 체크박스 */
-path[Attributes Style] {
-	fill: currentcolor;
-	d: path("M 6.185 10.247 l 7.079 -7.297 l 1.435 1.393 l -8.443 8.703 L 1.3 8.432 l 1.363 -1.464 Z"
-		);
-}
 
-svg:not(:root) {
-	overflow: hidden;
-}
-
-input[type='number'], input[type='text'], input[type='password'], input[type='file'],
-	input[type='tel'], input[type='email'], select, option, textarea, input[type='submit'],
-	button {
-	-webkit-appearance: none;
-	-moz-appearance: textfield;
-}
-
-svg[Attributes Style] {
-	width: 10;
-	height: 10;
-}
-
-.basket_container_wrap {
-	display: flex;
-	justify-content: space-around;
-}
-
-.basket_sidebar {
-	position: absolute;
-	left: 100px;
-	top: 30px;
-	width: 150px;
-}
-.basket_header>h1 {
-	margin: 50px 0;
-}
-
-
-
-.product-small-item__image {
-	flex: 0 0 auto;
-	position: relative;
-	display: block;
-	width: 70px;
-	height: 70px;
-	border-radius: 6px;
-	background-color: #ededed;
-	overflow: hidden;
-}
-
-.product-small-item__image>img {
-	display: block;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 100%;
-	transition: transform .2s;
-	transform: translate(-50%, -50%) scale(1.0001);
-}
-
-.carted-product {
-	position: relative;
-}
-
-.carted-product__delete {
-	position: absolute;
-	display: inline-block;
-	top: 15px;
-	right: 10px;
-	padding: 5px;
-	background: none;
-	border: none;
-	font-size: 0;
-	transition: opacity .1s;
-	color: #424242;
-}
-
-.check_input {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	padding: 0;
-	cursor: inherit;
-	opacity: 0;
-	box-sizing: border-box;
-}
-
-.form-relative {
-	position: relative;
-}
-
-.select-input>.form-control {
-	height: 24px;
-	padding: 0 10px;
-	font-size: 13px;
-	line-height: 22px;
-	border-radius: 3px;
-	text-align: center;
-}
-
-.option-count-input {
-	width: 80px;
-}
-
-.input_number_wrap>.form-control {
-	height: 24px;
-	padding: 0 10px;
-	font-size: 13px;
-	line-height: 22px;
-	border-radius: 3px;
-	text-align: center;
-	font-family: Tahoma, sans;
-}
-
-.option-count-input .select-input__icon {
-	top: 2px;
-	right: 5px;
-}
-
-.option-count-input input.form-control {
-	height: 24px;
-	padding: 0 10px;
-	font-size: 13px;
-	border-radius: 3px;
-	line-height: 22px;
-	text-align: center;
-}
-
-.select-input__icon {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	padding: 5px;
-	font-size: 0;
-	cursor: default;
-	color: rgba(0, 0, 0, .3);
-	pointer-events: none;
-}
-
-.pdtName_p {
-	font-size: 14px;
-}
 </style>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

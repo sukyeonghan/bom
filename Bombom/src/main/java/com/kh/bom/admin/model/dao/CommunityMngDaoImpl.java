@@ -17,9 +17,10 @@ public class CommunityMngDaoImpl implements CommunityMngDao {
 	private SqlSession session;
 	
 	@Override
-	public List<BoardReply> selectReplyList(SqlSession session,int cPage, int numPerpage) {
+	public List<BoardReply> selectReplyList(SqlSession session,int cPage, int numPerpage,Map m) {
 		// TODO Auto-generated method stub
-		return session.selectList("community.selectReplyList",null,
+		System.out.println("Dao : "+m);
+		return session.selectList("community.selectReplyList",m,
 				new RowBounds((cPage-1)*numPerpage,numPerpage));
 	}
 
