@@ -32,6 +32,9 @@ public interface ProductService {
 	
 	//제품등록날짜
 	Product selectproductDate(String pdtNo);
+	
+	//연관상품
+	List<Product> slidelist();
 
 	int productCount(String category);//제품 개수
 	int countSale();//세일제품개수

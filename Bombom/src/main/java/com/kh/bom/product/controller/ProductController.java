@@ -244,12 +244,16 @@ public class ProductController {
 		Product deteResult = service.selectproductDate(pdtNo);
 		System.out.println("상품등록날짜 : "+deteResult);
 		
+		//연관상품 슬라이드
+		List<Product> slidelist = service.slidelist();
+		
 		mv.addObject("product", product);
 		mv.addObject("optionlist", optionlist);
 		mv.addObject("count", totalData);
 		mv.addObject("reviewCount", reviewCount);
 		mv.addObject("reviewAvg", reviewAvg);
 		mv.addObject("dateResult", deteResult);
+		mv.addObject("slidelist", slidelist);
 		mv.setViewName("product/productOne");
 
 		return mv;

@@ -125,4 +125,13 @@
 	<select id="selectproductDate" parameterType="string" resultMap="productMap">
 		SELECT PDT_NO, PDT_DATE FROM PRODUCT WHERE PDT_NO=#{pdtNo} AND PDT_DATE>SYSDATE-7
 	</select>
+	
+	<!-- 연관상품 슬라이드용 -->
+	<select id="slidelist" resultMap="productMap">
+		SELECT DISTINCT P.PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_STATUS,PDT_DATE,EVENT_NO_REF,E.EVENT_SALE_PER,
+    		LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY pdt_no_ref) OVER(PARTITION BY PDT_NO_REF)AS THUMBS
+		FROM PRODUCT P
+			JOIN  PRODUCT_THUMB ON(P.PDT_NO=PDT_NO_REF) 
+			LEFT JOIN EVENT E ON(P.EVENT_NO_REF=E.EVENT_NO)
+	</select>
 </mapper>

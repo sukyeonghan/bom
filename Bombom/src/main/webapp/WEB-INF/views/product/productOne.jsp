@@ -14,10 +14,12 @@ a:link {
 	color: black;
 	text-decoration: none;
 }
+
 a:visited {
 	color: black;
 	text-decoration: none;
 }
+
 a:hover {
 	color: #45A663;
 	text-decoration: none;
@@ -27,9 +29,11 @@ a:hover {
 	padding: 4px;
 	font-size: 15px;
 }
+
 .size-up {
 	font-size: 23px;
 }
+
 .size-mid {
 	font-size: 17px;
 }
@@ -39,6 +43,7 @@ a:hover {
 	list-style: none;
 	margin-bottom: 0;
 }
+
 .goods_thumbs_image ul li {
 	float: left;
 	/* padding-right: 7px; */
@@ -49,14 +54,36 @@ a:hover {
 	cursor: pointer;
 	margin: 0;
 }
+
 .goods_thumbs_image ul li img {
 	width: 100%;
 	/*  height:100%; */
 	object-fit: contain;
 }
+/* 세일아이콘 */
+.sale-icon {
+	background-color: #e04545;
+	color: white;
+	padding: 1px 5px;
+	width: 60px;
+}
+/* NEW 아이콘 */
+.new-icon {
+	background-color: #45A663;
+	color: white;
+	padding: 1px 5px;
+	width: 58px;
+}
+/* soldout 아이콘 */
+.soldout-icon {
+	background-color: gray;
+	color: white;
+	padding: 1px 5px;
+	width: 110px;
+}
 /*셀렉트박스 디자인*/
-.form-control{
-	margin:0 0 5px 0;
+.form-control {
+	margin: 0 0 5px 0;
 }
 
 /*수량 스타일*/
@@ -65,8 +92,9 @@ a:hover {
 	width: 100%;
 	height: 100px;
 }
+
 .input_count {
-	border:none;
+	border: none;
 	background-color: #fff;
 	color: 00000;
 	width: 26px;
@@ -75,15 +103,16 @@ a:hover {
 	vertical-align: middle;
 	text-align: center;
 }
-.input_count:focus{
-	border:none;
-	outline:none;
+
+.input_count:focus {
+	border: none;
+	outline: none;
 }
 
 /* 버튼 크기 조절 */
 .custom {
 	width: 32.8% !important;
-} 
+}
 
 /* 네비바 스타일 */
 button {
@@ -92,33 +121,41 @@ button {
 	outline: 0;
 	cursor: pointer;
 }
+
 button:focus {
 	border: none;
 	outline: none;
 }
+
 .tab_menu_container {
 	text-align: center;
 	padding-top: 80px;
 }
+
 .tab_menu_btn {
 	width: 200px;
 	height: 40px;
 	transition: 0.3s all;
 }
+
 .tab_menu_btn.on {
 	border-bottom: 1px solid #45A663;
 	color: #45A663;
 }
+
 .tab_menu_btn:hover {
 	color: #45A663;
 }
+
 .tab_box {
 	display: none;
 	padding: 25px;
 }
+
 .tab_box.on {
 	display: block;
 }
+
 .tab_box img {
 	width: 80%;
 }
@@ -132,10 +169,10 @@ button:focus {
 	width: 100%;
 	height: 300px;
 }
+
 .swiper-slide {
 	font-size: 13px;
 	background: #fff;
-	border: #45A663 1px solid;
 	/* Center slide text vertically */
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -150,14 +187,28 @@ button:focus {
 	-webkit-align-items: center;
 	align-items: center;
 }
-.swiper-slide img {
+
+.slideImg img {
 	/* 이미지 최대너비 제한 */
 	max-width: 100%;
 	max-height: 100%;
 	object-fit: contain;
 }
-.slideImg {
+
+.slidePrice {
 	padding-top: 10px;
+}
+/* 슬라이드 이미지 변경 */
+.slideImg img#secondImg {
+	display: none;
+}
+
+.slideImg:hover img#firstImg {
+	display: none;
+}
+
+.slideImg:hover img#secondImg {
+	display: block;
 }
 
 /* 위로가기 버튼 */
@@ -169,20 +220,6 @@ button:focus {
 	right: 50px;
 	bottom: 40px;
 	display: none;
-}
-/* 세일아이콘 */
-.sale-icon{
-    background-color: #e04545;
-    color: white;
-    padding: 1px 5px;
-    width:60px;
-}
-/* NEW 아이콘 */
-.new-icon{
-	background-color: #45A663;
-    color: white;
-    padding: 1px 5px;
-    width:58px;
 }
 
 </style>
@@ -241,6 +278,10 @@ button:focus {
         			</c:if>
         			<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
         				<div class="sale-icon" style="display:inline-block;">SALE</div>
+        			</c:if>
+        			<!-- soldout 배너 -->
+        			<c:if test="${product.pdtStatus=='N' }">
+        				<div class="soldout-icon" style="display:inline-block;">SOLDOUT</div>
         			</c:if>
         			</div>
         			<!-- 세일가격 -->
@@ -395,21 +436,32 @@ button:focus {
                            			
                     <!-- 버튼 3개,로그인 안 할 경우 클릭 못하게 방지 -->        			
                     <div>
-                    	<c:if test="${loginMember!=null }">
+                    	<c:if test="${loginMember!=null and product.pdtStatus=='Y'}">
 		                    <button type="button" href="#" class="btn btn-success custom">구매하기</button>
 		                    <button type="button" onclick="fn_goBasket();" class="btn btn-outline-success custom">장바구니</button>
 		                    <button type="button" href="#" class="btn btn-outline-success custom">찜하기</button>
 	                    </c:if>
-	                    <c:if test="${loginMember==null }">
+	                    <c:if test="${loginMember==null and product.pdtStatus=='Y'}">
 		                    <button type="button" href="#" class="btn btn-success custom loginCheck">구매하기</button>
 		                    <button type="button" href="#" class="btn btn-outline-success custom loginCheck">장바구니</button>
 		                    <button type="button" href="#" class="btn btn-outline-success custom loginCheck">찜하기</button>
+	                    </c:if>
+	                    <!-- soldout일 경우 구매하기, 장바구니 클릭 방지 -->
+	                    <c:if test="${loginMember!=null and product.pdtStatus=='N'}">
+		                    <button type="button" href="#" class="btn btn-secondary custom soldoutCheck">구매하기</button>
+		                    <button type="button" href="#" class="btn btn-outline-secondary custom soldoutCheck">장바구니</button>
+		                    <button type="button" href="#" class="btn btn-outline-success custom">찜하기</button>
+	                    </c:if>
+	                    <c:if test="${loginMember==null and product.pdtStatus=='N'}">
+		                    <button type="button" href="#" class="btn btn-secondary custom soldoutCheck">구매하기</button>
+		                    <button type="button" href="#" class="btn btn-outline-secondary custom soldoutCheck">장바구니</button>
+		                    <button type="button" href="#" class="btn btn-outline-success custom">찜하기</button>
 	                    </c:if>
                     </div>                                 			     			
         		</div><!-- class="head" 끝 -->
         	</div>
         </div><!-- 제품 div끝 -->
- 
+        
 		<!-- 네비바 -->
 		<div class="tab_wrap container">
 		    <div class="tab_menu_container container">
@@ -462,80 +514,57 @@ button:focus {
 			</div><!-- tab_box_container -->
 		</div><!--네비바 끝 -->
 		
-		
 		<!--연관상품 스와이프-->
 		<div id="recommand_wrap" style="padding-top: 50px;">
-			<div class="information">연관상품</div>
+			<div class="information"><strong>연관상품</strong></div>
 			<div class="swiper-container container">
+				<!-- 현재 페이지의 카테고리에 해당하는 제품만 랜덤 슬라이드 -->
 				<div class="swiper-wrapper">
-				    <c:choose>
-				    	<c:when test="${product.pdtCategory eq '식품'}">
-					    	<c:forTokens items="${product.thumbs}" var="th" delims="," varStatus="vs">
-				            <c:if test="${vs.first }">
-						    	<div class="swiper-slide" style="display: block">
-									<div>
-										<img src="${path}/resources/upload/product/${th}">
-									</div>
-									<div class="slideImg"><span>제품명1</span><br><span>제품가격</span></div>
+					<c:forEach items="${slidelist}" var="s">
+						<c:if test="${s.pdtCategory eq product.pdtCategory}">
+							<div class="swiper-slide" style="display:block;cursor:pointer;" onclick="location.href='${path }/product/productOne?pdtNo=${s.pdtNo}'" >
+								<!-- 제품이이미지 -->
+								<div class="slideImg">
+									<c:choose>
+										<c:when test="${fn:contains(s.thumbs,',') }">
+											<c:forTokens items="${s.thumbs }" var="th" delims="," varStatus="vs">
+												<div>
+													<!-- 첫번째 사진 -->
+													<c:if test="${vs.count==1}"><img id="firstImg" src="${path }/resources/upload/product/${th}"></c:if>
+													<!-- 두번째 사진 -->
+													<c:if test="${vs.count==2}"><img id="secondImg" src="${path }/resources/upload/product/${th}"></c:if>
+												</div>
+											</c:forTokens>
+										</c:when>
+										<c:otherwise>
+											<c:forTokens items="${s.thumbs }" var="th" delims="," varStatus="vs">
+												<c:if test="${vs.count==1}"><img src="${path }/resources/upload/product/${th}"></c:if>
+											</c:forTokens>
+										</c:otherwise>
+									</c:choose>
 								</div>
-							 </c:if>
-				            </c:forTokens>
-				    	</c:when>
-				    	
-				    	<c:when test="${product.pdtCategory eq '잡화'}">
-				    		<a href="${path}/product/stuff">잡화</a></small></h5>
-				    	</c:when>
-				    	<c:when test="${product.pdtCategory eq '주방'}">
-				    		<a href="${path}/product/kitchen">주방</a></small></h5>
-				    	</c:when>
-				    	<c:when test="${product.pdtCategory eq '욕실'}">
-				    		<a href="${path}/product/bathroom">욕실</a></small></h5>
-				    	</c:when>
-				    	<c:when test="${product.pdtCategory eq '여성용품'}">
-				    		<a href="${path}/product/woman">여성용품</a></small></h5>
-				    	</c:when>
-				    	<c:when test="${product.pdtCategory eq '반려동물'}">
-				    		<a href="${path}/product/pet">반려동물</a></small></h5>
-				    	</c:when>
-				    </c:choose>
-				
-					<div class="swiper-slide" style="display: block">
-						<div>
-							<img src="${path}/resources/upload/product/coffee1.jpg">
-						</div>
-						<div class="slideImg"><span>제품명1</span><br><span>제품가격</span></div>
-					</div>
-					<div class="swiper-slide" style="display: block">
-						<div>
-							<img src="${path}/resources/upload/product/soap1.jpg">
-						</div>
-						<div class="slideImg"><span>제품명2</span><br><span>제품가격</span></div>
-					</div>
-					<div class="swiper-slide" style="display: block">
-						<div>
-							<img src="${path}/resources/upload/product/som1.jpg">
-						</div>
-						<div class="slideImg"><span>제품명3</span><br><span>제품가격</span></div>
-					</div>
-					<div class="swiper-slide" style="display: block">
-						<div>
-							<img src="${path}/resources/upload/product/woman1.jpg">
-						</div>
-						<div class="slideImg"><span>제품명4</span><br><span>제품가격</span></div>
-					</div>
-					<div class="swiper-slide" style="display: block">
-						<div>
-							<img src="${path}/resources/upload/product/coffee1.jpg">
-						</div>
-						<div class="slideImg"><span>제품명5</span><br><span>제품가격</span></div>
-					</div>
-					<div class="swiper-slide" style="display: block">
-						<div>
-							<img src="${path}/resources/upload/product/coffee1.jpg">
-						</div>
-						<div class="slideImg"><span>제품명6</span><br><span>제품가격</span></div>
-					</div>
+								
+								<!-- 가격 -->
+								<div class="slidePrice">
+									<span>${s.pdtName }</span><br>
+									<!-- 세일가격 -->
+									<span style="color:#45A663;"><fmt:formatNumber value="${s.pdtPrice*(1-(s.salePer/100))}" pattern="#,###"/>원</span>&nbsp;
+				        			<!-- 원래가격 -->
+				        			<c:if test="${not empty s.eventNoRef and s.salePer!=0}">
+				        				<span id="sale_price" style="text-decoration:line-through; color:dimgray;"><fmt:formatNumber value="${s.pdtPrice }" pattern="#,###"/>원</span>
+				        			</c:if>
+								</div>
+								<!-- NEW 아이콘 -->
+								<c:if test="${dateResult.pdtDate==s.pdtDate}"><div class="new-icon" style="display:inline-block;width:37px;">NEW</div></c:if>
+								<!-- SALE 아이콘 -->
+								<c:if test="${not empty s.eventNoRef and s.salePer!=0}"><div class="sale-icon" style="display:inline-block;width:40px;">SALE</div></c:if>
+								<!-- soldout 아이콘 -->
+								<c:if test="${s.pdtStatus=='N' }"><div class="soldout-icon" style="display:inline-block;width:68px;">SOLDOUT</div></c:if>
+							</div>
+						</c:if>
+					</c:forEach>
 				</div>
+								
 				<!-- Add Pagination -->
 				<div class="swiper-pagination"></div>
 				<!-- Add Arrows -->
@@ -604,14 +633,14 @@ button:focus {
 	
 	//상품상세 눌렀을 때
 	$("#productDetail").click(e=>{
-		console.log($(e.target).html());
+		//console.log($(e.target).html());
 		$.ajax({
 			url:"${path}/product/productDetail",
 			data:{pdtNo:$("#pdtNo").val()},
 			type:"get",
 			dataType:"html",
 			success:data=>{
-				console.log(data);
+				//console.log(data);
 				$("#detailResult").html("");
 				$("#detailResult").html(data);
 			}
@@ -620,14 +649,14 @@ button:focus {
 	
 	//구매평 눌렀을 때
 	$("#productReview").click(e=>{
-		console.log($(e.target).html());
+		//console.log($(e.target).html());
 		$.ajax({
 			url:"${path}/product/productReview",
 			data:{cPage:"${cPage}",numPerpage:"${numPerpage}",pdtNo:$("#pdtNo").val()},
 			type:"get",
 			dataType:"html",
 			success:data=>{
-				console.log(data);
+				//console.log(data);
 				$("#detailResult").html("");
 				$("#detailResult").html(data);
 			}
@@ -636,14 +665,14 @@ button:focus {
 	
 	//상품문의 눌렀을 때
 	$("#productInquiry").click(e=>{
-		console.log($(e.target).html());
+		//console.log($(e.target).html());
 		$.ajax({
 			url:"${path}/product/productInquiry",
 			data:{cPage:"${cPage}",numPerpage:"${numPerpage}",pdtNo:$("#pdtNo").val()},
 			type:"get",
 			dataType:"html",
 			success:data=>{
-				console.log(data);
+				//console.log(data);
 				$("#detailResult").html("");
 				$("#detailResult").html(data);
 			}
@@ -657,12 +686,13 @@ button:focus {
 		slidesPerGroup : 5, //그룹으로 묶을 수
 		loop : true, //무한반복
 		loopFillGroupWithBlank : false, //그룹수가 맞지 않을 경우 빈칸 채우기(true)/그림으로 채우기(false)
+		speed: 1200, //슬라이드 속도 
 		pagination : { //페이징처리
 			el : '.swiper-pagination',
 			clickable : true, //페이징 클릭 시 해당 영역으로 이동
 		},
 		autoplay : {
-			delay : 2000,
+			delay : 5000,
 		},
 	});
 	//연관상품 위에 마우스 올렸을 시 이벤트
@@ -670,12 +700,10 @@ button:focus {
 	//마우스 오버시 STOP!
 	$(".swiper-container").mouseenter(function() {
 		mySwiper.autoplay.stop();
-		console.log('slider stopped');
 	});
 	//마우스 나갔을 시 다시 시작
 	$(".swiper-container").mouseleave(function() {
 		mySwiper.autoplay.start();
-		console.log('slider started again');
 	});
 	
 	
@@ -684,6 +712,11 @@ button:focus {
 		$(".loginCheck").click(function() {
 			swal("로그인을 먼저 해주세요");
 		});
+	});
+	
+	//soldout 일 경우 클릭 방지
+	$(".soldoutCheck").click(function(){
+		swal("제품이 현재 SOLDOUT 되었습니다");
 	});
 	
 	
@@ -699,7 +732,22 @@ button:focus {
 		});
 	});
 	
-		
+	//구매평 - 별점 마킹 모듈 프로토타입으로 생성
+	function Rating(){};
+	Rating.prototype.rate = 0;
+	Rating.prototype.setRate = function(newrate){
+		//별점 마킹 - 클릭한 별 이하 모든 별 체크 처리
+		this.rate = newrate;
+		let items = document.querySelectorAll('.rate_radio');
+		items.forEach(function(item, idx){
+			if(idx < newrate){
+				item.checked = true;
+			}else{
+				item.checked = false;
+			}
+		});
+	}
+	let rating = new Rating();//별점 인스턴스 생성 
 	
 	//장바구니 버튼 누르면 실행됨
 	function fn_goBasket(pdtNo){

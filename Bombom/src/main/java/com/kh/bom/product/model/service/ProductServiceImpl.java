@@ -63,6 +63,12 @@ public class ProductServiceImpl implements ProductService{
 	public Product selectproductDate(String pdtNo) {
 		return dao.selectproductDate(session, pdtNo);
 	}
+	
+	//연관상품
+	@Override
+	public List<Product> slidelist() {
+		return dao.slidelist(session);
+	}
 
 	//제품 개수
 	@Override
@@ -95,6 +101,7 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return dao.selectSaleList(session,cPage,numPerPage,sort,category);
 	}
+
 
 
 	
