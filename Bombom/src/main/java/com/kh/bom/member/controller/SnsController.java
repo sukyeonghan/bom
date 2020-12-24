@@ -68,7 +68,11 @@ public class SnsController {
 		String emailYn="Y"; //이메일 사용가능 여부
     	Member snsMem=new Member();
     	kakaoId=userInfo.get("id").toString();
-    	kakaoEmail=userInfo.get("email").toString();
+    	if(userInfo.get("email")!=null) {    		
+    		kakaoEmail=userInfo.get("email").toString();
+    	}else {
+    		kakaoEmail=null;
+    	}
     	kakaoProfile=userInfo.get("profile_image").toString();
     	kakaoNickName=userInfo.get("nickname").toString();
     	
@@ -97,6 +101,7 @@ public class SnsController {
     	        	}else {
     	        		emailYn="N";
     	        	}
+    	        	snsMem.setMemPwd("소셜"+pwEncoder.encode(rnd+""));//비밀번호 낫널 방지 임의값부여
     	        	model.addAttribute("insertMember",snsMem);
 	        		viewName="common/duplicateNick";   
     			}else {

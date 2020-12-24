@@ -76,7 +76,7 @@ public class SnsLogin {
 			member.setNaverId(resNode.get("id").asText());
 			member.setMemNick(resNode.get("nickname").asText());
 			member.setMemEmail(resNode.get("email").asText());
-
+			member.setMemPro(resNode.get("profile_image").asText());
 		}
 	
 		

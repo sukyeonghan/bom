@@ -29,8 +29,11 @@
 				<p class="guide nickOk">사용가능한 닉네임입니다.</p>
 				<p class="guide nickError1">사용중인 닉네임입니다.</p>
 				<p class="guide nickError2">부적합한 닉네임입니다.</p>
-				<input type="hidden" name="pro"  value="${insertMember.memPro }"/>
-				<input type="hidden" name="password"  value="${insertMember.memPwd }"/>
+				<input type="hidden" name="naverId" value="${insertMember.naverId}"/>
+				<input type="hidden" name="googleId" value="${insertMember.googleId }"/>
+				<input type="hidden" name="kakaoId" value="${insertMember.kakaoId}"/>
+				<input type="hidden" name="pro" value="${insertMember.memPro }"/>
+				<input type="hidden" name="password" value="${insertMember.memPwd }"/>
 				<input type="submit" id="nickBtn" class="btn btn-success"  value="완료">
 			</form>
 		</div>
@@ -41,16 +44,18 @@
 		$(function(){
 			let emailYn="${emailYn}";
 			let nickYn="${nickYn}";
+			console.log('nickYn: '+ nickYn);
+			console.log('emailYn: '+ emailYn);
 			
-			if(emailYn == 'N' and nickYn ='N' ){
+			if(emailYn == 'N' && nickYn =='N' ){
 				$("input[name=email]").prop("readonly",false);
 				$("input[name=nick]").prop("readonly",false);
 				$(".nickError1").show();
 				$(".emailInsert").show();
-			}else if(emailYn == 'Y' and nickYn == 'N'){
+			}else if(emailYn == 'Y'&& nickYn == 'N'){
 				$("input[name=nick]").prop("readonly",false);
 				$(".nickError1").show();
-			}else if(emailYn == 'N' and nickYn == 'Y'){		
+			}else if(emailYn == 'N'&& nickYn == 'Y'){		
 				$("input[name=email]").prop("readonly",false);
 				$(".emailInsert").show();
 			}
@@ -65,7 +70,8 @@
 		    	$(".nickOk").hide();
   	            $(".nickError1").hide();
   	            $(".nickError2").hide();
-		    	  return false;
+  	          	
+		    	return false;
 		   	}else{ 
 		    	  $.ajax({
 		   	         url:"${path}/member/checkDuplicateNick",
@@ -93,6 +99,7 @@
 		
 		$("#memEmail-input").keyup(e=>{
 			 let memEmail=$(e.target).val().trim();
+			 $(".emailInsert").hide();
    	 		 $.ajax({
 	   	         url:"${path}/member/checkDuplicateEmail",
 	   	         data:{memEmail:memEmail},
@@ -114,7 +121,7 @@
 	   	         }
 	   	         
 		   	 });
-		}
+		});
 		
 	
 	
@@ -122,7 +129,7 @@
 	function fn_insertMemberBtn(){
 		var result=true;
 		var memNick=$("#memNick-input").val().trim();
-		var memEmail=$"#memEmail-input").val().trim();
+		var memEmail=$("#memEmail-input").val().trim();
 		if(!nickReg.test(memNick)){
 			alert("적합하지 않은 양식의 닉네임입니다. 다시 입력해주세요.");
 			return false;

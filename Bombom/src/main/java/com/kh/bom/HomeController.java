@@ -56,6 +56,7 @@ public class HomeController {
 			session.setAttribute("countAlarm", memberService.countAlarm(m.getMemNo()));
 			//session.setAttribute("alarmList", memberService.selectAlarmList(m.getMemNo()));
 			//System.out.println("알림리스트"+alarmList);
+			session.setAttribute("loginMember",memberService.selectMemberOne(m.getMemNo()));
 		}
 		//url주소 넘겨주기
 		SnsLogin snsLogin = new SnsLogin(naverSns);
@@ -65,7 +66,7 @@ public class HomeController {
 		/* 구글code 발행을 위한 URL 생성 */
 		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
 		String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
-
+		
 		mv.addObject("google_url", url);
 
 		mv.addObject("loginMember", m);

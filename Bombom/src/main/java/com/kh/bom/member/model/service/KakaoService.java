@@ -100,8 +100,10 @@ public class KakaoService {
              String id = element.getAsJsonObject().get("id").getAsString();
              JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
              JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-
-             String email = kakao_account.getAsJsonObject().get("email").getAsString();
+             String email=null;
+             if(kakao_account.getAsJsonObject().get("email")!=null) {
+            	 email = kakao_account.getAsJsonObject().get("email").getAsString();
+             }
              String nickname = properties.getAsJsonObject().get("nickname").getAsString();
              String profile_image = properties.getAsJsonObject().get("profile_image").getAsString();
 
