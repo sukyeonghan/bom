@@ -15,6 +15,7 @@ import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.AdminService;
@@ -27,6 +28,7 @@ import com.kh.bom.member.model.vo.SnsValue;
  * Handles requests for the application home page.
  */
 @Controller
+@SessionAttributes({"naver_url","google_url"})
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -61,6 +63,7 @@ public class HomeController {
 		//url주소 넘겨주기
 		SnsLogin snsLogin = new SnsLogin(naverSns);
 		mv.addObject("naver_url", snsLogin.getNaverAuthURL());
+		
 //		SnsLogin googleLogin = new SnsLogin(googleSns);
 //		mv.addObject("google_url", googleLogin.getNaverAuthURL());
 		/* 구글code 발행을 위한 URL 생성 */
@@ -68,7 +71,7 @@ public class HomeController {
 		String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
 		
 		mv.addObject("google_url", url);
-
+		
 		mv.addObject("loginMember", m);
 		mv.setViewName("index");
 		return mv;
