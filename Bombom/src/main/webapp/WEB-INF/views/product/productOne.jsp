@@ -272,17 +272,17 @@ button:focus {
         		<div class="head" style="margin-top:0px;">
         			<div class="information size-up" style="padding-top:10px;">${product.pdtName }&nbsp;&nbsp;
         			<!-- 등록한 날짜로부터 7일이면 NEW -->
-        			<c:if test="${dateResult.pdtDate==product.pdtDate}">
-        				<div class="new-icon" style="display:inline-block;">NEW</div>
-        			<!-- 세일하면 배너 -->
-        			</c:if>
-        			<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
-        				<div class="sale-icon" style="display:inline-block;">SALE</div>
-        			</c:if>
-        			<!-- soldout 배너 -->
-        			<c:if test="${product.pdtStatus=='N' }">
-        				<div class="soldout-icon" style="display:inline-block;">SOLDOUT</div>
-        			</c:if>
+	        			<c:if test="${dateResult.pdtDate==product.pdtDate}">
+	        				<div class="new-icon" style="display:inline-block;">NEW</div>
+	        			</c:if>
+	        			<!-- 세일하면 배너 -->
+	        			<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
+	        				<div class="sale-icon" style="display:inline-block;">SALE</div>
+	        			</c:if>
+	        			<!-- soldout 배너 -->
+	        			<c:if test="${product.pdtStatus=='N' }">
+	        				<div class="soldout-icon" style="display:inline-block;">SOLDOUT</div>
+	        			</c:if>
         			</div>
         			<!-- 세일가격 -->
 					<div class="information size-up">
@@ -447,12 +447,7 @@ button:focus {
 		                    <button type="button" href="#" class="btn btn-outline-success custom loginCheck">찜하기</button>
 	                    </c:if>
 	                    <!-- soldout일 경우 구매하기, 장바구니 클릭 방지 -->
-	                    <c:if test="${loginMember!=null and product.pdtStatus=='N'}">
-		                    <button type="button" href="#" class="btn btn-secondary custom soldoutCheck">구매하기</button>
-		                    <button type="button" href="#" class="btn btn-outline-secondary custom soldoutCheck">장바구니</button>
-		                    <button type="button" href="#" class="btn btn-outline-success custom">찜하기</button>
-	                    </c:if>
-	                    <c:if test="${loginMember==null and product.pdtStatus=='N'}">
+	                    <c:if test="${loginMember!=null or loginMember==null and product.pdtStatus=='N'}">
 		                    <button type="button" href="#" class="btn btn-secondary custom soldoutCheck">구매하기</button>
 		                    <button type="button" href="#" class="btn btn-outline-secondary custom soldoutCheck">장바구니</button>
 		                    <button type="button" href="#" class="btn btn-outline-success custom">찜하기</button>
