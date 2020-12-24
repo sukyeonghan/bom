@@ -97,58 +97,23 @@
 					<p >댓글 관리</p>
 					<!--카테고리 정렬  -->
 					<div class="select-box">
-						<select class="sort" name="filter">
-							<option value="전체">N</option>
-							<option value="신고">Y</option>
+						<select class="sort" id="filter" name="filter" onchange="listChange(this.value)">
+							<option value="">전체</option>
+							<option value="N">N</option>
+							<option value="Y">Y</option>
 						</select>
 					</div>
 				</div>
 				
-     <!-- 제품관리 테이블 -->
-     <div id="reply-table-wrap">
-     <table id="reply-table" class="table table-hover">
-     <thead>
-     <tr>
-     <th>신고된 회원</th>
-     <th>신고사유</th>
-     <th>원문내용</th>
-     <th>신고날짜</th>
-     <th>신고처리현황</th>
-     </tr>
-     </thead>
-     <tbody>
-     <c:forEach var="b" items="${list }">
-     <tr>
-     <td><c:out value="${b.reply_writer}"/></td>
-     <td><c:out value="${b.com_reason }"/></td>
-     <td><c:out value="${b.reply_content }"/></td>
-     <td><fmt:formatDate value="${b.com_date}" pattern="yyyy-MM-dd"/></td>
-      <td> <span><c:out value="${b.com_status }"/></span>
-      <input type="hidden" value="${b.reply_id }" name="reply_id"/>
-      <c:if test="${b.com_status eq 'N' }">
-      <button class="btn btn-info memWarnYnBtn">신고접수</button>
-      </c:if>
-      <c:if test="${b.com_status eq 'Y' }">
-      <button class="btn btn-outline-info memWarnYnBtn">신고거절</button>
-     				 </c:if>
-     			</td>
-			</tr>
-    	 </c:forEach>
-   	<thead>
- </table>  
-     <br>
-     </div>
      
-     	<!-- 페이징바 -->
-				 <div class="pageBar" >	
-					${pageBar }
-				</div>
+   					<div id="listupAjax"></div>
+     
 				
               <!-- 검색 -->
 				<div id="search-wrap">
 					<!-- 검색 카테고리 -->
 					<div class="select-box">
-						<select class="searchSort" name="searchSort">
+						<select class="searchSort" name="searchSort" >
 							<option value="아이디">아이디</option>
 						</select>
 					</div>
@@ -163,6 +128,45 @@
 </section>
 
 <script>
+
+$("#search-btn").click(e=>{
+	var keyword = $("#search-text").val();
+	$.ajax({
+		url : "${path}/admin/community/communityMngAjax",
+		data:{order:"",keyword:keyword},
+		success: data =>{
+			 $("#listupAjax").html(data);
+		}
+	})
+	
+})
+
+//화면이 켜졌을 때 바로 실행되는 함수
+$(function(){
+     //정렬
+     $.ajax({
+    	 url:"${path}/admin/community/communityMngAjax",
+    	 data:{order:"",keyword:""},
+    	 success:data=>{
+    		 $("#listupAjax").html(data);
+    	 }
+     })
+});
+
+function listChange(value){
+	console.log(value);
+	
+	
+	$.ajax({
+		url:"${path }/admin/community/communityMngAjax",
+		data:{order:value},
+		success: data=>{
+			$("#listupAjax").html(data);
+		}
+	});
+	
+}
+
 //신고접수 버튼 클릭시
 $(document).on("click",".memWarnYnBtn",e=>{
 	let memWarnYn=$(e.target).text();

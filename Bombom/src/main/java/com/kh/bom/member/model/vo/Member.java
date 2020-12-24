@@ -20,6 +20,7 @@ public class Member {
     private String memManagerYn;
     private String memStatus;
     private int memPoint;
-    private String memCmLike;
+    private String[] memCmLike;
     private String memSns;
+
 }

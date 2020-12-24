@@ -42,6 +42,10 @@
 
   <!-- 인터셉터설정하기 -->
 	<interceptors>
+	 <interceptor>
+	<mapping path="/community/*"/>
+	<beans:bean id="loginCheck" class="com.kh.bom.common.interceptor.LoginCheckInterceptor"/>
+	</interceptor>
 		 <interceptor>
 			<mapping path="/community/*"/>
 			<mapping path="/mypage/*"/>
