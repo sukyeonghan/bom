@@ -101,6 +101,12 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.deleteAlarm(session,alarmNo);
 	}
+
+	@Override
+	public Member selectSnsMem(Member snsMem) {
+		// TODO Auto-generated method stub
+		return dao.selectSnsMem(session, snsMem);
+	}
 	
 	
 }
