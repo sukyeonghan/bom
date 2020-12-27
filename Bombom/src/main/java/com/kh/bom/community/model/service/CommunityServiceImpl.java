@@ -143,7 +143,11 @@ public class CommunityServiceImpl implements CommunityService {
 		// TODO Auto-generated method stub
 		int result=0;
 		String memNo=m.getMemNo();//회원 번호
-		String[] memCmLike=m.getMemCmLike();//좋아요 누른 글번호들
+		String[] memCmLike=null;
+		Member newM =dao.selectLikeNo(session,memNo);
+		if(newM!=null && newM.getMemCmLike()!=null) {
+			memCmLike=newM.getMemCmLike();//좋아요 누른 글번호들
+		}
 
 		Map<String,Object> map=new HashMap();
 		map.put("cmNo",cmNo);

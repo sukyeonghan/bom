@@ -275,13 +275,24 @@ public class CommunityController {
 	//좋아요
 	@RequestMapping("/community/insertLike")
 	@ResponseBody
-	public int insertLike(HttpSession session, String cmNo, int likeCount, int value) {
+	public JSON insertLike(HttpSession session, String cmNo, int likeCount, int value) {
 
 		Member m = (Member) session.getAttribute("loginMember");
 		//좋아요 수 및 좋아요한 글번호 업데이트
 		int result = service.insertLike(m, cmNo, likeCount, value);
-		//좋아요 수만 보내기
-		return service.selectLikeCount(cmNo);
+		// json객체로 보내기
+		JSONObject obj = new JSONObject();
+		// 바뀐 좋아요 수
+		obj.put("likeCount", service.selectLikeCount(cmNo));
+		// 바뀐 좋아요 글 번호
+		Member newM=service.selectLikeNo(m.getMemNo());
+		if(newM!=null && newM.getMemCmLike()!=null) {
+			obj.put("likeNo",newM.getMemCmLike());
+		}else {
+			obj.put("likeNo","[]");
+		}
+		System.out.println("컨트롤러 json" + obj);
+		return obj;
 	}
 
 	//좋아요한 글인지 확인
@@ -291,7 +302,9 @@ public class CommunityController {
 		 
 		 Member m=(Member)session.getAttribute("loginMember");
 		 Member newM=service.selectLikeNo(m.getMemNo());
-		 return newM.getMemCmLike();
+		 if(newM!=null && newM.getMemCmLike()!=null) return newM.getMemCmLike();
+		 else return null;
+		 
 	}
 	 
 }
