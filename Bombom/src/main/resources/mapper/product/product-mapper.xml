@@ -49,16 +49,24 @@
 	<!-- 제품 개수 -->
 	<select id="count" resultType="_int" parameterType="map">
 		SELECT COUNT(*) FROM PRODUCT
-		<if test="category != '전체제품'">
-			WHERE PDT_CATEGORY=#{category}
-		</if>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="category != '전체제품'">
+				PDT_CATEGORY=#{category}
+			</if>
+			<if test="soldout == '품절제외'">
+				AND PDT_STATUS='Y'
+			</if>
+		</trim>
 	</select>
 	<!-- 세일제품 개수 -->
-	<select id="countSale" resultType="_int">
+	<select id="countSale" resultType="_int" parameterType="string">
 		SELECT COUNT(*)
 		FROM PRODUCT 
 		JOIN EVENT ON(EVENT_NO=EVENT_NO_REF)
 		WHERE EVENT_NO_REF IS NOT NULL AND EVENT_SALE_PER > 0
+		<if test="soldout == '품절제외'">
+			AND PDT_STATUS='Y'
+		</if>
 	</select>
 
 	<!-- 제품 리스트-->
@@ -72,17 +80,25 @@
 			LEFT JOIN EVENT E ON(P.EVENT_NO_REF=E.EVENT_NO)
 			LEFT OUTER JOIN ZZIMCONTENT Z ON(P.PDT_NO=Z.PDT_NO)
         	LEFT OUTER JOIN REVIEW R ON(P.PDT_NO=R.PDT_NO)
-		<if test="category != '전체제품'">
-			WHERE PDT_CATEGORY IN(#{category})
-		</if>
+        <trim prefix="WHERE" prefixOverrides="AND">
+			<if test="category != '전체제품'">
+				PDT_CATEGORY IN(#{category})
+			</if>
+			<if test="soldout == '품절제외'">
+				AND PDT_STATUS='Y'
+			</if>
+		</trim>
 		<if test="sort == '등록일순'">
 			ORDER BY PDT_DATE DESC
 		</if>
 		<if test="sort=='인기순'">
 			ORDER BY ZZIM_COUNT DESC
 		</if>
-		<if test="sort=='후기많은순'">
+		<if test="sort=='리뷰순'">
 			ORDER BY REVIEW_COUNT DESC
+		</if>
+		<if test="sort=='할인율순'">
+			ORDER BY CASE WHEN E.EVENT_SALE_PER>0 THEN 0 ELSE 1 END
 		</if>
 		<if test="sort == '낮은가격순'">
 			ORDER BY PDT_PRICE
@@ -104,11 +120,20 @@
 			LEFT OUTER JOIN ZZIMCONTENT Z ON(P.PDT_NO=Z.PDT_NO)
         	LEFT OUTER JOIN REVIEW R ON(P.PDT_NO=R.PDT_NO)
 		WHERE EVENT_NO_REF IS NOT NULL AND E.EVENT_SALE_PER > 0
+		<if test="soldout=='품절제외'">
+			AND PDT_STATUS='Y'
+		</if>
 		<if test="sort == '등록일순'">
 			ORDER BY PDT_DATE DESC
 		</if>
 		<if test="sort=='인기순'">
+			ORDER BY ZZIM_COUNT DESC
+		</if>
+		<if test="sort=='리뷰순'">
 			ORDER BY REVIEW_COUNT DESC
+		</if>
+		<if test="sort=='할인율순'">
+			ORDER BY CASE WHEN E.EVENT_SALE_PER>0 THEN 0 ELSE 1 END
 		</if>
 		<if test="sort == '낮은가격순'">
 			ORDER BY PDT_PRICE

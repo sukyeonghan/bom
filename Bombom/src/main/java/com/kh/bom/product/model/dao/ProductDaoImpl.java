@@ -63,22 +63,24 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public int productCount(SqlSession session, String category) {
+	public int productCount(SqlSession session, String category,String soldout) {
 		Map<String,String> map=new HashMap();
 		map.put("category", category);
+		map.put("soldout",soldout);
 		return session.selectOne("product.count",map);
 	}
 	@Override
-	public int countSale(SqlSession session) {
+	public int countSale(SqlSession session,String soldout) {
 		// TODO Auto-generated method stub
-		return session.selectOne("product.countSale");
+		return session.selectOne("product.countSale",soldout);
 	}
 	@Override
-	public List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,String sort,String category) {
+	public List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,String sort,String soldout,String category) {
 		// TODO Auto-generated method stub
 		Map<String,Object> map=new HashMap();
 		map.put("sort", sort);
 		map.put("category", category);
+		map.put("soldout",soldout);
 		return session.selectList("product.productList",map,new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
 	@Override
@@ -89,10 +91,11 @@ public class ProductDaoImpl implements ProductDao {
 		return session.selectList("product.newCateList",map);
 	}
 	@Override
-	public List<Product> selectSaleList(SqlSession session, int cPage, int numPerPage, String sort, String category) {
+	public List<Product> selectSaleList(SqlSession session, int cPage, int numPerPage, String sort, String soldout,String category) {
 		// TODO Auto-generated method stub
 		Map<String,String> map=new HashMap();
 		map.put("sort", sort);
+		map.put("soldout", soldout);
 		return session.selectList("product.saleList",map);
 	}
 

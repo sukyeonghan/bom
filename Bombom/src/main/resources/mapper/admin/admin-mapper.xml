@@ -229,7 +229,7 @@
 			PDT_NAME=#{pdtName},
 			PDT_INTRO=#{pdtIntro},
 			PDT_STATUS=#{pdtStatus},
-			PDT_DATE=SYSDATE,
+			PDT_DATE=#{pdtDate},
 			PDT_DETAIL_IMAGE=#{pdtDetailImage},
 			EVENT_NO_REF=#{eventNoRef}
 		WHERE PDT_NO=#{pdtNo}

@@ -1,6 +1,8 @@
 package com.kh.bom.product.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,21 +74,22 @@ public class ProductServiceImpl implements ProductService{
 
 	//제품 개수
 	@Override
-	public int productCount(String category) {
+	public int productCount(String category,String soldout) {
 		// TODO Auto-generated method stub
-		return dao.productCount(session,category);
+		return dao.productCount(session,category,soldout);
 	}
 	//세일 제품 개수
 	@Override
-	public int countSale() {
+	public int countSale(String soldout) {
 		// TODO Auto-generated method stub
-		return dao.countSale(session);
+		return dao.countSale(session,soldout);
 	}
 	//전체 제품 출력
 	@Override
-	public List<Product> selectProductList(int cPage,int numPerPage,String sort,String category) {
+	public List<Product> selectProductList(int cPage,int numPerPage,String sort,String soldout,String category) {
 		// TODO Auto-generated method stub
-		return dao.selectProductList(session,cPage,numPerPage,sort,category);
+	
+		return dao.selectProductList(session,cPage,numPerPage,sort,soldout,category);
 	}
 	//신상품 리스트
 	@Override
@@ -97,9 +100,9 @@ public class ProductServiceImpl implements ProductService{
 
 	//세일 제품 리스트
 	@Override
-	public List<Product> selectSaleList(int cPage, int numPerPage, String sort, String category) {
+	public List<Product> selectSaleList(int cPage, int numPerPage, String sort, String soldout,String category) {
 		// TODO Auto-generated method stub
-		return dao.selectSaleList(session,cPage,numPerPage,sort,category);
+		return dao.selectSaleList(session,cPage,numPerPage,sort,soldout,category);
 	}
 
 
