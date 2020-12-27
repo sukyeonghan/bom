@@ -291,7 +291,6 @@ public class CommunityController {
 		}else {
 			obj.put("likeNo","[]");
 		}
-		System.out.println("컨트롤러 json" + obj);
 		return obj;
 	}
 

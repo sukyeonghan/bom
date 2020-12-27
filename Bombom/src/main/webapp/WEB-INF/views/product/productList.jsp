@@ -58,7 +58,7 @@
 					<!-- 제품없으면 없다고 알리는 사진뜸 / 있으면 제품들 출력 -->
 			  		<c:choose>
 			  			<c:when test="${empty list }">
-			  				<img class="noItem" alt="" src="${path }/resources/images/product/noItem2.png" >
+			  				<img class="noItem" alt="" src="${path }/resources/images/product/noItem.png" >
 			  			</c:when>
 			  			
 			  			<c:otherwise>
@@ -126,7 +126,8 @@
 					                    	<img class="icon margin" alt="" src="${path}/resources/images/product/message.png">
 					                    	<c:out value="${p.reviewCount }"/>
 					                    	<!-- 미리보기페이지 -->
-					                    	<img class="test icon margin" alt="" src="${path}/resources/images/product/search.png" >
+					                    	<%-- <img class="test icon margin" alt="" src="${path}/resources/images/product/search.png" > --%>
+					                    	<img class="test icon margin" alt="" src="${path}/resources/images/product/cart.png" >
 											<input type="hidden" name="pdtNo" value="${p.pdtNo}">
 					                  	</div>
 					                  	<!-- 상품 미리보기 -->
