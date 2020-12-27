@@ -79,6 +79,9 @@
 			ORDER BY PDT_DATE DESC
 		</if>
 		<if test="sort=='인기순'">
+			ORDER BY ZZIM_COUNT DESC
+		</if>
+		<if test="sort=='후기많은순'">
 			ORDER BY REVIEW_COUNT DESC
 		</if>
 		<if test="sort == '낮은가격순'">

@@ -46,6 +46,7 @@
 					<select class="sort">
 						<option value="등록일순">등록일순</option>
 						<option value="인기순">인기순</option>
+						<option value="후기많은순">후기 많은순</option>
 						<option value="낮은가격순">낮은 가격순</option>
 						<option value="높은가격순">높은 가격순</option>
 					</select>
