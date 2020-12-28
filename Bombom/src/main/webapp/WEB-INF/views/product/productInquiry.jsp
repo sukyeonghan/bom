@@ -64,7 +64,7 @@ textarea.answer {
 									<div style="float:right;">
 										<span id="byteInfo1">0</span>/500bytes
 								        <label>
-						 		        	<img id="lockUnlock" src="${path}/resources/images/product/unlock.png" name="inqSecret" style="width:25px;height:25px;">
+						 		        	<img id="lockUnlock" src="${path}/resources/images/product/unlock.png" name="inqSecret" style="width:25px;height:25px;cursor:pointer;">
 								        	<input type="hidden" id="secret" name="inqSecret" value="N">
 								        </label>
 								        <c:if test="${loginMember!=null }">
@@ -150,7 +150,7 @@ textarea.answer {
 			        
 			      <!-- 상품문의 모달창 -->
 				  <div class="modal fade" id="inquiryView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				    <div class="modal-dialog">
+				    <div class="modal-dialog ">
 				      <div class="modal-content">
 				      
 				        <!-- Modal Header -->

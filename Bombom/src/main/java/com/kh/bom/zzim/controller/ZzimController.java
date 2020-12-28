@@ -172,4 +172,47 @@ public class ZzimController {
 		mv.setViewName("common/msg");
 		return mv;
 	}
+	
+	
+	//상품페이지 - 찜하기 폴더 추가
+	@RequestMapping("/zzim/proInsertZzim")
+	public ModelAndView proInsertZzim(String pdtNo, Zzim z, ModelAndView mv, HttpSession session) {
+		
+		//폴더생성
+		int result = service.proInsertZzim(z);
+		String msg = "";
+		String loc = "/product/productOne?pdtNo="+pdtNo;
+
+		if(result>0) {
+			//생성된 폴더에 해당 제품 추가
+			String zzimNo = service.selectSeqZzimNo();
+			Map map = new HashMap();
+			map.put("pdtNo",pdtNo);
+			map.put("zzimNo", zzimNo);
+			int result2 = service.proInsertZzimContent(map);
+			msg = "해당폴더에 찜추가가 완료되었습니다";
+		}else {
+			msg = "폴더생성에 실패했습니다. 다시 시도해주세요";
+		}
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
+	//상품페이지 - 찜하기 추가
+	@RequestMapping("/zzim/proInsertZzim2")
+	@ResponseBody
+	public boolean proInsertZzim2(Zzim z) {
+		
+		int result = service.proInsertZzim2(z);
+		return result>0?true:false;
+	}
+	
+	
+	
+	
+	
+	
+	
 }

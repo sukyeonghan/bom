@@ -222,6 +222,29 @@ button:focus {
 	display: none;
 }
 
+/* 찜하기 모달창 */
+.modal{
+	text-align:center;
+}
+    
+.modal-dialog {
+	display: inline-block;
+	text-align:left;
+	vertical-align: middle;
+}
+
+@media screen and (min-width: 768px) {
+	.modal:before {
+		display: inline-block;
+		vertical-align: middle;
+		content: " ";
+		height: 100%;
+	}
+}
+.modal .zzim-size{
+	width:70%;
+}
+
 </style>
 
 <section id="container" style="margin:0 5% 0 5%;">
@@ -439,7 +462,7 @@ button:focus {
                     	<c:if test="${loginMember!=null and product.pdtStatus=='Y'}">
 		                    <button type="button" href="#" class="btn btn-success custom">구매하기</button>
 		                    <button type="button" onclick="fn_goBasket();" class="btn btn-outline-success custom">장바구니</button>
-		                    <button type="button" href="#" class="btn btn-outline-success custom">찜하기</button>
+		                    <button type="button" href="#" data-toggle="modal" data-target="#zzimView" class="btn btn-outline-success custom">찜하기</button>
 	                    </c:if>
 	                    <c:if test="${loginMember==null and product.pdtStatus=='Y'}">
 		                    <button type="button" href="#" class="btn btn-success custom loginCheck">구매하기</button>
@@ -447,15 +470,158 @@ button:focus {
 		                    <button type="button" href="#" class="btn btn-outline-success custom loginCheck">찜하기</button>
 	                    </c:if>
 	                    <!-- soldout일 경우 구매하기, 장바구니 클릭 방지 -->
-	                    <c:if test="${(loginMember!=null and product.pdtStatus=='N') or (loginMember==null and product.pdtStatus=='N')}">
+	                    <c:if test="${loginMember!=null and product.pdtStatus=='N'}">
 		                    <button type="button" href="#" class="btn btn-secondary custom soldoutCheck">구매하기</button>
 		                    <button type="button" href="#" class="btn btn-outline-secondary custom soldoutCheck">장바구니</button>
-		                    <button type="button" href="#" class="btn btn-outline-success custom">찜하기</button>
+		                    <button type="button" href="#" data-toggle="modal" data-target="#zzimView" class="btn btn-outline-success custom">찜하기</button>
+	                    </c:if>
+	                    <c:if test="${loginMember==null and product.pdtStatus=='N'}">
+		                    <button type="button" href="#" class="btn btn-secondary custom soldoutCheck">구매하기</button>
+		                    <button type="button" href="#" class="btn btn-outline-secondary custom soldoutCheck">장바구니</button>
+		                    <button type="button" href="#" class="btn btn-outline-success custom loginCheck">찜하기</button>
 	                    </c:if>
                     </div>                                 			     			
         		</div><!-- class="head" 끝 -->
         	</div>
         </div><!-- 제품 div끝 -->
+        
+        
+      <!-- 찜하기 모달창 -->
+	  <div class="modal fade" id="zzimView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	    <div class="modal-dialog modal-sm zzim-size">
+	      <div class="modal-content">
+	      
+	        <!-- Modal Header -->
+	        <div class="modal-header">
+	          <h5 class="modal-title">찜하기</h5>
+	          <button type="button" class="close" data-dismiss="modal">X</button>
+	        </div>
+	        
+	        <!-- Modal body -->
+	        <div class="modal-body container ">
+	        	<!-- 찜폴더 목록 -->
+        		<p data-toggle="modal" data-target="#zzimFolderModal" data-dismiss="modal" style="cursor:pointer;padding-down:5px;">폴더 만들기 +</p>
+        		<c:if test="${not empty zzimlist }">
+		        	<table class="table">
+	        			<c:forEach items="${zzimlist}" var="list">
+			        		<tr>
+			        			<td><c:out value="${list.zzimName }"/></td> <!-- 찜폴더명 -->
+			        			<c:choose>
+			        				<c:when test="${fn:contains(list.favlist,product.pdtNo)}"> 
+			        					<td><img src="${path}/resources/images/product/heartfull.png" style="height:20px;"></td>
+			        				</c:when>
+			        				<c:otherwise>
+			        					<td><img src="${path}/resources/images/product/heartblank.png" style="height:20px;"></td>
+			        				</c:otherwise>
+								</c:choose>
+			        		</tr>
+				    	</c:forEach>
+		        	</table>
+       			</c:if>
+	        	<br>
+	        	<div style="float:right"><button type="button" class="btn btn-success" data-dismiss="modal">완료</button></div>
+	        	
+	        	
+	        	<script>
+	         	//찜하기 모달창 - 찜하기 추가,삭제하기
+	         	$(".heart").click(function(){
+	         		let td = $(this).parent().parent().parent().text().trim();
+	         		let zzimNo = td.substring(0,td.indexOf(",")).trim();
+  					console.log(zzimNo);
+	         		
+	         		$.ajax({
+     					url:"${path}/zzim/proInsertZzim2",
+     					data:{zzimNo:zzimNo,pdtNo:$("#pdtNo").val()},
+     					type:"get",
+     					succes:data=>{
+     						if(data == true){
+         						swal("찜하기에 추가되었습니다");
+         						console.log(data);
+         						$(this).attr("src",function(index,attr){
+         		         			if(attr.match("heartblank")){
+         		         				$(this).attr("class","heartfull");
+         		         				return attr.replace("heartblank.png","heartfull.png");
+         		         			}
+         						});
+     						}else{
+         						swal("찜하기를 실패했습니다. 다시 시도해주세요");
+     						}
+     					},error:function(request,status,error){
+     						swal("찜하기를 실패했습니다. 다시 시도해주세요");
+     					}
+		         	});
+	         	});	
+	         		
+	         		/* $(this).attr("src",function(index,attr){
+	         			//찜하기 추가
+	         			if(attr.match("heartblank")){
+	         				$(this).attr("class","heartfull");
+	         				return attr.replace("heartblank.png","heartfull.png");
+	         			//찜하기 삭제
+	         			}else{
+	         				$(this).attr("class","heartblank");
+	         				return attr.replace("heartfull.png","heartblank.png");
+	         			}
+	         		}); */
+	         		
+	        	</script>
+	        	
+	        </div>
+	      </div>
+	    </div>
+	  </div><!-- 찜하기 모달창 끝! -->
+	  
+	  <!-- 찜하기 새폴더 만들기 -->
+	  <div class="modal fade" id="zzimFolderModal">
+	    <div class="modal-dialog zzim-size">
+	      <div class="modal-content">
+	      
+	        <!-- Modal Header -->
+	        <div class="modal-header">
+	          <h5 class="modal-title">새 폴더 만들기</h5>
+	          <button type="button" class="close" data-dismiss="modal">X</button>
+	        </div>
+	        
+	        <!-- Modal body --> 
+	        <div class="modal-body container ">
+	        	<!-- 찜하기 새폴더 만들기-->
+	        	<form name="" action="${path}/zzim/proInsertZzim" onsubmit="return fn_addFolder();">
+		        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
+		        	<input type="hidden" name="pdtNo" value="${product.pdtNo }">
+		        	<input type="text" class="form-control" name="zzimName" placeholder="폴더이름을 지정해주세요. (10자 이내 한글 ,영어,숫자만 가능)" required>
+		        	<br>
+		        	<div style="float:right"><input type="submit" class="btn btn-success" value="만들기" onclick="return fn_addFolder();"></div> 
+	        	</form>
+	        </div>
+	      </div>
+	    </div>
+	  </div><!-- 찜하기 새폴더 모달창 끝! -->
+     
+     <script>
+     	//찜하기 모달창 끄기
+     	$(".modalClose").click(function(){
+     		$(modal).close();
+     	});
+     	
+     	//찜하기 폴더 추가
+     	function fn_addFolder(){
+     		//폴더이름 유효성검사
+    		var zzimName=$("input[name=zzimName]").val();
+    		var nameCheck = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]+$/;
+    		if(zzimName.length<1 || zzimName.length>10){
+    			swal("폴더명은 한글자 이상 10이내만 가능합니다.");
+    			return false;
+    		}
+    		if(!nameCheck.test(zzimName)){
+    			swal("한글,숫자,영문만 폴더명으로 가능합니다.");
+    			return false;
+    		}
+     	}
+     	
+     	
+     </script>
+        
+        
         
 		<!-- 네비바 -->
 		<div class="tab_wrap container">
