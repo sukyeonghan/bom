@@ -79,6 +79,7 @@
 									<fmt:formatNumber value="${b.pdtPrice}" pattern="#,###,###" />원</p></div>
 								</a>
 							</div>
+							<input type="hidden" name="memNo" value="${b.memNo }" > 
 							<input type="hidden" class="pNo" name="pdtNo" value="${b.pdtNo }" > 
 							<input type="hidden" class="opNo" name="pdtOptionNo" value="${b.pdtOptionNo }" >
 							<input type="hidden" class="bNo" name="basketNo" value="${b.basketNo }">
@@ -87,17 +88,13 @@
 							<!-- 수량 -->
 							<td>
 								<div class="input_number_wrap option-count-input form-number">
-									<button  class="minus form-number_control" type="button">
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-											<path fill="currentColor" d="M 7 11.5 h 10 v 1 H 7 Z"></path>
-										</svg>
+									<button  class="minus form-number_control" type="button" onclick="fn_minus(event);">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 7 11.5 h 10 v 1 H 7 Z"></path></svg>
 									</button>
-										<input type="text" name="inbasQty" 	class="form-control amount" value="${b.inbasQty }"
-										pattern="[0-9]*" size="3" min="1" style="width: 80px; text-align: center;"/>
-									<button  class="plus form-number_control" type="button">
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-											<path fill="currentColor" d="M 11.5 11.5 V 6 h 1 v 5.5 H 18 v 1 h -5.5 V 18 h -1 v -5.5 H 6 v -1 h 5.5 Z"></path>
-										</svg>
+										<input type="text" name="inbasQty" 	class="qty form-control " value="${b.inbasQty }" style="width: 80px; text-align: center;"
+										onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' />
+									<button  class="plus form-number_control" type="button" onclick="fn_plus(event);">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 11.5 11.5 V 6 h 1 v 5.5 H 18 v 1 h -5.5 V 18 h -1 v -5.5 H 6 v -1 h 5.5 Z"></path></svg>
 									</button>
 								</div>
 							</td>
@@ -105,22 +102,16 @@
 							<!-- 가격 -->
 							<td>
 								<div class="pdtOnePrice">
-									<fmt:formatNumber
-										value="${b.salePer != 0? b.pdtPrice-(b.pdtPrice*(b.salePer/100)) : b.inbasQty*b.pdtPrice}"
-										pattern="#,###,###" />
-									원
+									<fmt:formatNumber value="${b.salePer != 0? b.pdtPrice-(b.pdtPrice*(b.salePer/100)) : b.inbasQty*b.pdtPrice}" pattern="#,###,###" />원
 								</div>
 							</td>
 							<td>
-								<div>
-									(-)<fmt:formatNumber pattern="#,###,###" value="${b.salePer != 0? b.pdtPrice*(b.salePer/100) : 0 }" />원
-								</div>
+								<div>(-)<fmt:formatNumber pattern="#,###,###" value="${b.salePer != 0? b.pdtPrice*(b.salePer/100) : 0 }" />원</div>
 							</td>
 							<!-- 삭제버튼 -->
 							<td class="carted-product">
 								<button type="button" class="remove carted-product__delete" 
 									onclick="fn_delete('${b.pdtNo}','${b.basketNo }','${b.memNo }');">
-									
                          				<svg fill="currentColor" style="width: 15px;height:15px;"><path fill-rule="nonzero"
 											d="M6 4.6L10.3.3l1.4 1.4L7.4 6l4.3 4.3-1.4 1.4L6 7.4l-4.3 4.3-1.4-1.4L4.6 6 .3 1.7 1.7.3 6 4.6z"></path></svg>
 								</button>
@@ -138,26 +129,14 @@
 				<!-- 따라오는 사이드바 -->
 				<div class="basket_sidebar">
 					<div>
-						<p>
-							상품금액 <span id="plusPrice">
-								<fmt:formatNumber pattern="#,###,###" value="${totalPdtPrice }"/>
-							</span>원
-						</p>
+						<p>상품금액 <span id="plusPrice"><fmt:formatNumber pattern="#,###,###" value="${totalPdtPrice }"/></span>원</p>
 					</div>
 					<div>
-						<p>
-							할인금액 <span id="salePrice" style="color: red;font-weight: 800;">
-								(-)<fmt:formatNumber pattern="#,###,###" value="${totalSale }"/>
-							</span>원
-						</p>
+						<p>할인금액 <span id="salePrice" style="color: red;font-weight: 800;">(-)<fmt:formatNumber pattern="#,###,###" value="${totalSale }"/></span>원</p>
 					</div>
 					<hr>
 					<div>
-						<p>
-							결제금액 <span id="totalPrice" style="font-weight: 800;font-size: 18px;">
-							<fmt:formatNumber pattern="#,###,###" value="${totalPrice }"/>
-							</span>원
-						</p>
+						<p>결제금액 <span id="totalPrice" style="font-weight: 800;font-size: 18px;"><fmt:formatNumber pattern="#,###,###" value="${totalPrice }"/></span>원</p>
 					</div>
 					<!-- 결제하기 -->
 					<div class="btn-contain">
@@ -173,14 +152,30 @@
 
 	//select box ID로 접근하여 선택된 값 읽기
 	//$("#셀렉트박스ID option:selected").val();
-	
 	var prices = $(".pdtOnePrice").html(); //상품가격(할인됐으면 할인적용)
 	var pNos = $(".pNo"); //상품번호
 	var bNos = $(".bNo"); //장바구니번호
 	var opNos = $(".opNo"); //상품옵션번호
 	var removes = $(".remove"); //삭제버튼
-	var qtys = $(".qty");//수량
-
+	
+	//포인트에 숫자만 입력할 수 있도록 하기
+    function onlyNumber(event){
+        event = event || window.event;
+        var keyID = (event.which) ? event.which : event.keyCode;
+        if ( (keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) 
+            return;
+        else
+            return false;
+    }
+    //포인트에 글자 입력 못하게하기
+    function removeChar(event) {
+        event = event || window.event;
+        var keyID = (event.which) ? event.which : event.keyCode;
+        if ( keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) 
+            return;
+        else
+            event.target.value = event.target.value.replace(/[^0-9]/g, "");
+    }
 	
 	//장바구니 상품삭제하기
 	function fn_delete(pdtNo, basketNo,memNo){
@@ -193,16 +188,43 @@
 		}
 	}
 	
-	//수량값변경
-	var amounts = $(".amount");
-	$(document).on("keyup",".amount",function(e){
-		
-	});
+	//수량 -
+	var qty = $(".qty");
+	$(".minus").click(function(e => {
+		console.log("-");
+		for(var i = 0; i < qty.length; i++){
+			console.log(qty[i].value);
+			
+			var qtyM = qty[i].value;
+			qtyM = qtyM -1;
+			console.log(qtyM);
+			
+		}
+	})
+	)
 	
-	//수량 버튼 클릭시 태그 색변경
-    $(document).on("focus",".amount",function(e){
-   		$(e.target).css("outline-color","#27b06e");
-	});
+	function fn_minus(){
+		
+		
+		//console.log(qty);
+		//e.target.next().val(qty);
+		//console.log(qty);
+		//qty = qty-1; //수량 input의 value값을 가져와서 -1시킴
+		//$(target).next().val(qty); //바꾼 value값을 수량input value값으로 변경
+	
+	}
+	//수량 +
+	function fn_plus(target){
+		console.log("+");
+		console.log(target);
+		console.log(target.prev().val());
+		
+		//qty = qty+1;
+		//$(".qty").val(qty);
+	}
+	
+	
+	
 	
 </script>
 <style>

@@ -10,58 +10,61 @@
 	<jsp:param name="title" value="결제하기" />
 </jsp:include>
 
-<section id="container" class="container ">
+<section id="container" class="container">
     <div class="order_header">
         <h1>결제하기</h1>
     </div>
-    <form action="${path }/order/insertOrder" method="post">
+   <div style="width: 760px;margin: 40px auto 0;">
+    <form action="'${path }/order/insertOrder?bNo=${basketNo}" method="post">
     <!-- 주문상품 -->
     <div class="mb-5">
         <h3>주문상품</h3>
-        <c:forEach items="${list }" var="b">
+        <%-- <c:forEach items="${list }" var="b"> --%>
         <table>
             <tr>
                 <td>
                 	<div>
-						<a href="${path }/product/productOne?pdtNo=${b.pdtNo}" class="d-flex"> 
+						<%-- <a href="${path }/product/productOne?pdtNo=${b.pdtNo}" class="d-flex"> 
 							<c:forTokens items="${b.pdtThumbImage}" var="th" delims="," varStatus="vs">
 								<c:if test="${vs.first }">
 									<img src="${path}/resources/upload/product/${th}" class="img-fluid" style="width: 100px; height: 100px;">
 								</c:if>
 							</c:forTokens>
 							<p class="pdtName_p"><c:out value="${b.pdtName }" /></p>
-						</a>
+						</a> --%>
+						<img src="${path }/resources/upload/product/det20201208_000348492_120.jpg" style="width: 100px; height: 100px;">
 					</div>
-                	<img src="../제품이미지/잡화/면화장솜/1.jpg" alt="" style="width: 150px;height: 150px;">
                 </td>
-                <td>면화장솜</td>
-                <td>3,000원</td>
-                <td>3개</td>
+                <td>여기는 상품명</td>
+                <td>100원</td>
+                <td>1개</td>
             </tr>
         </table>
-        </c:forEach>
+        <%-- </c:forEach> --%>
     </div>
     <!-- 배송지 -->
     <div class="mb-5">
         <h3>배송지</h3>
         <hr>
+        <div class="form-group d-flex mb-3">
+            <div class="col-3"><span>받는분</span></div>
+            <div class="col-9"><input type="text" name="ordOname" class="orderer form-control"></div>
+        </div>
         <div class="form-group d-flex">
-            <label for="postal" class="mr-3">우편번호</label>
-            <input type="text" class="form-control mr-3" id="postal" style="width: 150px;" required>
-            <input type="button" class="btn btn-success" value="배송지변경">
-        </div><br>
-        <div class="form-group mb-3">
-            <label for="addr">주소</label>
-            <input type="text" id="addr" class="form-control" name="ordDeliAddr" required><br>
-            <input type="text" class="form-control" name="ordDeliAddr" required placeholder="상세주소">
+            <div class="col-3"><label for="sample6_postcode" class=" mr-3">우편번호</label></div>
+            <div class="col-9 d-flex"><input type="text" id='sample6_postcode' name='ordZipcode' class="zipCode address-detail form-control" style="width: 150px;"  placeholder='우편번호' readonly >
+            <input type="button" onclick='sample6_execDaumPostcode()' class="changeAddr btn btn-success" value="주소찾기" >
+            <input type="button" onclick='' class="btn btn-success" value="배송지변경" ></div>
         </div>
-        <div class="form-group">
-            <label for="phone">휴대전화</label>
-            <input type="text" id="phone" class="form-control" required>
+        <div class="form-group d-flex mb-3">
+            <div class="col-3 d-flex"><label for="addr">주소</label></div>
+            <div class="col-9 "><input type="text" class="address-detail form-control" name="ordAddr" id='sample6_address' placeholder='주소' required><br>
+            <input type="text" class="address-detail form-control" name='ordDetailAddr' id='sample6_detailAddress' placeholder='상세주소' required>
+        	</div>
         </div>
-        <div class="form-group">
-            <label for="deli_memo">배송 메모</label>
-            <select name="ordMemo" id="deli_memo" class="form-control mb-3" required>
+        <div class="form-group d-flex">
+            <div class="col-3"><label for="deli_memo">배송 메모</label></div>
+            <div class="col-9"><select name="ordMemo" id="deli_memo" class="form-control mb-3" required>
                 <option selected disabled>배송시 요청사항</option>
                 <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
                 <option value="배송 전,연락주세요.">배송 전,연락주세요.</option>
@@ -71,27 +74,33 @@
                 <option value="배송 전,연락주세요.">배송 전,연락주세요.</option>
                 <option value="직접입력">직접입력</option>
             </select>
-            <div id="direct_input"></div>
+            <div id="direct_input"></div></div>
+        </div>
+        <div class="form-group d-flex">
+            <div class="col-3"><label for="phone">휴대전화</label></div>
+            <div class="col-9"><input type="text" name="ordOphone" id="phone" class="ordererPhone form-control" required></div>
         </div>
     </div>
-    <!-- 주문자 -->
+    <!-- 수취인 -->
     <div class="mb-5">
-        <h3>주문자</h3>
+    	<div class="d-flex">
+        <h3 class="mr-5">주문자</h3> 
+        <label class="form-label">
+           	<input type="button" class="sameInfo form-label" value="배송지 정보와 동일하게 채우기">
+        </label>
+        </div>
         <hr>
-        <div class="form-group">
-            <span>이름</span>
-            <input type="text" class="form-control" required>
+        <div class="form-group d-flex">
+            <div class="col-3"><span>이름</span></div>
+            <div class="col-9"><input type="text" name="ordRname" id="orderer" class="form-control" required></div>
         </div>
-        <div class="form-group">
-            <span>이메일</span>
-            <input type="email" class="form-control" required>
+        <div class="form-group d-flex">
+            <div class="col-3"><span>이메일</span></div>
+            <div class="col-9"><input type="email" name="ordRemail" id="ordererEmail" class="form-control"></div>
         </div>
-        <div class="form-group">
-            <span>휴대전화</span>
-            <input type="text" class="form-control" required><br>
-            <label class="form-check-label">
-                <input type="checkbox" class="form-check-input">SMS 수신동의 (배송 정보를 SMS로 보내드립니다.)
-            </label>
+        <div class="form-group d-flex">
+            <div class="col-3"><span>휴대전화</span></div>
+            <div class="col-9"><input type="text" name="ordRphone" id="ordererPhone" class="form-control" required></div>
         </div>
     </div>
     <!-- 적립금 -->
@@ -108,25 +117,26 @@
     <div class="form-group mb-5">
         <h3>예상적립금</h3>
         <hr>
-        <p><span class="mr-1">1,236P</span>적립예정</p>
+        <p><strong><span class="savePoint mr-1">1P</span>적립예정</strong></p>
 
     </div>
     <!-- 최종 결제금액 -->
     <div class="form-group mb-5">
         <h3>최종 결제금액</h3>
         <hr>
-        <div class="d-flex"><h5>총 상품 금액</h5><span>194,000</span></div>
-        <div class="d-flex"><h5>배송비</h5><span name="ordDeliPrice">0</span></div>
-        <div class="d-flex"><h5>적립금 사용</h5><span name="ordUsePoint">0</span></div>
-        <div class="d-flex"><span name="ordAmount">194,000원</span></div>
-
-
+        <div class="d-flex"><h5>총 상품 금액</h5><span class="total-price">100원</span></div>
+        <div class="d-flex"><h5>배송비</h5><span class="deli"id="ordDeliPrice">0원</span></div>
+        <div class="d-flex"><h5>적립금 사용</h5><span class="point" id="ordUsePoint">100봄</span></div>
+        <div class="d-flex"><span class="total-pay" id="ordAmount"><strong>100원</strong></span></div>
+		<input type="hidden" id="ba" name="ba">
+       	<input type="hidden" id="total" name="total-pay">
     </div>
     <!-- 결제버튼 -->
     <div class="mb-5" style="text-align: center;">
-        <button id="payBtn"type="submit" class="btn btn-outline-success" style="width: 500px;">결제하기</button>
+        <button id="payBtn" type="submit" class="payBtn btn btn-outline-success" style="width: 500px;">결제하기</button>
     </div>
     </form>
+    </div>
 </section>
 
 
@@ -148,6 +158,16 @@
             }
         })
     });
+    
+    $(".sameInfo").click(e =>{
+        var orderer = $(".orderer").value; //이름
+        var ordererEmail; //이메일
+        var ordererPhone = $(".ordererPhone").value;//휴대전화
+        
+        console.log(orderer);
+        console.log(ordererPhone);
+        
+    })
 
 </script>
 
@@ -156,14 +176,100 @@
 	height: 80px;
 	margin: 50px 0;
 }
+.savePoint{
+	font-weight: 800;
+	color : #45A663;
+}
 </style>
 
 <!-- 배송지/결제 api -->
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+
 <script type="text/javascript">
-	//결제 API
+
+	var ba;
+	//주소 api
+	function sample6_execDaumPostcode() {
+	    new daum.Postcode({
+	        oncomplete: function(data) {
+	            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 	
+	            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+	            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+	            var addr = ''; // 주소 변수
+	            var extraAddr = ''; // 참고항목 변수
+	
+	            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+	            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+	                addr = data.roadAddress;
+	            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+	                addr = data.jibunAddress;
+	            }
+	            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	            document.getElementById('sample6_postcode').value = data.zonecode;
+	            document.getElementById("sample6_address").value = addr;
+	            // 커서를 상세주소 필드로 이동한다.
+	            var address=$(".address-detail").val();
+	            
+	            if(address.includes("서울")||address.includes("경기")){
+	            	ba=2500;
+	            }else if(address.includes("제주")||address.includes("강원")){
+	            	ba=7000;
+	            }else{
+	            	ba=5000;
+	            }
+
+	            var mileage =Number($(".point").html().replace(/,/g, "")); //총 할인 금액가져오기
+	            $(".deli").html(ba.toLocaleString());
+	            $(".total-pay").html((parseInt($(".total-price")[0].textContent.replace(/,/g, ""))+ba-mileage).toLocaleString());//상품총가격+배송비 최종가격
+	            $("#total").val((parseInt($(".total-price")[0].textContent.replace(/,/g, ""))+ba-mileage));
+	            $("#ba").val(ba);
+	            
+	            document.getElementById("sample6_detailAddress").focus(); 
+	        }
+	    }).open();
+	}
+	
+	
+	//결제 API
+	$(document).on("click",".payBtn",function(){
+	 	
+		if($(".address-detail")[0].value==""||$(".address-detail")[1].value==""||$(".address-detail")[2].value==""){
+			//0번 우편번호  1번 일반 주소  2번 상세주소
+			alert("주소를 입력해주세요");
+			return;
+		}
+			IMP.init('imp93954987');
+			IMP.request_pay({
+			    pg : 'inicis', // version 1.1.0부터 지원.
+			    pay_method : 'card',
+			    merchant_uid : 'merchant_' + new Date().getTime(),
+			    name : '주문명:카드결제',
+			    amount : parseInt($(".")[0].textContent.replace(/,/g, "")),
+			    buyer_email : $("#ordererEmail").value,
+			    buyer_name : $("#orderer").value,
+			    buyer_tel : $("#ordererPhone").value,
+			    buyer_addr : $(".address-detail")[1].value+$(".address-detail")[2].value,
+			    buyer_postcode : $(".zipCode").value,
+			    m_redirect_url : 'https://www.yourdomain.com/payments/complete'
+			}	, function(rsp) {
+			    if ( rsp.success ) {
+			        var msg = '결제가 완료되었습니다.';
+			        msg += '고유ID : ' + rsp.imp_uid;
+			        msg += '상점 거래ID : ' + rsp.merchant_uid;
+			        msg += '결제 금액 : ' + rsp.paid_amount;
+			        msg += '카드 승인번호 : ' + rsp.apply_num;
+			        orderInfo.submit();
+			    } else {
+			        var msg = '결제에 실패하였습니다.';
+			        msg += '에러내용 : ' + rsp.error_msg;
+			    }
+			    alert(msg);
+			});
+
+	});
+ 	
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
