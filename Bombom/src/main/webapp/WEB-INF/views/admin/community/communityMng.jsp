@@ -191,6 +191,7 @@ $(document).on("click",".memWarnYnBtn",e=>{
 				url:"${path }/admin/community/warnMemberYn",
 				data:{com_status:yn,reply_id:reply_id,mem_no:reply_mem_no},
 				dataType:"json",
+				async: false,
 				success:data=>{
 					console.log(data);
 					if(data.result===true){
@@ -203,6 +204,8 @@ $(document).on("click",".memWarnYnBtn",e=>{
 							//경고수가 10개도달시 알림보내기
 							let warnCount=data.replyWriter.memWarnCount;
 							let writerNo=data.replyWriter.memNo;
+							console.log(warnCount);
+							console.log(writerNo);
 							if(warnCount==10){
 								$.ajax({
 						 	   		type : 'post',
