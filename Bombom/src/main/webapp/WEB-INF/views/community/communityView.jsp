@@ -7,7 +7,7 @@
 	src="http://code.jquery.com/jquery-1.11.3.js"></script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<%-- <link rel="stylesheet" href="${path }/resources/css/community/likeBtn.css"> --%>
+ <link rel="stylesheet" href="${path }/resources/css/community/likeBtn.css"> 
 <c:set var="path" value="${pageContext.request.contextPath }" />
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
