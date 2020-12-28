@@ -165,6 +165,7 @@ public class AdminDaoImpl implements AdminDao {
 	@Override
 	public int updateProduct(SqlSession session, Product p) {
 		// TODO Auto-generated method stub
+		System.out.println("지금 수정에서 다오!"+p);
 		return session.update("admin.updateProduct", p);
 	}
 

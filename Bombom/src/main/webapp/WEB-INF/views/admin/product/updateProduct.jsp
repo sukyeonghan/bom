@@ -170,6 +170,7 @@
 								<c:forEach var="th" items="${thumb }" begin="0" end="0">
 									<c:if test="${not empty th.pdtThumbImage  }">
 										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
+										<input type="hidden" name="firstImg" value="${th.pdtThumbImage}">
 									</c:if>
 								</c:forEach>
 								<input type="file" class="proPic" name="thumbImgs" id="input1"  accept="image/gif, image/jpeg, image/png" style="display:none;">
@@ -265,7 +266,13 @@
 		      		<div id="detail-image">
 			      		<p class="title">제품 상세 이미지(총 1장)</p>
 			      		<input type="button" id="fileBtn" class="fileBtn" value="파일선택" >
-			      		<label class="fileBtn" for="fileBtn">${product.pdtDetailImage}</label>
+			      		<!-- 원래 파일명만 보여주기 -->
+			      		<c:set var="det" value="${fn:split(product.pdtDetailImage,'_')}"/>
+			      		<c:forEach var="oriDet" items="${det }" varStatus="d">
+			      			<c:if test="${d.count>2 }">
+			      				<label class="fileBtn" for="fileBtn">${oriDet }</label>
+			      			</c:if>
+			      		</c:forEach>
 			      		<input type="file" id="detail" class="form-control-file border" name="detailImg" accept="image/gif, image/jpeg, image/png" style="display:none;">
 			     
 		      		</div>
@@ -350,7 +357,6 @@
 	//옵션가격 유효성 검사
 	$(document).on("focusout","input[name=pdtOptionAddprice]",function(e) {
 	    var check=/^[-0-9]*$/;
-	    //price=$("input[name=pdtOptionAddprice]").val();
 	    if(!check.test($("input[name=pdtOptionAddprice]").val())){
 	           swal("옵션 가격에 숫자 외에는 입력하실 수 없습니다.");
 	           $(e.target).val('');
@@ -407,7 +413,7 @@
 	    
 	});
 
-	//사진 눌렀을 떄 다시 파일 업로드
+	//사진 눌렀을 때 다시 파일 업로드
 	  function fn_upload(e){
 	    $(e).next().click();
 	}  
@@ -454,8 +460,8 @@
 		            url:"${path}/admin/updateCheckPdtName",
 		            data:{"pdtName":val,"pdtNo":'${product.pdtNo}'},
 		            type:"get",
-		            success:function(data){
-	 					
+		            dataType:"json",
+		            success:data=>{
 		            	if(data!=0){
 		                	swal("상품명이 중복됩니다.");
 		                    $("#name").val('');
@@ -495,13 +501,13 @@
 	
 		    
 		  	//제품 썸네일 사진
-/* 		    if($("#input1").val()==""){
+ 		    if($("input[name=firstImg]").val()==""){
 		    	swal("대표이미지를 등록해주세요.");
 		    	return false;
-		    } */
+		    } 
 		    
 		    //상세 사진 파일 검사
-		    if($("input[name=detailImg]").val()==""){
+		    if($(".fileBtn").val()==""){
 		    	swal("상세 사진을 등록해주세요.");
 		    	return false;
 		    }

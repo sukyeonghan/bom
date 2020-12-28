@@ -22,9 +22,10 @@ import com.kh.bom.order.model.vo.Basket;
 import com.kh.bom.order.model.vo.Inbasket;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.ship.model.Service.ShipService;
+import com.kh.bom.ship.model.vo.Ship;
 
 @Controller
-@SessionAttributes("loginMember")
 public class OrderController {
 
 	@Autowired
@@ -33,6 +34,8 @@ public class OrderController {
 	private AdminService pService;
 	@Autowired
 	private MemberService mService;
+	@Autowired
+	private ShipService shipService;
 
 	// 헤더에서 장바구니 화면으로 전환
 	@RequestMapping("/order/basket")
@@ -44,6 +47,11 @@ public class OrderController {
 		List<Basket> list = service.selectBasket(memNo);
 		//회원정보 보내주기
 		mv.addObject("loginMember", login);
+		//회원의 배송지 가져오기
+		Ship s = shipService.selectShipOneY(login.getMemNo());
+		if(s != null) {
+			mv.addObject("ship", s);
+		}
 		mv.addObject("list", list);
 		mv.setViewName("order/basket");
 		return mv;

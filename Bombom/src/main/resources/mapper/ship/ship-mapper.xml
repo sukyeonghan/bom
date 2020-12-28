@@ -13,6 +13,7 @@
 		<result property="shipZipCode" column="ship_zipcode"/>
 		<result property="shipDetailAddress" column="ship_detailaddress"/>
 		<result property="shipExtraAddress" column="ship_extraaddress"/>
+		<result property="shipDelimemo" column="ship_delimemo"/>
 	</resultMap>
 
 	<select id="selectShipList" parameterType="string" resultMap="shipMap">
@@ -52,4 +53,9 @@
 		SHIP_ZIPCODE=#{shipZipCode},SHIP_DETAILADDRESS=#{shipDetailAddress},
 		SHIP_EXTRAADDRESS=#{shipExtraAddress} WHERE SHIP_NO=#{shipNo}
 	</update>
-</mapper>
+	
+	<!-- 로그인한 회원의 기본배송지여부 Y인 배송지 가져오기 -->
+	<select id="selectShipOneY" parameterType="string" resultMap="shipMap">
+		SELECT * FROM SHIP WHERE MEM_NO=#{memNo} AND SHIP_YN ='Y'
+	</select>
+</mapper> 
