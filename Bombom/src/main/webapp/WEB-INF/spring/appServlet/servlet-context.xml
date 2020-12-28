@@ -98,7 +98,8 @@
 	        <beans:constructor-arg value="OIg8V6q6WZvLTk5HyEdlAovc" />
 	</beans:bean>
 	<beans:bean id="googleRedirectUrl" class="java.lang.String">
-	        <beans:constructor-arg value="http://localhost:9090/bom/auth/google/callback" />
+	        <!-- <beans:constructor-arg value="http://localhost:9090/bom/auth/google/callback" /> -->
+	        <beans:constructor-arg value="http://rclass.iptime.org:9999/bom/auth/google/callback" />
 	</beans:bean>
 	    
 	<beans:bean id="googleSns" class="com.kh.bom.member.model.vo.SnsValue">
@@ -127,7 +128,8 @@
 	        <beans:constructor-arg value="d99avVPdGJ" />
 	</beans:bean>
 	<beans:bean id="naverRedirectUrl" class="java.lang.String">
-	        <beans:constructor-arg value="http://localhost:9090/bom/auth/naver/callback" />
+	       <!--  <beans:constructor-arg value="http://localhost:9090/bom/auth/naver/callback" /> -->
+	        <beans:constructor-arg value="http://rclass.iptime.org:9999/bom/auth/naver/callback" />
 	</beans:bean>
 	    
 	<beans:bean id="naverSns" class="com.kh.bom.member.model.vo.SnsValue">
