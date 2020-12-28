@@ -18,4 +18,5 @@ public class Ship {
     private String shipZipCode;
     private String shipDetailAddress; 
     private String shipExtraAddress;
+    private String shipDelimemo;
 }
