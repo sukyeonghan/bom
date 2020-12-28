@@ -504,8 +504,8 @@ table#tbl-comment textarea {
 		});
 	
 	});
-	
-	
+	//알림 관련 메세지
+	let alarmMsg="${loginMember.memNick}님이 회원님의 '${community.cmTitle}' 글을 좋아합니다.";//좋아요를 누른 사람의 닉네임,글 제목
 	//좋아요 버튼
 	$('.like-wrapper').on('click', function(e) {
 		$(e.target).toggleClass('liked');
@@ -516,7 +516,7 @@ table#tbl-comment textarea {
 
 		$.ajax({
 			url:"${path}/community/insertLike",
-			data:{cmNo:"${community.cmNo }",likeCount:"${community.cmLike }",value:value},
+			data:{cmNo:"${community.cmNo }",likeCount:"${community.cmLike }",value:value,receiverNo:"${community.cmWriter}",message:alarmMsg},
 			dataType:"json",
 			success:data=>{
 				//좋아요 수 출력 
@@ -524,7 +524,14 @@ table#tbl-comment textarea {
 				//좋아요 됐으면 클릭된 상태로 띄우기
 				if(data.likeNo.indexOf("${community.cmNo }")!=-1){
 	            	$(".like-button").addClass('liked');
-				  }
+				}
+				//알림 보내기
+				if(sock && value==1){
+	   				console.log("소켓생성됨:"+sock);
+	   				let socketMsg = "communityLike,${loginMember.memNick},${loginMember.memNo},${community.cmWriter},''";
+	   				console.log("알림전송내역 : " + socketMsg);
+	   				sock.send(socketMsg);
+	   			}
 			}
 		});
 
