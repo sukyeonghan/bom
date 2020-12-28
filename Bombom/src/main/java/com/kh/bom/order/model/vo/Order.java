@@ -31,6 +31,9 @@ public class Order {
 	private String ordOphone;//주문자 전화번호
 	private String ordRname;//받는사람 이름
 	private String ordRphone;//받는사람 전화번호
+	
+	private String ordRemail; //받는사람 이메일
+	//-------원래 order table ---------------------
 	private String pdtThumbImage; //상품이미지
 	private String pdtName; //상품명
 	private String pdtOptionContent; //상품옵션
@@ -40,6 +43,7 @@ public class Order {
 	private int pdtOptionAddprice; //옵션 가격 
 	private String pdtNo; //상품번호 
 	private String pdtOptionNo;//상품옵션번호
+
 
 	
 }
