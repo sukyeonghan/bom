@@ -66,8 +66,14 @@
 </section>
 <script>
 	function fn_check(){
+		let sns="${loginMember.memPwd}";
+		console.log(sns.substr( 0, 2));
+		if(sns.substr( 0, 2)=="소셜"){
+			swal("","소셜로그인회원은 해당 페이지에서 회원정보수정을 할 수 없습니다.","warning");
+			return false;
+		}
 	 	if($("input[name=memPwd]").val()==""){
-			swal("비밀번호를 입력해주세요.");
+			swal("","비밀번호를 입력해주세요.","warning");
 			return false;
 		}
 	}

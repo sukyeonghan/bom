@@ -87,35 +87,45 @@ section {
 	<br>
 	<br>
 <form>
-  <select id="listup" name="listup" >
+  <select id="listup" name="listup" onchange="orderChange(this.value)">
+   <option value="update" selected>최신순</option>
     <option value="like">좋아요</option>
     <option value="view">조회순</option>
-    <option value="update" selected>최신순</option>
   </select>
 </form>
 	<div id="communityAjax"> </div>
 </section>
 <script>
 	
-	// 로그인 체크
+	//화면이 켜졌을때 바로 실행되는 함수
 	$(function(){ 
 		//커뮤니티 정렬
 		$.ajax({
-		url:"${path }/community/communityList",
-		data:{}
-		dataType:"json"	
+		url:"${path }/community/communityListAjax",
+		data:{order:"update"},
+		success: data =>{
+			$("#communityAjax").html(data);
+		}
 		
 		})
 		
-		$("#listup").onchange(e =>{
-			$.ajax
-		}
 		
 		$(".loginCheck").click(function() {
 			swal("로그인을 먼저 해주세요");
 		});
 	});
 	
+	function orderChange(value){
+		console.log(value);
+		
+		$.ajax({
+			url:"${path }/community/communityListAjax",
+			data:{order:value},
+			success: data =>{
+				$("#communityAjax").html(data);
+			}
+	});
+	}
 	
 	
 </script>

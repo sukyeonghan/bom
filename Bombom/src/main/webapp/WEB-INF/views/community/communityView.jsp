@@ -304,23 +304,13 @@ table#tbl-comment textarea {
 		<textarea id="editor" class="form-control" rows="10" name="cmContent"
 			placeholder="내용을 입력해주세요" required><c:out
 				value="${community.cmContent }" /></textarea>
-				
-				<!-- 좋아요 -->
-		<br> <label> Like </label> <i onclick="myFunction(this)"
-				value="${community.cmContent }" /></textarea><br>
+		<br>		
 		
-		<!-- 좋아요 -->		
-<%-- 		 <label> Like </label> <i onclick="myFunction(this)"
->>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
-			class="fa fa-thumbs-up"></i>
-		<c:out value="${community.cmLike }" />
-<<<<<<< HEAD
-		<br> <br>
-		
-=======
-		<br> <br> --%>
+<%-- 		<label> Like </label> <i onclick="myFunction(this)"
+				value="${community.cmContent }" /></textarea><br> --%>
 
-		<!-- 테스트 -->
+		<!-- 좋아요 -->
+		<label> Like </label>
 		<div class='middle-wrapper'>
 		  <div class='like-wrapper'>
 		    <a class='like-button'>
@@ -328,7 +318,7 @@ table#tbl-comment textarea {
 		        <div class='heart-animation-1'></div>
 		        <div class='heart-animation-2'></div>
 		      </span>
-		      좋아요 <c:out value="${community.cmLike }" />
+		      	좋아요 &nbsp;<span class="cmLike"><c:out value="${community.cmLike }" /></span>
 		    </a>
 		  </div>
 		</div>
@@ -493,6 +483,56 @@ table#tbl-comment textarea {
 </section>
 
 <script>
+	var value;
+	//좋아요한 글인지 확인
+	$(document).ready(function(){
+		console.log("설마 너니?");
+	 	$.ajax({
+			url:"${path}/community/checkLike",
+			dataType:"json",
+			success:data=>{
+				console.log("위ajax");
+				console.log(data);
+				if(data!=null){
+					 $(data).each(function(i,v){
+					  //좋아요한 글이면 버튼 눌러진 상태로 띄우기
+					  if(data.indexOf("${community.cmNo }")!=-1){
+		            	$(".like-button").addClass('liked');
+		            	value=1;
+					  }
+		            });
+				}
+			}
+		});
+	
+	});
+	
+	
+	//좋아요 버튼
+	$('.like-wrapper').on('click', function(e) {
+		//var value;
+		$(e.target).toggleClass('liked');
+		//좋아요 누른 상태
+		if($(e.target).hasClass('liked') === true) value=1;
+		//좋아요 취소 상태
+		else value=0;
+		
+	  	console.log(value);
+		$.ajax({
+			url:"${path}/community/insertLike",
+			data:{cmNo:"${community.cmNo }",likeCount:"${community.cmLike }",value:value},
+			dataType:"json",
+			success:data=>{
+				//좋아요 수 출력 
+				console.log(data.likeNo);
+				$(".cmLike").text(data.likeCount);
+				if(data.likeNo.indexOf("${community.cmNo }")!=-1){
+	            	$(".like-button").addClass('liked');
+				  }
+			}
+		});
+
+	});
 
      
      //모달에 고유값을 클릭했을 때 
@@ -505,28 +545,6 @@ table#tbl-comment textarea {
     	 $(".replyWriter").val(replyWriter)
     	 
      })
-     
-	//좋아요 ajax 
-
-	//좋아요 버튼
-	$('a.like-button').on('click', function(e) {
-	  $(this).toggleClass('liked');
-	  
-	});
-	
-
-		//숫자 카운트,member에 insert
-		$.ajax({
-			url:"${path}/community/insertLike",
-			data:{memNo:"${loginMember.memNo}",cmNo:"${community.cmNo }",likeCount:"${community.cmLike }"},
-			dataType:"json",
-			sucess:data=>{
-				//글번호insert결과값, 카운트 수 
-				
-			}
-		});
-  
-
 
 	function fn_updateNotice() {
 		let noticeNo = $(event.target).parent()
@@ -635,7 +653,9 @@ table#tbl-comment textarea {
 															let span4 = $(
 																	'<span>')
 																	.html(
-																			"신고하기"); //신고하기 
+																			"신고하기"); 
+															//신고하기 
+																			
 														    let span5 =$('<span>').html("삭제하기");				
 															let replyDiv=$('<div>').prop("class","replyDiv");				
 															replyDiv.css("display","none");
@@ -858,6 +878,7 @@ $(document).on("click",".btn-reply",e=>{
 	}
 	.like-button:hover {
 	  border-color: currentColor;
+	  text-decoration:none;
 	}
 	
 	.like-icon {

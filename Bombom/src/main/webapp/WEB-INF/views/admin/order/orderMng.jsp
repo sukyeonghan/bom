@@ -94,6 +94,7 @@
 		
 		<!--좌측메뉴선택시 출력 화면 -->
 		<div id="admin-container">
+          <form action="${path}/admin/order/ordSort" method="post">
           <h3>주문관리</h3>
           <br />
           <div class="status">
@@ -101,58 +102,59 @@
               <tr>
                 <td rowspan="2">진행상태</td>
                 <td>
-                  <button type="button" class="btn btn-outline-success">
+                  <button type="button" class="btn btn-outline-success all" onclick="location.href='${path}/admin/order'">
                     전체
                   </button>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-outline-success">
+                  <button type="submit" class="btn btn-outline-success ordWait" value="주문대기" name="sort">
                     주문대기
                   </button>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-outline-success">
+                  <button type="submit" class="btn btn-outline-success ordEnd" value="주문완료" name="sort" >
                     주문완료
                   </button>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-outline-success">
+                  <button type="submit" class="btn btn-outline-success ordCancel" value="주문취소" name="sort" >
                     주문취소
                   </button>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <button type="button" class="btn btn-outline-success">
+                  <button type="submit" class="btn btn-outline-success shipReady" value="배송준비" name="sort">
                     배송준비
                   </button>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-outline-success">
+                  <button type="submit" class="btn btn-outline-success shipping" value="배송중" name="sort">
                     배송중
                   </button>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-outline-success">
+                  <button type="submit" class="btn btn-outline-success shipEnd" value="배송완료" name="sort">
                     배송완료
                   </button>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-outline-success">
+                  <button type="submit" class="btn btn-outline-success cancelEnd" value="취소완료" name="sort">
                     취소완료
                   </button>
                 </td>
               </tr>
             </table>
+            
           </div>
           <div class="order-info">
             <div class="form-group searchBox">
-              <select class="form-control" id="category">
-                <option>주문번호</option>
-                <option>닉네임</option>
+              <select class="form-control search" name="searchType" >
+                <option value="ordNo">주문번호</option>
+                <option value="ordOname">주문자</option>
               </select>
-              <input type="text" class="form-control" id="search" style="width:300px" />
-              <button type="button" class="btn btn-success">검색</button>
+              <input type="text" class="form-control" id="search" name="keyword" style="width:300px" />
+              <button type="submit" class="btn btn-success result">검색</button>
             </div>
 
             <br />
@@ -172,24 +174,24 @@
                 <tr>
                   
                   <td><fmt:formatDate type="date" dateStyle="short" value="${o.ordDate}"/></td>
-                  <td><a href="${path }/admin/orderDetail?orderNo=${o.orderNo}"><c:out value="${o.orderNo }"/></a></td>
+                  <td><a name="orderNo" href="${path }/admin/orderDetail?orderNo=${o.orderNo}"><c:out value="${o.orderNo }"/></a></td>
                   <td><c:out value="${o.ordOname}"/></td>
-                  <td><c:out value="${o.ordAmount}"/></td>
+                  <td><fmt:formatNumber pattern="#,###" value="${o.ordAmount}"/>원</td>
                   <td>
-                    <select class="form-control" id="category">
-                    <option value="주문대기" ${o.ordStatus eq "주문대기"? "selected":"" }>주문대기</option>
-                    <option value="주문완료" ${o.ordStatus eq "주문완료"? "selected":"" }>주문완료</option>
-                    <option value="주문취소" ${o.ordStatus eq "주문취소"? "selected":"" }>주문취소</option>
-                    <option value="배송준비" ${o.ordStatus eq "배송준비"? "selected":"" }>배송준비</option>
-                    <option value="배송중" ${o.ordStatus eq "배송중"? "selected":"" }>배송중</option>
-                    <option value="배송완료" ${o.ordStatus eq "배송완료"? "selected":"" }>배송완료</option>
-                    <option value="취소완료" ${o.ordStatus eq "취소완료"? "selected":"" }>취소완료</option>
+                    <select class="form-control status" id="category">
+	                    <option value="주문대기" ${o.ordStatus eq "주문대기"? "selected":"" }>주문대기</option>
+	                    <option value="주문완료" ${o.ordStatus eq "주문완료"? "selected":"" }>주문완료</option>
+	                    <option value="주문취소" ${o.ordStatus eq "주문취소"? "selected":"" }>주문취소</option>
+	                    <option value="배송준비" ${o.ordStatus eq "배송준비"? "selected":"" }>배송준비</option>
+	                    <option value="배송중" ${o.ordStatus eq "배송중"? "selected":"" }>배송중</option>
+	                    <option value="배송완료" ${o.ordStatus eq "배송완료"? "selected":"" }>배송완료</option>
+	                    <option value="취소완료" ${o.ordStatus eq "취소완료"? "selected":"" }>취소완료</option>
                     </select>
                   </td>
                   <td>
-                    <button type="button" class="btn btn-outline-success">
-                      적용
-                    </button>
+                    <input type="button" value="적용" id="updateShip" class="btn btn-outline-success updateShip" >
+					<%-- <input type="hidden" id= "orderNo" value="${o.orderNo }"/> --%>
+                    
                   </td>
               </tbody>
               </c:forEach>
@@ -197,9 +199,46 @@
 
             <div id="page-bar">${pageBar }</div>
           </div>
+          </form>
         </div>
 	</div>
 </section>
+<script>
+
+
+			
+
+			
+ 		  $(".status").on("change", e=>{
+			let ordStatus=$(e.target).val();
+			//let status=$("#category").val();
+			//let orderNo=$("#orderNo").val();
+			console.log(ordStatus);
+			let orderNo=$(e.target).parent().prev().prev().prev().children().text();
+			console.log(orderNo);
+	 			
+	 		$(".updateShip").on("click",e=>{
+	 				location.replace("${path}/admin/orderShipUpdate?orderNo="+orderNo+"&ordStatus="+ordStatus);
+	 			});
+		
+	 		
+			}) 
+			
+	/* 		$(".search").on("change", e=>{
+				let searchType=$(e.target).val();
+				console.log(searchType);
+				$(".result").on("click", e=>{
+					location.replace("${path}/admin/order/ordSort?searchType="+searchType);
+				})
+			}) */
+		
+		
+
+	
+	
+
+			
+</script>
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

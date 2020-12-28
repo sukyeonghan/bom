@@ -22,5 +22,6 @@ public class BoardReply {
 	private String com_status;
     private String mem_nick;
     private String mem_pro;
+    private String mem_no;
  
 }

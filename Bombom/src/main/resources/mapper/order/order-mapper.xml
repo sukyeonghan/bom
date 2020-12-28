@@ -18,7 +18,7 @@
 		<result property="ordCancel" column="ord_cancel" />
 		<result property="ordDate" column="ord_date" />
 		<result property="ordOname" column="ord_oname" />
-		<result property="ordOphone" column="ord_ophone" />
+		<result property="ordOphone" column="ord_ophone" /> 
 		<result property="ordRname" column="ord_rname" />
 		<result property="ordRphone" column="ord_rphone" />
 		<result property="ordRemail" column="pdt_option_addprice" />
@@ -69,6 +69,16 @@
 		#{ordOpone},#{ordRname}, #{ordRphone})
 	</insert>
 
+	<select id="selectOrder" parameterType="map" resultMap="orderMap">
+		SELECT ROWNUM, Q.*
+		FROM(
+		SELECT O.ORDER_NO FROM "ORDER" O
+		LEFT JOIN INORDER INO ON O.ORDER_NO=INO.ORDER_NO
+		LEFT JOIN REVIEW R ON O.ORDER_NO=R.ORDER_NO
+		WHERE O.MEM_NO=#{memNo} AND INO.PDT_NO=#{pdtNo} AND R.REV_NO IS NULL
+		ORDER BY O.ORD_DATE DESC) Q
+		WHERE ROWNUM=1
+	</select>
 
 	<select id="selectBasket" parameterType="string" resultMap="basketMap">
 		SELECT DISTINCT
@@ -99,6 +109,5 @@
 		DELETE FROM
 		INBASKET WHERE PDT_OPTION_NO = #{pdtOptionNo}
 	</delete>
-
 
 </mapper>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.bom.community.model.vo.BoardReply;
 import com.kh.bom.community.model.vo.Community;
+import com.kh.bom.member.model.vo.Member;
 
 @Repository
 public class CommunityDaoImpl implements CommunityDao {
@@ -25,9 +26,9 @@ public class CommunityDaoImpl implements CommunityDao {
 	}
 
 	@Override
-	public List<Community> selectCommunityList(SqlSession session,int cPage, int numPerpage) {
+	public List<Community> selectCommunityList(SqlSession session,int cPage, int numPerpage, Map m) {
 		// TODO Auto-generated method stub
-		return session.selectList("community.selectCommunityList",null,
+		return session.selectList("community.selectCommunityList",m,
 				new RowBounds((cPage-1)*numPerpage,numPerpage));
 	}
 	
@@ -96,8 +97,37 @@ public class CommunityDaoImpl implements CommunityDao {
 			return session.insert("community.reportReply",reply);
 		}
     
-		
+		//좋아요 수 업데이트
+		@Override
+		public int updateCount(SqlSession session,Map<String,Object> map) {
+			// TODO Auto-generated method stub
+			return session.update("community.updateLikeCount",map);
+		}
 
+		//좋아요 수만 가져오기
+		@Override
+		public int selectLikeCount(SqlSession session, String cmNo) {
+			// TODO Auto-generated method stub
+			return session.selectOne("community.selectLikeCount",cmNo);
+		}
+		//좋아요 한 글 번호 넣기
+		@Override
+		public int updateLikeNo(SqlSession session, Map<String,Object> map) {
+			// TODO Auto-generated method stub
+			return session.update("community.updateLikeNo",map);
+		}
+		//좋아요 취소 시 글 번호 업데이트
+		@Override
+		public int deleteLikeNo(SqlSession session, Map<String, Object> map) {
+			// TODO Auto-generated method stub
+			return session.update("community.deleteLikeNo",map);
+		}
+		//업데이트한 글 번호 가져오기
+		@Override
+		public Member selectLikeNo(SqlSession session, String memNo) {
+			// TODO Auto-generated method stub
+			return session.selectOne("community.selectLikeNo", memNo);
+		}
 
 	
 }
