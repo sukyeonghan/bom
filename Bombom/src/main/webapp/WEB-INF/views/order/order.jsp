@@ -74,7 +74,6 @@
                 <option value="부재 시,경비실에 맡겨주세요.">부재 시,경비실에 맡겨주세요.</option>
                 <option value="경비실이 없습니다.배송 전 연락주세요.">경비실이 없습니다.배송 전,연락주세요.</option>
                 <option value="배송 전,연락주세요.">배송 전,연락주세요.</option>
-                <option value=""></option>
                 <option value="직접입력">직접입력</option>
             </select>
             <div id="direct_input"></div></div>
@@ -147,10 +146,9 @@
     <div class="form-group mb-5">
         <h3>적립금</h3>
         <hr>
-        <label for="point">3만원이상 결제시 포인트 사용이 가능합니다.</label><br>
-        <div class="form-group d-flex"><input type="number" name="" id="point" class="form-control mr-3" style="width: 100px;"><label for="point">P</label></div>
-        <p>사용 가능한 포인트 <span>1,236P</span></p>
-        <label for="allPoint"><input type="checkbox" id="allPoint" class="form-check-input">전액사용</label>
+        <div class="form-group d-flex"><input type="text" name="" id="point" class="form-control mr-3" style="width: 100px;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)'><label for="point">P</label></div>
+        <p>사용 가능한 포인트 <span class="savePoint"><fmt:formatNumber pattern="#,###,###" value="${loginMember.memPoint }"/>P</span></p>
+        <label for="allPoint"><input type="checkbox" id="allPoint" class="form-check-input" >전액사용</label>
 
     </div>
     <!-- 예상적립금 -->
@@ -183,6 +181,9 @@
 
 
 <script>
+	$(function(){
+		$("#point").val(0)}
+	);
 
 	$(function () { //배송메모 직접입력 선택시 input태그 보이게 하기
 	    //배송메모 직접입력 input
@@ -201,13 +202,39 @@
 
 	//배송지와 주문자 동일하게 채우기 버튼
     $(".sameInfo").click(e =>{
-    	console.log("클릭");
         let orderer = $(".orderer").val(); //이름
         let ordererEmail; //이메일
         let ordererPhone = $(".ordererPhone").val();//휴대전화
         $("#orderer").val(orderer);
         $("#ordererPhone").val(ordererPhone);
     });
+	
+	var allPoint = '<c:out value="${loginMember.memPoint }"/>'; //사용가능한 포인트
+	var allPointPat = '<fmt:formatNumber pattern="#,###,###" value="${loginMember.memPoint }"/>';
+	//사용 가능한 포인트 초과 입력시 alert
+	
+	$("#point").on("change",e =>{
+		var inputPoint = $("#point").val(); //사용자가 입력한 포인트값가져오기
+		if( Number(inputPoint) > Number(allPoint)){
+			alert("사용 가능한 포인트 보다 많은 가격이 입력되었습니다.");
+			alert("포인트를"+allPointPat+"원을 사용하고 0원 남았습니다.");
+			$("#point").val(Number(allPoint));
+		}
+		//포인트 사용하면 총 금액에 정산되도록 만들기
+		
+		
+		
+	});
+	
+	//포인트 전액사용 체크박스 체크시 또는 해제시
+	console.log(allPoint);
+	$("#allPoint").change(e =>{
+		if($("#allPoint").is(":checked")){
+			$("#point").val(Number(allPoint));
+		}else{
+			$("#point").val(0);
+		}
+	});
 
 </script>
 
@@ -219,6 +246,12 @@
 .savePoint{
 	font-weight: 800;
 	color : #45A663;
+}
+input[type='number'], input[type='text'], input[type='password'], input[type='file'],
+	input[type='tel'], input[type='email'], select, option, textarea, input[type='submit'],
+	button {
+	-webkit-appearance: none;
+	-moz-appearance: textfield;
 }
 </style>
 
