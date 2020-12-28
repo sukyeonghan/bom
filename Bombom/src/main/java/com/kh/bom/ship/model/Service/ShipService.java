@@ -19,5 +19,8 @@ public interface ShipService {
 
 	//배송지 업데이트
 	int updateShip(Ship s);
+	
+	//기본배송지가 Y인 배송지 가져오기(order)
+	Ship selectShipOneY(String memNo);
 
 }

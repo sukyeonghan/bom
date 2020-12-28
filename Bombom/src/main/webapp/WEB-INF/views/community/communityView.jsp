@@ -483,16 +483,14 @@ table#tbl-comment textarea {
 </section>
 
 <script>
+	//좋아요 확인용 value
 	var value;
 	//좋아요한 글인지 확인
 	$(document).ready(function(){
-		console.log("설마 너니?");
 	 	$.ajax({
 			url:"${path}/community/checkLike",
 			dataType:"json",
 			success:data=>{
-				console.log("위ajax");
-				console.log(data);
 				if(data!=null){
 					 $(data).each(function(i,v){
 					  //좋아요한 글이면 버튼 눌러진 상태로 띄우기
@@ -506,29 +504,34 @@ table#tbl-comment textarea {
 		});
 	
 	});
-	
-	
+	//알림 관련 메세지
+	let alarmMsg="${loginMember.memNick}님이 회원님의 '${community.cmTitle}' 글을 좋아합니다.";//좋아요를 누른 사람의 닉네임,글 제목
 	//좋아요 버튼
 	$('.like-wrapper').on('click', function(e) {
-		//var value;
 		$(e.target).toggleClass('liked');
 		//좋아요 누른 상태
 		if($(e.target).hasClass('liked') === true) value=1;
 		//좋아요 취소 상태
 		else value=0;
-		
-	  	console.log(value);
+
 		$.ajax({
 			url:"${path}/community/insertLike",
-			data:{cmNo:"${community.cmNo }",likeCount:"${community.cmLike }",value:value},
+			data:{cmNo:"${community.cmNo }",likeCount:"${community.cmLike }",value:value,receiverNo:"${community.cmWriter}",message:alarmMsg},
 			dataType:"json",
 			success:data=>{
 				//좋아요 수 출력 
-				console.log(data.likeNo);
 				$(".cmLike").text(data.likeCount);
+				//좋아요 됐으면 클릭된 상태로 띄우기
 				if(data.likeNo.indexOf("${community.cmNo }")!=-1){
 	            	$(".like-button").addClass('liked');
-				  }
+				}
+				//알림 보내기
+				if(sock && value==1){
+	   				console.log("소켓생성됨:"+sock);
+	   				let socketMsg = "communityLike,${loginMember.memNick},${loginMember.memNo},${community.cmWriter},''";
+	   				console.log("알림전송내역 : " + socketMsg);
+	   				sock.send(socketMsg);
+	   			}
 			}
 		});
 

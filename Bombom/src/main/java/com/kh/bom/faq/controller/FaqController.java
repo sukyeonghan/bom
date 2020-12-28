@@ -30,7 +30,8 @@ public class FaqController {
 		mv.addObject("list",service.selectFaqList(cPage,numPerpage,category));
 		int totalData=service.selectFaqCount(category);
 		mv.addObject("cPage",cPage);
-		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "faqList"));
+		//mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "faqList"));
+		mv.addObject("pageBar",FaqAjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "faqListAjax",category));
 		mv.setViewName("faq/faqList");
 		
 		return mv;

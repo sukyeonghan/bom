@@ -17,5 +17,7 @@ public interface ShipDao {
 	Ship selectShipOne(SqlSession session,String shipNo);
 
 	int updateShip(SqlSession session, Ship s);
+	
+	Ship selectShipOneY(SqlSession session, String memNo);
 
 }

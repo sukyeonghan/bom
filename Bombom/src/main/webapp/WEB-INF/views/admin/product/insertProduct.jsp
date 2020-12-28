@@ -276,8 +276,8 @@ function insert(){
             
                url:"${path}/admin/checkPdtName?pdtName="+val,
                type:"get",
+               dataType:"json",
                success:function(data){
-                   console.log(data);
                    if(data!=0){
                        swal("상품명이 중복됩니다.");
                        $("#name").val('');
@@ -332,7 +332,7 @@ function insert(){
     var items = document.getElementsByName("pdtOptionContent");
     
     for(var i=0; i<items.length; i++){
-        list.push({"pdtOptionContent":$("input[name=pdtOptionContent]").eq(i).val(),
+        list.push({"pdtOptionContent":$("input[name=pdtOptionContent]").eq(i).trim().val(),
             "pdtOptionAddprice":$("input[name=pdtOptionAddprice]").eq(i).val()});    
     }
     $("#test_list").val(JSON.stringify(list));
