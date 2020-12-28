@@ -15,7 +15,7 @@
         <h1>결제하기</h1>
     </div>
    <div style="width: 760px;margin: 40px auto 0;">
-    <form action="'${path }/order/insertOrder?bNo=${basketNo}" method="post">
+    <form action="${path }/order/insertOrder?bNo=${basketNo}" method="post">
     <!-- 주문상품 -->
     <div class="mb-5">
         <h3>주문상품</h3>
@@ -86,7 +86,7 @@
     	<div class="d-flex">
         <h3 class="mr-5">주문자</h3> 
         <label class="form-label">
-           	<input type="button" class="sameInfo form-label" value="배송지 정보와 동일하게 채우기">
+           	<input type="button" class="sameInfo btn btn-outline-info" value="배송지 정보와 동일하게 채우기">
         </label>
         </div>
         <hr>
