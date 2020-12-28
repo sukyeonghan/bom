@@ -454,8 +454,8 @@
 		            url:"${path}/admin/updateCheckPdtName",
 		            data:{"pdtName":val,"pdtNo":'${product.pdtNo}'},
 		            type:"get",
-		            success:function(data){
-	 					
+		            dataType:"json",
+		            success:data=>{
 		            	if(data!=0){
 		                	swal("상품명이 중복됩니다.");
 		                    $("#name").val('');

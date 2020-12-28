@@ -59,7 +59,7 @@
 		</trim>
 	</select>
 	<!-- 세일제품 개수 -->
-	<select id="countSale" resultType="_int" parameterType="string">
+	<select id="countSale" resultType="_int" parameterType="map">
 		SELECT COUNT(*)
 		FROM PRODUCT 
 		JOIN EVENT ON(EVENT_NO=EVENT_NO_REF)

@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.common.page.AjaxPageBarFactory;
 import com.kh.bom.common.page.ProAjaxPageBarFactory;
+import com.kh.bom.common.page.ProAjaxPageBarFactoryModify;
 import com.kh.bom.common.page.ProPageBarFactory;
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.member.model.vo.Member;
@@ -72,7 +73,7 @@ public class ProductController {
 			m.addObject("list",service.selectProductList(cPage,numPerpage,sort,soldout,category));
 		}
 		
-		m.addObject("pageBar",ProAjaxPageBarFactory.getAjaxPageBar(count, cPage, numPerpage, "productListAjax",sort,soldout,category));
+		m.addObject("pageBar",ProAjaxPageBarFactoryModify.getAjaxPageBar(count, cPage, numPerpage, "productListAjax",sort,soldout,category));
 		m.addObject("cPage",cPage);
 		m.addObject("category",category);
 		m.addObject("sort",sort);

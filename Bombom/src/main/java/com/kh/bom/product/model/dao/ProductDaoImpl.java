@@ -72,7 +72,9 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public int countSale(SqlSession session,String soldout) {
 		// TODO Auto-generated method stub
-		return session.selectOne("product.countSale",soldout);
+		Map<String,Object> map=new HashMap();
+		map.put("soldout",soldout);
+		return session.selectOne("product.countSale",map);
 	}
 	@Override
 	public List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,String sort,String soldout,String category) {
