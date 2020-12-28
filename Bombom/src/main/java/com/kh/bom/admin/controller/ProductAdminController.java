@@ -125,7 +125,7 @@ public class ProductAdminController {
 		return m;
 	}
 	
-	//by수경-제품 등록 페이지 전환
+	//제품 등록 페이지 전환
 	@RequestMapping("/admin/productInsert")
 	public ModelAndView moveProductinsertPage(ModelAndView m) {
 		List<Event> selectEvent =service.selectEvent();
@@ -133,7 +133,7 @@ public class ProductAdminController {
 		m.setViewName("admin/product/insertProduct");
 		return m;
 	}
-	//by수경-제품 등록-201204수정
+	//제품 등록
 	@RequestMapping("/admin/productInsertEnd")
 	public ModelAndView insertProduct(Product p,ProductOption o,ModelAndView m,
 			@RequestParam(value="test",required = false) String options,
@@ -219,7 +219,7 @@ public class ProductAdminController {
 		return service.selectPdtName(pdtName);
 		
 	}
-	//by수경-제품 수정 및 삭제 페이지 전환
+	//제품 수정 및 삭제 페이지 전환
 	@RequestMapping("/admin/productUpdate")
 	public ModelAndView moveProductUpdatePage(String pdtNo,ModelAndView m) {
 		
@@ -277,7 +277,8 @@ public class ProductAdminController {
 			@RequestParam(value="thumbImgs",required=false) MultipartFile[] thumbImgs,
 			@RequestParam(value="detailImg",required=false) MultipartFile detailImg,
 			HttpSession session) {
-
+		System.out.println("컨트롤러에서 상세"+detailImg.getOriginalFilename());
+		System.out.println("컨트롤러에서 상세"+p.getPdtDetailImage());
 		String path=session.getServletContext().getRealPath("/resources/upload/product");
 		File dir=new File(path);
 		
@@ -307,17 +308,25 @@ public class ProductAdminController {
 			}
 		}
 		//상세 이미지 저장하기
-		String originalName=detailImg.getOriginalFilename();
-		//리네임양식정하기
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
-		String reName="det"+sdf.format(System.currentTimeMillis())+"_"+originalName;
-		try {
-			detailImg.transferTo(new File(path+"/"+reName));
-			p.setPdtDetailImage(reName);
-		}catch(IOException e) {
-			e.printStackTrace();
+		if(detailImg.getOriginalFilename()!="") {
+			String originalName=detailImg.getOriginalFilename();
+			System.out.println(originalName);
+			//리네임양식정하기
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+			String reName="det"+sdf.format(System.currentTimeMillis())+"_"+originalName;
+			try {
+				//이전 상세 이미지 삭제
+				File dFile=new File(path+"/"+p.getPdtDetailImage());
+				if(dFile.exists()) {
+					dFile.delete();
+					System.out.println("상세이미지삭제!!");
+				}
+				detailImg.transferTo(new File(path+"/"+reName));
+				p.setPdtDetailImage(reName);
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
 		}
-		
 		//옵션 
 		ObjectMapper mapper=new ObjectMapper();
 		List<Map<Object, Object>> optionMap=null;
@@ -333,7 +342,7 @@ public class ProductAdminController {
 			e1.printStackTrace();
 		}
 
-		int result=service.updateProduct(p,o,optionMap,files);
+		int result=service.updateProduct(p,o,optionMap,files,path);
 		String msg="";
 		String icon = "";
 		if(result>0) {
@@ -350,7 +359,7 @@ public class ProductAdminController {
 		return m;
 	}
 	
-	//by수경-제품 삭제
+	//제품 삭제
 	@RequestMapping("admin/deleteProduct")
 	public ModelAndView deleteProduct(HttpSession session,
 			@RequestParam("pdtNo") String pdtNo,ModelAndView m) {
