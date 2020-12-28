@@ -32,13 +32,16 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- icon -->
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- 부트스트랩 -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
+<script
+	src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
 <link rel="stylesheet" href="${path }/resources/css/common/allPage.css">
 <style>
@@ -91,37 +94,38 @@ p.p-info {
 	color: #45A663;
 }
 
-
 /*알림*/
-#alarm-div{
+#alarm-div {
 	position: relative;
-	width: 30px;	
-	height: 30px;}
-#alarm{
-	position:absolute;
-	font-size: 20px;
-    padding-top: 8px;
-    color: 45A663;
+	width: 30px;
+	height: 30px;
 }
-#alarm-countbox{
-	position:absolute;
-	top:2px;
+
+#alarm {
+	position: absolute;
+	font-size: 20px;
+	padding-top: 8px;
+	color: 45A663;
+}
+
+#alarm-countbox {
+	position: absolute;
+	top: 2px;
 	right: 3px;
 	background-color: red;
-	border:none;
+	border: none;
 	border-radius: 100%;
-	width: 15px;	
-	height: 15px;	
+	width: 15px;
+	height: 15px;
 	color: white;
 	font-size: 13px;
 	text-align: center;
-	font-weight:bolder;
-	line-height:15px;
-	display:none;
-]
+	font-weight: bolder;
+	line-height: 15px;
+	display: none;
+	]
 }
 /* 알림 리스트 팝업창 */
-
 .listPop {
 	position: absolute;
 	right: 60px;
@@ -134,51 +138,72 @@ p.p-info {
 }
 
 #popupContent {
-    width: 250px;
-    height: 290px;
-    background: white;
-    border: 1.5px solid #45A663;
-    border-radius: 10px;
-    margin: 10px;
+	width: 250px;
+	height: 290px;
+	background: white;
+	border: 1.5px solid #45A663;
+	border-radius: 10px;
+	margin: 10px;
 }
-.alarmUl{
-	padding:10px;
+
+.alarmUl {
+	padding: 10px;
 }
-.alarmLi{
+
+.alarmLi {
 	border-bottom: 1px solid lightgray;
-    padding: 0;
-    font-size: 18px;
-    padding: 10px;
+	padding: 0;
+	font-size: 18px;
+	padding: 10px;
 }
-.alarmDate{
-	color:#b1b1b1;
-	font-size:15px;
-	margin-bottom:5px;
+
+.alarmDate {
+	color: #b1b1b1;
+	font-size: 15px;
+	margin-bottom: 5px;
 }
-.messageP{
+
+.messageP {
 	text-overflow: ellipsis;
-    white-space: nowrap;
-    word-wrap: normal;
-    width: 200px;
-    overflow: hidden;
+	white-space: nowrap;
+	word-wrap: normal;
+	width: 200px;
+	overflow: hidden;
 }
-.alarmUl>li:last-of-type{
-	border:none;
+
+.alarmUl>li:last-of-type {
+	border: none;
 }
 /*헤더 닉네임 옆 프로필사진*/
-.headerMemPro{
-	border-radius: 100%; width:20px; height:20px; 
+.headerMemPro {
+	border-radius: 100%;
+	width: 20px;
+	height: 20px;
 }
 /*커서*/
-.cur-pointer{cursor:pointer;}
-.cur-default{cursor:default;}
+.cur-pointer {
+	cursor: pointer;
+}
 
-.sns-icon{height:50px; width:50px; border-radius: 100%;}
+.cur-default {
+	cursor: default;
+}
+
+.sns-icon {
+	height: 50px;
+	width: 50px;
+	border-radius: 100%;
+}
+/*인증시간 */
+.timeOut{
+	color: red;
+}
 </style>
 
 </head>
 <body style="height: 100%;">
-	<header id="spring-main-header" class="fixed-top" style="min-width: 1000px;">
+	<header id="spring-main-header" class="fixed-top"
+		style="min-width: 1000px;">
 		<!-- header -->
 		<div id="header-container">
 			<div id="loginJoin" class="d-flex flex-row-reverse">
@@ -191,15 +216,16 @@ p.p-info {
 					</c:if>
 
 					<c:if test="${loginMember!=null }">
-					
+
 						<c:if test="${loginMember.memManagerYn eq 'N' }">
 							<li class="nav-item">
 								<p class="nav-link user_basic cur-default">
 									<c:if test="${fn:startsWith(loginMember.memPro,'http')==true}">
-									<img class="headerMemPro" src="${loginMember.memPro}"/>
+										<img class="headerMemPro" src="${loginMember.memPro}" />
 									</c:if>
 									<c:if test="${fn:startsWith(loginMember.memPro,'http')==false}">
-									<img class="headerMemPro" src="${path }/resources/upload/profile/${loginMember.memPro}" />
+										<img class="headerMemPro"
+											src="${path }/resources/upload/profile/${loginMember.memPro}" />
 									</c:if>
 									<c:out value="${loginMember.memNick }" />
 								</p>
@@ -209,10 +235,11 @@ p.p-info {
 							<li class="nav-item">
 								<p class="nav-link user_manager cur-default">
 									<c:if test="${fn:startsWith(loginMember.memPro,'http')==true}">
-									<img class="headerMemPro" src="${loginMember.memPro}"/>
+										<img class="headerMemPro" src="${loginMember.memPro}" />
 									</c:if>
 									<c:if test="${fn:startsWith(loginMember.memPro,'http')==false}">
-									<img class="headerMemPro" src="${path }/resources/upload/profile/${loginMember.memPro}" />
+										<img class="headerMemPro"
+											src="${path }/resources/upload/profile/${loginMember.memPro}" />
 									</c:if>
 									<c:out value="${loginMember.memNick }" />
 								</p>
@@ -226,34 +253,35 @@ p.p-info {
 							<div id="alarm-div">
 								<i class="far fa-bell cur-pointer" id="alarm"></i>
 								<div id="alarm-countbox">
-									<fmt:parseNumber var="i" type="number" value="${sessionScope.countAlarm }"/>
-									<c:out value="${i}"/> 
+									<fmt:parseNumber var="i" type="number"
+										value="${sessionScope.countAlarm }" />
+									<c:out value="${i}" />
 								</div>
-								
+
 							</div>
 						</li>
 						<!-- 알림 리스트 팝업 -->
-						<div class="listPop listDisNone">										
-							<div id="popupContent">						
+						<div class="listPop listDisNone">
+							<div id="popupContent">
 								<a alt="" href="${path }/member/alarmPage">
-								
+
 									<ul class="alarmUl">
 										<c:forEach begin="0" end="2" var="a" items="${alarmList }">
-											
+
 											<li class="alarmLi">
 												<p class="alarmDate" style="">
-													<c:out value="${a.alarmDate }"/>
+													<c:out value="${a.alarmDate }" />
 												</p>
-												<p  class="messageP"> 
-													<c:out value="${a.message }"/>
+												<p class="messageP">
+													<c:out value="${a.message }" />
 												</p>
 											</li>
-										</c:forEach>		
+										</c:forEach>
 									</ul>
 								</a>
-							</div>											
+							</div>
 						</div>
-						
+
 						<li class="nav-item"><a class="nav-link"
 							href="${path }/order/basket?memNo=${loginMember.memNo}"> <svg
 									class="header_icon" width="20" height="20" viewBox="0 0 24 24"
@@ -264,7 +292,7 @@ p.p-info {
                     				<path d="M1 2h3v3"></path></svg>
 						</a></li>
 
-						
+
 					</c:if>
 					<li class="nav-item"><a class="nav-link" data-toggle="modal"
 						data-target="#searchModal"> <svg class="header_icon"
@@ -299,18 +327,18 @@ p.p-info {
 								<li><a class="" href="${path }/product/sale">할인상품</a></li>
 							</ul></li>
 						<li class="nav-item"><a class="nav-link"
-							href="${path }/community/communityList">커뮤니티</a> <c:if
-								test="${loginMember == null }">
-
-							</c:if></li>
+							href="${path }/community/communityList">커뮤니티</a>
+					<c:if test="${loginMember == null }"></c:if>
+						</li>
 						<li class="nav-item"><a class="nav-link" href="#">게시판</a>
 							<ul class="">
 								<li><a class="" href="${path }/notice/noticeList">공지사항</a></li>
 								<li><a class="" href="${path }/faq/faqList">자주묻는질문</a></li>
-							</ul></li>
+							</ul>
+						</li>
+						<%-- <c:if test="${ (loginMember != null) and (loginMember.memManagerYn eq 'Y')  }"> --%>
 						<li class="nav-item dropdown"><a id="menuNav-admin"
 							class="nav-link" href="${path }/admin/memberList">관리자페이지</a>
-
 							<ul class="">
 								<li><a class="" href="${path }/admin/memberList">회원관리</a></li>
 								<li><a class="" href="${path }/admin/moveProduct">제품관리</a></li>
@@ -318,9 +346,9 @@ p.p-info {
 								<li><a class="" href="${path }/admin/qnaList">1:1문의 관리</a></li>
 								<li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
 								<li><a class="" href="${path }/admin/moveMainBanners">메인관리</a></li>
-								<li><a class="" href="${path }/admin/community/communityMng">커뮤니티관리</a>
-
+								<li><a class="" href="${path }/admin/community/communityMng">커뮤니티관리</a></li>
 							</ul></li>
+						<%-- </c:if> --%>
 					</ul>
 				</nav>
 			</div>
@@ -393,19 +421,24 @@ p.p-info {
 							<p>소셜 계정으로 간편하게 로그인 하세요 !</p>
 							<div class="row">
 								<div class="col">
-									<a href="${google_url }">
-									<img src="${path }/resources/images/login/google.png" alt="구글로그인" class="sns-icon" />
+									<a href="${google_url }"> <img
+										src="${path }/resources/images/login/google.png" alt="구글로그인"
+										class="sns-icon" />
 									</a>
 								</div>
 								<div class="col">
-<!-- 									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=http://localhost:9090/bom/auth/kakao/callback&response_type=code">
- -->									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback&response_type=code">
-    									<img src="${path }/resources/images/login/kakao.png" alt="카카오로그인" class="sns-icon" />
+									<!-- 									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=http://localhost:9090/bom/auth/kakao/callback&response_type=code">
+ -->
+									<a
+										href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback&response_type=code">
+										<img src="${path }/resources/images/login/kakao.png"
+										alt="카카오로그인" class="sns-icon" />
 									</a>
 								</div>
 								<div class="col">
-									<a href="${naver_url }">
-									<img src="${path }/resources/images/login/naver.png" alt="네이버로그인" class="sns-icon" />
+									<a href="${naver_url }"> <img
+										src="${path }/resources/images/login/naver.png" alt="네이버로그인"
+										class="sns-icon" />
 									</a>
 								</div>
 							</div>
@@ -470,19 +503,22 @@ p.p-info {
 							<p>소셜 계정으로 간편하게 로그인 하세요 !</p>
 							<div class="row">
 								<div class="col">
-									<a href="${google_url }">
-									<!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
-									<img src="${path }/resources/images/login/google.png" alt="구글로그인" class="sns-icon" />
+									<a href="${google_url }"> <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+										<img src="${path }/resources/images/login/google.png"
+										alt="구글로그인" class="sns-icon" />
 									</a>
 								</div>
 								<div class="col">
-									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback&response_type=code">
-    									<img src="${path }/resources/images/login/kakao.png" alt="카카오로그인" class="sns-icon" />
+									<a
+										href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback&response_type=code">
+										<img src="${path }/resources/images/login/kakao.png"
+										alt="카카오로그인" class="sns-icon" />
 									</a>
 								</div>
 								<div class="col">
-									<a href="${naver_url }">
-									<img src="${path }/resources/images/login/naver.png" alt="네이버로그인" class="sns-icon" />
+									<a href="${naver_url }"> <img
+										src="${path }/resources/images/login/naver.png" alt="네이버로그인"
+										class="sns-icon" />
 									</a>
 								</div>
 							</div>
@@ -523,22 +559,23 @@ p.p-info {
 					<div class="modal-body">
 						<input type="email" class="form-control" placeholder="이메일주소"
 							name="emailVeri" id="emailFind" required /> <input type="hidden"
-							id="oriCode" name="oriCode" >
+							id="oriCode" name="oriCode">
 
 						<button type="button" class="btn btn-success btn-block"
 							id="emailSend">이메일발송</button>
 
 						<input type="text" class="form-control" placeholder="인증번호"
-							id="verification" name="code" /> <label class="timeOut">ajax
-							인증 시간:4분 59초</label>
+							id="verification" name="code" /> <label class="timeOut">
+						</label>
 						<div class="row">
 							<div class="col">
 								<button type="button" class="btn btn-success btn-block"
 									data-toggle="modal" data-target="" data-dismiss=""
 									id="confirmBtn">인증확인</button>
-								<button type="button" class="btn btn-success btn-block" style="display:none"
-									data-toggle="modal" data-target="#resetModal" data-dismiss="modal"
-									id="nextBtn">비밀번호 바꾸기</button>	
+								<button type="button" class="btn btn-success btn-block"
+									style="display: none" data-toggle="modal"
+									data-target="#resetModal" data-dismiss="modal" id="nextBtn">비밀번호
+									바꾸기</button>
 							</div>
 						</div>
 					</div>
@@ -580,17 +617,14 @@ p.p-info {
 						<div class="modal-body">
 							<div class="form-group">
 								<input type="password" class="form-control" placeholder="새 비밀번호"
-									id="newPwd" name="newPw"/> <label
-									class="newPw pw">영문,숫자,특수문자 조합 8자 이상 16자 이하로 입력해주세요.</label> <label
-									class="newPw ok">GOOD</label>
+									id="newPwd" name="newPw" /> <label class="newPw pw">영문,숫자,특수문자
+									조합 8자 이상 16자 이하로 입력해주세요.</label> <label class="newPw ok">GOOD</label>
 							</div>
 							<div class="form-group">
 								<input type="password" class="form-control"
-									placeholder="새 비밀번호 확인" id="checkPwd" />
-									<label
-									class="checkPw error">비밀번호가 일치하지 않습니다.</label>
-									<label
-									class="checkPw ok">GOOD</label> 
+									placeholder="새 비밀번호 확인" id="checkPwd" /> <label
+									class="checkPw error">비밀번호가 일치하지 않습니다.</label> <label
+									class="checkPw ok">GOOD</label>
 							</div>
 							<button type="submit" class="btn btn-success btn-block">
 								재설정 완료</button>
@@ -817,6 +851,30 @@ function fn_signUp(){
 					 swal('인증번호를 발송하였습니다.');
 					 console.log(data);
 					 $(".timeOut").show();
+					// 카운트 다운 
+					    let num = 60 * 3; //시간 설정
+					    let myVar;
+					    function time(){
+					        myVar = setInterval(alertFunc, 1000); 
+					    }
+					    time();
+
+					    function alertFunc() {
+					        let min = num / 60; 
+					        min = Math.floor(min);
+					         
+					        let sec = num - (60 * min);					 
+					        let $span = $('.timeOut').text(min + '분' + sec + '초');
+					        //이메일 전송하기를 다시 눌렀을때, 이메일 재전송, 인증시간 초기화
+					        if($("#emailSend").click(e=>{
+					        	clearInterval(myVar);
+					        }));
+					        if(num == 0){
+					            clearInterval(myVar) // num 이 0초가 되었을때 clearInterval로 타이머 종료
+					            alert("인증시간이 끝났습니다. 이메일을 다시 발송해주세요.")
+					        }
+					        num--;
+					    }
 					 
 				 }else{
 					 swal('가입이력이 없는 이메일입니다.');
@@ -848,6 +906,8 @@ function fn_signUp(){
  			}
  		});
  	}); 
+ 
+
 
 //인증후 비밀번호 유효성
    $("#newPwd").keyup(e=>{

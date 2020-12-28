@@ -32,7 +32,6 @@
 		cursor:pointer;
 	}
 	ul#category-nav>li:hover{color:#45A663;}
-
 </style>
 <section id="container">
 	<div id="flexDiv">
@@ -100,7 +99,6 @@
 				<div id="pageBar">
 					${pageBar }
 			    </div> 
-		        
 			</div>
 		</div>
 	</div>

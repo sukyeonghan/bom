@@ -141,7 +141,7 @@
 	
 	<!--1:1문의 모달창 -->
 		  <div class="modal fade" id="qnaView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		    <div class="modal-dialog">
+		    <div class="modal-dialog modal-dialog-centered">
 		      <div class="modal-content">
 		      
 		        <!-- Modal Header -->

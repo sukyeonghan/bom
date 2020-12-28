@@ -44,6 +44,12 @@ public class ShipServiceImpl implements ShipService {
 		// TODO Auto-generated method stub
 		return dao.updateShip(session,s);
 	}
+
+	@Override
+	public Ship selectShipOneY(String memNo) {
+		// TODO Auto-generated method stub
+		return dao.selectShipOneY(session, memNo);
+	}
 	
 	
 }
