@@ -85,8 +85,8 @@
     <div class="mb-5">
     	<div class="d-flex">
         <h3 class="mr-5">주문자</h3> 
-        <label class="form-check-label">
-           	<input type="checkbox" class="sameInfo form-check-input">배송지 정보와 동일하게 채우기
+        <label class="form-label">
+           	<input type="button" class="sameInfo form-label" value="배송지 정보와 동일하게 채우기">
         </label>
         </div>
         <hr>
@@ -160,8 +160,14 @@
     });
     
     $(".sameInfo").click(e =>{
-    	
-    });
+        var orderer = $(".orderer").value; //이름
+        var ordererEmail; //이메일
+        var ordererPhone = $(".ordererPhone").value;//휴대전화
+        
+        console.log(orderer);
+        console.log(ordererPhone);
+        
+    })
 
 </script>
 
