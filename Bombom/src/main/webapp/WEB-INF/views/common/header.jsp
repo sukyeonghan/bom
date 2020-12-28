@@ -299,18 +299,18 @@ p.p-info {
 								<li><a class="" href="${path }/product/sale">할인상품</a></li>
 							</ul></li>
 						<li class="nav-item"><a class="nav-link"
-							href="${path }/community/communityList">커뮤니티</a> <c:if
-								test="${loginMember == null }">
-
-							</c:if></li>
+							href="${path }/community/communityList">커뮤니티</a>
+					<c:if test="${loginMember == null }"></c:if>
+						</li>
 						<li class="nav-item"><a class="nav-link" href="#">게시판</a>
 							<ul class="">
 								<li><a class="" href="${path }/notice/noticeList">공지사항</a></li>
 								<li><a class="" href="${path }/faq/faqList">자주묻는질문</a></li>
-							</ul></li>
+							</ul>
+						</li>
+						<%-- <c:if test="${ (loginMember != null) and (loginMember.memManagerYn eq 'Y')  }"> --%>
 						<li class="nav-item dropdown"><a id="menuNav-admin"
 							class="nav-link" href="${path }/admin/memberList">관리자페이지</a>
-
 							<ul class="">
 								<li><a class="" href="${path }/admin/memberList">회원관리</a></li>
 								<li><a class="" href="${path }/admin/moveProduct">제품관리</a></li>
@@ -319,8 +319,8 @@ p.p-info {
 								<li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
 								<li><a class="" href="${path }/admin/moveMainBanners">메인관리</a></li>
 								<li><a class="" href="${path }/admin/community/communityMng">커뮤니티관리</a>
-
-							</ul></li>
+						</ul></li>
+						<%-- </c:if> --%>
 					</ul>
 				</nav>
 			</div>
