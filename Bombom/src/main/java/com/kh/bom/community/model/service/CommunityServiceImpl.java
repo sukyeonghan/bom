@@ -162,8 +162,9 @@ public class CommunityServiceImpl implements CommunityService {
 		//좋아요를 눌렀을 때
 		if(value==1) {
 			result=dao.updateLikeNo(session,map);
+			//알림 DB에 저장
 			if(result>0) {
-				mDao.insertAlarm(session, a);
+				result=mDao.insertAlarm(session, a);
 			}
 		}else if(memCmLike!=null && value==0){
 			//좋아요를 취소했을 때
