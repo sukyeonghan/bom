@@ -27,8 +27,8 @@
 		<if test='shipYn !=null'>'Y',</if>
 		<if test='shipYn ==null'>DEFAULT,</if>
 		#{shipZipCode},#{shipDetailAddress},#{shipExtraAddress},
-		<if test='shipDeleMemo !=null'>#{shipDeleMemo}</if>
-		<if test='shipDeleMemo ==null'>null</if>)
+		<if test='shipDelimemo !=null'>#{shipDelimemo})</if>
+		<if test='shipDelimemo ==null'>null)</if>
 	</insert>
 	<!--해당 회원의 기본배송지 모두 n으로 변경 -->
 	<update id="updateShipYn" parameterType="string">
