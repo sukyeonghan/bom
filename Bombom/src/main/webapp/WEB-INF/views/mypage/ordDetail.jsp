@@ -81,50 +81,63 @@ p {
 						<tr>
 
 							<th>이미지</th>
-							<th>상품정보</th>
+							<th>상품명</th>
+							<th>상품옵션</th>
 							<th>수량</th>
 							<th>상품금액</th>
-							<th>주문상태</th>
+							<th>총 금액</th>
 
 						</tr>
 					</thead>
 					<tbody>
+						<c:set var="total" value="0" />
+						<c:forEach items="${product}" var="p" varStatus="vs">
+							<tr>
+								<c:forTokens items="${p.pdtThumbImage}" var="th" delims=","
+									varStatus="vs">
+									<c:if test="${vs.first }">
+
+										<td><img alt="" class="img-fluid" id="main_image"
+											style="height: 40px"
+											src="${path}/resources/upload/product/${th}" /></td>
+									</c:if>
+								</c:forTokens>
+								<td><c:out value="${p.pdtName}" /></td>
+								<td><c:out value="${p.pdtOptionContent}" /></td>
+								<td><c:out value="${p.inorderQty}" /></td>
+								<td><fmt:formatNumber pattern="#,###,###" value="${p.pdtPrice}" />원</td>
+								<td><fmt:formatNumber pattern="#,###,###"
+										value="${p.inorderQty * p.pdtPrice}" />원</td>
+							</tr>
+							<c:set var="total" value="${p.inorderQty * p.pdtPrice + total}" />
+						</c:forEach>
 						<tr>
-							<td>상품이미지</td>
-							<td>대나무칫솔</td>
-							<td>2</td>
-							<td>3,000원</td>
-							<td>배송중[3650928566501]</td>
-
+							<td colspan="5">총 합계</td>
+							<td id="total"><b><fmt:formatNumber pattern="#,###,###"
+										value="${total }" />원</b></td>
 						</tr>
-						<tr>
-							<td>상품이미지</td>
-							<td>대나무칫솔</td>
-							<td>2</td>
-							<td>3,000원</td>
-							<td>배송중[3650928566501]</td>
-
-						</tr>
-
-
 					</tbody>
 				</table>
 			</div>
 			<div class="order-info">
 				<p>주문 정보</p>
 				<table class="table table-borderless">
-
-					<tr>
-						<th>주문번호</th>
-						<td>2020111900091</td>
-					</tr>
-					<tr>
-						<th>주문일자</th>
-						<td>2020-11-19</td>
-					</tr>
 					<tr>
 						<th>주문자</th>
-						<td>김홍시</td>
+						<td><c:out value="${order.ordOname}" /></td>
+						
+						<th>주문번호</th>
+						<td><c:out value="${order.orderNo}" /></td>
+					</tr>
+					<tr>
+						<th>전화번호</th>
+						<td><c:out value="${order.ordOphone}" /></td>
+						
+						<th>주문일자</th>
+						<td><fmt:formatDate type="both" dateStyle="full"
+								value="${order.ordDate}" /></td>
+					</tr>
+				
 				</table>
 			</div>
 			<div class="order-payment">
@@ -133,15 +146,17 @@ p {
 
 					<tr>
 						<th>주문금액</th>
-						<td>50,000원</td>
+						<td id="total2"></td>
 					</tr>
 					<tr>
 						<th>포인트결제액</th>
-						<td>0원</td>
+						<td><fmt:formatNumber pattern="#,###,###"
+								value="${order.ordUsePoint}" /></td>
 					</tr>
 					<tr>
 						<th>결제금액</th>
-						<td>48,000원</td>
+						<td><b><fmt:formatNumber pattern="#,###,###"
+									value="${order.ordAmount }" />원</b></td>
 					</tr>
 				</table>
 			</div>
@@ -151,34 +166,37 @@ p {
 
 					<tr>
 						<th>받는사람</th>
-						<td>김홍도</td>
+						<td><c:out value="${order.ordRname }" /></td>
 					</tr>
 					<tr>
 						<th>우편번호</th>
-						<td>472810</td>
+						<td><c:out value="${order.ordZipcode}" /></td>
 					<tr>
 						<th>주소</th>
-						<td>수락산 언저리 두번째 산골 뒤에 있는 굴뚝이 있는집</td>
+						<td><c:out value="${order.ordAddr }" />
+							<c:out value="${ order.ordDetailAddr}" /></td>
 					</tr>
 					<tr>
 						<th>휴대전화</th>
-						<td>010-8895-5965</td>
+						<td><c:out value="${order.ordRphone }" /></td>
 					</tr>
 					<tr>
 						<th>배송메시지</th>
-						<td>바둑이네 집 옆, 보관함에 두고가세요.</td>
+						<td><c:out value="${order.ordMemo }" /></td>
 					</tr>
 				</table>
 			</div>
 
 			<div class="btn-box">
-				<button type="button" class="btn btn-outline-success" onclick="location.replace('${path}/mypage/orderStatus')">목록으로</button>
+				<button type="button" class="btn btn-outline-success"
+					onclick="location.replace('${path}/mypage/orderStatus')">목록으로</button>
 			</div>
 		</div>
 	</div>
 
 </section>
 <script>
-	
+//주문금액 다시 결제정보에 다시 쏴주기 
+$("#total2").text($("#total").text())
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
