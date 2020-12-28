@@ -10,10 +10,11 @@
 	<jsp:param name="title" value="결제하기" />
 </jsp:include>
 
-<section id="container" class="container ">
+<section id="container" class="container">
     <div class="order_header">
         <h1>결제하기</h1>
     </div>
+   <div style="width: 760px;margin: 40px auto 0;">
     <form action="'${path }/order/insertOrder?bNo=${basketNo}" method="post">
     <!-- 주문상품 -->
     <div class="mb-5">
@@ -45,27 +46,25 @@
     <div class="mb-5">
         <h3>배송지</h3>
         <hr>
-        <div class="form-group mb-3">
-            <span>이름</span>
-            <input type="text" name="ordOname" class="orderer form-control">
-        </div>
-        <div class="form-group">
-            <label for="phone">휴대전화</label>
-            <input type="text" name="ordOphone" id="phone" class="form-control" required>
+        <div class="form-group d-flex mb-3">
+            <div class="col-3"><span>받는분</span></div>
+            <div class="col-9"><input type="text" name="ordOname" class="orderer form-control"></div>
         </div>
         <div class="form-group d-flex">
-            <label for="sample6_postcode" class=" mr-3">우편번호</label>
-            <input type="text" id='sample6_postcode' name='ordZipcode' class="zipCode address-detail form-control" style="width: 150px;"  placeholder='우편번호' readonly >
-            <input type="button" onclick='sample6_execDaumPostcode()' class="changeAddr btn btn-success" value="배송지변경" >
-        </div><br>
-        <div class="form-group mb-3">
-            <label for="addr">주소</label>
-            <input type="text" class="address-detail form-control" name="ordAddr" id='sample6_address' placeholder='주소' required><br>
-            <input type="text" class="address-detail form-control" name='ordDetailAddr' id='sample6_detailAddress' placeholder='상세주소' required>
+            <div class="col-3"><label for="sample6_postcode" class=" mr-3">우편번호</label></div>
+            <div class="col-9 d-flex"><input type="text" id='sample6_postcode' name='ordZipcode' class="zipCode address-detail form-control" style="width: 150px;"  placeholder='우편번호' readonly >
+            <input type="button" onclick='sample6_execDaumPostcode()' class="changeAddr btn btn-success" value="주소찾기" >
+            <input type="button" onclick='' class="btn btn-success" value="배송지변경" ></div>
         </div>
-        <div class="form-group">
-            <label for="deli_memo">배송 메모</label>
-            <select name="ordMemo" id="deli_memo" class="form-control mb-3" required>
+        <div class="form-group d-flex mb-3">
+            <div class="col-3 d-flex"><label for="addr">주소</label></div>
+            <div class="col-9 "><input type="text" class="address-detail form-control" name="ordAddr" id='sample6_address' placeholder='주소' required><br>
+            <input type="text" class="address-detail form-control" name='ordDetailAddr' id='sample6_detailAddress' placeholder='상세주소' required>
+        	</div>
+        </div>
+        <div class="form-group d-flex">
+            <div class="col-3"><label for="deli_memo">배송 메모</label></div>
+            <div class="col-9"><select name="ordMemo" id="deli_memo" class="form-control mb-3" required>
                 <option selected disabled>배송시 요청사항</option>
                 <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
                 <option value="배송 전,연락주세요.">배송 전,연락주세요.</option>
@@ -75,29 +74,33 @@
                 <option value="배송 전,연락주세요.">배송 전,연락주세요.</option>
                 <option value="직접입력">직접입력</option>
             </select>
-            <div id="direct_input"></div>
+            <div id="direct_input"></div></div>
+        </div>
+        <div class="form-group d-flex">
+            <div class="col-3"><label for="phone">휴대전화</label></div>
+            <div class="col-9"><input type="text" name="ordOphone" id="phone" class="ordererPhone form-control" required></div>
         </div>
     </div>
     <!-- 수취인 -->
     <div class="mb-5">
     	<div class="d-flex">
-        <h3 class="mr-5">받으시는 분</h3> 
+        <h3 class="mr-5">주문자</h3> 
         <label class="form-check-label">
-           	<input type="checkbox" class="form-check-input">주문자와 동일하게 채우기
+           	<input type="checkbox" class="sameInfo form-check-input">배송지 정보와 동일하게 채우기
         </label>
         </div>
         <hr>
-        <div class="form-group">
-            <span>이름</span>
-            <input type="text" name="ordRname" class="orderer form-control" required>
+        <div class="form-group d-flex">
+            <div class="col-3"><span>이름</span></div>
+            <div class="col-9"><input type="text" name="ordRname" id="orderer" class="form-control" required></div>
         </div>
-        <div class="form-group">
-            <span>이메일</span>
-            <input type="email" name="ordRemail" class="ordererEmail form-control">
+        <div class="form-group d-flex">
+            <div class="col-3"><span>이메일</span></div>
+            <div class="col-9"><input type="email" name="ordRemail" id="ordererEmail" class="form-control"></div>
         </div>
-        <div class="form-group">
-            <span>휴대전화</span>
-            <input type="text" name="ordRphone" class="ordererPhone form-control" required><br>
+        <div class="form-group d-flex">
+            <div class="col-3"><span>휴대전화</span></div>
+            <div class="col-9"><input type="text" name="ordRphone" id="ordererPhone" class="form-control" required></div>
         </div>
     </div>
     <!-- 적립금 -->
@@ -133,6 +136,7 @@
         <button id="payBtn" type="submit" class="payBtn btn btn-outline-success" style="width: 500px;">결제하기</button>
     </div>
     </form>
+    </div>
 </section>
 
 
@@ -153,6 +157,10 @@
 	           	$("#deli_memo").attr("name","");
             }
         })
+    });
+    
+    $(".sameInfo").click(e =>{
+    	
     });
 
 </script>
@@ -206,10 +214,10 @@
 	            	ba=5000;
 	            }
 
-	            var tjf =Number($(".point").html().replace(/,/g, ""));
+	            var mileage =Number($(".point").html().replace(/,/g, "")); //총 할인 금액가져오기
 	            $(".deli").html(ba.toLocaleString());
-	            $(".total-pay").html((parseInt($(".total-price")[0].textContent.replace(/,/g, ""))+ba-tjf).toLocaleString());//상품총가격+배송비 최종가격
-	            $("#total").val((parseInt($(".total-price")[0].textContent.replace(/,/g, ""))+ba-tjf));
+	            $(".total-pay").html((parseInt($(".total-price")[0].textContent.replace(/,/g, ""))+ba-mileage).toLocaleString());//상품총가격+배송비 최종가격
+	            $("#total").val((parseInt($(".total-price")[0].textContent.replace(/,/g, ""))+ba-mileage));
 	            $("#ba").val(ba);
 	            
 	            document.getElementById("sample6_detailAddress").focus(); 
@@ -222,7 +230,7 @@
 	$(document).on("click",".payBtn",function(){
 	 	
 		if($(".address-detail")[0].value==""||$(".address-detail")[1].value==""||$(".address-detail")[2].value==""){
-			//0번 우편번호  1번 일반 풀 주소  2번 상세주소
+			//0번 우편번호  1번 일반 주소  2번 상세주소
 			alert("주소를 입력해주세요");
 			return;
 		}
@@ -233,9 +241,9 @@
 			    merchant_uid : 'merchant_' + new Date().getTime(),
 			    name : '주문명:카드결제',
 			    amount : parseInt($(".")[0].textContent.replace(/,/g, "")),
-			    buyer_email : $(".ordererEmail").value,
-			    buyer_name : $(".orderer").value,
-			    buyer_tel : $(".ordererPhone").value,
+			    buyer_email : $("#ordererEmail").value,
+			    buyer_name : $("#orderer").value,
+			    buyer_tel : $("#ordererPhone").value,
 			    buyer_addr : $(".address-detail")[1].value+$(".address-detail")[2].value,
 			    buyer_postcode : $(".zipCode").value,
 			    m_redirect_url : 'https://www.yourdomain.com/payments/complete'
