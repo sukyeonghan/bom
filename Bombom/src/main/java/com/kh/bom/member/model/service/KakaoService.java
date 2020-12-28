@@ -33,7 +33,8 @@ public class KakaoService {
 			StringBuilder sb=new StringBuilder();
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=a91b8caf81f73042dbfd9fc0a1552e66");
-			sb.append("&redirect_uri=http://localhost:9090/bom/oauth");
+			//sb.append("&redirect_uri=http://localhost:9090/bom/auth/kakao/callback");
+			sb.append("&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback");
 			sb.append("&code="+authorize_code);
 			bw.write(sb.toString());
 			bw.flush();
@@ -97,13 +98,17 @@ public class KakaoService {
              JsonParser parser = new JsonParser();
              JsonElement element = parser.parse(result);
 
+             String id = element.getAsJsonObject().get("id").getAsString();
              JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
              JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-
-             String email = kakao_account.getAsJsonObject().get("email").getAsString();
+             String email=null;
+             if(kakao_account.getAsJsonObject().get("email")!=null) {
+            	 email = kakao_account.getAsJsonObject().get("email").getAsString();
+             }
              String nickname = properties.getAsJsonObject().get("nickname").getAsString();
              String profile_image = properties.getAsJsonObject().get("profile_image").getAsString();
 
+             userInfo.put("id", id);
              userInfo.put("email", email);
              userInfo.put("nickname", nickname);
              userInfo.put("profile_image", profile_image);

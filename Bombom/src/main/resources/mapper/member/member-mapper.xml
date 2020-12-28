@@ -12,7 +12,7 @@
 		<result property="memManagerYn" column="mem_manager_yn"/>
 		<result property="memStatus" column="mem_status"/>
 		<result property="memPoint" column="mem_point"/>
-		<result property="memCmLike" column="mem_cm_like" />
+		<result property="memCmLike" column="mem_cm_like" typeHandler="stringArr"/>
 		<result property="memSns" column="mem_sns" />
 	</resultMap>
 	<resultMap type="alarm" id="alarmMap">
@@ -46,9 +46,9 @@
 			<if test="memNick!=null and !memNick.equals('')">
 				MEM_NICK=#{memNick},
 			</if>
-			<if test="memSns!=null and !memSns.equals('')">
-				MEM_SNS=#{memSns},
-			</if>
+			<if test="naverId != null">naverId=#{naverId},</if>
+			<if test="kakaoId != null">kakaoId=#{kakaoId},</if>
+			<if test="googleId != null">googleId=#{googleId},</if>
 			MEM_STATUS='N'
 		</set>
 		 WHERE MEM_NO=#{memNo}
@@ -56,9 +56,10 @@
 	
 	<insert id="insertMember" parameterType="member">
 		INSERT INTO MEMBER VALUES('M'||SEQ_MEM_NO.NEXTVAL,#{memNick},#{memPwd},#{memEmail},#{memPro},0,0,default,default,default,default,
-		<if test="memSns != null">#{memSns}</if>
-		<if test="memSns == null">null</if>
-		)
+		<if test="naverId != null and !naverId.equals('')">#{naverId},null,null)</if>
+		<if test="kakaoId != null and !kakaoId.equals('')">null,#{kakaoId},null)</if>
+		<if test="googleId != null and !googleId.equals('')">null,null,#{googleId})</if>
+		<if test="googleId == null and kakaoId == null and naverId == null">null,null,null)</if>
 		<selectKey keyProperty="memNo" resultType="string" order="AFTER">
 			SELECT 'M'||SEQ_MEM_NO.CURRVAL FROM DUAL
 		</selectKey>
@@ -108,4 +109,11 @@
    	<delete id="deleteAlarm" parameterType="string">
    		DELETE FROM ALARM WHERE ALARM_NO=#{alarmNo}
    	</delete>
+   	
+   	<select id="selectSnsMem" parameterType="member" resultMap="memberMap">
+   		SELECT * FROM MEMBER WHERE 
+   		<if test="naverId !=null">naverId=#{naverId}</if>
+   		<if test="googleId !=null">googleId=#{googleId}</if>
+   		<if test="kakaoId !=null">kakaoId=#{kakaoId}</if>
+   	</select>
 </mapper>

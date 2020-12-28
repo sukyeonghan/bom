@@ -63,6 +63,12 @@ public class ShipDaoImpl implements ShipDao {
 		}
 		
 	}
+
+	@Override
+	public Ship selectShipOneY(SqlSession session, String memNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("ship.selectShipOneY", memNo);
+	}
 	
 	
 	

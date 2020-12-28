@@ -54,7 +54,7 @@ public class AjaxPageBarFactory {
 		pageBar+="data:{cPage:cPage,numPerpage:5,pdtNo:pdtNo},";
 		pageBar+="type:'get',";
 		pageBar+="success:data=>{";
-		pageBar+="console.log(data);";
+		//pageBar+="console.log(data);";
 					
 		pageBar+="document.getElementById('result').innerHTML=data";
 		pageBar+="}";	

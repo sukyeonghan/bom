@@ -18,9 +18,10 @@
 		<result property="ordCancel" column="ord_cancel" />
 		<result property="ordDate" column="ord_date" />
 		<result property="ordOname" column="ord_oname" />
-		<result property="ordRphone" column="ord_ophone" /> 
+		<result property="ordOphone" column="ord_ophone" /> 
 		<result property="ordRname" column="ord_rname" />
 		<result property="ordRphone" column="ord_rphone" />
+		<result property="ordRemail" column="pdt_option_addprice" />		
 		<result property="pdtThumbImage" column="thumbs" />
 		<result property="pdtName" column="pdt_name" />
 		<result property="pdtOptionContent" column="pdt_option_content" />
@@ -29,6 +30,7 @@
 		<result property="memEmail" column="mem_email" />
 		<result property="pdtOptionAddprice" column="pdt_option_addprice" />
 		<result property="pdtNo" column="pdt_no"/>
+
 	</resultMap>
 	<resultMap type="inorder" id="inorderMap">
 		<result property="orderNo" column="order_no" />

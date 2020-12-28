@@ -10,7 +10,7 @@ import com.kh.bom.community.model.vo.BoardReply;
 
 public interface CommunityMngDao {
 	
-	List<BoardReply> selectReplyList(SqlSession session,int cPage, int numPerpage);
+	List<BoardReply> selectReplyList(SqlSession session,int cPage, int numPerpage,Map m);
 	
 	int selectPage(SqlSession session);
 	

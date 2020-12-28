@@ -15,7 +15,7 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 		
 		HttpSession session=request.getSession();
 		Member login=(Member)session.getAttribute("loginMember");
-		if(login==null) {
+		if(login==null ) {
 			//로그인이 안된상태
 			request.setAttribute("msg","로그인 후 이용이 가능합니다.");
 			request.setAttribute("loc", "/");

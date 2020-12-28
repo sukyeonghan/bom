@@ -12,6 +12,9 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <script src="${path}/resources/js/jquery-3.5.1.min.js"></script>
 <script src="${path}/resources/js/alarm.js"></script>
+<!-- 구글로그인버튼 -->
+<!-- <script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="672682480913-i9edl0mslpr3f7v8bdmquu01hfqhmg1u.apps.googleusercontent.com"> -->
 <!-- swiper -->
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
 <link rel="stylesheet"
@@ -169,6 +172,8 @@ p.p-info {
 /*커서*/
 .cur-pointer{cursor:pointer;}
 .cur-default{cursor:default;}
+
+.sns-icon{height:50px; width:50px; border-radius: 100%;}
 </style>
 
 </head>
@@ -387,9 +392,22 @@ p.p-info {
 						<div class="social-container">
 							<p>소셜 계정으로 간편하게 로그인 하세요 !</p>
 							<div class="row">
-								<div class="col">구글</div>
-								<div class="col">카카오</div>
-								<div class="col">네이버</div>
+								<div class="col">
+									<a href="${google_url }">
+									<img src="${path }/resources/images/login/google.png" alt="구글로그인" class="sns-icon" />
+									</a>
+								</div>
+								<div class="col">
+<!-- 									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=http://localhost:9090/bom/auth/kakao/callback&response_type=code">
+ -->									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback&response_type=code">
+    									<img src="${path }/resources/images/login/kakao.png" alt="카카오로그인" class="sns-icon" />
+									</a>
+								</div>
+								<div class="col">
+									<a href="${naver_url }">
+									<img src="${path }/resources/images/login/naver.png" alt="네이버로그인" class="sns-icon" />
+									</a>
+								</div>
 							</div>
 							<br />
 							<p class="p-class">이미 회원이신가요?</p>
@@ -451,13 +469,22 @@ p.p-info {
 						<div class="social-container">
 							<p>소셜 계정으로 간편하게 로그인 하세요 !</p>
 							<div class="row">
-								<div class="col">구글</div>
 								<div class="col">
-									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=http://localhost:9090/bom/oauth&response_type=code">
-    									<img src="${path }/resources/images/login/kakao_login_small.png" alt="카카오"/>
+									<a href="${google_url }">
+									<!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+									<img src="${path }/resources/images/login/google.png" alt="구글로그인" class="sns-icon" />
 									</a>
 								</div>
-								<div class="col">네이버</div>
+								<div class="col">
+									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback&response_type=code">
+    									<img src="${path }/resources/images/login/kakao.png" alt="카카오로그인" class="sns-icon" />
+									</a>
+								</div>
+								<div class="col">
+									<a href="${naver_url }">
+									<img src="${path }/resources/images/login/naver.png" alt="네이버로그인" class="sns-icon" />
+									</a>
+								</div>
 							</div>
 							<br /> <a class="lostPwd" data-toggle="modal"
 								data-target="#pwModal" data-dismiss="modal">비밀번호를 잊어 버렸어요.</a>
@@ -868,8 +895,7 @@ function fn_signUp(){
 	//알림 리스트 팝업
 	$(document).ready(function () {
 	  $("#alarm-div").on("click",function(e){
-		  
-		  console.log("내가왔다!"+e.target);
+
 			$.ajax({
 				url:"${path}/member/selectAlarmList",
 				data:{memNo:"${loginMember.memNo}"},
@@ -973,7 +999,6 @@ function fn_signUp(){
 	}); */
 	
 	
-	 
-	
+
 
  </script>

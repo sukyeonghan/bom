@@ -7,12 +7,13 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.kh.bom.community.model.vo.BoardReply;
 import com.kh.bom.community.model.vo.Community;
+import com.kh.bom.member.model.vo.Member;
 
 public interface CommunityDao {
 
 	int insertCommunity(SqlSession session, Community community);
 
-	List<Community> selectCommunityList(SqlSession session, int cPage, int numPerpage);
+	List<Community> selectCommunityList(SqlSession session, int cPage, int numPerpage,Map m);
 
 	int selectCount(SqlSession session);
 
@@ -34,9 +35,18 @@ public interface CommunityDao {
 	String selectSeqReply(SqlSession session);
 
 	BoardReply selectBoardReplyOne(SqlSession session, String number);
+
+	int updateCount(SqlSession session,Map<String,Object> map);
 	
+	int selectLikeCount(SqlSession session,String cmNo);
+	
+	int updateLikeNo(SqlSession session,Map<String,Object> map);
+	
+	int deleteLikeNo(SqlSession session,Map<String,Object> map);
+
 	int reportReply(SqlSession session,BoardReply reply);
-	
+
+	Member selectLikeNo(SqlSession session,String memNo);
 	
 	
 

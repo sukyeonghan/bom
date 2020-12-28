@@ -16,29 +16,43 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.common.page.PageBarFactory;
+import com.kh.bom.member.model.service.MemberService;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.order.model.service.OrderService;
 import com.kh.bom.order.model.vo.Basket;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.vo.Point;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.ship.model.Service.ShipService;
+import com.kh.bom.ship.model.vo.Ship;
 
 @Controller
-@SessionAttributes("loginMember")
 public class OrderController {
 
 	@Autowired
 	private OrderService service;
 	@Autowired
 	private AdminService pService;
+	@Autowired
+	private MemberService mService;
+	@Autowired
+	private ShipService shipService;
 
 	// 헤더에서 장바구니 화면으로 전환
 	@RequestMapping("/order/basket")
-	public ModelAndView goBasket(ModelAndView mv, String memNo) {
+	public ModelAndView goBasket(ModelAndView mv, String memNo, HttpSession session) {
 		System.out.println(memNo);
+		Member login = (Member)mService.selectMemberOne(memNo);
+		System.out.println("장바구니 연결 - 회원 : "+login);
 		// 회원이 갖고있는 장바구니 불러오기
 		List<Basket> list = service.selectBasket(memNo);
-
+		//회원정보 보내주기
+		mv.addObject("loginMember", login);
+		//회원의 배송지 가져오기
+		Ship s = shipService.selectShipOneY(login.getMemNo());
+		if(s != null) {
+			mv.addObject("ship", s);
+		}
 		mv.addObject("list", list);
 		mv.setViewName("order/basket");
 		return mv;
@@ -84,10 +98,16 @@ public class OrderController {
 
 	// 결제화면으로 전환
 	@RequestMapping("/order/doOrder")
-	public ModelAndView doOrder(ModelAndView mv, Basket b) {
-		System.out.println("session memNo : "+b.getMemNo());
-		
-		List<Basket> list = service.selectBasket(b.getMemNo());
+	public ModelAndView doOrder(ModelAndView mv, Basket b,
+			HttpSession session) {
+		System.out.println(b);
+		Member m = (Member)session.getAttribute("loginMember");
+		System.out.println("결제하기 - 회원 : "+m);
+		//장바구니 리스트중 회원번호 한개만 뽑아오기
+		String[] memNo = b.getMemNo().split(",");
+		List<Basket> list = service.selectBasket(memNo[0]);
+		mv.addObject("basketNo", b.getBasketNo());
+		mv.addObject("loginMember",m);
 		mv.addObject("list", list);
 		mv.setViewName("order/order");
 		return mv;

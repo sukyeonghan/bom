@@ -7,7 +7,7 @@ import com.kh.bom.community.model.vo.BoardReply;
 
 public interface CommunityMngService {
 	
-	List<BoardReply> selectReplyList(int cPage, int numPerpage);
+	List<BoardReply> selectReplyList(int cPage, int numPerpage,Map m);
 	
 	int selectPage();
 	

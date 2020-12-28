@@ -24,12 +24,16 @@ public interface ProductDao {
 	int reviewCount(SqlSession session, String pdtNo);
 	
 	String reviewAvg(SqlSession session, String pdtNo);
+	
+	Product selectproductDate(SqlSession session, String pdtNo);
+	
+	List<Product> slidelist(SqlSession session);
 
-	int productCount(SqlSession session,String category);
-	int countSale(SqlSession session);
-	List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,String sort,String category);
+	int productCount(SqlSession session,String category,String soldout);
+	int countSale(SqlSession session,String soldout);
+	List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,String sort,String soldout,String category);
 	List<Product> selectNewCateList(SqlSession session,String category);
-	List<Product> selectSaleList(SqlSession session,int cPage,int numPerPage,String sort,String category);
+	List<Product> selectSaleList(SqlSession session,int cPage,int numPerPage,String sort,String soldout,String category);
 
 
 }

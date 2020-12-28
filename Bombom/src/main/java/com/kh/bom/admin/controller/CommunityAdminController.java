@@ -11,31 +11,53 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.CommunityMngService;
-import com.kh.bom.common.page.AdminProSearchAjaxPageBarFactory;
 import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.community.model.vo.BoardReply;
+import com.kh.bom.member.model.service.MemberService;
+import com.kh.bom.member.model.vo.Member;
+
+import net.sf.json.JSON;
+import net.sf.json.JSONObject;
 
 @Controller
 public class CommunityAdminController {
 
 	@Autowired
 	private CommunityMngService service;
+	@Autowired
+	private MemberService memberService;
 
+
+	 //댓글 페이지 매핑 주소
+	 @RequestMapping("/admin/community/communityMng") public String replyList() {
+	 
+	 return "/admin/community/communityMng"; }
+	 
 	// 댓글 첫 페이지
-	@RequestMapping("/admin/community/communityMng") //페이지 매핑 주소
+	@RequestMapping("/admin/community/communityMngAjax") //페이지 매핑 주소
 	public ModelAndView replyList(ModelAndView mv, @RequestParam(value = "cPage", defaultValue = "1") int cPage,
-			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage) {
+			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage, String order, @RequestParam(value="keyword", defaultValue="") String keyword) {
 
-		mv.addObject("list", service.selectReplyList(cPage, numPerpage));
+		System.out.println("순서" + order);
+		
+		Map m = new HashMap();
+		m.put("order", order);
+		m.put("keyword", keyword);
+		
+		mv.addObject("list", service.selectReplyList(cPage, numPerpage,m));
 		int totalData = service.selectPage();
 
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalData, cPage, numPerpage, "communityMng"));
 		mv.addObject("totalData", totalData);
 
-		mv.setViewName("/admin/community/communityMng"); //매핑된 페이지에서 보여주는 화면
+		mv.setViewName("/admin/community/communityMngAjax"); //매핑된 페이지에서 보여주는 화면
 		return mv;
 
 	}
+	
+	//신고된 아이디 찾기
+	
+	
 	
 	//신고 내용
 	@RequestMapping("/admin/community/reportReply")
@@ -65,43 +87,24 @@ public class CommunityAdminController {
 		return mv;
 	}
 	
-
-	// 제품 목록에서 검색
-	@RequestMapping("/admin/community/replySearchAjax")
-	public ModelAndView replySearchAjax(ModelAndView m,
-			@RequestParam(value = "searchType", defaultValue = "") String searchType,
-			@RequestParam(value = "keyword", defaultValue = "") String keyword,
-			@RequestParam(value = "cPage", defaultValue = "1") int cPage,
-			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage,
-			@RequestParam(value = "sort", defaultValue = "전체") String sort) { // 분류했을때 리스트가
-
-		Map<String, String> map = new HashMap();
-
-		map.put("searchType", searchType); // 검색분류
-		map.put("keyword", keyword); // 검색한 키워드(글자)
-		map.put("sort", sort); // 필터 분류
-
-		int totalData = service.selectPage();
-		m.addObject("list", service.selectSearchList(cPage, numPerpage, map));
-		m.addObject("pageBar", AdminProSearchAjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage,
-				"replySearchAjax", searchType, keyword, sort));
-		m.addObject("cPage", cPage);
-		m.addObject("totalData", totalData);
-		m.addObject("sort", sort);
-		m.addObject("searchType", searchType);
-		m.addObject("keyword", keyword);
-		m.setViewName("admin/community/replyListAjax");
-
-		return m;
-
-	}
 	
 	//댓글 신고 상태 변경
 	@RequestMapping("/admin/community/warnMemberYn")
 	@ResponseBody
-	public boolean warnMemberYn(BoardReply br) {
+	public JSON warnMemberYn(BoardReply br) {
+		
 		int result = service.warnMemberYn(br);
-		return result >0 ? true:false;
+		//json객체로 보내기
+		JSONObject obj=new JSONObject();
+		if(result>0) {
+			obj.put("result", true);
+			Member member=memberService.selectMemberOne(br.getMem_no());
+			obj.put("replyWriter",member);
+		}else {
+			obj.put("result", false);
+		}
+		
+		return obj;
 	}
 
 }
