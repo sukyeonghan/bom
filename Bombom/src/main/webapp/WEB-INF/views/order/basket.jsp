@@ -152,7 +152,7 @@
 <script type="text/javascript">
 	//수량 -
 	var qty = $(".qty");
-	$(".minus").click(function(e => {
+	$(".minus").click(e => {
 		console.log("-");
 		for(var i = 0; i < qty.length; i++){
 			console.log(qty[i].value);
@@ -162,8 +162,8 @@
 			console.log(qtyM);
 			
 		}
-	})
-	)
+	});
+	
 	
 	function fn_minus(){
 		
