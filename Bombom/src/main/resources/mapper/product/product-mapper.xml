@@ -49,16 +49,24 @@
 	<!-- 제품 개수 -->
 	<select id="count" resultType="_int" parameterType="map">
 		SELECT COUNT(*) FROM PRODUCT
-		<if test="category != '전체제품'">
-			WHERE PDT_CATEGORY=#{category}
-		</if>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="category != '전체제품'">
+				PDT_CATEGORY=#{category}
+			</if>
+			<if test="soldout == '품절제외'">
+				AND PDT_STATUS='Y'
+			</if>
+		</trim>
 	</select>
 	<!-- 세일제품 개수 -->
-	<select id="countSale" resultType="_int">
+	<select id="countSale" resultType="_int" parameterType="map">
 		SELECT COUNT(*)
 		FROM PRODUCT 
 		JOIN EVENT ON(EVENT_NO=EVENT_NO_REF)
 		WHERE EVENT_NO_REF IS NOT NULL AND EVENT_SALE_PER > 0
+		<if test="soldout == '품절제외'">
+			AND PDT_STATUS='Y'
+		</if>
 	</select>
 
 	<!-- 제품 리스트-->
@@ -72,14 +80,25 @@
 			LEFT JOIN EVENT E ON(P.EVENT_NO_REF=E.EVENT_NO)
 			LEFT OUTER JOIN ZZIMCONTENT Z ON(P.PDT_NO=Z.PDT_NO)
         	LEFT OUTER JOIN REVIEW R ON(P.PDT_NO=R.PDT_NO)
-		<if test="category != '전체제품'">
-			WHERE PDT_CATEGORY IN(#{category})
-		</if>
+        <trim prefix="WHERE" prefixOverrides="AND">
+			<if test="category != '전체제품'">
+				PDT_CATEGORY IN(#{category})
+			</if>
+			<if test="soldout == '품절제외'">
+				AND PDT_STATUS='Y'
+			</if>
+		</trim>
 		<if test="sort == '등록일순'">
 			ORDER BY PDT_DATE DESC
 		</if>
 		<if test="sort=='인기순'">
+			ORDER BY ZZIM_COUNT DESC
+		</if>
+		<if test="sort=='리뷰순'">
 			ORDER BY REVIEW_COUNT DESC
+		</if>
+		<if test="sort=='할인율순'">
+			ORDER BY CASE WHEN E.EVENT_SALE_PER>0 THEN 0 ELSE 1 END
 		</if>
 		<if test="sort == '낮은가격순'">
 			ORDER BY PDT_PRICE
@@ -101,11 +120,20 @@
 			LEFT OUTER JOIN ZZIMCONTENT Z ON(P.PDT_NO=Z.PDT_NO)
         	LEFT OUTER JOIN REVIEW R ON(P.PDT_NO=R.PDT_NO)
 		WHERE EVENT_NO_REF IS NOT NULL AND E.EVENT_SALE_PER > 0
+		<if test="soldout=='품절제외'">
+			AND PDT_STATUS='Y'
+		</if>
 		<if test="sort == '등록일순'">
 			ORDER BY PDT_DATE DESC
 		</if>
 		<if test="sort=='인기순'">
+			ORDER BY ZZIM_COUNT DESC
+		</if>
+		<if test="sort=='리뷰순'">
 			ORDER BY REVIEW_COUNT DESC
+		</if>
+		<if test="sort=='할인율순'">
+			ORDER BY CASE WHEN E.EVENT_SALE_PER>0 THEN 0 ELSE 1 END
 		</if>
 		<if test="sort == '낮은가격순'">
 			ORDER BY PDT_PRICE
@@ -120,5 +148,18 @@
 		<if test="category != '전체제품'">	
 			AND PDT_CATEGORY=#{category}
 		</if>
+	</select>
+	
+	<select id="selectproductDate" parameterType="string" resultMap="productMap">
+		SELECT PDT_NO, PDT_DATE FROM PRODUCT WHERE PDT_NO=#{pdtNo} AND PDT_DATE>SYSDATE-7
+	</select>
+	
+	<!-- 연관상품 슬라이드용 -->
+	<select id="slidelist" resultMap="productMap">
+		SELECT DISTINCT P.PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_STATUS,PDT_DATE,EVENT_NO_REF,E.EVENT_SALE_PER,
+    		LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY pdt_no_ref) OVER(PARTITION BY PDT_NO_REF)AS THUMBS
+		FROM PRODUCT P
+			JOIN  PRODUCT_THUMB ON(P.PDT_NO=PDT_NO_REF) 
+			LEFT JOIN EVENT E ON(P.EVENT_NO_REF=E.EVENT_NO)
 	</select>
 </mapper>

@@ -103,9 +103,6 @@
 		}else if(category=="communityOut") {
 			//커뮤니티 권한 박탈
 			//tmpMsg=new TextMessage("커뮤니티 권한이 박탈되었습니다.");
-		}else if(category=="communityLike"){
-			//커뮤니티 게시글 좋아요
-			//tmpMsg=new TextMessage(caller+"님이 회원님의 '"+bascket+"' 글을 좋아합니다.");
 		}else if(category=="communityComment"){
 			//커뮤니티 댓글 여부 
 			//tmpMsg=new TextMessage(caller+"님이 회원님의  '"+bascket+"' 글에 댓글을 달았습니다.");

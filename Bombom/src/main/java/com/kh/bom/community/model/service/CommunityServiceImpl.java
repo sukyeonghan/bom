@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.bom.community.model.dao.CommunityDao;
 import com.kh.bom.community.model.vo.BoardReply;
 import com.kh.bom.community.model.vo.Community;
+import com.kh.bom.member.model.dao.MemberDao;
+import com.kh.bom.member.model.vo.Alarm;
 import com.kh.bom.member.model.vo.Member;
 
 @Service
@@ -21,6 +23,8 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Autowired
 	private CommunityDao dao;
+	@Autowired
+	private MemberDao mDao;
 	@Autowired
 	private SqlSession session;
 
@@ -119,11 +123,15 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Override
 	@Transactional
-	public int insertLike(Member m,String cmNo,int likeCount,int value) {
+	public int insertLike(Member m,String cmNo,int likeCount,int value,Alarm a) {
 		// TODO Auto-generated method stub
 		int result=0;
 		String memNo=m.getMemNo();//회원 번호
-		String[] memCmLike=m.getMemCmLike();//좋아요 누른 글번호들
+		String[] memCmLike=null;
+		Member newM =dao.selectLikeNo(session,memNo);
+		if(newM!=null && newM.getMemCmLike()!=null) {
+			memCmLike=newM.getMemCmLike();//좋아요 누른 글번호들
+		}
 
 		Map<String,Object> map=new HashMap();
 		map.put("cmNo",cmNo);
@@ -134,6 +142,10 @@ public class CommunityServiceImpl implements CommunityService {
 		//좋아요를 눌렀을 때
 		if(value==1) {
 			result=dao.updateLikeNo(session,map);
+			//알림 DB에 저장
+			if(result>0) {
+				result=mDao.insertAlarm(session, a);
+			}
 		}else if(memCmLike!=null && value==0){
 			//좋아요를 취소했을 때
 			for(String l : memCmLike) {

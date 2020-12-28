@@ -22,7 +22,12 @@ import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.community.model.service.CommunityService;
 import com.kh.bom.community.model.vo.BoardReply;
 import com.kh.bom.community.model.vo.Community;
+import com.kh.bom.member.model.service.MemberService;
+import com.kh.bom.member.model.vo.Alarm;
 import com.kh.bom.member.model.vo.Member;
+
+import net.sf.json.JSON;
+import net.sf.json.JSONObject;
 
 
 @Controller
@@ -30,7 +35,6 @@ public class CommunityController {
 
 	@Autowired
 	private CommunityService service;
-
 	
 	//communityList 화면 전환
 	@RequestMapping("/community/communityList")
@@ -309,6 +313,22 @@ public class CommunityController {
 	public ModelAndView reportReply(BoardReply reply, ModelAndView mv) {
 
 		int result = service.reportReply(reply);
+		System.out.println("why????"+reply.getBoard_id());
+		
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		if (result > 0) msg = "신고 성공";
+		else msg = "신고 실패";
+			
+		loc = "/community/communityView.do?cmNo=" + reply.getBoard_id();
+		icon = "warning";
+		
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon", icon);
+		mv.setViewName("common/msg");
+		
 
 		return mv;
 	}
@@ -316,13 +336,25 @@ public class CommunityController {
 	//좋아요
 	@RequestMapping("/community/insertLike")
 	@ResponseBody
-	public int insertLike(HttpSession session, String cmNo, int likeCount, int value) {
+	public JSON insertLike(HttpSession session, String cmNo, int likeCount, int value,Alarm a) {
 
 		Member m = (Member) session.getAttribute("loginMember");
 		//좋아요 수 및 좋아요한 글번호 업데이트
-		int result = service.insertLike(m, cmNo, likeCount, value);
-		//좋아요 수만 보내기
-		return service.selectLikeCount(cmNo);
+		int result = service.insertLike(m, cmNo, likeCount, value,a);
+		// json객체로 보내기
+		JSONObject obj = new JSONObject();
+	
+		if(result>0) {
+			obj.put("likeCount", service.selectLikeCount(cmNo));// 바뀐 좋아요 수
+			Member newM=service.selectLikeNo(m.getMemNo());// 바뀐 좋아요 글 번호
+			if(newM!=null && newM.getMemCmLike()!=null) {
+				obj.put("likeNo",newM.getMemCmLike());
+			}else {
+				obj.put("likeNo","[]");
+			}
+		}
+
+		return obj;
 	}
 
 	//좋아요한 글인지 확인
@@ -332,7 +364,9 @@ public class CommunityController {
 		 
 		 Member m=(Member)session.getAttribute("loginMember");
 		 Member newM=service.selectLikeNo(m.getMemNo());
-		 return newM.getMemCmLike();
+		 if(newM!=null && newM.getMemCmLike()!=null) return newM.getMemCmLike();
+		 else return null;
+		 
 	}
 	 
 }

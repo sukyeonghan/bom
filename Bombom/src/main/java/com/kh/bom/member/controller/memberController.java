@@ -36,14 +36,14 @@ public class memberController {
     BCryptPasswordEncoder pwEncoder;
     
     
-	@RequestMapping("/mypage/orderStatus")
-	public ModelAndView order(ModelAndView mv) {
-		
-		//주문내역
-		
-		mv.setViewName("mypage/orderStatus");
-		return mv;
-	}
+//	@RequestMapping("/mypage/orderStatus")
+//	public ModelAndView order(ModelAndView mv) {
+//		
+//		//주문내역
+//		
+//		mv.setViewName("mypage/orderStatus");
+//		return mv;
+//	}
 	//회원정보수정 전 비밀번호 체크화면
 	@RequestMapping("/mypage/updateMember")
 	public String updateMember() {
@@ -150,7 +150,7 @@ public class memberController {
 		String icon="";
 		if(result>0) {
 			//변경된 정보 다시 loginMember에 넣기
-			mv.addObject("loginMeber",service.selectMemberOne(m.getMemNo()));
+			mv.addObject("loginMember",service.selectMemberOne(m.getMemNo()));
 
 			msg="회원정보가 수정되었습니다.";
 			icon="success";
@@ -173,19 +173,26 @@ public class memberController {
 			@RequestParam(value="email") String email,
 			@RequestParam(value="password") String password,
 			@RequestParam(value="pro", defaultValue = "basic.png") String pro,
+			@RequestParam(value="kakaoId",required = false) String kakaoId,
+			@RequestParam(value="googleId",required = false) String googleId,
+			@RequestParam(value="naverId",required = false) String naverId,
 			Model m) {
 		mem.setMemNick(nick);
 		mem.setMemEmail(email);
 		mem.setMemPwd(password);
 		mem.setMemPro(pro);
+		
 		Point p=new Point();
 		p.setPointContent("회원가입");
 		p.setPointChange(2000);
 		
 		//패스워드 암호화처리
 		String oriPw=mem.getMemPwd();
-		
-		mem.setMemPwd(pwEncoder.encode(oriPw));
+		if(kakaoId!=null || googleId!=null || naverId!=null) {
+			mem.setMemPwd(password);//비밀번호 앞에 "소설"+임의의숫자 로 구분됨
+		}else {
+			mem.setMemPwd(pwEncoder.encode(oriPw));
+		}
 		
 		int result=service.insertMember(mem,p);
 		m.addAttribute("msg",result>0?"다시:봄 회원이 되셨습니다.":"회원가입 실패!!!!!!");

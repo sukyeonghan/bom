@@ -75,7 +75,7 @@
                 <td><c:out value="${q.rownum}"/></td>
                 <td><c:out value="${q.qnaCategory}" /></td>
                 <td><a href="" data-toggle="modal" data-target="#qnaView" class="qnaTitle"><c:out value="${q.qnaTitle}" /></a></td>
-                <td><fmt:formatDate type="time" timeStyle="short" value="${q.qnaDate }"/></td>
+                <td><fmt:formatDate type="date" timeStyle="short" value="${q.qnaDate }"/></td>
                 <td>
                		<c:out value="${q.qnaYn=='Y'?'답변완료':'답변대기' }"/>
                 </td>
@@ -98,7 +98,7 @@
           
         <!--1:1문의 모달창 -->
 		  <div class="modal fade" id="qnaView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		    <div class="modal-dialog">
+		    <div class="modal-dialog modal-dialog-centered">
 		      <div class="modal-content">
 		      
 		        <!-- Modal Header -->

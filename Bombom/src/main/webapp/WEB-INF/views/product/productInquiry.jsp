@@ -298,14 +298,14 @@ textarea.answer {
 	//상품문의 페이징
 	$(function(){
 		$(".pageBar").click(e=>{
-			console.log($(e.target).val());
+			//console.log($(e.target).val());
 			$.ajax({
 				url:"${path}/product/productInquiryAjax",
 				data:{cPage:"${cPage}",numPerpage:"${numPerPage}",pdtNo:"${pdtNo}"},
 				type:"get",
 				dataType:"html",
 				success:data=>{
-					console.log(data);
+					//console.log(data);
 					$("#result").html("");
 					$("#result").html(data);
 				}
@@ -418,8 +418,6 @@ textarea.answer {
 			var loginno = a.data("loginno");
 			var modal = $(this);
 				
-			console.log("모달창 확인 : "+inqNo+inqContent+inqDate+memNick+answerYn+answer+answerDate+inqSecret+memNo+loginno);
-
 			//로그인 한 사람==게시글 작성자 일 경우에만 수정,삭제버튼 생성
 	        if(memNo==loginno){
 	        	$("div[id=btn_secret]").show();

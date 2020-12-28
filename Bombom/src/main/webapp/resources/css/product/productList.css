@@ -38,24 +38,26 @@
 	.sort{
 		border:none;
 		outline:none;
-		
+		margin-left:10px;
 	}
 	/*상품 목록 감싼 div*/
 	.all-item-wrap{
 		display: flex;
-		min-width: 80%;
+		/* min-width: 80%; */
+		width:100%;
 		flex-wrap: wrap;
 	}
 	
 	/*각 상품*/
 	.item-wrap{
-		margin:10px;
+		margin:2% 1%;
 		width:23%;
 	}
 	/*이미지 크기*/
      .item-img{
         width:100%;
-        margin-bottom:10px;
+    	max-height: 255px;
+        margin-bottom:5%;
     }
 
     /*상품 설명*/
@@ -118,6 +120,7 @@
     /*페이지바*/
      .pagebar{
     	margin:5% auto;
+    	text-align: center;
     }
  
     /*제품 없을 때 뜨는 사진*/

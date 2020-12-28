@@ -4,63 +4,68 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
-
+<script src="${path }/resources/js/order.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" >
 	<jsp:param name="title" value="결제하기" />
 </jsp:include>
 
-<section id="container" class="container ">
+<section id="container" class="container">
     <div class="order_header">
         <h1>결제하기</h1>
     </div>
-    <form action="${path }/order/insertOrder" method="post">
+   <div style="width: 760px;margin: 40px auto 0;">
+    <form action="${path }/order/insertOrder?bNo=${basketNo}" method="post">
     <!-- 주문상품 -->
     <div class="mb-5">
         <h3>주문상품</h3>
-        <c:forEach items="${list }" var="b">
+        <%-- <c:forEach items="${list }" var="b"> --%>
         <table>
             <tr>
                 <td>
                 	<div>
-						<a href="${path }/product/productOne?pdtNo=${b.pdtNo}" class="d-flex"> 
+						<%-- <a href="${path }/product/productOne?pdtNo=${b.pdtNo}" class="d-flex"> 
 							<c:forTokens items="${b.pdtThumbImage}" var="th" delims="," varStatus="vs">
 								<c:if test="${vs.first }">
 									<img src="${path}/resources/upload/product/${th}" class="img-fluid" style="width: 100px; height: 100px;">
 								</c:if>
 							</c:forTokens>
 							<p class="pdtName_p"><c:out value="${b.pdtName }" /></p>
-						</a>
+						</a> --%>
+						<img src="${path }/resources/upload/product/det20201208_000348492_120.jpg" style="width: 100px; height: 100px;">
 					</div>
-                	<img src="../제품이미지/잡화/면화장솜/1.jpg" alt="" style="width: 150px;height: 150px;">
                 </td>
-                <td>면화장솜</td>
-                <td>3,000원</td>
-                <td>3개</td>
+                <td>여기는 상품명</td>
+                <td>100원</td>
+                <td>1개</td>
             </tr>
         </table>
-        </c:forEach>
+        <%-- </c:forEach> --%>
     </div>
     <!-- 배송지 -->
     <div class="mb-5">
         <h3>배송지</h3>
         <hr>
+    <c:if test="${not empty ship}">
+        <div class="form-group d-flex mb-3">
+            <div class="col-3"><span>받는분</span></div>
+            <div class="col-9"><input type="text" name="ordOname"  class="orderer form-control"></div>
+        </div>
         <div class="form-group d-flex">
-            <label for="postal" class="mr-3">우편번호</label>
-            <input type="text" class="form-control mr-3" id="postal" style="width: 150px;" required>
-            <input type="button" class="btn btn-success" value="배송지변경">
-        </div><br>
-        <div class="form-group mb-3">
-            <label for="addr">주소</label>
-            <input type="text" id="addr" class="form-control" name="ordDeliAddr" required><br>
-            <input type="text" class="form-control" name="ordDeliAddr" required placeholder="상세주소">
+            <div class="col-3"><label for="sample6_postcode" class=" mr-3">우편번호</label></div>
+            <div class="col-9 d-flex"><input type="text" id='sample6_postcode' name='ordZipcode' class="zipCode address-detail form-control" style="width: 150px;"  placeholder='우편번호' readonly >
+            <input type="button" onclick='sample6_execDaumPostcode()' class="changeAddr btn btn-success" value="주소찾기" >
+            <input type="button" onclick='' class="btn btn-success" value="배송지변경" ></div>
         </div>
-        <div class="form-group">
-            <label for="phone">휴대전화</label>
-            <input type="text" id="phone" class="form-control" required>
+        <div class="form-group d-flex mb-3">
+            <div class="col-3 d-flex"><label for="addr">주소</label></div>
+            <div class="col-9 "><input type="text" class="address-detail form-control" name="ordAddr" id='sample6_address' placeholder='주소' required><br>
+            <input type="text" class="address-detail form-control" name='ordDetailAddr' id='sample6_detailAddress' placeholder='상세주소' required>
+        	</div>
         </div>
-        <div class="form-group">
-            <label for="deli_memo">배송 메모</label>
+        <div class="form-group d-flex">
+            <div class="col-3"><label for="deli_memo">배송 메모</label></div>
+            <div class="col-9"><p>최근 저장하신 배송메모가 선택됩니다.</p>
             <select name="ordMemo" id="deli_memo" class="form-control mb-3" required>
                 <option selected disabled>배송시 요청사항</option>
                 <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
@@ -71,83 +76,165 @@
                 <option value="배송 전,연락주세요.">배송 전,연락주세요.</option>
                 <option value="직접입력">직접입력</option>
             </select>
-            <div id="direct_input"></div>
+            <div id="direct_input"></div></div>
         </div>
+        <div class="form-group d-flex">
+            <div class="col-3"><label for="phone">휴대전화</label></div>
+            <div class="col-9"><input type="text" name="ordOphone" id="phone" class="ordererPhone form-control" required></div>
+        </div>
+    </c:if>
+    <c:if test="${empty ship }">
+    	<div class="form-group d-flex mb-3">
+            <div class="col-3"><span>받는분</span></div>
+            <div class="col-9"><input type="text" name="ordOname" class="orderer form-control"></div>
+        </div>
+        <div class="form-group d-flex">
+            <div class="col-3"><label for="sample6_postcode" class=" mr-3">우편번호</label></div>
+            <div class="col-9 d-flex"><input type="text" id='sample6_postcode' name='ordZipcode' class="zipCode address-detail form-control" style="width: 150px;"  placeholder='우편번호' readonly >
+            <input type="button" onclick='sample6_execDaumPostcode()' class="changeAddr btn btn-success" value="주소찾기" >
+            <input type="button" onclick='' class="btn btn-success" value="배송지변경" ></div>
+        </div>
+        <div class="form-group d-flex mb-3">
+            <div class="col-3 d-flex"><label for="addr">주소</label></div>
+            <div class="col-9 "><input type="text" class="address-detail form-control" name="ordAddr" id='sample6_address' placeholder='주소' required><br>
+            <input type="text" class="address-detail form-control" name='ordDetailAddr' id='sample6_detailAddress' placeholder='상세주소' required>
+        	</div>
+        </div>
+        <div class="form-group d-flex">
+            <div class="col-3"><label for="deli_memo">배송 메모</label></div>
+            <div class="col-9"><select name="ordMemo" id="deli_memo" class="form-control mb-3" required>
+                <option selected disabled>배송시 요청사항</option>
+                <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
+                <option value="배송 전,연락주세요.">배송 전,연락주세요.</option>
+                <option value="부재 시,휴대폰으로 연락주세요.">부재 시,휴대폰으로 연락주세요.</option>
+                <option value="부재 시,경비실에 맡겨주세요.">부재 시,경비실에 맡겨주세요.</option>
+                <option value="경비실이 없습니다.배송 전 연락주세요.">경비실이 없습니다.배송 전,연락주세요.</option>
+                <option value="배송 전,연락주세요.">배송 전,연락주세요.</option>
+                <option value="직접입력">직접입력</option>
+            </select>
+            <div id="direct_input"></div></div>
+        </div>
+        <div class="form-group d-flex">
+            <div class="col-3"><label for="phone">휴대전화</label></div>
+            <div class="col-9"><input type="text" name="ordOphone" id="phone" class="ordererPhone form-control" required></div>
+        </div>
+    </c:if>
     </div>
-    <!-- 주문자 -->
+    <!-- 수취인 -->
     <div class="mb-5">
-        <h3>주문자</h3>
+    	<div class="d-flex">
+        <h3 class="mr-5">주문자</h3> 
+        <label class="form-label">
+           	<input type="button" class="sameInfo btn btn-outline-info" value="배송지 정보와 동일하게 채우기">
+        </label>
+        </div>
         <hr>
-        <div class="form-group">
-            <span>이름</span>
-            <input type="text" class="form-control" required>
+        <div class="form-group d-flex">
+            <div class="col-3"><span>이름</span></div>
+            <div class="col-9"><input type="text" name="ordRname" id="orderer" class="form-control" required></div>
         </div>
-        <div class="form-group">
-            <span>이메일</span>
-            <input type="email" class="form-control" required>
+        <div class="form-group d-flex">
+            <div class="col-3"><span>이메일</span></div>
+            <div class="col-9"><input type="email" name="ordRemail" id="ordererEmail" class="form-control"></div>
         </div>
-        <div class="form-group">
-            <span>휴대전화</span>
-            <input type="text" class="form-control" required><br>
-            <label class="form-check-label">
-                <input type="checkbox" class="form-check-input">SMS 수신동의 (배송 정보를 SMS로 보내드립니다.)
-            </label>
+        <div class="form-group d-flex">
+            <div class="col-3"><span>휴대전화</span></div>
+            <div class="col-9"><input type="text" name="ordRphone" id="ordererPhone" class="form-control" required></div>
         </div>
     </div>
     <!-- 적립금 -->
     <div class="form-group mb-5">
         <h3>적립금</h3>
         <hr>
-        <label for="point">3만원이상 결제시 포인트 사용이 가능합니다.</label><br>
-        <div class="form-group d-flex"><input type="number" name="" id="point" class="form-control mr-3" style="width: 100px;"><label for="point">P</label></div>
-        <p>사용 가능한 포인트 <span>1,236P</span></p>
-        <label for="allPoint"><input type="checkbox" id="allPoint" class="form-check-input">전액사용</label>
+        <div class="form-group d-flex"><input type="text" name="" id="point" class="form-control mr-3" style="width: 100px;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)'><label for="point">P</label></div>
+        <p>사용 가능한 포인트 <span class="savePoint"><fmt:formatNumber pattern="#,###,###" value="${loginMember.memPoint }"/>P</span></p>
+        <label for="allPoint"><input type="checkbox" id="allPoint" class="form-check-input" >전액사용</label>
 
     </div>
     <!-- 예상적립금 -->
     <div class="form-group mb-5">
         <h3>예상적립금</h3>
         <hr>
-        <p><span class="mr-1">1,236P</span>적립예정</p>
+        <p><strong><span class="savePoint mr-1">1P</span>적립예정</strong></p>
 
     </div>
     <!-- 최종 결제금액 -->
     <div class="form-group mb-5">
         <h3>최종 결제금액</h3>
         <hr>
-        <div class="d-flex"><h5>총 상품 금액</h5><span>194,000</span></div>
-        <div class="d-flex"><h5>배송비</h5><span name="ordDeliPrice">0</span></div>
-        <div class="d-flex"><h5>적립금 사용</h5><span name="ordUsePoint">0</span></div>
-        <div class="d-flex"><span name="ordAmount">194,000원</span></div>
-
-
+        <div class="d-flex"><h5>총 상품 금액</h5><span class="total-price">100원</span></div>
+        <div class="d-flex"><h5>배송비</h5><span class="deli"id="ordDeliPrice">0원</span></div>
+        <div class="d-flex"><h5>적립금 사용</h5><span class="point" id="ordUsePoint">100봄</span></div>
+        <div class="d-flex"><span class="total-pay" id="ordAmount"><strong>100원</strong></span></div>
+		<input type="hidden" id="ba" name="ba">
+       	<input type="hidden" id="total" name="total-pay">
     </div>
     <!-- 결제버튼 -->
     <div class="mb-5" style="text-align: center;">
-        <button id="payBtn"type="submit" class="btn btn-outline-success" style="width: 500px;">결제하기</button>
+        <button id="payBtn" type="submit" class="payBtn btn btn-outline-success" style="width: 500px;">결제하기</button>
     </div>
     </form>
+    </div>
 </section>
 
 
 
 
 <script>
+	$(function(){
+		$("#point").val(0)}
+	);
 
-	$(function(){$(".point").text(0)});
-
-    $(function () { //배송메모 직접입력 선택시 input태그 보이게 하기
+	$(function () { //배송메모 직접입력 선택시 input태그 보이게 하기
 	    //배송메모 직접입력 input
-        let addInput = $("<input>").attr({"type":"text", "name":"ordMemo", "id":"o_memo","class":"form-control"});
-        $("#deli_memo").change(e=> {
-            let memo = $("#deli_memo").val();
-            if (memo == '직접입력') {
-                $("#direct_input").append(addInput);//input태그 추가
+	    let addInput = $("<input>").attr({"type":"text", "name":"ordMemo", "id":"o_memo","class":"form-control"});
+	    $("#deli_memo").change(e=> {
+	        let memo = $("#deli_memo").val();
+	        if (memo == '직접입력') {
+	            $("#direct_input").append(addInput);//input태그 추가
 	            //selectbox name속성 없애기
 	           	$("#deli_memo").attr("name","");
-            }
-        })
+	        }else{
+	        	$("#direct_input").html("");//다른 배송메모 선택시 input태그 삭제
+	        }
+	    })
+	});
+
+	//배송지와 주문자 동일하게 채우기 버튼
+    $(".sameInfo").click(e =>{
+        let orderer = $(".orderer").val(); //이름
+        let ordererEmail; //이메일
+        let ordererPhone = $(".ordererPhone").val();//휴대전화
+        $("#orderer").val(orderer);
+        $("#ordererPhone").val(ordererPhone);
     });
+	
+	var allPoint = '<c:out value="${loginMember.memPoint }"/>'; //사용가능한 포인트
+	var allPointPat = '<fmt:formatNumber pattern="#,###,###" value="${loginMember.memPoint }"/>';
+	//사용 가능한 포인트 초과 입력시 alert
+	
+	$("#point").on("change",e =>{
+		var inputPoint = $("#point").val(); //사용자가 입력한 포인트값가져오기
+		if( Number(inputPoint) > Number(allPoint)){
+			alert("사용 가능한 포인트 보다 많은 가격이 입력되었습니다.");
+			alert("포인트를"+allPointPat+"원을 사용하고 0원 남았습니다.");
+			$("#point").val(Number(allPoint));
+		}
+		//포인트 사용하면 총 금액에 정산되도록 만들기
+		
+		
+		
+	});
+	
+	//포인트 전액사용 체크박스 체크시 또는 해제시
+	console.log(allPoint);
+	$("#allPoint").change(e =>{
+		if($("#allPoint").is(":checked")){
+			$("#point").val(Number(allPoint));
+		}else{
+			$("#point").val(0);
+		}
+	});
 
 </script>
 
@@ -156,14 +243,26 @@
 	height: 80px;
 	margin: 50px 0;
 }
+.savePoint{
+	font-weight: 800;
+	color : #45A663;
+}
+input[type='number'], input[type='text'], input[type='password'], input[type='file'],
+	input[type='tel'], input[type='email'], select, option, textarea, input[type='submit'],
+	button {
+	-webkit-appearance: none;
+	-moz-appearance: textfield;
+}
 </style>
 
 <!-- 배송지/결제 api -->
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+
 <script type="text/javascript">
-	//결제 API
+
 	
+ 	
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

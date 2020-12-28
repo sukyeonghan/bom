@@ -134,37 +134,37 @@ $(document).on("click",".btn-insert2",e=>{
 
 			<!-- Modal body -->
 			<div class="modal-body">
-				<form action="${path }/admin/community/reportReply" name="reportFrm"
-					method="post">
-					<label class="containerReply">주제와 맞지 않음 <input
-						type="checkbox" name="report" value="주제와 맞지 않음"> <span
-						class="checkmark"></span>
-					</label><br> <label class="containerReply">정보가 부정확함 <input
-						type="checkbox" name="com_reason" value="정보가 부정확함"> <span
-						class="checkmark"></span>
-					</label><br> <label class="containerReply">지나친 광고성 게시물 <input
-						type="checkbox" name="com_reason" value="지나친 광고성 게시물"> <span
-						class="checkmark"></span>
-					</label><br> <label class="containerReply">욕설/비방이 심함 <input
-						type="checkbox" name="com_reason" value="욕설/비방이 심함"> <span
-						class="checkmark"></span>
-					</label><br> <label class="containerReply">기타 <input
-						type="checkbox" name="com_reason" value="기타"> <textarea
-							name="com_reason" cols="20" rows="3"></textarea> <span
-						class="checkmark"></span>
-					</label> <input type="hidden" name="reply_writer" class="replyWriter">
-					<input type="hidden" name="com_status" value="Y" /> <br> <input
-						type="hidden" class="replyId" name="reply_id">
-					<button type="submit" class="reporty"
-						class="btn btn-outline-success">신고하기</button>
+				<form action="${path }/community/reportReply" name="reportFrm" method="post">
+					<label class="containerReply">주제와 맞지 않음 
+						<input type="checkbox" name="com_reason" value="주제와 맞지 않음"> 
+						<span class="checkmark"></span>
+					</label><br> 
+					<label class="containerReply">정보가 부정확함 
+						<input type="checkbox" name="com_reason" value="정보가 부정확함"> 
+						<span class="checkmark"></span>
+					</label><br>
+					<label class="containerReply">지나친 광고성 게시물 
+						<input type="checkbox" name="com_reason" value="지나친 광고성 게시물"> 
+						<span class="checkmark"></span>
+					</label><br> 
+					<label class="containerReply">욕설/비방이 심함 
+						<input type="checkbox" name="com_reason" value="욕설/비방이 심함"> 
+						<span class="checkmark"></span>
+					</label><br> 
+					<label class="containerReply">기타 
+						<input type="checkbox" name="com_reason" value="기타"> 
+						<textarea name="com_reason" cols="20" rows="3"></textarea> 
+						<span class="checkmark"></span>
+					</label> 
+					<input type="hidden" name="com_status" value="Y" />
+					<input type="hidden" class="cmNo" name="board_id">
+					<input type="text" class="replyId" name="reply_id" >
+					<button type="submit" class="reporty btn btn-outline-success">
+						신고하기
+					</button>
 				</form>
 
 			</div>
-			<script>
-											$(".reporty").click(function(){
-												console.log(com_reason + reply_writer + com_status + reply_id)
-											})
-										</script>
 			<!-- Modal footer -->
 			<div class="modal-footer">
 				<button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
@@ -188,7 +188,10 @@ $(document).on("click",".btn-insert2",e=>{
 						    	 let replyId = $(this).parent().children('input[name="reply_id"]').val(); //변수에 답글번호를 가져온다.
 						    	 let replyWriter = $(this).parent().children('input[name="reply_writer"]').val();
 						    	 console.log(replyId);
+						    	 let cmNo = $("#cmNo").val();
+						    	 console.log(cmNo);
 						    	 
+						    	 $(".cmNo").val(cmNo);
 						    	 $(".replyId").val(replyId); //모달창에 답글 번호 쏴주기 
 						    	 $(".replyWriter").val(replyWriter)
 						    	 
