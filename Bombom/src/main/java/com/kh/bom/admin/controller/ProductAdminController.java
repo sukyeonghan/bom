@@ -168,24 +168,17 @@ public class ProductAdminController {
 			}
 		}
 		//상세 이미지 저장하기
-		
-		//for(MultipartFile ff:detailImg) {
-			String originalName=detailImg.getOriginalFilename();
-			//확장자 분리
-			String ext=originalName.substring(originalName.lastIndexOf(".")+1);
-			//리네임양식정하기
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
-			//int rndValue=(int)(Math.random()*1000);
-			String reName="det"+sdf.format(System.currentTimeMillis())+"_"+originalName;
-			try {
-				detailImg.transferTo(new File(path+"/"+reName));
-				p.setPdtDetailImage(reName);
-			}catch(IOException e) {
-				e.printStackTrace();
-			}
-			
-		//}
-		
+		String originalName=detailImg.getOriginalFilename();
+		//리네임양식정하기
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+		String reName="det"+sdf.format(System.currentTimeMillis())+"_"+originalName;
+		try {
+			detailImg.transferTo(new File(path+"/"+reName));
+			p.setPdtDetailImage(reName);
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+
 		//옵션 등록
 		ObjectMapper mapper=new ObjectMapper();
 		List<Map<Object, Object>> optionMap=null;
@@ -282,7 +275,7 @@ public class ProductAdminController {
 			@RequestParam(value="pdtNo") String pdtNo,
 			@RequestParam(value="test",required = false) String options,
 			@RequestParam(value="thumbImgs",required=false) MultipartFile[] thumbImgs,
-			@RequestParam(value="detailImg",required=false) MultipartFile[] detailImg,
+			@RequestParam(value="detailImg",required=false) MultipartFile detailImg,
 			HttpSession session) {
 
 		String path=session.getServletContext().getRealPath("/resources/upload/product");
@@ -314,22 +307,17 @@ public class ProductAdminController {
 			}
 		}
 		//상세 이미지 저장하기
-		for(MultipartFile ff:detailImg) {
-	
-			String originalName=ff.getOriginalFilename();
-			//확장자 분리
-			String ext=originalName.substring(originalName.lastIndexOf(".")+1);
-			//리네임양식정하기
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
-			int rndValue=(int)(Math.random()*1000);
-			String reName="det"+sdf.format(System.currentTimeMillis())+"_"+rndValue+"."+ext;
-			try {
-				ff.transferTo(new File(path+"/"+reName));
-			}catch(IOException e) {
-				e.printStackTrace();
-			}
+		String originalName=detailImg.getOriginalFilename();
+		//리네임양식정하기
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+		String reName="det"+sdf.format(System.currentTimeMillis())+"_"+originalName;
+		try {
+			detailImg.transferTo(new File(path+"/"+reName));
 			p.setPdtDetailImage(reName);
+		}catch(IOException e) {
+			e.printStackTrace();
 		}
+		
 		//옵션 
 		ObjectMapper mapper=new ObjectMapper();
 		List<Map<Object, Object>> optionMap=null;

@@ -266,7 +266,13 @@
 		      		<div id="detail-image">
 			      		<p class="title">제품 상세 이미지(총 1장)</p>
 			      		<input type="button" id="fileBtn" class="fileBtn" value="파일선택" >
-			      		<label class="fileBtn" for="fileBtn">${product.pdtDetailImage}</label>
+			      		<!-- 원래 파일명만 보여주기 -->
+			      		<c:set var="det" value="${fn:split(product.pdtDetailImage,'_')}"/>
+			      		<c:forEach var="oriDet" items="${det }" varStatus="d">
+			      			<c:if test="${d.count>2 }">
+			      				<label class="fileBtn" for="fileBtn">${oriDet }</label>
+			      			</c:if>
+			      		</c:forEach>
 			      		<input type="file" id="detail" class="form-control-file border" name="detailImg" accept="image/gif, image/jpeg, image/png" style="display:none;">
 			     
 		      		</div>
