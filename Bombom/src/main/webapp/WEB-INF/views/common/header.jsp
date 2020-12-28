@@ -399,7 +399,7 @@ p.p-info {
 								</div>
 								<div class="col">
 <!-- 									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=http://localhost:9090/bom/auth/kakao/callback&response_type=code">
- -->									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/bom/auth/kakao/callback&response_type=code">
+ -->									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback&response_type=code">
     									<img src="${path }/resources/images/login/kakao.png" alt="카카오로그인" class="sns-icon" />
 									</a>
 								</div>
@@ -476,7 +476,7 @@ p.p-info {
 									</a>
 								</div>
 								<div class="col">
-									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/bom/auth/kakao/callback&response_type=code">
+									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback&response_type=code">
     									<img src="${path }/resources/images/login/kakao.png" alt="카카오로그인" class="sns-icon" />
 									</a>
 								</div>

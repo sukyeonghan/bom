@@ -34,7 +34,7 @@ public class KakaoService {
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=a91b8caf81f73042dbfd9fc0a1552e66");
 			//sb.append("&redirect_uri=http://localhost:9090/bom/auth/kakao/callback");
-			sb.append("&redirect_uri=https://rclass.iptime.org/bom/auth/kakao/callback");
+			sb.append("&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback");
 			sb.append("&code="+authorize_code);
 			bw.write(sb.toString());
 			bw.flush();
