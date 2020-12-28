@@ -25,6 +25,7 @@
      <td><c:out value="${b.reply_content }"/></td>
      <td><fmt:formatDate value="${b.com_date}" pattern="yyyy-MM-dd"/></td>
       <td> <span><c:out value="${b.com_status }"/></span>
+      <input type="hidden" value="${b.memNo }" name="reply_id"/>
       <input type="hidden" value="${b.reply_id }" name="reply_id"/>
       <c:if test="${b.com_status eq 'N' }">
       <button class="btn btn-info memWarnYnBtn">신고접수</button>
