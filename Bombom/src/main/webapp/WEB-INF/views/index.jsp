@@ -64,25 +64,25 @@
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active banner_div">
-                    <img class="banner_img" src="${path }/resources/images/main/banner/main-banner2.jpg" alt="Second slide">
+                    <a href="${path }/product/bathroom"><img class="banner_img" src="${path }/resources/images/main/banner/main-banner2.jpg" alt="Second slide">
                     <div class="carousel-caption" style="left:-35%;">
                         <h3>여행도 쓰레기 없이.<br>제로웨이스트 어메니티.</h3>
-                        <p>대나무치솔&고체치약</p>
-                    </div>
+                        <p>대나무칫솔&고체치약</p>
+                    </div></a>
                 </div>
                 <div class="carousel-item  banner_div">
-                    <img class="banner_img" src="${path }/resources/images/main/banner/main-banner3.jpg" alt="Third slide">
+                    <a href="${path }/product/productOne?pdtNo=P151"><img class="banner_img" src="${path }/resources/images/main/banner/main-banner3.jpg" alt="Third slide">
                     <div class="carousel-caption " style="left:-35%;">
                         <h3>영수증 안주셔도 되요<br>현명하게 거절하기</h3>
                         <p>제로 웨이스트 치어링 스티커팩</p>
-                    </div>
+                    </div></a>
                 </div>
                 <div class="carousel-item  banner_div">
-                    <img class="banner_img" src="${path }/resources/images/main/banner/main-banner4.jpg" alt="Third slide">
+                    <a href="${path }/product/productOne?pdtNo=P109"><img class="banner_img" src="${path }/resources/images/main/banner/main-banner4.jpg" alt="Third slide">
                     <div class="carousel-caption " style="left:-35%;">
                         <h3>우리가 해야 할<br>미세플라스틱 없는<br>진짜 설거지,</h3>
                         <p>다시:봄 주방비누</p>
-                    </div>
+                    </div></a>
                 </div>
             </div>
             <a class="carousel-control-prev" href="#mainBanner" role="button" data-slide="prev">
@@ -136,46 +136,46 @@
     <div id="productAd-container" class="container">
     <div class="wrapper">
 	    <div class="">
-	        <a href="#"><img class="productAd" src="${path }/resources/images/main/productCategory/전체상품.png" alt=""></a>
+	        <a href="${path }/product/productAll"><img class="productAd" src="${path }/resources/images/main/productCategory/전체상품.png" alt=""></a>
 	        <div id="productAd-text">
 	            <h4>전체상품</h4>
-	            <a href="#">GO</a>
+	            <a href="${path }/product/productAll">GO</a>
 	        </div>
 	    </div>
 	    <div class="">
-	        <a href="#"><img class="productAd" src="${path }/resources/images/main/productCategory/일상에서.jpg" alt=""></a>
+	        <a href="${path }/product/food"><img class="productAd" src="${path }/resources/images/main/productCategory/일상에서.jpg" alt=""></a>
 	        <div id="productAd-text">
 	            <h4>일상에서</h4>
-	            <a href="#">GO</a>
+	            <a href="${path }/product/food">GO</a>
 	        </div>
 	    </div>
 	
 	    <div class="">
-	        <a href="#"><img class="productAd" src="${path }/resources/images/main/productCategory/욕실에서.jpg" alt=""></a>
+	        <a href="${path }/product/bathroom"><img class="productAd" src="${path }/resources/images/main/productCategory/욕실에서.jpg" alt=""></a>
 	        <div id="productAd-text">
 	            <h4>욕실에서</h4>
-	            <a href="#">GO</a>
+	            <a href="${path }/product/bathroom">GO</a>
 	        </div>
 	    </div>
 	    <div class="">
-	        <a href="#"><img class="productAd" src="${path }/resources/images/main/productCategory/여행갈때.jpg" alt=""></a>
+	        <a href="${path }/product/pet"><img class="productAd" src="${path }/resources/images/main/productCategory/산책갈때.jpg" alt=""></a>
 	        <div id="productAd-text">
-	            <h4>여행갈때</h4>
-	            <a href="#">GO</a>
+	            <h4>산책갈때</h4>
+	            <a href="${path }/product/pet">GO</a>
 	        </div>
 	    </div>
 	    <div class="">
-	        <a href="#"><img class="productAd" src="${path }/resources/images/main/productCategory/사무실에서.png" alt=""></a>
+	        <a href="${path }/product/stuff"><img class="productAd" src="${path }/resources/images/main/productCategory/사무실에서.png" alt=""></a>
 	        <div id="productAd-text">
 	            <h4>사무실에서</h4>
-	            <a href="#">GO</a>
+	            <a href="${path }/product/stuff">GO</a>
 	        </div>
 	    </div>
 	    <div class="">
-	        <a href="#"><img class="productAd" src="${path }/resources/images/main/productCategory/부엌에서.jpg" alt=""></a>
+	        <a href="${path }/product/kitchen"><img class="productAd" src="${path }/resources/images/main/productCategory/부엌에서.jpg" alt=""></a>
 	        <div id="productAd-text">
 	            <h4>부엌에서</h4>
-	            <a href="#">GO</a>
+	            <a href="${path }/product/kitchen">GO</a>
 	        </div>
 	    </div>
     </div>
@@ -190,7 +190,7 @@
                 <h2>베스트제품</h2>
                 <div id="BestProduct-href">
                     <!-- 제품 탭으로 이동 -->
-                    <a href="#">확인하러 가기</a>
+                    <a href="${path }/product/productAll">확인하러 가기</a>
                 </div>
             </div>
             <div id="BestProduct-list" class="">
@@ -199,67 +199,67 @@
 					<div class="swiper-wrapper">
 						<div class="swiper-slide">
 							<div class="col-md-4">
-								<a href="#"><img class="productAd"
-									src="${path }/resources/images/main/productCategory/전체상품.png"
+								<a href="${path }/product/productOne?pdtNo=P152"><img class="productAd"
+									src="${path }/resources/images/main/bestProduct/soapnut1.jpg"
 									alt=""></a>
 								<div id="BestProduct-text">
-									<h4>전체상품</h4>
-									<a href="#">GO</a>
+									<h4>유기농 소프넛</h4>
+									<a href="${path }/product/productOne?pdtNo=P152">GO</a>
 								</div>
 							</div>
 						</div>
 						<div class="swiper-slide">
 							<div class="col-md-4">
-								<a href="#"><img class="productAd"
-									src="${path }/resources/images/main/productCategory/전체상품.png"
+								<a href="${path }/product/productOne?pdtNo=P109"><img class="productAd"
+									src="${path }/resources/images/main/bestProduct/jigu_soap1.jpg"
 									alt=""></a>
 								<div id="BestProduct-text">
-									<h4>전체상품</h4>
-									<a href="#">GO</a>
+									<h4>지구샵 주방비누</h4>
+									<a href="${path }/product/productOne?pdtNo=P109">GO</a>
 								</div>
 							</div>
 						</div>
 						<div class="swiper-slide">
 							<div class="col-md-4">
-								<a href="#"><img class="productAd"
-									src="${path }/resources/images/main/productCategory/전체상품.png"
+								<a href="${path }/product/productOne?pdtNo=P20"><img class="productAd"
+									src="${path }/resources/images/main/bestProduct/filter1.jpg"
 									alt=""></a>
 								<div id="BestProduct-text">
-									<h4>전체상품</h4>
-									<a href="#">GO</a>
+									<h4>유기농 커피필터</h4>
+									<a href="${path }/product/productOne?pdtNo=P20">GO</a>
 								</div>
 							</div>
 						</div>
 						<div class="swiper-slide">
 							<div class="col-md-4">
-								<a href="#"><img class="productAd"
-									src="${path }/resources/images/main/productCategory/전체상품.png"
+								<a href="${path }/product/productOne?pdtNo=P71"><img class="productAd"
+									src="${path }/resources/images/main/bestProduct/body_soap1.jpg"
 									alt=""></a>
 								<div id="BestProduct-text">
-									<h4>전체상품</h4>
-									<a href="#">GO</a>
+									<h4>올라이트 바디솝</h4>
+									<a href="${path }/product/productOne?pdtNo=P71">GO</a>
 								</div>
 							</div>
 						</div>
 						<div class="swiper-slide">
 							<div class="col-md-4">
-								<a href="#"><img class="productAd"
-									src="${path }/resources/images/main/productCategory/전체상품.png"
+								<a href="${path }/product/productOne?pdtNo=P94"><img class="productAd"
+									src="${path }/resources/images/main/bestProduct/middle_cotton4.jpg"
 									alt=""></a>
 								<div id="BestProduct-text">
-									<h4>전체상품</h4>
-									<a href="#">GO</a>
+									<h4>유기농 면생리대</h4>
+									<a href="${path }/product/productOne?pdtNo=P94">GO</a>
 								</div>
 							</div>
 						</div>
 						<div class="swiper-slide">
 							<div class="col-md-4">
-								<a href="#"><img class="productAd"
-									src="${path }/resources/images/main/productCategory/전체상품.png"
+								<a href="${path }/product/productOne?pdtNo=P111"><img class="productAd"
+									src="${path }/resources/images/main/bestProduct/oops_bag1.jpg"
 									alt=""></a>
 								<div id="BestProduct-text">
-									<h4>전체상품</h4>
-									<a href="#">GO</a>
+									<h4>웁스백 배변봉투</h4>
+									<a href="${path }/product/productOne?pdtNo=P111">GO</a>
 								</div>
 							</div>
 						</div>
