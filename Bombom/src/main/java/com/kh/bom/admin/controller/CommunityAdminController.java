@@ -11,23 +11,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.CommunityMngService;
-import com.kh.bom.common.page.AdminProSearchAjaxPageBarFactory;
 import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.community.model.vo.BoardReply;
+import com.kh.bom.member.model.service.MemberService;
+import com.kh.bom.member.model.vo.Member;
+
+import net.sf.json.JSON;
+import net.sf.json.JSONObject;
 
 @Controller
 public class CommunityAdminController {
 
 	@Autowired
 	private CommunityMngService service;
+	@Autowired
+	private MemberService memberService;
 
 
-	 //댓글 페이지 매핑 주소
+	 //관리자 댓글 페이지 매핑 주소
 	 @RequestMapping("/admin/community/communityMng") public String replyList() {
 	 
 	 return "/admin/community/communityMng"; }
 	 
-	// 댓글 첫 페이지
+	//관리자 댓글 첫 페이지
 	@RequestMapping("/admin/community/communityMngAjax") //페이지 매핑 주소
 	public ModelAndView replyList(ModelAndView mv, @RequestParam(value = "cPage", defaultValue = "1") int cPage,
 			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage, String order, @RequestParam(value="keyword", defaultValue="") String keyword) {
@@ -85,9 +91,20 @@ public class CommunityAdminController {
 	//댓글 신고 상태 변경
 	@RequestMapping("/admin/community/warnMemberYn")
 	@ResponseBody
-	public boolean warnMemberYn(BoardReply br) {
+	public JSON warnMemberYn(BoardReply br) {
+		
 		int result = service.warnMemberYn(br);
-		return result >0 ? true:false;
+		//json객체로 보내기
+		JSONObject obj=new JSONObject();
+		if(result>0) {
+			obj.put("result", true);
+			Member member=memberService.selectMemberOne(br.getMem_no());
+			obj.put("replyWriter",member);
+		}else {
+			obj.put("result", false);
+		}
+		
+		return obj;
 	}
 
 }

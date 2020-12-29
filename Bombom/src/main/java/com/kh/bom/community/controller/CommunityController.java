@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -21,17 +22,19 @@ import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.community.model.service.CommunityService;
 import com.kh.bom.community.model.vo.BoardReply;
 import com.kh.bom.community.model.vo.Community;
+import com.kh.bom.member.model.service.MemberService;
+import com.kh.bom.member.model.vo.Alarm;
 import com.kh.bom.member.model.vo.Member;
 
 import net.sf.json.JSON;
 import net.sf.json.JSONObject;
+
 
 @Controller
 public class CommunityController {
 
 	@Autowired
 	private CommunityService service;
-
 	
 	//communityList 화면 전환
 	@RequestMapping("/community/communityList")
@@ -41,7 +44,6 @@ public class CommunityController {
 		return "/community/communityList";
 	}
 	
-	// communityList, 로그인 후 접근 가능
 	@RequestMapping(value="/community/communityListAjax", produces="text/plain; charset=UTF-8")
 	@ResponseBody //ajax 반환용
 	public ModelAndView selectCommunityList(String order, ModelAndView mv,
@@ -131,23 +133,35 @@ public class CommunityController {
 		return mv;
 
 	}
-
-	// 게시글 상세보기
+	
+	//게시글 상세보기 화면 전환
 	@RequestMapping("/community/communityView.do")
-	public ModelAndView commmunityView(String cmNo, ModelAndView mv, @RequestParam Map<String, Object> paramMap) {
-
+	public ModelAndView communityView(String cmNo,ModelAndView mv) {
+		
 		service.communityView(cmNo); //조횟수
 		
 		mv.addObject("community", service.selectCommunityOne(cmNo));
-		mv.addObject("replyList", service.getReplyList(paramMap));
 		mv.setViewName("community/communityView");
 
 		return mv;
+		
+	}
+	
+	//게시글 상세보기 댓글출력
+	@RequestMapping("/community/communityReplyList")
+	@ResponseBody
+    public ModelAndView communityReplyList(String cmNo,ModelAndView mv) {
+		System.out.println("야야야"+cmNo);
+        mv.addObject("replyList",service.getReplyList(cmNo));
+        System.out.println("djdjdjdj"+service.getReplyList(cmNo));
+		mv.setViewName("/community/communityReplyAjax");
+        return mv;
 	}
 
 	// 커뮤니티 삭제
 	@RequestMapping("/community/deleteCommunity")
 	public ModelAndView deleteCommunity(String cmNo, ModelAndView mv) {
+		
 		int result = service.deleteCommunity(cmNo);
 		String msg = "";
 		String loc = "";
@@ -164,6 +178,7 @@ public class CommunityController {
 		mv.addObject("loc", loc);
 		mv.addObject("icon", icon);
 		mv.setViewName("common/msg");
+		
 		return mv;
 	}
 
@@ -178,6 +193,7 @@ public class CommunityController {
 
 	@RequestMapping("/community/updateCommunityEnd")
 	public ModelAndView updateCommunity(Community community, ModelAndView mv) {
+		
 		int result = service.updateCommunity(community);
 		String msg = "";
 		String loc = "";
@@ -200,55 +216,85 @@ public class CommunityController {
 
 	// 댓글 등록 Ajax호출
 
-	@RequestMapping(value = "/board/reply/save", method = RequestMethod.POST)
+	@RequestMapping(value = "/community/insertReply", produces="text/plain; charset=UTF-8")
 	@ResponseBody
-	public Object boardReplySave(@RequestParam Map<String, Object> objParams) {
+	public ModelAndView boardReplySave(String cmNo, String memNo, String replyContent,ModelAndView mv) {
 
-		System.out.println("매개변수:" + objParams);
-		// 리턴값
-		Map<String, Object> retVal = new HashMap<String, Object>();
-
-		// 정보입력
-		int result = service.regReply(objParams);
-
-		System.out.println("결과값 " + result);
-
-		if (result > 0) {
-			String number = service.selectSeqReply();
-			BoardReply rp = service.selectBoardReplyOne(number);
-
-			retVal.put("code", "OK");
-			retVal.put("board_id", rp.getBoard_id());
-			retVal.put("reply_id", rp.getReply_id());
-			retVal.put("parent_id", rp.getParent_id());
-			retVal.put("reply_content", rp.getReply_content());
-			retVal.put("depth", rp.getDepth());
-			retVal.put("reply_writer", rp.getReply_writer());
-			retVal.put("mem_nick", rp.getMem_nick());
-			retVal.put("mem_pro", rp.getMem_pro());
-			retVal.put("register_datetime", rp.getRegister_datetime());
-			retVal.put("message", "등록에 성공 하였습니다.");
-		} else {
-			retVal.put("code", "FAIL");
-			retVal.put("message", "등록에 실패 하였습니다.");
+		System.out.println("댓글" + cmNo + memNo + replyContent);
+		
+		BoardReply br = new BoardReply();
+		br.setBoard_id(cmNo);
+		br.setMem_no(memNo);
+		br.setReply_content(replyContent);
+		
+		int result = service.insertReply(br);
+		
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		
+		if(result>0) {
+			
+	    List<BoardReply> bList = service.getReplyList(cmNo);
+	    mv.addObject("replyList",bList);
+	    mv.setViewName("/community/communityReplyAjax");
+			
+		}else {
+			
+			msg = "등록실패";
+			loc = "/community/communityView.do?cmNo=" + cmNo;
+			icon = "warning";
+			
+			
+			mv.addObject("msg","등록에 실패했습니다");
+			mv.addObject("loc", loc);
+			mv.addObject("icon", icon);
+			mv.setViewName("common/msg");
+			
 		}
-
-		return retVal;
-
+		
+		return mv;
 	}
+	
+	//대댓글 등록하기 
+	
+	@RequestMapping(value="/community/insertReReply")
+	@ResponseBody
+	public int insertReReply(ModelAndView mv,String board_id, String mem_no,String parent_id, String reply_content){
+		
+		System.out.println("대댓글" + board_id + mem_no + parent_id + reply_content);
+		
+		BoardReply br = new BoardReply();
+		br.setBoard_id(board_id);
+		br.setMem_no(mem_no);
+		br.setParent_id(parent_id);
+		br.setReply_content(reply_content);
+
+		int result = service.insertReReply(br);
+		
+		return result;
+		
+	}
+	
+	
 
 	// 댓글 삭제
 	@RequestMapping("/community/deleteReply")
-	public ModelAndView deleteReply(String reply_id, ModelAndView mv) {
+	public ModelAndView deleteReply(String cmNo,String reply_id, ModelAndView mv) {
 		
-		int result = service.deleteReply(reply_id);
+		BoardReply br = new BoardReply();
+		
+		br.setBoard_id(cmNo);
+		br.setReply_id(reply_id);
+		
+		int result = service.deleteReply(br);
 
 		String msg = "";
 		String loc = "";
 		String icon = "";
 		if (result > 0) {
 			msg = "댓글 삭제 성공";
-			loc = "/community/communityView.do? ";
+			loc = "/community/communityView.do?cmNo="+cmNo;
 		} else {
 			msg = " 삭제 실패";
 			loc = "/community/communityList";
@@ -267,31 +313,47 @@ public class CommunityController {
 	public ModelAndView reportReply(BoardReply reply, ModelAndView mv) {
 
 		int result = service.reportReply(reply);
+		System.out.println("why????"+reply.getBoard_id());
+		
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		if (result > 0) msg = "신고 성공";
+		else msg = "신고 실패";
+			
+		loc = "/community/communityView.do?cmNo=" + reply.getBoard_id();
+		icon = "warning";
+		
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon", icon);
+		mv.setViewName("common/msg");
+		
 
 		return mv;
-
 	}
 
 	//좋아요
 	@RequestMapping("/community/insertLike")
 	@ResponseBody
-	public JSON insertLike(HttpSession session, String cmNo, int likeCount, int value) {
+	public JSON insertLike(HttpSession session, String cmNo, int likeCount, int value,Alarm a) {
 
 		Member m = (Member) session.getAttribute("loginMember");
 		//좋아요 수 및 좋아요한 글번호 업데이트
-		int result = service.insertLike(m, cmNo, likeCount, value);
+		int result = service.insertLike(m, cmNo, likeCount, value,a);
 		// json객체로 보내기
 		JSONObject obj = new JSONObject();
-		// 바뀐 좋아요 수
-		obj.put("likeCount", service.selectLikeCount(cmNo));
-		// 바뀐 좋아요 글 번호
-		Member newM=service.selectLikeNo(m.getMemNo());
-		if(newM!=null && newM.getMemCmLike()!=null) {
-			obj.put("likeNo",newM.getMemCmLike());
-		}else {
-			obj.put("likeNo","[]");
+	
+		if(result>0) {
+			obj.put("likeCount", service.selectLikeCount(cmNo));// 바뀐 좋아요 수
+			Member newM=service.selectLikeNo(m.getMemNo());// 바뀐 좋아요 글 번호
+			if(newM!=null && newM.getMemCmLike()!=null) {
+				obj.put("likeNo",newM.getMemCmLike());
+			}else {
+				obj.put("likeNo","[]");
+			}
 		}
-		System.out.println("컨트롤러 json" + obj);
+
 		return obj;
 	}
 

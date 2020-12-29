@@ -208,8 +208,11 @@ public class AdminServiceImpl implements AdminService {
 	// 제품 수정
 	@Override
 	@Transactional
-	public int updateProduct(Product p, ProductOption o, List<Map<Object, Object>> options, List<ProductThumb> list) {
-
+	public int updateProduct(Product p, ProductOption o, List<Map<Object, Object>> options, List<ProductThumb> list,String path) {
+		
+		//저장되어있던 썸네일들 가져오기
+		List<ProductThumb> thumbs=dao.selectThumb(session, p.getPdtNo());
+		String thumb="";
 		int result = dao.updateProduct(session, p);
 		// 제품 업데이트 하면 옵션 업데이트
 		if (result > 0) {
@@ -234,6 +237,17 @@ public class AdminServiceImpl implements AdminService {
 				if (list.size() != 0) {
 					// 이전에 있던 썸네일 지우기
 					result = dao.deleteThumb(session, p.getPdtNo());
+					if(result>0) {
+						 //썸네일 이미지 삭제
+						 for(ProductThumb th:thumbs) {
+								thumb=th.getPdtThumbImage();
+								File tfile=new File(path+"/"+thumb);
+								if(tfile.exists()) {
+									tfile.delete();
+									System.out.println("썸네일 삭제!!");
+								}
+						 }
+					}
 					// 지운 후 다시 insert
 					for (ProductThumb th : list) {
 						th.setPdtNo(p.getPdtNo());

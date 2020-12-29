@@ -35,7 +35,7 @@
         	</ul>
 		</div>
 
-		<div class="product-container">
+		<div id="result" class="product-container">
 			<!-- 카테고리 및 정렬 -->
 			<div class="category-sort">
 				<div class="item-count">
@@ -43,9 +43,17 @@
 					<p class="count"><c:out value="${count}"/></p>
 				</div>
 				<div class="select-box">
-					<select class="sort">
+					<!-- 품절 포함 선택 -->
+					<select class="sort" id="soldout">
+						<option value="품절포함">품절 포함</option>
+						<option value="품절제외">품절 제외</option>
+					</select>
+					<!-- 분류 필터 -->
+					<select class="sort" id="sort">
 						<option value="등록일순">등록일순</option>
 						<option value="인기순">인기순</option>
+						<option value="리뷰순">리뷰순</option>
+						<option value="할인율순">할인율순</option>
 						<option value="낮은가격순">낮은 가격순</option>
 						<option value="높은가격순">높은 가격순</option>
 					</select>
@@ -53,12 +61,12 @@
 			</div>
 		  	
 		  	<!-- 상품목록 -->
-		  	<div id="result" class="result all-item-wrap">
+		  	<div>
 		  		<div class="all-item-wrap">
 					<!-- 제품없으면 없다고 알리는 사진뜸 / 있으면 제품들 출력 -->
 			  		<c:choose>
 			  			<c:when test="${empty list }">
-			  				<img class="noItem" alt="" src="${path }/resources/images/product/noItem2.png" >
+			  				<img class="noItem" alt="" src="${path }/resources/images/product/noItem.png" >
 			  			</c:when>
 			  			
 			  			<c:otherwise>
@@ -126,7 +134,8 @@
 					                    	<img class="icon margin" alt="" src="${path}/resources/images/product/message.png">
 					                    	<c:out value="${p.reviewCount }"/>
 					                    	<!-- 미리보기페이지 -->
-					                    	<img class="test icon margin" alt="" src="${path}/resources/images/product/search.png" >
+					                    	<%-- <img class="test icon margin" alt="" src="${path}/resources/images/product/search.png" > --%>
+					                    	<img class="test icon margin" alt="" src="${path}/resources/images/product/cart.png" >
 											<input type="hidden" name="pdtNo" value="${p.pdtNo}">
 					                  	</div>
 					                  	<!-- 상품 미리보기 -->
@@ -137,7 +146,7 @@
 					                  			
 					                  			<!-- 스와이퍼 -->
 					                  			<div class="w3-content w3-display-container swiper " style="position:absolute">
-													<img class="mySlides" src="${path}/resources/images/product/noItem2.png" style="width:100%">
+													<img class="mySlides" src="${path}/resources/images/product/noItem.png" style="width:100%">
 													<img class="mySlides" src="${path}/resources/images/product/heart.png" style="width:100%">
 													<img class="mySlides" src="${path}/resources/images/product/cart.png" style="width:100%">
 													
@@ -194,26 +203,22 @@
 	$(function() { 
 		
 		$(".hover").hover(function(){ 
-			// console.log("올림");
 			$(this).attr("src", $(this).attr("src").replace($(this).next().val(), $(this).next().next().val())); 
 	
 		}, function(){ 
-			//console.log("내림");
 			$(this).attr("src", $(this).attr("src").replace($(this).next().next().val(), $(this).next().val())); 
 		}); 
 	});
 
 	//분류 ajax
 	$(".sort").on("change",e=>{
-		console.log($(e.target).val());
-		$.ajax({
-			
+
+		$.ajax({			
 			url:"${path}/product/productListAjax",
-			data:{"category":"${category}","sort":$(e.target).val()},
+			data:{"category":"${category}","sort":$("#sort").val(),"soldout":$("#soldout").val()},
 			type:"get",
 			dataType:"html",
 			success:data=>{
-				console.log(data);
 				$("#result").html(data);
 			}
 		});

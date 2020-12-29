@@ -14,25 +14,25 @@
 	<div id="admin-nav">
 	  <ul class="nav flex-column">
 	    <li class="nav-item">
-     		<a class="nav-link" href="${path }/admin/memberList">회원관리</a> 
+     		<a class="nav-link" href="${path }/admin/memberList">회원 관리</a> 
 	    </li>
 	    <li class="nav-item">
-	      	<a class="nav-link" href="${path }/admin/moveProduct">제품관리</a>
+	      	<a class="nav-link" href="${path }/admin/moveProduct">제품 관리</a>
 	    </li>
 	    <li class="nav-item">
-	     	 <a class="nav-link" href="${path }/admin/order">주문관리</a> 
+	     	 <a class="nav-link" href="${path }/admin/order">주문 관리</a> 
 	    </li>
 	    <li class="nav-item">
 	     	 <a class="nav-link" href="${path }/admin/qnaList">1:1문의 관리</a> 
 	    </li>
 	    <li class="nav-item">
-	      	<a class="nav-link" href="${path }/admin/moveEvent">이벤트관리</a>
+	      	<a class="nav-link" href="${path }/admin/moveEvent">이벤트 관리</a>
 	    </li>
 	    <li class="nav-item">
-	      	<a class="nav-link" href="${path }/admin/moveMainBanners">메인관리</a>
+	      	<a class="nav-link" href="${path }/admin/moveMainBanners">메인 관리</a>
 	    </li>
-	    <li>
-	    <li><a class="" href="${path }/admin/community/communityMng">커뮤니티관리</a>
+	    <li class="nav-item">
+	      	<a class="nav-link" href="${path }/admin/community/communityMng">커뮤니티 관리</a>
 	    </li>
 	  </ul>
 	</div> 

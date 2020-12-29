@@ -1,6 +1,7 @@
 package com.kh.bom.community.model.vo;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,5 +24,6 @@ public class BoardReply {
     private String mem_nick;
     private String mem_pro;
     private String mem_no;
+    private BoardReply childReply;
  
 }

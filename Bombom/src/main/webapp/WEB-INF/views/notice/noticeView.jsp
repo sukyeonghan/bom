@@ -41,7 +41,7 @@
 					required> <br>
 				<input type="text" class="form-control" placeholder="관리자"
 					readonly> <br>
-				<textarea class="form-control" name="noticeContent" placeholder="내용"
+				<textarea class="form-control" name="noticeContent" placeholder="내용" style="width:100%;" rows=25
 					required><c:out value="${notice.noticeContent }" /></textarea>
 					<br><br>
 				<div class="btn-box">
