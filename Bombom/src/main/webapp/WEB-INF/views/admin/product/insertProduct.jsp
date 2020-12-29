@@ -203,14 +203,14 @@ $("#add-option").click(function(){
     addOption+='<td><input type="text" class="content" name="pdtOptionContent"></td>';
     addOption+='<th>추가 요금</th>';
     addOption+='<td><input type="text" class="addprice" name="pdtOptionAddprice">';
-    addOption+='<button class="btn btn-success btn-sm delBtn" name="delBtn">삭제</button></td>';
+    addOption+='<input type="button" class="btn btn-success btn-sm delBtn" name="delBtn" value="삭제"></td>';
     addOption+='</tr>';
 
     $("#insert-table").append(addOption);
 });
 
 //옵션 삭제 
-$(document).on("click","button[name=delBtn]",function(){
+$(document).on("click","input[name=delBtn]",function(){
 
     var trHtml=$(this).parent().parent();
     trHtml.remove();
