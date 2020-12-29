@@ -83,16 +83,6 @@ public class ZzimDaoImpl implements ZzimDao {
 	}
 
 	@Override
-	public List<Zzim> selectzzimlovelist(SqlSession session, String memNo) {
-		return session.selectList("zzim.selectzzimlovelist", memNo);
-	}
-
-	@Override
-	public int proInsertZzim2(SqlSession session, Zzim z) {
-		return session.insert("zzim.proInsertZzim2", z);
-	}
-
-	@Override
 	public List selectfavlist(SqlSession session, String zzimNo) {
 		return session.selectList("zzim.selectfavlist", zzimNo);
 	}

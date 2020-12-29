@@ -18,6 +18,9 @@ import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.zzim.model.service.ZzimService;
 import com.kh.bom.zzim.model.vo.Zzim;
 import com.kh.bom.zzim.model.vo.ZzimContent;
+
+import net.sf.json.JSON;
+import net.sf.json.JSONObject;
 @Controller
 public class ZzimController {
 	@Autowired
@@ -201,13 +204,24 @@ public class ZzimController {
 	}
 	
 	//상품페이지 - 찜하기 추가
-	@RequestMapping("/zzim/proInsertZzim2")
-	@ResponseBody
-	public boolean proInsertZzim2(Zzim z) {
-		
-		int result = service.proInsertZzim2(z);
-		return result>0?true:false;
-	}
+//	@RequestMapping("/zzim/proInsertZzim2")
+//	@ResponseBody
+//	public JSON proInsertZzim2(String pdtNo, String zzimNo, String animated) {
+//		
+//		//찜하기 추가
+//		Map map = new HashMap();
+//		map.put("pdtNo",pdtNo);
+//		map.put("zzimNo", zzimNo);
+//		int result = service.proInsertZzimContent(map);
+//		
+//		JSONObject obj = new JSONObject();
+//		if(result>0) {
+//			
+//		}
+//		
+//		return obj;
+//		
+//	}
 	
 	
 	

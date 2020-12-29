@@ -264,17 +264,26 @@ public class ProductController {
 		
 		//현재 찜리스트 불러오기
 		Member m = (Member)session.getAttribute("loginMember");
-		List<Zzim> zzimlist = zzimservice.selectZzimList(m.getMemNo());
-//		for(Zzim z : zzimlist) {
-//			System.out.println(z);
-//		}
-		//찜리스트에 찜한상품 넣기
-		for(Zzim z : zzimlist) {
-			z.setFavlist(zzimservice.selectfavlist(z.getZzimNo()));
-			System.out.println(z);
+		String msg = "";
+		String loc = "";
+		
+		List<Zzim> zzimlist = null;
+		//로그인 했을 때 찜리스트 불러오기
+		if(m!=null) {
+			zzimlist = zzimservice.selectZzimList(m.getMemNo());
+	//		for(Zzim z : zzimlist) {
+	//			System.out.println(z);
+	//		}
+			//찜리스트에 찜한상품 넣기
+			for(Zzim z : zzimlist) {
+				z.setFavlist(zzimservice.selectfavlist(z.getZzimNo()));
+				System.out.println(z);
+			}
+		//로그인 안 했을 경우 접근 X	
+		}else {
+			msg = "로그인을 먼저 해주세요";
+			loc = "/product/productOne?pdtNo="+pdtNo;
 		}
-		//찜리스트 불러오기 - 현재상품 찜한것도 확인
-		//List<Zzim> zzimlovelist = zzimservice.selectzzimlovelist(m.getMemNo());
 		
 		mv.addObject("product", product);
 		mv.addObject("optionlist", optionlist);
@@ -284,7 +293,8 @@ public class ProductController {
 		mv.addObject("dateResult", deteResult);
 		mv.addObject("slidelist", slidelist);
 		mv.addObject("zzimlist", zzimlist);
-		//mv.addObject("zzimlovelist", zzimlovelist);
+		mv.addObject("loc",loc);
+		mv.addObject("common/msg");
 		mv.setViewName("product/productOne");
 
 		return mv;

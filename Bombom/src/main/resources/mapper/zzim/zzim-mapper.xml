@@ -98,34 +98,13 @@
 	</update>
 	
 
-	<!-- 상품페이지 - 현재 찜하기 목록 불러오기 -->
-	<select id="selectzzimlovelist" parameterType="string" resultMap="zzimMap">
-		SELECT DISTINCT Z.ZZIM_NO, MEM_NO, ZZIM_NAME,
-		LISTAGG(PDT_NO,',') WITHIN GROUP(ORDER BY ZZIM_NAME) OVER(PARTITION BY ZZIM_NAME) AS PDT_NO
-		FROM ZZIM Z
-		JOIN ZZIMCONTENT ZC ON (Z.ZZIM_NO=ZC.ZZIM_NO)
-		WHERE MEM_NO=#{memNo}
-		ORDER BY ZZIM_NO     
-	</select>
-	<!-- <select id="selectzzimlovelist" parameterType="string" resultMap="zzimMap">
-		SELECT Z.ZZIM_NO, MEM_NO, ZZIM_NAME, PDT_NO 
-		FROM ZZIM Z 
-		JOIN ZZIMCONTENT ZC ON (Z.ZZIM_NO=ZC.ZZIM_NO) 
-		WHERE MEM_NO=#{memNo}
-	</select> -->
-	
 	<!-- 상품페이지 - 찜폴더추가 -->
 	<insert id="proInsertZzim" parameterType="zzim">
 		INSERT INTO ZZIM VALUES('Z'||SEQ_ZZIM_NO.NEXTVAL,#{memNo},#{zzimName})
 	</insert>
 	
-	<!-- 상품페이지 - 추가한 찜폴더에 상품추가 -->
+	<!-- 상품페이지 - 찜폴더에 상품추가 -->
 	<insert id="proInsertZzimContent" parameterType="map">
-		INSERT INTO ZZIMCONTENT VALUES(#{pdtNo},#{zzimNo},DEFAULT,'ZC'||SEQ_ZZIMCONTENT_NO.NEXTVAL)
-	</insert>
-	
-	<!-- 상품페이지 - 찜하기 추가 -->
-	<insert id="proInsertZzim2" parameterType="zzim">
 		INSERT INTO ZZIMCONTENT VALUES(#{pdtNo},#{zzimNo},DEFAULT,'ZC'||SEQ_ZZIMCONTENT_NO.NEXTVAL)
 	</insert>
 	

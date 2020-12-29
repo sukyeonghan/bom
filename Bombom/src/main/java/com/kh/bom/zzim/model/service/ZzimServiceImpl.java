@@ -89,16 +89,6 @@ public class ZzimServiceImpl implements ZzimService {
 	}
 
 	@Override
-	public List<Zzim> selectzzimlovelist(String memNo) {
-		return dao.selectzzimlovelist(session, memNo);
-	}
-
-	@Override
-	public int proInsertZzim2(Zzim z) {
-		return dao.proInsertZzim2(session, z);
-	}
-
-	@Override
 	public List selectfavlist(String zzimNo) {
 		return dao.selectfavlist(session, zzimNo);
 	}

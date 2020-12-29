@@ -109,7 +109,7 @@ textarea.answer {
 						        						<c:out value="${i.inqContent }"/>
 						        					</a>
 						        				</c:if>
-						        				<c:if test="${i.inqSecret=='Y' and loginMember.memNo==i.memNo }">
+						        				<c:if test="${i.inqSecret=='Y' and (loginMember.memNo==i.memNo or loginMember.memManagerYn=='Y')}">
 						        					<img src="${path}/resources/images/product/lock.png" style="width:20px;height:20px;">
 						        					<a href="#" data-toggle="modal" data-target="#inquiryView" data-no='<c:out value="${i.inqNo}"/>' data-content='<c:out value="${i.inqContent }"/>'
 						        						data-answeryn='<c:out value="${i.inqAnswerYn}"/>' data-date='<fmt:formatDate type="both" timeStyle="short" value="${i.inqDate }"/>' data-memnick='<c:out value="${i.memNick}"/>'
@@ -118,7 +118,7 @@ textarea.answer {
 						        						<c:out value="${i.inqContent }"/>
 						        					</a>
 						        				</c:if>
-						        				<c:if test="${i.inqSecret=='Y' and loginMember.memNo!=i.memNo}">
+						        				<c:if test="${(i.inqSecret=='Y' and loginMember.memNo!=i.memNo and loginMember.memManagerYn=='N') or (i.inqSecret=='Y' and loginMember.memNo==null and loginMember.memManagerYn=='N')}">
 						        					<img src="${path}/resources/images/product/lock.png" style="width:20px;height:20px;">
 						        					<a href="#" onclick="secretCk();">
 						        					<c:out value="${i.inqContent }"/></a>

@@ -34,12 +34,6 @@ public interface ZzimService {
 	//제품상세페이지 - 추가한 찜폴더에 제품추가
 	int proInsertZzimContent(Map map);
 	
-	//제품상세페이지 - 제품을 찜했을 경우 표시
-	List<Zzim> selectzzimlovelist(String memNo);
-	
-	//제품상세페이지 - 제품추가
-	int proInsertZzim2(Zzim z);
-	
 	List selectfavlist(String zzimNo);
 
 

@@ -5,9 +5,16 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
+<!-- 찜하기 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
+ <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
 <jsp:include page="/WEB-INF/views/common/header.jsp" >
    <jsp:param name="title" value="" />
 </jsp:include>
+
 <style>
 /* 바로가기 이동 */
 a:link {
@@ -245,6 +252,112 @@ button:focus {
 	width:70%;
 }
 
+/* 찜하기 */
+.heart {
+  /* width: 20px;
+  height: 20px; */
+  font-size:20px;
+  margin: auto;
+  transform: translateZ(0);
+  color: #aaa;
+  cursor: pointer;
+  position: relative;
+  transition: all .3s ease;
+}
+.heart:hover {
+  animation: pulse .6s linear;
+}
+.heart:before {
+  content: "❤";
+  position: absolute;
+  color: #A12B2B;
+  opacity: 0;
+}
+.heart.happy {
+  color: #A12B2B;
+}
+.heart.happy:before {
+  opacity: 0;
+  transform: translateY(-30px) rotateZ(5deg);
+  animation: fly 1s ease;
+}
+.heart.broken {
+  color: #aaa;
+  position: relative;
+  transition: all .3s ease;
+}
+.heart.broken:before, .heart.broken:after {
+  content: "❤";
+  opacity: 1;
+  color: #ccc;
+  position: absolute;
+  top: -150px;
+  transform: scale(3) rotateZ(0);
+}
+.heart.broken:before {
+  clip: rect(0, 20px, 200px, 0);
+  animation: break-left 1s ease forwards;
+}
+.heart.broken:after {
+  clip: rect(0, 50px, 200px, 25px);
+  animation: break-right 1s ease forwards;
+}
+
+@keyframes pulse {
+  50% {
+    transform: scale(1.1);
+  }
+}
+@keyframes fly {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) rotateZ(15deg);
+  }
+  50% {
+    opacity: .75;
+    transform: scale(4) translateY(-30px) rotateZ(-15deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(4) translateY(-50px) rotateZ(15deg);
+  }
+}
+@keyframes break-left {
+  0% {
+    opacity: 1;
+    transform: scale(3) rotateZ(0);
+  }
+  20% {
+    opacity: .5;
+    transform: scale(3) translateX(-10px) rotateZ(-20deg) translateY(0);
+  }
+  50% {
+    opacity: .5;
+    transform: scale(3) translateX(-10px) rotateZ(-20deg) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3) translateX(-30px) rotateZ(-25deg) translateY(50px);
+  }
+}
+@keyframes break-right {
+  0% {
+    opacity: 1;
+    transform: scale(3) rotateZ(0);
+  }
+  20% {
+    opacity: .5;
+    transform: scale(3) translateX(10px) rotateZ(20deg) translateY(0);
+  }
+  50% {
+    opacity: .5;
+    transform: scale(3) translateX(10px) rotateZ(20deg) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3) translateX(30px) rotateZ(25deg) translateY(50px);
+  }
+}
 </style>
 
 <section id="container" style="margin:0 5% 0 5%;">
@@ -433,7 +546,6 @@ button:focus {
                     	});
                     	
                     	
-                    	
                     	var count = 1;
                     	var countEl = document.getElementById("count");
                     	var oriPrice = document.getElementById("oriPrice");
@@ -480,7 +592,7 @@ button:focus {
 		                    <button type="button" href="#" class="btn btn-outline-secondary custom soldoutCheck">장바구니</button>
 		                    <button type="button" href="#" class="btn btn-outline-success custom loginCheck">찜하기</button>
 	                    </c:if>
-                    </div>                                 			     			
+                    </div>
         		</div><!-- class="head" 끝 -->
         	</div>
         </div><!-- 제품 div끝 -->
@@ -505,13 +617,15 @@ button:focus {
 		        	<table class="table">
 	        			<c:forEach items="${zzimlist}" var="list">
 			        		<tr>
+			        			<td style="display:none;"><c:out value="${list.zzimNo }"/></td>
 			        			<td><c:out value="${list.zzimName }"/></td> <!-- 찜폴더명 -->
+			        			<td><c:out value="${list.favlist }"/></td>
 			        			<c:choose>
 			        				<c:when test="${fn:contains(list.favlist,product.pdtNo)}"> 
-			        					<td><img src="${path}/resources/images/product/heartfull.png" style="height:20px;"></td>
+			        					<td><div class="heart happy">❤</div></td>
 			        				</c:when>
 			        				<c:otherwise>
-			        					<td><img src="${path}/resources/images/product/heartblank.png" style="height:20px;"></td>
+			        					<td><div class="heart broken">❤</div></td>
 			        				</c:otherwise>
 								</c:choose>
 			        		</tr>
@@ -523,47 +637,30 @@ button:focus {
 	        	
 	        	
 	        	<script>
-	         	//찜하기 모달창 - 찜하기 추가,삭제하기
-	         	$(".heart").click(function(){
-	         		let td = $(this).parent().parent().parent().text().trim();
-	         		let zzimNo = td.substring(0,td.indexOf(",")).trim();
-  					console.log(zzimNo);
-	         		
-	         		$.ajax({
-     					url:"${path}/zzim/proInsertZzim2",
-     					data:{zzimNo:zzimNo,pdtNo:$("#pdtNo").val()},
-     					type:"get",
-     					succes:data=>{
-     						if(data == true){
-         						swal("찜하기에 추가되었습니다");
-         						console.log(data);
-         						$(this).attr("src",function(index,attr){
-         		         			if(attr.match("heartblank")){
-         		         				$(this).attr("class","heartfull");
-         		         				return attr.replace("heartblank.png","heartfull.png");
-         		         			}
-         						});
-     						}else{
-         						swal("찜하기를 실패했습니다. 다시 시도해주세요");
-     						}
-     					},error:function(request,status,error){
-     						swal("찜하기를 실패했습니다. 다시 시도해주세요");
-     					}
-		         	});
-	         	});	
-	         		
-	         		/* $(this).attr("src",function(index,attr){
-	         			//찜하기 추가
-	         			if(attr.match("heartblank")){
-	         				$(this).attr("class","heartfull");
-	         				return attr.replace("heartblank.png","heartfull.png");
-	         			//찜하기 삭제
-	         			}else{
-	         				$(this).attr("class","heartblank");
-	         				return attr.replace("heartfull.png","heartblank.png");
-	         			}
-	         		}); */
-	         		
+	         	//찜하기 버튼
+	         	let zzimNo;
+			    $('.heart').click(function(){
+			    	$(this).attr("class",function(index,attr){
+			      	//찜하기 누른 상태
+			    		if(attr.match("broken")){
+					        let zzimNo = $(this).parent().parent().children().eq(0).text();
+					        return attr.replace("broken","happy");
+				   	 	}else {
+					        let zzimNo = $(this).parent().parent().children().eq(0).text();
+					        return attr.replace("happy","broken");
+				    	}
+			      
+			      	/* $.ajax({
+			      		url:"${path}/zzim/proInsertZzim2",
+			      		data:{zzimNo:zzimNo,pdtNo:$("#pdtNo").val(),animated:animated},
+			      		dataType:"json",
+			      		success:data=>{
+			      			
+			      		}
+			      	}); */
+			    	});
+			      
+			    });
 	        	</script>
 	        	
 	        </div>
@@ -676,7 +773,7 @@ button:focus {
 		</div><!--네비바 끝 -->
 		
 		<!--연관상품 스와이프-->
-		<div id="recommand_wrap" style="padding-top: 50px;">
+		<div id="recommand_wrap" class="container" style="padding-top: 50px;">
 			<div class="information"><strong>연관상품</strong></div>
 			<div class="swiper-container container">
 				<!-- 현재 페이지의 카테고리에 해당하는 제품만 랜덤 슬라이드 -->

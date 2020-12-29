@@ -34,10 +34,6 @@ public interface ZzimDao {
 	
 	int proInsertZzimContent(SqlSession session, Map map);
 	
-	List<Zzim> selectzzimlovelist(SqlSession session, String memNo);
-	
-	int proInsertZzim2(SqlSession session, Zzim z);
-	
 	List selectfavlist(SqlSession session, String zzimNo);
 
 }

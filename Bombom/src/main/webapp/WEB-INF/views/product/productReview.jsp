@@ -337,7 +337,7 @@ textarea.answer {
 		  
 <script>
 	//구매평 아코디언
-	window.onload = init();
+	//window.onload = init();
 	function init() {
 	    const accordion_items = document.querySelectorAll(".accordion_title");
 	    for (var i = 0; i < accordion_items.length; i++) {
