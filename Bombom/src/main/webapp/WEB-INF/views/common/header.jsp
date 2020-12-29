@@ -340,19 +340,20 @@ p.p-info {
 								<li><a class="" href="${path }/faq/faqList">자주묻는질문</a></li>
 							</ul>
 						</li>
-						<%-- <c:if test="${ (loginMember != null) and (loginMember.memManagerYn eq 'Y')  }"> --%>
-						<li class="nav-item dropdown"><a id="menuNav-admin"
-							class="nav-link" href="${path }/admin/memberList">관리자페이지</a>
-							<ul class="">
-								<li><a class="" href="${path }/admin/memberList">회원관리</a></li>
-								<li><a class="" href="${path }/admin/moveProduct">제품관리</a></li>
-								<li><a class="" href="${path }/admin/order">주문관리</a></li>
-								<li><a class="" href="${path }/admin/qnaList">1:1문의 관리</a></li>
-								<li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
-								<li><a class="" href="${path }/admin/moveMainBanners">메인관리</a></li>
-								<li><a class="" href="${path }/admin/community/communityMng">커뮤니티관리</a></li>
-							</ul></li>
-						<%-- </c:if> --%>
+						<c:if test="${ (loginMember != null) and (loginMember.memManagerYn eq 'Y')  }"> 
+							<li class="nav-item dropdown">
+								<a id="menuNav-admin" class="nav-link" href="${path }/admin/memberList">관리자페이지</a>
+								<ul class="">
+									<li><a class="" href="${path }/admin/memberList">회원관리</a></li>
+									<li><a class="" href="${path }/admin/moveProduct">제품관리</a></li>
+									<li><a class="" href="${path }/admin/order">주문관리</a></li>
+									<li><a class="" href="${path }/admin/qnaList">1:1문의 관리</a></li>
+									<li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
+									<li><a class="" href="${path }/admin/moveMainBanners">메인관리</a></li>
+									<li><a class="" href="${path }/admin/community/communityMng">커뮤니티관리</a></li>
+								</ul>
+							</li>
+						 </c:if>
 					</ul>
 				</nav>
 			</div>
@@ -413,7 +414,8 @@ p.p-info {
 							<div class="form-group form-check">
 								<label class="form-check-label"> <input
 									class="form-check-input" type="checkbox" required /> 다시:봄 이용
-									약관 및 개인정보 취급방침에 대한 내용을 모두 <br /> 확인하였으며, 이에 동의합니다.
+									<a href="${path }/agreement/view">약관 및 개인정보 취급방침</a>
+									에 대한 내용을 모두 <br /> 확인하였으며, 이에 동의합니다.
 								</label>
 							</div>
 							<button type="submit" class="btn btn-success btn-block"
@@ -431,10 +433,8 @@ p.p-info {
 									</a>
 								</div>
 								<div class="col">
-									<!-- 									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=http://localhost:9090/bom/auth/kakao/callback&response_type=code">
- -->
-									<a
-										href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback&response_type=code">
+									<!--<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=http://localhost:9090/bom/auth/kakao/callback&response_type=code">-->
+									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback&response_type=code">
 										<img src="${path }/resources/images/login/kakao.png"
 										alt="카카오로그인" class="sns-icon" />
 									</a>
