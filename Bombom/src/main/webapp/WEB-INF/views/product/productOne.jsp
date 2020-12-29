@@ -587,11 +587,13 @@ button:focus {
 		                    <button type="button" href="#" class="btn btn-outline-secondary custom soldoutCheck">장바구니</button>
 		                    <button type="button" href="#" data-toggle="modal" data-target="#zzimView" class="btn btn-outline-success custom">찜하기</button>
 	                    </c:if>
+	                    <!-- soldout일 경우 구매하기, 장바구니 클릭 방지 -->
 	                    <c:if test="${loginMember==null and product.pdtStatus=='N'}">
 		                    <button type="button" href="#" class="btn btn-secondary custom soldoutCheck">구매하기</button>
 		                    <button type="button" href="#" class="btn btn-outline-secondary custom soldoutCheck">장바구니</button>
 		                    <button type="button" href="#" class="btn btn-outline-success custom loginCheck">찜하기</button>
 	                    </c:if>
+	                    
                     </div>
         		</div><!-- class="head" 끝 -->
         	</div>
@@ -985,7 +987,7 @@ button:focus {
 		      		dataType:"json",
 		      		success:data=>{
 		      			if(data.likePdtno!=null){
-			      			swal({text:"찜하기 추가가 완료되었습니다",timer:1000}); //알림창 1초뒤 닫기
+			      			//swal({text:"찜하기 추가가 완료되었습니다",timer:1000}); //알림창 1초뒤 닫기
 			      			$("#zzimFolderModal").modal("hide"); //모달닫기
 		      			}
 		      		},error:function(error){
@@ -1005,7 +1007,7 @@ button:focus {
 		      		success:data=>{
 		      			//현재제품이랑 비교해서 없을경우
 		      			if(data.likePdtno.indexOf("pdtNo")==-1){
-		      				swal({text:"찜하기 삭제가 완료되었습니다",timer:1000});
+		      				//swal({text:"찜하기 삭제가 완료되었습니다",timer:1000});
 		      				$("#zzimFolderModal").modal("hide");
 		      			}
 		      		},error:function(error){
