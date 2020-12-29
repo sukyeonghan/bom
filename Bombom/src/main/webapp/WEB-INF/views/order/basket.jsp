@@ -89,12 +89,12 @@
 							<!-- 수량 -->
 							<td>
 								<div class="input_number_wrap option-count-input form-number">
-									<button  class="minus form-number_control" type="button" onclick="fn_minus(event);">
+									<button  class="Btnminus form-number_control" type="button" onclick="fn_minus(event);">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 7 11.5 h 10 v 1 H 7 Z"></path></svg>
 									</button>
 										<input type="text" name="inbasQty" 	class="qty form-control " value="${b.inbasQty }" style="width: 80px; text-align: center;"
 										onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' />
-									<button  class="plus form-number_control" type="button" onclick="fn_plus(event);">
+									<button  class="Btnplus form-number_control" type="button" onclick="fn_plus(event);">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 11.5 11.5 V 6 h 1 v 5.5 H 18 v 1 h -5.5 V 18 h -1 v -5.5 H 6 v -1 h 5.5 Z"></path></svg>
 									</button>
 								</div>
@@ -152,37 +152,28 @@
 <script type="text/javascript">
 	//수량 -
 	var qty = $(".qty");
-	$(".minus").click(e => {
-		console.log("-");
-		for(var i = 0; i < qty.length; i++){
-			console.log(qty[i].value);
-			
-			var qtyM = qty[i].value;
-			qtyM = qtyM -1;
-			console.log(qtyM);
-			
-		}
+	
+	$("[class^=Btn]").on("click",function(event){
+		var before = $(this).attr("class");
+		var after = before.replace("Btn","");
+		var qtyBtn = after.substr(0,5);
+		console.log(qtyBtn.trim().length);
+		
+		var minus = qtyBtn.trim();
+		var plus = qtyBtn.trim();
+		if()
+		
 	});
 	
-	
-	function fn_minus(){
+	$(".minus").click(e => {
 		
 		
-		//console.log(qty);
-		//e.target.next().val(qty);
-		//console.log(qty);
-		//qty = qty-1; //수량 input의 value값을 가져와서 -1시킴
-		//$(target).next().val(qty); //바꾼 value값을 수량input value값으로 변경
-	
-	}
+	});
+
 	//수량 +
 	function fn_plus(target){
 		console.log("+");
-		console.log(target);
-		console.log(target.prev().val());
-		
-		//qty = qty+1;
-		//$(".qty").val(qty);
+	
 	}
 
 	

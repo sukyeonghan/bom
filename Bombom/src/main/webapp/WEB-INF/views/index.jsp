@@ -61,7 +61,6 @@
                 <li data-target="#mainBanner" data-slide-to="0" class="active"></li>
                 <li data-target="#mainBanner" data-slide-to="1"></li>
                 <li data-target="#mainBanner" data-slide-to="2"></li>
-                <li data-target="#mainBanner" data-slide-to="3"></li>
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active banner_div">
@@ -97,7 +96,7 @@
     <!-- 슬라이드 쇼 끝 -->
 
 <script>
-	/* $(function () {
+	$(function () {
 	    //메인배너 이미지크기 맞추기
 	    var banners = $('.banner_div');
 	    
@@ -127,7 +126,7 @@
 	            console.log(img);
 	        }
 	    }
-	}) */
+	})
  	
 </script>
 
@@ -278,8 +277,8 @@
 					var swiper = new Swiper('.swiper-container',
 						{
 							speed: 1000,
-							slidesPerView : 4,
-							spaceBetween : 30,
+							slidesPerView : 3,
+							spaceBetween : 15,
 							slidesPerGroup : 2,
 							loop : true,
 							loopFillGroupWithBlank : true,
