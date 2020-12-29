@@ -313,9 +313,9 @@ p.p-info {
 					class="img-responsive center-block"
 					src="${path }/resources/images/springAgainLogo.png" alt="mainLogo"></a>
 			</div>
-			<div id="menuNav" class="dropmenu" style="margin-top: 22px;">
+			<div id="menuNav" class="dropmenu">
 				<nav>
-					<ul id="menu_ul" class="nav justify-content-center pt-3">
+					<ul id="menu_ul" class="nav justify-content-center">
 						<li class="nav-item"><a class="nav-link"
 							href="${path }/intro/moveIntro">다시:봄 소개</a></li>
 						<li class="nav-item dropdown"><a id="menuNav-product"
