@@ -64,7 +64,7 @@ textarea.answer {
 									<div style="float:right;">
 										<span id="byteInfo1">0</span>/500bytes
 								        <label>
-						 		        	<img id="lockUnlock" src="${path}/resources/images/product/unlock.png" name="inqSecret" style="width:25px;height:25px;">
+						 		        	<img id="lockUnlock" src="${path}/resources/images/product/unlock.png" name="inqSecret" style="width:25px;height:25px;cursor:pointer;">
 								        	<input type="hidden" id="secret" name="inqSecret" value="N">
 								        </label>
 								        <c:if test="${loginMember!=null }">
@@ -109,7 +109,7 @@ textarea.answer {
 						        						<c:out value="${i.inqContent }"/>
 						        					</a>
 						        				</c:if>
-						        				<c:if test="${i.inqSecret=='Y' and loginMember.memNo==i.memNo }">
+						        				<c:if test="${i.inqSecret=='Y' and (loginMember.memNo==i.memNo or loginMember.memManagerYn=='Y')}">
 						        					<img src="${path}/resources/images/product/lock.png" style="width:20px;height:20px;">
 						        					<a href="#" data-toggle="modal" data-target="#inquiryView" data-no='<c:out value="${i.inqNo}"/>' data-content='<c:out value="${i.inqContent }"/>'
 						        						data-answeryn='<c:out value="${i.inqAnswerYn}"/>' data-date='<fmt:formatDate type="both" timeStyle="short" value="${i.inqDate }"/>' data-memnick='<c:out value="${i.memNick}"/>'
@@ -118,7 +118,7 @@ textarea.answer {
 						        						<c:out value="${i.inqContent }"/>
 						        					</a>
 						        				</c:if>
-						        				<c:if test="${i.inqSecret=='Y' and loginMember.memNo!=i.memNo}">
+						        				<c:if test="${(i.inqSecret=='Y' and loginMember.memNo!=i.memNo and loginMember.memManagerYn=='N') or (i.inqSecret=='Y' and loginMember.memNo==null)}">
 						        					<img src="${path}/resources/images/product/lock.png" style="width:20px;height:20px;">
 						        					<a href="#" onclick="secretCk();">
 						        					<c:out value="${i.inqContent }"/></a>
@@ -150,7 +150,7 @@ textarea.answer {
 			        
 			      <!-- 상품문의 모달창 -->
 				  <div class="modal fade" id="inquiryView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				    <div class="modal-dialog">
+				    <div class="modal-dialog ">
 				      <div class="modal-content">
 				      
 				        <!-- Modal Header -->
