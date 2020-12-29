@@ -12,7 +12,7 @@
 <style>
 .swiper-container {
 	height: 500px;
-	width: 1000px;
+	width: 830px;
 	min-width: 550px;
 }
 
@@ -65,33 +65,25 @@
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active banner_div">
-                    <img class="banner_img" src="${path }/resources/images/main/banner/main-banner1.jpg" alt="First slide">
-                    <div class="carousel-caption" style="left:-35%;">
-                       <h3>제로웨이스터라고<br>당당하게 말하기</h3>
-                        <p>Zerowaste<br>Passion Pack ~20%</p>
-                    </div>
-                </div>
-
-                <div class="carousel-item  banner_div">
-                    <img class="banner_img" src="${path }/resources/images/main/banner/main-banner2.jpg" alt="Second slide">
+                    <a href="${path }/product/bathroom"><img class="banner_img" src="${path }/resources/images/main/banner/main-banner2.jpg" alt="Second slide">
                     <div class="carousel-caption" style="left:-35%;">
                         <h3>여행도 쓰레기 없이.<br>제로웨이스트 어메니티.</h3>
-                        <p>대나무치솔&고체치약</p>
-                    </div>
+                        <p>대나무칫솔&고체치약</p>
+                    </div></a>
                 </div>
                 <div class="carousel-item  banner_div">
-                    <img class="banner_img" src="${path }/resources/images/main/banner/main-banner3.jpg" alt="Third slide">
+                    <a href="${path }/product/productOne?pdtNo=P151"><img class="banner_img" src="${path }/resources/images/main/banner/main-banner3.jpg" alt="Third slide">
                     <div class="carousel-caption " style="left:-35%;">
                         <h3>영수증 안주셔도 되요<br>현명하게 거절하기</h3>
                         <p>제로 웨이스트 치어링 스티커팩</p>
-                    </div>
+                    </div></a>
                 </div>
                 <div class="carousel-item  banner_div">
-                    <img class="banner_img" src="${path }/resources/images/main/banner/main-banner4.jpg" alt="Third slide">
+                    <a href="${path }/product/productOne?pdtNo=P109"><img class="banner_img" src="${path }/resources/images/main/banner/main-banner4.jpg" alt="Third slide">
                     <div class="carousel-caption " style="left:-35%;">
                         <h3>우리가 해야 할<br>미세플라스틱 없는<br>진짜 설거지,</h3>
                         <p>다시:봄 주방비누</p>
-                    </div>
+                    </div></a>
                 </div>
             </div>
             <a class="carousel-control-prev" href="#mainBanner" role="button" data-slide="prev">
@@ -105,7 +97,7 @@
     <!-- 슬라이드 쇼 끝 -->
 
 <script>
-	$(function () {
+	/* $(function () {
 	    //메인배너 이미지크기 맞추기
 	    var banners = $('.banner_div');
 	    
@@ -135,7 +127,7 @@
 	            console.log(img);
 	        }
 	    }
-	})
+	}) */
  	
 </script>
 
@@ -145,46 +137,46 @@
     <div id="productAd-container" class="container">
     <div class="wrapper">
 	    <div class="">
-	        <a href="#"><img class="productAd" src="${path }/resources/images/main/productCategory/전체상품.png" alt=""></a>
+	        <a href="${path }/product/productAll"><img class="productAd" src="${path }/resources/images/main/productCategory/전체상품.png" alt=""></a>
 	        <div id="productAd-text">
 	            <h4>전체상품</h4>
-	            <a href="#">GO</a>
+	            <a href="${path }/product/productAll">GO</a>
 	        </div>
 	    </div>
 	    <div class="">
-	        <a href="#"><img class="productAd" src="${path }/resources/images/main/productCategory/일상에서.jpg" alt=""></a>
+	        <a href="${path }/product/food"><img class="productAd" src="${path }/resources/images/main/productCategory/일상에서.jpg" alt=""></a>
 	        <div id="productAd-text">
 	            <h4>일상에서</h4>
-	            <a href="#">GO</a>
+	            <a href="${path }/product/food">GO</a>
 	        </div>
 	    </div>
 	
 	    <div class="">
-	        <a href="#"><img class="productAd" src="${path }/resources/images/main/productCategory/욕실에서.jpg" alt=""></a>
+	        <a href="${path }/product/bathroom"><img class="productAd" src="${path }/resources/images/main/productCategory/욕실에서.jpg" alt=""></a>
 	        <div id="productAd-text">
 	            <h4>욕실에서</h4>
-	            <a href="#">GO</a>
+	            <a href="${path }/product/bathroom">GO</a>
 	        </div>
 	    </div>
 	    <div class="">
-	        <a href="#"><img class="productAd" src="${path }/resources/images/main/productCategory/여행갈때.jpg" alt=""></a>
+	        <a href="${path }/product/pet"><img class="productAd" src="${path }/resources/images/main/productCategory/산책갈때.jpg" alt=""></a>
 	        <div id="productAd-text">
-	            <h4>여행갈때</h4>
-	            <a href="#">GO</a>
+	            <h4>산책갈때</h4>
+	            <a href="${path }/product/pet">GO</a>
 	        </div>
 	    </div>
 	    <div class="">
-	        <a href="#"><img class="productAd" src="${path }/resources/images/main/productCategory/사무실에서.png" alt=""></a>
+	        <a href="${path }/product/stuff"><img class="productAd" src="${path }/resources/images/main/productCategory/사무실에서.png" alt=""></a>
 	        <div id="productAd-text">
 	            <h4>사무실에서</h4>
-	            <a href="#">GO</a>
+	            <a href="${path }/product/stuff">GO</a>
 	        </div>
 	    </div>
 	    <div class="">
-	        <a href="#"><img class="productAd" src="${path }/resources/images/main/productCategory/부엌에서.jpg" alt=""></a>
+	        <a href="${path }/product/kitchen"><img class="productAd" src="${path }/resources/images/main/productCategory/부엌에서.jpg" alt=""></a>
 	        <div id="productAd-text">
 	            <h4>부엌에서</h4>
-	            <a href="#">GO</a>
+	            <a href="${path }/product/kitchen">GO</a>
 	        </div>
 	    </div>
     </div>
@@ -192,7 +184,7 @@
     <!-- 상품 카테고리 홍보 끝 -->
 
     <!-- 제품추천 슬라이드 -->
-    <div id="BestProduct-container" class="container-fluid">
+    <div id="BestProduct-container" class="container">
         <div class="d-flex">
             <div id="BestProduct-title" class="">
                 <h3>Best Product</h3>
