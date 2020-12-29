@@ -617,9 +617,9 @@ button:focus {
 		        	<table class="table">
 	        			<c:forEach items="${zzimlist}" var="list">
 			        		<tr>
-			        			<td style="display:none;"><c:out value="${list.zzimNo }"/></td>
+			        			<td style=display:none;><c:out value="${list.zzimNo }"/></td>
 			        			<td><c:out value="${list.zzimName }"/></td> <!-- 찜폴더명 -->
-			        			<td><c:out value="${list.favlist }"/></td>
+			        			<td style="display:none;"><c:out value="${list.favlist }"/></td>
 			        			<c:choose>
 			        				<c:when test="${fn:contains(list.favlist,product.pdtNo)}"> 
 			        					<td><div class="heart happy">❤</div></td>
@@ -632,37 +632,6 @@ button:focus {
 				    	</c:forEach>
 		        	</table>
        			</c:if>
-	        	<br>
-	        	<div style="float:right"><button type="button" class="btn btn-success" data-dismiss="modal">완료</button></div>
-	        	
-	        	
-	        	<script>
-	         	//찜하기 버튼
-	         	let zzimNo;
-			    $('.heart').click(function(){
-			    	$(this).attr("class",function(index,attr){
-			      	//찜하기 누른 상태
-			    		if(attr.match("broken")){
-					        let zzimNo = $(this).parent().parent().children().eq(0).text();
-					        return attr.replace("broken","happy");
-				   	 	}else {
-					        let zzimNo = $(this).parent().parent().children().eq(0).text();
-					        return attr.replace("happy","broken");
-				    	}
-			      
-			      	/* $.ajax({
-			      		url:"${path}/zzim/proInsertZzim2",
-			      		data:{zzimNo:zzimNo,pdtNo:$("#pdtNo").val(),animated:animated},
-			      		dataType:"json",
-			      		success:data=>{
-			      			
-			      		}
-			      	}); */
-			    	});
-			      
-			    });
-	        	</script>
-	        	
 	        </div>
 	      </div>
 	    </div>
@@ -693,31 +662,6 @@ button:focus {
 	      </div>
 	    </div>
 	  </div><!-- 찜하기 새폴더 모달창 끝! -->
-     
-     <script>
-     	//찜하기 모달창 끄기
-     	$(".modalClose").click(function(){
-     		$(modal).close();
-     	});
-     	
-     	//찜하기 폴더 추가
-     	function fn_addFolder(){
-     		//폴더이름 유효성검사
-    		var zzimName=$("input[name=zzimName]").val();
-    		var nameCheck = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]+$/;
-    		if(zzimName.length<1 || zzimName.length>10){
-    			swal("폴더명은 한글자 이상 10이내만 가능합니다.");
-    			return false;
-    		}
-    		if(!nameCheck.test(zzimName)){
-    			swal("한글,숫자,영문만 폴더명으로 가능합니다.");
-    			return false;
-    		}
-     	}
-     	
-     	
-     </script>
-        
         
         
 		<!-- 네비바 -->
@@ -1006,6 +950,73 @@ button:focus {
 		});
 	}
 	let rating = new Rating();//별점 인스턴스 생성 
+	
+ 	//찜하기 모달창 끄기
+ 	$(".modalClose").click(function(){
+ 		$(modal).close();
+ 	});
+ 	
+ 	//찜하기 폴더 추가
+ 	function fn_addFolder(){
+ 		//폴더이름 유효성검사
+		var zzimName=$("input[name=zzimName]").val();
+		var nameCheck = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]+$/;
+		if(zzimName.length<1 || zzimName.length>10){
+			swal("폴더명은 한글자 이상 10이내만 가능합니다.");
+			return false;
+		}
+		if(!nameCheck.test(zzimName)){
+			swal("한글,숫자,영문만 폴더명으로 가능합니다.");
+			return false;
+		}
+ 	}
+ 	
+ 	//찜하기 버튼
+ 	let zzimNo;
+    $(".heart").click(function(){
+    	$(this).attr("class",function(index,attr){
+      		//찜하기 누른 상태
+    		if(attr.match("broken")){
+		        let zzimNo = $(this).parent().parent().children().eq(0).text();
+		        
+		        $.ajax({
+		        	url:"${path}/zzim/proInsertZzim2",
+		      		data:{pdtNo:$("#pdtNo").val(),zzimNo:zzimNo},
+		      		dataType:"json",
+		      		success:data=>{
+		      			if(data.likePdtno!=null){
+			      			swal({text:"찜하기 추가가 완료되었습니다",timer:1000}); //알림창 1초뒤 닫기
+			      			$("#zzimFolderModal").modal("hide"); //모달닫기
+		      			}
+		      		},error:function(error){
+		      			swal("찜하기를 다시 추가해주세요");
+		      		}
+		        });
+		        return attr.replace("broken","happy");
+			//찜하기 취소 상태
+    		}else {
+		        let zzimNo = $(this).parent().parent().children().eq(0).text();
+		        let pdtNo = $("#pdtNo").val();
+		        
+		        $.ajax({
+		        	url:"${path}/zzim/proDeleteZzim",
+		        	data:{pdtNo:$("#pdtNo").val(),zzimNo:zzimNo},
+		      		dataType:"json",
+		      		success:data=>{
+		      			//현재제품이랑 비교해서 없을경우
+		      			if(data.likePdtno.indexOf("pdtNo")==-1){
+		      				swal({text:"찜하기 삭제가 완료되었습니다",timer:1000});
+		      				$("#zzimFolderModal").modal("hide");
+		      			}
+		      		},error:function(error){
+		      			swal("찜하기를 다시 삭제해주세요");
+		      		}
+		        });
+		        return attr.replace("happy","broken");
+	    	}
+    	});
+      
+    });
 	
 	//장바구니 버튼 누르면 실행됨
 	function fn_goBasket(pdtNo){

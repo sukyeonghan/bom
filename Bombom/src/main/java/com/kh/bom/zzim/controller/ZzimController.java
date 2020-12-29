@@ -204,25 +204,73 @@ public class ZzimController {
 	}
 	
 	//상품페이지 - 찜하기 추가
-//	@RequestMapping("/zzim/proInsertZzim2")
-//	@ResponseBody
-//	public JSON proInsertZzim2(String pdtNo, String zzimNo, String animated) {
-//		
-//		//찜하기 추가
-//		Map map = new HashMap();
-//		map.put("pdtNo",pdtNo);
-//		map.put("zzimNo", zzimNo);
-//		int result = service.proInsertZzimContent(map);
-//		
-//		JSONObject obj = new JSONObject();
-//		if(result>0) {
-//			
-//		}
-//		
-//		return obj;
-//		
-//	}
+	@RequestMapping("/zzim/proInsertZzim2")
+	@ResponseBody
+	public JSON proInsertZzim2(String pdtNo, String zzimNo, HttpSession session) {
+		
+		//찜하기 추가
+		Map map = new HashMap();
+		map.put("pdtNo",pdtNo);
+		map.put("zzimNo", zzimNo);
+		int result = service.proInsertZzimContent(map);
+		
+		List<Zzim> zzimlist = null;
+		//json으로 반환
+		JSONObject obj = new JSONObject();
+		
+		//찜하기 추가 성공 시 
+		if(result>0) {
+			//현재 로그인한 계정 찜하기 리스트 가져오기
+			Member m = (Member)session.getAttribute("loginMember");
+			zzimlist = service.selectZzimList(m.getMemNo());
+			//현재 찜리스트에 추가한 상품 넣기
+			for(Zzim z : zzimlist) {
+				z.setFavlist(service.selectfavlist(z.getZzimNo()));
+				if(z.getFavlist()!=null) {
+					obj.put("likePdtno", z.getFavlist());
+					//System.out.println("추가확인 : "+obj);
+				}else {
+					obj.put("likePdtno", "[]");
+				}
+			}
+		}
+		return obj;
+	}
 	
+	//상품페이지 - 찜하기 삭제
+	@RequestMapping("/zzim/proDeleteZzim")
+	@ResponseBody
+	public JSON proDeleteZzim(String pdtNo, String zzimNo, HttpSession session) {
+		
+		//찜하기 삭제
+		Map map = new HashMap();
+		map.put("pdtNo", pdtNo);
+		map.put("zzimNo", zzimNo);
+		int result = service.proDeleteZzim(map);
+		
+		List<Zzim> zzimlist = null;
+		//json으로 반환
+		JSONObject obj = new JSONObject();
+		
+		//찜하기 삭제 성공 시 
+		if(result>0) {
+			//현재 로그인한 계정 찜하기 리스트 가져오기
+			Member m = (Member)session.getAttribute("loginMember");
+			zzimlist = service.selectZzimList(m.getMemNo());
+			//현재 찜리스트에 취소한 상품 삭제
+			for(Zzim z : zzimlist) {
+				z.setFavlist(service.selectfavlist(zzimNo));
+
+				if(z.getFavlist()!=null) {
+					obj.put("likePdtno", z.getFavlist());
+				}else {
+					obj.put("likePdtno", "[]");
+				}
+			}
+		}
+		return obj;
+		
+	}
 	
 	
 	

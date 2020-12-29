@@ -277,7 +277,7 @@ public class ProductController {
 			//찜리스트에 찜한상품 넣기
 			for(Zzim z : zzimlist) {
 				z.setFavlist(zzimservice.selectfavlist(z.getZzimNo()));
-				System.out.println(z);
+				//System.out.println(z);
 			}
 		//로그인 안 했을 경우 접근 X	
 		}else {
