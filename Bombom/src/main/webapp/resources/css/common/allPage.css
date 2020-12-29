@@ -87,15 +87,17 @@ div#logo-wrap {
 }
 
 img#logo {
-	height: 80px;
+	height: 50px;
 	width: auto;
 }
 
 /* 메뉴nav div */
 div#menuNav {
-	width: 100%;
-	color: #45A663;
-	height: 100px;
+    width: 100%;
+    height: 100%;
+    font-size: 18px;
+    background: #45A663;
+    margin-top: 10px;
 }
 
 .dropmenu ul ul {
@@ -121,13 +123,13 @@ div#menuNav {
 
 .dropmenu ul li a {
 	display: block;
-	color: #45A663;
-	text-decoration: none;
-	line-height: 43px;
+    color: white;
+    text-decoration: none;
+    line-height: 40px;
 }
 
 .dropmenu ul li a:hover {
-	color: #3b9156;
+	color: #fefcc9;
 }
 
 .dropmenu ul ul li a {
