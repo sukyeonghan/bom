@@ -135,8 +135,8 @@
 					                    	<c:out value="${p.reviewCount }"/>
 					                    	<!-- 미리보기페이지 -->
 					                    	<%-- <img class="test icon margin" alt="" src="${path}/resources/images/product/search.png" > --%>
-					                    	<img class="test icon margin" alt="" src="${path}/resources/images/product/cart.png" >
-											<input type="hidden" name="pdtNo" value="${p.pdtNo}">
+					                    	<%-- <img class="test icon margin" alt="" src="${path}/resources/images/product/cart.png" >
+											<input type="hidden" name="pdtNo" value="${p.pdtNo}"> --%>
 					                  	</div>
 					                  	<!-- 상품 미리보기 -->
 					                  	<div class="previewDivShow previewDivNone" id="${p.pdtNo}">

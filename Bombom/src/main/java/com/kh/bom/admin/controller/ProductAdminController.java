@@ -277,8 +277,7 @@ public class ProductAdminController {
 			@RequestParam(value="thumbImgs",required=false) MultipartFile[] thumbImgs,
 			@RequestParam(value="detailImg",required=false) MultipartFile detailImg,
 			HttpSession session) {
-		System.out.println("컨트롤러에서 상세"+detailImg.getOriginalFilename());
-		System.out.println("컨트롤러에서 상세"+p.getPdtDetailImage());
+
 		String path=session.getServletContext().getRealPath("/resources/upload/product");
 		File dir=new File(path);
 		
