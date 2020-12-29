@@ -20,8 +20,10 @@ import com.kh.bom.member.model.service.MemberService;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.order.model.service.OrderService;
 import com.kh.bom.order.model.vo.Basket;
+import com.kh.bom.order.model.vo.Inbasket;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.vo.Point;
+import com.kh.bom.product.model.service.ProductService;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.ship.model.Service.ShipService;
 import com.kh.bom.ship.model.vo.Ship;
@@ -37,6 +39,8 @@ public class OrderController {
 	private MemberService mService;
 	@Autowired
 	private ShipService shipService;
+	@Autowired
+	private ProductService productService;
 
 	// 헤더에서 장바구니 화면으로 전환
 	@RequestMapping("/order/basket")
@@ -98,15 +102,23 @@ public class OrderController {
 
 	// 결제화면으로 전환
 	@RequestMapping("/order/doOrder")
-	public ModelAndView doOrder(ModelAndView mv, Basket b,
-			HttpSession session) {
+	public ModelAndView doOrder(ModelAndView mv, Basket b, HttpSession session) {
 		System.out.println(b);
+		//basketNo, productNo, inbasQty만 넘어옴.
 		Member m = (Member)session.getAttribute("loginMember");
 		System.out.println("결제하기 - 회원 : "+m);
-		//장바구니 리스트중 회원번호 한개만 뽑아오기
-		String[] memNo = b.getMemNo().split(",");
-		List<Basket> list = service.selectBasket(memNo[0]);
-		mv.addObject("basketNo", b.getBasketNo());
+		
+		List<Inbasket> qtyList = new ArrayList<Inbasket>();
+		//int[] qty = b.getInbasQty();
+		
+		
+		List<Product> list = new ArrayList<Product>();
+		String[] productNo = b.getPdtNo().split(",");
+		for(String no : productNo) {
+			Product p = productService.selectProductOne(no);
+			list.add(p);
+		}
+
 		mv.addObject("loginMember",m);
 		mv.addObject("list", list);
 		mv.setViewName("order/order");
