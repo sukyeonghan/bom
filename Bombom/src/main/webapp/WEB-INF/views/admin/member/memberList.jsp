@@ -19,8 +19,8 @@
 	table#memberTbl th{text-align:center; cursor: default;}
 	table#memberTbl td{vertical-align: middle; cursor:default;}
 	table#memberTbl td{text-align:center;}
-	table#memberTbl td:nth-of-type(1){text-align:left;}
-	table#memberTbl td:nth-of-type(3){text-align:right;}
+	table#memberTbl td:nth-of-type(2){text-align:left;}
+	table#memberTbl td:nth-of-type(4){text-align:right;}
 	
 	.warnA:hover{text-decoration: none;}
 	
@@ -29,8 +29,6 @@
 	
 </style>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-<%-- 	<jsp:param name="countAlarm" value="${applicationScpoe.countAlarm }" />
-</jsp:include> --%>
 
 <section id="container">
 	<div id="flexDiv">
@@ -45,23 +43,34 @@
 				<option value="date" selected>가입순</option>
 				<option value="point">적립금순</option>
 				<option value="bad">악성댓글순</option>
+				<option value="outDate">탈퇴날짜순</option>
+				<option value="lastDate">접속날짜순</option>
+				<option value="manager">관리자순</option>
 			</select>
 			</div>
 			<div class="table-responsive" id="result">
 				<table id="memberTbl" class="table table-hover">
 					<thead>
+					<c:if test="${member.memManagerYn eq 'N'}">
 						<tr>
+					</c:if>
+					<c:if test="${member.memManagerYn eq 'Y'}">
+						<tr style="background-color: #FFFFE4;">
+					</c:if>
+							<th><input type="checkbox" id="allCheckbox"/></th>
 							<th>이메일</th>
 							<th>닉네임</th>
 							<th>적립금</th>
 							<th>악성댓글</th>				
-							<th>탈퇴여부</th>				
-							<th>관리자여부</th>				
+							<th>최근방문날짜</th>				
+							<th>탈퇴날짜</th>				
+							<th>관리자권한</th>								
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${list }" var="member" varStatus="vs">
 							<tr>
+								<td><input type="checkbox" value="${member.memNo }"/></td>
 								<td><c:out value="${member.memEmail }"/></td>
 								<td><c:out value="${member.memNick }"/></td>
 								<td><fmt:formatNumber type="number" value="${member.memPoint }"/></td>
@@ -73,9 +82,15 @@
 								<c:if test="${member.memWarnCount < 10}">
 									<td><c:out value="(${member.memWarnCount}/10)"/></td>
 								</c:if>
-								<td><c:out value="${member.memStatus}"/></td>
+								
+								<td><fmt:formatDate type="date" timeStyle="short" value="${member.memLastDate }"/></td>
 								<td>
-									<span><c:out value="${member.memManagerYn}"/></span>&nbsp;&nbsp;
+									<c:if test="${member.memStatus eq 'Y'}">
+										<fmt:formatDate type="date" timeStyle="short" value="${member.memOutDate }"/>
+									</c:if>
+								</td>
+								<td class="memManagerYnTd">
+									<%-- <span><c:out value="${member.memManagerYn}"/></span>&nbsp;&nbsp; --%>
 									<input type="hidden" value="${member.memNo }" name="memNo"/>
 									<c:if test="${member.memManagerYn eq 'N'}">
 										<button class="btn btn-info managerYnBtn">권한부여</button>
@@ -97,10 +112,10 @@
 			<!-- 검색박스 -->
 			<div id="searchBox" >
 				<select name="searchType">
-					<option value=" " disabled selected>검색타입</option>
+					<!-- <option value=" " disabled selected>검색타입</option> -->
 					<option value="email">이메일</option>
 					<option value="nick">닉네임</option>
-					<option value="all">이메일+닉네임</option>
+					<option value="all" selected>이메일+닉네임</option>
 				</select>
 				<input type="text" id="keyword" name="keyword" placeholder="검색어를 입력해주세요" size="50" list="data" required>
 				<datalist id="data"></datalist>
@@ -279,8 +294,7 @@ $("#keyword").on("keyup",e=>{
 
  })
 
- 
-	 
+
 	 
 })
 
