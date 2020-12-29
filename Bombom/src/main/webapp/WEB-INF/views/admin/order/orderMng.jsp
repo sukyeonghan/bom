@@ -71,27 +71,8 @@
 
 <section id="container" >
 	<div id="flexDiv">
-		<!--관리자 내비게이션바 -->
-		<div id="" class=" mr-3 admin-nav">
-		  <ul class="nav flex-column">
-		    <li class="nav-item">
-      			<a class="nav-link select" href="${path }/">회원관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="${path }/admin/moveProduct">제품관리</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="${path }/admin/order">주문관리</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="${path }/admin/qnaList">1:1문의관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="${path }/">이벤트관리</a>
-		    </li>
-		  </ul>
-		</div>
-		
+	<!-- 좌측 메뉴 -->
+		<jsp:include page="/WEB-INF/views/common/adminMenu.jsp" />
 		<!--좌측메뉴선택시 출력 화면 -->
 		<div id="admin-container">
           <form action="${path}/admin/order/ordSort" method="post">

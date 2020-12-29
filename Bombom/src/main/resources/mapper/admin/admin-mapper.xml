@@ -437,7 +437,7 @@
 	
 	<!--주문관리  -->
 	<select id="selectOrderList" resultMap="orderMap">
-		  SELECT * FROM "ORDER"
+		  SELECT * FROM "ORDER" ORDER BY ORD_DATE DESC
 	</select>
 	
 	<select id="selectOrderCount" resultType="_int">

@@ -76,29 +76,8 @@ p {
 </style>
 <section id="container">
 	<div id="flexDiv">
-
-		<!-- 좌측 메뉴 -->
-		<div id="mypage-nav" class=" mr-3">
-			<ul class="nav flex-column">
-				<li class="nav-item"><a class="nav-link"
-					href="${path }/mypage/orderStatus">주문내역</a></li>
-				<li class="nav-item"><a class="nav-link"
-					href="${path }/mypage/qna">1:1문의</a></li>
-				<li class="nav-item"><a class="nav-link"
-					href="${path }/mypage/myActivity">나의 활동</a></li>
-				<li class="nav-item"><a class="nav-link"
-					href="${path }/mypage/stamp">스탬프</a></li>
-				<li class="nav-item"><a class="nav-link"
-					href="${path }/mypage/zzimList">찜목록</a></li>
-				<li class="nav-item"><a class="nav-link"
-					href="${path }/mypage/updateMember">회원정보수정</a></li>
-				<li class="nav-item"><a class="nav-link"
-					href="${path }/mypage/shipList">배송지관리</a></li>
-				<li class="nav-item"><a class="nav-link"
-					href="${path }/mypage/myPointList">적립금</a></li>
-			</ul>
-		</div>
-
+<!-- 좌측 메뉴 -->
+		<jsp:include page="/WEB-INF/views/common/adminMenu.jsp" />
 		<!-- 화면내용입력부분 -->
 		<div id="admin-container">
 			<form action="${path }/admin/order/updateOrder" method="post">
