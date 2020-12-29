@@ -10,6 +10,10 @@
 	<jsp:param name="title" value="결제하기" />
 </jsp:include>
 
+<c:forEach items="${qtyList }" var="q">
+	<c:set var="quantity" value="${q. }" />
+</c:forEach>
+
 <section id="container" class="container">
     <div class="order_header">
         <h1>결제하기</h1>
@@ -19,28 +23,31 @@
     <!-- 주문상품 -->
     <div class="mb-5">
         <h3>주문상품</h3>
-        <%-- <c:forEach items="${list }" var="b"> --%>
+        <c:forEach items="${list }" var="b">
         <table>
             <tr>
+            	<!-- 상품사진 -->
                 <td>
                 	<div>
-						<%-- <a href="${path }/product/productOne?pdtNo=${b.pdtNo}" class="d-flex"> 
+						<a href="${path }/product/productOne?pdtNo=${b.pdtNo}" class="d-flex"> 
 							<c:forTokens items="${b.pdtThumbImage}" var="th" delims="," varStatus="vs">
 								<c:if test="${vs.first }">
 									<img src="${path}/resources/upload/product/${th}" class="img-fluid" style="width: 100px; height: 100px;">
 								</c:if>
 							</c:forTokens>
-							<p class="pdtName_p"><c:out value="${b.pdtName }" /></p>
-						</a> --%>
+						</a>
 						<img src="${path }/resources/upload/product/thm20201209_161710543_50.jpg" style="width: 100px; height: 100px;">
 					</div>
                 </td>
-                <td>아직 구현중</td>
-                <td> 100원 </td>
+                <!-- 이름 -->
+                <td><c:out value="${b.pdtName }" /></td>
+                <!-- 가격 -->
+                <td><fmt:formatNumber pattern="#,###,###" value="${b.pdtPrice }"/></td>
+                <!-- 수량 -->
                 <td> 1개 </td>
             </tr>
         </table>
-        <%-- </c:forEach> --%>
+        </c:forEach>
     </div>
     <!-- 배송지 -->
     <div class="mb-5">
