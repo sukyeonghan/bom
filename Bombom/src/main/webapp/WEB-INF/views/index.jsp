@@ -12,7 +12,7 @@
 <style>
 .swiper-container {
 	height: 500px;
-	width: 1000px;
+	width: 830px;
 	min-width: 550px;
 }
 
@@ -65,14 +65,6 @@
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active banner_div">
-                    <img class="banner_img" src="${path }/resources/images/main/banner/main-banner1.jpg" alt="First slide">
-                    <div class="carousel-caption" style="left:-35%;">
-                       <h3>제로웨이스터라고<br>당당하게 말하기</h3>
-                        <p>Zerowaste<br>Passion Pack ~20%</p>
-                    </div>
-                </div>
-
-                <div class="carousel-item  banner_div">
                     <img class="banner_img" src="${path }/resources/images/main/banner/main-banner2.jpg" alt="Second slide">
                     <div class="carousel-caption" style="left:-35%;">
                         <h3>여행도 쓰레기 없이.<br>제로웨이스트 어메니티.</h3>
@@ -105,7 +97,7 @@
     <!-- 슬라이드 쇼 끝 -->
 
 <script>
-	$(function () {
+	/* $(function () {
 	    //메인배너 이미지크기 맞추기
 	    var banners = $('.banner_div');
 	    
@@ -135,7 +127,7 @@
 	            console.log(img);
 	        }
 	    }
-	})
+	}) */
  	
 </script>
 
@@ -192,7 +184,7 @@
     <!-- 상품 카테고리 홍보 끝 -->
 
     <!-- 제품추천 슬라이드 -->
-    <div id="BestProduct-container" class="container-fluid">
+    <div id="BestProduct-container" class="container">
         <div class="d-flex">
             <div id="BestProduct-title" class="">
                 <h3>Best Product</h3>
