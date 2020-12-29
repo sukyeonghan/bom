@@ -7,12 +7,13 @@
 		<result property="zzimName" column="zzim_name"/>
 		<result property="zzimContentCount" column="count"/>
 		<result property="zzimFolderImg" column="image"/>
+		<result property="pdtNo" column="pdt_no"/>
 	</resultMap>
 	<resultMap type="zzimContent" id="zzimContentMap">
 		<result property="pdtNo" column="pdt_no"/>
 		<result property="zzimNo" column="zzim_no"/>
 		<result property="zzimDate" column="zzim_date"/>	
-		<result property="zzimContentNo" column="zzimcontent_no"/>	
+		<result property="zzimContentNo" column="zzimcontent_no"/>
 	</resultMap>
 	
 	<!-- 전체 찜 폴더 리스트 -->
@@ -95,5 +96,21 @@
         	#{zzimContentNo}
        	</foreach>
 	</update>
+	
+
+	<!-- 상품페이지 - 찜폴더추가 -->
+	<insert id="proInsertZzim" parameterType="zzim">
+		INSERT INTO ZZIM VALUES('Z'||SEQ_ZZIM_NO.NEXTVAL,#{memNo},#{zzimName})
+	</insert>
+	
+	<!-- 상품페이지 - 찜폴더에 상품추가 -->
+	<insert id="proInsertZzimContent" parameterType="map">
+		INSERT INTO ZZIMCONTENT VALUES(#{pdtNo},#{zzimNo},DEFAULT,'ZC'||SEQ_ZZIMCONTENT_NO.NEXTVAL)
+	</insert>
+	
+	<!-- 상품페이지 - 찜하기 한 상품 가져오기 -->
+	<select id="selectfavlist" parameterType="string" resultType="string">
+		SELECT PDT_NO FROM ZZIMCONTENT WHERE ZZIM_NO=#{zzimNo}
+	</select>
 	
 </mapper>

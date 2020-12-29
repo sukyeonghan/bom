@@ -18,6 +18,9 @@ import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.zzim.model.service.ZzimService;
 import com.kh.bom.zzim.model.vo.Zzim;
 import com.kh.bom.zzim.model.vo.ZzimContent;
+
+import net.sf.json.JSON;
+import net.sf.json.JSONObject;
 @Controller
 public class ZzimController {
 	@Autowired
@@ -172,4 +175,58 @@ public class ZzimController {
 		mv.setViewName("common/msg");
 		return mv;
 	}
+	
+	
+	//상품페이지 - 찜하기 폴더 추가
+	@RequestMapping("/zzim/proInsertZzim")
+	public ModelAndView proInsertZzim(String pdtNo, Zzim z, ModelAndView mv, HttpSession session) {
+		
+		//폴더생성
+		int result = service.proInsertZzim(z);
+		String msg = "";
+		String loc = "/product/productOne?pdtNo="+pdtNo;
+
+		if(result>0) {
+			//생성된 폴더에 해당 제품 추가
+			String zzimNo = service.selectSeqZzimNo();
+			Map map = new HashMap();
+			map.put("pdtNo",pdtNo);
+			map.put("zzimNo", zzimNo);
+			int result2 = service.proInsertZzimContent(map);
+			msg = "해당폴더에 찜추가가 완료되었습니다";
+		}else {
+			msg = "폴더생성에 실패했습니다. 다시 시도해주세요";
+		}
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
+	//상품페이지 - 찜하기 추가
+//	@RequestMapping("/zzim/proInsertZzim2")
+//	@ResponseBody
+//	public JSON proInsertZzim2(String pdtNo, String zzimNo, String animated) {
+//		
+//		//찜하기 추가
+//		Map map = new HashMap();
+//		map.put("pdtNo",pdtNo);
+//		map.put("zzimNo", zzimNo);
+//		int result = service.proInsertZzimContent(map);
+//		
+//		JSONObject obj = new JSONObject();
+//		if(result>0) {
+//			
+//		}
+//		
+//		return obj;
+//		
+//	}
+	
+	
+	
+	
+	
+	
+	
 }

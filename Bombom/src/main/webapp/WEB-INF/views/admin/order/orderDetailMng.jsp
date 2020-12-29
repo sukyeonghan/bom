@@ -19,7 +19,8 @@
 /*출력 화면 설정  */
 #admin-container {
 	min-width: 800px;
-	width: 100px;
+	width: 100%;
+	padding-right: 100px;
 }
 /*좌측메뉴*/
 #mypage-nav {
