@@ -1,25 +1,143 @@
 @charset "UTF-8";
+/* 메인배너 */
+.banner_div {
+	width: 100%;
+	height: 400px;
+	overflow: hidden;
+}
+
+.carousel-caption {
+	position: absolute;
+	text-align: left;
+	top: 50%;
+}
+
+.carousel-caption>h3, .carousel-caption>p {
+	color: #000000;
+}
+
+.carousel-caption>h3 {
+	font-weight: 600;
+}
 
 #mainBanner_swiper {
 	height: 400px;
 	width: 100%;
 	overflow: hidden;
 }
+/* 메인배너끝 */
 
+/* 상품카테고리 */
 #productAd-container {
 	display: block;
+	margin-top: 10%;
 }
 
 #productAd-container_three {
 	display: flex;
 }
 
-@media ( max-width : 768px) {
-	#mainBanner_swiper {
-		height: 200px;
-		width: 100%;
-		overflow: hidden;
-	}
-	
+img.productAd {
+	height: 300px;
+	width: 300px;
+	overflow: hidden;
+}
+
+#productAd-text {
+	display: flex;
+	justify-content: space-between;
+	padding: 16px 26px 0 26px;
+}
+
+#productAd-text>h4 {
+	font-weight: 800;
+	font-size: 25px;
+}
+
+#productAd-text>a {
+	font-size: 25px;
+}
+
+#productAd-text>a:hover {
+	color: #45A663;
+	text-decoration: none;
+}
+
+.wrapper {
+	border: 2px solid white;
+	border-radius: 5px;
+	background-color: white;
+}
+
+.wrapper>div {
+	border: 2px solid white;
+	border-radius: 5px;
+	background-color: white;
+	padding: 1em;
+	color: black;
+	text-align: center;
+}
+
+.wrapper {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	column-gap: 10px;
+	row-gap: 1em;
+	grid-auto-rows: minmax(400px, auto);
+}
+/* 상품카테고리 끝 */
+
+/* 제품추천 */
+#BestProduct-container {
 	
 }
+
+#BestProduct-title {
+	margin: 80px 0 0 50px;
+	min-width: 200px;
+}
+
+#BestProduct-title>h3, #BestProduct-title>h2 {
+	font-weight: 800;
+}
+
+#BestProduct-text {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px 0 0 15px;
+}
+
+#BestProduct-text>h4 {
+	font-size: 20px;
+}
+
+#BestProduct-text>a {
+	font-size: 20px;
+}
+
+#BestProduct-text>a:hover {
+	color: #45A663;
+	text-decoration: none;
+}
+
+/* 제품추천 css 끝 */
+@media ( max-width : 768px) {
+	.carousel-inner {
+		height: 400px;
+	}
+	.carousel-caption {
+		position: relative;
+		text-align: left;
+		top: auto;
+	}
+}
+
+/* 메인매너 슬라이드 */
+.carousel-inner {
+	height: 400px;
+}
+
+.carousel-inner img {
+	
+}
+/* 메인매너 슬라이드 끝 */

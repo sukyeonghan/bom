@@ -37,9 +37,13 @@
 <!-- 부트스트랩 -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-<script
-	src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<!-- swiper -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+<script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    
+<script	src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
@@ -309,9 +313,9 @@ p.p-info {
 					class="img-responsive center-block"
 					src="${path }/resources/images/springAgainLogo.png" alt="mainLogo"></a>
 			</div>
-			<div id="menuNav" class="dropmenu" style="margin-top: 22px;">
+			<div id="menuNav" class="dropmenu">
 				<nav>
-					<ul id="menu_ul" class="nav justify-content-center pt-3">
+					<ul id="menu_ul" class="nav justify-content-center">
 						<li class="nav-item"><a class="nav-link"
 							href="${path }/intro/moveIntro">다시:봄 소개</a></li>
 						<li class="nav-item dropdown"><a id="menuNav-product"

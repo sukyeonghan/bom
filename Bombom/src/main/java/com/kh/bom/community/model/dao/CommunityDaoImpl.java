@@ -64,15 +64,29 @@ public class CommunityDaoImpl implements CommunityDao {
 
 	
 	  @Override
-	    public int regReply(SqlSession session,Map<String, Object> paramMap) {
-	        return session.insert("community.insertBoardReply", paramMap);
+	    public int insertReply(SqlSession session,BoardReply br) {
+	        return session.insert("community.insertReply", br);
+	        
+	        
 	    }
 	 
 	    @Override
-	    public List<BoardReply> getReplyList(SqlSession session,Map<String, Object> paramMap) {
-	        return session.selectList("community.selectBoardReplyList", paramMap);
+	public int insertReReply(SqlSession session, BoardReply br) {
+		// TODO Auto-generated method stub
+		return session.insert("community.insertReReply",br);
+	}
+
+		@Override
+	    public List<BoardReply> getReplyList(SqlSession session,String cmNo) {
+	        return session.selectList("community.selectBoardReplyList", cmNo);
 	    }
-	 
+	    
+	    
+		@Override
+		public BoardReply getChildReplyList(SqlSession session, String reply_id) {
+			return session.selectOne("community.selectChildBoardReplyList", reply_id);
+		}
+
 		@Override
 		public String selectSeqReply(SqlSession session) {
 			// TODO Auto-generated method stub
@@ -86,9 +100,9 @@ public class CommunityDaoImpl implements CommunityDao {
 		}
 
 		@Override
-		public int deleteReply(SqlSession session, String reply_id) {
+		public int deleteReply(SqlSession session,BoardReply br) {
 			// TODO Auto-generated method stub
-			return session.delete("community.deleteReply",reply_id);
+			return session.delete("community.deleteReply",br);
 		}
 
 		@Override

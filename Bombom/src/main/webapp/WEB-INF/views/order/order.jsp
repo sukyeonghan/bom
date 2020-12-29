@@ -32,12 +32,12 @@
 							</c:forTokens>
 							<p class="pdtName_p"><c:out value="${b.pdtName }" /></p>
 						</a> --%>
-						<img src="${path }/resources/upload/product/det20201208_000348492_120.jpg" style="width: 100px; height: 100px;">
+						<img src="${path }/resources/upload/product/thm20201209_161710543_50.jpg" style="width: 100px; height: 100px;">
 					</div>
                 </td>
-                <td>여기는 상품명</td>
-                <td>100원</td>
-                <td>1개</td>
+                <td>아직 구현중</td>
+                <td> 100원 </td>
+                <td> 1개 </td>
             </tr>
         </table>
         <%-- </c:forEach> --%>

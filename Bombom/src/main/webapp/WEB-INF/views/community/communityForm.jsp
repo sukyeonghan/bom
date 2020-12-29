@@ -44,6 +44,9 @@ font-size: 35px;
 		<c:out value="${loginMember.memNick}" />
 		님의 다시:봄 을 공유해주세요 :-)
 	</h3>
+	<c:if test="${empty community }">
+		<form name="communityFrm" action="${path }/community/insertCommunity" enctype="multipart/form-data" method="post" onsubmit="return fn_check()">
+		</c:if>
 	<c:if test="${not empty community }">
 		<form name="communityFrm" action="${path }/community/updateCommunityEnd" onsubmit="return fn_check()">
 	</c:if>
@@ -53,7 +56,6 @@ font-size: 35px;
 	</c:if>
 	<br>
 	<div id="community-container" class="media-body">
-		<form name="communityFrm" action="${path }/community/insertCommunity" enctype="multipart/form-data" method="post" onsubmit="return fn_check()">
 			<br> 
 			<input type="text" class="form-control w3-input title" name="cmTitle" placeholder="제목을 입력해주세요" required>
 			  <br>
@@ -104,8 +106,12 @@ font-size: 35px;
 				<c:if test="${empty community }">
 					<input type="submit" class="btn btn-success" value="등록">
 				</c:if>
+				<c:if test="${not empty community }">
+				  <input type="submit" class="btn btn-success" value="수정">
+				</c:if>
 			</div>
 	</div>
+	</form>
 </section> 
 
 <script>
