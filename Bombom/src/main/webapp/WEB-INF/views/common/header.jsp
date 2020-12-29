@@ -37,9 +37,13 @@
 <!-- 부트스트랩 -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-<script
-	src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<!-- swiper -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+<script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    
+<script	src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
@@ -327,18 +331,18 @@ p.p-info {
 								<li><a class="" href="${path }/product/sale">할인상품</a></li>
 							</ul></li>
 						<li class="nav-item"><a class="nav-link"
-							href="${path }/community/communityList">커뮤니티</a> <c:if
-								test="${loginMember == null }">
-
-							</c:if></li>
+							href="${path }/community/communityList">커뮤니티</a>
+					<c:if test="${loginMember == null }"></c:if>
+						</li>
 						<li class="nav-item"><a class="nav-link" href="#">게시판</a>
 							<ul class="">
 								<li><a class="" href="${path }/notice/noticeList">공지사항</a></li>
 								<li><a class="" href="${path }/faq/faqList">자주묻는질문</a></li>
-							</ul></li>
+							</ul>
+						</li>
+						<%-- <c:if test="${ (loginMember != null) and (loginMember.memManagerYn eq 'Y')  }"> --%>
 						<li class="nav-item dropdown"><a id="menuNav-admin"
 							class="nav-link" href="${path }/admin/memberList">관리자페이지</a>
-
 							<ul class="">
 								<li><a class="" href="${path }/admin/memberList">회원관리</a></li>
 								<li><a class="" href="${path }/admin/moveProduct">제품관리</a></li>
@@ -346,9 +350,9 @@ p.p-info {
 								<li><a class="" href="${path }/admin/qnaList">1:1문의 관리</a></li>
 								<li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
 								<li><a class="" href="${path }/admin/moveMainBanners">메인관리</a></li>
-								<li><a class=""
-									href="${path }/admin/community/communityMng">커뮤니티관리</a>
+								<li><a class="" href="${path }/admin/community/communityMng">커뮤니티관리</a></li>
 							</ul></li>
+						<%-- </c:if> --%>
 					</ul>
 				</nav>
 			</div>

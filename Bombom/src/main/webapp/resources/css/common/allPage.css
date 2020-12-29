@@ -186,27 +186,7 @@ html {overflow:auto;}
 
 /* header만큼 top 주기 */
 section#container {
-	padding-top: 20%;
-}
-
-img.productAd {
-	height: 300px;
-	width: 300px;
-	overflow: hidden;
-}
-
-#productAd-text {
-	display: flex;
-}
-
-/* 제품추천 */
-#BestProduct-container {
-	margin: 150px 0;
-}
-
-#BestProduct-title {
-	margin: 70px;
-	min-width: 200px;
+	padding-top: 15%;
 }
 
 div#spring-main-footer {

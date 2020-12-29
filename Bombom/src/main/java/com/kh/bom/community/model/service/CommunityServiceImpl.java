@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.bom.community.model.dao.CommunityDao;
 import com.kh.bom.community.model.vo.BoardReply;
 import com.kh.bom.community.model.vo.Community;
+import com.kh.bom.member.model.dao.MemberDao;
+import com.kh.bom.member.model.vo.Alarm;
 import com.kh.bom.member.model.vo.Member;
 
 @Service
@@ -21,6 +23,8 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Autowired
 	private CommunityDao dao;
+	@Autowired
+	private MemberDao mDao;
 	@Autowired
 	private SqlSession session;
 
@@ -67,57 +71,17 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public int regReply(Map<String, Object> paramMap) {
-		return dao.regReply(session,paramMap);
-	}
-
-	@Override
-	public List<BoardReply> getReplyList(Map<String, Object> paramMap) {
-
-		List<BoardReply> boardReplyList = dao.getReplyList(session,paramMap);
-
-		// msyql 에서 계층적 쿼리가 어려우니 여기서 그냥 해결하자
-
-		// 부모
-		List<BoardReply> boardReplyListParent = new ArrayList<BoardReply>();
-		// 자식
-		List<BoardReply> boardReplyListChild = new ArrayList<BoardReply>();
-		// 통합
-		List<BoardReply> newBoardReplyList = new ArrayList<BoardReply>();
-
-		// 1.부모와 자식 분리
-		for (BoardReply boardReply : boardReplyList) {
-			if (boardReply.getDepth().equals("0")) {
-				boardReplyListParent.add(boardReply);
-			} else {
-				boardReplyListChild.add(boardReply);
-			}
-		}
-
-		// 2.부모를 돌린다.
-		for (BoardReply boardReplyParent : boardReplyListParent) {
-			// 2-1. 부모는 무조건 넣는다.
-			newBoardReplyList.add(boardReplyParent);
-			// 3.자식을 돌린다.
-			for (BoardReply boardReplyChild : boardReplyListChild) {
-				// 3-1. 부모의 자식인 것들만 넣는다.
-				if (boardReplyParent.getReply_id().equals(boardReplyChild.getParent_id())) {
-					newBoardReplyList.add(boardReplyChild);
-				}
-
-			}
-
-		}
-
-		// 정리한 list return
-		return newBoardReplyList;
+	public int insertReply(BoardReply br) {
+		return dao.insertReply(session,br);
+		
+		
 	}
 
 	
 	@Override
-	public int deleteReply(String reply_id) {
+	public int deleteReply(BoardReply br) {
 		// TODO Auto-generated method stub
-		return dao.deleteReply(session, reply_id);
+		return dao.deleteReply(session, br);
 	}
 
 	@Override
@@ -136,10 +100,30 @@ public class CommunityServiceImpl implements CommunityService {
 		// TODO Auto-generated method stub
 		return dao.reportReply(session,reply);
 	}
+	
+
+	@Override
+	public List<BoardReply> getReplyList(String cmNo) {
+		List<BoardReply> bList = dao.getReplyList(session, cmNo);
+		if(!bList.isEmpty()) {
+			for(BoardReply b : bList) {
+				System.out.println(b.getReply_id());
+				BoardReply br = dao.getChildReplyList(session, b.getReply_id());
+				b.setChildReply(br);
+			}
+		}
+		return bList;
+	}
+	
+	@Override
+	public int insertReReply(BoardReply br) {
+		// TODO Auto-generated method stub
+		return dao.insertReReply(session,br);
+	}
 
 	@Override
 	@Transactional
-	public int insertLike(Member m,String cmNo,int likeCount,int value) {
+	public int insertLike(Member m,String cmNo,int likeCount,int value,Alarm a) {
 		// TODO Auto-generated method stub
 		int result=0;
 		String memNo=m.getMemNo();//회원 번호
@@ -158,6 +142,10 @@ public class CommunityServiceImpl implements CommunityService {
 		//좋아요를 눌렀을 때
 		if(value==1) {
 			result=dao.updateLikeNo(session,map);
+			//알림 DB에 저장
+			if(result>0) {
+				result=mDao.insertAlarm(session, a);
+			}
 		}else if(memCmLike!=null && value==0){
 			//좋아요를 취소했을 때
 			for(String l : memCmLike) {

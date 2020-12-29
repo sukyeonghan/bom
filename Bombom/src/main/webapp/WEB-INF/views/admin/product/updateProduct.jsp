@@ -265,16 +265,19 @@
 					
 		      		<div id="detail-image">
 			      		<p class="title">제품 상세 이미지(총 1장)</p>
+			      		
 			      		<input type="button" id="fileBtn" class="fileBtn" value="파일선택" >
+			      		<input type=hidden name="pdtDetailImage" value="${product.pdtDetailImage}">
+			      		<input type="file" id="detail" class="form-control-file border" name="detailImg" accept="image/gif, image/jpeg, image/png" style="display:none;">
+			      		
 			      		<!-- 원래 파일명만 보여주기 -->
 			      		<c:set var="det" value="${fn:split(product.pdtDetailImage,'_')}"/>
 			      		<c:forEach var="oriDet" items="${det }" varStatus="d">
 			      			<c:if test="${d.count>2 }">
-			      				<label class="fileBtn" for="fileBtn">${oriDet }</label>
+			      				<label class="fileBtn label" for="fileBtn">${oriDet }</label>
 			      			</c:if>
 			      		</c:forEach>
-			      		<input type="file" id="detail" class="form-control-file border" name="detailImg" accept="image/gif, image/jpeg, image/png" style="display:none;">
-			     
+		
 		      		</div>
 		      		<input type="hidden" name="pdtNo" value="${product.pdtNo }">
 				
@@ -371,16 +374,18 @@
 
 	//상세이미지 파일명 바꾸기
 	$(function(){
-			$('[name=detailImg]').on("change",function(){
+		$('[name=detailImg]').on("change",function(){
+		
+			var filename=$(this).prop('files')[0].name;
+			$(".label").html("");
+			$(".label").first().html(filename);
 			
-				var filename=$(this).prop('files')[0].name;
-				$(this).prev(".fileBtn").html(filename);
-			});
 		});
+	});
 	
 	//상세이미지 파일 업로드
 	$("#fileBtn").on("click",e=>{
-		$(e.target).next().next().click();
+		$("#detail").click();
 	});
 
 	//이미지 업로드 
