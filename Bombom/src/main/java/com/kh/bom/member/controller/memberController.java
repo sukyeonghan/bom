@@ -220,19 +220,28 @@ public class memberController {
 		Cookie c=new Cookie("saveId","");
 		c.setMaxAge(0);
 		response.addCookie(c);
-	}
-		
-		Member login=service.selectOneMember(email);
-		//암호화된 비번 비교 
-		if(pwEncoder.matches(password, login.getMemPwd())) {
-			m.addAttribute("loginMember",login);
-		
-		}else {
-			m.addAttribute("msg","잘못된 이메일 또는 비밀번호를 입력하셨습니다.");
-			m.addAttribute("loc","/");
-			return "common/msg";
 		}
 		
+		Member login=service.selectOneMember(email);
+		
+		//암호화된 비번 비교 
+		if(login.getMemStatus().equals("N")) {
+		
+			if(pwEncoder.matches(password, login.getMemPwd())) {
+				m.addAttribute("loginMember",login);
+				
+			
+			}else {
+				m.addAttribute("msg","잘못된 이메일 또는 비밀번호를 입력하셨습니다.");
+				m.addAttribute("loc","/");
+				return "common/msg";
+			}
+			
+		}else {
+		m.addAttribute("msg","탈퇴한 회원입니다. 가입 후 이용해주세요.");
+		m.addAttribute("loc","/");
+		return "common/msg";
+		}
 		
 		return "redirect:/";
 				

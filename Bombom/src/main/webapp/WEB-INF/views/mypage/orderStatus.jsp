@@ -133,12 +133,16 @@
 								<td style="display:none"><c:out value="${o.ordAmount}" /></td>
 								<c:if test="${o.ordCancel ==null }">
 								<td class="btnTd">
+									<c:if test="${o.ordStatus =='주문대기'or o.ordStatus=='주문완료'}">
 									<button type="button" class="btn btn-outline-success cancelModal" data-toggle="modal" data-target="#cancelView">주문취소</button>
-									<c:if test="${o.ordConfirmYn =='Y' }">
-									<input type="hidden" class="btn btn-outline-success confirm" value="구매확정">
 									</c:if>
 									<c:if test="${o.ordConfirmYn =='N' }">
-									<input type="button" class="btn btn-success confirm" disabled value="적립완료">
+									<c:if test="${o.ordStatus =='배송준비'or o.ordStatus=='배송중'or o.ordStatus=='배송완료'}">
+									<input type="hidden" class="btn btn-outline-success confirm" value="구매확정">
+									</c:if>
+									</c:if>
+									<c:if test="${o.ordConfirmYn =='Y' }">
+									<input type="hidden" class="btn btn-success confirm" disabled value="적립완료">
 									</c:if>
 									<input type="hidden" class="btn btn-outline-success review" value="리뷰쓰기">
 								</td>
@@ -218,7 +222,7 @@
 		let orderNo=td.eq(6).text();
 		let ordAmount=td.eq(8).text();
 		location.replace("${path}/mypage/buyConfirm?ordAmount="+ordAmount+"&orderNo="+orderNo);
-
+		$(".confirm").attr('type','hidden');
 	})	
 
 	
@@ -239,19 +243,26 @@
 				btnTd.not(":eq(0)").remove();
 			}
 		});
+		//주문대기일때 
+		if($(".statusTd").text().match("주문대기")){
+			$(".confirm").attr('type','hidden');
+			$(".review").attr('type','hidden');
+		}
+	
 		//주문취소 눌렀을때 주문취소 버튼 숨기기
 		if($(".statusTd").text().match("주문취소")){
-			$(".cancelModal").hide();	
+			$(".cancelModal").attr('type','hidden');	
 		}
 		//구매확정 버튼 보이기
 		if($(".statusTd").text().match("배송준비")||$(".statusTd").text().match("배송중")||$(".statusTd").text().match("배송완료")){
 			$(".confirm").attr('type','button');
-			$(".cancelModal").hide();	
+			$(".cancelModal").attr('type','hidden');	
+
 		}
 		//리뷰버튼 보이기 
 		if($(".statusTd").text().match("배송완료")){
 			$(".review").attr('type','button');
-			$(".cancelModal").hide();
+			$(".cancelModal").attr('type','hidden');	
 		}
 	});
 
