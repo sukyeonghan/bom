@@ -46,6 +46,8 @@
 		<result property="memManagerYn" column="mem_manager_yn" />
 		<result property="memStatus" column="mem_status" />
 		<result property="memPoint" column="mem_point" />
+		<result property="memOutDate" column="mem_outDate" />
+		<result property="memLastDate" column="mem_lastDate" />
 	</resultMap>
 
 	<resultMap type="qna" id="qnaMap">
@@ -338,6 +340,9 @@
 		<if test='filter == "date"'>ORDER BY TO_NUMBER(SUBSTR(MEM_NO,2)) DESC</if>
 		<if test='filter == "point"'>ORDER BY MEM_POINT DESC</if>
 		<if test='filter == "bad"'>ORDER BY MEM_WARN_COUNT DESC</if>
+		<if test='filter == "manager"'>ORDER BY MEM_MANAGER_YN DESC</if>
+		<if test='filter == "lastDate"'>ORDER BY MEM_LASTDATE DESC</if>
+		<if test='filter == "outDate"'>ORDER BY MEM_OUTDATE DESC</if>
 	</select>
 	<!-- 회원수 -->
 	<select id="selectMemberCount" parameterType="map"

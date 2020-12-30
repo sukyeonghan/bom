@@ -168,7 +168,7 @@ textarea.answer {
 					        <div class="wrap-category" style="display:none;">
 						        <span class="span_textarea review_span">
 							        <textarea name="revContent" id="review_textarea" placeholder="구매평을 입력해주세요" onKeyUp="javascript:fnChkByte2(this,'500')"></textarea>
-							        <div class="imgPreview" style="height:30%;"></div>
+							        <div class="imgPreview" style="height:35%;"></div>
 							        <div class="wrap_bottom">
 							        <div style="float:left;left:0;bottom:0;">
 							        	<!-- 업로드 사진 -->
@@ -227,9 +227,16 @@ textarea.answer {
 									      		 	<img src="${path}/resources/images/product/starblank.png" style="width:20px;height:20px;margin:0 0 5px -3px;">
 									      		</c:forEach>
 										      	<span><c:out value="${r.revScore}"/></span><br>
-										      	<img src="${path }/resources/upload/profile/${r.memPro}" style="max-width:30px; height:30px;border-radius:50%;">&nbsp;
-											      <span><strong><c:out value="${r.memNick}" /></strong></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><fmt:formatDate type="both" timeStyle="short" value="${r.revDate }"/></span><br>
-											     <c:out value="${r.revContent}"/>
+										      	<!-- 쇼셜회원 프로필 -->
+										      	<c:if test="${fn:startsWith(r.memPro,'http')==true}">
+					                           		<img src="${r.memPro}" style="max-width:30px; height:30px;border-radius:50%;"/>&nbsp;
+					                           	</c:if>
+					                           	<!-- 일반회원 프로필 -->
+					                           	<c:if test="${fn:startsWith(r.memPro,'http')==false}">
+					                           		<img src="${path }/resources/upload/profile/${r.memPro}" style="max-width:30px; height:30px;border-radius:50%;"/>&nbsp;
+					                           	</c:if> 
+										     	<span><strong><c:out value="${r.memNick}" /></strong></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><fmt:formatDate type="both" timeStyle="short" value="${r.revDate }"/></span><br>
+											    <c:out value="${r.revContent}"/>
 									      	</div>
 									      	<div class="col-2"><c:if test="${r.revImage!=null }"><img src="${path}/resources/upload/review/${r.revImage }" style="height:100%;"/></c:if></div>
 									      	<div class="col-1 plusminus"></div>
@@ -296,7 +303,7 @@ textarea.answer {
 				        	</div>
 				        	<span class="span_textarea" style="margin: 10px 0 0 0;">
 							    <textarea class="revContent" name="revContent" style="height:50%;" onKeyUp="javascript:fnChkByte3(this,'500')"></textarea>
-							    	<div id="uploadPreview" style="height:30%;"><img id="imgPreview" style="height:30%;"></div>
+							    	<div id="uploadPreview" style="height:35%;"><img id="imgPreview" style="height:35%;"></div>
 							        <div class="wrap_bottom">
 							        <div style="float:left;left:0;bottom:0;">
 							        	<!-- 업로드 사진 -->
@@ -535,7 +542,7 @@ textarea.answer {
 	$("#upload1").change(e => {
 			let reader = new FileReader();
 			reader.onload = e =>{
-				let img = $("<img>").attr({"src":e.target.result,"style":"width:70px;height:auto"});
+				let img = $("<img>").attr({"src":e.target.result,"style":"width:auto;height:80px;"});
 				
 				$(".imgPreview").html("");
 				$(".imgPreview").append(img);

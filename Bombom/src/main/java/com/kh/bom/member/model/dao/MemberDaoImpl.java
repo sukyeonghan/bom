@@ -108,6 +108,12 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("member.selectSnsMem",snsMem);
 	}
+
+	@Override
+	public int updateMemLastDate(SqlSession session, String memNo) {
+		// TODO Auto-generated method stub
+		return session.update("member.updateMemLastDate", memNo);
+	}
 	
 	
 	

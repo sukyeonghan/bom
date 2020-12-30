@@ -5,9 +5,16 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
+<!-- 찜하기 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
+ <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
 <jsp:include page="/WEB-INF/views/common/header.jsp" >
    <jsp:param name="title" value="" />
 </jsp:include>
+
 <style>
 /* 바로가기 이동 */
 a:link {
@@ -161,7 +168,7 @@ button:focus {
 }
 /* 배송 안내사항 */
 #information p {
-	font-size: 12px;
+	font-size: 16px;
 }
 /* 연관상품 스와이프 css */
 .swiper-container {
@@ -195,6 +202,11 @@ button:focus {
 	object-fit: contain;
 }
 
+/* 슬라이더 안 글자크기 */
+.swiper-wrapper span{
+	font-size:16px;
+}
+
 .slidePrice {
 	padding-top: 10px;
 }
@@ -222,29 +234,158 @@ button:focus {
 	display: none;
 }
 
+/* 찜하기 모달창 */
+.modal{
+	text-align:center;
+}
+    
+.modal-dialog {
+	display: inline-block;
+	text-align:left;
+	vertical-align: middle;
+}
+
+@media screen and (min-width: 768px) {
+	.modal:before {
+		display: inline-block;
+		vertical-align: middle;
+		content: " ";
+		height: 100%;
+	}
+}
+.modal .zzim-size{
+	width:70%;
+}
+
+/* 찜하기 */
+.heart {
+  /* width: 20px;
+  height: 20px; */
+  font-size:20px;
+  margin: auto;
+  transform: translateZ(0);
+  color: #aaa;
+  cursor: pointer;
+  position: relative;
+  transition: all .3s ease;
+}
+.heart:hover {
+  animation: pulse .6s linear;
+}
+.heart:before {
+  content: "❤";
+  position: absolute;
+  color: #A12B2B;
+  opacity: 0;
+}
+.heart.happy {
+  color: #A12B2B;
+}
+.heart.happy:before {
+  opacity: 0;
+  transform: translateY(-30px) rotateZ(5deg);
+  animation: fly 1s ease;
+}
+.heart.broken {
+  color: #aaa;
+  position: relative;
+  transition: all .3s ease;
+}
+.heart.broken:before, .heart.broken:after {
+  content: "❤";
+  opacity: 1;
+  color: #ccc;
+  position: absolute;
+  top: -150px;
+  transform: scale(3) rotateZ(0);
+}
+.heart.broken:before {
+  clip: rect(0, 20px, 200px, 0);
+  animation: break-left 1s ease forwards;
+}
+.heart.broken:after {
+  clip: rect(0, 50px, 200px, 25px);
+  animation: break-right 1s ease forwards;
+}
+
+@keyframes pulse {
+  50% {
+    transform: scale(1.1);
+  }
+}
+@keyframes fly {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) rotateZ(15deg);
+  }
+  50% {
+    opacity: .75;
+    transform: scale(4) translateY(-30px) rotateZ(-15deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(4) translateY(-50px) rotateZ(15deg);
+  }
+}
+@keyframes break-left {
+  0% {
+    opacity: 1;
+    transform: scale(3) rotateZ(0);
+  }
+  20% {
+    opacity: .5;
+    transform: scale(3) translateX(-10px) rotateZ(-20deg) translateY(0);
+  }
+  50% {
+    opacity: .5;
+    transform: scale(3) translateX(-10px) rotateZ(-20deg) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3) translateX(-30px) rotateZ(-25deg) translateY(50px);
+  }
+}
+@keyframes break-right {
+  0% {
+    opacity: 1;
+    transform: scale(3) rotateZ(0);
+  }
+  20% {
+    opacity: .5;
+    transform: scale(3) translateX(10px) rotateZ(20deg) translateY(0);
+  }
+  50% {
+    opacity: .5;
+    transform: scale(3) translateX(10px) rotateZ(20deg) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3) translateX(30px) rotateZ(25deg) translateY(50px);
+  }
+}
 </style>
 
 <section id="container" style="margin:0 5% 0 5%;">
 
-    <h5><small><a href="${path}">홈</a> > <a href="${path}/product/productAll">제품</a> > 
+    <h4><small><a href="${path}">홈</a> > <a href="${path}/product/productAll">제품</a> > 
     <c:choose>
     	<c:when test="${product.pdtCategory eq '식품'}">
-    		<a href="${path}/product/food">식품</a></small></h5>
+    		<a href="${path}/product/food">식품</a></small></h4>
     	</c:when>
     	<c:when test="${product.pdtCategory eq '잡화'}">
-    		<a href="${path}/product/stuff">잡화</a></small></h5>
+    		<a href="${path}/product/stuff">잡화</a></small></h4>
     	</c:when>
     	<c:when test="${product.pdtCategory eq '주방'}">
-    		<a href="${path}/product/kitchen">주방</a></small></h5>
+    		<a href="${path}/product/kitchen">주방</a></small></h4>
     	</c:when>
     	<c:when test="${product.pdtCategory eq '욕실'}">
-    		<a href="${path}/product/bathroom">욕실</a></small></h5>
+    		<a href="${path}/product/bathroom">욕실</a></small></h4>
     	</c:when>
     	<c:when test="${product.pdtCategory eq '여성용품'}">
-    		<a href="${path}/product/woman">여성용품</a></small></h5>
+    		<a href="${path}/product/woman">여성용품</a></small></h4>
     	</c:when>
     	<c:when test="${product.pdtCategory eq '반려동물'}">
-    		<a href="${path}/product/pet">반려동물</a></small></h5>
+    		<a href="${path}/product/pet">반려동물</a></small></h4>
     	</c:when>
     </c:choose>
     <input type="hidden" name="pdtNo" id="pdtNo" value="${product.pdtNo}"/>
@@ -410,7 +551,6 @@ button:focus {
                     	});
                     	
                     	
-                    	
                     	var count = 1;
                     	var countEl = document.getElementById("count");
                     	var oriPrice = document.getElementById("oriPrice");
@@ -434,12 +574,12 @@ button:focus {
                     	}
                     </script>
                            			
-                    <!-- 버튼 3개,로그인 안 할 경우 클릭 못하게 방지 -->        			
+                    <!-- 버튼 3개,로그인 안 할 경우 클릭 못하게 방지 -->    
                     <div>
                     	<c:if test="${loginMember!=null and product.pdtStatus=='Y'}">
 		                    <button type="button" href="#" class="btn btn-success custom">구매하기</button>
 		                    <button type="button" onclick="fn_goBasket();" class="btn btn-outline-success custom">장바구니</button>
-		                    <button type="button" href="#" class="btn btn-outline-success custom">찜하기</button>
+		                    <button type="button" href="#" data-toggle="modal" data-target="#zzimView" class="btn btn-outline-success custom">찜하기<div class="zzimCheck" style="display:inline-block;"></div></button>
 	                    </c:if>
 	                    <c:if test="${loginMember==null and product.pdtStatus=='Y'}">
 		                    <button type="button" href="#" class="btn btn-success custom loginCheck">구매하기</button>
@@ -447,15 +587,88 @@ button:focus {
 		                    <button type="button" href="#" class="btn btn-outline-success custom loginCheck">찜하기</button>
 	                    </c:if>
 	                    <!-- soldout일 경우 구매하기, 장바구니 클릭 방지 -->
-	                    <c:if test="${(loginMember!=null and product.pdtStatus=='N') or (loginMember==null and product.pdtStatus=='N')}">
+	                    <c:if test="${loginMember!=null and product.pdtStatus=='N'}">
 		                    <button type="button" href="#" class="btn btn-secondary custom soldoutCheck">구매하기</button>
 		                    <button type="button" href="#" class="btn btn-outline-secondary custom soldoutCheck">장바구니</button>
-		                    <button type="button" href="#" class="btn btn-outline-success custom">찜하기</button>
+		                    <button type="button" href="#" data-toggle="modal" data-target="#zzimView" class="btn btn-outline-success custom">찜하기<div class="zzimCheck" style="display:inline-block;"></div></button>
 	                    </c:if>
-                    </div>                                 			     			
+	                    <!-- soldout일 경우 구매하기, 장바구니 클릭 방지 -->
+	                    <c:if test="${loginMember==null and product.pdtStatus=='N'}">
+		                    <button type="button" href="#" class="btn btn-secondary custom soldoutCheck">구매하기</button>
+		                    <button type="button" href="#" class="btn btn-outline-secondary custom soldoutCheck">장바구니</button>
+		                    <button type="button" href="#" class="btn btn-outline-success custom loginCheck">찜하기</button>
+	                    </c:if>
+                    </div><!-- 버튼 끝 -->
         		</div><!-- class="head" 끝 -->
         	</div>
         </div><!-- 제품 div끝 -->
+        
+        
+      <!-- 찜하기 모달창 -->
+	  <div class="modal fade" id="zzimView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	    <div class="modal-dialog modal-sm zzim-size">
+	      <div class="modal-content">
+	      
+	        <!-- Modal Header -->
+	        <div class="modal-header">
+	          <h5 class="modal-title">찜하기</h5>
+	          <button type="button" class="close" data-dismiss="modal">X</button>
+	        </div>
+	        
+	        <!-- Modal body -->
+	        <div class="modal-body container ">
+	        	<!-- 찜폴더 목록 -->
+        		<p data-toggle="modal" data-target="#zzimFolderModal" data-dismiss="modal" style="cursor:pointer;padding-down:5px;">폴더 만들기 +</p>
+        		<c:if test="${not empty zzimlist }">
+		        	<table class="table">
+	        			<c:forEach items="${zzimlist}" var="list">
+			        		<tr>
+			        			<td style=display:none;><c:out value="${list.zzimNo }"/></td>
+			        			<td><c:out value="${list.zzimName }"/></td> <!-- 찜폴더명 -->
+			        			<td style="display:none;"><c:out value="${list.favlist }"/></td>
+			        			<c:choose>
+			        				<c:when test="${fn:contains(list.favlist,product.pdtNo)}"> 
+			        					<td><div class="heart happy">❤</div></td>
+			        				</c:when>
+			        				<c:otherwise>
+			        					<td><div class="heart broken">❤</div></td>
+			        				</c:otherwise>
+								</c:choose>
+			        		</tr>
+				    	</c:forEach>
+		        	</table>
+       			</c:if>
+	        </div>
+	      </div>
+	    </div>
+	  </div><!-- 찜하기 모달창 끝! -->
+	  
+	  <!-- 찜하기 새폴더 만들기 -->
+	  <div class="modal fade" id="zzimFolderModal">
+	    <div class="modal-dialog zzim-size">
+	      <div class="modal-content">
+	      
+	        <!-- Modal Header -->
+	        <div class="modal-header">
+	          <h5 class="modal-title">새 폴더 만들기</h5>
+	          <button type="button" class="close" data-dismiss="modal">X</button>
+	        </div>
+	        
+	        <!-- Modal body --> 
+	        <div class="modal-body container ">
+	        	<!-- 찜하기 새폴더 만들기-->
+	        	<form name="" action="${path}/zzim/proInsertZzim" onsubmit="return fn_addFolder();">
+		        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
+		        	<input type="hidden" name="pdtNo" value="${product.pdtNo }">
+		        	<input type="text" class="form-control" name="zzimName" placeholder="폴더이름을 지정해주세요. (10자 이내 한글 ,영어,숫자만 가능)" required>
+		        	<br>
+		        	<div style="float:right"><input type="submit" class="btn btn-success" value="만들기" onclick="return fn_addFolder();"></div> 
+	        	</form>
+	        </div>
+	      </div>
+	    </div>
+	  </div><!-- 찜하기 새폴더 모달창 끝! -->
+        
         
 		<!-- 네비바 -->
 		<div class="tab_wrap container">
@@ -510,7 +723,7 @@ button:focus {
 		</div><!--네비바 끝 -->
 		
 		<!--연관상품 스와이프-->
-		<div id="recommand_wrap" style="padding-top: 50px;">
+		<div id="recommand_wrap" style="padding-top:50px;margin:0 auto; ">
 			<div class="information"><strong>연관상품</strong></div>
 			<div class="swiper-container container">
 				<!-- 현재 페이지의 카테고리에 해당하는 제품만 랜덤 슬라이드 -->
@@ -538,7 +751,6 @@ button:focus {
 										</c:otherwise>
 									</c:choose>
 								</div>
-								
 								<!-- 가격 -->
 								<div class="slidePrice">
 									<span>${s.pdtName }</span><br>
@@ -676,9 +888,9 @@ button:focus {
 	
 	//연관상품 스와이프 스크립트
 	var swiper = new Swiper('.swiper-container', {
-		slidesPerView : 5, //보여줄 슬라이드 갯수
+		slidesPerView : 6, //보여줄 슬라이드 갯수
 		spaceBetween : 20, //슬라이드간 간격
-		slidesPerGroup : 5, //그룹으로 묶을 수
+		slidesPerGroup : 6, //그룹으로 묶을 수
 		loop : true, //무한반복
 		loopFillGroupWithBlank : false, //그룹수가 맞지 않을 경우 빈칸 채우기(true)/그림으로 채우기(false)
 		speed: 1200, //슬라이드 속도 
@@ -743,6 +955,113 @@ button:focus {
 		});
 	}
 	let rating = new Rating();//별점 인스턴스 생성 
+	
+ 	//찜하기 모달창 끄기
+ 	$(".modalClose").click(function(){
+ 		$(modal).close();
+ 	});
+ 	
+ 	//찜하기 폴더 추가
+ 	function fn_addFolder(){
+ 		//폴더이름 유효성검사
+		var zzimName=$("input[name=zzimName]").val();
+		var nameCheck = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]+$/;
+		if(zzimName.length<1 || zzimName.length>10){
+			swal("폴더명은 한글자 이상 10이내만 가능합니다.");
+			return false;
+		}
+		if(!nameCheck.test(zzimName)){
+			swal("한글,숫자,영문만 폴더명으로 가능합니다.");
+			return false;
+		}
+ 	}
+ 	
+ 	//찜하기 버튼
+ 	let zzimNo;
+    $(".heart").click(function(){
+    	$(this).attr("class",function(index,attr){
+      		//찜하기 누른 상태
+    		if(attr.match("broken")){
+		        let zzimNo = $(this).parent().parent().children().eq(0).text();
+		        
+		        $.ajax({
+		        	url:"${path}/zzim/proInsertZzim2",
+		      		data:{pdtNo:$("#pdtNo").val(),zzimNo:zzimNo},
+		      		dataType:"json",
+		      		success:data=>{
+		      			if(data.likePdtno!=null){
+			      			$("#zzimFolderModal").modal("hide"); //모달닫기
+			      			$(".zzimCheck").text("♥"); //찜하기 추가
+		      			}
+		      		},error:function(error){
+		      			swal("찜하기를 다시 추가해주세요");
+		      		}
+		        });
+		        return attr.replace("broken","happy");
+			//찜하기 취소 상태
+    		}else {
+		        let zzimNo = $(this).parent().parent().children().eq(0).text();
+		        let pdtNo = $("#pdtNo").val();
+		        
+		        $.ajax({
+		        	url:"${path}/zzim/proDeleteZzim",
+		        	data:{pdtNo:$("#pdtNo").val(),zzimNo:zzimNo},
+		      		dataType:"json",
+		      		success:data=>{
+		      			//현재제품이랑 비교해서 없을경우
+		      			if(data.likePdtno.indexOf("pdtNo")==-1){
+		      				$("#zzimFolderModal").modal("hide"); //모달창 닫기
+		      				
+		      				//상품창에 찜하기 확인
+		      		    	$.ajax({
+		      		    		url:"${path}/zzim/zzimCheck",
+		      		    		dataType:"json",
+		      		    		success:data=>{
+		      		    			console.log(data.favlist);
+		      		    			if(data.favlist!=null){
+		      		    				//찜한 상품있으면 하트 표시
+		      		   					if(data.favlist.indexOf(pdtNo)!=-1){
+		      		    					$(".zzimCheck").text("♥");
+		      		    				//없으면 빈하트 표시	
+		      		    				}else{
+		      		    					$(".zzimCheck").text("♡");
+		      		    				}
+		      		    			}
+		      		    		}
+		      		    	});
+		      				
+		      			}
+		      		},error:function(error){
+		      			swal("찜하기를 다시 삭제해주세요");
+		      		}
+		        });
+		        return attr.replace("happy","broken");
+	    	}
+    	});
+      
+    });
+    
+    //찜한상품 확인
+    $(function(){
+    	let pdtNo = $("#pdtNo").val();
+    	
+    	$.ajax({
+    		url:"${path}/zzim/zzimCheck",
+    		dataType:"json",
+    		success:data=>{
+    			console.log(data.favlist);
+    			if(data.favlist!=null){
+    				//찜한 상품있으면 하트 표시
+   					if(data.favlist.indexOf(pdtNo)!=-1){
+    					$(".zzimCheck").text("♥");
+    				//없으면 빈하트 표시	
+    				}else{
+    					$(".zzimCheck").text("♡");
+    				}
+    			}
+    		}
+    	});
+    }); 
 	
 	//장바구니 버튼 누르면 실행됨
 	function fn_goBasket(pdtNo){

@@ -1,5 +1,7 @@
 package com.kh.bom.zzim.model.vo;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,4 +15,6 @@ public class Zzim {
 	private String zzimName;
 	private String zzimContentCount;//찜상품갯수
 	private String zzimFolderImg;//찜폴더이미지
+	private String pdtNo;
+	private List favlist;
 }

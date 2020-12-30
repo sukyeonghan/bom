@@ -13,7 +13,9 @@
 		<result property="memStatus" column="mem_status"/>
 		<result property="memPoint" column="mem_point"/>
 		<result property="memCmLike" column="mem_cm_like" typeHandler="stringArr"/>
-		<result property="memSns" column="mem_sns" />
+		<result property="memOutDate" column="mem_outDate" />
+		<result property="memLastDate" column="mem_lastDate" />
+		
 	</resultMap>
 	<resultMap type="alarm" id="alarmMap">
 		<result property="alarmNo" column="alarm_no"/>
@@ -27,7 +29,7 @@
 	</select>
 
 	<update id="deleteMember" parameterType="string">
-		UPDATE MEMBER SET MEM_STATUS='Y' WHERE MEM_NO=#{memNo}
+		UPDATE MEMBER SET MEM_STATUS='Y',MEM_OUTDATE=SYSDATE WHERE MEM_NO=#{memNo}
 	</update>
 	
 	<select id="selectMemberNick" parameterType="string" resultMap="memberMap">
@@ -56,10 +58,11 @@
 	
 	<insert id="insertMember" parameterType="member">
 		INSERT INTO MEMBER VALUES('M'||SEQ_MEM_NO.NEXTVAL,#{memNick},#{memPwd},#{memEmail},#{memPro},0,0,default,default,default,default,
-		<if test="naverId != null and !naverId.equals('')">#{naverId},null,null)</if>
-		<if test="kakaoId != null and !kakaoId.equals('')">null,#{kakaoId},null)</if>
-		<if test="googleId != null and !googleId.equals('')">null,null,#{googleId})</if>
-		<if test="googleId == null and kakaoId == null and naverId == null">null,null,null)</if>
+		<if test="naverId != null and !naverId.equals('')">#{naverId},null,null,</if>
+		<if test="kakaoId != null and !kakaoId.equals('')">null,#{kakaoId},null,</if>
+		<if test="googleId != null and !googleId.equals('')">null,null,#{googleId},</if>
+		<if test="googleId == null and kakaoId == null and naverId == null">null,null,null,</if>
+		null,SYSDATE)
 		<selectKey keyProperty="memNo" resultType="string" order="AFTER">
 			SELECT 'M'||SEQ_MEM_NO.CURRVAL FROM DUAL
 		</selectKey>
@@ -116,4 +119,8 @@
    		<if test="googleId !=null">googleId=#{googleId}</if>
    		<if test="kakaoId !=null">kakaoId=#{kakaoId}</if>
    	</select>
+   	
+   	<update id="updateMemLastDate" parameterType="String">
+   		UPDATE MEMBER SET MEM_LASTDATE=SYSDATE WHERE MEM_NO=#{memNo}
+   	</update>
 </mapper>
