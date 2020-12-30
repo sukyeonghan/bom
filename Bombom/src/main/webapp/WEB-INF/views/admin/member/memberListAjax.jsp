@@ -39,10 +39,14 @@
 					<td><c:out value="(${member.memWarnCount}/10)"/></td>
 				</c:if>
 				
-				<td><fmt:formatDate type="date" timeStyle="short" value="${member.memLastDate }"/></td>
+				<td>
+					<fmt:formatDate type="both" timeStyle="short" dateStyle="short" value="${member.memLastDate }"/>
+					<c:if test="${member.last<0 }"><p class="d-day">(<c:out value="${member.last }"/>일)</p></c:if>
+				</td>
 				<td>
 					<c:if test="${member.memStatus eq 'Y'}">
-						<fmt:formatDate type="date" timeStyle="short" value="${member.memOutDate }"/>
+						<fmt:formatDate type="date" dateStyle="short" value="${member.memOutDate }"/>
+						<c:if test="${member.out<0 }"><p class="d-day">(<c:out value="${member.out }"/>일)</p></c:if>
 					</c:if>
 				</td>
 				<td class="memManagerYnTd">

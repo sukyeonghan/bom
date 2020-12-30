@@ -1,6 +1,5 @@
 package com.kh.bom.member.controller;
 
-import java.util.Date;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
@@ -105,11 +104,10 @@ public class EmailController {
 		String email=member.getMemEmail(); //받는 회원 이메일
 		String subject="";
 		String text="";
-		String day="";
 		
 		if(type.equals("휴면")) {
-			subject="[다시:봄] 장기 비 로그인 계정  휴면 전환안내";
-			text="안녕하세요."+nick+"님, 장기간 [다시:봄] 이용이 없으셨던 회원님의 계정이 휴면계정으로 전환될 예정입니다. 이용에 차질이 없도록 사전에 안내 드리면 휴면전환을 원치 않으실경우 "+day+"이전에 [다시:봄]에 방문하셔서 로그인하여 주시기를 바랍니다.";
+			subject="[다시:봄] 장기 비 로그인 안내";
+			text="안녕하세요."+nick+"님, 장기간 [다시:봄] 이용이 없으십니다. 현재  사이트내에서 다양한 이벤트 및 할인이 진행중이오니 재방문 하셔서 즐거운 시간 갖으시길 바랍니다.";
 		}else if(type.equals("개인정보")) {
 			subject="[다시:봄] 개인정보 이용안내 ";
 			text="안녕하세요. [다시:봄]입니다. 본 메일은 개인정보보호법 제 39조 8 및 동법 시행령 제 48조의 6(개인정보 이용내역 통지)에 따라 회원님께 발송되는 '개인정보 이용내역' 안내 메일입니다. 본 메일은 해당년 1월 1일까지 회원상태를 유지하고 있는 회원님께 발송됩니다. ";

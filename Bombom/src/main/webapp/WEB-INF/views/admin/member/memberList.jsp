@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+
 <style>
 	#flexDiv {
 	display: flex;
@@ -15,7 +16,10 @@
 		padding-right:60px;
 	}
 	/*페이지 타이틀*/
-	.page-title{margin-bottom:5%;}
+	.page-title{margin-bottom:20px;}
+	#admin-member-div{
+		display:flex;justify-content:space-between;align-items: center;margin-bottom:20px;
+	}
 	table#memberTbl th{text-align:center; cursor: default;}
 	table#memberTbl td{vertical-align: middle; cursor:default;}
 	table#memberTbl td{text-align:center;}
@@ -28,7 +32,7 @@
 	#searchBox>*{height: 40px;}
 	
 	.choiceBack{background-color:#E6E6FA }
-	
+	.d-day{color: #45A663; font-size: 15px; margin:0;}
 </style>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 
@@ -39,16 +43,27 @@
 		<!-- 우측 메뉴내용 -->
 		<div id="admin-container">
 			<!-- 페이지 타이틀 -->
-			<div style="display:flex;justify-content:space-between;align-items: center;">
 			<h3 class="page-title">회원관리</h3> 
-			<select name="filter" onchange="fn_chageSelect();">
-				<option value="date" selected>가입순</option>
-				<option value="point">적립금순</option>
-				<option value="bad">악성댓글순</option>
-				<option value="outDate">탈퇴날짜순</option>
-				<option value="lastDate">접속날짜순</option>
-				<option value="manager">관리자순</option>
-			</select>
+			<div id="admin-member-div">
+				<div>
+					<button class="btn btn-success">선택 메일전송</button>
+					<button class="btn btn-success">전체 메일전송</button>
+				</div>
+				<div>
+					<select name="filter" class="form-control" onchange="fn_chageSelect();">
+						<option value="dateUp">회원가입 과거순</option>
+						<option value="dateDown" selected>회원가입 최근순</option>
+						<option value="pointUp">적립금 낮은순</option>
+						<option value="pointDown">적립금 높은순</option>
+						<option value="badUp">악성댓글 낮은순</option>
+						<option value="badDown">악성댓글 높은순</option>
+						<option value="outDateUp">탈퇴일 과거순</option>
+						<option value="outDateDown">탈퇴일 최근순</option>
+						<option value="lastDateUp">방문일 과거순</option>
+						<option value="lastDateDown">방문일  최근순</option>
+						<option value="manager">관리자순</option>    
+					</select>
+				</div>
 			</div>
 			<div class="table-responsive" id="result">
 				<table id="memberTbl" class="table">
@@ -86,10 +101,14 @@
 									<td><c:out value="(${member.memWarnCount}/10)"/></td>
 								</c:if>
 								
-								<td><fmt:formatDate type="date" timeStyle="short" value="${member.memLastDate }"/></td>
+								<td>
+									<fmt:formatDate type="both" timeStyle="short" dateStyle="short" value="${member.memLastDate }"/>
+									<c:if test="${member.last<0 }"><p class="d-day">(<c:out value="${member.last }"/>일)</p></c:if>
+								</td>
 								<td>
 									<c:if test="${member.memStatus eq 'Y'}">
-										<fmt:formatDate type="date" timeStyle="short" value="${member.memOutDate }"/>
+										<fmt:formatDate type="date" dateStyle="short" value="${member.memOutDate }"/>
+										<c:if test="${member.out<0 }"><p class="d-day">(<c:out value="${member.out }"/>일)</p></c:if>
 									</c:if>
 								</td>
 								<td class="memManagerYnTd">
@@ -139,6 +158,7 @@ function fn_chageSelect(){
 	if("${keyword}"!=""){
 		keyword="${keyword}"
 	}
+
  	$.ajax({
 		url:"${path}/admin/selectMemberSearch",
 		data:{cPage:"${cPage}",numPerpage:"${numPerpage}",searchType:select,keyword:keyword,filter:filter},

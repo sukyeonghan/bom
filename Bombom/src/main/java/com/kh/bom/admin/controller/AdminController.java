@@ -38,7 +38,7 @@ public class AdminController {
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
 			@RequestParam(value = "cPage", defaultValue = "1") int cPage,
 			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage,
-			@RequestParam(value = "filter", defaultValue = "date") String filter) {
+			@RequestParam(value = "filter", defaultValue = "dateDown") String filter) {
 		Map<String, String> map = new HashMap();
 		map.put("searchType", searchType);
 		map.put("keyword", keyword);
@@ -68,7 +68,7 @@ public class AdminController {
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
 			@RequestParam(value = "cPage", defaultValue = "1") int cPage,
 			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage,
-			@RequestParam(value = "filter", defaultValue = "date") String filter) {
+			@RequestParam(value = "filter", defaultValue = "dateDown") String filter) {
 		Map<String, String> map = new HashMap();
 		map.put("searchType", searchType);
 		map.put("keyword", keyword);
