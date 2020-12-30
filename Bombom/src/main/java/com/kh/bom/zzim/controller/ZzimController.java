@@ -14,10 +14,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.zzim.model.service.ZzimService;
 import com.kh.bom.zzim.model.vo.Zzim;
 import com.kh.bom.zzim.model.vo.ZzimContent;
+
+import net.sf.json.JSON;
+import net.sf.json.JSONObject;
 @Controller
 public class ZzimController {
 	@Autowired
@@ -172,4 +177,124 @@ public class ZzimController {
 		mv.setViewName("common/msg");
 		return mv;
 	}
+	
+	
+	//상품페이지 - 찜하기 폴더 추가
+	@RequestMapping("/zzim/proInsertZzim")
+	public ModelAndView proInsertZzim(String pdtNo, Zzim z, ModelAndView mv, HttpSession session) {
+		
+		//폴더생성
+		int result = service.proInsertZzim(z);
+		String msg = "";
+		String loc = "/product/productOne?pdtNo="+pdtNo;
+
+		if(result>0) {
+			//생성된 폴더에 해당 제품 추가
+			String zzimNo = service.selectSeqZzimNo();
+			Map map = new HashMap();
+			map.put("pdtNo",pdtNo);
+			map.put("zzimNo", zzimNo);
+			int result2 = service.proInsertZzimContent(map);
+			msg = "해당폴더에 찜추가가 완료되었습니다";
+		}else {
+			msg = "폴더생성에 실패했습니다. 다시 시도해주세요";
+		}
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
+	//상품페이지 - 찜하기 추가
+	@RequestMapping("/zzim/proInsertZzim2")
+	@ResponseBody
+	public JSON proInsertZzim2(String pdtNo, String zzimNo, HttpSession session) {
+		
+		//찜하기 추가
+		Map map = new HashMap();
+		map.put("pdtNo",pdtNo);
+		map.put("zzimNo", zzimNo);
+		int result = service.proInsertZzimContent(map);
+		
+		List<Zzim> zzimlist = null;
+		//json으로 반환
+		JSONObject obj = new JSONObject();
+		
+		//찜하기 추가 성공 시 
+		if(result>0) {
+			//현재 로그인한 계정 찜하기 리스트 가져오기
+			Member m = (Member)session.getAttribute("loginMember");
+			zzimlist = service.selectZzimList(m.getMemNo());
+			//현재 찜리스트에 추가한 상품 넣기
+			for(Zzim z : zzimlist) {
+				z.setFavlist(service.selectfavlist(z.getZzimNo()));
+				if(z.getFavlist()!=null) {
+					obj.put("likePdtno", z.getFavlist());
+					//System.out.println("추가확인 : "+obj);
+				}else {
+					obj.put("likePdtno", "[]");
+				}
+			}
+		}
+		return obj;
+	}
+	
+	//상품페이지 - 찜하기 삭제
+	@RequestMapping("/zzim/proDeleteZzim")
+	@ResponseBody
+	public JSON proDeleteZzim(String pdtNo, String zzimNo, HttpSession session) {
+		
+		//찜하기 삭제
+		Map map = new HashMap();
+		map.put("pdtNo", pdtNo);
+		map.put("zzimNo", zzimNo);
+		int result = service.proDeleteZzim(map);
+		
+		List<Zzim> zzimlist = null;
+		//json으로 반환
+		JSONObject obj = new JSONObject();
+		
+		//찜하기 삭제 성공 시 
+		if(result>0) {
+			//현재 로그인한 계정 찜하기 리스트 가져오기
+			Member m = (Member)session.getAttribute("loginMember");
+			zzimlist = service.selectZzimList(m.getMemNo());
+			//현재 찜리스트에 취소한 상품 삭제
+			for(Zzim z : zzimlist) {
+				z.setFavlist(service.selectfavlist(zzimNo));
+
+				if(z.getFavlist()!=null) {
+					obj.put("likePdtno", z.getFavlist());
+				}else {
+					obj.put("likePdtno", "[]");
+				}
+			}
+		}
+		return obj;
+	}
+	
+	//상품페이지 - 찜하기 확인
+	@RequestMapping("/zzim/zzimCheck")
+	@ResponseBody
+	public JSON zzimCheck(HttpSession session) {
+		
+		Member m = (Member)session.getAttribute("loginMember");
+		JSONObject obj = new JSONObject();
+		
+		//로그인 했을 때 찜확인
+		if(m!=null) {
+			//로그인한 사람 찜한 상품만 가져오기
+			obj.put("favlist", service.selectFavPdtList(m.getMemNo()));
+		}else {
+			obj.put("favlist", "[]");
+		}
+		return obj;
+		
+	}
+	
+	
+	
+	
+	
+	
 }

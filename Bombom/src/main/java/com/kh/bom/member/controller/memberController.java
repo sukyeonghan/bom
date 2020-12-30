@@ -5,11 +5,14 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +38,9 @@ public class memberController {
     @Autowired
     BCryptPasswordEncoder pwEncoder;
     
+	@Autowired
+	private JavaMailSender mailSender;
+	
     
 //	@RequestMapping("/mypage/orderStatus")
 //	public ModelAndView order(ModelAndView mv) {
@@ -71,22 +77,48 @@ public class memberController {
 	}
 	//회원탈퇴
 	@RequestMapping("/member/deleteMember")
-	public ModelAndView deleteMember(String memNo,ModelAndView mv,SessionStatus ss) {
-		int result=service.deleteMember(memNo);
+	public String deleteMember(String memNo, Model m,SessionStatus ss) {
+		String view="";
+		Member member=service.selectMemberOne(memNo);
+		String setFrom ="sujeong.dev@gmail.com"; //보내는 사람
+		String nick=member.getMemNick(); //받는 회원 닉네임
+		String email=member.getMemEmail(); //받는 회원 이메일
+		String subject="[다시:봄] 탈퇴안내";
+		String text="안녕하세요."+nick+"님, 그동안 [다시:봄]을 이용해주셔서 감사합니다. 약관상 개인정보는  6개월간 보관 후 자동삭제 됩니다.";
+		
+		//회원 탈퇴여부 Y으로 전환
+		int result=service.deleteMember(memNo); 
+		
 		if(result>0) {
 			//회원탈퇴시 세션닫기
 			if(!ss.isComplete()) {
 				ss.setComplete();
 			}
-			mv.setViewName("redirect:/");
+			//탈퇴시 이메일 보내기
+			try {
+	            MimeMessage message = mailSender.createMimeMessage();
+	            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+	            helper.setFrom(setFrom);
+	            helper.setTo(email);
+	            helper.setSubject(subject);
+	            helper.setText(text,true);
+	                   
+	            mailSender.send(message);
+	          
+	        }catch(Exception e) {
+	            e.printStackTrace();
+	        }
+				
+			view="redirect:/";
 		}else {
-			mv.addObject("msg","회원탈퇴 실패");
-			mv.addObject("icon","warning");
-			mv.addObject("loc","/mypage/updateMember");
-			mv.setViewName("common/msg");
+			m.addAttribute("msg","회원탈퇴 실패");
+			m.addAttribute("icon","warning");
+			m.addAttribute("loc","/mypage/updateMember");
+			view="common/msg";
 		}
-		return mv;
+		return view;
 	}
+	
 	//닉네임 중복검사
 	@RequestMapping("/member/checkDuplicateNick")
 	@ResponseBody
@@ -228,9 +260,9 @@ public class memberController {
 		if(login.getMemStatus().equals("N")) {
 		
 			if(pwEncoder.matches(password, login.getMemPwd())) {
+				service.updateMemLastDate(login.getMemNo());//최근접속일 업데이트
 				m.addAttribute("loginMember",login);
 				
-			
 			}else {
 				m.addAttribute("msg","잘못된 이메일 또는 비밀번호를 입력하셨습니다.");
 				m.addAttribute("loc","/");

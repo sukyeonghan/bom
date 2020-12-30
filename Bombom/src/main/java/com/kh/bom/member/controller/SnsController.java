@@ -85,6 +85,7 @@ public class SnsController {
         	Member member = memberService.selectSnsMem(snsMem);
     		if(member != null) {
     			//해당소셜로그인ID로 가입한 회원이 검색될경우 해당 아이디 회원 로그인처리
+    			memberService.updateMemLastDate(member.getMemNo());//최근 접속일
     			model.addAttribute("loginMember",member);
         		viewName="redirect:/";
         		
@@ -116,6 +117,7 @@ public class SnsController {
         				log.debug("기존회원 sns정보 업데이트: {}",basicMem);
         				result=memberService.updateMember(basicMem);
         				if(result>0) {
+        					memberService.updateMemLastDate(basicMem.getMemNo());
                     		model.addAttribute("loginMember",basicMem);
                     		model.addAttribute("access_Tocken", access_Token);
                     		viewName="redirect:/";
@@ -233,9 +235,11 @@ public class SnsController {
 				}else if(snsMem.getNaverId()!=null) {
 					basicMem.setNaverId(snsMem.getNaverId());
 				}
+				
 				System.out.println("기존회원+sns정보 업데이트할정보"+basicMem);
 				result=memberService.updateMember(basicMem);
 				if(result>0) {
+					memberService.updateMemLastDate(basicMem.getMemNo());//최근접속일
             		model.addAttribute("loginMember",basicMem);
             		viewName="redirect:/";
 				}else {

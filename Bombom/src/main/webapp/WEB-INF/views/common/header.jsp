@@ -649,10 +649,10 @@ p.p-info {
 
 					<!-- Modal body -->
 					<div class="modal-body">
-						<span>검색</span> <input type="text" placeholder="검색어를 입력하세요"
-							class="col-xl-10 search_input">
+						<span>상품검색</span> 
+						<div class="d-flex"><input type="text" placeholder="검색어를 입력하세요" class="col-xl-10 form-control search_input">
+						<input type="submit" value="검색" class="btn btn-outline-success ml-2"></div>
 					</div>
-
 				</div>
 			</div>
 		</div>
