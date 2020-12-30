@@ -569,7 +569,7 @@ button:focus {
                     	}
                     </script>
                            			
-                    <!-- 버튼 3개,로그인 안 할 경우 클릭 못하게 방지 -->        			
+                    <!-- 버튼 3개,로그인 안 할 경우 클릭 못하게 방지 -->    
                     <div>
                     	<c:if test="${loginMember!=null and product.pdtStatus=='Y'}">
 		                    <button type="button" href="#" class="btn btn-success custom">구매하기</button>
@@ -593,8 +593,19 @@ button:focus {
 		                    <button type="button" href="#" class="btn btn-outline-secondary custom soldoutCheck">장바구니</button>
 		                    <button type="button" href="#" class="btn btn-outline-success custom loginCheck">찜하기</button>
 	                    </c:if>
-	                    
-                    </div>
+                    </div><!-- 버튼 끝 -->
+                    
+                    <c:if test="${not empty favlist }">
+                    <c:choose>
+                  		<c:when test="${fn:contains(favlist,product.pdtNo)}">
+       						<img src="${path }/resources/images/product/heartfull.png" style="height:20px;">
+       					</c:when>
+	       				<c:otherwise>
+	       					<img src="${path }/resources/images/product/heartblank.png" style="height:20px;">
+	       				</c:otherwise>
+                  	</c:choose>
+                  	</c:if>  
+                  	
         		</div><!-- class="head" 끝 -->
         	</div>
         </div><!-- 제품 div끝 -->

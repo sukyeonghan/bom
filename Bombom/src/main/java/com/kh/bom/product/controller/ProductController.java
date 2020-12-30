@@ -1,6 +1,5 @@
 package com.kh.bom.product.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -12,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.bom.common.page.AjaxPageBarFactory;
-import com.kh.bom.common.page.ProAjaxPageBarFactory;
 import com.kh.bom.common.page.ProAjaxPageBarFactoryModify;
 import com.kh.bom.common.page.ProPageBarFactory;
 import com.kh.bom.inquiry.model.vo.Inquiry;
@@ -268,6 +268,9 @@ public class ProductController {
 		String loc = "";
 		
 		List<Zzim> zzimlist = null;
+		//Gson에 넣기
+		Gson gson = new GsonBuilder().create();
+		String favlist = "";
 		//로그인 했을 때 찜리스트 불러오기
 		if(m!=null) {
 			zzimlist = zzimservice.selectZzimList(m.getMemNo());
@@ -279,6 +282,10 @@ public class ProductController {
 				z.setFavlist(zzimservice.selectfavlist(z.getZzimNo()));
 				//System.out.println(z);
 			}
+			//로그인한 사람 찜한 상품만 가져오기
+			favlist = gson.toJson(zzimservice.selectFavPdtList(m.getMemNo()));
+			//System.out.println("gson확인 : "+favlist);
+			
 		//로그인 안 했을 경우 접근 X	
 		}else {
 			msg = "로그인을 먼저 해주세요";
@@ -293,6 +300,7 @@ public class ProductController {
 		mv.addObject("dateResult", deteResult);
 		mv.addObject("slidelist", slidelist);
 		mv.addObject("zzimlist", zzimlist);
+		mv.addObject("favlist",favlist);
 		mv.addObject("loc",loc);
 		mv.addObject("common/msg");
 		mv.setViewName("product/productOne");

@@ -40,6 +40,9 @@ public interface ZzimService {
 	//제품상세페이지 - 찜하기 삭제
 	int proDeleteZzim(Map map);
 	
+	//제품상세페이지 - 찜하기 표시
+	List selectFavPdtList(String memNo);
+	
 
 
 }

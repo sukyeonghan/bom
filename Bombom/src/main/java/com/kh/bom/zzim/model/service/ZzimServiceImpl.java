@@ -97,6 +97,11 @@ public class ZzimServiceImpl implements ZzimService {
 	public int proDeleteZzim(Map map) {
 		return dao.proDeleteZzim(session, map);
 	}
+
+	@Override
+	public List selectFavPdtList(String memNo) {
+		return dao.selectFavPdtList(session, memNo);
+	}
 	
 	
 	
