@@ -166,7 +166,7 @@ public class OrderController {
 		int shipping=service.shippingCount(memNo);
 		//배송완료
 		int shipEnd=service.shipEndCount(memNo);
-		//구매확정
+		//주문취소
 		int buyEnd=service.buyEndCount(memNo);
 		
 		mv.addObject("loginMember", login);

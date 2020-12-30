@@ -82,7 +82,7 @@
           <div class="status">
             <table class="table table-borderless">
               <tr>
-                <td rowspan="2">진행상태</td>
+                <td rowspan="2"><b>진행상태 (${totalData})</b></td>
                 <td>
                   <button type="button" class="btn btn-outline-success all" onclick="location.href='${path}/admin/order'">
                     전체

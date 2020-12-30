@@ -45,6 +45,7 @@ public class Order {
 	private String pdtNo; //상품번호 
 	private String pdtOptionNo;//상품옵션번호
 	private String rownum;
+	private String revContent;//구매평
 
 
 	
