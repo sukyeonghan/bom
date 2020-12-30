@@ -9,7 +9,7 @@
 	/*사진 미리보기 div*/
     .proDiv{
     	border:1px solid black;
-    	width:150px;
+    	width:100%;
     	height:150px;
     	position:relative;
     	float:left;
@@ -17,6 +17,8 @@
     	background-size:100% 100%;
     	background-position:center;
     }
+    /*설명 textarea*/
+    #intro-text{width:100%;}
 </style>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="소개" />
@@ -101,7 +103,7 @@
 				<!-- 제품 설명 -->
 				<div id="middle-div">
 					<p class="title" id="product-intro">간단한 제품 설명</p>
-					<textarea id="intro-text" rows="5" cols="130" placeholder="65자 이내로 적어주세요" name="pdtIntro"></textarea>
+					<textarea id="intro-text" rows="5" placeholder="65자 이내로 적어주세요" name="pdtIntro"></textarea>
 				</div>
 				
 				<!-- 제품 썸네일,상세 이미지 등록 -->

@@ -21,6 +21,7 @@
 		<result property="pdtDetailImage" column="pdt_detail_image" />
 		<result property="eventNoRef" column="event_no_ref" />
 		<result property="pdtOptionNo" column="pdt_option_no" />
+		<result property="pdtReviewAvg" column="pdt_review_avg" />
 	</resultMap>
 	<resultMap type="option" id="optionMap">
 		<result property="pdtOptionNo" column="pdt_option_no" />
@@ -190,7 +191,7 @@
 		INSERT INTO PRODUCT
 		VALUES('P'||TO_CHAR(SEQ_PDT_NO.NEXTVAL),
 		#{pdtCategory},#{pdtPrice},#{pdtName},
-		#{pdtIntro},#{pdtStatus},SYSDATE,#{pdtDetailImage},#{eventNoRef})
+		#{pdtIntro},#{pdtStatus},SYSDATE,#{pdtDetailImage},#{eventNoRef},DEFAULT)
 
 		<selectKey keyProperty="pdtNo" resultType="string"
 			order="AFTER">

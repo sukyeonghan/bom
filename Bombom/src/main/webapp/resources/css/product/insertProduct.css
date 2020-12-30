@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*반응형 없앤 css*/
+	/*반응형 없앤 css*/
 	#flexDiv {
    		display: flex;
    		padding: 0px 10%;
@@ -61,11 +61,14 @@
     }
     /*바깥 div*/
     .thumbWrap{
-    	width:150px;
-    	height:170px;
+    	width:20%;
+    	height:auto;
+    	/*width:150px;
+    	 height:170px; */
     	/* float:left; */
-    	margin:45px;
-    	/* position:relative; */
+    	/* margin:45px; */
+    	margin:5%;
+    	position:relative;
     	display: inline-block
    	}
    	/*썸네일1,썸네일2.. 타이틀*/
