@@ -4,8 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
-
-<table id="memberTbl" class="table table-hover">
+<table id="memberTbl" class="table">
 	<thead>
 		<tr>
 			<th><input type="checkbox" id="allCheckbox"/></th>
@@ -20,15 +19,16 @@
 	</thead>
 	<tbody>
 		<c:forEach items="${list }" var="member" varStatus="vs">
-			<c:if test="${member.memManagerYn eq 'N'}">
-				<tr>
-			</c:if>
-			<c:if test="${member.memManagerYn eq 'Y'}">
-				<tr style="background-color: #FFFFE4;">
-			</c:if>
-				<td><input type="checkbox" value="${member.memNo }"/></td>
+			<tr>
+			
+				<td><input type="checkbox" id="mem${vs.index }" name="sendMemNo" class="mem-check" value="${member.memNo }"/></td>
 				<td><c:out value="${member.memEmail }"/></td>
-				<td><c:out value="${member.memNick }"/></td>
+				<td class="memNick-td">
+					<c:if test="${member.memManagerYn eq 'Y'}">
+						<img src="${path }/resources/images/icon/crown.png" height="25px;">
+					</c:if>
+					<span><c:out value="${member.memNick }"/></span>
+				</td>
 				<td><fmt:formatNumber type="number" value="${member.memPoint }"/></td>
 				<c:if test="${member.memWarnCount >= 10}">
 					<td id="black" >
@@ -52,7 +52,7 @@
 						<button class="btn btn-info managerYnBtn">권한부여</button>
 					</c:if>
 					<c:if test="${member.memManagerYn eq 'Y'}">
-						<button class="btn btn-outline-info managerYnBtn">권한회수</button>
+						<button class="btn btn-danger managerYnBtn">권한회수</button>
 					</c:if>
 				</td>
 			</tr>
