@@ -41,4 +41,12 @@ public interface OrderService {
 	int cancelOrder(Order o, Point p);
 
 	int buyConfirm(String orderNo, Point p);
+
+	int cancelEndCount(String memNo);
+
+	int returnWaitCount(String memNo);
+
+	int returnEndCount(String memNo);
+
+	int returnRequest(Order o, Point p);
 }

@@ -47,4 +47,14 @@ public interface OrderDao {
 
 	int insertOrdPoint(SqlSession session, Point p);
 
+	int cancelEndCount(SqlSession session, String memNo);
+
+	int returnWaitCount(SqlSession session, String memNo);
+
+	int returnEndCount(SqlSession session, String memNo);
+
+	int returnRequest(SqlSession session, Order o);
+
+	int returnOrdPoint(SqlSession session, Point p);
+
 }

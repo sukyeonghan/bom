@@ -45,13 +45,13 @@ public class OrderDaoImpl implements OrderDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("order.selectOrderCount", memNo);
 	}
-	//배송준비 카운트
+	//배송준비 ct
 	@Override
 	public int shipReadyCount(SqlSession session, String memNo) {
 		// TODO Auto-generated method stub
 		return session.selectOne("order.shipReadyCount",memNo);
 	}
-	//주문대기
+	//주문대기 ct
 	@Override
 	public int ordWaitCount(SqlSession session, String memNo) {
 		// TODO Auto-generated method stub
@@ -63,19 +63,19 @@ public class OrderDaoImpl implements OrderDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("order.ordEndCount",memNo);
 	}
-	//배송중
+	//배송중 ct
 	@Override
 	public int shippingCount(SqlSession session, String memNo) {
 		// TODO Auto-generated method stub
 		return session.selectOne("order.shippingCount",memNo);
 	}
-	//배송완료
+	//배송완료 ct
 	@Override
 	public int shipEndCount(SqlSession session, String memNo) {
 		// TODO Auto-generated method stub
 		return session.selectOne("order.shipEndCount",memNo);
 	}
-	//구매확정
+	//주문취소 ct
 	@Override
 	public int buyEndCount(SqlSession session, String memNo) {
 		// TODO Auto-generated method stub
@@ -93,13 +93,13 @@ public class OrderDaoImpl implements OrderDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("order.selectOrderOne",orderNo);
 	}
-	//주문취소
+	//주문취소(요청)했을때 
 	@Override
 	public int cancelOrder(SqlSession session, Order o) {
 		// TODO Auto-generated method stub
 		return session.delete("order.cancelOrder", o);
 	}
-	
+	//주문취소시 적립금 환급
 	@Override
 	public int cancelOrdPoint(SqlSession session, Point p) {
 		// TODO Auto-generated method stub
@@ -111,14 +111,44 @@ public class OrderDaoImpl implements OrderDao {
 		// TODO Auto-generated method stub
 		return session.update("order.buyConfirm",orderNo);
 	}
-
+	//구매확정시 포인트 적립
 	@Override
 	public int insertOrdPoint(SqlSession session, Point p) {
 		// TODO Auto-generated method stub
 		return session.insert("order.insertOrdPoint",p);
 	}
+	//취소완료 ct
+	@Override
+	public int cancelEndCount(SqlSession session, String memNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("order.cancelEndCount",memNo);
+	}
+	//반품요청 ct
+	@Override
+	public int returnWaitCount(SqlSession session, String memNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("order.returnWaitCount",memNo);
+	}
+	//반품완료 ct
+	@Override
+	public int returnEndCount(SqlSession session, String memNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("order.returnEndCount",memNo);
+	}
+	//반품요청했을때 
+	@Override
+	public int returnRequest(SqlSession session, Order o) {
+		// TODO Auto-generated method stub
+		return session.delete("order.returnRequest", o);
+	}
+	
+	@Override
+	public int returnOrdPoint(SqlSession session, Point p) {
+		// TODO Auto-generated method stub
+		return session.update("order.cancelOrdPoint",p);
+	}
 
-
+	
 	
 	
 }

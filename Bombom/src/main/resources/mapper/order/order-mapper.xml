@@ -129,7 +129,7 @@
 
 		WHERE MEM_NO=#{memNo}
 	</select>
-	
+
 	<select id="shipReadyCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*) FROM "ORDER" 
 		WHERE MEM_NO=#{memNo} AND ORD_STATUS='배송준비'
@@ -150,10 +150,24 @@
 		SELECT COUNT(*) FROM "ORDER" 
 		WHERE MEM_NO=#{memNo} AND ORD_STATUS='배송중'
 	</select>
-		<select id="buyEndCount" parameterType="string" resultType="_int">
+	<select id="buyEndCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*) FROM "ORDER" 
-		WHERE MEM_NO=#{memNo} AND ORD_STATUS='구매확정'
+		WHERE MEM_NO=#{memNo} AND ORD_STATUS='주문취소'
 	</select>
+	<select id="cancelEndCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM "ORDER" 
+		WHERE MEM_NO=#{memNo} AND ORD_STATUS='취소완료'
+	</select>
+	<select id="returnWaitCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM "ORDER" 
+		WHERE MEM_NO=#{memNo} AND ORD_STATUS='반품요청'
+	</select>
+	<select id="returnEndCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM "ORDER" 
+		WHERE MEM_NO=#{memNo} AND ORD_STATUS='반품완료'
+	</select>
+	
+	
 
 	<select id="selectOrderDetail" parameterType="string" resultMap="orderMap">
 		 SELECT DISTINCT P.PDT_NO,REV_CONTENT, O.ORD_STATUS, P.PDT_PRICE, P.PDT_NAME,PDT_OPTION_CONTENT, PDT_OPTION_ADDPRICE, INORDER_QTY, O.ORD_TRACK,
@@ -190,5 +204,13 @@
 	
 	<insert id="insertOrdPoint" parameterType="point">
 		INSERT INTO POINT VALUES(#{memNo},null,SYSDATE,#{pointContent},#{pointChange})
+	</insert>
+	
+	<update id="returnRequest" parameterType="order">
+		UPDATE "ORDER" SET ORD_CANCEL=#{ordCancel}, ORD_STATUS='반품요청' WHERE ORDER_NO=#{orderNo}
+	</update>
+
+	<insert id="returnOrdPoint" parameterType="point">
+		 INSERT INTO POINT VALUES(#{memNo},null,SYSDATE,#{pointContent},#{pointChange})
 	</insert>
 </mapper>
