@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.zzim.model.service.ZzimService;
 import com.kh.bom.zzim.model.vo.Zzim;
@@ -267,6 +269,24 @@ public class ZzimController {
 					obj.put("likePdtno", "[]");
 				}
 			}
+		}
+		return obj;
+	}
+	
+	//상품페이지 - 찜하기 확인
+	@RequestMapping("/zzim/zzimCheck")
+	@ResponseBody
+	public JSON zzimCheck(HttpSession session) {
+		
+		Member m = (Member)session.getAttribute("loginMember");
+		JSONObject obj = new JSONObject();
+		
+		//로그인 했을 때 찜확인
+		if(m!=null) {
+			//로그인한 사람 찜한 상품만 가져오기
+			obj.put("favlist", service.selectFavPdtList(m.getMemNo()));
+		}else {
+			obj.put("favlist", "[]");
 		}
 		return obj;
 		

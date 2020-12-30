@@ -168,7 +168,7 @@ button:focus {
 }
 /* 배송 안내사항 */
 #information p {
-	font-size: 12px;
+	font-size: 16px;
 }
 /* 연관상품 스와이프 css */
 .swiper-container {
@@ -200,6 +200,11 @@ button:focus {
 	max-width: 100%;
 	max-height: 100%;
 	object-fit: contain;
+}
+
+/* 슬라이더 안 글자크기 */
+.swiper-wrapper span{
+	font-size:16px;
 }
 
 .slidePrice {
@@ -362,25 +367,25 @@ button:focus {
 
 <section id="container" style="margin:0 5% 0 5%;">
 
-    <h5><small><a href="${path}">홈</a> > <a href="${path}/product/productAll">제품</a> > 
+    <h4><small><a href="${path}">홈</a> > <a href="${path}/product/productAll">제품</a> > 
     <c:choose>
     	<c:when test="${product.pdtCategory eq '식품'}">
-    		<a href="${path}/product/food">식품</a></small></h5>
+    		<a href="${path}/product/food">식품</a></small></h4>
     	</c:when>
     	<c:when test="${product.pdtCategory eq '잡화'}">
-    		<a href="${path}/product/stuff">잡화</a></small></h5>
+    		<a href="${path}/product/stuff">잡화</a></small></h4>
     	</c:when>
     	<c:when test="${product.pdtCategory eq '주방'}">
-    		<a href="${path}/product/kitchen">주방</a></small></h5>
+    		<a href="${path}/product/kitchen">주방</a></small></h4>
     	</c:when>
     	<c:when test="${product.pdtCategory eq '욕실'}">
-    		<a href="${path}/product/bathroom">욕실</a></small></h5>
+    		<a href="${path}/product/bathroom">욕실</a></small></h4>
     	</c:when>
     	<c:when test="${product.pdtCategory eq '여성용품'}">
-    		<a href="${path}/product/woman">여성용품</a></small></h5>
+    		<a href="${path}/product/woman">여성용품</a></small></h4>
     	</c:when>
     	<c:when test="${product.pdtCategory eq '반려동물'}">
-    		<a href="${path}/product/pet">반려동물</a></small></h5>
+    		<a href="${path}/product/pet">반려동물</a></small></h4>
     	</c:when>
     </c:choose>
     <input type="hidden" name="pdtNo" id="pdtNo" value="${product.pdtNo}"/>
@@ -574,7 +579,7 @@ button:focus {
                     	<c:if test="${loginMember!=null and product.pdtStatus=='Y'}">
 		                    <button type="button" href="#" class="btn btn-success custom">구매하기</button>
 		                    <button type="button" onclick="fn_goBasket();" class="btn btn-outline-success custom">장바구니</button>
-		                    <button type="button" href="#" data-toggle="modal" data-target="#zzimView" class="btn btn-outline-success custom">찜하기</button>
+		                    <button type="button" href="#" data-toggle="modal" data-target="#zzimView" class="btn btn-outline-success custom">찜하기<div class="zzimCheck" style="display:inline-block;"></div></button>
 	                    </c:if>
 	                    <c:if test="${loginMember==null and product.pdtStatus=='Y'}">
 		                    <button type="button" href="#" class="btn btn-success custom loginCheck">구매하기</button>
@@ -585,7 +590,7 @@ button:focus {
 	                    <c:if test="${loginMember!=null and product.pdtStatus=='N'}">
 		                    <button type="button" href="#" class="btn btn-secondary custom soldoutCheck">구매하기</button>
 		                    <button type="button" href="#" class="btn btn-outline-secondary custom soldoutCheck">장바구니</button>
-		                    <button type="button" href="#" data-toggle="modal" data-target="#zzimView" class="btn btn-outline-success custom">찜하기</button>
+		                    <button type="button" href="#" data-toggle="modal" data-target="#zzimView" class="btn btn-outline-success custom">찜하기<div class="zzimCheck" style="display:inline-block;"></div></button>
 	                    </c:if>
 	                    <!-- soldout일 경우 구매하기, 장바구니 클릭 방지 -->
 	                    <c:if test="${loginMember==null and product.pdtStatus=='N'}">
@@ -594,18 +599,6 @@ button:focus {
 		                    <button type="button" href="#" class="btn btn-outline-success custom loginCheck">찜하기</button>
 	                    </c:if>
                     </div><!-- 버튼 끝 -->
-                    
-                    <c:if test="${not empty favlist }">
-                    <c:choose>
-                  		<c:when test="${fn:contains(favlist,product.pdtNo)}">
-       						<img src="${path }/resources/images/product/heartfull.png" style="height:20px;">
-       					</c:when>
-	       				<c:otherwise>
-	       					<img src="${path }/resources/images/product/heartblank.png" style="height:20px;">
-	       				</c:otherwise>
-                  	</c:choose>
-                  	</c:if>  
-                  	
         		</div><!-- class="head" 끝 -->
         	</div>
         </div><!-- 제품 div끝 -->
@@ -730,7 +723,7 @@ button:focus {
 		</div><!--네비바 끝 -->
 		
 		<!--연관상품 스와이프-->
-		<div id="recommand_wrap" class="container" style="padding-top: 50px;">
+		<div id="recommand_wrap" style="padding-top:50px;margin:0 auto; ">
 			<div class="information"><strong>연관상품</strong></div>
 			<div class="swiper-container container">
 				<!-- 현재 페이지의 카테고리에 해당하는 제품만 랜덤 슬라이드 -->
@@ -758,7 +751,6 @@ button:focus {
 										</c:otherwise>
 									</c:choose>
 								</div>
-								
 								<!-- 가격 -->
 								<div class="slidePrice">
 									<span>${s.pdtName }</span><br>
@@ -896,9 +888,9 @@ button:focus {
 	
 	//연관상품 스와이프 스크립트
 	var swiper = new Swiper('.swiper-container', {
-		slidesPerView : 5, //보여줄 슬라이드 갯수
+		slidesPerView : 6, //보여줄 슬라이드 갯수
 		spaceBetween : 20, //슬라이드간 간격
-		slidesPerGroup : 5, //그룹으로 묶을 수
+		slidesPerGroup : 6, //그룹으로 묶을 수
 		loop : true, //무한반복
 		loopFillGroupWithBlank : false, //그룹수가 맞지 않을 경우 빈칸 채우기(true)/그림으로 채우기(false)
 		speed: 1200, //슬라이드 속도 
@@ -998,8 +990,8 @@ button:focus {
 		      		dataType:"json",
 		      		success:data=>{
 		      			if(data.likePdtno!=null){
-			      			//swal({text:"찜하기 추가가 완료되었습니다",timer:1000}); //알림창 1초뒤 닫기
 			      			$("#zzimFolderModal").modal("hide"); //모달닫기
+			      			$(".zzimCheck").text("♥"); //찜하기 추가
 		      			}
 		      		},error:function(error){
 		      			swal("찜하기를 다시 추가해주세요");
@@ -1018,8 +1010,26 @@ button:focus {
 		      		success:data=>{
 		      			//현재제품이랑 비교해서 없을경우
 		      			if(data.likePdtno.indexOf("pdtNo")==-1){
-		      				//swal({text:"찜하기 삭제가 완료되었습니다",timer:1000});
-		      				$("#zzimFolderModal").modal("hide");
+		      				$("#zzimFolderModal").modal("hide"); //모달창 닫기
+		      				
+		      				//상품창에 찜하기 확인
+		      		    	$.ajax({
+		      		    		url:"${path}/zzim/zzimCheck",
+		      		    		dataType:"json",
+		      		    		success:data=>{
+		      		    			console.log(data.favlist);
+		      		    			if(data.favlist!=null){
+		      		    				//찜한 상품있으면 하트 표시
+		      		   					if(data.favlist.indexOf(pdtNo)!=-1){
+		      		    					$(".zzimCheck").text("♥");
+		      		    				//없으면 빈하트 표시	
+		      		    				}else{
+		      		    					$(".zzimCheck").text("♡");
+		      		    				}
+		      		    			}
+		      		    		}
+		      		    	});
+		      				
 		      			}
 		      		},error:function(error){
 		      			swal("찜하기를 다시 삭제해주세요");
@@ -1030,6 +1040,28 @@ button:focus {
     	});
       
     });
+    
+    //찜한상품 확인
+    $(function(){
+    	let pdtNo = $("#pdtNo").val();
+    	
+    	$.ajax({
+    		url:"${path}/zzim/zzimCheck",
+    		dataType:"json",
+    		success:data=>{
+    			console.log(data.favlist);
+    			if(data.favlist!=null){
+    				//찜한 상품있으면 하트 표시
+   					if(data.favlist.indexOf(pdtNo)!=-1){
+    					$(".zzimCheck").text("♥");
+    				//없으면 빈하트 표시	
+    				}else{
+    					$(".zzimCheck").text("♡");
+    				}
+    			}
+    		}
+    	});
+    }); 
 	
 	//장바구니 버튼 누르면 실행됨
 	function fn_goBasket(pdtNo){
