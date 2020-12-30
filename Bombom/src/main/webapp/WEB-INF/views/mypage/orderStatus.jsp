@@ -34,7 +34,7 @@
 	list-style-type: none;
 	float: left;
 	margin-top: 19px;
-	width: 16%;
+	width: 19%;
 }
 
 .status>ul>li>p {
@@ -65,6 +65,8 @@
 	text-align: center;
 	margin-top: 30px;
 }
+
+
 </style>
 <section id="container">
 	<div id="flexDiv">
@@ -84,9 +86,7 @@
 					<li><span class="status-order">배송중</span>
 						<p>></p> <label class="order-qty"><c:out value="${shipping }" /></label></li>
 					<li><span class="status-order">배송완료</span>
-						<p>></p> <label class="order-qty"><c:out value="${shipEnd }" /></label></li>
-					<li><span class="status-order">구매확정</span> 
-						<label class="order-qty"><c:out value="${buyEnd }" /></label></li>
+						<label class="order-qty"><c:out value="${shipEnd }" /></label></li>	
 				</ul>
 			</div>
 			<div class="order-info">
@@ -99,6 +99,7 @@
 							</th>
 							<th class="th">이미지</th>
 							<th class="th">상품정보</th>
+							<th class="th">옵션</th>
 							<th class="th">수량</th>
 							<th class="th">상품금액</th>
 							<th class="th">주문상태</th>
@@ -125,12 +126,15 @@
 								<td><a name="pdtNo"
 									href="${path }/product/productOne?pdtNo=${o.pdtNo}"><c:out
 											value="${o.pdtName}" /></a></td>
+								<td><c:out value="${o.pdtOptionContent}" /></td>
 								<td><c:out value="${o.inorderQty}" /></td>
 								<td><fmt:formatNumber pattern="#,###,###" value="${o.pdtPrice}" />원</td>
 								<td class="statusTd"><c:out value="${o.ordStatus}" /></td>
 								<td style="display:none"><c:out value="${o.orderNo}"/></td>
 								<td style="display:none"><c:out value="${o.ordUsePoint}"/></td>
 								<td style="display:none"><c:out value="${o.ordAmount}" /></td>
+								<td style="display:none"><c:out value="${o.pdtNo}" /></td>
+								<td style="display:none"><c:out value="${o.pdtName}" /></td>
 								<c:if test="${o.ordCancel ==null }">
 								<td class="btnTd">
 									<c:if test="${o.ordStatus =='주문대기'or o.ordStatus=='주문완료'}">
@@ -138,13 +142,13 @@
 									</c:if>
 									<c:if test="${o.ordConfirmYn =='N' }">
 									<c:if test="${o.ordStatus =='배송준비'or o.ordStatus=='배송중'or o.ordStatus=='배송완료'}">
-									<input type="hidden" class="btn btn-outline-success confirm" value="구매확정">
+									<input type="button" class="btn btn-outline-success confirmModal" data-toggle="modal" data-target="#confirmView" value="구매확정">
 									</c:if>
 									</c:if>
 									<c:if test="${o.ordConfirmYn =='Y' }">
-									<input type="hidden" class="btn btn-success confirm" disabled value="적립완료">
+									<input type="button" class="btn btn-success pointEndBtn" disabled value="적립완료">
 									</c:if>
-									<input type="hidden" class="btn btn-outline-success review" value="리뷰쓰기">
+									
 								</td>
 								</c:if>
 							</tr>
@@ -172,7 +176,7 @@
 		        </div>
           <!-- Modal body -->
 	        <div class="modal-body container">
-            <!--문의내용  -->
+            <!--취소사유 선택  -->
            		 <div class="form-group">
 				      <div class="form-check">
 				        <label class="form-check-label"><input class="form-check-input" type="radio" name="reason" value="단순변심" >단순변심 </label><br>
@@ -186,7 +190,7 @@
 	        		<div class="btnBox">
 	        		   	<input type="hidden" class="cancelNo"  readonly>
 	        		   	<input type="hidden" class="cancelPoint"  readonly>
-	        			<input type="button" class="btn btn-outline-success btn-sm cancelBtn " value="주문취소하기"><br>	        			
+	        			<input type="button" class="btn btn-outline-success btn-sm cancelBtn " value="주문취소"><br>	        			
 					</div>
 	        	 
 		    </div>
@@ -194,13 +198,56 @@
 	      	  </div>
 			</div>
 		</div>
+		<!--구매확정 모달창  -->
+		  <div class="modal fade" id="confirmView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		    <div class="modal-dialog modal-dialog-centered">
+		      <div class="modal-content">
+		      
+		        <!-- Modal Header -->
+		        <div class="modal-header">
+		          <h5 class="modal-title">구매확정 진행</h5>
+		          <button type="button" class="close" data-dismiss="modal">X</button>
+		        </div>
+          <!-- Modal body -->
+	        <div class="modal-body container">
+            <!--구매확정 안내문 -->
+           		 <div class="form-group">
+				      <p>구매확정 이후에는 반품/교환이 불가하므로 <b>반드시 상품을 확인 후 구매확정을 진행해주세요.</b></p></br>
+				      <p>상품을 배송받지 않은 상태에서 구매확정을 하신 경우 상품 미수령에 대한 책임은 구매자에게 있습니다.</p> 
+            	</div>
+
+
+	        		<div class="btnBox">
+	        		   	<input type="hidden" class="confirmNo"  readonly>
+	        		   	<input type="hidden" class="confirmAmount"  readonly>
+	        			<input type="button" class="btn btn-outline-success btn-sm confirmBtn " value="구매확정"><br>	        			
+					</div>
+	        	 
+		    </div>
+	      	  
+	      	  </div>
+			</div>
+		</div>
+		
 </section>
 <script>
+
+//구매확정 모달창으로 
+$(".confirmModal").click(function(){
+	let td=$(this).parent().parent().children();
+	let orderNo=td.eq(7).text();
+	let ordAmount=td.eq(9).text();
+	$(".confirmNo").val(orderNo);
+	$(".confirmAmount").val(ordAmount);
+	
+})	
+
+
 	//주문취소 모달창으로 값 보내기
 	$(".cancelModal").click(function(){
 		let td=$(this).parent().parent().children();
-		let orderNo=td.eq(6).text();
-		let ordUsePoint=td.eq(7).text();
+		let orderNo=td.eq(7).text();
+		let ordUsePoint=td.eq(8).text();
 		$(".cancelPoint").val(ordUsePoint);
 		$(".cancelNo").val(orderNo);
 	})
@@ -216,15 +263,15 @@
 			location.replace("${path}/mypage/orderCancel?cancel="+cancel+"&orderNo="+orderNo+"&ordUsePoint="+ordUsePoint);
 		}
 	})
-	//구매확정눌렀을때 
-	$(".confirm").click(function(){
-		let td=$(this).parent().parent().children();
-		let orderNo=td.eq(6).text();
-		let ordAmount=td.eq(8).text();
-		location.replace("${path}/mypage/buyConfirm?ordAmount="+ordAmount+"&orderNo="+orderNo);
-		$(".confirm").attr('type','hidden');
-	})	
 
+	//구매확정 
+	$(".confirmBtn").click(function(){
+		let orderNo=$(this).parent().children(".confirmNo").val();
+		let ordAmount=$(this).parent().children(".confirmAmount").val();
+		location.replace("${path}/mypage/buyConfirm?ordAmount="+ordAmount+"&orderNo="+orderNo);
+		$(".confirmModal").attr('type','hidden');
+	
+	})
 	
 //같은값 데이터가 있을 경우 셀 병합하기 
 	 $(function(){
@@ -243,29 +290,29 @@
 				btnTd.not(":eq(0)").remove();
 			}
 		});
-		//주문대기일때 
+
+		
+ 		//주문대기일때 
 		if($(".statusTd").text().match("주문대기")){
-			$(".confirm").attr('type','hidden');
-			$(".review").attr('type','hidden');
+			$(".confirmModal").attr('type','hidden');
 		}
 	
 		//주문취소 눌렀을때 주문취소 버튼 숨기기
 		if($(".statusTd").text().match("주문취소")){
 			$(".cancelModal").attr('type','hidden');	
+
 		}
 		//구매확정 버튼 보이기
 		if($(".statusTd").text().match("배송준비")||$(".statusTd").text().match("배송중")||$(".statusTd").text().match("배송완료")){
-			$(".confirm").attr('type','button');
+			$(".pointEndBtn").attr('type','button');
 			$(".cancelModal").attr('type','hidden');	
 
 		}
 		//리뷰버튼 보이기 
 		if($(".statusTd").text().match("배송완료")){
-			$(".review").attr('type','button');
 			$(".cancelModal").attr('type','hidden');	
-		}
+		} 
 	});
-
 
 
 </script>

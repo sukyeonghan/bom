@@ -92,6 +92,11 @@ public class ZzimDaoImpl implements ZzimDao {
 		return session.delete("zzim.proDeleteZzim", map);
 	}
 
+	@Override
+	public List selectFavPdtList(SqlSession session, String memNo) {
+		return session.selectList("zzim.selectFavPdtList", memNo);
+	}
+
 	
 	
 	

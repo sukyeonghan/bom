@@ -37,5 +37,7 @@ public interface ZzimDao {
 	List selectfavlist(SqlSession session, String zzimNo);
 	
 	int proDeleteZzim(SqlSession session, Map map);
+	
+	List selectFavPdtList(SqlSession session, String memNo);
 
 }
