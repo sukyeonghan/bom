@@ -342,7 +342,7 @@ textarea.answer {
 					        <div>
 						        <span class="span_textarea review_span">
 							        <textarea name="revContent" id="review_textarea" placeholder="구매평을 입력해주세요" onKeyUp="javascript:fnChkByte2(this,'500')"></textarea>
-							        <div class="imgPreview" style="height:30%;"></div>
+							        <div id="uploadPreview" style="height:35%;"><img id="imgPreview" style="height:35%;"></div>
 							        <div class="wrap_bottom">
 							        <div style="float:left;left:0;bottom:0;">
 							        	<!-- 업로드 사진 -->
@@ -506,7 +506,7 @@ $("#uploadImage1").click(function(){
 $("#upload1").change(e => {
 		let reader = new FileReader();
 		reader.onload = e =>{
-			let img = $("<img>").attr({"src":e.target.result,"style":"width:70px;height:auto"});
+			let img = $("<img>").attr({"src":e.target.result,"style":"width:auto;height:80px;"});
 			
 			$(".imgPreview").html("");
 			$(".imgPreview").append(img);
