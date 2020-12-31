@@ -30,6 +30,7 @@
 		<result property="memEmail" column="mem_email" />
 		<result property="pdtOptionAddprice" column="pdt_option_addprice" />
 		<result property="pdtNo" column="pdt_no"/>
+		<result property="revContent" column="rev_content"/>
 
 	</resultMap>
 	<resultMap type="inorder" id="inorderMap">
@@ -119,7 +120,7 @@
 	</delete>
 	
 	<select id="selectOrderList" parameterType="string" resultMap="orderMap">
-		SELECT DISTINCT O.ORD_CANCEL, O.ORD_CONFIRM_YN, O.ORD_AMOUNT,O.ORD_USE_POINT, O.ORD_DATE, O.ORDER_NO,I.INORDER_QTY,P.PDT_PRICE,P.PDT_NAME,O.ORD_STATUS,P.PDT_NO,LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY TH.pdt_no_ref) OVER(PARTITION BY TH.PDT_NO_REF)AS THUMBS 
+		SELECT DISTINCT PDT_OPTION_CONTENT,O.ORD_CANCEL, O.ORD_CONFIRM_YN, O.ORD_AMOUNT,O.ORD_USE_POINT, O.ORD_DATE, O.ORDER_NO,I.INORDER_QTY,P.PDT_PRICE,P.PDT_NAME,O.ORD_STATUS,P.PDT_NO,LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY TH.pdt_no_ref) OVER(PARTITION BY TH.PDT_NO_REF)AS THUMBS 
 		FROM "ORDER" O
 		 LEFT JOIN MEMBER M ON (M.MEM_NO=O.MEM_NO)
 		 LEFT JOIN INORDER I ON (I.ORDER_NO=O.ORDER_NO)
@@ -135,7 +136,7 @@
 
 		WHERE MEM_NO=#{memNo}
 	</select>
-	
+
 	<select id="shipReadyCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*) FROM "ORDER" 
 		WHERE MEM_NO=#{memNo} AND ORD_STATUS='배송준비'
@@ -156,13 +157,27 @@
 		SELECT COUNT(*) FROM "ORDER" 
 		WHERE MEM_NO=#{memNo} AND ORD_STATUS='배송중'
 	</select>
-		<select id="buyEndCount" parameterType="string" resultType="_int">
+	<select id="buyEndCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*) FROM "ORDER" 
-		WHERE MEM_NO=#{memNo} AND ORD_STATUS='구매확정'
+		WHERE MEM_NO=#{memNo} AND ORD_STATUS='주문취소'
 	</select>
+	<select id="cancelEndCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM "ORDER" 
+		WHERE MEM_NO=#{memNo} AND ORD_STATUS='취소완료'
+	</select>
+	<select id="returnWaitCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM "ORDER" 
+		WHERE MEM_NO=#{memNo} AND ORD_STATUS='반품요청'
+	</select>
+	<select id="returnEndCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM "ORDER" 
+		WHERE MEM_NO=#{memNo} AND ORD_STATUS='반품완료'
+	</select>
+	
+	
 
 	<select id="selectOrderDetail" parameterType="string" resultMap="orderMap">
-		 SELECT DISTINCT P.PDT_PRICE, P.PDT_NAME,PDT_OPTION_CONTENT, PDT_OPTION_ADDPRICE, INORDER_QTY, O.ORD_TRACK,
+		 SELECT DISTINCT P.PDT_NO,REV_CONTENT, O.ORD_STATUS, P.PDT_PRICE, P.PDT_NAME,PDT_OPTION_CONTENT, PDT_OPTION_ADDPRICE, INORDER_QTY, O.ORD_TRACK,
          LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY TH.pdt_no_ref) OVER(PARTITION BY TH.PDT_NO_REF)AS THUMBS
          FROM "ORDER" O
 		 LEFT JOIN MEMBER M ON (M.MEM_NO=O.MEM_NO)
@@ -170,7 +185,9 @@
          LEFT JOIN PRODUCT P ON (P.PDT_NO=I.PDT_NO)
          LEFT JOIN PRODUCT_OPTION OP ON (OP.PDT_OPTION_NO=I.PDT_OPTION_NO)
          LEFT JOIN PRODUCT_THUMB TH ON (TH.PDT_NO_REF=I.PDT_NO)
+         LEFT JOIN REVIEW R ON (P.PDT_NO=R.PDT_NO)
          WHERE O.ORDER_NO=#{ordNo}
+         ORDER BY P.PDT_NO
 	</select>
 	
 	<select id="selectOrderOne" parameterType="string" resultMap="orderMap">
@@ -203,6 +220,12 @@
 	<insert id="insertInbasket" parameterType="inbasket">
 		INSERT INTO INBASKET VALUES(
 			#{pdtNo},${basketNo},#{pdtOptionNo},#{inbasQty})
-		
+	</insert>
+	<update id="returnRequest" parameterType="order">
+		UPDATE "ORDER" SET ORD_CANCEL=#{ordCancel}, ORD_STATUS='반품요청' WHERE ORDER_NO=#{orderNo}
+	</update>
+
+	<insert id="returnOrdPoint" parameterType="point">
+		 INSERT INTO POINT VALUES(#{memNo},null,SYSDATE,#{pointContent},#{pointChange})
 	</insert>
 </mapper>

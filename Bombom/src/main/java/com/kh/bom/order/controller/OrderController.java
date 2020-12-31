@@ -205,27 +205,33 @@ public class OrderController {
 	// 나의 주문내역
 	@RequestMapping("/mypage/orderStatus")
 	public ModelAndView order(ModelAndView mv, HttpSession session,
-			@RequestParam(value = "cPage", defaultValue = "0") int cPage,
-			@RequestParam(value = "numPerpage", defaultValue = "5") int numPerpage) {
-
-		Member login = (Member) session.getAttribute("loginMember");
-		String memNo = login.getMemNo();
-
-		mv.addObject("list", service.selectOrderList(memNo, cPage, numPerpage));
-		int totalData = service.selectOrderCount(memNo);
-		// 주문대기
-		int ordWait = service.ordWaitCount(memNo);
-		// 주문완료
-		int ordEnd = service.ordEndCount(memNo);
-		// 배송준비
-		int shipReady = service.shipReadyCount(memNo);
-		// 배송중
-		int shipping = service.shippingCount(memNo);
-		// 배송완료
-		int shipEnd = service.shipEndCount(memNo);
-		// 구매확정
-		int buyEnd = service.buyEndCount(memNo);
-
+			@RequestParam(value="cPage", defaultValue="0") int cPage,
+			@RequestParam(value="numPerpage", defaultValue="5") int numPerpage) {
+		
+		Member login= (Member) session.getAttribute("loginMember");
+		String memNo=login.getMemNo();
+		
+		mv.addObject("list",service.selectOrderList(memNo,cPage,numPerpage));
+		int totalData=service.selectOrderCount(memNo);
+		//주문대기
+		int ordWait=service.ordWaitCount(memNo);
+		//주문완료
+		int ordEnd=service.ordEndCount(memNo);
+		//배송준비
+		int shipReady=service.shipReadyCount(memNo);
+		//배송중
+		int shipping=service.shippingCount(memNo);
+		//배송완료
+		int shipEnd=service.shipEndCount(memNo);
+		//주문취소(요청)
+		int ordCancel=service.buyEndCount(memNo);
+		//취소완료
+		int cancelEnd=service.cancelEndCount(memNo);
+		//반품요청
+		int returnWait=service.returnWaitCount(memNo);
+		//반품완료
+		int returnEnd=service.returnEndCount(memNo);
+		
 		mv.addObject("loginMember", login);
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalData, cPage, numPerpage, "orderStatus"));
 		mv.addObject("totalData", totalData);
@@ -234,7 +240,10 @@ public class OrderController {
 		mv.addObject("ordEnd", ordEnd);
 		mv.addObject("shipping", shipping);
 		mv.addObject("shipEnd", shipEnd);
-		mv.addObject("buyEnd", buyEnd);
+		mv.addObject("ordCancel", ordCancel);
+		mv.addObject("cancelEnd", cancelEnd);
+		mv.addObject("returnWait", returnWait);
+		mv.addObject("returnEnd", returnEnd);
 
 		mv.setViewName("mypage/orderStatus");
 		return mv;
@@ -253,32 +262,31 @@ public class OrderController {
 
 		return mv;
 	}
-
-	// 주문취소
-	@RequestMapping("/mypage/orderCancel")
-	public ModelAndView orderCancel(HttpSession session, ModelAndView mv, String orderNo, String cancel,
-			int ordUsePoint) {
-		Member login = (Member) session.getAttribute("loginMember");
-		String memNo = login.getMemNo();
-
-		Order o = new Order();
+	
+	//반품요청
+	@RequestMapping("/mypage/returnRequest")
+	public ModelAndView returnRequest(HttpSession session, ModelAndView mv, String orderNo, String cancel, int ordUsePoint) {
+		Member login= (Member) session.getAttribute("loginMember");
+		String memNo=login.getMemNo();
+		
+		Order o=new Order();
 		o.setOrderNo(orderNo);
 		o.setOrdCancel(cancel);
 		Point p = new Point();
 		p.setMemNo(memNo);
 		p.setPointContent("주문취소 (주문번호:" + orderNo + ")");
 		p.setPointChange(ordUsePoint);
-
-		int result = service.cancelOrder(o, p);
+		
+		int result = service.returnRequest(o,p);
 		String msg = "";
 		String loc = "";
 		String icon = "";
 		if (result > 0) {
-			msg = "주문을 취소하였습니다.";
+			msg = "반품 요청하였습니다.";
 			loc = "/mypage/orderStatus";
 			icon = "success";
 		} else {
-			msg = "주문취소 실패하였습니다. 다시 시도해주세요.";
+			msg = "실패하였습니다. 다시 시도해주세요.";
 			loc = "/mypage/orderStatus";
 			icon = "warning";
 		}
@@ -319,5 +327,39 @@ public class OrderController {
 		mv.setViewName("common/msg");
 		return mv;
 	}
-
+	
+	//주문취소(요청)
+	@RequestMapping("/mypage/orderCancel")
+	public ModelAndView orderCancel(HttpSession session, ModelAndView mv, String orderNo, String cancel, int ordUsePoint) {
+		Member login= (Member) session.getAttribute("loginMember");
+		String memNo=login.getMemNo();
+		
+		Order o=new Order();
+		o.setOrderNo(orderNo);
+		o.setOrdCancel(cancel);
+		Point p=new Point();
+		p.setMemNo(memNo);
+		p.setPointContent("주문취소 (주문번호:"+orderNo+")");
+		p.setPointChange(ordUsePoint);
+		
+		int result = service.cancelOrder(o,p);
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		if (result > 0) {
+			msg = "주문을 취소하였습니다.";
+			loc = "/mypage/orderStatus";
+			icon = "success";
+		} else {
+			msg = "주문취소 실패하였습니다. 다시 시도해주세요.";
+			loc = "/mypage/orderStatus";
+			icon = "warning";
+		}
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon", icon);
+		mv.setViewName("common/msg");		
+		return mv;		
+	}
+	
 }

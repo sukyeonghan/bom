@@ -1,6 +1,5 @@
 package com.kh.bom.product.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -12,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.bom.common.page.AjaxPageBarFactory;
-import com.kh.bom.common.page.ProAjaxPageBarFactory;
 import com.kh.bom.common.page.ProAjaxPageBarFactoryModify;
 import com.kh.bom.common.page.ProPageBarFactory;
 import com.kh.bom.inquiry.model.vo.Inquiry;
@@ -48,6 +48,10 @@ public class ProductController {
 		String cate="전체제품";
 		int count=service.productCount(cate,soldout);
 		List<Product> newList=service.selectNewCateList(cate);
+		/*
+		 * List<Product>
+		 * tempList=service.selectProductList(cPage,numPerpage,sort,soldout,cate); for()
+		 */
 		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,soldout,cate));
 		m.addObject("pageBar",ProPageBarFactory.getPageBar(count, cPage, numPerpage, "productAll"));
 		m.addObject("cPage",cPage);
@@ -90,16 +94,53 @@ public class ProductController {
 		return m;
 	
 	}
+	//수정된 분류 테스트
+	@RequestMapping("/product/productListAjaxTest")
+	public ModelAndView productListTest(ModelAndView m,Product p,String category,
+			
+			@RequestParam(value="pdtcategory", defaultValue="전체제품") String pdtCategory,
+			 
+			@RequestParam(value="cPage", defaultValue="1") int cPage, 
+			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
+		System.out.println(p.getPdtCategory());
+		System.out.println(pdtCategory);
+		System.out.println(category);
+		p.setPdtCategory(pdtCategory);
+		int count;
+		//List<Product> newList;
+		/*
+		 * if(p.getPdtCategory().equals("할인제품")) {
+		 * count=service.countSale(p.getSoldout());
+		 * newList=service.selectNewCateList("전체제품");
+		 * m.addObject("list",service.selectSaleList(cPage,numPerpage,p.getSort(),p.
+		 * getSoldout(),"할인제품")); }else {
+		 */
+			//count=service.productCount(category,soldout);
+		List<Product> newList=service.selectNewCateListTest(p);
+			m.addObject("list",service.selectProductListTest(cPage,numPerpage,p));
+		//}
+		
+		//m.addObject("pageBar",ProAjaxPageBarFactoryModify.getAjaxPageBar(count, cPage, numPerpage, "productListAjaxTest",sort,soldout,category));
+		m.addObject("cPage",cPage);
+		//m.addObject("category",category);
+		m.addObject("sort",p.getSort());
+		//m.addObject("count",count);
+		m.addObject("newList",newList);
+		m.addObject("soldout",p.getSoldout());
+		m.setViewName("product/productListAjaxTest");
+		return m;
+	}
 	
 	//식품 카테고리 페이지
 	@RequestMapping("/product/food") 
-	public ModelAndView foodProduct(ModelAndView m,
+	public ModelAndView foodProduct(ModelAndView m,Product p,
 			@RequestParam(value = "sort",defaultValue="등록일순") String sort,
 			@RequestParam(value = "soldout",defaultValue="품절포함") String soldout,
 			@RequestParam(value="cPage", defaultValue="1") int cPage, 
 			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
 		
 		String cate="식품";
+		p.setPdtCategory("식품");
 		int count=service.productCount(cate,soldout);
 		List<Product> newList=service.selectNewCateList(cate);
 		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,soldout,cate));
@@ -268,6 +309,7 @@ public class ProductController {
 		String loc = "";
 		
 		List<Zzim> zzimlist = null;
+		
 		//로그인 했을 때 찜리스트 불러오기
 		if(m!=null) {
 			zzimlist = zzimservice.selectZzimList(m.getMemNo());
@@ -277,8 +319,9 @@ public class ProductController {
 			//찜리스트에 찜한상품 넣기
 			for(Zzim z : zzimlist) {
 				z.setFavlist(zzimservice.selectfavlist(z.getZzimNo()));
-				System.out.println(z);
+				//System.out.println(z);
 			}
+			
 		//로그인 안 했을 경우 접근 X	
 		}else {
 			msg = "로그인을 먼저 해주세요";

@@ -19,18 +19,18 @@
 	table#memberTbl th{text-align:center; cursor: default;}
 	table#memberTbl td{vertical-align: middle; cursor:default;}
 	table#memberTbl td{text-align:center;}
-	table#memberTbl td:nth-of-type(1){text-align:left;}
-	table#memberTbl td:nth-of-type(3){text-align:right;}
+	table#memberTbl td:nth-of-type(2){text-align:left;}
+	table#memberTbl td:nth-of-type(4){text-align:right;}
 	
 	.warnA:hover{text-decoration: none;}
 	
 	#searchBox{text-align:center; margin:auto; height: 40px; width:100%; margin-top: 20px;}
 	#searchBox>*{height: 40px;}
 	
+	.choiceBack{background-color:#E6E6FA }
+	
 </style>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-<%-- 	<jsp:param name="countAlarm" value="${applicationScpoe.countAlarm }" />
-</jsp:include> --%>
 
 <section id="container">
 	<div id="flexDiv">
@@ -45,25 +45,37 @@
 				<option value="date" selected>가입순</option>
 				<option value="point">적립금순</option>
 				<option value="bad">악성댓글순</option>
+				<option value="outDate">탈퇴날짜순</option>
+				<option value="lastDate">접속날짜순</option>
+				<option value="manager">관리자순</option>
 			</select>
 			</div>
 			<div class="table-responsive" id="result">
-				<table id="memberTbl" class="table table-hover">
+				<table id="memberTbl" class="table">
 					<thead>
 						<tr>
+							<th><input type="checkbox" id="allCheckbox"/></th>
 							<th>이메일</th>
 							<th>닉네임</th>
 							<th>적립금</th>
 							<th>악성댓글</th>				
-							<th>탈퇴여부</th>				
-							<th>관리자여부</th>				
+							<th>최근방문날짜</th>				
+							<th>탈퇴날짜</th>				
+							<th>관리자권한</th>								
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${list }" var="member" varStatus="vs">
 							<tr>
+							
+								<td><input type="checkbox" id="mem${vs.index }" name="sendMemNo" class="mem-check" value="${member.memNo }"/></td>
 								<td><c:out value="${member.memEmail }"/></td>
-								<td><c:out value="${member.memNick }"/></td>
+								<td class="memNick-td">
+									<c:if test="${member.memManagerYn eq 'Y'}">
+										<img src="${path }/resources/images/icon/crown.png" height="25px;">
+									</c:if>
+									<span><c:out value="${member.memNick }"/></span>
+								</td>
 								<td><fmt:formatNumber type="number" value="${member.memPoint }"/></td>
 								<c:if test="${member.memWarnCount >= 10}">
 									<td id="black" >
@@ -73,15 +85,21 @@
 								<c:if test="${member.memWarnCount < 10}">
 									<td><c:out value="(${member.memWarnCount}/10)"/></td>
 								</c:if>
-								<td><c:out value="${member.memStatus}"/></td>
+								
+								<td><fmt:formatDate type="date" timeStyle="short" value="${member.memLastDate }"/></td>
 								<td>
-									<span><c:out value="${member.memManagerYn}"/></span>&nbsp;&nbsp;
+									<c:if test="${member.memStatus eq 'Y'}">
+										<fmt:formatDate type="date" timeStyle="short" value="${member.memOutDate }"/>
+									</c:if>
+								</td>
+								<td class="memManagerYnTd">
+									<%-- <span><c:out value="${member.memManagerYn}"/></span>&nbsp;&nbsp; --%>
 									<input type="hidden" value="${member.memNo }" name="memNo"/>
 									<c:if test="${member.memManagerYn eq 'N'}">
 										<button class="btn btn-info managerYnBtn">권한부여</button>
 									</c:if>
 									<c:if test="${member.memManagerYn eq 'Y'}">
-										<button class="btn btn-outline-info managerYnBtn">권한회수</button>
+										<button class="btn btn-danger managerYnBtn">권한회수</button>
 									</c:if>
 								</td>
 							</tr>
@@ -97,10 +115,10 @@
 			<!-- 검색박스 -->
 			<div id="searchBox" >
 				<select name="searchType">
-					<option value=" " disabled selected>검색타입</option>
+					<!-- <option value=" " disabled selected>검색타입</option> -->
 					<option value="email">이메일</option>
 					<option value="nick">닉네임</option>
-					<option value="all">이메일+닉네임</option>
+					<option value="all" selected>이메일+닉네임</option>
 				</select>
 				<input type="text" id="keyword" name="keyword" placeholder="검색어를 입력해주세요" size="50" list="data" required>
 				<datalist id="data"></datalist>
@@ -171,6 +189,7 @@ $(function(){
 	let yn="";
 	let msg="";
 	let memNo=$(e.target).prev().val();
+	let nick=$(e.target).parent().prevUntil(".memNick-td").children("span").text();
 	if(adminYn=="권한부여"){
 		yn="Y";
 		msg="매니저로 전환하시겠습니까?";
@@ -191,15 +210,18 @@ $(function(){
  	    		success:data=>{
  	    			if(data===true){
  	    				if(adminYn=="권한부여"){
- 	    					$(e.target).addClass("btn-outline-info");
+ 	    					$(e.target).addClass("btn-danger");
  	    					$(e.target).removeClass("btn-info");
- 	    					$(e.target).html("권한회수");		 	    					
- 	    					$(e.target).prev().prev().html("Y");
+ 	    					$(e.target).html("권한회수");		 	    
+ 	    					let crown=$("<img>").prop("src",'${path}/resources/images/icon/crown.png');
+ 	    					crown.attr("height","25px");
+ 	    					$(e.target).parent().parent().children(".memNick-td").prepend(crown);
+ 	    					
  	    				}else{
- 	    					$(e.target).removeClass("btn-outline-info");
+ 	    					$(e.target).removeClass("btn-danger");
  	    					$(e.target).addClass("btn-info");
  	    					$(e.target).html("권한부여");
- 	    					$(e.target).prev().prev().html("N");
+ 	    					$(e.target).parent().parent().children(".memNick-td").children("img").remove();
  	    				}
  	    			}else{
  	    				swal("관리자 권한 변경 실패");
@@ -278,14 +300,52 @@ $("#keyword").on("keyup",e=>{
 	
 
  })
-
  
-	 
+
+
 	 
 })
 
-//
 
+
+ 
+ 	//행선택시 체크박스 선택
+	$(document).on("click","#memberTbl td",e=>{
+		$(e.target).parent().children().children("input[type=checkbox]").click();
+	});
+	//전체선택
+	$(document).on("click","#allCheckbox",e=>{
+		let v=$(e.target).is(":checked");
+		if(v==true){
+			$(".mem-check").prop("checked",true);
+			$(".mem-check").parent().parent("tr").addClass("choiceBack");
+		}else{
+			$(".mem-check").prop("checked",false);
+			$(".mem-check").parent().parent("tr").removeClass("choiceBack");
+		} 
+		cssAndCount(); 
+	});
+	
+	$(document).on("change","input[name=sendMemNo]",e=>{
+		let a=$(e.target).is(":checked");
+		if(a==true){
+			$(e.target).parent().parent("tr").addClass("choiceBack");			
+		}else{
+			$(e.target).parent().parent("tr").removeClass("choiceBack");
+		} 
+		cssAndCount();
+	});
+	
+	//전체선택 체크박스 선택,해제
+	function cssAndCount(){
+		let count=$("input[name=sendMemNo]:checked").length;
+		let all=$("input[name=sendMemNo]").length;
+		if(count==all){
+			$("#allCheckbox").prop("checked",true);
+		}else{
+			$("#allCheckbox").prop("checked",false);
+		}
+	}
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

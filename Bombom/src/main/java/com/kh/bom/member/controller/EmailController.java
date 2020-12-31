@@ -1,5 +1,6 @@
 package com.kh.bom.member.controller;
 
+import java.util.Date;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
@@ -10,11 +11,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 
 import com.kh.bom.member.model.service.MemberService;
 import com.kh.bom.member.model.vo.Member;
@@ -97,5 +95,48 @@ public class EmailController {
 				
 	}
 	
-	
+	//회원탈퇴,휴먼계정안내 이메일 전송 
+	@RequestMapping(value="/email/member")
+	@ResponseBody
+	public boolean sendEmailMember(Member member,String type, Model m,HttpSession session) throws Exception{
+		int result=0;
+		String setFrom ="sujeong.dev@gmail.com"; //보내는 사람
+		String nick=member.getMemNick(); //받는 회원 닉네임
+		String email=member.getMemEmail(); //받는 회원 이메일
+		String subject="";
+		String text="";
+		String day="";
+		
+		if(type.equals("휴면")) {
+			subject="[다시:봄] 장기 비 로그인 계정  휴면 전환안내";
+			text="안녕하세요."+nick+"님, 장기간 [다시:봄] 이용이 없으셨던 회원님의 계정이 휴면계정으로 전환될 예정입니다. 이용에 차질이 없도록 사전에 안내 드리면 휴면전환을 원치 않으실경우 "+day+"이전에 [다시:봄]에 방문하셔서 로그인하여 주시기를 바랍니다.";
+		}else if(type.equals("개인정보")) {
+			subject="[다시:봄] 개인정보 이용안내 ";
+			text="안녕하세요. [다시:봄]입니다. 본 메일은 개인정보보호법 제 39조 8 및 동법 시행령 제 48조의 6(개인정보 이용내역 통지)에 따라 회원님께 발송되는 '개인정보 이용내역' 안내 메일입니다. 본 메일은 해당년 1월 1일까지 회원상태를 유지하고 있는 회원님께 발송됩니다. ";
+			text+="<table>"
+					+ "<tr><th>개인정보수집항목</th><th>이용목적</th></tr>"
+					+ "<tr><td>이메일,닉네임,프로필사진</td><td>서비스이용을 위한 회원가입</td></tr>"
+					+ "</table>";
+		}
+		
+		try {
+            
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+            helper.setFrom(setFrom);
+            helper.setTo(email);
+            helper.setSubject(subject);
+            helper.setText(text,true);
+                   
+            mailSender.send(message);
+            result=1;
+            
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+			
+		return result>0?true:false;
+
+	}
+		
 }

@@ -113,4 +113,14 @@
 		SELECT PDT_NO FROM ZZIMCONTENT WHERE ZZIM_NO=#{zzimNo}
 	</select>
 	
+	<!-- 상품페이지 - 찜하기 삭제 -->
+	<delete id="proDeleteZzim" parameterType="map">
+		DELETE FROM ZZIMCONTENT WHERE ZZIM_NO=#{zzimNo} AND PDT_NO=#{pdtNo}
+	</delete>
+	
+	<!-- 상품페이지 - 찜하기 표시 -->
+	<select id="selectFavPdtList" parameterType="string" resultType="string">
+		   SELECT PDT_NO FROM ZZIMCONTENT JOIN ZZIM USING(ZZIM_NO) WHERE MEM_NO=#{memNo}
+	</select>
+	
 </mapper>

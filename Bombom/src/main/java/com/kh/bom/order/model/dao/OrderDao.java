@@ -48,6 +48,17 @@ public interface OrderDao {
 	int insertOrdPoint(SqlSession session, Point p);
 
 	int insertBasket(SqlSession session, String memNo);
-	
+
 	int insertInbasket(SqlSession session, Inbasket i);
+
+	int cancelEndCount(SqlSession session, String memNo);
+
+	int returnWaitCount(SqlSession session, String memNo);
+
+	int returnEndCount(SqlSession session, String memNo);
+
+	int returnRequest(SqlSession session, Order o);
+
+	int returnOrdPoint(SqlSession session, Point p);
+
 }

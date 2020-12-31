@@ -111,6 +111,7 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return result; 
 	}
+
 	//구매확정
 	@Override
 	@Transactional
@@ -136,8 +137,34 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return dao.insertInbasket(session, i);
 	}
-	
-	
+	public int cancelEndCount(String memNo) {
+		// TODO Auto-generated method stub
+		return dao.cancelEndCount(session,memNo);
+	}
+
+	@Override
+	public int returnWaitCount(String memNo) {
+		// TODO Auto-generated method stub
+		return dao.returnWaitCount(session,memNo);
+	}
+
+	@Override
+	public int returnEndCount(String memNo) {
+		// TODO Auto-generated method stub
+		return dao.returnEndCount(session,memNo);
+	}
+	//반품요청
+	@Override
+	public int returnRequest(Order o, Point p) {
+		
+		int result = dao.returnRequest(session,o);
+		if(result>0) {
+			p.setOrderNo(o.getOrderNo());
+			result=dao.returnOrdPoint(session,p);
+		}
+		return result; 
+		
+	}
 	
 	
 	

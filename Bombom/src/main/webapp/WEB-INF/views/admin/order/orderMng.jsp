@@ -35,9 +35,9 @@
       .status {
         background-color: #e9ecef;
       }
-      /* 진행상태 너비 */
-      .status td:nth-child(1) {
-        width: 20%;
+      /* 진행상태  */
+      .status td.process {
+        text-align:right;
       }
       /* 검색 */
       .form-group {
@@ -82,7 +82,7 @@
           <div class="status">
             <table class="table table-borderless">
               <tr>
-                <td rowspan="2">진행상태</td>
+                <td rowspan="2" class="process"><b>진행상태 (${totalData})</b></td>
                 <td>
                   <button type="button" class="btn btn-outline-success all" onclick="location.href='${path}/admin/order'">
                     전체
@@ -103,6 +103,11 @@
                     주문취소
                   </button>
                 </td>
+                <td>
+                  <button type="submit" class="btn btn-outline-success cancelEnd" value="취소완료" name="sort">
+                    취소완료
+                  </button>
+                </td>
               </tr>
               <tr>
                 <td>
@@ -120,9 +125,15 @@
                     배송완료
                   </button>
                 </td>
-                <td>
-                  <button type="submit" class="btn btn-outline-success cancelEnd" value="취소완료" name="sort">
-                    취소완료
+                
+                 <td>
+                  <button type="submit" class="btn btn-outline-success cancelEnd" value="반품요청" name="sort">
+                    반품요청
+                  </button>
+                </td>
+                 <td>
+                  <button type="submit" class="btn btn-outline-success cancelEnd" value="반품완료" name="sort">
+                    반품완료
                   </button>
                 </td>
               </tr>
@@ -168,6 +179,8 @@
 	                    <option value="배송중" ${o.ordStatus eq "배송중"? "selected":"" }>배송중</option>
 	                    <option value="배송완료" ${o.ordStatus eq "배송완료"? "selected":"" }>배송완료</option>
 	                    <option value="취소완료" ${o.ordStatus eq "취소완료"? "selected":"" }>취소완료</option>
+	                    <option value="반품요청" ${o.ordStatus eq "반품요청"? "selected":"" }>반품요청</option>
+	                    <option value="반품완료" ${o.ordStatus eq "반품완료"? "selected":"" }>반품완료</option>
                     </select>
                   </td>
                   <td>

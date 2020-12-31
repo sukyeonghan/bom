@@ -77,7 +77,7 @@ p {
 </style>
 <section id="container">
 	<div id="flexDiv">
-<!-- 좌측 메뉴 -->
+		<!-- 좌측 메뉴 -->
 		<jsp:include page="/WEB-INF/views/common/adminMenu.jsp" />
 		<!-- 화면내용입력부분 -->
 		<div id="admin-container">
@@ -136,9 +136,11 @@ p {
 
 						<tr>
 							<th>주문번호</th>
-							<td><input type="text" name="orderNo" readonly value="${order.orderNo}" /></td>
+							<td><input type="text" name="orderNo" readonly
+								value="${order.orderNo}" /></td>
 							<th>운송장번호</th>
-							<td><input type="text" name="ordTrack" value="${order.ordTrack}"></td>
+							<td><input type="text" name="ordTrack"
+								value="${order.ordTrack}"></td>
 						</tr>
 
 						<tr>
@@ -161,6 +163,10 @@ p {
 										${order.ordStatus eq "배송완료"? "selected":"" }>배송완료</option>
 									<option value="취소완료"
 										${order.ordStatus eq "취소완료"? "selected":"" }>취소완료</option>
+									<option value="반품요청"
+										${order.ordStatus eq "반품요청"? "selected":"" }>반품요청</option>
+									<option value="반품완료"
+										${order.ordStatus eq "반품완료"? "selected":"" }>반품완료</option>
 							</select></td>
 						</tr>
 						<tr>
@@ -214,24 +220,21 @@ p {
 						</tr>
 						<tr>
 							<th>주소</th>
-							<td class="td-address">
-							<input type="text"
+							<td class="td-address"><input type="text"
 								id="sample4_postcode" placeholder="우편번호" name="ordZipcode"
-								value="${order.ordZipcode }" readonly> 
-							<input
-								type="button" onclick="sample4_execDaumPostcode()" 
-								style="margin-bottom: 6px;" value="주소검색"><br>
-						    <input
-								type="text" id="sample4_roadAddress" placeholder="도로명주소" name="ordAddr
-								value="${order.ordAddr }" readonly required size=50><br>
-							<input type="hidden" id="sample4_jibunAddress" 
-								placeholder="지번주소"> <span id="guide"
-								style="color: #999; display: none"></span> 
-							<input type="text"
-								id="sample4_detailAddress" placeholder="상세주소 입력" name="ordDetailAddr"
-								value="${order.ordDetailAddr }" size=50> 
-							<input
-								type="text" id="sample4_extraAddress" placeholder="참고항목" size=30 name="ordExtraAddr"></td>
+								value="${order.ordZipcode }" readonly> <input
+								type="button" onclick="sample4_execDaumPostcode()"
+								style="margin-bottom: 6px;" value="주소검색"><br> <input
+								type="text" id="sample4_roadAddress" placeholder="도로명주소"
+								name="ordAddr
+								value=" ${order.ordAddr }" readonly
+								required size=50><br> <input type="hidden"
+								id="sample4_jibunAddress" placeholder="지번주소"> <span
+								id="guide" style="color: #999; display: none"></span> <input
+								type="text" id="sample4_detailAddress" placeholder="상세주소 입력"
+								name="ordDetailAddr" value="${order.ordDetailAddr }" size=50>
+								<input type="text" id="sample4_extraAddress" placeholder="참고항목"
+								size=30 name="ordExtraAddr"></td>
 						</tr>
 						<tr>
 							<th>요청사항</th>
@@ -246,8 +249,8 @@ p {
 						<tr>
 							<th>관리자메모</th>
 							<td><div class="form-group">
-									<textarea class="form-control" rows="3" id="contents" name="ordMngMemo"
-										placeholder="남기실 메모를 작성해주세요.">${order.ordMngMemo }</textarea>
+									<textarea class="form-control" rows="3" id="contents"
+										name="ordMngMemo" placeholder="남기실 메모를 작성해주세요.">${order.ordMngMemo }</textarea>
 								</div></td>
 						</tr>
 					</table>
@@ -265,9 +268,7 @@ p {
 <script>
 	//주문금액 다시 결제정보에 다시 쏴주기 
 	$("#total2").text($("#total").text())
-		
-	
-	
+
 	//주소찾기 우편번호
 	function sample4_execDaumPostcode() {
 		new daum.Postcode(

@@ -107,6 +107,12 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.selectSnsMem(session, snsMem);
 	}
+
+	@Override
+	public int updateMemLastDate(String memNo) {
+		// TODO Auto-generated method stub
+		return dao.updateMemLastDate(session,memNo);
+	}
 	
 	
 }
