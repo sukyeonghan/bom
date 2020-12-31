@@ -47,4 +47,7 @@ public interface OrderDao {
 
 	int insertOrdPoint(SqlSession session, Point p);
 
+	int insertBasket(SqlSession session, String memNo);
+	
+	int insertInbasket(SqlSession session, Inbasket i);
 }

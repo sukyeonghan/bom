@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.bom.order.model.dao.OrderDao;
 import com.kh.bom.order.model.vo.Basket;
+import com.kh.bom.order.model.vo.Inbasket;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.vo.Point;
 
@@ -122,6 +123,18 @@ public class OrderServiceImpl implements OrderService {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public int insertBasket(String memNo) {
+		// TODO Auto-generated method stub
+		return dao.insertBasket(session, memNo);
+	}
+
+	@Override
+	public int insertInbasket(Inbasket i) {
+		// TODO Auto-generated method stub
+		return dao.insertInbasket(session, i);
 	}
 	
 	

@@ -41,4 +41,8 @@ public interface OrderService {
 	int cancelOrder(Order o, Point p);
 
 	int buyConfirm(String orderNo, Point p);
+	
+	int insertBasket(String memNo);
+	
+	int insertInbasket(Inbasket i); 
 }
