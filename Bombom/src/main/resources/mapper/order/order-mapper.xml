@@ -30,6 +30,7 @@
 		<result property="memEmail" column="mem_email" />
 		<result property="pdtOptionAddprice" column="pdt_option_addprice" />
 		<result property="pdtNo" column="pdt_no"/>
+		<result property="revContent" column="rev_content"/>
 
 	</resultMap>
 	<resultMap type="inorder" id="inorderMap">
@@ -54,14 +55,21 @@
 	</resultMap>
 	<resultMap type="inbasket" id="inbasketMap">
 		<result property="pdtNo" column="pdt_no" />
-		<result property="basketNo" column="pdt_no" />
+		<result property="basketNo" column="basket_no" />
 		<result property="pdtOptionNo" column="pdt_option_no" />
 		<result property="inbasQty" column="inbas_qty" />
 	</resultMap>
 
 	<insert id="insertOrder" parameterType="order">
+	<!-- order_no, mem_no, ord_amount(총금액), ord_use_point(사용적립금), 
+		ord_zipcode(우편번호), ord_addr(도로명주소), ord_detail_addr(상세주소), ord_extra_addr(참고주소),
+		ord_track(송장번호), ord_memo(배송메모), ord_deli_price(배송비), ord_conform_yn(구매확정여부), 
+		ord_status(주문상태), ord_cancel(취소사유), 
+		ord_date(주문날짜), ord_oname(주문자이름), ord_ophone(주문자번호), 
+		ord_rname(수취인이름), ord_rphone(수취인번호), ord_mng_memo(관리자메모) -->
 		INSERT INTO "ORDER"
-		VALUES (#{orderNo}, #{memNo},#{ordAmount},
+		VALUES (
+		#{orderNo}, #{memNo},#{ordAmount},
 		#{ordUsePoint}, #{ordZipcode}, #{ordAddr},
 		#{ordDetailAddr},#{ordExtraAddr},
 		#{ordDeliPrice},#{ordConfirmYn},
@@ -112,7 +120,7 @@
 	</delete>
 	
 	<select id="selectOrderList" parameterType="string" resultMap="orderMap">
-		SELECT DISTINCT O.ORD_CANCEL, O.ORD_CONFIRM_YN, O.ORD_AMOUNT,O.ORD_USE_POINT, O.ORD_DATE, O.ORDER_NO,I.INORDER_QTY,P.PDT_PRICE,P.PDT_NAME,O.ORD_STATUS,P.PDT_NO,LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY TH.pdt_no_ref) OVER(PARTITION BY TH.PDT_NO_REF)AS THUMBS 
+		SELECT DISTINCT PDT_OPTION_CONTENT,O.ORD_CANCEL, O.ORD_CONFIRM_YN, O.ORD_AMOUNT,O.ORD_USE_POINT, O.ORD_DATE, O.ORDER_NO,I.INORDER_QTY,P.PDT_PRICE,P.PDT_NAME,O.ORD_STATUS,P.PDT_NO,LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY TH.pdt_no_ref) OVER(PARTITION BY TH.PDT_NO_REF)AS THUMBS 
 		FROM "ORDER" O
 		 LEFT JOIN MEMBER M ON (M.MEM_NO=O.MEM_NO)
 		 LEFT JOIN INORDER I ON (I.ORDER_NO=O.ORDER_NO)
@@ -128,7 +136,7 @@
 
 		WHERE MEM_NO=#{memNo}
 	</select>
-	
+
 	<select id="shipReadyCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*) FROM "ORDER" 
 		WHERE MEM_NO=#{memNo} AND ORD_STATUS='배송준비'
@@ -149,13 +157,27 @@
 		SELECT COUNT(*) FROM "ORDER" 
 		WHERE MEM_NO=#{memNo} AND ORD_STATUS='배송중'
 	</select>
-		<select id="buyEndCount" parameterType="string" resultType="_int">
+	<select id="buyEndCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*) FROM "ORDER" 
-		WHERE MEM_NO=#{memNo} AND ORD_STATUS='구매확정'
+		WHERE MEM_NO=#{memNo} AND ORD_STATUS='주문취소'
 	</select>
+	<select id="cancelEndCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM "ORDER" 
+		WHERE MEM_NO=#{memNo} AND ORD_STATUS='취소완료'
+	</select>
+	<select id="returnWaitCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM "ORDER" 
+		WHERE MEM_NO=#{memNo} AND ORD_STATUS='반품요청'
+	</select>
+	<select id="returnEndCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM "ORDER" 
+		WHERE MEM_NO=#{memNo} AND ORD_STATUS='반품완료'
+	</select>
+	
+	
 
 	<select id="selectOrderDetail" parameterType="string" resultMap="orderMap">
-		 SELECT DISTINCT P.PDT_PRICE, P.PDT_NAME,PDT_OPTION_CONTENT, PDT_OPTION_ADDPRICE, INORDER_QTY, O.ORD_TRACK,
+		 SELECT DISTINCT P.PDT_NO,REV_CONTENT, O.ORD_STATUS, P.PDT_PRICE, P.PDT_NAME,PDT_OPTION_CONTENT, PDT_OPTION_ADDPRICE, INORDER_QTY, O.ORD_TRACK,
          LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY TH.pdt_no_ref) OVER(PARTITION BY TH.PDT_NO_REF)AS THUMBS
          FROM "ORDER" O
 		 LEFT JOIN MEMBER M ON (M.MEM_NO=O.MEM_NO)
@@ -163,7 +185,9 @@
          LEFT JOIN PRODUCT P ON (P.PDT_NO=I.PDT_NO)
          LEFT JOIN PRODUCT_OPTION OP ON (OP.PDT_OPTION_NO=I.PDT_OPTION_NO)
          LEFT JOIN PRODUCT_THUMB TH ON (TH.PDT_NO_REF=I.PDT_NO)
+         LEFT JOIN REVIEW R ON (P.PDT_NO=R.PDT_NO)
          WHERE O.ORDER_NO=#{ordNo}
+         ORDER BY P.PDT_NO
 	</select>
 	
 	<select id="selectOrderOne" parameterType="string" resultMap="orderMap">
@@ -187,5 +211,21 @@
 	
 	<insert id="insertOrdPoint" parameterType="point">
 		INSERT INTO POINT VALUES(#{memNo},null,SYSDATE,#{pointContent},#{pointChange})
+	</insert>
+	
+	<insert id="insertBasket" parameterType="string">
+		INSERT INTO BASKET VALUES('B'||TO_CHAR(SEQ_BASKET_NO.NEXTVAL), #{memNo})
+	</insert>
+	
+	<insert id="insertInbasket" parameterType="inbasket">
+		INSERT INTO INBASKET VALUES(
+			#{pdtNo},${basketNo},#{pdtOptionNo},#{inbasQty})
+	</insert>
+	<update id="returnRequest" parameterType="order">
+		UPDATE "ORDER" SET ORD_CANCEL=#{ordCancel}, ORD_STATUS='반품요청' WHERE ORDER_NO=#{orderNo}
+	</update>
+
+	<insert id="returnOrdPoint" parameterType="point">
+		 INSERT INTO POINT VALUES(#{memNo},null,SYSDATE,#{pointContent},#{pointChange})
 	</insert>
 </mapper>

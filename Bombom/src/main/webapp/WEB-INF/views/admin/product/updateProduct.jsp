@@ -7,11 +7,10 @@
 <link rel="stylesheet" href="${path }/resources/css/product/insertProduct.css">
 
 <style>
-
   	/*사진 미리보기 div*/
     .proDiv{
     	border:1px solid black;
-    	width:150px;
+    	width:100%;
     	height:150px;
     	position:relative;
     	float:left;
@@ -19,15 +18,12 @@
     	background-size:100% 100%;
     	background-position:center;
     }
-    label.form-control-file{
-    	text-align:left;
-    }
-    label.test{
-    	text-align:left;
-    }
-    .content{width:100%}
+	/*옵션 관련 */
     .addprice{width:70%}
+    .addprice2{width:80%}
     .btnCss{margin-left:15px;}
+    /*설명 textarea*/
+    #intro-text{width:100%;}
 </style>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -296,7 +292,12 @@
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 <script>
-
+	//옵션 삭제 
+	$(document).on("click","input[name=delBtn]",function(){
+	
+	    var trHtml=$(this).parent().parent();
+	    trHtml.remove();
+	});
 	//옵션 추가하기 
 	$("#add-option").click(function(){
 	    
@@ -305,8 +306,8 @@
 	    addOption+='<th>&nbsp&nbsp옵션 내용</th>';
 	    addOption+='<td><input type="text" class="content" id="content" name="pdtOptionContent"></td>';
 	    addOption+='<th>추가 요금</th>';
-	    addOption+='<td><input type="text" class="addprice" name="pdtOptionAddprice">';
-	    addOption+='<button class="btn btn-success btn-sm delBtn2" name="delBtn">삭제</button></td>';
+	    addOption+='<td><input type="text" class="addprice2" name="pdtOptionAddprice">';
+	    addOption+='<input type="button" class="btn btn-success btn-sm btnCss" name="delBtn" value="삭제"></td>';
 	    addOption+='</tr>';
 	
 	    $("#insert-table").append(addOption);
@@ -533,18 +534,20 @@
 	}
 	
 	//옵션 삭제
-	function test(e){
+	function deleteOption(e){
 		$(e).parent().parent().remove();
 	}
 	
 	$("input[name=delBtn]").on("click",e=>{
+	
+		console.log(e);
 		$.ajax({
 			url:"${path}/admin/deleteOption",
 			data:{pdtNo:'${product.pdtNo}'},
 			success:data=>{
 				console.log(data);
 				if(data==1){
-					test(e);
+					deleteOption(e);
 				}
 			}
 		})

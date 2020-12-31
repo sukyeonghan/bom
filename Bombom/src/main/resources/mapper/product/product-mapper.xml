@@ -17,6 +17,7 @@
 		<result property="pdtThumbImage" column="pdt_thumb_image"/>
 		<result property="zzimCount" column="ZZIM_COUNT"/>
 		<result property="reviewCount" column="REVIEW_COUNT"/>
+		<result property="pdtReviewAvg" column="pdt_review_avg" />
 	</resultMap>
 	<resultMap type="option" id="optionMap">
 		<result property="pdtOptionNo" column="pdt_option_no"/>
@@ -149,6 +150,96 @@
 			AND PDT_CATEGORY=#{category}
 		</if>
 	</select>
+	<!-- 새로 수정!7일 이내로 등록한 카테고리별 상품 리스트 -->
+	<select id="newList" resultMap="productMap" parameterType="product">
+		SELECT PDT_NO,PDT_DATE FROM PRODUCT WHERE PDT_DATE>SYSDATE-7
+<!-- 		<foreach collection="category" item="category" separator=",">
+		<if test="category != '전체제품'">
+				AND PDT_CATEGORY in (#{category,typeHandler=stringArr})
+			</if>
+			</foreach> -->
+<!-- 		<if test="pdtCategory!='전체제품'">
+			AND PDT_CATEGORY in #{pdtCategory}
+		</if> -->
+		<if test="pdtCategory!='전체제품'">
+				AND PDT_CATEGORY in #{pdtCategory}
+		</if>
+		<if test="category != null and pdtCategory!='전체제품'">
+			AND PDT_CATEGORY in
+			<foreach collection="category" item="category" open="(" close=")" separator=",">
+				#{category}
+			</foreach>
+		</if> 
+	</select>
+	<!-- 새로 수정!!제품 리스트-->
+	<select id="ModifyProductList" resultMap="productMap" parameterType="product">
+		SELECT DISTINCT P.PDT_NO,PDT_CATEGORY,PDT_PRICE,PDT_NAME,PDT_STATUS,PDT_DATE,EVENT_NO_REF,E.EVENT_SALE_PER,
+    		RTRIM(LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY pdt_no_ref) OVER(PARTITION BY PDT_NO_REF))AS THUMBS,
+    		COUNT(DISTINCT Z.PDT_NO) OVER(PARTITION BY P.PDT_NO) AS ZZIM_COUNT,
+            COUNT(DISTINCT R.PDT_NO) OVER(PARTITION BY P.PDT_NO) AS REVIEW_COUNT
+		FROM PRODUCT P
+			JOIN  PRODUCT_THUMB ON(P.PDT_NO=PDT_NO_REF) 
+			LEFT JOIN EVENT E ON(P.EVENT_NO_REF=E.EVENT_NO)
+			LEFT OUTER JOIN ZZIMCONTENT Z ON(P.PDT_NO=Z.PDT_NO)
+        	LEFT OUTER JOIN REVIEW R ON(P.PDT_NO=R.PDT_NO)
+       
+        <trim prefix="WHERE" prefixOverrides="AND">
+        	<if test="pdtCategory!='전체제품'">
+				AND PDT_CATEGORY in #{pdtCategory}
+			</if>
+			<if test="category != null">
+				AND PDT_CATEGORY in
+				<foreach collection="category" item="category" open="(" close=")" separator=",">
+					#{category}
+				</foreach>
+			</if> 
+			<if test="soldout == '품절제외'">
+				AND PDT_STATUS='Y'
+			</if>
+			
+			<if test="price == '10000'">
+			<![CDATA[
+				AND PDT_PRICE<=10000
+			]]>
+			</if>
+			<if test="price == '30000'">
+			<![CDATA[
+				AND PDT_PRICE<=30000
+			]]>
+			</if>
+			<if test="price == '50000'">
+			<![CDATA[
+				AND PDT_PRICE<=50000
+			]]>
+			</if>
+			<if test="price == '50000이상'">
+				AND PDT_PRICE >=50000
+			</if>
+		</trim>
+		<if test="sort == '등록일순'">
+			ORDER BY PDT_DATE DESC
+		</if>
+		<if test="sort=='인기순'">
+			ORDER BY ZZIM_COUNT DESC
+		</if>
+		<if test="sort=='리뷰순'">
+			ORDER BY REVIEW_COUNT DESC
+		</if>
+		<if test="sort=='할인율순'">
+			ORDER BY CASE WHEN E.EVENT_SALE_PER>0 THEN 0 ELSE 1 END
+		</if>
+		<if test="sort == '낮은가격순'">
+			ORDER BY PDT_PRICE
+		</if>
+		<if test="sort == '높은가격순'">
+			ORDER BY PDT_PRICE DESC
+		</if>
+
+	</select>
+	<!-- 평균평점 넣기 -->
+	<update id="updateProReviewAvg" parameterType="map">
+		UPDATE PRODUCT SET PDT_REVIEW_AVG=#{pdtReviewAvg} WHERE PDT_NO=#{pdtNo}
+	</update>
 	
 	<select id="selectproductDate" parameterType="string" resultMap="productMap">
 		SELECT PDT_NO, PDT_DATE FROM PRODUCT WHERE PDT_NO=#{pdtNo} AND PDT_DATE>SYSDATE-7

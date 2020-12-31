@@ -1,6 +1,7 @@
 package com.kh.bom.product.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -35,5 +36,8 @@ public interface ProductDao {
 	List<Product> selectNewCateList(SqlSession session,String category);
 	List<Product> selectSaleList(SqlSession session,int cPage,int numPerPage,String sort,String soldout,String category);
 
+	List<Product> selectNewCateListTest(SqlSession session,Product p);
+	List<Product> selectProductListTest(SqlSession session,int cPage,int numPerPage,Product p);
+	int updateReviewAvg(SqlSession session,Map<String,String> map);
 
 }
