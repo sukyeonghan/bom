@@ -315,6 +315,12 @@ public class AdminServiceImpl implements AdminService {
 		return dao.memberAutoComplete(session, map);
 	}
 
+	@Override
+	public List<String> selectMemEmailList() {
+		// TODO Auto-generated method stub
+		return dao.selectMemEmailList(session);
+	}
+
 	// qna
 	@Override
 	public List<Qna> selectQnaList(int cPage, int numPerpage) {

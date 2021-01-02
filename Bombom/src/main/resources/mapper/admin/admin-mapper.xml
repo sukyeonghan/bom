@@ -382,6 +382,9 @@
 			</if>
 		</where>
 	</select>
+	<select id="selectMemEmailList" resultType="string">
+		SELECT MEM_EMAIL FROM MEMBER
+	</select>
 	<!-- 회원관리 끝! -->
 
 	<select id="selectQnaList" resultMap="qnaMap">

@@ -51,6 +51,8 @@ public interface AdminDao {
 	int selectMemberCount(SqlSession session, Map<String, String> map);
 	//검색자동완성
 	List<Member> memberAutoComplete(SqlSession session, Map<String, String> map);
+	//회원전체 이메일
+	List<String> selectMemEmailList(SqlSession session);
 	
 	//qna 
 	List<Qna> selectQnaList(SqlSession session, int cPage, int numPerpage);
@@ -76,6 +78,7 @@ public interface AdminDao {
 	List<Order> selectOrdWaitList(SqlSession session, Map map);
 	int selectOrdWaitCount(SqlSession session, Map map);
 	int updateOrder(SqlSession session, Order o);
+	
 
 	
 

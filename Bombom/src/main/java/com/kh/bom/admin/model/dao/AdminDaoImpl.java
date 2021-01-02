@@ -80,6 +80,12 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectList("admin.memberAutoComplete", map);
 	}
+	
+	@Override
+	public List<String> selectMemEmailList(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectMemEmailList");
+	}
 	// 회원관리 끝!
 
 	// 제품 목록

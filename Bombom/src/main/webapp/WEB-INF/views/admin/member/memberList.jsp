@@ -31,10 +31,37 @@
 	#searchBox{text-align:center; margin:auto; height: 40px; width:100%; margin-top: 20px;}
 	#searchBox>*{height: 40px;}
 	
-	.choiceBack{background-color:#E6E6FA }
+	.choiceBack{background-color:#E0FFDB; }
 	.d-day{color: #45A663; font-size: 15px; margin:0;}
+	#mem-modal-tbl{width:100%;}
 </style>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
+ <!-- CK에디터. CDN -->
+<script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script> 
+<%-- <script type="text/javascript" src="${path }/resources/ckeditor/ckeditor.js"></script> --%>
+<script>
+$(document).ready(function () {
+     CKEDITOR.replace( 'emailText', {//해당 이름으로 된 textarea에 에디터를 적용
+         width:'100%',
+         height:'350px',
+         filebrowserImageUploadUrl:'${path}/ckeditor/imageUpload' //여기 경로로 파일을 전달하여 업로드 시킨다.
+      });
+     
+     CKEDITOR.on('dialogDefinition', function( ev ){
+        var dialogName = ev.data.name;
+        var dialogDefinition = ev.data.definition;
+      
+        switch (dialogName) {
+            case 'image': //Image Properties dialog
+                //dialogDefinition.removeContents('info');
+                dialogDefinition.removeContents('Link');
+                dialogDefinition.removeContents('advanced');
+                break;
+        		}
+         });  
+             
+});
+</script>
 
 <section id="container">
 	<div id="flexDiv">
@@ -46,11 +73,11 @@
 			<h3 class="page-title">회원관리</h3> 
 			<div id="admin-member-div">
 				<div>
-					<button class="btn btn-success">선택 메일전송</button>
-					<button class="btn btn-success">전체 메일전송</button>
+					<button class="btn btn-success" data-toggle="modal" data-target="#member-mail-Modal" onclick="fn_emailModal('choice')">선택 메일전송</button>
+					<button class="btn btn-success" data-toggle="modal" data-target="#member-mail-Modal" onclick="fn_emailModal('all');">전체 메일전송</button>
 				</div>
 				<div>
-					<select name="filter" class="form-control" onchange="fn_chageSelect();">
+					<select name="filter" class="form-control" onchange="fn_changeSelect();">
 						<option value="dateUp">회원가입 과거순</option>
 						<option value="dateDown" selected>회원가입 최근순</option>
 						<option value="pointUp">적립금 낮은순</option>
@@ -103,7 +130,10 @@
 								
 								<td>
 									<fmt:formatDate type="both" timeStyle="short" dateStyle="short" value="${member.memLastDate }"/>
-									<c:if test="${member.last<0 }"><p class="d-day">(<c:out value="${member.last }"/>일)</p></c:if>
+									<p class="d-day">
+										<c:if test="${member.last<=-180 }"><strong style="color:red;">장기미접속자</strong></c:if>
+										<c:if test="${member.last<0}">(<c:out value="${member.last }"/>일)</c:if>
+									</p>
 								</td>
 								<td>
 									<c:if test="${member.memStatus eq 'Y'}">
@@ -146,9 +176,60 @@
 		</div>
 	</div>
 </section>
+
+
+  <!-- 메일 모달 -->
+  <div class="modal fade" id="member-mail-Modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">메일 전송</h4>
+          <button type="button" class="close" data-dismiss="modal">X</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form  method="post" enctype="multipart/form-data" id="emailSendForm" name="mailSendForm">
+          <table id="mem-modal-tbl">
+          	<tr>
+          		<td colspan="2">
+          			<button type="button" class="btn btn-success" onclick="return fn_send();"><i class="fas fa-share"></i> 보내기</button>
+          		</td>
+          	</tr>
+          	<tr>
+          		<th>받는사람</th>
+          		<th><input type="text" class="form-control"  name="emailReceiver" required/></th>
+          	</tr>
+          	<tr>
+          		<th>제목</th>
+          		<th><input type="text" class="form-control" name="emailSubject" value="[다시:봄]" required/></th>
+          	</tr>
+          	<tr>
+          		<th>파일첨부</th>
+          		<th><input type="file" name="emailFile" multiple/></th>
+          	</tr>
+          	<tr>
+          		<td colspan="2">
+          			<textarea name="emailText" id="emailText"></textarea>
+          		</td>
+          	</tr>
+          </table>
+          </form>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+         <!--  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+        </div>
+        
+      </div>
+    </div>
+  </div>
 <script>
 //필터링 선택시 실행될 함수
-function fn_chageSelect(){
+function fn_changeSelect(){
 	let filter=$("select[name=filter]").val();
 	let select=$("select[name=searchType]").val();		
 	let keyword=$("#keyword").val();
@@ -366,6 +447,83 @@ $("#keyword").on("keyup",e=>{
 			$("#allCheckbox").prop("checked",false);
 		}
 	}
-</script>
+	
+	//모달창 열기 전에 선택한 이메일 모달에 띄우기
+	function fn_emailModal(s){
+		CKEDITOR.instances.emailText.setData('<h3>회원님,안녕하세요. [다시:봄]입니다.</h3><br><br> <h3>문의사항이 있으실 경우 <a href="https://rclass.iptime.org/20PM_BOM_final/">[다시:봄]</a>홈페이지 내 1:1문의를 이용해주세요. 감사합니다.</h3>'); 
+		$("input[name=emailReceiver]").val("");
+		var sendMem=s;
+		if(sendMem=="all"){
+			console.log("전체메일전송");
+			$.ajax({
+				url:"${path}/admin/memEmailList",
+				dataType:"text",
+				success:data=>{
+					$("input[name=emailReceiver]").val(data);
+				}
+			});
+		}else if(sendMem=="choice"){
+			console.log("선택메일 전송");
+			var emails=[];
+			for(let i=0; i<$("input[name=sendMemNo]:checked").length;i++){
+				//체크된 회원 이메일 배열에 넣기
+				emails.push($("input[name=sendMemNo]:checked").parent().next().eq(i).html());
+				$("input[name=emailReceiver]").val(emails); //모달 받는 사람에 데이터 넣기 //ge@gmail.com,bom@bom.com형식
+			}
+		}
 
+	}
+	
+	//메일전송시 실행될 함수
+	function fn_send(){
+		var emailReceiver=$("input[name=emailReceiver]").val();
+		var emailSubject=$("input[name=emailSubject]").val();
+		var emailFile=$("input[name=emailFile]").val();
+		var emailText=CKEDITOR.instances.emailText.getData(); //CK에디터 내용받아오기
+		if(emailReceiver.length < 1 ){
+			swal("받을 이메일주소를 입력해 주세요.");
+			return false;
+		}else if(emailSubject.length <1){
+			swal("제목을 입력해 주세요.");
+			return false;
+		}else if(emailText.length < 1){
+			swal("내용을 입력해 주세요.");
+			return false;
+		}else{
+			
+			$("#emailText").html(emailText);
+		}
+
+		console.log(emailText);
+		var formData=new FormData($("#emailSendForm")[0]);
+		/*console.log($("input[name=emailFile]").val()); */
+		$.ajax({
+			url:"${path}/email/member",
+			type:"POST",
+			processData: false, // 필수 
+			contentType: false, // 필수 
+			encType:"multipart/form-data",
+			data:formData,
+			dataType:"json",
+			success:data=>{
+				if(data===true){ 
+					//모달창 닫기
+					$('#member-mail-Modal').modal("hide"); //닫기 
+					swal("이메일 전송이 성공하였습니다.");
+					//기존에 입력한 내용 지우고, 기본값 세팅
+					$("input[name=emailReceiver]").val("");
+					$("input[name=emailSubject]").val("[다시:봄]");
+					$("input[name=emailFile]").val("");
+				}else{
+					//모달 창 닫기면 안됨
+					swal("이메일 전송이 실패하였습니다.");
+				}
+			},error:error=>{
+				console.log(error);
+				swal("이메일 전송이 실패했습니다.");
+			}
+	    		
+		}); 
+	}
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
