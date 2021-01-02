@@ -6,6 +6,8 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="${path }/resources/css/product/productList.css">
+<!-- 범위슬라이더 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
 
 <style>
   /*스와이퍼*/
@@ -29,10 +31,18 @@
 	/*초기화,검색버튼*/
 	#sort-btns{display:flex;justify-content: center;}
 	#search{margin-left:10px; width:63px;}
+	/*슬라이더*/
+	.irs--round.irs-with-grid{width:60%;margin-left: 2%;}
+	.slider{display:flex;}
 </style>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="소개" />
 </jsp:include>
+<!-- 범위슬라이더 -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+
 
 <section id="container">
 
@@ -56,7 +66,7 @@
 			<div class="category-sort">
 				<div class="item-count">
 					<p class="category"><c:out value="${category}"/> &nbsp </p>
-					<p class="count"><c:out value="${count}"/></p>
+					<p class="count" id="count"><c:out value="${count}"/></p>
 				</div>
 <!-- 				<div class="select-box">
 					품절 포함 선택
@@ -103,20 +113,36 @@
 								<input type="checkbox" class="sort" name="category" value="반려동물">  반려동물
 							</li>
 						</c:if>
-						<li>
+						<li class="slider">
 							<span class="sort-title">가격</span>
-							<input type="radio" class="sort" name="price" value="10000">  만원 이하
+							<input type="text" class="js-range-slider" id="price-range-slider" name="price" value="" 
+							   data-type="double"
+						        data-min="0"
+						        data-max="${maxPrice }"
+						        data-from="0"
+						        data-to="${maxPrice }"
+						        data-grid="true"/>
+						     <!-- <input type="hidden" name="price" value=""> -->
+<!-- 							<input type="radio" class="sort" name="price" value="10000">  만원 이하
 							<input type="radio" class="sort" name="price" value="30000">  3만원 이하
 							<input type="radio" class="sort" name="price" value="50000">  5만원 이하
-							<input type="radio" class="sort" name="price" value="50000이상">  5만원 이상
+							<input type="radio" class="sort" name="price" value="50000이상">  5만원 이상 -->
 						</li>
-						<li>
-							<span class="sort-title">평점</span>
+						<li class="slider">
+							<!-- <span class="sort-title">평점</span>
+							<input type="text" class="js-range-slider" id="avg-range-slider" name="my_range" value="" 
+							   data-type="double"
+						        data-min="0"
+						        data-max="5"
+						        data-from="0"
+						        data-to="5"
+						        data-grid="true"/> -->
+							<!-- <span class="sort-title">평점</span>
 							<input type="checkbox" class="sort" name="star" value="1">  ★
 							<input type="checkbox" class="sort" name="star" value="2">  ★★
 							<input type="checkbox" class="sort" name="star" value="3">  ★★★
 							<input type="checkbox" class="sort" name="star" value="4">  ★★★★
-							<input type="checkbox" class="sort" name="star" value="5">  ★★★★★
+							<input type="checkbox" class="sort" name="star" value="5">  ★★★★★ -->
 						</li>
 						<li>
 							<span class="sort-title">품절</span>
@@ -235,11 +261,11 @@
 					                    <!-- 조건에 따라 뜨는 아이콘들 -->
 					                    <div class="item-icon">
 					                    	<!-- 등록한 날짜로 부터 7일 -->
-					                    	<c:forEach var="n" items="${newList }">
-					                    		<c:if test="${n.pdtNo==p.pdtNo }">
-					                    			<div class="new-icon">NEW</div>
-					                    		</c:if>
-					                    	</c:forEach>
+					                   
+				                    		<c:if test="${p.newYn=='Y' }">
+				                    			<div class="new-icon">NEW</div>
+				                    		</c:if>
+					                    	
 					                        <!-- 세일하면 (이벤트 )-->
 					                        <c:if test="${not empty p.eventNoRef and p.salePer!=0 }">
 					                        	<div class="sale-icon">SALE</div> 
@@ -270,6 +296,40 @@
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 <script>
+	//가격 슬라이더
+	$("#price-range-slider").ionRangeSlider({
+		skin: "round",
+	    type: "double",
+	    min: 0,
+	    max: "${maxPrice }",
+	    from: 0,
+	    to: "${maxPrice }",
+	    step:1000,
+	    grid_num:5,
+	    grid: true
+	});
+	
+	$("#price-range-slider").on("change", function () {
+        var $inp = $(this);
+        var v = $inp.prop("value");     // input value in format FROM;TO
+        var priceArr=v.split(";")
+        $("input[name=price]").attr("value",priceArr);//자른 값 넣기
+    });
+	
+	//별점 슬라이더
+	$("#avg-range-slider").ionRangeSlider({
+		skin: "round",
+	    type: "double",
+	    min: 0,
+	    max: 5,
+	    from: 0,
+	    to: 5,
+	    step:1,
+	    grid_num:5,
+	    grid: true
+	});
+	
+
 	//분류 초기화 버튼
 	//html 어트리뷰트가 아닌 javascript의 속성변경 위해 prop사용
 	//초기화 되면서 원래 처음 페이지로 되돌아가야할듯
@@ -313,6 +373,9 @@
 			data:formData,
 			success:function(data){
 				$("#result").html(data);
+				//검색 결과 개수 출력
+				let count=$("#result").html(data).find('input[name=count]').val();
+				$("#count").text(count);
 			}
 		})
 	}

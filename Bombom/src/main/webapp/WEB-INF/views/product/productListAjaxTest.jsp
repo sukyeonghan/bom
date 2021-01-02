@@ -17,6 +17,7 @@
 		 				<img class="noItem" alt="" src="${path }/resources/images/product/noItem.png" >
 		 			</c:when>
 		 			<c:otherwise>
+		 				<input type="hidden" name="count" value="${count}">
 		 				<c:forEach var="p" items="${list }" >
 		 					<div class="item-wrap">
 				                <div>
@@ -76,19 +77,17 @@
 				                    	<img class="icon" alt="" src="${path}/resources/images/product/message.png">
 				                    	<c:out value="${p.reviewCount }"/>
 				                    	<!-- 미리보기페이지 -->
-				                    	<a>
+				         <%--            	<a>
 				                    		<img class="icon" alt="" src="${path}/resources/images/product/cart.png">
-				                    	</a>
+				                    	</a> --%>
 				                    	
 				                  	</div>
 				                  	
 				                    <div class="item-icon">
 				                    	<!-- 등록한 날짜로 부터 7일 -->
-				                    	<c:forEach var="n" items="${newList }">
-				                    		<c:if test="${n.pdtNo==p.pdtNo }">
-				                    			<div class="new-icon">NEW</div>
-				                    		</c:if>
-				                    	</c:forEach>
+										<c:if test="${p.newYn=='Y' }">
+				                    		<div class="new-icon">NEW</div>
+				                    	</c:if>
 				                        <!-- 세일하면 (이벤트 )-->
 				                        <c:if test="${not empty p.eventNoRef and p.salePer!=0 }">
 				                        	<div class="sale-icon">SALE</div> 
