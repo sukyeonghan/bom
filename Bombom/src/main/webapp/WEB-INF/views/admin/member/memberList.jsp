@@ -73,8 +73,7 @@ $(document).ready(function () {
 			<h3 class="page-title">회원관리</h3> 
 			<div id="admin-member-div">
 				<div>
-					<button class="btn btn-success" data-toggle="modal" data-target="#member-mail-Modal" onclick="fn_emailModal('choice')">선택 메일전송</button>
-					<button class="btn btn-success" data-toggle="modal" data-target="#member-mail-Modal" onclick="fn_emailModal('all');">전체 메일전송</button>
+					<button class="btn btn-success" data-toggle="modal" data-target="#member-mail-Modal" onclick="fn_emailModal();">선택메일전송</button>
 				</div>
 				<div>
 					<select name="filter" class="form-control" onchange="fn_changeSelect();">
@@ -195,7 +194,14 @@ $(document).ready(function () {
           <table id="mem-modal-tbl">
           	<tr>
           		<td colspan="2">
-          			<button type="button" class="btn btn-success" onclick="return fn_send();"><i class="fas fa-share"></i> 보내기</button>
+          			<div style="display:flex;justify-content: space-between; margin-bottom: 20px;">
+	          			<div>
+	          			<button type="button" class="btn btn-info" onclick="fn_allEmail();">전체메일</button>
+	          			<button type="button" class="btn btn-info" onclick="fn_longEmail();">장기미접속</button>
+	          			<button type="button" class="btn btn-info" onclick="fn_eventEmail();">이벤트알림</button>
+	          			</div>
+	          			<button type="button" class="btn btn-success" onclick="return fn_send();"><i class="fas fa-share"></i> 보내기</button>
+          			</div>
           		</td>
           	</tr>
           	<tr>
@@ -450,29 +456,49 @@ $("#keyword").on("keyup",e=>{
 	
 	//모달창 열기 전에 선택한 이메일 모달에 띄우기
 	function fn_emailModal(s){
-		CKEDITOR.instances.emailText.setData('<h3>회원님,안녕하세요. [다시:봄]입니다.</h3><br><br> <h3>문의사항이 있으실 경우 <a href="https://rclass.iptime.org/20PM_BOM_final/">[다시:봄]</a>홈페이지 내 1:1문의를 이용해주세요. 감사합니다.</h3>'); 
+		//기존에 입력한 내용 지우고, 기본값 세팅
 		$("input[name=emailReceiver]").val("");
-		var sendMem=s;
-		if(sendMem=="all"){
-			console.log("전체메일전송");
-			$.ajax({
-				url:"${path}/admin/memEmailList",
-				dataType:"text",
-				success:data=>{
-					$("input[name=emailReceiver]").val(data);
-				}
-			});
-		}else if(sendMem=="choice"){
-			console.log("선택메일 전송");
-			var emails=[];
-			for(let i=0; i<$("input[name=sendMemNo]:checked").length;i++){
-				//체크된 회원 이메일 배열에 넣기
-				emails.push($("input[name=sendMemNo]:checked").parent().next().eq(i).html());
-				$("input[name=emailReceiver]").val(emails); //모달 받는 사람에 데이터 넣기 //ge@gmail.com,bom@bom.com형식
-			}
+		$("input[name=emailSubject]").val("[다시:봄]");
+		$("input[name=emailFile]").val("");
+		CKEDITOR.instances.emailText.setData('<h3>회원님,안녕하세요. <a href="https://rclass.iptime.org/20PM_BOM_final/">[다시:봄]</a>입니다.</h3><br><br> <h3>문의사항이 있으실 경우 <a href="https://rclass.iptime.org/20PM_BOM_final/">[다시:봄]</a>홈페이지 내 1:1문의를 이용해주세요. 감사합니다.</h3>'); 
+		
+		var emails=[];
+		for(let i=0; i<$("input[name=sendMemNo]:checked").length;i++){
+			//체크된 회원 이메일 배열에 넣기
+			emails.push($("input[name=sendMemNo]:checked").parent().next().eq(i).html());
+			$("input[name=emailReceiver]").val(emails); //모달 받는 사람에 데이터 넣기 //ge@gmail.com,bom@bom.com형식
 		}
+	}
+	//모달창 내 전체메일 선택시
+	function fn_allEmail(){
+		$.ajax({
+			url:"${path}/admin/memEmailList",
+			data:{search:"all"},
+			dataType:"text",
+			success:data=>{
+				$("input[name=emailReceiver]").val(data);
+			}
+		});
+		CKEDITOR.instances.emailText.setData('<h3>회원님,안녕하세요. <a href="https://rclass.iptime.org/20PM_BOM_final/">[다시:봄]</a>입니다.</h3><br><br> <h3>문의사항이 있으실 경우 <a href="https://rclass.iptime.org/20PM_BOM_final/">[다시:봄]</a>홈페이지 내 1:1문의를 이용해주세요. 감사합니다.</h3>'); 
+	}
+	//모달창 내 장기미접속 선택시
+	function fn_longEmail(){
+		$.ajax({
+			url:"${path}/admin/memEmailList",
+			data:{search:"long"},
+			dataType:"text",
+			success:data=>{
+				$("input[name=emailReceiver]").val(data);
+			}
+		});
+		CKEDITOR.instances.emailText.setData('<h3>회원님,안녕하세요. <a href="https://rclass.iptime.org/20PM_BOM_final/">[다시:봄]</a>입니다.</h3> 회원님께서 최근 6개월간 접속한 기록이 없으셔서 안내 드립니다.<br> 장시간 미접속시 개인정보 위험이 있사오니 방문하시어 개인정보 수정 부탁드립니다. <h3>문의사항이 있으실 경우 <a href="https://rclass.iptime.org/20PM_BOM_final/">[다시:봄]</a>홈페이지 내 1:1문의를 이용해주세요. 감사합니다.</h3>'); 
 
 	}
+	//모달창 내 이벤트 선택시
+	function fn_eventEmail(){
+		CKEDITOR.instances.emailText.setData('<h3>회원님,안녕하세요. <a href="https://rclass.iptime.org/20PM_BOM_final/">[다시:봄]</a>입니다.</h3> 202X년 00월 00일 ~ 00월 00일까지 "00%할인 이벤트"가 시작되오니 오셔서 즐거운 쇼핑 하시길 바랍니다. <h3>문의사항이 있으실 경우 <a href="https://rclass.iptime.org/20PM_BOM_final/">[다시:봄]</a>홈페이지 내 1:1문의를 이용해주세요. 감사합니다.</h3>'); 
+	}
+	
 	
 	//메일전송시 실행될 함수
 	function fn_send(){
@@ -510,10 +536,7 @@ $("#keyword").on("keyup",e=>{
 					//모달창 닫기
 					$('#member-mail-Modal').modal("hide"); //닫기 
 					swal("이메일 전송이 성공하였습니다.");
-					//기존에 입력한 내용 지우고, 기본값 세팅
-					$("input[name=emailReceiver]").val("");
-					$("input[name=emailSubject]").val("[다시:봄]");
-					$("input[name=emailFile]").val("");
+					
 				}else{
 					//모달 창 닫기면 안됨
 					swal("이메일 전송이 실패하였습니다.");

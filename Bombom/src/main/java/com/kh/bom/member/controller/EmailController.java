@@ -3,16 +3,15 @@ package com.kh.bom.member.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import javax.activation.FileDataSource;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -133,10 +132,11 @@ public class EmailController {
 	            helper.setFrom(setFrom);
 	            helper.setTo(email);
 	            helper.setSubject(subject);
+	            //ckEditor내용
+	            System.out.println(text);
+
 	            helper.setText(text,true);
-	            
-	            System.out.println("전송할파일:"+emailFile);
-	            
+
 	            //파일첨부
 	    		String path=session.getServletContext().getRealPath("/resources/upload/email");
 	    		File dir = new File(path);

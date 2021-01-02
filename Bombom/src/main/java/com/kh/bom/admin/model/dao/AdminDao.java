@@ -52,7 +52,7 @@ public interface AdminDao {
 	//검색자동완성
 	List<Member> memberAutoComplete(SqlSession session, Map<String, String> map);
 	//회원전체 이메일
-	List<String> selectMemEmailList(SqlSession session);
+	List<String> selectMemEmailList(SqlSession session,Map<String, String> map);
 	
 	//qna 
 	List<Qna> selectQnaList(SqlSession session, int cPage, int numPerpage);

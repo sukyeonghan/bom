@@ -316,9 +316,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<String> selectMemEmailList() {
+	public List<String> selectMemEmailList(Map<String, String> map) {
 		// TODO Auto-generated method stub
-		return dao.selectMemEmailList(session);
+		return dao.selectMemEmailList(session,map);
 	}
 
 	// qna

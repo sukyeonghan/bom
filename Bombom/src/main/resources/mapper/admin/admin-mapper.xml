@@ -383,8 +383,11 @@
 			</if>
 		</where>
 	</select>
-	<select id="selectMemEmailList" resultType="string">
-		SELECT MEM_EMAIL FROM MEMBER
+	<select id="selectMemEmailList" parameterType="map" resultType="string">
+		SELECT MEM_EMAIL FROM MEMBER 
+		<if test='search eq "long"'>
+			WHERE SYSDATE-180 >= MEM_LASTDATE
+		</if>
 	</select>
 	<!-- 회원관리 끝! -->
 

@@ -51,7 +51,7 @@ public interface AdminService {
 	//검색 자동완성
 	List<Member> memberAutoComplete(Map<String, String> map);
 	//전체 회원 이메일
-	List<String> selectMemEmailList();
+	List<String> selectMemEmailList(Map<String, String> map);
 	
 	//qna 전체 목록
 	List<Qna> selectQnaList(int cPage, int numPerpage);

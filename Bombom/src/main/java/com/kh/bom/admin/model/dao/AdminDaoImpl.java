@@ -82,9 +82,9 @@ public class AdminDaoImpl implements AdminDao {
 	}
 	
 	@Override
-	public List<String> selectMemEmailList(SqlSession session) {
+	public List<String> selectMemEmailList(SqlSession session,Map<String, String> map) {
 		// TODO Auto-generated method stub
-		return session.selectList("admin.selectMemEmailList");
+		return session.selectList("admin.selectMemEmailList",map);
 	}
 	// 회원관리 끝!
 
