@@ -102,8 +102,36 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 
+	@Override
+	public List<Product> selectNewCateListTest(SqlSession session, Product p) {
+		// TODO Auto-generated method stub
+		if(p.getCategory()!=null) {
+			for(String c:p.getCategory()) {
+				if(c.equals("전체제품")) {
+					p.setCategory(null);
+				}
+			}
+		}
+		return session.selectList("product.newList",p);
+	}
+	@Override
+	public List<Product> selectProductListTest(SqlSession session, int cPage, int numPerPage, Product p) {
+		// TODO Auto-generated method stub
+		if(p.getCategory()!=null) {
+			for(String c:p.getCategory()) {
+				if(c.equals("전체제품")) {
+					p.setCategory(null);
+				}
+			}
+		}
+		return session.selectList("product.ModifyProductList",p,new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
 
-
+	@Override
+	public int updateReviewAvg(SqlSession session, Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return session.update("product.updateProReviewAvg",map);
+	}
 
 
 }

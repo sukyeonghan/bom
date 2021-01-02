@@ -106,7 +106,19 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 
-
+	//수정한 신상품 리스트
+	@Override
+	public List<Product> selectNewCateListTest(Product p) {
+		// TODO Auto-generated method stub
+		return dao.selectNewCateListTest(session,p);
+	}
+	//수정한 제품 리스트
+	@Override
+	public List<Product> selectProductListTest(int cPage, int numPerPage, Product p) {
+		// TODO Auto-generated method stub
+		return dao.selectProductListTest(session,cPage,numPerPage,p);
+	}
+	
 	
 
 	
