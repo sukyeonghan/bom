@@ -479,6 +479,7 @@ $("#keyword").on("keyup",e=>{
 				$("input[name=emailReceiver]").val(data);
 			}
 		});
+		$("input[name=emailSubject]").val("[다시:봄]");
 		CKEDITOR.instances.emailText.setData('<h3>회원님,안녕하세요. <a href="https://rclass.iptime.org/20PM_BOM_final/">[다시:봄]</a>입니다.</h3><br><br> <h3>문의사항이 있으실 경우 <a href="https://rclass.iptime.org/20PM_BOM_final/">[다시:봄]</a>홈페이지 내 1:1문의를 이용해주세요. 감사합니다.</h3>'); 
 	}
 	//모달창 내 장기미접속 선택시
@@ -491,11 +492,13 @@ $("#keyword").on("keyup",e=>{
 				$("input[name=emailReceiver]").val(data);
 			}
 		});
+		$("input[name=emailSubject]").val("[다시:봄] 장기미접속 안내메일입니다");
 		CKEDITOR.instances.emailText.setData('<h3>회원님,안녕하세요. <a href="https://rclass.iptime.org/20PM_BOM_final/">[다시:봄]</a>입니다.</h3> 회원님께서 최근 6개월간 접속한 기록이 없으셔서 안내 드립니다.<br> 장시간 미접속시 개인정보 위험이 있사오니 방문하시어 개인정보 수정 부탁드립니다. <h3>문의사항이 있으실 경우 <a href="https://rclass.iptime.org/20PM_BOM_final/">[다시:봄]</a>홈페이지 내 1:1문의를 이용해주세요. 감사합니다.</h3>'); 
 
 	}
 	//모달창 내 이벤트 선택시
 	function fn_eventEmail(){
+		$("input[name=emailSubject]").val("[다시:봄] 이벤트 안내메일입니다");
 		CKEDITOR.instances.emailText.setData('<h3>회원님,안녕하세요. <a href="https://rclass.iptime.org/20PM_BOM_final/">[다시:봄]</a>입니다.</h3> 202X년 00월 00일 ~ 00월 00일까지 "00%할인 이벤트"가 시작되오니 오셔서 즐거운 쇼핑 하시길 바랍니다. <h3>문의사항이 있으실 경우 <a href="https://rclass.iptime.org/20PM_BOM_final/">[다시:봄]</a>홈페이지 내 1:1문의를 이용해주세요. 감사합니다.</h3>'); 
 	}
 	

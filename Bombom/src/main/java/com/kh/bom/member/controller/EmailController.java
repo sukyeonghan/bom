@@ -3,6 +3,7 @@ package com.kh.bom.member.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -119,7 +120,7 @@ public class EmailController {
 		String text=emailText;//이메일내용
 		String originalName="";
 		String reName="";
-		
+		List<String> delFileList=new ArrayList();
 		//받는사람리스트
 		List<String>emailList=Arrays.asList(emailReceiver.split(","));
 		System.out.println("전달받은 이메일전체:"+emailList);
@@ -163,16 +164,19 @@ public class EmailController {
 	    				System.out.println(path+"/"+reName);
 	    				FileSystemResource fsr = new FileSystemResource(path+"/"+reName);
 	    				helper.addAttachment(originalName, fsr);
+	    				delFileList.add(reName);//삭제를 위해 reName한 파일 명 리스트에 보관
 	    			}
 	    		}
 	    		
 	            mailSender.send(message);
 	            
 	            //전송후 첨부파일 지우기
-	            String deletePath=path+"/"+reName;
-				File del=new File(deletePath);
-				if(del.exists())del.delete();
-            
+	            for(String name:delFileList) {
+	            	String deletePath=path+"/"+name;
+					File del=new File(deletePath);
+					if(del.exists())del.delete();
+	            }
+
 	            result= true;
 	            
 	        }catch(Exception e) {		        	
