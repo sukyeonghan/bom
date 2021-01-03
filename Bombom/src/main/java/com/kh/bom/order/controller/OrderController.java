@@ -168,32 +168,35 @@ public class OrderController {
 
 	// 결제하기
 	@RequestMapping("/order/insertOrder")
-	public ModelAndView insertOrder(String basketNo, Order order, ModelAndView mv) {
+	public ModelAndView insertOrder(String basketNo, Order order, ModelAndView mv, HttpSession session) {
 		System.out.println("넘어온 order : " + order);
-		System.out.println(basketNo);
-
+		System.out.println("장바구니 번호 : " +basketNo);
+		Member m1 = (Member) session.getAttribute("loginMember");
+		System.out.println("현재 로그인한 회원: "+m1);
+		
 		// orderNo만들기
 		String orderNo = "";
 		String today = new SimpleDateFormat("yyyyMMdd").format(new Date());// 등록날짜가져오기
 		int ran = (int) (Math.floor(Math.random() * 1000000) + 100000); // 6자리 랜덤숫자
 		orderNo = today + "-" + ran;
 		order.setOrderNo(orderNo);
+		order.setMemNo(m1.getMemNo());
 
 		System.out.println("주문번호 추가한 order : " + order);
 
-//		int result = service.insertOrder(order);
+		int result = service.insertOrder(order);
 		String msg = "";
 		String loc = "";
 		String icon = "";
-//		if (result > 0) {
-//			msg = "주문이 완료되었습니다! 금방 배송해 드릴게요!";
-//			loc = "redirect:/mypage/orderStatus";
-//			icon = "success";
-//		} else {
-//			msg = "결제에 실패했어요ㅠㅠ";
-//			loc = "/";
-//			icon = "warning";
-//		}
+		if (result > 0) {
+			msg = "주문이 완료되었습니다! 금방 배송해 드릴게요!";
+			loc = "redirect:/mypage/orderStatus";
+			icon = "success";
+		} else {
+			msg = "결제에 실패했어요ㅠㅠ";
+			loc = "/";
+			icon = "warning";
+		}
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.addObject("icon", icon);
