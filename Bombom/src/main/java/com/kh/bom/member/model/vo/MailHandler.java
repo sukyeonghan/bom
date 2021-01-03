@@ -1,11 +1,15 @@
 package com.kh.bom.member.model.vo;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import javax.activation.DataSource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
@@ -45,6 +49,7 @@ public class MailHandler {
 	        //받는 사람 이메일 
 	    }
 	    
+
 	    public void addInline(String contentId, DataSource dataSource) throws MessagingException {
 	        messageHelper.addInline(contentId, dataSource);
 	    }

@@ -38,7 +38,7 @@ public class AdminController {
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
 			@RequestParam(value = "cPage", defaultValue = "1") int cPage,
 			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage,
-			@RequestParam(value = "filter", defaultValue = "date") String filter) {
+			@RequestParam(value = "filter", defaultValue = "dateDown") String filter) {
 		Map<String, String> map = new HashMap();
 		map.put("searchType", searchType);
 		map.put("keyword", keyword);
@@ -68,7 +68,7 @@ public class AdminController {
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
 			@RequestParam(value = "cPage", defaultValue = "1") int cPage,
 			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage,
-			@RequestParam(value = "filter", defaultValue = "date") String filter) {
+			@RequestParam(value = "filter", defaultValue = "dateDown") String filter) {
 		Map<String, String> map = new HashMap();
 		map.put("searchType", searchType);
 		map.put("keyword", keyword);
@@ -98,6 +98,20 @@ public class AdminController {
 		return list;
 	}
 
+	//전체 회원 이메일 가져오기
+	@RequestMapping("/admin/memEmailList")
+	@ResponseBody
+	public String selectMemEmailList(@RequestParam(value = "search")String search){
+		Map<String, String> map = new HashMap();
+		map.put("search",search);
+		List<String> list=service.selectMemEmailList(map);
+		String emailList= String.join(",",list); //전체 이메일 스트링으로 변환해 전달
+		return emailList;
+	}
+	
+	
+	
+	
 	// 1:1문의
 	// qna(1:1) 목록 가져오기
 	@RequestMapping("/admin/qnaList")
