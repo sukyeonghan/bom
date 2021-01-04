@@ -10,6 +10,7 @@
 		<result property="revContent" column="rev_content"/>
 		<result property="revImage" column="rev_image"/>
 		<result property="revDate" column="rev_date" typeHandler="customStr"/>
+		<result property="pdtName" column="pdt_name"/>
 	</resultMap>
 	
 	<insert id="insertReview" parameterType="map">
@@ -50,19 +51,14 @@
 	
  	<!-- 나의활동 -->
 	<select id="selectReviewList" parameterType="string" resultMap="reviewMap">
-      SELECT * FROM REVIEW WHERE MEM_NO=#{memNo} ORDER BY REV_DATE DESC
+      SELECT * FROM REVIEW R
+      JOIN PRODUCT P ON P.PDT_NO=R.PDT_NO
+      WHERE MEM_NO=#{memNo}
+      ORDER BY REV_DATE DESC
     </select>
 
     <select id="selectReviewCount" resultType="_int">
       SELECT COUNT(*) FROM REVIEW WHERE MEM_NO=#{memNo}
     </select> 
   
-    <!--나의활동 ajax  -->
-	<select id="myReviewList" parameterType="string" resultMap="reviewMap">
-      SELECT * FROM REVIEW WHERE MEM_NO=#{memNo} ORDER BY REV_DATE DESC
-    </select>
-
-    <select id="myReviewCount" resultType="_int">
-      SELECT COUNT(*) FROM REVIEW WHERE MEM_NO=#{memNo}
-    </select>
 </mapper>

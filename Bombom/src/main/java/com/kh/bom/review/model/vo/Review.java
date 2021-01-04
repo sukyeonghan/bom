@@ -21,5 +21,6 @@ public class Review {
 	private Date revDate;
 	private String memNick;
 	private String memPro;
+	private String pdtName;
 
 }

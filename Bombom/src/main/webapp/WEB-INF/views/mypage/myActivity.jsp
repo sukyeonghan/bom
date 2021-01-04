@@ -95,6 +95,16 @@ button:focus {
 .movePdt{
 	margin: 20px 0 20px 0;
 }
+/*글 내용 말줄임  */
+.textLine {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 400px;
+  height: auto;
+
+  }
 
 </style>
 <section id="container">
@@ -120,8 +130,9 @@ button:focus {
 					<table class="table">
 						<thead>
 							<tr>
-								<th><input type="checkbox"></th>
-								<th>작성날짜</th>
+								<th style="width:5%"><input type="checkbox"></th>
+								<th style="width:15%">작성날짜</th>
+								<th style="width:30%">상품명</th>
 								<th>글 내용</th>
 
 							</tr>
@@ -135,9 +146,10 @@ button:focus {
 							<c:forEach items="${review }" var="r">
 								<tr>
 									<td><input type="checkbox"></td>
-									<td><fmt:formatDate type="both" timeStyle="short"
+									<td><fmt:formatDate type="date" timeStyle="short"
 											value="${r.revDate }" /></td>
-									<td><a class="reviewContent"><c:out value="${r.revContent }" /></a></td>
+									<td><a class="reviewContent" href="${path }/product/productOne?pdtNo=${r.pdtNo}"><c:out value="${r.pdtName}"/></a></td>
+									<td class="textLine"><a class="shortReview" data-toggle="modal" data-target="#fullContent"><c:out value="${r.revContent }"  /></a></td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -146,16 +158,24 @@ button:focus {
 					<div id="btn-container">
 						<button type="button" class="btn btn-success">선택삭제</button>
 					</div>
-				</div>
-	
+				</div>	
 				<!--구매평 끝  -->
-
-
 			</div>
 		</div>
 	</div>
 	</div>
 </section>
+<div class="modal fade" id="fullContent" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<!-- Modal body -->
+				<div class="modal-body container">
+					<p class="fullReview"></p>
+				</div>
+			</div>
+		</div>
+	</div>
 <script>
 
 //구매평 눌렀을 때
@@ -189,6 +209,12 @@ $("#myCommunity").click(e=>{
 		}
 	});
 });
+
+//글 내용 눌렀을때 
+$(".shortReview").click(function(){
+	let content=$(this).text();
+	$(".fullReview").text(content);
+})
 
 	
 </script>
