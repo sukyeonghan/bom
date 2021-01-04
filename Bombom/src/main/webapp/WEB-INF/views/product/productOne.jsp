@@ -608,38 +608,38 @@ button:focus {
                     	</c:if>
                     </div>
                     <div class="optionAdd">
-	                    	<div id="info_count" style="border-radius:4px;">
-	                    		<div class="information" style="margin:10px;">
-	                    			<input type="hidden" id="optionNo" />
-	                    			<span id="optionName">옵션확인란</span>
-	                    			<span class="optionClose" onclick="remove_div(this)">X</span>
-	                    		</div>
-	                    		<div class="inforamtion row">
-	                    			<div class="col" style="margin-left:10px;">
-	                    				<input type="button" class="input_count" value="-" id="minus" onclick="minus();">
-	                    				<input type="text" class="input_count2" value="1" id="count">
-	                    				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
-	                    			</div>
-	                    			<div class="col-3">
-	                    			<!-- 원래가격 -->
-	                    				<c:if test="${empty product.eventNoRef}">
-		                    				<input type="text" value="${product.pdtPrice}" id="oriPrice" hidden="hidden"/>
-		                    				<input type="text" value="${product.pdtPrice}" id="totalPrice" hidden="hidden"/>
-		                    				<input type="text" value="0" id="optionPrice" hidden="hidden"/>
-		                    				<span id="viewPrice">${product.pdtPrice}</span>원
-	                    				</c:if>
-	                    			<!-- 세일가격 -->
-	                    				<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
-	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="oriPrice" hidden="hidden"/>
-	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="totalPrice" hidden="hidden"/>
-	                    					<input type="text" value="0" id="optionPrice" hidden="hidden"/>
-	                    					<span id="viewPrice"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
-	                    				</c:if>
-	                    			</div>
-	                    		</div>
-	                    	</div>
-	                    </div>
-                    </c:if>  
+                    	<div id="info_count" style="border-radius:4px;">
+                    		<div class="information" style="margin:10px;">
+                    			<input type="hidden" id="optionNo" />
+                    			<span id="optionName">옵션확인란</span>
+                    			<span class="optionClose" onclick="remove_div(this)">X</span>
+                    		</div>
+                    		<div class="inforamtion row">
+                    			<div class="col" style="margin-left:10px;">
+                    				<input type="button" class="input_count" value="-" id="minus" onclick="minus();">
+                    				<input type="text" class="input_count2" value="1" id="count">
+                    				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
+                    			</div>
+                    			<div class="col-3">
+                    			<!-- 원래가격 -->
+                    				<c:if test="${empty product.eventNoRef}">
+	                    				<input type="text" value="${product.pdtPrice}" id="oriPrice" hidden="hidden"/>
+	                    				<input type="text" value="${product.pdtPrice}" id="totalPrice" hidden="hidden"/>
+	                    				<input type="text" value="0" id="optionPrice" hidden="hidden"/>
+	                    				<span id="viewPrice">${product.pdtPrice}</span>원
+                    				</c:if>
+                    			<!-- 세일가격 -->
+                    				<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
+                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="oriPrice" hidden="hidden"/>
+                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="totalPrice" hidden="hidden"/>
+                    					<input type="text" value="0" id="optionPrice" hidden="hidden"/>
+                    					<span id="viewPrice"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
+                    				</c:if>
+                    			</div>
+                    		</div>
+                    	</div>
+                    </div>
+                  </c:if>  
                            			
                     <!-- 버튼 3개,로그인 안 할 경우 클릭 못하게 방지 -->    
                     <div>
@@ -1177,9 +1177,16 @@ button:focus {
 		console.log(basket_need);
 		
 		//장바구니 insert용 함수
-		let check = confirm("장바구니에 담으시겠습니까?");
-		if(check){
-			window.location = basUrl+'?'+$.param(basket_need);
+		if($("#optionSelect").val()==null){
+			alert("옵션을 선택해주세요");
+			return;
+		}else{
+			let check = confirm("장바구니에 담으시겠습니까?");
+			console.log($(".optionAdd").length);
+			if(check){
+				window.location = basUrl+'?'+$.param(basket_need);
+			}
+			
 		}
 		
 	};
