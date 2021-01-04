@@ -142,7 +142,12 @@
 					</div>
 					<!-- 결제하기 -->
 					<div class="btn-contain">
-						<button form="basketFrm" class="btn btn-outline-success btn-block">결제하기</button>
+						<c:if test="${not empty list }">
+							<button form="basketFrm" class="btn btn-outline-success btn-block">결제하기</button>
+						</c:if>
+						<c:if test="${empty list }">
+							<button form="basketFrm" class="btn btn-outline-success btn-block" disabled="disabled">결제하기</button>
+						</c:if>
 					</div>
 				</div>
 			</div>

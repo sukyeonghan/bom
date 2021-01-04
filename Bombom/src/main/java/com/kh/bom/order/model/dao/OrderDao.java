@@ -18,6 +18,8 @@ public interface OrderDao {
 	int deleteBasket(SqlSession session, String basketNo);
 
 	List<Basket> selectBasket(SqlSession session, String memNo);
+	
+	Basket selectBasketOne(SqlSession session, String memNo);
 
 	int deleteBasketOne(SqlSession session, Basket b);
 

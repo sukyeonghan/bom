@@ -37,6 +37,12 @@ public class OrderDaoImpl implements OrderDao {
 		return session.selectList("order.selectBasket", memNo);
 	}
 
+	//장바구니번호 가져오기
+	@Override
+	public Basket selectBasketOne(SqlSession session, String memNo) {
+		return session.selectOne("order.selectBasketOne", memNo);
+	}
+
 	// 장바구니에 담긴 상품 하나 삭제하기
 	@Override
 	public int deleteBasketOne(SqlSession session, Basket b) {

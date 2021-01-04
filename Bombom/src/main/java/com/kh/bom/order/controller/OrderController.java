@@ -52,18 +52,20 @@ public class OrderController {
 		int insertInbas = 0;
 
 		// 회원의 장바구니 불러오기
-		Basket b = (Basket) service.selectBasket(m1.getMemNo());
-		System.out.println("장바구니 : " + b);
-		// 장바구니번호가 있으면 inbasket에 바로 insert
-		if (!b.getBasketNo().isEmpty()) {
-			insertInbas = service.insertInbasket(Inbasket.builder().basketNo(b.getBasketNo()).pdtNo(pdtNo)
-					.pdtOptionNo(pdtOptionNo).inbasQty(inbasQty).build());
-		} else { // 장바구니 번호가 없으면 새로 장바구니 생성해서 insert
+		Basket b = (Basket) service.selectBasketOne(m1.getMemNo());
+		System.out.println(b);
+		// 장바구니 번호가 없으면 새로 장바구니 생성해서 insert
+		if (b == null) {
 			newBasket = service.insertBasket(m1.getMemNo());
 			if (newBasket > 0) {
-				insertInbas = service.insertInbasket(Inbasket.builder().basketNo(b.getBasketNo()).pdtNo(pdtNo)
+				Basket newB = service.selectBasketOne(m1.getMemNo());
+				insertInbas = service.insertInbasket(Inbasket.builder().basketNo(newB.getBasketNo()).pdtNo(pdtNo)
 						.pdtOptionNo(pdtOptionNo).inbasQty(inbasQty).build());
 			}
+		// 장바구니번호가 있으면 inbasket에 바로 insert
+		} else { 
+			insertInbas = service.insertInbasket(Inbasket.builder().basketNo(b.getBasketNo()).pdtNo(pdtNo)
+					.pdtOptionNo(pdtOptionNo).inbasQty(inbasQty).build());
 		}
 		String msg = "";
 		String loc = "/product/productOne?pdtNo=" + pdtNo;
@@ -114,9 +116,6 @@ public class OrderController {
 	// 장바구니에서 상품 하나 삭제하기
 	@RequestMapping("order/deleteBasketOne")
 	public ModelAndView deleteBasketOne(ModelAndView m, String pdtNo, String basketNo, String memNo) {
-		System.out.println(pdtNo);
-		System.out.println(basketNo);
-
 		int result = service.deleteBasketOne(Basket.builder().pdtNo(pdtNo).basketNo(basketNo).build());
 		List<Basket> list = new ArrayList<Basket>();
 		// 삭제가 성공하면 삭제된 이후 리스트 넘겨주기
@@ -170,11 +169,7 @@ public class OrderController {
 	// 결제하기
 	@RequestMapping("/order/insertOrder")
 	public ModelAndView insertOrder(String basketNo, Order order, ModelAndView mv, HttpSession session) {
-		System.out.println("넘어온 order : " + order);
-		System.out.println("장바구니 번호 : " +basketNo);
 		Member m1 = (Member) session.getAttribute("loginMember");
-		System.out.println("현재 로그인한 회원: "+m1);
-		
 		// orderNo만들기
 		String orderNo = "";
 		String today = new SimpleDateFormat("yyyyMMdd").format(new Date());// 등록날짜가져오기
@@ -182,18 +177,15 @@ public class OrderController {
 		orderNo = today + "-" + ran;
 		order.setOrderNo(orderNo);
 		order.setMemNo(m1.getMemNo());
-
-		System.out.println("주문번호 추가한 order : " + order);
-
 		int result = service.insertOrder(order);
 		String msg = "";
 		String loc = "";
 		String icon = "";
 		if (result > 0) {
-			
+			//결제api에서 결제가 완료되면 장바구니 비우기
 			int deleteB = service.deleteBasket(basketNo);
 			if(deleteB>0) {
-				msg = "주문이 완료되었습니다! 금방 배송해 드릴게요!";
+				msg = "주문이 완료되었습니다! 금방 배송해 드릴게요:)";
 				loc = "/mypage/orderStatus";
 				icon = "success";
 			}else {
