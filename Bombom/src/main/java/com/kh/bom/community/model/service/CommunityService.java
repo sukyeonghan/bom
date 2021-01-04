@@ -24,11 +24,16 @@ public interface CommunityService{
 
 	int communityView(String cmNo);
 	
-	List<BoardReply> getReplyList(Map<String, Object> paramMap);
+	//댓글 목록
+	List<BoardReply> getReplyList(String cmNo);
 	
-	int regReply(Map<String, Object> paramMap);
+	//insert update delete 는 반환은 int, 값을 받을때는 매개변수 형태에 (자료형, 변수명)
+	int insertReply(BoardReply br); 
+	
+	//대댓글 등록
+	int insertReReply(BoardReply br);
 
-	int deleteReply(String reply_id);
+	int deleteReply(BoardReply br);
 	
 	String selectSeqReply();
 

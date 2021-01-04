@@ -36,10 +36,8 @@ public interface ProductService {
 	//연관상품
 	List<Product> slidelist();
 
-	int productCount(String category,String soldout);//제품 개수
-	int countSale(String soldout);//세일제품개수
-	List<Product> selectProductList(int cPage,int numPerPage,String sort,String soldout,String category);//전체 제품 출력
-	List<Product> selectNewCateList(String category);//카테고리별 새상품 리스트
-	List<Product> selectSaleList(int cPage,int numPerPage,String sort,String soldout,String category);//세일제품 리스트
-
+	//수정-제품리스트 출력
+	List<Product> selectProductList(int cPage,int numPerPage,Product p);
+	//가격 최대값 가져오기
+	int selectMaxPrice(String category);
 }

@@ -1,7 +1,9 @@
 package com.kh.bom.product.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.common.page.AjaxPageBarFactory;
-import com.kh.bom.common.page.ProAjaxPageBarFactory;
-import com.kh.bom.common.page.ProAjaxPageBarFactoryModify;
+import com.kh.bom.common.page.ProAjaxPageBarFactory2;
 import com.kh.bom.common.page.ProPageBarFactory;
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.member.model.vo.Member;
@@ -21,8 +22,11 @@ import com.kh.bom.product.model.service.ProductService;
 import com.kh.bom.product.model.vo.Product;
 import com.kh.bom.product.model.vo.ProductOption;
 import com.kh.bom.review.model.vo.Review;
+import com.kh.bom.zzim.model.service.ZzimService;
+import com.kh.bom.zzim.model.vo.Zzim;
 
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONObject;
 
 @Slf4j
 @Controller
@@ -30,199 +34,232 @@ public class ProductController {
 
 	@Autowired
 	private ProductService service;
+	
+	@Autowired
+	private ZzimService zzimservice;
 
 	//전체제품 페이지
 	@RequestMapping("/product/productAll") 
-	public ModelAndView allProduct(ModelAndView m,
-			@RequestParam(value = "sort",defaultValue="등록일순") String sort,
-			@RequestParam(value = "soldout",defaultValue="품절포함") String soldout,
+	public ModelAndView allProduct(ModelAndView m,Product p,
+			@RequestParam(value="pdtcategory", defaultValue="전체제품") String pdtCategory,
 			@RequestParam(value="cPage", defaultValue="1") int cPage, 
 			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
 		
 		String cate="전체제품";
-		int count=service.productCount(cate,soldout);
-		List<Product> newList=service.selectNewCateList(cate);
-		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,soldout,cate));
-		m.addObject("pageBar",ProPageBarFactory.getPageBar(count, cPage, numPerpage, "productAll"));
+		p.setPdtCategory(cate);
+		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
+		List<Product> list=service.selectProductList(cPage,numPerpage,p);
+		int totalCount=list.get(0).getTotCnt();//제품 개수
+		m.addObject("list",list);
+		m.addObject("pageBar",ProPageBarFactory.getPageBar(totalCount, cPage, numPerpage, "productAll"));
 		m.addObject("cPage",cPage);
-		m.addObject("count",count);
-		m.addObject("newList",newList);
 		m.addObject("category",cate);
+		m.addObject("maxPrice",maxPrice);
+		m.addObject("count",totalCount);
 		m.setViewName("product/productList");
 		return m;
 	}
-	
-	//제품 목록 ajax
-	@RequestMapping("/product/productListAjax")
-	public ModelAndView productListAjax(ModelAndView m,
-			String category,
-			@RequestParam(value = "sort",defaultValue="등록일순") String sort,
-			@RequestParam(value = "soldout",defaultValue="품절포함") String soldout,
+
+	//제품 리스트 ajax
+	@RequestMapping("/product/productListAjaxTest")
+	@ResponseBody
+	public ModelAndView productListTest(ModelAndView m,Product p,
+			HttpServletRequest request,
+			@RequestParam(value="pdtcategory", defaultValue="전체제품") String pdtCategory,
+			@RequestParam(value="category", required = false) String[] category,
+			@RequestParam(value="sort", defaultValue="등록일순") String sort,
+			@RequestParam(value="soldout", required = false) String soldout,
+			@RequestParam(value="price") String price,
 			@RequestParam(value="cPage", defaultValue="1") int cPage, 
 			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
 		
-		int count;
-		List<Product> newList;
-		if(category.equals("할인제품")) {
-			count=service.countSale(soldout);
-			newList=service.selectNewCateList("전체제품");
-			m.addObject("list",service.selectSaleList(cPage,numPerpage,sort,soldout,category));
-		}else {
-			count=service.productCount(category,soldout);
-			newList=service.selectNewCateList(category);
-			m.addObject("list",service.selectProductList(cPage,numPerpage,sort,soldout,category));
+		p.setPdtCategory(pdtCategory);
+
+		//제품 슬라이더 가격
+		int idx=0;
+		if(price!=null) {
+			idx=price.indexOf(";");
+			if(idx!=-1) {
+				p.setFromPrice(Integer.parseInt(price.substring(0, idx)));//시작값
+				p.setToPrice(Integer.parseInt(price.substring(idx+1)));//끝값
+			}else {
+				p.setFromPrice(0);
+				p.setToPrice(service.selectMaxPrice(pdtCategory));
+			}
 		}
 		
-		m.addObject("pageBar",ProAjaxPageBarFactoryModify.getAjaxPageBar(count, cPage, numPerpage, "productListAjax",sort,soldout,category));
+		//ajax 페이징에서 넘어올 때 값이 비어있음. 다시 세팅
+		if(p.getSort()==null) { 
+			p.setCategory(category);
+			p.setSoldout(soldout);
+			p.setSort(sort);
+		}
+		
+		List<Product> list=service.selectProductList(cPage,numPerpage,p);
+		
+		//검색 결과에 따른 제품 개수
+		int totalCount=0;
+		if(list.size()!=0) {
+			totalCount=list.get(0).getTotCnt();//제품 개수
+		}
+		m.addObject("list",list);
+		m.addObject("pageBar",ProAjaxPageBarFactory2.getAjaxPageBar(totalCount, cPage, numPerpage, "productListAjaxTest",price,pdtCategory,Arrays.toString(p.getCategory()),p.getSort(),p.getSoldout()));
 		m.addObject("cPage",cPage);
-		m.addObject("category",category);
-		m.addObject("sort",sort);
-		m.addObject("count",count);
-		m.addObject("newList",newList);
-		m.addObject("soldout",soldout);
-		m.setViewName("product/productListAjax");
+		m.addObject("count",totalCount);
+		m.setViewName("product/productListAjaxTest");
 		return m;
-	
 	}
 	
 	//식품 카테고리 페이지
 	@RequestMapping("/product/food") 
-	public ModelAndView foodProduct(ModelAndView m,
-			@RequestParam(value = "sort",defaultValue="등록일순") String sort,
-			@RequestParam(value = "soldout",defaultValue="품절포함") String soldout,
+	public ModelAndView foodProduct(ModelAndView m,Product p,
+			@RequestParam(value="pdtcategory", defaultValue="전체제품") String pdtCategory,
 			@RequestParam(value="cPage", defaultValue="1") int cPage, 
 			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
 		
 		String cate="식품";
-		int count=service.productCount(cate,soldout);
-		List<Product> newList=service.selectNewCateList(cate);
-		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,soldout,cate));
-		m.addObject("pageBar",ProPageBarFactory.getPageBar(count, cPage, numPerpage, "food"));
+		p.setPdtCategory(cate);
+		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
+		List<Product> list=service.selectProductList(cPage,numPerpage,p);
+		int totalCount=list.get(0).getTotCnt();//제품 개수
+		m.addObject("list",list);
+		m.addObject("pageBar",ProPageBarFactory.getPageBar(totalCount, cPage, numPerpage, "food"));
 		m.addObject("cPage",cPage);
-		m.addObject("count",count);
-		m.addObject("newList",newList);
 		m.addObject("category",cate);
+		m.addObject("maxPrice",maxPrice);
+		m.addObject("count",totalCount);
 		m.setViewName("product/productList");
 		return m;
 	}
+	
 	//잡화 카테고리 페이지
 	@RequestMapping("/product/stuff") 
-	public ModelAndView stuffProduct(ModelAndView m,
-			@RequestParam(value = "sort",defaultValue="등록일순") String sort,
-			@RequestParam(value = "soldout",defaultValue="품절포함") String soldout,
+	public ModelAndView stuffProduct(ModelAndView m,Product p,
+			@RequestParam(value="pdtcategory", defaultValue="전체제품") String pdtCategory,
 			@RequestParam(value="cPage", defaultValue="1") int cPage, 
 			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
 		
 		String cate="잡화";
-		int count=service.productCount(cate,soldout);
-		List<Product> newList=service.selectNewCateList(cate);
-		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,soldout,cate));
-		m.addObject("pageBar",ProPageBarFactory.getPageBar(count, cPage, numPerpage, "stuff"));
+		p.setPdtCategory(cate);
+		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
+		List<Product> list=service.selectProductList(cPage,numPerpage,p);
+		int totalCount=list.get(0).getTotCnt();//제품 개수
+		m.addObject("list",list);
+		m.addObject("pageBar",ProPageBarFactory.getPageBar(totalCount, cPage, numPerpage, "stuff"));
 		m.addObject("cPage",cPage);
-		m.addObject("count",count);
-		m.addObject("newList",newList);
 		m.addObject("category",cate);
+		m.addObject("maxPrice",maxPrice);
+		m.addObject("count",totalCount);
 		m.setViewName("product/productList");
 		return m;
 	}
+	
 	//주방 카테고리 페이지
 	@RequestMapping("/product/kitchen") 
-	public ModelAndView kitchenProduct(ModelAndView m,
-			@RequestParam(value = "sort",defaultValue="등록일순") String sort,
-			@RequestParam(value = "soldout",defaultValue="품절포함") String soldout,
+	public ModelAndView kitchenProduct(ModelAndView m,Product p,
+			@RequestParam(value="pdtcategory", defaultValue="전체제품") String pdtCategory,
 			@RequestParam(value="cPage", defaultValue="1") int cPage, 
 			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
+		
 		String cate="주방";
-		int count=service.productCount(cate,soldout);
-		List<Product> newList=service.selectNewCateList(cate);
-		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,soldout,cate));
-		m.addObject("pageBar",ProPageBarFactory.getPageBar(count, cPage, numPerpage, "kitchen"));
+		p.setPdtCategory(cate);
+		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
+		List<Product> list=service.selectProductList(cPage,numPerpage,p);
+		int totalCount=list.get(0).getTotCnt();//제품 개수
+		m.addObject("list",list);
+		m.addObject("pageBar",ProPageBarFactory.getPageBar(totalCount, cPage, numPerpage, "kitchen"));
 		m.addObject("cPage",cPage);
-		m.addObject("count",count);
-		m.addObject("newList",newList);
 		m.addObject("category",cate);
+		m.addObject("maxPrice",maxPrice);
+		m.addObject("count",totalCount);
 		m.setViewName("product/productList");
 		return m;
 	}
 	
 	//욕실 카테고리 페이지
 	@RequestMapping("/product/bathroom") 
-	public ModelAndView bathProduct(ModelAndView m,
-			@RequestParam(value = "sort",defaultValue="등록일순") String sort,
-			@RequestParam(value = "soldout",defaultValue="품절포함") String soldout,
+	public ModelAndView bathProduct(ModelAndView m,Product p,
+			@RequestParam(value="pdtcategory", defaultValue="전체제품") String pdtCategory,
 			@RequestParam(value="cPage", defaultValue="1") int cPage, 
 			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
 		
 		String cate="욕실";
-		int count=service.productCount(cate,soldout);
-		List<Product> newList=service.selectNewCateList(cate);
-		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,soldout,cate));
-		m.addObject("pageBar",ProPageBarFactory.getPageBar(count, cPage, numPerpage, "bathroom"));
+		p.setPdtCategory(cate);
+		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
+		List<Product> list=service.selectProductList(cPage,numPerpage,p);
+		int totalCount=list.get(0).getTotCnt();//제품 개수
+		m.addObject("list",list);
+		m.addObject("pageBar",ProPageBarFactory.getPageBar(totalCount, cPage, numPerpage, "bathroom"));
 		m.addObject("cPage",cPage);
-		m.addObject("count",count);
-		m.addObject("newList",newList);
 		m.addObject("category",cate);
+		m.addObject("maxPrice",maxPrice);
+		m.addObject("count",totalCount);
 		m.setViewName("product/productList");
 		return m;
 	}
+	
 	//여성용품 카테고리  페이지
 	@RequestMapping("/product/woman") 
-	public ModelAndView womanProduct(ModelAndView m,
-			@RequestParam(value = "sort",defaultValue="등록일순") String sort,
-			@RequestParam(value = "soldout",defaultValue="품절포함") String soldout,
+	public ModelAndView womanProduct(ModelAndView m,Product p,
+			@RequestParam(value="pdtcategory", defaultValue="전체제품") String pdtCategory,
 			@RequestParam(value="cPage", defaultValue="1") int cPage, 
 			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
 		
 		String cate="여성용품";
-		int count=service.productCount(cate,soldout);
-		List<Product> newList=service.selectNewCateList(cate);
-		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,soldout,cate));
-		m.addObject("pageBar",ProPageBarFactory.getPageBar(count, cPage, numPerpage, "woman"));
+		p.setPdtCategory(cate);
+		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
+		List<Product> list=service.selectProductList(cPage,numPerpage,p);
+		int totalCount=list.get(0).getTotCnt();//제품 개수
+		m.addObject("list",list);
+		m.addObject("pageBar",ProPageBarFactory.getPageBar(totalCount, cPage, numPerpage, "woman"));
 		m.addObject("cPage",cPage);
-		m.addObject("count",count);
-		m.addObject("newList",newList);
 		m.addObject("category",cate);
+		m.addObject("maxPrice",maxPrice);
+		m.addObject("count",totalCount);
 		m.setViewName("product/productList");
 		return m;
 	}
+	
 	//반려동물 카테고리 페이지
 	@RequestMapping("/product/pet") 
-	public ModelAndView petProduct(ModelAndView m,
-			@RequestParam(value = "sort",defaultValue="등록일순") String sort,
-			@RequestParam(value = "soldout",defaultValue="품절포함") String soldout,
+	public ModelAndView petProduct(ModelAndView m,Product p,
+			@RequestParam(value="pdtcategory", defaultValue="전체제품") String pdtCategory,
 			@RequestParam(value="cPage", defaultValue="1") int cPage, 
 			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
 		
 		String cate="반려동물";
-		int count=service.productCount(cate,soldout);
-		List<Product> newList=service.selectNewCateList(cate);
-		m.addObject("list",service.selectProductList(cPage,numPerpage,sort,soldout,cate));
-		m.addObject("pageBar",ProPageBarFactory.getPageBar(count, cPage, numPerpage, "pet"));
+		p.setPdtCategory(cate);
+		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
+		List<Product> list= service.selectProductList(cPage,numPerpage,p);
+		int totalCount=list.get(0).getTotCnt();//제품 개수
+		m.addObject("list",list);
+		m.addObject("pageBar",ProPageBarFactory.getPageBar(totalCount, cPage, numPerpage, "pet"));
 		m.addObject("cPage",cPage);
-		m.addObject("count",count);
-		m.addObject("newList",newList);
 		m.addObject("category",cate);
+		m.addObject("maxPrice",maxPrice);
+		m.addObject("count",totalCount);
 		m.setViewName("product/productList");
 		return m;
 	}
+	
 	//할인제품 페이지
 	@RequestMapping("/product/sale") 
-	public ModelAndView saleProduct(ModelAndView m,
-			@RequestParam(value = "sort",defaultValue="등록일순") String sort,
-			@RequestParam(value = "soldout",defaultValue="품절포함") String soldout,
+	public ModelAndView saleProduct(ModelAndView m,Product p,
+			@RequestParam(value="pdtcategory", defaultValue="전체제품") String pdtCategory,
 			@RequestParam(value="cPage", defaultValue="1") int cPage, 
 			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
-		
-		//전체 리스트 보내서 화면단에서 처리하기
+
 		String cate="할인제품";
-		int count=service.countSale(soldout);
-		List<Product> newList=service.selectNewCateList("전체제품");
-		m.addObject("pageBar",ProPageBarFactory.getPageBar(count, cPage, numPerpage, "sale"));
+		p.setPdtCategory(cate);
+		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
+		List<Product> list=service.selectProductList(cPage, numPerpage,p);
+		int totalCount=list.get(0).getTotCnt();//제품 개수
+		m.addObject("pageBar",ProPageBarFactory.getPageBar(totalCount, cPage, numPerpage, "sale"));
 		m.addObject("cPage",cPage);
-		m.addObject("list",service.selectSaleList(cPage,numPerpage,sort,soldout,cate));
-		m.addObject("newList",newList);
-		m.addObject("count",count);
+		m.addObject("list",list);
+		m.addObject("count",totalCount);
 		m.addObject("category",cate);
+		m.addObject("maxPrice",maxPrice);
 		m.setViewName("product/productList");
 		return m;
 	}
@@ -230,6 +267,7 @@ public class ProductController {
 
 	//상품상세화면 첫화면
 	@RequestMapping("/product/productOne")
+	@ResponseBody
 	public ModelAndView productOne(ModelAndView mv,
 			@RequestParam("pdtNo") String pdtNo,
 			@RequestParam(value="cPage",defaultValue="1") int cPage,
@@ -250,10 +288,34 @@ public class ProductController {
 		
 		//상품 등록날짜
 		Product deteResult = service.selectproductDate(pdtNo);
-		System.out.println("상품등록날짜 : "+deteResult);
 		
 		//연관상품 슬라이드
 		List<Product> slidelist = service.slidelist();
+		
+		//현재 찜리스트 불러오기
+		Member m = (Member)session.getAttribute("loginMember");
+		String msg = "";
+		String loc = "";
+		
+		List<Zzim> zzimlist = null;
+		
+		//로그인 했을 때 찜리스트 불러오기
+		if(m!=null) {
+			zzimlist = zzimservice.selectZzimList(m.getMemNo());
+	//		for(Zzim z : zzimlist) {
+	//			System.out.println(z);
+	//		}
+			//찜리스트에 찜한상품 넣기
+			for(Zzim z : zzimlist) {
+				z.setFavlist(zzimservice.selectfavlist(z.getZzimNo()));
+				//System.out.println(z);
+			}
+			
+		//로그인 안 했을 경우 접근 X	
+		}else {
+			msg = "로그인을 먼저 해주세요";
+			loc = "/product/productOne?pdtNo="+pdtNo;
+		}
 		
 		mv.addObject("product", product);
 		mv.addObject("optionlist", optionlist);
@@ -262,6 +324,9 @@ public class ProductController {
 		mv.addObject("reviewAvg", reviewAvg);
 		mv.addObject("dateResult", deteResult);
 		mv.addObject("slidelist", slidelist);
+		mv.addObject("zzimlist", zzimlist);
+		mv.addObject("loc",loc);
+		mv.addObject("common/msg");
 		mv.setViewName("product/productOne");
 
 		return mv;

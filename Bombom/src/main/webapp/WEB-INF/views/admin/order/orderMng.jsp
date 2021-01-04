@@ -12,8 +12,9 @@
 	}
 	/*출력 화면 설정  */
 	#admin-container{
-	min-width:800px; 
-	width:100px;
+	min-width: 800px;
+	width: 100%;
+	padding-right: 100px;
 	}
 	/*좌측메뉴*/
 	.admin-nav{padding-right:100px;}
@@ -34,9 +35,9 @@
       .status {
         background-color: #e9ecef;
       }
-      /* 진행상태 너비 */
-      .status td:nth-child(1) {
-        width: 20%;
+      /* 진행상태  */
+      .status td.process {
+        text-align:right;
       }
       /* 검색 */
       .form-group {
@@ -71,27 +72,8 @@
 
 <section id="container" >
 	<div id="flexDiv">
-		<!--관리자 내비게이션바 -->
-		<div id="" class=" mr-3 admin-nav">
-		  <ul class="nav flex-column">
-		    <li class="nav-item">
-      			<a class="nav-link select" href="${path }/">회원관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="${path }/admin/moveProduct">제품관리</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="${path }/admin/order">주문관리</a>
-		    </li>
-		    <li class="nav-item">
-		     	 <a class="nav-link non-select" href="${path }/admin/qnaList">1:1문의관리</a>
-		    </li>
-		    <li class="nav-item">
-		      	<a class="nav-link non-select" href="${path }/">이벤트관리</a>
-		    </li>
-		  </ul>
-		</div>
-		
+	<!-- 좌측 메뉴 -->
+		<jsp:include page="/WEB-INF/views/common/adminMenu.jsp" />
 		<!--좌측메뉴선택시 출력 화면 -->
 		<div id="admin-container">
           <form action="${path}/admin/order/ordSort" method="post">
@@ -100,7 +82,7 @@
           <div class="status">
             <table class="table table-borderless">
               <tr>
-                <td rowspan="2">진행상태</td>
+                <td rowspan="2" class="process"><b>진행상태 (${totalData})</b></td>
                 <td>
                   <button type="button" class="btn btn-outline-success all" onclick="location.href='${path}/admin/order'">
                     전체
@@ -121,6 +103,11 @@
                     주문취소
                   </button>
                 </td>
+                <td>
+                  <button type="submit" class="btn btn-outline-success cancelEnd" value="취소완료" name="sort">
+                    취소완료
+                  </button>
+                </td>
               </tr>
               <tr>
                 <td>
@@ -138,9 +125,15 @@
                     배송완료
                   </button>
                 </td>
-                <td>
-                  <button type="submit" class="btn btn-outline-success cancelEnd" value="취소완료" name="sort">
-                    취소완료
+                
+                 <td>
+                  <button type="submit" class="btn btn-outline-success cancelEnd" value="반품요청" name="sort">
+                    반품요청
+                  </button>
+                </td>
+                 <td>
+                  <button type="submit" class="btn btn-outline-success cancelEnd" value="반품완료" name="sort">
+                    반품완료
                   </button>
                 </td>
               </tr>
@@ -186,6 +179,8 @@
 	                    <option value="배송중" ${o.ordStatus eq "배송중"? "selected":"" }>배송중</option>
 	                    <option value="배송완료" ${o.ordStatus eq "배송완료"? "selected":"" }>배송완료</option>
 	                    <option value="취소완료" ${o.ordStatus eq "취소완료"? "selected":"" }>취소완료</option>
+	                    <option value="반품요청" ${o.ordStatus eq "반품요청"? "selected":"" }>반품요청</option>
+	                    <option value="반품완료" ${o.ordStatus eq "반품완료"? "selected":"" }>반품완료</option>
                     </select>
                   </td>
                   <td>

@@ -30,5 +30,12 @@ public class Product {
 	private String pdtThumbImage;
 	private int zzimCount;
 	private int reviewCount;
-
+	private String[] category;
+	private String sort;
+	private int star;
+	private String soldout;
+	private int fromPrice;
+	private int toPrice;
+	private int totCnt;
+	private String newYn;
 }

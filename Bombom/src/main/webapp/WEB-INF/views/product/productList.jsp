@@ -6,6 +6,8 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="${path }/resources/css/product/productList.css">
+<!-- 범위슬라이더 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
 
 <style>
   /*스와이퍼*/
@@ -13,10 +15,34 @@
   	.mySlides {display:none;}
 	.w3-badge {height:13px;width:13px;padding:0}
 	.w3-left, .w3-right, .w3-badge {cursor:pointer}
+	/*검색필터버튼*/
+	#filter{height:35px;}
+	/*전체*/
+	#form{	
+		border: 1px solid #45A663;
+		border-radius: 10px;
+	    padding: 2%;
+	    font-size: 16px;
+	}
+
+	#form ul{list-style:none;    -webkit-padding-start: 0px;}
+	#form li{border-bottom:0.1px solid lightgray; padding: 5px;}
+	.sort-title{font-weight:bold;margin-left:5px;margin-right:15px;}
+	/*초기화,검색버튼*/
+	#sort-btns{display:flex;justify-content: center;}
+	#search{margin-left:10px; width:63px;}
+	/*슬라이더*/
+	.irs--round.irs-with-grid{width:60%;margin-left: 2%;}
+	.slider{display:flex;}
 </style>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="소개" />
 </jsp:include>
+<!-- 범위슬라이더 -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+
 
 <section id="container">
 
@@ -35,33 +61,83 @@
         	</ul>
 		</div>
 
-		<div id="result" class="product-container">
+		<div class="product-container">
 			<!-- 카테고리 및 정렬 -->
 			<div class="category-sort">
 				<div class="item-count">
 					<p class="category"><c:out value="${category}"/> &nbsp </p>
-					<p class="count"><c:out value="${count}"/></p>
+					<p class="count" id="count"><c:out value="${count}"/></p>
 				</div>
-				<div class="select-box">
-					<!-- 품절 포함 선택 -->
-					<select class="sort" id="soldout">
-						<option value="품절포함">품절 포함</option>
-						<option value="품절제외">품절 제외</option>
-					</select>
-					<!-- 분류 필터 -->
-					<select class="sort" id="sort">
-						<option value="등록일순">등록일순</option>
-						<option value="인기순">인기순</option>
-						<option value="리뷰순">리뷰순</option>
-						<option value="할인율순">할인율순</option>
-						<option value="낮은가격순">낮은 가격순</option>
-						<option value="높은가격순">높은 가격순</option>
-					</select>
-				</div>
+				<button type="button" id="filter" class="btn btn-outline-success" data-toggle="collapse" data-target="#form">검색 필터</button>
 			</div>
+			<!-- 검색 필터 -->
+			<form id="form" class="collapse">
+				<div id="sort-wrap">
+					<input type="hidden" name="pdtcategory" value="${category}">
+					<ul>
+						<li>
+							<span class="sort-title">정렬</span>
+							<input type="radio" class="sort default" name="sort" value="등록일순" checked>  등록일순
+							<input type="radio" class="sort" name="sort" value="인기순">  인기순
+							<input type="radio" class="sort" name="sort" value="리뷰순">  리뷰순
+							<input type="radio" class="sort" name="sort" value="평점순">  평점순
+							<input type="radio" class="sort" name="sort" value="할인율순">  할인율순
+							<input type="radio" class="sort" name="sort" value="낮은가격순">  낮은 가격순
+							<input type="radio" class="sort" name="sort" value="높은가격순">  높은 가격순
+						</li>
+						<c:if test="${category eq '전체제품'}">
+							<li>
+								<span class="sort-title">분류</span>
+								<input type="checkbox" class="sort default" name="category" value="전체제품" checked>  전체
+								<input type="checkbox" class="sort" name="category" value="식품">  식품 
+								<input type="checkbox" class="sort" name="category" value="잡화">  잡화
+								<input type="checkbox" class="sort" name="category" value="주방">  주방
+								<input type="checkbox" class="sort" name="category" value="욕실">  욕실
+								<input type="checkbox" class="sort" name="category" value="여성용품">  여성용품
+								<input type="checkbox" class="sort" name="category" value="반려동물">  반려동물
+							</li>
+						</c:if>
+						<li class="slider">
+							<span class="sort-title">가격</span>
+							<input type="text" class="js-range-slider" id="price-range-slider" name="price" value="" 
+							   data-type="double"
+						        data-min="0"
+						        data-max="${maxPrice }"
+						        data-from="0"
+						        data-to="${maxPrice }"
+						        data-grid="true"/>
+						</li>
+						<li >
+							<span class="sort-title">평점</span>
+							<!-- <input type="text" class="js-range-slider" id="avg-range-slider" name="my_range" value="" 
+							   data-type="double"
+						        data-min="0"
+						        data-max="5"
+						        data-from="0"
+						        data-to="5"
+						        data-grid="true"/> -->
+							
+							<input type="checkbox" class="sort" name="star" value="1">  ★
+							<input type="checkbox" class="sort" name="star" value="2">  ★★
+							<input type="checkbox" class="sort" name="star" value="3">  ★★★
+							<input type="checkbox" class="sort" name="star" value="4">  ★★★★
+							<input type="checkbox" class="sort" name="star" value="5">  ★★★★★ 
+						</li>
+						<li>
+							<span class="sort-title">품절</span>
+							<input type="radio" class="sort default" name="soldout" value="품절포함" checked>  품절 포함
+							<input type="radio" class="sort" name="soldout" value="품절제외">  품절 제외
+						</li>
+					</ul>
+					<div id="sort-btns">
+						<input type="button" id="reset" class="btn btn-outline-success" value="초기화">
+						<input type="button" id="search" class="btn btn-success" value="검색" data-toggle="collapse" data-target="#form" onclick="searchBtn()">
+					</div>
+				</div>
+			</form>
 		  	
 		  	<!-- 상품목록 -->
-		  	<div>
+		  	<div  id="result">
 		  		<div class="all-item-wrap">
 					<!-- 제품없으면 없다고 알리는 사진뜸 / 있으면 제품들 출력 -->
 			  		<c:choose>
@@ -135,8 +211,8 @@
 					                    	<c:out value="${p.reviewCount }"/>
 					                    	<!-- 미리보기페이지 -->
 					                    	<%-- <img class="test icon margin" alt="" src="${path}/resources/images/product/search.png" > --%>
-					                    	<img class="test icon margin" alt="" src="${path}/resources/images/product/cart.png" >
-											<input type="hidden" name="pdtNo" value="${p.pdtNo}">
+					                    	<%-- <img class="test icon margin" alt="" src="${path}/resources/images/product/cart.png" >
+											<input type="hidden" name="pdtNo" value="${p.pdtNo}"> --%>
 					                  	</div>
 					                  	<!-- 상품 미리보기 -->
 					                  	<div class="previewDivShow previewDivNone" id="${p.pdtNo}">
@@ -164,11 +240,11 @@
 					                    <!-- 조건에 따라 뜨는 아이콘들 -->
 					                    <div class="item-icon">
 					                    	<!-- 등록한 날짜로 부터 7일 -->
-					                    	<c:forEach var="n" items="${newList }">
-					                    		<c:if test="${n.pdtNo==p.pdtNo }">
-					                    			<div class="new-icon">NEW</div>
-					                    		</c:if>
-					                    	</c:forEach>
+					                   
+				                    		<c:if test="${p.newYn=='Y' }">
+				                    			<div class="new-icon">NEW</div>
+				                    		</c:if>
+					                    	
 					                        <!-- 세일하면 (이벤트 )-->
 					                        <c:if test="${not empty p.eventNoRef and p.salePer!=0 }">
 					                        	<div class="sale-icon">SALE</div> 
@@ -199,20 +275,50 @@
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 <script>
-	//호버 시 메인 이미지 변경 
-	$(function() { 
-		
-		$(".hover").hover(function(){ 
-			$(this).attr("src", $(this).attr("src").replace($(this).next().val(), $(this).next().next().val())); 
-	
-		}, function(){ 
-			$(this).attr("src", $(this).attr("src").replace($(this).next().next().val(), $(this).next().val())); 
-		}); 
+	//가격 슬라이더
+	$("#price-range-slider").ionRangeSlider({
+		skin: "round",
+	    type: "double",
+	    min: 0,
+	    max: "${maxPrice }",
+	    from: 0,
+	    to: "${maxPrice }",
+	    step:1000,
+	    grid_num:5,
+	    grid: true
 	});
+	
+	$("#price-range-slider").on("change", function () {
+        var $inp = $(this);
+        var v = $inp.prop("value");     // input value in format FROM;TO
+        var priceArr=v.split(";")
+        $("input[name=price]").attr("value",priceArr);//자른 값 넣기
+    });
+	
+	//별점 슬라이더
+	$("#avg-range-slider").ionRangeSlider({
+		skin: "round",
+	    type: "double",
+	    min: 0,
+	    max: 5,
+	    from: 0,
+	    to: 5,
+	    step:1,
+	    grid_num:5,
+	    grid: true
+	});
+	
 
+	//분류 초기화 버튼
+	//html 어트리뷰트가 아닌 javascript의 속성변경 위해 prop사용
+	//초기화 되면서 원래 처음 페이지로 되돌아가야할듯
+	$("#reset").on("click",e=>{
+		$(".sort").prop("checked", false);
+		$(".default").prop("checked",true);
+	});
+	
 	//분류 ajax
-	$(".sort").on("change",e=>{
-
+/* 	$(".sort").on("change",e=>{
 		$.ajax({			
 			url:"${path}/product/productListAjax",
 			data:{"category":"${category}","sort":$("#sort").val(),"soldout":$("#soldout").val()},
@@ -223,7 +329,45 @@
 			}
 		});
 		
-	})
+	}); */
+	/* $("#search").on("click",e=>{
+		//,star:$("input[name=star]").val(),price:$("input[name=price]").val()
+		$.ajax({			
+			url:"${path}/product/productListAjax",
+			data:{category:$("input[name=category]").val(),sort:$("input[name=sort]").val(),soldout:$("input[name=soldout]").val()},
+			type:"get",
+			dataType:"html",
+			success:data=>{
+				$("#result").html(data);
+			}
+		});
+		
+	}); */
+	function searchBtn(){
+		var formData=$("#form").serialize();
+		$.ajax({
+			cache:false,
+			url:"${path}/product/productListAjaxTest",
+			type:"post",
+			data:formData,
+			success:function(data){
+				$("#result").html(data);
+				//검색 결과 개수 출력
+				let count=$("#result").html(data).find('input[name=count]').val();
+				$("#count").text(count);
+			}
+		})
+	}
+	//호버 시 메인 이미지 변경 
+	$(function() { 
+		
+		$(".hover").hover(function(){ 
+			$(this).attr("src", $(this).attr("src").replace($(this).next().val(), $(this).next().next().val())); 
+	
+		}, function(){ 
+			$(this).attr("src", $(this).attr("src").replace($(this).next().next().val(), $(this).next().val())); 
+		}); 
+	});
 
 	//상품 미리보기 div
 	$(document).ready(function () {

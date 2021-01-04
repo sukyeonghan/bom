@@ -24,9 +24,54 @@
 	text-align: center;
 }
 
+/* 네비바 스타일 */
+button {
+	background: none;
+	border: 0;
+	outline: 0;
+	cursor: pointer;
+}
+
+button:focus {
+	border: none;
+	outline: none;
+}
+
+
+.tab_menu_btn {
+
+	height: 40px;
+	transition: 0.3s all;
+}
+
+.tab_menu_btn.on {
+	border-bottom: 1px solid #45A663;
+	color: #45A663;
+}
+
+.tab_menu_btn:hover {
+	color: #45A663;
+}
+
+.tab_box {
+	display: none;
+	padding: 25px;
+}
+
+.tab_box.on {
+	display: block;
+}
+
+.tab_box img {
+	width: 80%;
+}
+/*메뉴  */
+.containerMenu{
+	border-bottom: 2px solid #45A663;
+}
 
 /* 페이지 번호 들어갈 곳 */
-#page-bar {
+.pageBar {
 	text-align: center;
 	margin-top: 30px;
 }
@@ -61,20 +106,17 @@
 			<h3>나의활동</h3>
 			<br />
 			<!-- Nav tabs -->
-			<ul class="nav nav-tabs">
-				<li class="nav-item"><a class="nav-link active"
-					data-toggle="tab" href="#review">상품리뷰</a></li>
-				<li class="nav-item"><a class="nav-link" data-toggle="tab"
-					href="#community">커뮤니티글</a></li>
-				<li class="nav-item"><a class="nav-link" data-toggle="tab"
-					href="#reply">작성댓글</a></li>
-			</ul>
+			<div class="tab_wrap container">
+			<div class="tab_menu_container containerMenu">
+			    <button class="tab_menu_btn" id="myReview" type="button">구매평</button>
+			    <button class="tab_menu_btn" id="myCommunity" type="button" >커뮤니티글</button>
+			    <button class="tab_menu_btn" id="myReply" type="button">댓글</button>
+		    </div> <!-- tab_menu_container e -->
 
-			<!-- Tab panes -->
-			<div class="tab-content">
+			<div class="tab_box_container" >
 				<br> <br>
-				<!-- 상품리뷰 -->
-				<div class="tab-pane container active" id="review">
+				<!-- 구매평 -->
+				<div id="result">
 					<table class="table">
 						<thead>
 							<tr>
@@ -95,111 +137,59 @@
 									<td><input type="checkbox"></td>
 									<td><fmt:formatDate type="both" timeStyle="short"
 											value="${r.revDate }" /></td>
-									<td><a data-toggle="modal" data-target="#myReview"
-										class="reviewContent"><c:out value="${r.revContent }" /></a></td>
+									<td><a class="reviewContent"><c:out value="${r.revContent }" /></a></td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
-					<div id="page-bar">${pageBar }</div>
+					<div class="pageBar">${pageBarR }</div>
 					<div id="btn-container">
 						<button type="button" class="btn btn-success">선택삭제</button>
 					</div>
-					<!--구매평 모달창 -->
-					<div class="modal fade" id="myReview" tabindex="-1" role="dialog"
-						aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-
-								<!-- Modal Header -->
-								<div class="modal-header">
-									<h5 class="modal-title rProduct">에 대한 구매평입니다.</h5>
-									<button type="button" class="close" data-dismiss="modal">X</button>
-								</div>
-								<!-- Modal body -->
-								<div class="modal-body container">
-									<!-- 구매평 작성날짜 -->
-									<div class="form-group">
-										<p></p>
-									</div>
-									<!--구매평 내용 -->
-									<div class="form-group">
-										<textarea class="form-control rContent" rows="5" readonly></textarea>
-									</div>
-
-								</div>
-								<div class="moveBtn">
-									<input type="hidden" class="qNo" name="qnaNo" readonly>
-									<input type="button"
-										class="btn btn-outline-success btn-sm movePdt "
-										value="해당상품으로 이동"><br>
-								</div>
-							</div>
-						</div>
-					</div>
-
 				</div>
+	
 				<!--구매평 끝  -->
-				<!-- 커뮤니티 글 -->
-				<div class="tab-pane container fade" id="community">
-					<table class="table">
-						<thead>
-							<tr>
-								<th><input type="checkbox"></th>
-								<th>작성날짜</th>
-								<th>글 제목</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:if test="${empty community }">
-								<tr>
-									<td class="noData" colspan="5">등록된 글이 없습니다.</td>
-								</tr>
-							</c:if>
-							<tr>
-								<c:forEach items="${community }" var="cm">
-									<tr>
-										<td><input type="checkbox"></td>
-										<td><fmt:formatDate type="both" timeStyle="short"
-												value="${cm.cmDate }" /></td>
-										<td><c:out value="${cm.cmTitle }" /></td>
-									</tr>
-								</c:forEach>
-						</tbody>
-					</table>
-					<div id="page-bar">${pageBar }</div>
-					<div id="btn-container">
-						<button type="button" class="btn btn-success">선택삭제</button>
-					</div>
-				</div>
-				<!-- 작성댓글 -->
-				<div class="tab-pane container fade" id="reply">
-					<table class="table">
-						<thead>
-							<tr>
-								<th><input type="checkbox"></th>
-								<th>작성날짜</th>
-								<th>댓글내용</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td><input type="checkbox"></td>
-								<td>2020-11-18</td>
-								<td>여기 완전 추천이요!</td>
-							</tr>
-						</tbody>
-					</table>
-					<div id="page-bar">${pageBar }</div>
-					<div id="btn-container">
-						<button type="button" class="btn btn-success">선택삭제</button>
-					</div>
-				</div>
+
+
 			</div>
 		</div>
 	</div>
+	</div>
 </section>
 <script>
+
+//구매평 눌렀을 때
+$("#myReview").click(e=>{
+	//console.log($(e.target).html());
+	$.ajax({
+		url:"${path}/mypage/myReview",
+		type:"get",
+		dataType:"html",
+		success:data=>{
+			console.log(data);
+			$("#result").html("");
+			$("#result").html(data);
+		}
+	});
+});
+
+//커뮤니티글 눌렀을 때
+$("#myCommunity").click(e=>{
+	//console.log($(e.target).html());
+	//$("#review").css("font":"white");
+	$.ajax({
+		url:"${path}/mypage/myCommunity",
+		type:"get",
+		dataType:"html",
+		success:data=>{
+			console.log('하하');
+			$("#result").html("");
+			$("#result").html(data);
+			
+		}
+	});
+});
+
 	
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

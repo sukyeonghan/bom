@@ -73,7 +73,7 @@
 					<div class="zzimFolder">
 						<div class="checkFilter"></div>
 						<input type="checkbox" class="zzimContentNoCkBox" name="zzimContentNoCkBox" value="${zc.zzimContentNo }">
-						<a href="${path }/product/selectProductOne?pdtNo=${zc.pdtNo}">
+						<a href="${path }/product/productOne?pdtNo=${zc.pdtNo}">
 							<div class="zzimImgDiv">
 								<img src="${path }/resources/upload/product/${zc.zzimPdtImage };" alt="${zc.zzimPdtName }" width="100%">
 							</div>	

@@ -1,6 +1,7 @@
 package com.kh.bom.product.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -29,11 +30,7 @@ public interface ProductDao {
 	
 	List<Product> slidelist(SqlSession session);
 
-	int productCount(SqlSession session,String category,String soldout);
-	int countSale(SqlSession session,String soldout);
-	List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,String sort,String soldout,String category);
-	List<Product> selectNewCateList(SqlSession session,String category);
-	List<Product> selectSaleList(SqlSession session,int cPage,int numPerPage,String sort,String soldout,String category);
 
-
+	List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,Product p);
+	int selectMaxPrice(SqlSession session, String category);
 }

@@ -10,16 +10,9 @@
 
 <!-- swiper css -->
 <style>
-#mainBanner_swiper .first-container {
-	width: 100%;
-	height: 100%;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-#BestProduct-list .swiper-container {
+.swiper-container {
 	height: 500px;
-	width: 1000px;
+	width: 830px;
 	min-width: 550px;
 }
 
@@ -42,257 +35,274 @@
 	align-items: center;
 }
 
-.swiper-slide .title {
-	font-size: 41px;
-	font-weight: 300;
-}
 
-.swiper-slide .subtitle {
-	font-size: 21px;
-}
-
-.swiper-slide .text {
-	font-size: 14px;
-	max-width: 400px;
-	line-height: 1.3;
-}
-.innerText {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-125%, 0%);
-	text-align: center;
-}
-.introSubject {
-	font-size: 45px;
-}
 </style>
+
+<script>
+    $(function () {
+        $('#mainBanner').carousel({
+            interval: 5000, //기본값 5000= 5초,false면 자동 순환하지 않는다.
+            pause: "hover", // hover를 설정하면 마우스를 가져대면 자동 순환이 멈춘다.
+        });
+    })
+
+</script>
+
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="Welcome springAgain" />
 </jsp:include>
 
 <section id="container">
-	<!-- 슬라이드 쇼-height400px -->
-	<div id="mainBanner_swiper">
-		<!-- Swiper -->
-		<div class="swiper-container first-container">
-			<div class="swiper-wrapper">
-				<div class="swiper-slide">
-					<!--swiper-wrap : 이미지와 텍스트를 감싸는 div-->
-					<div class="swiper-wrap" id="customSection">
-						<img class="banner_img" src="${path }/resources/images/main/banner/main-banner1.jpg">
-						<!--innerText : 텍스트와 버튼을 감싸는 div -->
-						<div class="innerText">
-							<!-- introText : 소개글 div -->
-							<div class="introText" id="customIntro">
-								<p class="introSubject">
-									<strong>ㅋㅋㅋㅋㅋㅋ</strong>
-								</p>
-								<p>ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				</div>
-				<c:forEach items="">
-					<div class="swiper-slide">Slide 2</div>
-				</c:forEach>
-			</div>
-			<!-- Add Pagination -->
-			<div class="swiper-pagination"></div>
-			<!-- Add Arrows -->
-			<div class="swiper-button-next"></div>
-			<div class="swiper-button-prev"></div>
-		</div>
-	</div>
+    <!-- 슬라이드 쇼 -->
+    <div id="swiperWrap-container">
+        <div id="mainBanner" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#mainBanner" data-slide-to="0" class="active"></li>
+                <li data-target="#mainBanner" data-slide-to="1"></li>
+                <li data-target="#mainBanner" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active banner_div">
+                    <a href="${path }/product/bathroom"><img class="banner_img" src="${path }/resources/images/main/banner/main-banner2.jpg" alt="Second slide">
+                    <div class="carousel-caption" style="left:-35%;">
+                        <h3>여행도 쓰레기 없이.<br>제로웨이스트 어메니티.</h3>
+                        <p>대나무칫솔&고체치약</p>
+                    </div></a>
+                </div>
+                <div class="carousel-item  banner_div">
+                    <a href="${path }/product/productOne?pdtNo=P151"><img class="banner_img" src="${path }/resources/images/main/banner/main-banner3.jpg" alt="Third slide">
+                    <div class="carousel-caption " style="left:-35%;">
+                        <h3>영수증 안주셔도 되요<br>현명하게 거절하기</h3>
+                        <p>제로 웨이스트 치어링 스티커팩</p>
+                    </div></a>
+                </div>
+                <div class="carousel-item  banner_div">
+                    <a href="${path }/product/productOne?pdtNo=P109"><img class="banner_img" src="${path }/resources/images/main/banner/main-banner4.jpg" alt="Third slide">
+                    <div class="carousel-caption " style="left:-35%;">
+                        <h3>우리가 해야 할<br>미세플라스틱 없는<br>진짜 설거지,</h3>
+                        <p>다시:봄 주방비누</p>
+                    </div></a>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#mainBanner" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </a>
+            <a class="carousel-control-next" href="#mainBanner" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <!-- 슬라이드 쇼 끝 -->
 
-	<!-- Swiper JS -->
-	<script src="../package/swiper-bundle.min.js"></script>
+<script>
+	$(function () {
+	    //메인배너 이미지크기 맞추기
+	    var banners = $('.banner_div');
+	    
+	    for (var i = 0; i < banners.length; i++) {
+	        var banner = banners[i];
+	        var bannerAspect = banner.offsetHeight / banner.offsetWidth;
+	        banner.style.overflow = 'hidden';
+	
+	        var img = banner.querySelector('.banner_img');
+	        var imgAspect = img.height / img.width;
+	
+	        if (imgAspect >= bannerAspect) {
+	        	 // 이미지가 div보다 세로가 더 길 경우 가로를 div에 맞추고 세로를 잘라낸다
+	            var imgHeightActual = div.offsetWidth * imgAspect;
+	            var imgHeightToBe = div.offsetWidth * bannerAspect;
+	            var marginTop = Math.round((imgHeightActual - imgHeightToBe) / 2);
+	            img.style.cssText = 'width: 100%; height: auto; margin-left:0;'
+	        	
+	        	
+	            
+	        } else {
+	        	//이미지가 banner보다 가로가 더 길 경우 세로를 banner에 맞추고 가로는 잘라냄.
+	            var imgWidthActual = banner.offsetHeight / imgAspect;
+	            var imgWidthToBe = banner.offsetHeight / bannerAspect;
+	            var marginLeft = -Math.round((imgWidthActual - imgWidthToBe) / 2);
+	            img.style.cssText = 'width: auto; height: 100%; margin-left: ' + marginLeft + 'px;'
+	            console.log(img);
+	        }
+	    }
+	})
+ 	
+</script>
 
-	<!-- Initialize Swiper -->
-	<script>
-		var swiper = new Swiper('.first-container', {
-			slidesPerView : 1,
-			spaceBetween : 30,
-			speed: 600,
-		    parallax: true,
-			loop : true,
-			pagination : {
-				el : '.swiper-pagination',
-				clickable : true,
-			},
-			navigation : {
-				nextEl : '.swiper-button-next',
-				prevEl : '.swiper-button-prev',
-			},
-		});
-	</script>
+    
 
+    <!-- 상품 카테고리 홍보 section -->
+    <div id="productAd-container" class="container">
+    <div class="wrapper">
+	    <div class="">
+	        <a href="${path }/product/productAll"><img class="productAd" src="${path }/resources/images/main/productCategory/전체상품.png" alt=""></a>
+	        <div id="productAd-text">
+	            <h4>전체상품</h4>
+	            <a href="${path }/product/productAll">GO</a>
+	        </div>
+	    </div>
+	    <div class="">
+	        <a href="${path }/product/food"><img class="productAd" src="${path }/resources/images/main/productCategory/일상에서.jpg" alt=""></a>
+	        <div id="productAd-text">
+	            <h4>일상에서</h4>
+	            <a href="${path }/product/food">GO</a>
+	        </div>
+	    </div>
+	
+	    <div class="">
+	        <a href="${path }/product/bathroom"><img class="productAd" src="${path }/resources/images/main/productCategory/욕실에서.jpg" alt=""></a>
+	        <div id="productAd-text">
+	            <h4>욕실에서</h4>
+	            <a href="${path }/product/bathroom">GO</a>
+	        </div>
+	    </div>
+	    <div class="">
+	        <a href="${path }/product/pet"><img class="productAd" src="${path }/resources/images/main/productCategory/산책갈때.jpg" alt=""></a>
+	        <div id="productAd-text">
+	            <h4>산책갈때</h4>
+	            <a href="${path }/product/pet">GO</a>
+	        </div>
+	    </div>
+	    <div class="">
+	        <a href="${path }/product/stuff"><img class="productAd" src="${path }/resources/images/main/productCategory/사무실에서.png" alt=""></a>
+	        <div id="productAd-text">
+	            <h4>사무실에서</h4>
+	            <a href="${path }/product/stuff">GO</a>
+	        </div>
+	    </div>
+	    <div class="">
+	        <a href="${path }/product/kitchen"><img class="productAd" src="${path }/resources/images/main/productCategory/부엌에서.jpg" alt=""></a>
+	        <div id="productAd-text">
+	            <h4>부엌에서</h4>
+	            <a href="${path }/product/kitchen">GO</a>
+	        </div>
+	    </div>
+    </div>
+    </div>
+    <!-- 상품 카테고리 홍보 끝 -->
 
-
-	<script type="text/javascript">
-		/* $(function () {
-			//메인배너 이미지크기 맞추기
-		    var banners = $('.banner_div'); //이미지감싸는 배너 불러오기
-		    for (var i = 0; i < banners.length; i++) {
-		        var banner = banners[i];
-		        var bannerAspect = banner.offsetHeight / banner.offsetWidth;//배너크기
-		        banner.style.overflow = 'hidden';//넘어가는 이미지 숨기기
-		        var img = banner.querySelector('.banner_img');//이미지가져오기
-		        var imgAspect = img.height / img.width;//이미지크기
-		        if (imgAspect <= bannerAspect) {
-		            //이미지가 banner보다 가로가 더 길 경우 세로를 banner에 맞추고 가로는 잘라냄.
-		            var imgWidthActual = banner.offsetHeight / imgAspect;
-		            var imgWidthToBe = banner.offsetHeight / bannerAspect;
-		            var marginLeft = -Math.round((imgWidthActual - imgWidthToBe) / 2); //소수점반올림
-		            img.style.cssText = 'width: auto; height: 100%; margin-left: ' + marginLeft + 'px;'
-		        } else {
-		            // 이미지가 banner보다 세로가 더 길 경우 가로를 div에 맞추고 세로를 잘라낸다
-		            //var imgHeightActual = banner.offsetWidth / imgAspect;
-		            //var imgHeightToBe = banner.offsetWidth / bannerAspect;
-		            //var marginTop = -Math.round((imgHeightActual - imgHeightToBe) / 2);
-		            img.style.cssText = 'width: 100%; height: auto; margin-left:0;'
-		        }
-		    }
-		}) */
-	</script>
-
-	<!-- 상품 카테고리 홍보 section -->
-	<div id="productAd-container" class="container term">
-		<div id="productAd-container_three">
-			<div class="term">
-				<a href="${path }/product/productAll"><img class="productAd"
-					src="${path }/resources/images/main/productCategory/전체상품.png"
-					alt=""></a>
-				<div id="productAd-text" class="justify-content-between">
-					<div>
-						<h4>전체상품</h4>
-					</div>
-					<div class="">
-						<a href="${path }/product/productAll">GO</a>
-					</div>
-				</div>
-
-			</div>
-			<div class="term">
-				<a href="${path }/product/productAll"> <img class="productAd"
-					src="${path }/resources/images/main/productCategory/일상에서.jpg"
-					alt=""></a>
-				<div id="productAd-text">
-					<h4>일상에서</h4>
-					<a href="#">GO</a>
-				</div>
-			</div>
-
-			<div class="term">
-				<a href="${path }/product/productAll"> <img class="productAd"
-					src="${path }/resources/images/main/productCategory/욕실에서.jpg"
-					alt=""></a>
-				<div id="productAd-text">
-					<h4>욕실에서</h4>
-					<a href="#">GO</a>
-				</div>
-			</div>
-		</div>
-		<div id="productAd-container_three">
-			<div class="term">
-				<a href="${path }/product/productAll"> <img class="productAd"
-					src="${path }/resources/images/main/productCategory/여행갈때.jpg"
-					alt=""></a>
-				<div id="productAd-text">
-					<h4>여행갈때</h4>
-					<a href="#">GO</a>
-				</div>
-			</div>
-			<div class="term">
-				<a href="${path }/product/productAll"> <img class="productAd"
-					src="${path }/resources/images/main/productCategory/사무실에서.png"
-					alt=""></a>
-				<div id="productAd-text">
-					<h4>사무실에서</h4>
-					<a href="#">GO</a>
-				</div>
-			</div>
-			<div class="term">
-				<a href="${path }/product/productAll"> <img class="productAd"
-					src="${path }/resources/images/main/productCategory/부엌에서.jpg"
-					alt=""></a>
-				<div id="productAd-text">
-					<h4>부엌에서</h4>
-					<a href="#">GO</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- 상품 카테고리 홍보 끝 -->
-
-	<!-- 제품추천 슬라이드 -->
-	<div id="BestProduct-container" class="container-fluid">
-		<div class="media">
-			<div id="BestProduct-title" class="mr-3">
-				<h3>Best Product</h3>
-				<h2>베스트제품</h2>
-				<div id="BestProduct-href">
-					<!-- 제품 탭으로 이동 -->
-					<a href="#">확인하러 가기</a>
-				</div>
-			</div>
-			<div id="BestProduct-list" class="media-body">
-				<!-- Swiper -->
-				<div class="swiper-container ad-container">
+    <!-- 제품추천 슬라이드 -->
+    <div id="BestProduct-container" class="container">
+        <div class="d-flex">
+            <div id="BestProduct-title" class="">
+                <h3>Best Product</h3>
+                <h2>베스트제품</h2>
+                <div id="BestProduct-href">
+                    <!-- 제품 탭으로 이동 -->
+                    <a href="${path }/product/productAll">확인하러 가기</a>
+                </div>
+            </div>
+            <div id="BestProduct-list" class="">
+                <!-- Swiper -->
+				<div class="swiper-container">
 					<div class="swiper-wrapper">
 						<div class="swiper-slide">
 							<div class="col-md-4">
-								<a href="#"><img class="productAd" src="" alt=""></a>
-								<div id="productAd-text">
-									<h4>전체상품</h4>
-									<a href="#">GO</a>
+								<a href="${path }/product/productOne?pdtNo=P152"><img class="productAd"
+									src="${path }/resources/images/main/bestProduct/soapnut1.jpg"
+									alt=""></a>
+								<div id="BestProduct-text">
+									<h4>유기농 소프넛</h4>
+									<a href="${path }/product/productOne?pdtNo=P152">GO</a>
 								</div>
 							</div>
 						</div>
-						<div class="swiper-slide">Slide 2</div>
-						<div class="swiper-slide">Slide 3</div>
-						<div class="swiper-slide">Slide 4</div>
-						<div class="swiper-slide">Slide 5</div>
-						<div class="swiper-slide">Slide 6</div>
+						<div class="swiper-slide">
+							<div class="col-md-4">
+								<a href="${path }/product/productOne?pdtNo=P109"><img class="productAd"
+									src="${path }/resources/images/main/bestProduct/jigu_soap1.jpg"
+									alt=""></a>
+								<div id="BestProduct-text">
+									<h4>지구샵 주방비누</h4>
+									<a href="${path }/product/productOne?pdtNo=P109">GO</a>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<div class="col-md-4">
+								<a href="${path }/product/productOne?pdtNo=P20"><img class="productAd"
+									src="${path }/resources/images/main/bestProduct/filter1.jpg"
+									alt=""></a>
+								<div id="BestProduct-text">
+									<h4>유기농 커피필터</h4>
+									<a href="${path }/product/productOne?pdtNo=P20">GO</a>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<div class="col-md-4">
+								<a href="${path }/product/productOne?pdtNo=P71"><img class="productAd"
+									src="${path }/resources/images/main/bestProduct/body_soap1.jpg"
+									alt=""></a>
+								<div id="BestProduct-text">
+									<h4>올라이트 바디솝</h4>
+									<a href="${path }/product/productOne?pdtNo=P71">GO</a>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<div class="col-md-4">
+								<a href="${path }/product/productOne?pdtNo=P94"><img class="productAd"
+									src="${path }/resources/images/main/bestProduct/middle_cotton4.jpg"
+									alt=""></a>
+								<div id="BestProduct-text">
+									<h4>유기농 면생리대</h4>
+									<a href="${path }/product/productOne?pdtNo=P94">GO</a>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<div class="col-md-4">
+								<a href="${path }/product/productOne?pdtNo=P111"><img class="productAd"
+									src="${path }/resources/images/main/bestProduct/oops_bag1.jpg"
+									alt=""></a>
+								<div id="BestProduct-text">
+									<h4>웁스백 배변봉투</h4>
+									<a href="${path }/product/productOne?pdtNo=P111">GO</a>
+								</div>
+							</div>
+						</div>
 					</div>
 					<!-- Add Pagination -->
-					<div class="swiper-pagination"></div>
+					<!-- <div class="swiper-pagination"></div> -->
 					<!-- Add Arrows -->
-					<!-- <div class="swiper-button-next"></div> -->
-					<!-- <div class="swiper-button-prev"></div> -->
+					<div class="swiper-button-next"></div> 
+					<div class="swiper-button-prev"></div> 
 				</div>
 
 
 				<!-- Initialize Swiper -->
-				<script>
-					var swiper = new Swiper('.ad-container', {
-						slidesPerView : 3,
-						spaceBetween : 30,
-						slidesPerGroup : 2,
-						loop : true,
-						loopFillGroupWithBlank : true,
-						pagination : {
-							el : '.swiper-pagination',
-							clickable : true,
-						},
-						navigation : {
-							nextEl : '.swiper-button-next',
-							prevEl : '.swiper-button-prev',
-						},
-						autoplay : {
-							delay : 3000,
-						},
-					/* mousewheel: {
-					    invert: true,
-					}, */
+                <script>
+					var swiper = new Swiper('.swiper-container',
+						{
+							speed: 1000,
+							slidesPerView : 3,
+							spaceBetween : 15,
+							slidesPerGroup : 2,
+							loop : true,
+							loopFillGroupWithBlank : true,
+							pagination : {
+								//el : '.swiper-pagination',
+								//clickable : true,
+							},
+							navigation : {
+								nextEl : '.swiper-button-next',
+								prevEl : '.swiper-button-prev',
+							},
+							autoplay : {
+								delay : 3000,
+							},
+						/* mousewheel: {
+						    invert: true,
+						}, */
 					});
 				</script>
 
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
+
 </section>
 
 

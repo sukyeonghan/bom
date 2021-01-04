@@ -27,7 +27,8 @@
 		border: none;
 		border-bottom: 3px #45A663 solid;}
 	/*패스워드 입력시 글자 공란으로 나오는 거 처리*/
-	input[type=password] {font-family: "NanumSquare";}
+	input[type=password] {font-family: 'Roboto';}
+	input::placeholder {font-family: 'Cafe24Simplehae';}
 	#typeChange1,#typeChange2{
 		position:absolute;
 		z-index: 100;

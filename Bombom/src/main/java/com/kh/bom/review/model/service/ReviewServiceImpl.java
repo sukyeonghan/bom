@@ -1,5 +1,6 @@
 package com.kh.bom.review.model.service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.dao.PointDao;
 import com.kh.bom.point.model.vo.Point;
+import com.kh.bom.product.model.dao.ProductDao;
 import com.kh.bom.review.model.dao.ReviewDao;
 import com.kh.bom.review.model.vo.Review;
 
@@ -21,6 +23,8 @@ public class ReviewServiceImpl implements ReviewService {
 	private ReviewDao dao;
 	@Autowired
 	private PointDao pointdao;
+	@Autowired
+	private ProductDao proDao;
 	
 	@Override
 	public Order selectOrder(Map map) {
@@ -35,6 +39,7 @@ public class ReviewServiceImpl implements ReviewService {
 		int result = 0;
 		try {
 			result =  dao.insertReview(session, r);
+
 			String msg = "";
 			int plus = 0;
 		

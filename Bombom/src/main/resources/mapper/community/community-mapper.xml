@@ -93,8 +93,14 @@
 	<update id="updateCommunity" parameterType="community">
 		UPDATE COMMUNITY SET
 		CM_TITLE=#{cmTitle},CM_CONTENT=#{cmContent},
+		CM_THUMBNAIL=#{cmThumbnail}
 		WHERE CM_NO=#{cmNo}
 	</update>
+	
+	<!-- 
+	<select id="selectThumb" parameterType="string" resultMap="community">
+	SELECT CM_THUMBNAIL FROM COMMUNITY WHERE CM_NO=#{cmNo}
+	</select> -->
    
     <!-- 커뮤 조회수 증가 -->
 	<update id="communityView" parameterType="string">
@@ -109,34 +115,47 @@
 	</select>
 	
 	<!-- 댓글 등록 -->
-	<insert id="insertBoardReply" parameterType="hashmap">
+	<insert id="insertReply" parameterType="boardReply">
 		insert into board_reply(
 		reply_id,
 		board_id,
-		parent_id,
-		depth,
 		reply_content,
+		depth,
 		mem_no,
 		register_datetime
 		)values(
 		'REP'||SEQ_REPLY_ID.NEXTVAL,
 		#{board_id},
-		<if test='parent_id == null or parent_id ==" "'>
-			NULL,
-		</if>
-		<if test='parent_id != null and parent_id!= " "'>
-			#{parent_id},
-		</if>
-		#{depth},
 		#{reply_content},
+		0,
 		#{mem_no},
-		SYSDATE
+		SYSDATE      <!-- my batis mapper에서 오라클 sysdate 사용하기 때문에 값을 따로 받지 않아도 된다. --> 
 		)
 	</insert>
 	
+	<insert id="insertReReply" parameterType="boardReply">
+	insert into board_reply(
+	reply_id,
+	board_id,
+	reply_content,
+	parent_id,
+	depth,
+	mem_no,
+	register_datetime
+	)values(
+	'REP'||SEQ_REPLY_ID.NEXTVAL,
+	#{board_id},
+	#{reply_content},
+	#{parent_id},
+	1,
+	#{mem_no},
+	SYSDATE
+	)
+	</insert>
+	
 	<!-- 커뮤니티 댓글 + 대댓글 목록 -->
-	<select id="selectBoardReplyList" resultMap="boardReplyMap"
-		parameterType="java.util.HashMap">
+	<select id="selectBoardReplyList" resultType="boardReply"
+		parameterType="string">
 		select
 		reply_id,
 		board_id,
@@ -144,7 +163,7 @@
 		depth,
 		reply_content,
 		br.mem_no,
-		TO_CHAR(REGISTER_DATETIME,'YYYY-MM-DD HH24:MI:SS')AS REGISTER_DATETIME,
+		register_datetime,
 		mem_nick,
 		mem_pro
 		from
@@ -153,7 +172,26 @@
 		on br.mem_no = mb.mem_no
 		where
 		board_id = #{cmNo}
-		order by reply_id
+		order by register_datetime desc 
+	</select>
+	<select id="selectChildBoardReplyList" parameterType="string" resultType="boardReply">
+		select
+		reply_id,
+		board_id,
+		parent_id,
+		depth,
+		reply_content,
+		br.mem_no,
+		TO_CHAR(REGISTER_DATETIME,'YYYY-MM-DD')AS REGISTER_DATETIME,
+		mem_nick,
+		mem_pro
+		from
+		board_reply br
+		left join member mb
+		on br.mem_no = mb.mem_no
+		where
+		parent_id = #{reply_id}
+		order by register_datetime desc 
 	</select>
 
    
@@ -181,13 +219,15 @@
 		board_reply
 		where
 		reply_id = #{reply_id}
+		<if test="parent_id!=null">
+		OR parent_id = #{reply_id}
+		</if>
 	</delete>
 
 	<!-- 댓글 신고하기 -->
 	<update id="reportReply" parameterType="boardReply">
-	update board_reply 
+	update board_reply  <!-- 조인 못씀  -->
 	set
-	mem_no = #{mem_no},
 	com_reason = #{com_reason},
 	com_status = #{com_status}
 	where 
@@ -259,5 +299,13 @@
   	<!-- 좋아요한 글 가져오기-->
   	<select id="selectLikeNo" parameterType="string" resultMap="memberMap">
   		SELECT MEM_CM_LIKE FROM MEMBER WHERE MEM_NO=#{memNo}
+  	</select>
+  	<!--내가 쓴 커뮤니티글 리스트 -세민  -->
+  	<select id="selectComList" parameterType="string" resultMap="communityMap">
+  		SELECT * FROM COMMUNITY WHERE CM_WRITER=#{memNo}
+  	</select>
+  	<!--내가 쓴 커뮤글 카운트 -sm  -->
+  	<select id="selectComCount" parameterType="string" resultType="_int">
+  		SELECT COUNT(*) FROM COMMUNITY WHERE CM_WRITER=#{memNo}
   	</select>
 </mapper>

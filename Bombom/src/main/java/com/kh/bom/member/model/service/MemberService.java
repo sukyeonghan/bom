@@ -35,4 +35,6 @@ public interface MemberService {
 
 	//sns로가입되어 있는지 여부
 	Member selectSnsMem(Member snsMem);
+	//접속일
+	int updateMemLastDate(String memNo);
 }

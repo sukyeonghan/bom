@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.CommunityMngService;
+import com.kh.bom.common.page.ComMngAjaxPageBarFactory;
 import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.community.model.vo.BoardReply;
 import com.kh.bom.member.model.service.MemberService;
@@ -28,12 +29,12 @@ public class CommunityAdminController {
 	private MemberService memberService;
 
 
-	 //댓글 페이지 매핑 주소
+	 //관리자 댓글 페이지 매핑 주소
 	 @RequestMapping("/admin/community/communityMng") public String replyList() {
 	 
 	 return "/admin/community/communityMng"; }
 	 
-	// 댓글 첫 페이지
+	//관리자 댓글 첫 페이지
 	@RequestMapping("/admin/community/communityMngAjax") //페이지 매핑 주소
 	public ModelAndView replyList(ModelAndView mv, @RequestParam(value = "cPage", defaultValue = "1") int cPage,
 			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage, String order, @RequestParam(value="keyword", defaultValue="") String keyword) {
@@ -47,7 +48,7 @@ public class CommunityAdminController {
 		mv.addObject("list", service.selectReplyList(cPage, numPerpage,m));
 		int totalData = service.selectPage();
 
-		mv.addObject("pageBar", PageBarFactory.getPageBar(totalData, cPage, numPerpage, "communityMng"));
+		mv.addObject("pageBar", ComMngAjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "communityMngAjax", order, keyword));
 		mv.addObject("totalData", totalData);
 
 		mv.setViewName("/admin/community/communityMngAjax"); //매핑된 페이지에서 보여주는 화면

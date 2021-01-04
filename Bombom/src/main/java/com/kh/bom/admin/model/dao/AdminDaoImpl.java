@@ -80,6 +80,12 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectList("admin.memberAutoComplete", map);
 	}
+	
+	@Override
+	public List<String> selectMemEmailList(SqlSession session,Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectMemEmailList",map);
+	}
 	// 회원관리 끝!
 
 	// 제품 목록
@@ -165,7 +171,6 @@ public class AdminDaoImpl implements AdminDao {
 	@Override
 	public int updateProduct(SqlSession session, Product p) {
 		// TODO Auto-generated method stub
-		System.out.println("지금 수정에서 다오!"+p);
 		return session.update("admin.updateProduct", p);
 	}
 

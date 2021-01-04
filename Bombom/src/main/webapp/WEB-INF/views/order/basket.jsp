@@ -11,9 +11,27 @@
 <c:forEach items="${list}" var="l">
 	<c:set var="totalPdtPrice" value="${totalPdtPrice+ (l.inbasQty * l.pdtPrice)}"/>
 	<c:if test="${l.salePer != 0 }">
-		<c:set var="totalSale" value="${totalSale+((l.pdtPrice * l.salePer/100))}"/>
+		<!-- 옵션값이 없는경우 -->
+		<c:if test="${empty l.pdtOptionNo }">
+			<c:set var="totalSale" value="${totalSale+((l.pdtPrice * l.salePer/100))}"/>
+		</c:if>
+		<!-- 옵션값이 있는경우 -->
+		<c:if test="${not empty l.pdtOptionNo }">
+			<c:set var="totalSale" value="${totalSale+((l.pdtPrice + l.pdtOptionAddprice) * l.salePer/100)}"/>
+		</c:if>
 	</c:if>
-	<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * (l.pdtPrice - (l.pdtPrice * l.salePer/100)))}" />
+	
+	<!-- 옵션값 없는 상품값합하기 -->
+	<c:if test="${empty l.pdtOptionNo }">
+		<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * (l.pdtPrice - (l.pdtPrice * l.salePer/100)))}" />
+	</c:if>
+	<!-- 옵션값 있는 상품값합하기 -->
+	<c:if test="${not empty l.pdtOptionNo }">
+		<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * ((l.pdtPrice+ l.pdtOptionAddprice) - ((l.pdtPrice+ l.pdtOptionAddprice) * l.salePer/100)))}" />
+	</c:if>
+	
+
+	<c:set var="basketNo" value="${l.basketNo }"/>
 </c:forEach>
 
 <!-- icon -->
@@ -48,17 +66,17 @@
 	<div class="basket_container_wrap">
 			<div class=" col-8">
 				<div id="basket-container" class="media-body">
+				<form name="basketFrm" id="basketFrm" action="${path}/order/doOrder">
 				<table class="table table-hover">
 					<thead>
 						<tr>
 							<th style="width: 40%;">선택한 상품</th>
-							<th style="width: 20%;">수량</th>
+							<th style="width: 25%;">수량</th>
 							<th style="width: 20%;">가격</th>
 							<th style="width: 10%;">할인</th>
-							<th style="width: 10%;"></th><!-- 삭제 -->
+							<th style="width: 5%;"></th><!-- 삭제 -->
 						</tr>
 					</thead>
-					<form name="basketFrm" id="basketFrm" action="${path}/order/doOrder">
 						<tbody>
 							<c:forEach items="${list }" var="b">
 							<tr>
@@ -66,8 +84,7 @@
 							<td>
 							<!-- 상품보여주기 -->
 							<div class="show_pdt-wrap">
-								<a href="${path }/product/productOne?pdtNo=${b.pdtNo}"
-									class="d-flex">
+								<a href="${path }/product/productOne?pdtNo=${b.pdtNo}" class="d-flex">
 								<!-- 제품썸네일 -->
 								<c:forTokens items="${b.pdtThumbImage}" var="th" delims="," varStatus="vs">
 									<c:if test="${vs.first }">
@@ -76,25 +93,38 @@
 									</c:if>
 								</c:forTokens>
 								<!-- 제품명 -->
-								<div class="pdtName_p"><p><c:out value="${b.pdtName }" /><br>
-									<fmt:formatNumber value="${b.pdtPrice}" pattern="#,###,###" />원</p></div>
+								<div class="pdtName_p">
+								<p>
+									<c:if test="${empty b.pdtOptionNo }"> <!-- 옵션 없는경우 -->
+										<c:out value="${b.pdtName }" /><br>
+										<fmt:formatNumber value="${b.pdtPrice}" pattern="#,###,###" />원
+									</c:if>	
+									
+									<c:if test="${not empty b.pdtOptionNo }"><!-- 옵션 있는경우 -->
+										<c:out value="${b.pdtName }" /><br>
+										<c:out value="${b.pdtOptionContent }" /><br>
+										<fmt:formatNumber value="${b.pdtPrice + b.pdtOptionAddprice}" pattern="#,###,###" />원
+									</c:if>	
+									
+								</p>
+								</div>
 								</a>
 							</div>
-							<input type="hidden" name="memNo" value="${b.memNo }" > 
 							<input type="hidden" class="pNo" name="pdtNo" value="${b.pdtNo }" > 
-							<input type="hidden" class="opNo" name="pdtOptionNo" value="${b.pdtOptionNo }" >
 							<input type="hidden" class="bNo" name="basketNo" value="${b.basketNo }">
+							<input type="hidden" name="inbasQty" value="${b.inbasQty }">
 							</td>
 							
 							<!-- 수량 -->
 							<td>
 								<div class="input_number_wrap option-count-input form-number">
-									<button  class="minus form-number_control" type="button" onclick="fn_minus(event);">
+									<button  class="minus form-number_control" type="button">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 7 11.5 h 10 v 1 H 7 Z"></path></svg>
 									</button>
-										<input type="text" name="inbasQty" 	class="qty form-control " value="${b.inbasQty }" style="width: 80px; text-align: center;"
-										onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' />
-									<button  class="plus form-number_control" type="button" onclick="fn_plus(event);">
+									
+									<input type="text" 	class="qty form-control " value="${b.inbasQty }" style="width: 80px; text-align: center;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' />
+									
+									<button  class="plus form-number_control" type="button">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 11.5 11.5 V 6 h 1 v 5.5 H 18 v 1 h -5.5 V 18 h -1 v -5.5 H 6 v -1 h 5.5 Z"></path></svg>
 									</button>
 								</div>
@@ -103,12 +133,31 @@
 							<!-- 가격 -->
 							<td>
 								<div class="pdtOnePrice">
-									<fmt:formatNumber value="${b.salePer != 0? b.pdtPrice-(b.pdtPrice*(b.salePer/100)) : b.inbasQty*b.pdtPrice}" pattern="#,###,###" />원
+									<c:if test="${not empty b.pdtOptionNo }">
+										<fmt:formatNumber 
+											value="${b.salePer != 0? (b.pdtPrice + b.pdtOptionAddprice)-((b.pdtPrice+b.pdtOptionAddprice)*(b.salePer/100)) : b.inbasQty*(b.pdtPrice + b.pdtOptionAddprice)}" 
+											pattern="#,###,###" />원
+									</c:if>
+									<c:if test="${empty b.pdtOptionNo }">
+										<fmt:formatNumber 
+											value="${b.salePer != 0? b.pdtPrice-(b.pdtPrice*(b.salePer/100)) : b.inbasQty*b.pdtPrice}" 
+											pattern="#,###,###" />원
+									</c:if>
 								</div>
 							</td>
+							
+							
+							<!-- 할인 -->
 							<td>
-								<div>(-)<fmt:formatNumber pattern="#,###,###" value="${b.salePer != 0? b.pdtPrice*(b.salePer/100) : 0 }" />원</div>
+								<c:if test="${not empty b.pdtOptionNo }">
+									<div>(-)<fmt:formatNumber pattern="#,###,###" value="${b.salePer != 0?(b.pdtPrice + b.pdtOptionAddprice)*(b.salePer/100) : 0 }" />원</div>
+								</c:if>
+								<c:if test="${empty b.pdtOptionNo }">
+									<div>(-)<fmt:formatNumber pattern="#,###,###" value="${b.salePer != 0? b.pdtPrice*(b.salePer/100) : 0 }" />원</div>
+								</c:if>
 							</td>
+							
+							
 							<!-- 삭제버튼 -->
 							<td class="carted-product">
 								<button type="button" class="remove carted-product__delete" 
@@ -119,9 +168,9 @@
 							</td>
 						</tr>
 						</c:forEach>
-						</form>
 					</tbody>
 				</table>
+				</form>
 				</div><!-- /basket-container -->
 			</div><!-- /basket-container-wrap -->
 
@@ -141,7 +190,12 @@
 					</div>
 					<!-- 결제하기 -->
 					<div class="btn-contain">
-						<button form="basketFrm" class="btn btn-outline-success btn-block">결제하기</button>
+						<c:if test="${not empty list }">
+							<button form="basketFrm" class="btn btn-outline-success btn-block">결제하기</button>
+						</c:if>
+						<c:if test="${empty list }">
+							<button form="basketFrm" class="btn btn-outline-success btn-block" disabled="disabled">결제하기</button>
+						</c:if>
 					</div>
 				</div>
 			</div>
@@ -150,41 +204,66 @@
 </section>
 
 <script type="text/javascript">
-	//수량 -
-	var qty = $(".qty");
-	$(".minus").click(e => {
-		console.log("-");
-		for(var i = 0; i < qty.length; i++){
-			console.log(qty[i].value);
-			
-			var qtyM = qty[i].value;
-			qtyM = qtyM -1;
-			console.log(qtyM);
-			
-		}
-	});
-	
-	
-	function fn_minus(){
-		
-		
-		//console.log(qty);
-		//e.target.next().val(qty);
-		//console.log(qty);
-		//qty = qty-1; //수량 input의 value값을 가져와서 -1시킴
-		//$(target).next().val(qty); //바꾼 value값을 수량input value값으로 변경
-	
-	}
-	//수량 +
-	function fn_plus(target){
-		console.log("+");
-		console.log(target);
-		console.log(target.prev().val());
-		
-		//qty = qty+1;
-		//$(".qty").val(qty);
-	}
 
+	//select box ID로 접근하여 선택된 값 읽기
+	//$("#셀렉트박스ID option:selected").val();
+	var prices = $(".pdtOnePrice").html(); //상품가격(할인됐으면 할인적용)
+	var pNos = $(".pNo"); //상품번호
+	var bNos = $(".bNo"); //장바구니번호
+	var opNos = $(".opNo"); //상품옵션번호
+	var removes = $(".remove"); //삭제버튼
+	
+	//장바구니 상품삭제하기
+	function fn_delete(pdtNo, basketNo,memNo){
+		console.log("삭제");
+		var no = {"pdtNo":pdtNo, "basketNo":basketNo,"memNo":memNo};
+		var url = "${path}/order/deleteBasketOne";
+		var ck = confirm("삭제하시겠습니까?");
+		if(ck){
+			window.location = url + "?" + $.param(no);
+		}
+	}
+	
+	//수량 컨트롤함수
+	console.log(pNos.length);
+	var qtys = $(".qty").val();
+	$(function(){
+		for(var i = 0; i<pNos.length; i++){
+			if($(".minus").on("click")){
+				fn_minus(qtys[i]);
+			}else if($(".plus").on("click")){
+				fn_plus(qtys[i]);
+			}
+		}
+		
+	})
+	
+
+	//수량 - 
+	function fn_minus(qty){
+		console.log("-");
+		console.log("바꾸기전"+qty);
+		qty = Number(qty-1);
+		console.log("바꾸기후"+qty);
+		var qtyC = {"inbasQty":qty};
+		var url = "${path}/order/minusQty";
+		//window.location = url + "?" + $.param(qtyC);
+	}
+	
+	//수량 +
+	function fn_plus(qty){
+		console.log("+");
+		console.log("바꾸기전"+qty);
+		qty = Number(qty+1);
+		console.log("바꾸기후"+qty);
+		var qtyC = {"inbasQty":qty};
+		var url = "${path}/order/plusQty";
+		//window.location = url + "?" + $.param(qtyC);
+	}
+	
+	
+	
+	
 	
 </script>
 <style>

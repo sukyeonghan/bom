@@ -37,9 +37,13 @@
 <!-- 부트스트랩 -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-<script
-	src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<!-- swiper -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+<script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    
+<script	src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
@@ -309,9 +313,9 @@ p.p-info {
 					class="img-responsive center-block"
 					src="${path }/resources/images/springAgainLogo.png" alt="mainLogo"></a>
 			</div>
-			<div id="menuNav" class="dropmenu" style="margin-top: 22px;">
+			<div id="menuNav" class="dropmenu">
 				<nav>
-					<ul id="menu_ul" class="nav justify-content-center pt-3">
+					<ul id="menu_ul" class="nav justify-content-center">
 						<li class="nav-item"><a class="nav-link"
 							href="${path }/intro/moveIntro">다시:봄 소개</a></li>
 						<li class="nav-item dropdown"><a id="menuNav-product"
@@ -336,19 +340,20 @@ p.p-info {
 								<li><a class="" href="${path }/faq/faqList">자주묻는질문</a></li>
 							</ul>
 						</li>
-						<%-- <c:if test="${ (loginMember != null) and (loginMember.memManagerYn eq 'Y')  }"> --%>
-						<li class="nav-item dropdown"><a id="menuNav-admin"
-							class="nav-link" href="${path }/admin/memberList">관리자페이지</a>
-							<ul class="">
-								<li><a class="" href="${path }/admin/memberList">회원관리</a></li>
-								<li><a class="" href="${path }/admin/moveProduct">제품관리</a></li>
-								<li><a class="" href="${path }/admin/order">주문관리</a></li>
-								<li><a class="" href="${path }/admin/qnaList">1:1문의 관리</a></li>
-								<li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
-								<li><a class="" href="${path }/admin/moveMainBanners">메인관리</a></li>
-								<li><a class="" href="${path }/admin/community/communityMng">커뮤니티관리</a></li>
-							</ul></li>
-						<%-- </c:if> --%>
+						<c:if test="${ (loginMember != null) and (loginMember.memManagerYn eq 'Y')  }"> 
+							<li class="nav-item dropdown">
+								<a id="menuNav-admin" class="nav-link" href="${path }/admin/memberList">관리자페이지</a>
+								<ul class="">
+									<li><a class="" href="${path }/admin/memberList">회원관리</a></li>
+									<li><a class="" href="${path }/admin/moveProduct">제품관리</a></li>
+									<li><a class="" href="${path }/admin/order">주문관리</a></li>
+									<li><a class="" href="${path }/admin/qnaList">1:1문의 관리</a></li>
+									<li><a class="" href="${path }/admin/moveEvent">이벤트관리</a></li>
+									<li><a class="" href="${path }/admin/moveMainBanners">메인관리</a></li>
+									<li><a class="" href="${path }/admin/community/communityMng">커뮤니티관리</a></li>
+								</ul>
+							</li>
+						 </c:if>
 					</ul>
 				</nav>
 			</div>
@@ -409,7 +414,8 @@ p.p-info {
 							<div class="form-group form-check">
 								<label class="form-check-label"> <input
 									class="form-check-input" type="checkbox" required /> 다시:봄 이용
-									약관 및 개인정보 취급방침에 대한 내용을 모두 <br /> 확인하였으며, 이에 동의합니다.
+									<a href="${path }/agreement/view">약관 및 개인정보 취급방침</a>
+									에 대한 내용을 모두 <br /> 확인하였으며, 이에 동의합니다.
 								</label>
 							</div>
 							<button type="submit" class="btn btn-success btn-block"
@@ -427,10 +433,8 @@ p.p-info {
 									</a>
 								</div>
 								<div class="col">
-									<!-- 									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=http://localhost:9090/bom/auth/kakao/callback&response_type=code">
- -->
-									<a
-										href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback&response_type=code">
+									<!--<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=http://localhost:9090/bom/auth/kakao/callback&response_type=code">-->
+									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback&response_type=code">
 										<img src="${path }/resources/images/login/kakao.png"
 										alt="카카오로그인" class="sns-icon" />
 									</a>
@@ -645,10 +649,10 @@ p.p-info {
 
 					<!-- Modal body -->
 					<div class="modal-body">
-						<span>검색</span> <input type="text" placeholder="검색어를 입력하세요"
-							class="col-xl-10 search_input">
+						<span>상품검색</span> 
+						<div class="d-flex"><input type="text" placeholder="검색어를 입력하세요" class="col-xl-10 form-control search_input">
+						<input type="submit" value="검색" class="btn btn-outline-success ml-2"></div>
 					</div>
-
 				</div>
 			</div>
 		</div>

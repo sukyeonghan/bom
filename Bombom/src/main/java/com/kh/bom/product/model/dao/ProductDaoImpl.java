@@ -30,6 +30,7 @@ public class ProductDaoImpl implements ProductDao {
 	public List<Inquiry> inquiryList(SqlSession session, String pdtNo, int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
 		return session.selectList("inquiry.inquiryList",pdtNo,new RowBounds((cPage-1)*numPerpage,numPerpage));
+	
 	}
 
 	@Override
@@ -62,48 +63,28 @@ public class ProductDaoImpl implements ProductDao {
 		return session.selectList("product.slidelist");
 	}
 
+
 	@Override
-	public int productCount(SqlSession session, String category,String soldout) {
-		Map<String,String> map=new HashMap();
-		map.put("category", category);
-		map.put("soldout",soldout);
-		return session.selectOne("product.count",map);
-	}
-	@Override
-	public int countSale(SqlSession session,String soldout) {
+	public List<Product> selectProductList(SqlSession session, int cPage, int numPerPage, Product p) {
 		// TODO Auto-generated method stub
-		Map<String,Object> map=new HashMap();
-		map.put("soldout",soldout);
-		return session.selectOne("product.countSale",map);
+		if(p.getCategory()!=null) {
+			for(String c:p.getCategory()) {
+				if(c.equals("전체제품") || c.equals("할인제품")) {
+					p.setCategory(null);
+				}
+			}
+		}
+		return session.selectList("product.ModifyProductList",p,new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
+
+	
 	@Override
-	public List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,String sort,String soldout,String category) {
-		// TODO Auto-generated method stub
-		Map<String,Object> map=new HashMap();
-		map.put("sort", sort);
-		map.put("category", category);
-		map.put("soldout",soldout);
-		return session.selectList("product.productList",map,new RowBounds((cPage-1)*numPerPage,numPerPage));
-	}
-	@Override
-	public List<Product> selectNewCateList(SqlSession session,String category) {
+	public int selectMaxPrice(SqlSession session, String category) {
 		// TODO Auto-generated method stub
 		Map<String,String> map=new HashMap();
 		map.put("category", category);
-		return session.selectList("product.newCateList",map);
+		return session.selectOne("product.selectMaxPrice",map);
 	}
-	@Override
-	public List<Product> selectSaleList(SqlSession session, int cPage, int numPerPage, String sort, String soldout,String category) {
-		// TODO Auto-generated method stub
-		Map<String,String> map=new HashMap();
-		map.put("sort", sort);
-		map.put("soldout", soldout);
-		return session.selectList("product.saleList",map);
-	}
-
-
-
-
 
 
 }

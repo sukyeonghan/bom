@@ -25,11 +25,18 @@ public interface CommunityDao {
 
 	int communityView(SqlSession session, String cmNo);
 	
-	 List<BoardReply> getReplyList(SqlSession session,Map<String, Object> paramMap);
+	//댓글 목록 불러오기
+	 List<BoardReply> getReplyList(SqlSession session,String cmNo);
+	 
+	 //대댓글 목록 불러오기
+    BoardReply getChildReplyList(SqlSession session, String reply_id);
 
-	int regReply(SqlSession session,Map<String, Object> paramMap);
+	int insertReply(SqlSession session,BoardReply br);
+	
+	//대댓글 입력하기
+	int insertReReply(SqlSession session,BoardReply br);
 
-	int deleteReply(SqlSession session,String reply_id);
+	int deleteReply(SqlSession session,BoardReply br);
 
 
 	String selectSeqReply(SqlSession session);

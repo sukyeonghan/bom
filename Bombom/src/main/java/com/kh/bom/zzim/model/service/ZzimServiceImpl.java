@@ -77,6 +77,31 @@ public class ZzimServiceImpl implements ZzimService {
 		// TODO Auto-generated method stub
 		return dao.updateZzimNo(session,map);
 	}
+
+	@Override
+	public int proInsertZzim(Zzim z) {
+		return dao.proInsertZzim(session, z);
+	}
+
+	@Override
+	public int proInsertZzimContent(Map map) {
+		return dao.proInsertZzimContent(session, map);
+	}
+
+	@Override
+	public List selectfavlist(String zzimNo) {
+		return dao.selectfavlist(session, zzimNo);
+	}
+
+	@Override
+	public int proDeleteZzim(Map map) {
+		return dao.proDeleteZzim(session, map);
+	}
+
+	@Override
+	public List selectFavPdtList(String memNo) {
+		return dao.selectFavPdtList(session, memNo);
+	}
 	
 	
 	

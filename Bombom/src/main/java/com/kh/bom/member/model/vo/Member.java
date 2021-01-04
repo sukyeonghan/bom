@@ -1,5 +1,7 @@
 package com.kh.bom.member.model.vo;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,5 +26,9 @@ public class Member {
     private String naverId;
     private String kakaoId;
     private String[] memCmLike;
+    private Date memOutDate;//탈퇴날짜
+    private Date memLastDate;//최근접속날짜
+    private int last;//최근접속일-오늘날짜
+    private	int out;//탈퇴일-오늘날짜
 
 }

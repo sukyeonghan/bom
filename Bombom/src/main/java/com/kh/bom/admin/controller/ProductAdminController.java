@@ -277,8 +277,7 @@ public class ProductAdminController {
 			@RequestParam(value="thumbImgs",required=false) MultipartFile[] thumbImgs,
 			@RequestParam(value="detailImg",required=false) MultipartFile detailImg,
 			HttpSession session) {
-		System.out.println("컨트롤러에서 상세"+detailImg.getOriginalFilename());
-		System.out.println("컨트롤러에서 상세"+p.getPdtDetailImage());
+
 		String path=session.getServletContext().getRealPath("/resources/upload/product");
 		File dir=new File(path);
 		
@@ -310,7 +309,6 @@ public class ProductAdminController {
 		//상세 이미지 저장하기
 		if(detailImg.getOriginalFilename()!="") {
 			String originalName=detailImg.getOriginalFilename();
-			System.out.println(originalName);
 			//리네임양식정하기
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
 			String reName="det"+sdf.format(System.currentTimeMillis())+"_"+originalName;
@@ -319,7 +317,6 @@ public class ProductAdminController {
 				File dFile=new File(path+"/"+p.getPdtDetailImage());
 				if(dFile.exists()) {
 					dFile.delete();
-					System.out.println("상세이미지삭제!!");
 				}
 				detailImg.transferTo(new File(path+"/"+reName));
 				p.setPdtDetailImage(reName);
