@@ -230,7 +230,6 @@ public class ZzimController {
 				z.setFavlist(service.selectfavlist(z.getZzimNo()));
 				if(z.getFavlist()!=null) {
 					obj.put("likePdtno", z.getFavlist());
-					//System.out.println("추가확인 : "+obj);
 				}else {
 					obj.put("likePdtno", "[]");
 				}
