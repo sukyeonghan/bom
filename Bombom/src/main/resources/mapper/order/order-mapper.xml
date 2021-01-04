@@ -67,19 +67,29 @@
 		ord_extra_addr(참고주소), ord_track(송장번호), 
 		ord_memo(배송메모), ord_deli_price(배송비), 
 		ord_conform_yn(구매확정여부) => DEFAULT 'N', 
-		ord_status(주문상태)=>'주문대기', ord_cancel(취소사유), 
-		ord_date(주문날짜), ord_oname(주문자이름), 
-		ord_ophone(주문자번호), ord_rname(수취인이름), 
-		ord_rphone(수취인번호), ord_mng_memo(관리자메모)=>NULL -->
+		ord_cancel(취소사유), 	ord_date(주문날짜), 
+		ord_oname(주문자이름), ord_ophone(주문자번호),
+		ord_rname(수취인이름), ord_rphone(수취인번호),
+		ord_mng_memo(관리자메모)=>NULL ,
+		ord_status(주문상태)=>'주문완료',-->
 		INSERT INTO "ORDER"
 		VALUES (
 		#{orderNo}, #{memNo},#{ordAmount},
-		#{ordUsePoint}, #{ordTrack}, #{ordAddr}, #{ordDetailAddr},#{ordExtraAddr},
-		NULL,#{ordMemo}, #{ordDeliPrice},DEFAULT,
-		'주문대기', #{ordCancel},
-		DEFAULT,#{ordOname},<!-- sysdate => ordDate -->
-		#{ordOpone},#{ordRname}, #{ordRphone},NULL)
+		#{ordUsePoint}, #{ordZipcode},
+		#{ordAddr},	#{ordDetailAddr},
+		#{ordExtraAddr},  #{ordTrack},
+		#{ordMemo}, #{ordDeliPrice},DEFAULT,
+		DEFAULT, SYSDATE, #{ordOname},#{ordOphone},
+		#{ordRname},#{ordRphone},NULL,'주문완료'
+		)
 	</insert>
+	<delete id="deleteInbasket" parameterType="string">
+		DELETE FROM INBASKET WHERE BASKET_NO = #{basketNo}
+	</delete>
+	
+	<delete id="deleteBasket" parameterType="string">
+		DELETE FROM BASKET WHERE BASKET_NO = #{basketNo}
+	</delete>
 
 	<select id="selectOrder" parameterType="map" resultMap="orderMap">
 		SELECT ROWNUM, Q.*

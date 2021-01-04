@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.AdminService;
@@ -189,13 +190,21 @@ public class OrderController {
 		String loc = "";
 		String icon = "";
 		if (result > 0) {
-			msg = "주문이 완료되었습니다! 금방 배송해 드릴게요!";
-			loc = "redirect:/mypage/orderStatus";
-			icon = "success";
+			
+			int deleteB = service.deleteBasket(basketNo);
+			if(deleteB>0) {
+				msg = "주문이 완료되었습니다! 금방 배송해 드릴게요!";
+				loc = "/mypage/orderStatus";
+				icon = "success";
+			}else {
+				msg = "주문은 완료했지만 에러가 발생했어요:( 다시 로그인해주세요";
+				loc = "/";
+				icon = "warning";
+			}
 		} else {
 			msg = "결제에 실패했어요ㅠㅠ";
 			loc = "/";
-			icon = "warning";
+			icon = "error";
 		}
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);

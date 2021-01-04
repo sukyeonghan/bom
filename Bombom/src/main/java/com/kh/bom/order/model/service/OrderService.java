@@ -11,6 +11,8 @@ import com.kh.bom.product.model.vo.ProductOption;
 public interface OrderService {
 	// 결제하기
 	int insertOrder(Order order);
+	
+	int deleteBasket(String basketNo);
 
 	List<Basket> selectBasket(String memNo);
 
