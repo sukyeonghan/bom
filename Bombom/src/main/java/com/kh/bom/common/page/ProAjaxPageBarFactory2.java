@@ -73,15 +73,11 @@ public class ProAjaxPageBarFactory2 {
 		pageBar+="url:'"+url+"',";
 		pageBar+="data:{cPage:cPage,numPerpage:8,price:price,pdtcategory:pdtCategory,category:change,sort:sort,soldout:soldout},";
 		pageBar+="type:'post',";
-		//pageBar+="dataType:'json',";
-		//pageBar+="traditional : true,";
 		pageBar+="success:data=>{";
-		pageBar+="console.log(data);";
-					
+		pageBar+="console.log(data);";	
 		pageBar+="document.getElementById('result').innerHTML=data";
 		pageBar+="}";	
 		pageBar+="});";
-		
 		pageBar+="};";
 		pageBar+="</script>";
 		
