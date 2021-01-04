@@ -31,11 +31,28 @@ public class MyActivityServiceImpl implements MyActivityService {
 		// TODO Auto-generated method stub
 		return dao.selectReviewCount(session,memNo);
 	}
-	//커뮤니티 글 
+	//내가 쓴 커뮤니티 글 (sm) 
 	@Override
 	public List<Community> selectComList(String memNo, int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
 		return dao.selectComList(session,memNo,cPage,numPerpage);
+	}
+	//내가 쓴 커뮤글 페이징
+	@Override
+	public int selectComCount(String memNo) {
+		// TODO Auto-generated method stub
+		return dao.selectComCount(session,memNo);
+	}
+	//구매평 ajax 
+	@Override
+	public List<Review> reviewList(String memNo, int cPage, int numPerpage) {
+		// TODO Auto-generated method stub
+		return dao.reviewList(session,memNo);
+	}
+	@Override
+	public int reviewCount(String memNo) {
+		// TODO Auto-generated method stub
+		return dao.reviewCount(session, memNo);
 	}
 	
 	
