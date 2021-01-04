@@ -28,7 +28,8 @@ public interface CommunityDao {
 	//댓글 목록 불러오기
 	 List<BoardReply> getReplyList(SqlSession session,String cmNo);
 	 
-	 BoardReply getChildReplyList(SqlSession session, String reply_id);
+	 //대댓글 목록 불러오기
+    BoardReply getChildReplyList(SqlSession session, String reply_id);
 
 	int insertReply(SqlSession session,BoardReply br);
 	
