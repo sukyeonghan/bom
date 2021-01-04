@@ -908,6 +908,7 @@ button:focus {
 	//수량계산창 닫기
 	function remove_div(obj){
 		$(".optionAdd").hide();
+		$("#optionSelect").val(null); //optionSelect값을 null로 초기화
 	}
 	
 	//+ 눌렀을 때
