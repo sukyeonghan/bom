@@ -1182,7 +1182,6 @@ button:focus {
 			return;
 		}else{
 			let check = confirm("장바구니에 담으시겠습니까?");
-			console.log($(".optionAdd").length);
 			if(check){
 				window.location = basUrl+'?'+$.param(basket_need);
 			}
