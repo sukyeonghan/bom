@@ -17,7 +17,6 @@
 		<result property="pdtThumbImage" column="pdt_thumb_image"/>
 		<result property="zzimCount" column="ZZIM_COUNT"/>
 		<result property="reviewCount" column="REVIEW_COUNT"/>
-		<result property="pdtReviewAvg" column="pdt_review_avg" />
 		<result property="totCnt" column="tot_cnt" />
 		<result property="newYn" column="new_yn" />
 	</resultMap>
@@ -86,22 +85,40 @@
 				 LEFT OUTER JOIN (SELECT PDT_NO, COUNT(*) AS R_CNT, AVG(REV_SCORE) AS R_AVG FROM REVIEW		GROUP BY PDT_NO) R ON(T1.PDT_NO=R.PDT_NO)
         <trim prefix="WHERE" prefixOverrides="AND">
         	<if test="pdtCategory !=null and pdtCategory !='전체제품' and pdtCategory!='할인제품'">
-				AND PDT_CATEGORY in #{pdtCategory}
+				AND PDT_CATEGORY IN #{pdtCategory}
 			</if>
 			<if test="pdtCategory !=null and pdtCategory=='할인제품'">
 				AND EVENT_NO_REF IS NOT NULL AND EVENT_SALE_PER > 0
 			</if>
+			
 			<if test="category != null">
-				AND PDT_CATEGORY in
+				AND PDT_CATEGORY IN
 				<foreach collection="category" item="category" open="(" close=")" separator=",">
 					#{category}
-				</foreach>
+				</foreach> 
 			</if> 
 			<if test="soldout!=null and soldout == '품절제외'">
 				AND PDT_STATUS='Y'
 			</if>
 			<if test="fromPrice!=null and toPrice!=0">
 				AND PDT_PRICE BETWEEN #{fromPrice} AND #{toPrice} 
+			</if>
+			<if test="star!=null">
+				<if test="star==1">
+					AND R_AVG BETWEEN 0 AND 1
+				</if>
+				<if test="star==2">
+					AND R_AVG BETWEEN 1 AND 2
+				</if>
+				<if test="star==3">
+					AND R_AVG BETWEEN 2 AND 3
+				</if>
+				<if test="star==4">
+					AND R_AVG BETWEEN 3 AND 4
+				</if>
+				<if test="star==5">
+					AND R_AVG BETWEEN 4 AND 5
+				</if>	
 			</if>
 		</trim>
 		GROUP BY T1.PDT_NO

@@ -68,25 +68,9 @@
 					<p class="category"><c:out value="${category}"/> &nbsp </p>
 					<p class="count" id="count"><c:out value="${count}"/></p>
 				</div>
-<!-- 				<div class="select-box">
-					품절 포함 선택
-					<select class="sort" id="soldout">
-						<option value="품절포함">품절 포함</option>
-						<option value="품절제외">품절 제외</option>
-					</select>
-					분류 필터
-					<select class="sort" id="sort">
-						<option value="등록일순">등록일순</option>
-						<option value="인기순">인기순</option>
-						<option value="리뷰순">리뷰순</option>
-						<option value="할인율순">할인율순</option>
-						<option value="낮은가격순">낮은 가격순</option>
-						<option value="높은가격순">높은 가격순</option>
-					</select>
-				</div> -->
 				<button type="button" id="filter" class="btn btn-outline-success" data-toggle="collapse" data-target="#form">검색 필터</button>
-
 			</div>
+			<!-- 검색 필터 -->
 			<form id="form" class="collapse">
 				<div id="sort-wrap">
 					<input type="hidden" name="pdtcategory" value="${category}">
@@ -122,27 +106,22 @@
 						        data-from="0"
 						        data-to="${maxPrice }"
 						        data-grid="true"/>
-						     <!-- <input type="hidden" name="price" value=""> -->
-<!-- 							<input type="radio" class="sort" name="price" value="10000">  만원 이하
-							<input type="radio" class="sort" name="price" value="30000">  3만원 이하
-							<input type="radio" class="sort" name="price" value="50000">  5만원 이하
-							<input type="radio" class="sort" name="price" value="50000이상">  5만원 이상 -->
 						</li>
-						<li class="slider">
-							<!-- <span class="sort-title">평점</span>
-							<input type="text" class="js-range-slider" id="avg-range-slider" name="my_range" value="" 
+						<li >
+							<span class="sort-title">평점</span>
+							<!-- <input type="text" class="js-range-slider" id="avg-range-slider" name="my_range" value="" 
 							   data-type="double"
 						        data-min="0"
 						        data-max="5"
 						        data-from="0"
 						        data-to="5"
 						        data-grid="true"/> -->
-							<!-- <span class="sort-title">평점</span>
+							
 							<input type="checkbox" class="sort" name="star" value="1">  ★
 							<input type="checkbox" class="sort" name="star" value="2">  ★★
 							<input type="checkbox" class="sort" name="star" value="3">  ★★★
 							<input type="checkbox" class="sort" name="star" value="4">  ★★★★
-							<input type="checkbox" class="sort" name="star" value="5">  ★★★★★ -->
+							<input type="checkbox" class="sort" name="star" value="5">  ★★★★★ 
 						</li>
 						<li>
 							<span class="sort-title">품절</span>

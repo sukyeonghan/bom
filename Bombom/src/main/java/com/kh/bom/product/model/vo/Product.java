@@ -32,11 +32,10 @@ public class Product {
 	private int reviewCount;
 	private String[] category;
 	private String sort;
-	private String star;
+	private int star;
 	private String soldout;
 	private int fromPrice;
 	private int toPrice;
-	private String pdtReviewAvg;
 	private int totCnt;
 	private String newYn;
 }

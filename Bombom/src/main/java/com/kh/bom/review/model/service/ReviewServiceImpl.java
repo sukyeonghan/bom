@@ -39,14 +39,7 @@ public class ReviewServiceImpl implements ReviewService {
 		int result = 0;
 		try {
 			result =  dao.insertReview(session, r);
-			if(result>0) {
-				//product 테이블에 평균평점 계산해서 넣기
-				String avg=proDao.reviewAvg(session,r.getPdtNo());
-				HashMap<String,String> map=new HashMap();
-				map.put("pdtNo", r.getPdtNo());
-				map.put("pdtReviewAvg", avg);
-				proDao.updateReviewAvg(session, map);
-			}
+
 			String msg = "";
 			int plus = 0;
 		

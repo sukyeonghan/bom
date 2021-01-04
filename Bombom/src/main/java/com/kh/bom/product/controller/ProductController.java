@@ -1,7 +1,9 @@
 package com.kh.bom.product.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,21 +61,69 @@ public class ProductController {
 
 	//제품 리스트 ajax
 	@RequestMapping("/product/productListAjaxTest")
+	@ResponseBody
 	public ModelAndView productListTest(ModelAndView m,Product p,
+			HttpServletRequest request,
 			@RequestParam(value="pdtcategory", defaultValue="전체제품") String pdtCategory,
+			@RequestParam(value="category", required = false) String[] category,
+			@RequestParam(value="sort", required = false) String sort,
+			@RequestParam(value="soldout", required = false) String soldout,
 			@RequestParam(value="price") String price,
 			@RequestParam(value="cPage", defaultValue="1") int cPage, 
 			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
 		
 		p.setPdtCategory(pdtCategory);
-		int idx=price.indexOf(";");
-		p.setFromPrice(Integer.parseInt(price.substring(0, idx)));//시작값
-		p.setToPrice(Integer.parseInt(price.substring(idx+1)));//끝값
+		System.out.println("분류"+p.getSort());
+		System.out.println("분류2"+sort);
+		System.out.println("가격"+price);
+		System.out.println("p"+p);
+		System.out.println("카테고리"+category);
+		System.out.println(request.getParameterValues("category"));
+		System.out.println("p에 들어있음"+Arrays.toString(p.getCategory()));
+		//p.setCategory(request.getParameterValues("category"));
+		//제품 슬라이더 가격
+		int idx=0;
+		if(price!=null) {
+			idx=price.indexOf(";");
+			if(idx!=-1) {
+				p.setFromPrice(Integer.parseInt(price.substring(0, idx)));//시작값
+				p.setToPrice(Integer.parseInt(price.substring(idx+1)));//끝값
+			}else {
+				p.setFromPrice(0);
+				p.setToPrice(service.selectMaxPrice(pdtCategory));
+			}
+		}
+		
+		//검색옵션에서 선택하는 카테고리
+		//String[] category = request.getParameterValues("category");
+		//System.out.println("다시!"+Arrays.toString(category));
+		/*
+		 * if(p.getCategory().length!=0) { for(int i=0; i<p.getCategory().length; i++) {
+		 * System.out.println(p.getCategory()); } }
+		 */
+		
+		//category=null;
+		/*
+		 * String[] category if(category.length!=0) { if(p.getCategory()!=null) {
+		 * category=p.getCategory(); } }else System.out.println("비었다");
+		 */
+		
+		//ajax 페이징에서 넘어올 때 값이 비어있음. 다시 세팅
+		if(p.getSort()==null) { 
+			p.setCategory(category);
+			p.setSoldout(soldout);
+			p.setSort(sort);
+		}
 		
 		List<Product> list=service.selectProductList(cPage,numPerpage,p);
-		int totalCount=list.get(0).getTotCnt();//제품 개수
+		
+		int totalCount=0;
+		if(list.size()!=0) {
+			totalCount=list.get(0).getTotCnt();//제품 개수
+		}
 		m.addObject("list",list);
-		m.addObject("pageBar",ProAjaxPageBarFactory2.getAjaxPageBar(totalCount, cPage, numPerpage, "productListAjaxTest",list));
+		m.addObject("pageBar",ProAjaxPageBarFactory2.getAjaxPageBar(totalCount, cPage, numPerpage, "productListAjaxTest",price,pdtCategory,Arrays.toString(p.getCategory()),p.getSort(),p.getSoldout()));
+		//m.addObject("pageBar",ProAjaxPageBarFactory3.getAjaxPageBar(totalCount, cPage, numPerpage, "productListAjaxTest",price,p));
 		m.addObject("cPage",cPage);
 		m.addObject("count",totalCount);
 		m.setViewName("product/productListAjaxTest");

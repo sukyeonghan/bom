@@ -30,6 +30,7 @@ public class ProductDaoImpl implements ProductDao {
 	public List<Inquiry> inquiryList(SqlSession session, String pdtNo, int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
 		return session.selectList("inquiry.inquiryList",pdtNo,new RowBounds((cPage-1)*numPerpage,numPerpage));
+	
 	}
 
 	@Override
