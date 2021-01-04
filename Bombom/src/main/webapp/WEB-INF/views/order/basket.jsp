@@ -11,9 +11,25 @@
 <c:forEach items="${list}" var="l">
 	<c:set var="totalPdtPrice" value="${totalPdtPrice+ (l.inbasQty * l.pdtPrice)}"/>
 	<c:if test="${l.salePer != 0 }">
-		<c:set var="totalSale" value="${totalSale+((l.pdtPrice * l.salePer/100))}"/>
+		<!-- 옵션값이 없는경우 -->
+		<c:if test="${empty l.pdtOptionNo }">
+			<c:set var="totalSale" value="${totalSale+((l.pdtPrice * l.salePer/100))}"/>
+		</c:if>
+		<!-- 옵션값이 있는경우 -->
+		<c:if test="${not empty l.pdtOptionNo }">
+			<c:set var="totalSale" value="${totalSale+((l.pdtPrice + l.pdtOptionAddprice) * l.salePer/100)}"/>
+		</c:if>
 	</c:if>
-	<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * (l.pdtPrice - (l.pdtPrice * l.salePer/100)))}" />
+	
+	<!-- 옵션값 없는 상품값합하기 -->
+	<c:if test="${empty l.pdtOptionNo }">
+		<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * (l.pdtPrice - (l.pdtPrice * l.salePer/100)))}" />
+	</c:if>
+	<!-- 옵션값 있는 상품값합하기 -->
+	<c:if test="${not empty l.pdtOptionNo }">
+		<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * ((l.pdtPrice+ l.pdtOptionAddprice) - ((l.pdtPrice+ l.pdtOptionAddprice) * l.salePer/100)))}" />
+	</c:if>
+	
 
 	<c:set var="basketNo" value="${l.basketNo }"/>
 </c:forEach>
@@ -77,8 +93,21 @@
 									</c:if>
 								</c:forTokens>
 								<!-- 제품명 -->
-								<div class="pdtName_p"><p><c:out value="${b.pdtName }" /><br>
-									<fmt:formatNumber value="${b.pdtPrice}" pattern="#,###,###" />원</p></div>
+								<div class="pdtName_p">
+								<p>
+									<c:if test="${empty b.pdtOptionNo }"> <!-- 옵션 없는경우 -->
+										<c:out value="${b.pdtName }" /><br>
+										<fmt:formatNumber value="${b.pdtPrice}" pattern="#,###,###" />원
+									</c:if>	
+									
+									<c:if test="${not empty b.pdtOptionNo }"><!-- 옵션 있는경우 -->
+										<c:out value="${b.pdtName }" /><br>
+										<c:out value="${b.pdtOptionContent }" /><br>
+										<fmt:formatNumber value="${b.pdtPrice + b.pdtOptionAddprice}" pattern="#,###,###" />원
+									</c:if>	
+									
+								</p>
+								</div>
 								</a>
 							</div>
 							<input type="hidden" class="pNo" name="pdtNo" value="${b.pdtNo }" > 
@@ -104,12 +133,31 @@
 							<!-- 가격 -->
 							<td>
 								<div class="pdtOnePrice">
-									<fmt:formatNumber value="${b.salePer != 0? b.pdtPrice-(b.pdtPrice*(b.salePer/100)) : b.inbasQty*b.pdtPrice}" pattern="#,###,###" />원
+									<c:if test="${not empty b.pdtOptionNo }">
+										<fmt:formatNumber 
+											value="${b.salePer != 0? (b.pdtPrice + b.pdtOptionAddprice)-((b.pdtPrice+b.pdtOptionAddprice)*(b.salePer/100)) : b.inbasQty*(b.pdtPrice + b.pdtOptionAddprice)}" 
+											pattern="#,###,###" />원
+									</c:if>
+									<c:if test="${empty b.pdtOptionNo }">
+										<fmt:formatNumber 
+											value="${b.salePer != 0? b.pdtPrice-(b.pdtPrice*(b.salePer/100)) : b.inbasQty*b.pdtPrice}" 
+											pattern="#,###,###" />원
+									</c:if>
 								</div>
 							</td>
+							
+							
+							<!-- 할인 -->
 							<td>
-								<div>(-)<fmt:formatNumber pattern="#,###,###" value="${b.salePer != 0? b.pdtPrice*(b.salePer/100) : 0 }" />원</div>
+								<c:if test="${not empty b.pdtOptionNo }">
+									<div>(-)<fmt:formatNumber pattern="#,###,###" value="${b.salePer != 0?(b.pdtPrice + b.pdtOptionAddprice)*(b.salePer/100) : 0 }" />원</div>
+								</c:if>
+								<c:if test="${empty b.pdtOptionNo }">
+									<div>(-)<fmt:formatNumber pattern="#,###,###" value="${b.salePer != 0? b.pdtPrice*(b.salePer/100) : 0 }" />원</div>
+								</c:if>
 							</td>
+							
+							
 							<!-- 삭제버튼 -->
 							<td class="carted-product">
 								<button type="button" class="remove carted-product__delete" 

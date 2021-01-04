@@ -17,9 +17,25 @@
 <c:forEach items="${blist}" var="l">
 	<c:set var="totalPdtPrice" value="${totalPdtPrice+ (l.inbasQty * l.pdtPrice)}"/>
 	<c:if test="${l.salePer != 0 }">
-		<c:set var="totalSale" value="${totalSale+((l.pdtPrice * l.salePer/100))}"/>
+		<!-- 옵션값이 없는경우 -->
+		<c:if test="${empty l.pdtOptionNo }">
+			<c:set var="totalSale" value="${totalSale+((l.pdtPrice * l.salePer/100))}"/>
+		</c:if>
+		<!-- 옵션값이 있는경우 -->
+		<c:if test="${not empty l.pdtOptionNo }">
+			<c:set var="totalSale" value="${totalSale+((l.pdtPrice + l.pdtOptionAddprice) * l.salePer/100)}"/>
+		</c:if>
 	</c:if>
-	<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * (l.pdtPrice - (l.pdtPrice * l.salePer/100)))}" />
+	
+	<!-- 옵션값 없는 상품값합하기 -->
+	<c:if test="${empty l.pdtOptionNo }">
+		<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * (l.pdtPrice - (l.pdtPrice * l.salePer/100)))}" />
+	</c:if>
+	<!-- 옵션값 있는 상품값합하기 -->
+	<c:if test="${not empty l.pdtOptionNo }">
+		<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * ((l.pdtPrice+ l.pdtOptionAddprice) - ((l.pdtPrice+ l.pdtOptionAddprice) * l.salePer/100)))}" />
+	</c:if>
+	
 
 	<c:set var="basketNo" value="${l.basketNo }"/>
 </c:forEach>
@@ -55,7 +71,8 @@
 					<th style="width: 20%;"></th>
 					<th style="width: 40%;"></th>
 					<th style="width: 20%;"></th>
-					<th style="width: 20%;"></th>
+					<th style="width: 10%;"></th>
+					<th style="width: 10%;"></th>
 				</tr>
 			</thead>
 	        <c:forEach items="${blist }" var="b">
@@ -74,11 +91,40 @@
 					</div>
                 </td>
                 <!-- 이름 -->
-                <td><c:out value="${b.pdtName }" /></td>
+                <td>
+					<c:if test="${empty b.pdtOptionNo }"> <!-- 옵션 없는경우 -->
+						<c:out value="${b.pdtName }" /><br>
+					</c:if>	
+					
+					<c:if test="${not empty b.pdtOptionNo }"><!-- 옵션 있는경우 -->
+						<c:out value="${b.pdtName }" /><br>
+						<c:out value="${b.pdtOptionContent }" /><br>
+					</c:if>	
+				</td>
                 <!-- 가격 -->
-                <td><fmt:formatNumber pattern="#,###,###" value="${b.pdtPrice }"/>원</td>
+                <td>
+                
+                <c:if test="${empty b.pdtOptionNo }"> <!-- 옵션 없는경우 -->
+					<fmt:formatNumber value="${b.pdtPrice}" pattern="#,###,###" />원
+				</c:if>	
+				
+				<c:if test="${not empty b.pdtOptionNo }"><!-- 옵션 있는경우 -->
+					<fmt:formatNumber value="${b.pdtPrice + b.pdtOptionAddprice}" pattern="#,###,###" />원
+				</c:if>	
+                
+                </td>
                 <!-- 수량 -->
                 <td> <c:out value="${b.inbasQty }" />개 </td>
+                <!-- 할인 -->
+				<td>
+					<c:if test="${not empty b.pdtOptionNo }">
+						<div>(-)<fmt:formatNumber pattern="#,###,###" value="${b.salePer != 0?(b.pdtPrice + b.pdtOptionAddprice)*(b.salePer/100) : 0 }" />원</div>
+					</c:if>
+					<c:if test="${empty b.pdtOptionNo }">
+						<div>(-)<fmt:formatNumber pattern="#,###,###" value="${b.salePer != 0? b.pdtPrice*(b.salePer/100) : 0 }" />원</div>
+					</c:if>
+				</td>
+                
             </tr>
 	        </c:forEach><hr>
         </table>
