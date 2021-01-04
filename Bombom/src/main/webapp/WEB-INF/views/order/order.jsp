@@ -110,7 +110,7 @@
             <div class="col-3"><label for="deli_memo">배송 메모</label></div>
             <div class="col-9">
             <select name="ordMemo" id="deli_memo" class="form-control mb-3" required>
-                <option selected disabled>배송시 요청사항</option>
+                <option value="" selected disabled>배송시 요청사항</option>
                 <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
                 <option value="배송 전,연락주세요.">배송 전,연락주세요.</option>
                 <option value="부재 시,휴대폰으로 연락주세요.">부재 시,휴대폰으로 연락주세요.</option>
@@ -147,7 +147,7 @@
         <div class="form-group d-flex">
             <div class="col-3"><label for="deli_memo">배송 메모</label></div>
             <div class="col-9"><select name="ordMemo" id="deli_memo" class="form-control mb-3" required>
-                <option selected disabled>배송시 요청사항</option>
+                <option value="" selected disabled>배송시 요청사항</option>
                 <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
                 <option value="배송 전,연락주세요.">배송 전,연락주세요.</option>
                 <option value="부재 시,휴대폰으로 연락주세요.">부재 시,휴대폰으로 연락주세요.</option>
@@ -244,6 +244,7 @@
         <div class="d-flex j-between"><h4></h4>
         	<p class="text-strong"><span class="total-pay" id="ordAmount"><fmt:formatNumber pattern="#,###,###" value="${totalPrice+deliveryPrice }"/></span>원</p>
         </div>
+        <input type="hidden" name="ordAmount" value="<fmt:formatNumber pattern="#######" value="${totalPrice+deliveryPrice }"/>">
     </div>
     <!-- 결제버튼 -->
     <div class="mb-5" style="text-align: center;">
@@ -476,17 +477,18 @@ $(document).on("click",".payBtn",function(){
 	
 	}	, function(rsp) { //callback
 	    if ( rsp.success ) { //결제 성공시
+	        orderInfo.submit();
 	        //var msg = '결제가 완료되었습니다.';
 	        //msg += '고유ID : ' + rsp.imp_uid;
 	        //msg += '상점 거래ID : ' + rsp.merchant_uid;
 	        //msg += '결제 금액 : ' + rsp.paid_amount;
 	        //msg += '카드 승인번호 : ' + rsp.apply_num;
-	        orderInfo.submit();
+	        
 	    } else { //결제 실패시
 	        var msg = '결제에 실패하였습니다.';
 	        msg += '에러내용 : ' + rsp.error_msg;
+		    alert(msg);
 	    }
-	    alert(msg);
 	});
 
 });
