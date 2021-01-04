@@ -39,9 +39,9 @@ div#btn-box {
 	font-size: 30px;
 }
 
-textarea {
+/* textarea {
 	width: 100%;
-}
+} */
 
 .reply_reply {
 	border: 2px solid #FF50CF;
@@ -354,16 +354,16 @@ table#tbl-comment textarea {
 		<label>Comment</label>
 		
 		 <div class="comment-editor">
-			<textarea name="reply-content" id="reply-content" cols="40" rows="3"></textarea>
+			<textarea name="reply-content" id="reply-content" cols="100" rows="3"></textarea>
 			<!-- 로그인 하셔야 댓글 글쓰기가 가능합니다, 로그인 하시겠습니까? -->
 			<div class="text-right">
 				<c:if test="${loginMember!=null }">
 					<input type="hidden" name="memNo" value="${loginMember.memNo}" id="memNo">
-					<button class="btn-insert">등록</button>
+					<button class="btn-insert btn btn-outline-success">등록</button>
 				</c:if>
 				
 				<c:if test="${loginMember==null }">
-					<button type="button" class="btn btn-success loginCheck">글쓰기</button>
+					<button type="button" class="btn-successloginCheck">글쓰기</button>
 				</c:if>
 			</div>
 		</div>
@@ -394,20 +394,21 @@ table#tbl-comment textarea {
 		 console.log(e.target);
 		 console.log($("#reply-content").val())
 		 
-	var cmNo = $("#cmNo").val();
-		 console.log(cmNo);
-    var memNo = $("#memNo").val();
-    var replyContent = $("#reply-content").val();
+		var cmNo = $("#cmNo").val();
+			 console.log(cmNo);
+	    var memNo = $("#memNo").val();
+	    var replyContent = $("#reply-content").val();
+	    $("#reply-content").val(""); //댓글 등록후 비워줌
     
 		 $.ajax({
 			 url:"${path }/community/insertReply",
 			 data: {cmNo:cmNo,memNo:memNo,replyContent:replyContent},
 			 success:data => {
 				 $("#replyAjax").html(data);
-				 
+		 
 			 }
 		 }); 
-		 
+		
 		
 	}); 
 	

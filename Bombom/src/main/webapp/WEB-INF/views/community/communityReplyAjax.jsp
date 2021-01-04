@@ -47,11 +47,11 @@
 
 					
 					<div class="replyDiv" style="display: none;">
-						<textarea name="reply-content2" class="reply-content2" cols="40"
+						<textarea name="reply-content2" class="reply-content2" cols="60"
 							rows="3"></textarea>
 						<input type="hidden" name="reply_id" class="replyId"
 							value="${reply.reply_id}" />
-						<button class="btn-insert2">답글등록</button>
+						<button class="btn-insert2 btn btn-outline-success" onclick="rereply(event);">답글등록</button>
 					</div></td>
 			</tr>
 		</c:if>
@@ -95,7 +95,10 @@
 	</c:forEach>
 </table>
 <script>
-$(document).on("click",".btn-insert2",e=>{
+//$(document).on("click",".btn-insert2",e=>{
+ function rereply(e){
+	 
+ 
     console.log("click2");	
     
     var cmNo = $("#cmNo").val();
@@ -104,7 +107,8 @@ $(document).on("click",".btn-insert2",e=>{
     console.log(memNo);
     var replyId = $(e.target).prev().val();
     var replyContent = $(e.target).prev().prev().val();
-    
+    console.log(e.target);
+    e.stopPropagation();
     $.ajax({
     	url:"${path}/community/insertReReply",
     	data:{board_id:cmNo,mem_no:memNo,parent_id:replyId,reply_content:replyContent},
@@ -119,7 +123,7 @@ $(document).on("click",".btn-insert2",e=>{
     
     
     
- })
+ };
 </script>
 
 <!-- 신고하기 클릭했을 때 뜨는 모달 창 -->
@@ -217,7 +221,11 @@ $(document).on("click",".btn-insert2",e=>{
   		console.log($(e.target).parent());
   		console.log($(e.target).parent().parent().next(".replyDiv").find("textarea").val());
   		$(e.target).parent().parent().next(".replyDiv").attr("style","display:block;");
-  	});
+  	}); 
+  	
+  	//대댓글 등록창
+  	$(".replyDiv")
+  	
     
     
 	</script>

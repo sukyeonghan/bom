@@ -192,7 +192,35 @@ public class CommunityController {
 	}
 
 	@RequestMapping("/community/updateCommunityEnd")
-	public ModelAndView updateCommunity(Community community, ModelAndView mv) {
+	public ModelAndView updateCommunity(Community community, ModelAndView mv,MultipartFile upFile,
+			HttpSession session) {
+		
+		String on = upFile.getOriginalFilename(); // 원본 파일
+		String ext = on.substring(on.lastIndexOf(".") + 1);
+
+		// 리네임규칙
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+		int rndValue = (int) (Math.random() * 10000);
+		String reName = sdf.format(System.currentTimeMillis()) + "_" + rndValue + "." + ext;
+
+		// 클라이언트가 바이너리파일로 보낸 데이터를 MultipartFile 객체로 대입됨.
+		// getName(), getOriginalFilename(), getSize(), transferTo()
+
+		// upload실제 경로를 가져와야함.
+		String path = session.getServletContext().getRealPath("/resources/upload/community");
+
+		File dir = new File(path);
+		if (!dir.exists())
+			dir.mkdirs();// 폴더를 생성
+
+		if (upFile != null) {
+			try {
+				upFile.transferTo(new File(path + File.separator + reName)); // 슬러시가 안될때
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			community.setCmThumbnail(reName);
+		}
 		
 		int result = service.updateCommunity(community);
 		String msg = "";

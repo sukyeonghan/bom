@@ -58,6 +58,7 @@ public class CommunityServiceImpl implements CommunityService {
 		return dao.deleteCommunity(session, cmNo);
 	}
 
+	//
 	@Override
 	public int updateCommunity(Community community) {
 		// TODO Auto-generated method stub
