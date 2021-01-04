@@ -2,20 +2,36 @@ package com.kh.bom.member.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
 import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -115,80 +131,112 @@ public class EmailController {
 			@RequestParam(value="emailFile",required=false) MultipartFile[] emailFile, HttpSession session) throws Exception{
 		boolean result=false;
 		String setFrom ="sujeong.dev@gmail.com"; //보내는 사람
-		
-		String subject=emailSubject; //이메일 제목
+		String subject=emailSubject; 
 		String text=emailText;//이메일내용
-		String originalName="";
-		String reName="";
+		
 		List<String> delFileList=new ArrayList();
 		//받는사람리스트
 		List<String>emailList=Arrays.asList(emailReceiver.split(","));
 		System.out.println("전달받은 이메일전체:"+emailList);
 		
-		for(String email: emailList) {//받는 회원 이메일
-			System.out.println("전송한 이메일:"+email);
-			try {
-	            MimeMessage message = mailSender.createMimeMessage();
-	            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
-	            helper.setFrom(setFrom);
-	            helper.setTo(email);
-	            helper.setSubject(subject);
-	            //ckEditor내용
-	            System.out.println(text);
+		//MimeMessage message = mailSender.createMimeMessage();
+		//MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+		for(String email: emailList) {
+			
+		MimeMessagePreparator preparator = new MimeMessagePreparator() { 
+			@Override public void prepare(MimeMessage mimeMessage) throws Exception { 
+				final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8"); 
+				helper.setFrom(new InternetAddress(setFrom)); 
+				helper.setTo(new InternetAddress(email)); 
+				helper.setSubject(subject); //이메일 제목
+				int idx=text.indexOf("src=");
+				System.out.println(idx);
+				if(idx>-1) {
+					String subText=text.substring(idx+5);
+					int last=subText.indexOf("\"");
+					String imgName=subText.substring(0, last);
+					last=imgName.lastIndexOf("/");
+					imgName=imgName.substring(last+1);
+					System.out.println("이미지 이름"+imgName);
+					
+					String text2=text.replace(session.getServletContext().getContextPath()+"/resources/upload/ckeditor/"+imgName, "cid:"+imgName);
+					System.out.println("변환후" +text2);
 
-	            helper.setText(text,true);
-
-	            //파일첨부
+					helper.setText(text2, true); 
+					
+					//이미지
+					String imgPath= session.getServletContext().getRealPath("/resources/upload/ckeditor/");
+					FileSystemResource imgFsr = new FileSystemResource(new File(imgPath+imgName)); 
+					
+					helper.addInline(imgName, imgFsr);
+					
+				}else {
+					helper.setText(text, true); 
+					
+				}
+				
+				
+				
+				
+				//파일첨부
 	    		String path=session.getServletContext().getRealPath("/resources/upload/email");
 	    		File dir = new File(path);
 	    		if(!dir.exists())dir.mkdirs();
 	    		for(MultipartFile f:emailFile) {
 	    			if(!f.isEmpty()) {
 	    			
-	    				System.out.println(f);
 	    				//본래 파일이름 가져오기
-	    				originalName=f.getOriginalFilename();
-	    				System.out.println("파일이름"+originalName);
+	    				String originalName=f.getOriginalFilename();
+	    				
 	    				//확장자 분리
 	    				String ext=originalName.substring(originalName.lastIndexOf(".")+1);
 	    				//리네임양식정하기
 	    				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
 	    				int rndValue=(int)(Math.random()*1000);
-	    				reName="file"+sdf.format(System.currentTimeMillis())+"_"+rndValue+"."+ext;
+	    				String reName="file"+sdf.format(System.currentTimeMillis())+"_"+rndValue+"."+ext;
+	    				delFileList.add(reName);//삭제를 위해 reName한 파일 명 리스트에 보관
 	    				try {
 	    					f.transferTo(new File(path+"/"+reName));
 	    				}catch(IOException e) {
 	    					e.printStackTrace();
 	    				}
-	    				System.out.println(text);
-	    				System.out.println(path+"/"+reName);
-	    				FileSystemResource fsr = new FileSystemResource(path+"/"+reName);
-	    				helper.addAttachment(originalName, fsr);
-	    				delFileList.add(reName);//삭제를 위해 reName한 파일 명 리스트에 보관
-	    			}
-	    		}
-	    		
-	            mailSender.send(message);
-	            
-	            //전송후 첨부파일 지우기
-	            for(String name:delFileList) {
-	            	String deletePath=path+"/"+name;
-					File del=new File(deletePath);
-					if(del.exists())del.delete();
-	            }
+	    				
+	    				//System.out.println(path+"/"+reName);
+	    				FileSystemResource fileFsr = new FileSystemResource(path+"/"+reName);
+	    				helper.addAttachment(originalName, fileFsr);
 
-	            result= true;
-	            
-	        }catch(Exception e) {		        	
-	            e.printStackTrace();
-	            result= false;
+		    		}
+		    	}//파일첨부 끝!
+				
+				
+				
+				
+			} 
+		}; 
+		
+			mailSender.send(preparator); 
+			 //전송후 첨부파일 지우기
+    		String path=session.getServletContext().getRealPath("/resources/upload/email");
+	        if(delFileList.size()>0) {	
+	        	for(String name:delFileList) {
+	        		String deletePath=path+"/"+name;
+	        		File del=new File(deletePath);
+	        		if(del.exists())del.delete();
+	        	}
 	        }
 		}
 		
-		return result;
-
-	}
-	
-
-	
+		return true;
+		
+		}
 }
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
