@@ -587,6 +587,7 @@ button:focus {
                     </c:if>
                     <!-- 2.옵션선택창:옵션이 있을 경우 반드시 선택해야함 -->
                     <c:if test="${not empty optionlist }">
+                    <input type="hidden" id="optionlist" value="${optionlist}"/>
                     <div class="">
                     	<!-- 세일 없을 때 -->
                     	<c:if test="${empty product.eventNoRef}">
@@ -1178,8 +1179,10 @@ button:focus {
 		console.log(basket_need);
 		
 		//장바구니 insert용 함수
-		if($("#optionSelect").val()==null){
-			alert("옵션을 선택해주세요");
+		var optionlist = $("#optionlist").val(); //옵션을 hidden으로 넣고 확인
+		
+		if(optionlist!=undefined && $("#optionSelect").val()==null){
+			swal("옵션을 선택해주세요");
 			return;
 		}else{
 			let check = confirm("장바구니에 담으시겠습니까?");
