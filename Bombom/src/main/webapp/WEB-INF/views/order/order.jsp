@@ -24,8 +24,16 @@
 	<c:set var="basketNo" value="${l.basketNo }"/>
 </c:forEach>
 
-
-
+<!-- 배송비 계산 -->
+<c:set var="deliveryPrice" value="0" />
+<c:if test="${not empty ship}">
+	<c:if test="${fn:contains(ship.shipAddress,'서울') || fn:contains(ship.shipAddress,'경기')}" >
+		<c:set var="deliveryPrice" value="${deliveryPrice + 2500 }" />
+	</c:if>
+	<c:if test="${fn:contains(ship.shipAddress,'강원') || fn:contains(ship.shipAddress,'제주')}" >
+		<c:set var="deliveryPrice" value="${deliveryPrice + 5000 }" />
+	</c:if>
+</c:if >
 
 
 
@@ -75,6 +83,7 @@
 	        </c:forEach><hr>
         </table>
     </div>
+    <div class="term mb-3 text-size-20 text-center text-freeDeli">5만원 이상 구매시 무료배송</div>
     <!-- 배송지 -->
     <div class="mb-5">
         <h3>배송지</h3>
@@ -227,13 +236,13 @@
         	<p class="text-size-20"><span class="total-price "><fmt:formatNumber pattern="#,###,###" value="${totalPrice }"/></span>원</p>
         </div>
         <div class="d-flex j-between"><h4>배송비</h4>
-        	<p class="text-size-20"><span class="ba" id="ordDeliPrice">0</span>원</p>
+        	<p class="text-size-20"><span class="ba" id="ordDeliPrice"><fmt:formatNumber pattern="#,###,###" value="${deliveryPrice }"/></span>원</p>
         </div>
         <div class="d-flex j-between"><h4>적립금 사용</h4>
-        	<p class="text-size-20">-<span class="point" id="ordUsePoint"></span>봄</p>
+        	<p class="text-size-20">-<span class="point" id="ordUsePoint">0</span>봄</p>
         </div>
         <div class="d-flex j-between"><h4></h4>
-        	<p class="text-strong"><span class="total-pay" id="ordAmount"><fmt:formatNumber pattern="#,###,###" value="${totalPrice }"/></span>원</p>
+        	<p class="text-strong"><span class="total-pay" id="ordAmount"><fmt:formatNumber pattern="#,###,###" value="${totalPrice+deliveryPrice }"/></span>원</p>
         </div>
     </div>
     <!-- 결제버튼 -->
@@ -248,7 +257,7 @@
 
 
 <script>
-	var amount;
+	var amount = $("#ordAmount").text().replace(/,/g, "");//,를 뺀 총금액 가져오기
 
 	$(function(){
 		$("#point").val(0)}
@@ -285,18 +294,24 @@
   //패턴적용하기 위한 변수
 	var allPointPat = '<fmt:formatNumber pattern="#,###,###" value="${loginMember.memPoint }"/>';
 	var inputPoint;
-	
+	var totalPrice;
 	//포인트 전액사용 체크박스 체크시 또는 해제시
-	console.log(allPoint);
 	$("#allPoint").change(e =>{
 		inputPoint = $("#point").val(); //입력된 포인트값가져오기
 		if($("#allPoint").is(":checked")){
 			alert("포인트를"+allPoint+"원을 사용하고 0원 남았습니다.");
 			$("#point").val(Number(allPoint));
 			$("#ordUsePoint").text(Number(allPoint));
+			
+			//합산한 총금액 결과 뿌려주기
+			totalPrice = (Number(amount) - Number(allPoint));
+			$("#ordAmount").text(totalPrice.toLocaleString());
+			
+			
 		}else{
 			$("#point").val(0);
 			$("#ordUsePoint").text(0);
+			$("#ordAmount").text(Number(amount).toLocaleString());//합산한 총금액 결과 뿌려주기
 		}
 	});
 	
@@ -310,76 +325,41 @@
 			alert("사용 가능한 포인트 보다 많은 가격이 입력되었습니다.");
 			alert("포인트를"+allPointPat+"원을 사용하고 0원 남았습니다.");
 			$("#point").val(Number(allPoint));//input id=point 숫자변경하기
-			$("#allPoint").prop("checked",true);
+			$("#allPoint").prop("checked",true); //체크박스 체크하기
+			$("#ordUsePoint").text(Number(allPoint)); //사용적립금에 입력한 숫자만큼 출력시키기
 			
-			$("#ordUsePoint").text(Number(allPoint));
+			//합산한 총금액 결과 뿌려주기
+			totalPrice = (Number(amount) - Number(allPoint)); 
+			$("#ordAmount").text(totalPrice.toLocaleString());
 			
 		}else if(Number(inputPoint) == Number(allPoint)){
 			$("#allPoint").prop("checked",true);
 			$("#ordUsePoint").text(Number(inputPoint));
+			
+			//합산한 총금액 결과 뿌려주기
+			totalPrice = (Number(amount) - Number(inputPoint));
+			$("#ordAmount").text(totalPrice.toLocaleString());
+			
 		}else{
 			$("#allPoint").prop("checked",false);
 			$("#ordUsePoint").text(Number(inputPoint));
 			
+			//합산한 총금액 결과 뿌려주기
+			totalPrice = (Number(amount) - Number(inputPoint));
+			$("#ordAmount").text(totalPrice.toLocaleString());
+			
 		}
-		
-		//포인트 사용하면 총 금액에 정산되도록 만들기
-		//$("#ordUsePoint").text(Number(inputPoint));
-		
 	});
+  
 
-	
-	//입력한 포인트만큼 -하여 시키기
-	
+	//입력한 포인트만큼 -하여 합산시키기
 	
 	
 	
-	//배송비 설정하기
-	var ba;
-	$("#sample6_address").on("keyup change",function(){
-		var address = $(".address-f").val();
-		if(address.includes("서울") || address.includes("경기")){
-			ba = 2500;
-		}else if(address == ""){
-			ba = 2500;
-		}else if(address.includes("제주") || address.includes("강원")){
-			ba = 7000;
-		}
 	
-		$(".ba").text(ba.toLocaleString());
-	});
-	
-	
-	
-
+	console.log("결제할 금액 :"+Number(amount));
 </script>
 
-<style>
-.order_header>h1 {
-	height: 80px;
-	margin: 50px 0;
-}
-.savePoint{
-	font-weight: 800;
-	color : #45A663;
-}
-input[type='number'], input[type='text'], input[type='password'], input[type='file'],
-	input[type='tel'], input[type='email'], select, option, textarea, input[type='submit'],
-	button {
-	-webkit-appearance: none;
-	-moz-appearance: textfield;
-}
-.text-size-20{
-	font-size: 20px;
-}
-.j-between{
-	justify-content: space-between;
-}
-.text-strong{
-	font-weight: bold;
-	font-size: 24px;
-}
-</style>
 
 <!-- 배송지/결제 api -->
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -387,14 +367,10 @@ input[type='number'], input[type='text'], input[type='password'], input[type='fi
 
 <script type="text/javascript">
 
-//멤버넘버 가져오기
-var memNo = '<c:out value="${loginMember.memNo}"/>';
-
-//총 결제 금액 가져오기
-amount = $(".total-pay").text();
-console.log(amount);
-amount = amount.replace(",","");
-console.log(Number(amount));
+	//총 결제 금액 가져오기
+	amount = $(".total-pay").text();
+	amount = amount.replace(",","");
+	
 
 
 var ba;
@@ -442,22 +418,24 @@ function sample6_execDaumPostcode() {
           document.getElementById('sample6_postcode').value = data.zonecode;
           document.getElementById("sample6_address").value = addr;
           // 커서를 상세주소 필드로 이동한다.
-          var address=$(".address-detail").val();
-          
-          if(address.includes("서울")||address.includes("경기")){
-          	ba=2500;
-          }else if(address.includes("제주")||address.includes("강원")){
-          	ba=7000;
-          }else{
-          	ba=5000;
-          }
+          var address = $(".address-f").val();
+		  if(address.startsWith("서울") || address.startsWith("경기")){
+			  ba = 2500;
+			  $("#ordDeliPrice").html(Number(ba).toLocaleString());
+		  }else if(address.startsWith("제주") || address.startsWith("강원")){
+			  ba = 5000;
+			  $("#ordDeliPrice").html(Number(ba).toLocaleString());
+		  }else{
+			  ba = 2500;
+		      $("#ordDeliPrice").html(Number(ba).toLocaleString());
+		  }
 
-          var mileage =Number($(".point").val()); //총 할인 금액가져오기
-          $(".ba").html(ba.toLocaleString()); //배송비 가져오기
           $(".total-pay").html((parseInt($(".total-price")[0].textContent.replace(/,/g, ""))+ba-mileage)
         		  .toLocaleString());//상품총가격+배송비 최종가격
+        		  
           $("#total").val((parseInt($(".total-price")[0].textContent.replace(/,/g, ""))+ba-mileage));
-          $("#ba").val(ba);
+          //Number(ordAmount)
+          
           
           document.getElementById("sample6_detailAddress").focus(); 
       }
@@ -482,7 +460,7 @@ $(document).on("click",".payBtn",function(){
 	  //주문명
 	    name : '카드테스트결제',
 	  //결제할 금액
-	    amount : Number(amount),
+	    amount : 100,//Number(amount),
 	  //주문자 Email
 	    buyer_email : $("#ordererEmail").value, 
 	  //주문자명
@@ -515,5 +493,40 @@ $(document).on("click",".payBtn",function(){
 
  	
 </script>
+
+
+<style>
+.order_header>h1 {
+	height: 80px;
+	margin: 50px 0;
+}
+.savePoint{
+	font-weight: 800;
+	color : #45A663;
+}
+input[type='number'], input[type='text'], input[type='password'], input[type='file'],
+	input[type='tel'], input[type='email'], select, option, textarea, input[type='submit'],
+	button {
+	-webkit-appearance: none;
+	-moz-appearance: textfield;
+}
+.text-size-20{
+	font-size: 20px;
+}
+.j-between{
+	justify-content: space-between;
+}
+.text-strong{
+	font-weight: bold;
+	font-size: 24px;
+}
+.text-center{
+	text-align: center;
+}
+.text-freeDeli{
+	color: #45A663;
+}
+</style>
+
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
