@@ -10,12 +10,26 @@
  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+<!-- 카카오 공유하기 -->
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" >
    <jsp:param name="title" value="" />
 </jsp:include>
 
 <style>
+.bom{
+	color:#45A663;
+}
+.block{
+	display:block;
+}
+.ib{
+	display:inline-block;
+}
+.cursor{
+	cursor:pointer
+}
 /* 바로가기 이동 */
 a:link {
 	color: black;
@@ -88,6 +102,15 @@ a:hover {
 	padding: 1px 5px;
 	width: 110px;
 }
+.ori_price{
+	text-decoration:line-through; font-size:18px; color:dimgray;
+}
+
+/* sns 공유하기 */
+.modal .share-size{
+	width:30%;
+}
+
 /*셀렉트박스 디자인*/
 .form-control {
 	margin: 0 0 5px 0;
@@ -109,6 +132,18 @@ a:hover {
 	display: table-cell;
 	vertical-align: middle;
 	text-align: center;
+}
+.optionClose{
+	float:right;cursor:pointer;
+}
+.optionAdd{
+	padding-bottom:10px;display:none;
+}
+#viewPrice{
+	width:60px;text-align:right; border:none;
+}
+.input_count2{
+	width:40px; text-align:center;
 }
 
 .input_count:focus {
@@ -171,6 +206,9 @@ button:focus {
 	font-size: 16px;
 }
 /* 연관상품 스와이프 css */
+#recommand_wrap{
+	padding-top:50px;margin:0 auto; 
+}
 .swiper-container {
 	/* width:1100px; */
 	width: 100%;
@@ -193,6 +231,7 @@ button:focus {
 	-ms-flex-align: center;
 	-webkit-align-items: center;
 	align-items: center;
+	display:block;cursor:pointer;
 }
 
 .slideImg img {
@@ -222,6 +261,18 @@ button:focus {
 .slideImg:hover img#secondImg {
 	display: block;
 }
+.ori-price-sm{
+	text-decoration:line-through; color:dimgray;
+}
+.new-icon-sm{
+	display:inline-block;width:37px;
+}
+.sale-icon-sm{
+	display:inline-block;width:40px;
+}
+.soldout-icon-sm{
+	display:inline-block;width:68px;
+}
 
 /* 위로가기 버튼 */
 .scrollTop {
@@ -233,6 +284,9 @@ button:focus {
 	bottom: 40px;
 	display: none;
 }
+
+/* 공유하기 */
+#shareURL{ width:77%; height:35px; }
 
 /* 찜하기 모달창 */
 .modal{
@@ -363,7 +417,14 @@ button:focus {
     transform: scale(3) translateX(30px) rotateZ(25deg) translateY(50px);
   }
 }
+.tab_box_container{ padding-top:20px; }
+/* 상세보기 이미지 */
+#proImg{
+	width:80%; display:block;margin:auto;
+}
 </style>
+
+
 
 <section id="container" style="margin:0 5% 0 5%;">
 
@@ -414,15 +475,15 @@ button:focus {
         			<div class="information size-up" style="padding-top:10px;">${product.pdtName }&nbsp;&nbsp;
         			<!-- 등록한 날짜로부터 7일이면 NEW -->
 	        			<c:if test="${dateResult.pdtDate==product.pdtDate}">
-	        				<div class="new-icon" style="display:inline-block;">NEW</div>
+	        				<div class="new-icon ib">NEW</div>
 	        			</c:if>
 	        			<!-- 세일하면 배너 -->
 	        			<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
-	        				<div class="sale-icon" style="display:inline-block;">SALE</div>
+	        				<div class="sale-icon ib">SALE</div>
 	        			</c:if>
 	        			<!-- soldout 배너 -->
 	        			<c:if test="${product.pdtStatus=='N' }">
-	        				<div class="soldout-icon" style="display:inline-block;">SOLDOUT</div>
+	        				<div class="soldout-icon ib">SOLDOUT</div>
 	        			</c:if>
         			</div>
         			<!-- 세일가격 -->
@@ -430,7 +491,7 @@ button:focus {
 						<fmt:parseNumber var="i" integerOnly="true" type="number" value="${product.pdtPrice*(1-(product.salePer/100))}"/><fmt:formatNumber value="${i}"/>원&nbsp;
 	        			<!-- 원래가격 -->
 	        			<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
-	        				<span id="sale_price" value="" style="text-decoration:line-through; font-size:18px; color:dimgray;"><fmt:formatNumber value="${product.pdtPrice }" pattern="#,###"/>원</span>
+	        				<span class="ori_price" ><fmt:formatNumber value="${product.pdtPrice }" pattern="#,###"/>원</span>
 	        			</c:if>
         			</div>
         			<!-- 별점 -->
@@ -441,7 +502,8 @@ button:focus {
                     	<c:if test="${reviewAvg!=null }">
 	                    	<div class="col-10">별점 <c:out value="${reviewAvg}"/></div>
 	                    </c:if>
-	                    <div class="col-2"><a href=""><img src="${path}/resources/images/product/SNS.png" width="35px" style="right:0;"></a></div>
+	                    <!-- sns 공유하기 -->
+	                    <div class="col-2"><a href="#" data-toggle="modal" data-target="#shareIcon"><img src="${path}/resources/images/product/SNS.png" width="35px" style="right:0;"></a></div>
                     </div>
                     <hr>
                     <div class="information size-mid">${product.pdtIntro }</div>
@@ -455,8 +517,44 @@ button:focus {
                     	</c:if>
                     </c:if>
                     <div class="information size-mid">배송비 2,500원(50,000원이상 무료배송) | 도서산간 배송비 추가</div>
-                    ${optionlist}
-                    <hr>
+                    
+                    
+				<!-- sns 공유하기 -->
+				  <div class="modal fade" id="shareIcon" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				    <div class="modal-dialog share-size">
+				      <div class="modal-content">
+				      
+				        <!-- Modal Header -->
+				        <div class="modal-header">
+				          <h5 class="modal-title">공유하기</h5>
+				          <button type="button" class="close" data-dismiss="modal">X</button>
+				        </div>
+				        
+				        <!-- Modal body --> 
+				        <div class="modal-body container">
+				        	<a id="kakao-link-btn" href="sendLink()">카카오톡</a>
+				        	<br>
+				        	<input type="text" id="shareURL"><span class="showuri"></span><button type="button" class="btn btn-success" onclick="clipboard()">URI 복사</button>
+				        </div>
+				      </div>
+				    </div>
+				  </div><!-- sns 공유하기 모달창 끝! -->
+				  
+				  <script>
+				   //클립보드에 복사하기
+			  		var url = document.getElementById("shareURL"); 
+				  	url.value = window.document.location.href; //현재 URL을 shareURL에 넣기
+				  	function clipboard(){
+				  		url.select(); //해당값 선택되도록 select
+				  		document.execCommand("copy"); //클립보드에 복사
+				  		url.blur(); //선택->선택X
+				  		swal("URL이 클립보드에 복사되었습니다");
+				  	}
+				  	
+				  	//카카오톡 공유하기
+				  	
+				  </script>
+
                     
                     <!-- 1.기본선택창:옵션이 없을 경우 나올 화면 -->
                     <c:if test="${empty optionlist}">
@@ -466,7 +564,7 @@ button:focus {
 	                    		<div class="inforamtion row">
 	                    			<div class="col" style="margin-left:10px;">
 	                    				<input type="button" class="input_count" value="-" id="minus" onclick="minus();">
-	                    				<input type="text" class="input_count2" value="1" id="count" style="width:40px; text-align:center;">
+	                    				<input type="text" class="input_count2" value="1" id="count">
 	                    				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
 	                    			</div>
 	                    			<div class="col-3">
@@ -474,13 +572,13 @@ button:focus {
 	                    				<c:if test="${empty product.eventNoRef}">
 		                    				<input type="text" value="${product.pdtPrice}" id="oriPrice" hidden="hidden"/>
 		                    				<input type="text" value="${product.pdtPrice}" id="totalPrice" hidden="hidden"/>
-		                    				<span id="viewPrice" style="width:60px;text-align:right; border:none;">${product.pdtPrice}</span>원
+		                    				<span id="viewPrice">${product.pdtPrice}</span>원
 	                    				</c:if>
 	                    			<!-- 세일가격 -->
 	                    				<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
 	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="oriPrice" hidden="hidden"/>
 	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="totalPrice" hidden="hidden"/>
-	                    					<span id="viewPrice" style="width:60px;text- align:right; border:none;"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
+	                    					<span id="viewPrice"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
 	                    				</c:if>
 	                    			</div>
 	                    		</div>
@@ -490,24 +588,36 @@ button:focus {
                     <!-- 2.옵션선택창:옵션이 있을 경우 반드시 선택해야함 -->
                     <c:if test="${not empty optionlist }">
                     <div class="">
-                    	<select class="form-control" id="optionSelect" onchange="optionChange(this)">
-                    		<option readonly selected disabled>옵션선택</option>
-                    		<c:forEach items="${optionlist}" var="opt">
-                    			<option value="${opt.pdtOptionAddprice}" value2="${opt.pdtOptionNo}">${opt.pdtOptionContent}&nbsp;&nbsp;+<fmt:formatNumber value="${opt.pdtOptionAddprice}" pattern="#,###"/></option>
-                    		</c:forEach>
-                    	</select>
+                    	<!-- 세일 없을 때 -->
+                    	<c:if test="${empty product.eventNoRef}">
+	                    	<select class="form-control" id="optionSelect" onchange="optionChange(this)">
+	                    		<option readonly selected disabled>옵션선택</option>
+	                    		<c:forEach items="${optionlist}" var="opt">
+	                    			<option value="${opt.pdtOptionAddprice}" value2="${opt.pdtOptionNo}">${opt.pdtOptionContent}&nbsp;&nbsp;+<fmt:formatNumber value="${opt.pdtOptionAddprice}" pattern="#,###"/></option>
+	                    		</c:forEach>
+	                    	</select>
+                    	</c:if>
+                    	<!-- 세일 있을 때 -->
+                    	<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
+                    		<select class="form-control" id="optionSelect" onchange="optionChange(this)">
+	                    		<option readonly selected disabled>옵션선택</option>
+	                    		<c:forEach items="${optionlist}" var="opt">
+	                    			<option value="${opt.pdtOptionAddprice*(1-(product.salePer/100))}" value2="${opt.pdtOptionNo}">${opt.pdtOptionContent}&nbsp;&nbsp;+<fmt:formatNumber value="${opt.pdtOptionAddprice*(1-(product.salePer/100))}" pattern="#,###"/></option>
+	                    		</c:forEach>
+	                    	</select>
+                    	</c:if>
                     </div>
-                    <div class="optionAdd" id="optionIndex" style="padding-bottom:10px;display:none;">
+                    <div class="optionAdd">
 	                    	<div id="info_count" style="border-radius:4px;">
 	                    		<div class="information" style="margin:10px;">
 	                    			<input type="hidden" id="optionNo" />
 	                    			<span id="optionName">옵션확인란</span>
-	                    			<span class="optionClose" onclick="remove_div(this)" style="float:right;cursor:pointer;">X</span>
+	                    			<span class="optionClose" onclick="remove_div(this)">X</span>
 	                    		</div>
 	                    		<div class="inforamtion row">
 	                    			<div class="col" style="margin-left:10px;">
 	                    				<input type="button" class="input_count" value="-" id="minus" onclick="minus();">
-	                    				<input type="text" class="input_count2" value="1" id="count" style="width:40px; text-align:center;">
+	                    				<input type="text" class="input_count2" value="1" id="count">
 	                    				<input type="button" class="input_count" value="+" id="plus" onclick="plus();">
 	                    			</div>
 	                    			<div class="col-3">
@@ -516,96 +626,27 @@ button:focus {
 		                    				<input type="text" value="${product.pdtPrice}" id="oriPrice" hidden="hidden"/>
 		                    				<input type="text" value="${product.pdtPrice}" id="totalPrice" hidden="hidden"/>
 		                    				<input type="text" value="0" id="optionPrice" hidden="hidden"/>
-		                    				<span id="viewPrice" style="width:60px;text-align:right; border:none;">${product.pdtPrice}</span>원
+		                    				<span id="viewPrice">${product.pdtPrice}</span>원
 	                    				</c:if>
 	                    			<!-- 세일가격 -->
 	                    				<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
 	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="oriPrice" hidden="hidden"/>
 	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="totalPrice" hidden="hidden"/>
 	                    					<input type="text" value="0" id="optionPrice" hidden="hidden"/>
-	                    					<span id="viewPrice" style="width:60px;text-align:right; border:none;"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
+	                    					<span id="viewPrice"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
 	                    				</c:if>
 	                    			</div>
 	                    		</div>
 	                    	</div>
 	                    </div>
                     </c:if>  
-                    
-                    <script>
-                    	var optionPrice = 0;
-                    	var oriPrice = document.getElementById("oriPrice");
-                    	
-                    	function optionChange(e){
-                    	//$("#optionSelect").change(function(){
-                    		//선택한 셀렉트박스 index값 확인
-                    		var idx = $("#optionSelect option").index($("#optionSelect option:selected"));
-                    		$("#optionIndex").attr("value",idx);
-                    		
-	                    	//옵션선택 시 수량계산 창 나옴
-	                    	if($(".optionAdd").css("display")=="none"){
-                    			$(".optionAdd").show();
-	                    	}
-	                    	
-                    		//옵션가격을 optionPrice value에 넣기
-                    		var price = $("#optionSelect option:selected").val(); //선택한 옵션가격
-                    		$("#optionPrice").attr("value",price); //옵션가격을 optionPrice
-                    		optionPrice = $("#optionPrice").val(); 
-
-                    		//옵션선택 시 바뀐 가격 표현 
-                    		$("#viewPrice").html( Number(optionPrice) + Number(oriPrice.value) ); 
-                    		
-                    		//옵션명 optionCheck에 넣기
-                    		var text = $("#optionSelect option:selected").text();
-                    		var optionName = text.substring(0,text.indexOf("+")).trim();
-                    		$("#optionName").text(optionName);	
-                    		
-                    		//옵션명 배열로 가져오기
-                    		var optionNo = $("#optionSelect option:selected").attr("value2");
-                    		$("#optionNo").attr("value",optionNo);
-                    		//console.log(optionNo);
-                    	
-                    	}
-                    	//}); //원래꺼
-                    	
-                    	//수량계산창 닫기
-                    	function remove_div(obj){
-                    		var div = $(this).parent().eq(5);
-                    		console.log(div);
-                    		div.hide();
-                    	}
-                    	
-                    	
-                    	var count = 1;
-                    	var countEl = document.getElementById("count"); 
-                    	var totalPrice = document.getElementById("totalPrice");
-                    	var viewPrice = document.getElementById("viewPrice");
-                    	
-                    	function minus(){
-                    		if(count > 1) {
-                    			count--;
-                    			countEl.value = count;
-                    			$("#count").attr("value",count); //현재수량을 count value값에 넣기
-                    			totalPrice.value = totalPrice.value - ( Number(oriPrice.value) + Number(optionPrice) ); //총가격 -(원래가격+옵션가격)
-                    			finalPrice = totalPrice.value;
-                    			$(viewPrice).text(finalPrice);
-                    		}
-                    	}
-                    	function plus(){
-                    		count++;
-                    		countEl.value = count;
-                    		$("#count").attr("value",count); //현재수량을 count value값에 넣기
-                    		totalPrice.value = (Number(oriPrice.value) + Number(optionPrice) ) * countEl.value; //(원래가격+옵션가격)*수량
-                    		finalPrice = totalPrice.value;
-                    		$(viewPrice).text(finalPrice);
-                    	}
-                    </script>
                            			
                     <!-- 버튼 3개,로그인 안 할 경우 클릭 못하게 방지 -->    
                     <div>
                     	<c:if test="${loginMember!=null and product.pdtStatus=='Y'}">
 		                    <button type="button" href="#" class="btn btn-success custom">구매하기</button>
 		                    <button type="button" onclick="fn_goBasket();" class="btn btn-outline-success custom">장바구니</button>
-		                    <button type="button" href="#" data-toggle="modal" data-target="#zzimView" class="btn btn-outline-success custom">찜하기<div class="zzimCheck" style="display:inline-block;"></div></button>
+		                    <button type="button" href="#" data-toggle="modal" data-target="#zzimView" class="btn btn-outline-success custom">찜하기<div class="zzimCheck ib"></div></button>
 	                    </c:if>
 	                    <c:if test="${loginMember==null and product.pdtStatus=='Y'}">
 		                    <button type="button" href="#" class="btn btn-success custom loginCheck">구매하기</button>
@@ -616,7 +657,7 @@ button:focus {
 	                    <c:if test="${loginMember!=null and product.pdtStatus=='N'}">
 		                    <button type="button" href="#" class="btn btn-secondary custom soldoutCheck">구매하기</button>
 		                    <button type="button" href="#" class="btn btn-outline-secondary custom soldoutCheck">장바구니</button>
-		                    <button type="button" href="#" data-toggle="modal" data-target="#zzimView" class="btn btn-outline-success custom">찜하기<div class="zzimCheck" style="display:inline-block;"></div></button>
+		                    <button type="button" href="#" data-toggle="modal" data-target="#zzimView" class="btn btn-outline-success custom">찜하기<div class="zzimCheck ib"></div></button>
 	                    </c:if>
 	                    <!-- soldout일 경우 구매하기, 장바구니 클릭 방지 -->
 	                    <c:if test="${loginMember==null and product.pdtStatus=='N'}">
@@ -644,7 +685,7 @@ button:focus {
 	        <!-- Modal body -->
 	        <div class="modal-body container ">
 	        	<!-- 찜폴더 목록 -->
-        		<p data-toggle="modal" data-target="#zzimFolderModal" data-dismiss="modal" style="cursor:pointer;padding-down:5px;">폴더 만들기 +</p>
+        		<p class="cursor" data-toggle="modal" data-target="#zzimFolderModal" data-dismiss="modal" style="padding-down:5px;">폴더 만들기 +</p>
         		<c:if test="${not empty zzimlist }">
 		        	<table class="table">
 	        			<c:forEach items="${zzimlist}" var="list">
@@ -703,12 +744,11 @@ button:focus {
 			    <button class="tab_menu_btn" id="productReview" type="button">구매평(<c:out value="${reviewCount }"/>)</button>
 			    <button class="tab_menu_btn" id="productInquiry" type="button">상품문의(<c:out value="${count }"/>)</button>
 		    </div> <!-- tab_menu_container e -->
-		    
-		    <div class="tab_box_container" style="padding-top:20px;">
+		    <div class="tab_box_container">
 		    	<!-- 상품상세 시작 -->
 		    	<div id="detailResult">
 					<!--제품이미지 삽입-->
-					<img src="${path}/resources/upload/product/${product.pdtDetailImage}" style="width:80%; display:block;margin:auto;">
+					<img id="proImg" src="${path}/resources/upload/product/${product.pdtDetailImage}">
 					<!--배송안내 시작!-->
 					<div id="information">
 						<hr>
@@ -749,14 +789,14 @@ button:focus {
 		</div><!--네비바 끝 -->
 		
 		<!--연관상품 스와이프-->
-		<div id="recommand_wrap" style="padding-top:50px;margin:0 auto; ">
+		<div id="recommand_wrap">
 			<div class="information"><strong>연관상품</strong></div>
 			<div class="swiper-container container">
 				<!-- 현재 페이지의 카테고리에 해당하는 제품만 랜덤 슬라이드 -->
 				<div class="swiper-wrapper">
 					<c:forEach items="${slidelist}" var="s">
 						<c:if test="${s.pdtCategory eq product.pdtCategory}">
-							<div class="swiper-slide" style="display:block;cursor:pointer;" onclick="location.href='${path }/product/productOne?pdtNo=${s.pdtNo}'" >
+							<div class="swiper-slide" onclick="location.href='${path }/product/productOne?pdtNo=${s.pdtNo}'" >
 								<!-- 제품이이미지 -->
 								<div class="slideImg">
 									<c:choose>
@@ -781,22 +821,23 @@ button:focus {
 								<div class="slidePrice">
 									<span>${s.pdtName }</span><br>
 									<!-- 세일가격 -->
-									<span style="color:#45A663;"><fmt:formatNumber value="${s.pdtPrice*(1-(s.salePer/100))}" pattern="#,###"/>원</span>&nbsp;
+									<span class="bom"><fmt:formatNumber value="${s.pdtPrice*(1-(s.salePer/100))}" pattern="#,###"/>원</span>&nbsp;
 				        			<!-- 원래가격 -->
 				        			<c:if test="${not empty s.eventNoRef and s.salePer!=0}">
-				        				<span id="sale_price" style="text-decoration:line-through; color:dimgray;"><fmt:formatNumber value="${s.pdtPrice }" pattern="#,###"/>원</span>
+				        				<span class="ori-price-sm"><fmt:formatNumber value="${s.pdtPrice }" pattern="#,###"/>원</span>
 				        			</c:if>
 								</div>
 								<!-- NEW 아이콘 -->
-								<c:if test="${dateResult.pdtDate==s.pdtDate}"><div class="new-icon" style="display:inline-block;width:37px;">NEW</div></c:if>
+								<c:if test="${dateResult.pdtDate==s.pdtDate}"><div class="new-icon new-icon-sm">NEW</div></c:if>
 								<!-- SALE 아이콘 -->
-								<c:if test="${not empty s.eventNoRef and s.salePer!=0}"><div class="sale-icon" style="display:inline-block;width:40px;">SALE</div></c:if>
+								<c:if test="${not empty s.eventNoRef and s.salePer!=0}"><div class="sale-icon sale-icon-sm">SALE</div></c:if>
 								<!-- soldout 아이콘 -->
-								<c:if test="${s.pdtStatus=='N' }"><div class="soldout-icon" style="display:inline-block;width:68px;">SOLDOUT</div></c:if>
+								<c:if test="${s.pdtStatus=='N' }"><div class="soldout-icon soldout-icon-sm">SOLDOUT</div></c:if>
 							</div>
 						</c:if>
 					</c:forEach>
 				</div>
+
 								
 				<!-- Add Pagination -->
 				<div class="swiper-pagination"></div>
@@ -825,27 +866,71 @@ button:focus {
 	});
 	
 	//수량계산
-/* 	var count = 1;
-	var countEl = document.getElementById("count");
+   	var optionPrice = 0;
 	var oriPrice = document.getElementById("oriPrice");
+	var count = 1;
+	var countEl = document.getElementById("count"); 
 	var totalPrice = document.getElementById("totalPrice");
 	var viewPrice = document.getElementById("viewPrice");
+	
+	function optionChange(e){
+		
+    	//옵션선택 시 수량계산 창 나옴
+    	if($(".optionAdd").css("display")=="none"){
+			$(".optionAdd").show();
+    	}else{
+    		//기존에 있던 count값 1로 초기화
+    		$("#count").attr("value",1);
+    		count = 1;
+    		countEl.value = count;
+    	}
+    	
+    	
+		//옵션가격을 optionPrice value에 넣기
+		var price = $("#optionSelect option:selected").val(); //선택한 옵션가격
+		$("#optionPrice").attr("value",price); //옵션가격을 optionPrice
+		optionPrice = $("#optionPrice").val(); 
+
+		//옵션선택 시 바뀐 가격 표현 
+		$("#viewPrice").html( Number(optionPrice) + Number(oriPrice.value) ); 
+		
+		//옵션명 optionCheck에 넣기
+		var text = $("#optionSelect option:selected").text();
+		var optionName = text.substring(0,text.indexOf("+")).trim();
+		$("#optionName").text(optionName);	
+		
+		//옵션No 가져오기
+		var optionNo = $("#optionSelect option:selected").attr("value2");
+		$("#optionNo").attr("value",optionNo);
+    	
+	}
+	
+	//수량계산창 닫기
+	function remove_div(obj){
+		$(".optionAdd").hide();
+	}
+	
+	//+ 눌렀을 때
 	function minus(){
 		if(count > 1) {
 			count--;
 			countEl.value = count;
-			totalPrice.value = totalPrice.value - oriPrice.value;
+			$("#count").attr("value",count); //현재수량을 count value값에 넣기
+			totalPrice.value = totalPrice.value - ( Number(oriPrice.value) + Number(optionPrice) ); //총가격 -(원래가격+옵션가격)
 			finalPrice = totalPrice.value;
 			$(viewPrice).text(finalPrice);
 		}
 	}
+	//- 눌렀을 때
 	function plus(){
 		count++;
 		countEl.value = count;
-		totalPrice.value = oriPrice.value * countEl.value;
+		$("#count").attr("value",count); //현재수량을 count value값에 넣기
+		totalPrice.value = (Number(oriPrice.value) + Number(optionPrice) ) * countEl.value; //(원래가격+옵션가격)*수량
 		finalPrice = totalPrice.value;
 		$(viewPrice).text(finalPrice);
-	}  */
+	}	
+	
 	
 	//상품상세 눌렀을 때
 	$("#productDetail").click(e=>{
