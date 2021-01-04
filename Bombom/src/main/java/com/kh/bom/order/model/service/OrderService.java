@@ -12,7 +12,11 @@ public interface OrderService {
 	// 결제하기
 	int insertOrder(Order order);
 
+	int deleteBasket(String basketNo);
+
 	List<Basket> selectBasket(String memNo);
+
+	Basket selectBasketOne(String memNo);
 
 	int deleteBasketOne(Basket b);
 
@@ -41,10 +45,10 @@ public interface OrderService {
 	int cancelOrder(Order o, Point p);
 
 	int buyConfirm(String orderNo, Point p);
-	
+
 	int insertBasket(String memNo);
-	
-	int insertInbasket(Inbasket i); 
+
+	int insertInbasket(Inbasket i);
 
 	int cancelEndCount(String memNo);
 

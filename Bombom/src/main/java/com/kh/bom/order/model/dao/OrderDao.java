@@ -13,7 +13,13 @@ import com.kh.bom.product.model.vo.ProductOption;
 public interface OrderDao {
 	int insertOrder(SqlSession session, Order order);
 
+	int deleteInbasket(SqlSession session, String basketNo);
+
+	int deleteBasket(SqlSession session, String basketNo);
+
 	List<Basket> selectBasket(SqlSession session, String memNo);
+	
+	Basket selectBasketOne(SqlSession session, String memNo);
 
 	int deleteBasketOne(SqlSession session, Basket b);
 

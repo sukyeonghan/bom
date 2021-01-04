@@ -17,9 +17,25 @@
 <c:forEach items="${blist}" var="l">
 	<c:set var="totalPdtPrice" value="${totalPdtPrice+ (l.inbasQty * l.pdtPrice)}"/>
 	<c:if test="${l.salePer != 0 }">
-		<c:set var="totalSale" value="${totalSale+((l.pdtPrice * l.salePer/100))}"/>
+		<!-- 옵션값이 없는경우 -->
+		<c:if test="${empty l.pdtOptionNo }">
+			<c:set var="totalSale" value="${totalSale+((l.pdtPrice * l.salePer/100))}"/>
+		</c:if>
+		<!-- 옵션값이 있는경우 -->
+		<c:if test="${not empty l.pdtOptionNo }">
+			<c:set var="totalSale" value="${totalSale+((l.pdtPrice + l.pdtOptionAddprice) * l.salePer/100)}"/>
+		</c:if>
 	</c:if>
-	<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * (l.pdtPrice - (l.pdtPrice * l.salePer/100)))}" />
+	
+	<!-- 옵션값 없는 상품값합하기 -->
+	<c:if test="${empty l.pdtOptionNo }">
+		<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * (l.pdtPrice - (l.pdtPrice * l.salePer/100)))}" />
+	</c:if>
+	<!-- 옵션값 있는 상품값합하기 -->
+	<c:if test="${not empty l.pdtOptionNo }">
+		<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * ((l.pdtPrice+ l.pdtOptionAddprice) - ((l.pdtPrice+ l.pdtOptionAddprice) * l.salePer/100)))}" />
+	</c:if>
+	
 
 	<c:set var="basketNo" value="${l.basketNo }"/>
 </c:forEach>
@@ -55,7 +71,8 @@
 					<th style="width: 20%;"></th>
 					<th style="width: 40%;"></th>
 					<th style="width: 20%;"></th>
-					<th style="width: 20%;"></th>
+					<th style="width: 10%;"></th>
+					<th style="width: 10%;"></th>
 				</tr>
 			</thead>
 	        <c:forEach items="${blist }" var="b">
@@ -74,11 +91,40 @@
 					</div>
                 </td>
                 <!-- 이름 -->
-                <td><c:out value="${b.pdtName }" /></td>
+                <td>
+					<c:if test="${empty b.pdtOptionNo }"> <!-- 옵션 없는경우 -->
+						<c:out value="${b.pdtName }" /><br>
+					</c:if>	
+					
+					<c:if test="${not empty b.pdtOptionNo }"><!-- 옵션 있는경우 -->
+						<c:out value="${b.pdtName }" /><br>
+						<c:out value="${b.pdtOptionContent }" /><br>
+					</c:if>	
+				</td>
                 <!-- 가격 -->
-                <td><fmt:formatNumber pattern="#,###,###" value="${b.pdtPrice }"/>원</td>
+                <td>
+                
+                <c:if test="${empty b.pdtOptionNo }"> <!-- 옵션 없는경우 -->
+					<fmt:formatNumber value="${b.pdtPrice}" pattern="#,###,###" />원
+				</c:if>	
+				
+				<c:if test="${not empty b.pdtOptionNo }"><!-- 옵션 있는경우 -->
+					<fmt:formatNumber value="${b.pdtPrice + b.pdtOptionAddprice}" pattern="#,###,###" />원
+				</c:if>	
+                
+                </td>
                 <!-- 수량 -->
                 <td> <c:out value="${b.inbasQty }" />개 </td>
+                <!-- 할인 -->
+				<td>
+					<c:if test="${not empty b.pdtOptionNo }">
+						<div>(-)<fmt:formatNumber pattern="#,###,###" value="${b.salePer != 0?(b.pdtPrice + b.pdtOptionAddprice)*(b.salePer/100) : 0 }" />원</div>
+					</c:if>
+					<c:if test="${empty b.pdtOptionNo }">
+						<div>(-)<fmt:formatNumber pattern="#,###,###" value="${b.salePer != 0? b.pdtPrice*(b.salePer/100) : 0 }" />원</div>
+					</c:if>
+				</td>
+                
             </tr>
 	        </c:forEach><hr>
         </table>
@@ -110,7 +156,7 @@
             <div class="col-3"><label for="deli_memo">배송 메모</label></div>
             <div class="col-9">
             <select name="ordMemo" id="deli_memo" class="form-control mb-3" required>
-                <option selected disabled>배송시 요청사항</option>
+                <option value="" selected disabled>배송시 요청사항</option>
                 <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
                 <option value="배송 전,연락주세요.">배송 전,연락주세요.</option>
                 <option value="부재 시,휴대폰으로 연락주세요.">부재 시,휴대폰으로 연락주세요.</option>
@@ -147,7 +193,7 @@
         <div class="form-group d-flex">
             <div class="col-3"><label for="deli_memo">배송 메모</label></div>
             <div class="col-9"><select name="ordMemo" id="deli_memo" class="form-control mb-3" required>
-                <option selected disabled>배송시 요청사항</option>
+                <option value="" selected disabled>배송시 요청사항</option>
                 <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
                 <option value="배송 전,연락주세요.">배송 전,연락주세요.</option>
                 <option value="부재 시,휴대폰으로 연락주세요.">부재 시,휴대폰으로 연락주세요.</option>
@@ -244,6 +290,7 @@
         <div class="d-flex j-between"><h4></h4>
         	<p class="text-strong"><span class="total-pay" id="ordAmount"><fmt:formatNumber pattern="#,###,###" value="${totalPrice+deliveryPrice }"/></span>원</p>
         </div>
+        <input type="hidden" name="ordAmount" value="<fmt:formatNumber pattern="#######" value="${totalPrice+deliveryPrice }"/>">
     </div>
     <!-- 결제버튼 -->
     <div class="mb-5" style="text-align: center;">
@@ -476,17 +523,18 @@ $(document).on("click",".payBtn",function(){
 	
 	}	, function(rsp) { //callback
 	    if ( rsp.success ) { //결제 성공시
+	        orderInfo.submit();
 	        //var msg = '결제가 완료되었습니다.';
 	        //msg += '고유ID : ' + rsp.imp_uid;
 	        //msg += '상점 거래ID : ' + rsp.merchant_uid;
 	        //msg += '결제 금액 : ' + rsp.paid_amount;
 	        //msg += '카드 승인번호 : ' + rsp.apply_num;
-	        orderInfo.submit();
+	        
 	    } else { //결제 실패시
 	        var msg = '결제에 실패하였습니다.';
 	        msg += '에러내용 : ' + rsp.error_msg;
+		    alert(msg);
 	    }
-	    alert(msg);
 	});
 
 });

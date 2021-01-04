@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <c:set var="path" value="${pageContext.request.contextPath }" />
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -74,9 +75,12 @@
 	vertical-align: middle;
 }
 /* 페이지 번호 들어갈 곳 */
-#page-bar {
+.pagebar{
 	text-align: center;
-	margin-top: 30px;
+}
+/*모달창  */
+.btnBox{
+	text-align:center;
 }
 </style>
 <section id="container">
@@ -175,9 +179,9 @@
 												data-toggle="modal" data-target="#cancelView">주문취소</button>
 										</c:if> <c:if test="${o.ordConfirmYn =='N' }">
 											<c:if test="${o.ordStatus =='배송준비'or o.ordStatus=='배송중'or o.ordStatus=='배송완료'}">
-												<input type="button"
+												<button type="button"
 													class="btn btn-outline-success confirmModal"
-													data-toggle="modal" data-target="#confirmView" value="구매확정">
+													data-toggle="modal" data-target="#confirmView">구매확정</button>
 												<button type="button"
 													class="btn btn-outline-success returnModal"
 													data-toggle="modal" data-target="#returnView">반품요청</button>
@@ -193,7 +197,7 @@
 
 					</tbody>
 				</table>
-				<div id="page-bar">${pageBar }</div>
+				<div class="pagebar">${pageBar }</div>
 				<div id="order-notice">• 주문상태에 따른 버튼 변경 -주문취소(주문대기/주문완료), 배송
 					준비중이면 주문 취소 불가함 - 고객센터에 문의하세요 -구매확정(배송준비/배송중/배송완료) -리뷰작성(배송완료 시
 					리뷰작성 버튼으로 바꾸기)</div>
@@ -240,7 +244,7 @@
 			</div>
 		</div>
 	</div>
-	<!--환불 사유 모달창  -->
+	<!--반품 사유 모달창  -->
 	<div class="modal fade" id="returnView" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-sm modal-dialog-centered">
@@ -266,6 +270,14 @@
 								class="form-check-input" type="radio" name="reason"
 								value="상품정보와 상이">상품정보와 상이</label>
 						</div>
+					</div>
+				<!-- Modal footer -->
+					<div class="modal-footer">
+						<p style="font-size: 11px">-반품은 상품 수령일로부터 7일 이내에 가능합니다.</br>
+						-반품시 제품의 상태는 배송 받으신 처음의 상태로 보존되어야 합니다.
+						</p>
+						
+						
 					</div>
 
 

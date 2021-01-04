@@ -1157,22 +1157,30 @@ button:focus {
     }); 
 	
 	//장바구니 버튼 누르면 실행됨
-	function fn_goBasket(pdtNo){
+	function fn_goBasket(){
 		//basket으로 insert시킬 url
-		let basUrl = "${path}/order/insertBasket ";
+		let basUrl = "${path}/order/insertBasket";
 		//상품번호
 		//let pdtNo = $("#pdtNo").val();
 		//옵션번호
 		let pdtOptionNo = $("#optionNo").val();
+		if(pdtOptionNo == undefined){
+			pdtOptionNo = "null";
+		}
 		//상품갯수
 		let Qty = $("#count").val();
 		
 		//넘길 변수들 - 상품번호pdtNo, 옵션번호pdtOptionNo, 상품갯수 Qty 
-		let basket_need = {pdtNo:$("#pdtNo").val(),pdtOptionNo:pdtOptionNo,Qty:Qty};
+		let basket_need = {"pdtNo":$("#pdtNo").val(),
+							"pdtOptionNo":pdtOptionNo,
+							"inbasQty":Qty};
 		console.log(basket_need);
 		
 		//장바구니 insert용 함수
-		
+		let check = confirm("장바구니에 담으시겠습니까?");
+		if(check){
+			window.location = basUrl+'?'+$.param(basket_need);
+		}
 		
 	};
 </script>
