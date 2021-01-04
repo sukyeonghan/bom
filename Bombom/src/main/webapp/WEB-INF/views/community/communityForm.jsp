@@ -52,10 +52,10 @@ font-size: 35px;
 $(document).ready(function () {
      CKEDITOR.replace( 'cmContent', {//해당 이름으로 된 textarea에 에디터를 적용
          width:'100%',
-         height:'350px',
+         height:'450px',
          filebrowserImageUploadUrl:'${path}/ckeditor/imageUpload' //여기 경로로 파일을 전달하여 업로드 시킨다.
       });
-     
+       
      CKEDITOR.on('dialogDefinition', function( ev ){
         var dialogName = ev.data.name;
         var dialogDefinition = ev.data.definition;
@@ -68,6 +68,15 @@ $(document).ready(function () {
                 break;
         		}
          });  
+     
+     CKEDITOR =   CKEDITOR.replace(/<br\/>/ig, "\n");
+     CKEDITOR =   CKEDITOR.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
+
+
+     CKEDITOR =  CKEDITOR.replace(/(<([^>]+)>)/gi, "");
+     CKEDITOR =   CKEDITOR.replace(/&nbsp;/gi,"");
+
+    return  CKEDITOR;
              
 });
 </script>
@@ -81,7 +90,7 @@ $(document).ready(function () {
 		<form name="communityFrm" action="${path }/community/insertCommunity" enctype="multipart/form-data" method="post" onsubmit="return fn_check()">
 		</c:if>
 	<c:if test="${not empty community }">
-		<form name="communityFrm" action="${path }/community/updateCommunityEnd" onsubmit="return fn_check()">
+		<form name="communityFrm" action="${path }/community/updateCommunityEnd" enctype="multipart/form-data" method="post" onsubmit="return fn_check()">
 	</c:if>
 	
 	<c:if test="${not empty community }">

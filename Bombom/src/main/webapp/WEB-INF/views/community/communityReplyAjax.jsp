@@ -88,18 +88,27 @@
 							</c:if>
 						</div>
 					</div>
-					
 				<td></td>
 			</tr>
 		</c:if>
 	</c:forEach>
 </table>
+				<!-- 페이징바 -->
+				 <div class="pageBar" >	
+					${pageBar }
+				</div>
+				
 <script>
 //$(document).on("click",".btn-insert2",e=>{
  function rereply(e){
 	 
  
     console.log("click2");	
+    
+    if($("#reply-content").val()==""){
+		 swal("댓글을 입력해주세요");
+		 return false;
+	 }
     
     var cmNo = $("#cmNo").val();
     console.log(cmNo);
@@ -162,7 +171,7 @@
 					</label> 
 					<input type="hidden" name="com_status" value="Y" />
 					<input type="hidden" class="cmNo" name="board_id">
-					<input type="text" class="replyId" name="reply_id" >
+					<input type="hidden" class="replyId" name="reply_id" >
 					<button type="submit" class="reporty btn btn-outline-success">
 						신고하기
 					</button>
@@ -215,16 +224,16 @@
     	
     };
 						
-    //대댓글 등록창
-  	$(document).on("click",".btn-reply",e=>{
-  		console.log("click");
-  		console.log($(e.target).parent());
-  		console.log($(e.target).parent().parent().next(".replyDiv").find("textarea").val());
-  		$(e.target).parent().parent().next(".replyDiv").attr("style","display:block;");
-  	}); 
   	
   	//대댓글 등록창
-  	$(".replyDiv")
+  	$(".btn-reply").click(function(){
+  		if($(this).parent().parent().next(".replyDiv").css('display')=='none'){
+  			$(this).parent().parent().next(".replyDiv").css('display','block');
+  		}else{
+  			$(this).parent().parent().next(".replyDiv").css('display','none');
+  		}
+  		});
+  	
   	
     
     

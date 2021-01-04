@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.bom.common.page.ComAjaxPageBarFactory;
 import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.community.model.service.CommunityService;
 import com.kh.bom.community.model.vo.BoardReply;
@@ -62,7 +63,7 @@ public class CommunityController {
 		mv.addObject("list", service.selectCommunityList(cPage, numPerpage, m));
 		int totalData = service.selectCount();
 
-		mv.addObject("pageBar", PageBarFactory.getPageBar(totalData, cPage, numPerpage, "communityList"));
+		mv.addObject("pageBar", ComAjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "communityListAjax", order));
 		mv.addObject("totalData", totalData);
 
 		mv.setViewName("/community/communityListAjax");
@@ -194,6 +195,8 @@ public class CommunityController {
 	@RequestMapping("/community/updateCommunityEnd")
 	public ModelAndView updateCommunity(Community community, ModelAndView mv,MultipartFile upFile,
 			HttpSession session) {
+		
+		System.out.println("파일"+upFile);
 		
 		String on = upFile.getOriginalFilename(); // 원본 파일
 		String ext = on.substring(on.lastIndexOf(".") + 1);

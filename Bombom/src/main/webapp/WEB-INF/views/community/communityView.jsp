@@ -394,6 +394,11 @@ table#tbl-comment textarea {
 		 console.log(e.target);
 		 console.log($("#reply-content").val())
 		 
+		 if($("#reply-content").val()==""){
+			 swal("댓글을 입력해주세요");
+			 return false;
+		 }
+		 
 		var cmNo = $("#cmNo").val();
 			 console.log(cmNo);
 	    var memNo = $("#memNo").val();

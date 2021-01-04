@@ -93,7 +93,7 @@
 	<update id="updateCommunity" parameterType="community">
 		UPDATE COMMUNITY SET
 		CM_TITLE=#{cmTitle},CM_CONTENT=#{cmContent},
-		CM_THUMBNAIL=#{cmThumbnail},
+		CM_THUMBNAIL=#{cmThumbnail}
 		WHERE CM_NO=#{cmNo}
 	</update>
 	
