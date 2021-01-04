@@ -9,9 +9,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.AdminService;
@@ -42,21 +43,57 @@ public class OrderController {
 	@Autowired
 	private ProductService productService;
 
+	// 장바구니 담기
+	@RequestMapping("/order/insertBasket")
+	public String insertBasket(Model m, String pdtNo, String pdtOptionNo, int inbasQty, HttpSession session) {
+		Member m1 = (Member) session.getAttribute("loginMember");
+
+		int newBasket = 0;
+		int insertInbas = 0;
+
+		// 회원의 장바구니 불러오기
+		Basket b = (Basket) service.selectBasketOne(m1.getMemNo());
+		System.out.println(b);
+		// 장바구니 번호가 없으면 새로 장바구니 생성해서 insert
+		if (b == null) {
+			newBasket = service.insertBasket(m1.getMemNo());
+			if (newBasket > 0) {
+				Basket newB = service.selectBasketOne(m1.getMemNo());
+				insertInbas = service.insertInbasket(Inbasket.builder().basketNo(newB.getBasketNo()).pdtNo(pdtNo)
+						.pdtOptionNo(pdtOptionNo).inbasQty(inbasQty).build());
+			}
+		// 장바구니번호가 있으면 inbasket에 바로 insert
+		} else { 
+			insertInbas = service.insertInbasket(Inbasket.builder().basketNo(b.getBasketNo()).pdtNo(pdtNo)
+					.pdtOptionNo(pdtOptionNo).inbasQty(inbasQty).build());
+		}
+		String msg = "";
+		String loc = "/product/productOne?pdtNo=" + pdtNo;
+		String icon = "";
+		if (insertInbas > 0) {
+			msg = "장바구니에 담겼습니다!";
+			icon = "success";
+		} else {
+			msg = "ㅠㅠ다시 시도해보세요ㅠㅠ";
+			icon = "error";
+		}
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+		m.addAttribute("icon", icon);
+		return "common/msg";
+	}
+
 	// 헤더에서 장바구니 화면으로 전환
 	@RequestMapping("/order/basket")
 	public ModelAndView goBasket(ModelAndView mv, String memNo, HttpSession session) {
 		System.out.println(memNo);
-		Member login = (Member)mService.selectMemberOne(memNo);
-		System.out.println("장바구니 연결 - 회원 : "+login);
+		Member login = (Member) mService.selectMemberOne(memNo);
+		System.out.println("장바구니 연결 - 회원 : " + login);
 		// 회원이 갖고있는 장바구니 불러오기
 		List<Basket> list = service.selectBasket(memNo);
-		//회원정보 보내주기
+		// 회원정보 보내주기
 		mv.addObject("loginMember", login);
-		//회원의 배송지 가져오기
-		Ship s = shipService.selectShipOneY(login.getMemNo());
-		if(s != null) {
-			mv.addObject("ship", s);
-		}
+
 		mv.addObject("list", list);
 		mv.setViewName("order/basket");
 		return mv;
@@ -79,11 +116,7 @@ public class OrderController {
 	// 장바구니에서 상품 하나 삭제하기
 	@RequestMapping("order/deleteBasketOne")
 	public ModelAndView deleteBasketOne(ModelAndView m, String pdtNo, String basketNo, String memNo) {
-		System.out.println(pdtNo);
-		System.out.println(basketNo);
-		
-		int result = service
-				.deleteBasketOne(Basket.builder().pdtNo(pdtNo).basketNo(basketNo).build());
+		int result = service.deleteBasketOne(Basket.builder().pdtNo(pdtNo).basketNo(basketNo).build());
 		List<Basket> list = new ArrayList<Basket>();
 		// 삭제가 성공하면 삭제된 이후 리스트 넘겨주기
 		if (result > 0) {
@@ -91,10 +124,10 @@ public class OrderController {
 			list = service.selectBasket(memNo);
 			m.addObject("list", list);
 			m.setViewName("order/basket");
-		}else {
+		} else {
 			m.addObject("msg", "서버에러");
-			m.addObject("loc","/order/basket");
-			m.addObject("icon","error");
+			m.addObject("loc", "/order/basket");
+			m.addObject("icon", "error");
 			m.setViewName("common/msg");
 		}
 		return m;
@@ -103,23 +136,31 @@ public class OrderController {
 	// 결제화면으로 전환
 	@RequestMapping("/order/doOrder")
 	public ModelAndView doOrder(ModelAndView mv, Basket b, HttpSession session) {
-		System.out.println(b);
-		//basketNo, productNo, inbasQty만 넘어옴.
-		Member m = (Member)session.getAttribute("loginMember");
-		System.out.println("결제하기 - 회원 : "+m);
-		
+		System.out.println("장바구니에서 넘어온 basket : " + b);
+		// basketNo, productNo, inbasQty만 넘어옴.
+		Member m = (Member) session.getAttribute("loginMember");
+		System.out.println("결제하기 - 회원 : " + m);
+
 		List<Inbasket> qtyList = new ArrayList<Inbasket>();
-		//int[] qty = b.getInbasQty();
-		
-		
+		int qty = b.getInbasQty();
+		System.out.println("------수량: " + qty);
+
 		List<Product> list = new ArrayList<Product>();
 		String[] productNo = b.getPdtNo().split(",");
-		for(String no : productNo) {
+		for (String no : productNo) {
 			Product p = productService.selectProductOne(no);
 			list.add(p);
 		}
+		// 장바구니 리스트 가져오기
+		List<Basket> blist = service.selectBasket(m.getMemNo());
 
-		mv.addObject("loginMember",m);
+		// 회원의 배송지 가져오기
+		Ship s = shipService.selectShipOneY(m.getMemNo());
+
+		mv.addObject("ship", s);
+		mv.addObject("loginMember", m);
+		mv.addObject("qlist", qtyList);
+		mv.addObject("blist", blist);
 		mv.addObject("list", list);
 		mv.setViewName("order/order");
 		return mv;
@@ -127,28 +168,35 @@ public class OrderController {
 
 	// 결제하기
 	@RequestMapping("/order/insertOrder")
-	public ModelAndView insertOrder(Order order, ModelAndView mv) {
-		System.out.println(order);
-
+	public ModelAndView insertOrder(String basketNo, Order order, ModelAndView mv, HttpSession session) {
+		Member m1 = (Member) session.getAttribute("loginMember");
 		// orderNo만들기
 		String orderNo = "";
 		String today = new SimpleDateFormat("yyyyMMdd").format(new Date());// 등록날짜가져오기
 		int ran = (int) (Math.floor(Math.random() * 1000000) + 100000); // 6자리 랜덤숫자
 		orderNo = today + "-" + ran;
 		order.setOrderNo(orderNo);
-
+		order.setMemNo(m1.getMemNo());
 		int result = service.insertOrder(order);
 		String msg = "";
 		String loc = "";
 		String icon = "";
 		if (result > 0) {
-			msg = "주문이 완료되었습니다! 금방 배송해 드릴게요!";
-			loc = "redirect:/mypage/orderStatus";
-			icon = "success";
+			//결제api에서 결제가 완료되면 장바구니 비우기
+			int deleteB = service.deleteBasket(basketNo);
+			if(deleteB>0) {
+				msg = "주문이 완료되었습니다! 금방 배송해 드릴게요:)";
+				loc = "/mypage/orderStatus";
+				icon = "success";
+			}else {
+				msg = "주문은 완료했지만 에러가 발생했어요:( 다시 로그인해주세요";
+				loc = "/";
+				icon = "warning";
+			}
 		} else {
 			msg = "결제에 실패했어요ㅠㅠ";
 			loc = "/";
-			icon = "warning";
+			icon = "error";
 		}
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
@@ -157,7 +205,8 @@ public class OrderController {
 
 		return mv;
 	}
-	//나의 주문내역 
+
+	// 나의 주문내역
 	@RequestMapping("/mypage/orderStatus")
 	public ModelAndView order(ModelAndView mv, HttpSession session,
 			@RequestParam(value="cPage", defaultValue="0") int cPage,
@@ -188,7 +237,7 @@ public class OrderController {
 		int returnEnd=service.returnEndCount(memNo);
 		
 		mv.addObject("loginMember", login);
-		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "orderStatus"));
+		mv.addObject("pageBar", PageBarFactory.getPageBar(totalData, cPage, numPerpage, "orderStatus"));
 		mv.addObject("totalData", totalData);
 		mv.addObject("shipReady", shipReady);
 		mv.addObject("ordWait", ordWait);
@@ -203,18 +252,18 @@ public class OrderController {
 		mv.setViewName("mypage/orderStatus");
 		return mv;
 	}
-	
-	//상세주문내역 
+
+	// 상세주문내역
 	@RequestMapping("/mypage/orderDetail")
-	public ModelAndView orderDetail(ModelAndView mv, String orderNo ) {
-		
+	public ModelAndView orderDetail(ModelAndView mv, String orderNo) {
+
 		System.out.println(orderNo);
-		//상품명, 상품가격, 옵션명, 옵션가격, 수량, 썸네일 뽑아오는것 
+		// 상품명, 상품가격, 옵션명, 옵션가격, 수량, 썸네일 뽑아오는것
 		mv.addObject("product", service.selectOrderDetail(orderNo));
-		//기본주문 정보 불러오기 
+		// 기본주문 정보 불러오기
 		mv.addObject("order", service.selectOrderOne(orderNo));
 		mv.setViewName("mypage/ordDetail");
-		
+
 		return mv;
 	}
 	
@@ -227,9 +276,9 @@ public class OrderController {
 		Order o=new Order();
 		o.setOrderNo(orderNo);
 		o.setOrdCancel(cancel);
-		Point p=new Point();
+		Point p = new Point();
 		p.setMemNo(memNo);
-		p.setPointContent("주문취소 (주문번호:"+orderNo+")");
+		p.setPointContent("주문취소 (주문번호:" + orderNo + ")");
 		p.setPointChange(ordUsePoint);
 		
 		int result = service.returnRequest(o,p);
@@ -248,27 +297,27 @@ public class OrderController {
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.addObject("icon", icon);
-		mv.setViewName("common/msg");		
-		return mv;		
+		mv.setViewName("common/msg");
+		return mv;
 	}
-	
-	//구매확정
+
+	// 구매확정
 	@RequestMapping("/mypage/buyConfirm")
 	public ModelAndView orderCancel(HttpSession session, ModelAndView mv, String orderNo, int ordAmount) {
-		Member login= (Member) session.getAttribute("loginMember");
-		String memNo=login.getMemNo();
-		
-		Point p=new Point();
+		Member login = (Member) session.getAttribute("loginMember");
+		String memNo = login.getMemNo();
+
+		Point p = new Point();
 		p.setMemNo(memNo);
-		p.setPointContent("구매확정 (주문번호:"+orderNo+")");
-		int point=(int)(ordAmount*0.05);
+		p.setPointContent("구매확정 (주문번호:" + orderNo + ")");
+		int point = (int) (ordAmount * 0.05);
 		p.setPointChange(point);
 		int result = service.buyConfirm(orderNo, p);
 		String msg = "";
 		String loc = "";
 		String icon = "";
 		if (result > 0) {
-			msg = "적립금"+point+"가 적립되었습니다.";
+			msg = "적립금" + point + "가 적립되었습니다.";
 			loc = "/mypage/orderStatus";
 			icon = "success";
 		} else {
@@ -279,8 +328,8 @@ public class OrderController {
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.addObject("icon", icon);
-		mv.setViewName("common/msg");		
-		return mv;		
+		mv.setViewName("common/msg");
+		return mv;
 	}
 	
 	//주문취소(요청)

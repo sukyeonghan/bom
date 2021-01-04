@@ -1,24 +1,36 @@
 package com.kh.bom.member.controller;
 
-import java.util.Date;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
+import javax.activation.FileDataSource;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.bom.member.model.service.MemberService;
 import com.kh.bom.member.model.vo.Member;
 
-@Controller
+import lombok.extern.slf4j.Slf4j;
 
+@Controller
+@Slf4j
 public class EmailController {
 
 	@Autowired
@@ -95,48 +107,88 @@ public class EmailController {
 				
 	}
 	
-	//회원탈퇴,휴먼계정안내 이메일 전송 
-	@RequestMapping(value="/email/member")
+	
+	//회원관리 -이메일 전송 
+	@RequestMapping(value="/email/member", method = RequestMethod.POST)
 	@ResponseBody
-	public boolean sendEmailMember(Member member,String type, Model m,HttpSession session) throws Exception{
-		int result=0;
+	public boolean sendEmailMember(String emailReceiver,String emailSubject, String emailText,
+			@RequestParam(value="emailFile",required=false) MultipartFile[] emailFile, HttpSession session) throws Exception{
+		boolean result=false;
 		String setFrom ="sujeong.dev@gmail.com"; //보내는 사람
-		String nick=member.getMemNick(); //받는 회원 닉네임
-		String email=member.getMemEmail(); //받는 회원 이메일
-		String subject="";
-		String text="";
-		String day="";
 		
-		if(type.equals("휴면")) {
-			subject="[다시:봄] 장기 비 로그인 계정  휴면 전환안내";
-			text="안녕하세요."+nick+"님, 장기간 [다시:봄] 이용이 없으셨던 회원님의 계정이 휴면계정으로 전환될 예정입니다. 이용에 차질이 없도록 사전에 안내 드리면 휴면전환을 원치 않으실경우 "+day+"이전에 [다시:봄]에 방문하셔서 로그인하여 주시기를 바랍니다.";
-		}else if(type.equals("개인정보")) {
-			subject="[다시:봄] 개인정보 이용안내 ";
-			text="안녕하세요. [다시:봄]입니다. 본 메일은 개인정보보호법 제 39조 8 및 동법 시행령 제 48조의 6(개인정보 이용내역 통지)에 따라 회원님께 발송되는 '개인정보 이용내역' 안내 메일입니다. 본 메일은 해당년 1월 1일까지 회원상태를 유지하고 있는 회원님께 발송됩니다. ";
-			text+="<table>"
-					+ "<tr><th>개인정보수집항목</th><th>이용목적</th></tr>"
-					+ "<tr><td>이메일,닉네임,프로필사진</td><td>서비스이용을 위한 회원가입</td></tr>"
-					+ "</table>";
+		String subject=emailSubject; //이메일 제목
+		String text=emailText;//이메일내용
+		String originalName="";
+		String reName="";
+		List<String> delFileList=new ArrayList();
+		//받는사람리스트
+		List<String>emailList=Arrays.asList(emailReceiver.split(","));
+		System.out.println("전달받은 이메일전체:"+emailList);
+		
+		for(String email: emailList) {//받는 회원 이메일
+			System.out.println("전송한 이메일:"+email);
+			try {
+	            MimeMessage message = mailSender.createMimeMessage();
+	            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+	            helper.setFrom(setFrom);
+	            helper.setTo(email);
+	            helper.setSubject(subject);
+	            //ckEditor내용
+	            System.out.println(text);
+
+	            helper.setText(text,true);
+
+	            //파일첨부
+	    		String path=session.getServletContext().getRealPath("/resources/upload/email");
+	    		File dir = new File(path);
+	    		if(!dir.exists())dir.mkdirs();
+	    		for(MultipartFile f:emailFile) {
+	    			if(!f.isEmpty()) {
+	    			
+	    				System.out.println(f);
+	    				//본래 파일이름 가져오기
+	    				originalName=f.getOriginalFilename();
+	    				System.out.println("파일이름"+originalName);
+	    				//확장자 분리
+	    				String ext=originalName.substring(originalName.lastIndexOf(".")+1);
+	    				//리네임양식정하기
+	    				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+	    				int rndValue=(int)(Math.random()*1000);
+	    				reName="file"+sdf.format(System.currentTimeMillis())+"_"+rndValue+"."+ext;
+	    				try {
+	    					f.transferTo(new File(path+"/"+reName));
+	    				}catch(IOException e) {
+	    					e.printStackTrace();
+	    				}
+	    				System.out.println(text);
+	    				System.out.println(path+"/"+reName);
+	    				FileSystemResource fsr = new FileSystemResource(path+"/"+reName);
+	    				helper.addAttachment(originalName, fsr);
+	    				delFileList.add(reName);//삭제를 위해 reName한 파일 명 리스트에 보관
+	    			}
+	    		}
+	    		
+	            mailSender.send(message);
+	            
+	            //전송후 첨부파일 지우기
+	            for(String name:delFileList) {
+	            	String deletePath=path+"/"+name;
+					File del=new File(deletePath);
+					if(del.exists())del.delete();
+	            }
+
+	            result= true;
+	            
+	        }catch(Exception e) {		        	
+	            e.printStackTrace();
+	            result= false;
+	        }
 		}
 		
-		try {
-            
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
-            helper.setFrom(setFrom);
-            helper.setTo(email);
-            helper.setSubject(subject);
-            helper.setText(text,true);
-                   
-            mailSender.send(message);
-            result=1;
-            
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
-			
-		return result>0?true:false;
+		return result;
 
 	}
-		
+	
+
+	
 }

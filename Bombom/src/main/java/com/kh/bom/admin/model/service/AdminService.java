@@ -50,6 +50,9 @@ public interface AdminService {
 	int selectMemberCount(Map<String, String> map);
 	//검색 자동완성
 	List<Member> memberAutoComplete(Map<String, String> map);
+	//전체 회원 이메일
+	List<String> selectMemEmailList(Map<String, String> map);
+	
 	//qna 전체 목록
 	List<Qna> selectQnaList(int cPage, int numPerpage);
 	//qna 페이징
@@ -78,6 +81,7 @@ public interface AdminService {
 	List<Order> selectOrdWaitList(int cPage, int numPerpage, Map map);
 	int selectOrdWaitCount(Map map);
 	int updateOrder(Order o);
+	
 
 	
 	

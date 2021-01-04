@@ -490,18 +490,19 @@ button:focus {
                     <!-- 2.옵션선택창:옵션이 있을 경우 반드시 선택해야함 -->
                     <c:if test="${not empty optionlist }">
                     <div class="">
-                    	<select class="form-control" id="optionSelect">
-                    		<option readonly>옵션선택</option>
-                    		<c:forEach items="${optionlist}" var="opt" varStatus="vs">
-                    			<option value="${opt.pdtOptionAddprice}">${opt.pdtOptionContent}&nbsp;&nbsp;+<fmt:formatNumber value="${opt.pdtOptionAddprice}" pattern="#,###"/></option>
+                    	<select class="form-control" id="optionSelect" onchange="optionChange(this)">
+                    		<option readonly selected disabled>옵션선택</option>
+                    		<c:forEach items="${optionlist}" var="opt">
+                    			<option value="${opt.pdtOptionAddprice}" value2="${opt.pdtOptionNo}">${opt.pdtOptionContent}&nbsp;&nbsp;+<fmt:formatNumber value="${opt.pdtOptionAddprice}" pattern="#,###"/></option>
                     		</c:forEach>
-                    	</select>	
+                    	</select>
                     </div>
-                    <div class="" id="optionView" style="padding-bottom:10px;display:none;">
+                    <div class="optionAdd" id="optionIndex" style="padding-bottom:10px;display:none;">
 	                    	<div id="info_count" style="border-radius:4px;">
-	                    		<div class="information" id="optionCheck" style="margin:10px;">
-	                    			<span id="optionCheck">옵션확인란</span>
-	                    			<span id="optionClose" style="float:right;cursor:pointer">X</span>
+	                    		<div class="information" style="margin:10px;">
+	                    			<input type="hidden" id="optionNo" />
+	                    			<span id="optionName">옵션확인란</span>
+	                    			<span class="optionClose" onclick="remove_div(this)" style="float:right;cursor:pointer;">X</span>
 	                    		</div>
 	                    		<div class="inforamtion row">
 	                    			<div class="col" style="margin-left:10px;">
@@ -514,53 +515,77 @@ button:focus {
 	                    				<c:if test="${empty product.eventNoRef}">
 		                    				<input type="text" value="${product.pdtPrice}" id="oriPrice" hidden="hidden"/>
 		                    				<input type="text" value="${product.pdtPrice}" id="totalPrice" hidden="hidden"/>
-		                    				<input type="text" value="0" id="optionPrice"/>
+		                    				<input type="text" value="0" id="optionPrice" hidden="hidden"/>
 		                    				<span id="viewPrice" style="width:60px;text-align:right; border:none;">${product.pdtPrice}</span>원
 	                    				</c:if>
 	                    			<!-- 세일가격 -->
 	                    				<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
 	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="oriPrice" hidden="hidden"/>
 	                    					<input type="text" value="${product.pdtPrice*(1-(product.salePer/100))}" id="totalPrice" hidden="hidden"/>
-	                    					<input type="text" value="0" id="optionPrice"/>
+	                    					<input type="text" value="0" id="optionPrice" hidden="hidden"/>
 	                    					<span id="viewPrice" style="width:60px;text-align:right; border:none;"><fmt:formatNumber value="${product.pdtPrice*(1-(product.salePer/100))}" pattern="###"/></span>원
 	                    				</c:if>
 	                    			</div>
 	                    		</div>
 	                    	</div>
 	                    </div>
-                    </c:if> 
+                    </c:if>  
                     
                     <script>
-                    	//옵션선택 시 수량계산 창 나옴
-                    	$("#optionSelect").change(function(){
-                    		if($("#optionView").css("display")=="none"){
-                    			$("#optionView").css("display","");
-                    		}
+                    	var optionPrice = 0;
+                    	var oriPrice = document.getElementById("oriPrice");
+                    	
+                    	function optionChange(e){
+                    	//$("#optionSelect").change(function(){
+                    		//선택한 셀렉트박스 index값 확인
+                    		var idx = $("#optionSelect option").index($("#optionSelect option:selected"));
+                    		$("#optionIndex").attr("value",idx);
+                    		
+	                    	//옵션선택 시 수량계산 창 나옴
+	                    	if($(".optionAdd").css("display")=="none"){
+                    			$(".optionAdd").show();
+	                    	}
+	                    	
                     		//옵션가격을 optionPrice value에 넣기
-                    		var price = $("#optionSelect option:selected").val();
-                    		$("#optionPrice").val(price);
+                    		var price = $("#optionSelect option:selected").val(); //선택한 옵션가격
+                    		$("#optionPrice").attr("value",price); //옵션가격을 optionPrice
+                    		optionPrice = $("#optionPrice").val(); 
+
+                    		//옵션선택 시 바뀐 가격 표현 
+                    		$("#viewPrice").html( Number(optionPrice) + Number(oriPrice.value) ); 
+                    		
                     		//옵션명 optionCheck에 넣기
                     		var text = $("#optionSelect option:selected").text();
                     		var optionName = text.substring(0,text.indexOf("+")).trim();
-                    		$("#optionCheck").text(optionName);	
-                    	});
+                    		$("#optionName").text(optionName);	
+                    		
+                    		//옵션명 배열로 가져오기
+                    		var optionNo = $("#optionSelect option:selected").attr("value2");
+                    		$("#optionNo").attr("value",optionNo);
+                    		//console.log(optionNo);
+                    	
+                    	}
+                    	//}); //원래꺼
                     	
                     	//수량계산창 닫기
-                    	$("#optionClose").click(function(){
-                    		$("#optionView").css("display","none");
-                    	});
+                    	function remove_div(obj){
+                    		var div = $(this).parent().eq(5);
+                    		console.log(div);
+                    		div.hide();
+                    	}
                     	
                     	
                     	var count = 1;
-                    	var countEl = document.getElementById("count");
-                    	var oriPrice = document.getElementById("oriPrice");
+                    	var countEl = document.getElementById("count"); 
                     	var totalPrice = document.getElementById("totalPrice");
                     	var viewPrice = document.getElementById("viewPrice");
+                    	
                     	function minus(){
                     		if(count > 1) {
                     			count--;
                     			countEl.value = count;
-                    			totalPrice.value = totalPrice.value - oriPrice.value;
+                    			$("#count").attr("value",count); //현재수량을 count value값에 넣기
+                    			totalPrice.value = totalPrice.value - ( Number(oriPrice.value) + Number(optionPrice) ); //총가격 -(원래가격+옵션가격)
                     			finalPrice = totalPrice.value;
                     			$(viewPrice).text(finalPrice);
                     		}
@@ -568,7 +593,8 @@ button:focus {
                     	function plus(){
                     		count++;
                     		countEl.value = count;
-                    		totalPrice.value = oriPrice.value * countEl.value;
+                    		$("#count").attr("value",count); //현재수량을 count value값에 넣기
+                    		totalPrice.value = (Number(oriPrice.value) + Number(optionPrice) ) * countEl.value; //(원래가격+옵션가격)*수량
                     		finalPrice = totalPrice.value;
                     		$(viewPrice).text(finalPrice);
                     	}
@@ -797,26 +823,9 @@ button:focus {
 			return false;
 		});
 	});
-	//옵션선택 스크립트
-	$('.optionChoice').click(function() {
-		$(this).attr('tabindex', 1).focus();
-		$(this).toggleClass('active');
-		$(this).find('.dropdown-menu').slideToggle(300);
-	});
-	$('.optionChoice').focusout(function() {
-		$(this).removeClass('active');
-		$(this).find('.dropdown-menu').slideUp(300);
-	});
-	$('.optionChoice .dropdown-menu li').click(
-			function() {
-				$(this).parents('.optionChoice').find('span').text(
-						$(this).text());
-				$(this).parents('.optionChoice').find('input').attr('value',
-						$(this).attr('id'));
-			});
 	
 	//수량계산
-	var count = 1;
+/* 	var count = 1;
 	var countEl = document.getElementById("count");
 	var oriPrice = document.getElementById("oriPrice");
 	var totalPrice = document.getElementById("totalPrice");
@@ -836,7 +845,7 @@ button:focus {
 		totalPrice.value = oriPrice.value * countEl.value;
 		finalPrice = totalPrice.value;
 		$(viewPrice).text(finalPrice);
-	} 
+	}  */
 	
 	//상품상세 눌렀을 때
 	$("#productDetail").click(e=>{
@@ -1009,7 +1018,7 @@ button:focus {
 		      		dataType:"json",
 		      		success:data=>{
 		      			//현재제품이랑 비교해서 없을경우
-		      			if(data.likePdtno.indexOf("pdtNo")==-1){
+		      			if(data.likePdtno.indexOf(pdtNo)==-1){
 		      				$("#zzimFolderModal").modal("hide"); //모달창 닫기
 		      				
 		      				//상품창에 찜하기 확인
@@ -1049,7 +1058,6 @@ button:focus {
     		url:"${path}/zzim/zzimCheck",
     		dataType:"json",
     		success:data=>{
-    			console.log(data.favlist);
     			if(data.favlist!=null){
     				//찜한 상품있으면 하트 표시
    					if(data.favlist.indexOf(pdtNo)!=-1){
@@ -1064,13 +1072,30 @@ button:focus {
     }); 
 	
 	//장바구니 버튼 누르면 실행됨
-	function fn_goBasket(pdtNo){
+	function fn_goBasket(){
 		//basket으로 insert시킬 url
-		let basUrl = "${path}/admin/basket";
-		//넘길 변수들 - 상품번호pdtNo, 옵션번호pdtOptionNo, 갯수 Qty
-		let basket_need = {pdtNo : pdtNo, };
+		let basUrl = "${path}/order/insertBasket";
+		//상품번호
+		//let pdtNo = $("#pdtNo").val();
+		//옵션번호
+		let pdtOptionNo = $("#optionNo").val();
+		if(pdtOptionNo == undefined){
+			pdtOptionNo = "null";
+		}
+		//상품갯수
+		let Qty = $("#count").val();
+		
+		//넘길 변수들 - 상품번호pdtNo, 옵션번호pdtOptionNo, 상품갯수 Qty 
+		let basket_need = {"pdtNo":$("#pdtNo").val(),
+							"pdtOptionNo":pdtOptionNo,
+							"inbasQty":Qty};
+		console.log(basket_need);
 		
 		//장바구니 insert용 함수
+		let check = confirm("장바구니에 담으시겠습니까?");
+		if(check){
+			window.location = basUrl+'?'+$.param(basket_need);
+		}
 		
 	};
 </script>
