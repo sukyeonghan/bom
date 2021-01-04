@@ -13,4 +13,10 @@ public interface MyActivityService {
 
 	List<Community> selectComList(String memNo, int cPage, int numPerpage);
 
+	int selectComCount(String memNo);
+
+	List<Review> reviewList(String memNo, int cPage, int numPerpage);
+
+	int reviewCount(String memNo);
+
 }

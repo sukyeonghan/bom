@@ -30,6 +30,24 @@ public class MyActivityDaoImpl implements MyActivityDao {
 		return session.selectList("community.selectComList",memNo, new RowBounds((cPage-1)*numPerpage,numPerpage));
 	}
 
+	@Override
+	public int selectComCount(SqlSession session, String memNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("community.selectComCount",memNo);
+	}
+
+	@Override
+	public List<Review> reviewList(SqlSession session, String memNo) {
+		// TODO Auto-generated method stub
+		return session.selectList("review.myReviewList",memNo);
+	}
+
+	@Override
+	public int reviewCount(SqlSession session, String memNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("review.myReviewCount",memNo);
+	}
+	
 	
 	
 	

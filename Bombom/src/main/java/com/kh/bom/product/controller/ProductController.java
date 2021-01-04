@@ -26,6 +26,7 @@ import com.kh.bom.zzim.model.service.ZzimService;
 import com.kh.bom.zzim.model.vo.Zzim;
 
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONObject;
 
 @Slf4j
 @Controller
@@ -287,7 +288,6 @@ public class ProductController {
 		
 		//상품 등록날짜
 		Product deteResult = service.selectproductDate(pdtNo);
-		System.out.println("상품등록날짜 : "+deteResult);
 		
 		//연관상품 슬라이드
 		List<Product> slidelist = service.slidelist();

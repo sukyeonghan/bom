@@ -14,4 +14,12 @@ public interface MyActivityDao {
 
 	List<Community> selectComList(SqlSession session, String memNo, int cPage, int numPerpage);
 
+	int selectComCount(SqlSession session, String memNo);
+
+	List<Review> reviewList(SqlSession session, String memNo);
+
+	int reviewCount(SqlSession session, String memNo);
+	
+	
+
 }

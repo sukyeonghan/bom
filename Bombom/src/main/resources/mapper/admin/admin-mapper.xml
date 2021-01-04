@@ -47,7 +47,8 @@
 		<result property="memStatus" column="mem_status" />
 		<result property="memPoint" column="mem_point" />
 		<result property="memOutDate" column="mem_outDate" />
-		<result property="memLastDate" column="mem_lastDate" />
+		<!-- <result property="memLastDate" column="mem_lastDate" /> -->
+		<result property="memLastDate" column="memLastDate" typeHandler="dateStr"/> 
 	</resultMap>
 
 	<resultMap type="qna" id="qnaMap">
@@ -320,10 +321,8 @@
 		mem_manager_yn = #{memManagerYn} WHERE MEM_NO=#{memNo}
 	</update>
 	<!-- 회원리스트 -->
-	<select id="selectMemberList" parameterType="map"
-		resultMap="memberMap">
-
-		SELECT * FROM MEMBER
+	<select id="selectMemberList" parameterType="map" resultMap="memberMap">
+		SELECT M.*, TO_CHAR(mem_lastdate,'YYYY-MM-DD HH24:MI:SS') memLastDate, TRUNC(mem_lastdate-sysdate) as "last", TRUNC(mem_outdate-sysdate) as "out"  FROM MEMBER M
 		<if test='keyword != null or keyword != ""'>
 			<where>
 				<if test='searchType eq "nick"'>
@@ -337,12 +336,17 @@
 				</if>
 			</where>
 		</if>
-		<if test='filter == "date"'>ORDER BY TO_NUMBER(SUBSTR(MEM_NO,2)) DESC</if>
-		<if test='filter == "point"'>ORDER BY MEM_POINT DESC</if>
-		<if test='filter == "bad"'>ORDER BY MEM_WARN_COUNT DESC</if>
+		<if test='filter == "dateUp"'>ORDER BY TO_NUMBER(SUBSTR(MEM_NO,2)) ASC</if>
+		<if test='filter == "dateDown"'>ORDER BY TO_NUMBER(SUBSTR(MEM_NO,2)) DESC</if>
+		<if test='filter == "pointUp"'>ORDER BY MEM_POINT ASC</if>
+		<if test='filter == "pointDown"'>ORDER BY MEM_POINT DESC</if>
+		<if test='filter == "badUp"'>ORDER BY MEM_WARN_COUNT ASC</if>
+		<if test='filter == "badDown"'>ORDER BY MEM_WARN_COUNT DESC</if>
+		<if test='filter == "outDateUp"'>ORDER BY MEM_OUTDATE ASC</if>
+		<if test='filter == "outDateDown"'>ORDER BY MEM_OUTDATE DESC</if>
+		<if test='filter == "lastDateUp"'>ORDER BY MEM_LASTDATE ASC</if>
+		<if test='filter == "lastDateDown"'>ORDER BY MEM_LASTDATE DESC</if>
 		<if test='filter == "manager"'>ORDER BY MEM_MANAGER_YN DESC</if>
-		<if test='filter == "lastDate"'>ORDER BY MEM_LASTDATE DESC</if>
-		<if test='filter == "outDate"'>ORDER BY MEM_OUTDATE DESC</if>
 	</select>
 	<!-- 회원수 -->
 	<select id="selectMemberCount" parameterType="map"
@@ -377,6 +381,12 @@
 				mem_email LIKE '%'||#{keyword}||'%' or mem_nick LIKE '%'||#{keyword}||'%'
 			</if>
 		</where>
+	</select>
+	<select id="selectMemEmailList" parameterType="map" resultType="string">
+		SELECT MEM_EMAIL FROM MEMBER 
+		<if test='search eq "long"'>
+			WHERE SYSDATE-180 >= MEM_LASTDATE
+		</if>
 	</select>
 	<!-- 회원관리 끝! -->
 

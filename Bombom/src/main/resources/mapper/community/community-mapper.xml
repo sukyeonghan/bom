@@ -93,8 +93,14 @@
 	<update id="updateCommunity" parameterType="community">
 		UPDATE COMMUNITY SET
 		CM_TITLE=#{cmTitle},CM_CONTENT=#{cmContent},
+		CM_THUMBNAIL=#{cmThumbnail}
 		WHERE CM_NO=#{cmNo}
 	</update>
+	
+	<!-- 
+	<select id="selectThumb" parameterType="string" resultMap="community">
+	SELECT CM_THUMBNAIL FROM COMMUNITY WHERE CM_NO=#{cmNo}
+	</select> -->
    
     <!-- 커뮤 조회수 증가 -->
 	<update id="communityView" parameterType="string">
@@ -293,5 +299,13 @@
   	<!-- 좋아요한 글 가져오기-->
   	<select id="selectLikeNo" parameterType="string" resultMap="memberMap">
   		SELECT MEM_CM_LIKE FROM MEMBER WHERE MEM_NO=#{memNo}
+  	</select>
+  	<!--내가 쓴 커뮤니티글 리스트 -세민  -->
+  	<select id="selectComList" parameterType="string" resultMap="communityMap">
+  		SELECT * FROM COMMUNITY WHERE CM_WRITER=#{memNo}
+  	</select>
+  	<!--내가 쓴 커뮤글 카운트 -sm  -->
+  	<select id="selectComCount" parameterType="string" resultType="_int">
+  		SELECT COUNT(*) FROM COMMUNITY WHERE CM_WRITER=#{memNo}
   	</select>
 </mapper>

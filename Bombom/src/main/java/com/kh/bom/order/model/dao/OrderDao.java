@@ -13,7 +13,13 @@ import com.kh.bom.product.model.vo.ProductOption;
 public interface OrderDao {
 	int insertOrder(SqlSession session, Order order);
 
+	int deleteInbasket(SqlSession session, String basketNo);
+
+	int deleteBasket(SqlSession session, String basketNo);
+
 	List<Basket> selectBasket(SqlSession session, String memNo);
+	
+	Basket selectBasketOne(SqlSession session, String memNo);
 
 	int deleteBasketOne(SqlSession session, Basket b);
 
@@ -46,5 +52,19 @@ public interface OrderDao {
 	int buyConfirm(SqlSession session, String orderNo);
 
 	int insertOrdPoint(SqlSession session, Point p);
+
+	int insertBasket(SqlSession session, String memNo);
+
+	int insertInbasket(SqlSession session, Inbasket i);
+
+	int cancelEndCount(SqlSession session, String memNo);
+
+	int returnWaitCount(SqlSession session, String memNo);
+
+	int returnEndCount(SqlSession session, String memNo);
+
+	int returnRequest(SqlSession session, Order o);
+
+	int returnOrdPoint(SqlSession session, Point p);
 
 }
