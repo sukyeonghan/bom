@@ -300,4 +300,12 @@
   	<select id="selectLikeNo" parameterType="string" resultMap="memberMap">
   		SELECT MEM_CM_LIKE FROM MEMBER WHERE MEM_NO=#{memNo}
   	</select>
+  	<!--내가 쓴 커뮤니티글 리스트 -세민  -->
+  	<select id="selectComList" parameterType="string" resultMap="communityMap">
+  		SELECT * FROM COMMUNITY WHERE CM_WRITER=#{memNo}
+  	</select>
+  	<!--내가 쓴 커뮤글 카운트 -sm  -->
+  	<select id="selectComCount" parameterType="string" resultType="_int">
+  		SELECT COUNT(*) FROM COMMUNITY WHERE CM_WRITER=#{memNo}
+  	</select>
 </mapper>

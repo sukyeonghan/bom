@@ -29,16 +29,22 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public int deleteBasket(String basketNo) {
-		int result =  dao.deleteInbasket(session, basketNo);
-		if(result>0) {
-			result = dao.deleteBasket(session, basketNo);
-		}
+		//int result =  dao.deleteInbasket(session, basketNo);
+		//if(result>0) {
+			int result = dao.deleteBasket(session, basketNo);
+		//}
 		return result;
 	}
 
 	@Override
 	public List<Basket> selectBasket(String memNo) {
 		return dao.selectBasket(session, memNo);
+	}
+	
+
+	@Override
+	public Basket selectBasketOne(String memNo) {
+		return dao.selectBasketOne(session, memNo);
 	}
 
 	@Override

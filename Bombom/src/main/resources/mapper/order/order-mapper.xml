@@ -86,7 +86,6 @@
 	<delete id="deleteInbasket" parameterType="string">
 		DELETE FROM INBASKET WHERE BASKET_NO = #{basketNo}
 	</delete>
-	
 	<delete id="deleteBasket" parameterType="string">
 		DELETE FROM BASKET WHERE BASKET_NO = #{basketNo}
 	</delete>
@@ -120,6 +119,9 @@
 			LEFT JOIN PRODUCT_THUMB TH ON (TH.PDT_NO_REF=I.PDT_NO)
 			LEFT JOIN EVENT E ON(P.EVENT_NO_REF=E.EVENT_NO)
 		WHERE B.MEM_NO=#{memNo}
+	</select>
+	<select id="selectBasketOne" parameterType="string" resultMap="basketMap">
+		SELECT * FROM BASKET WHERE MEM_NO = #{memNo}
 	</select>
 
 	<delete id="deleteBasketPdt" parameterType="basket">
@@ -230,7 +232,7 @@
 	
 	<insert id="insertInbasket" parameterType="inbasket">
 		INSERT INTO INBASKET VALUES(
-			#{pdtNo},${basketNo},#{pdtOptionNo},#{inbasQty})
+			#{pdtNo},#{basketNo},#{pdtOptionNo},#{inbasQty})
 	</insert>
 	<update id="returnRequest" parameterType="order">
 		UPDATE "ORDER" SET ORD_CANCEL=#{ordCancel}, ORD_STATUS='반품요청' WHERE ORDER_NO=#{orderNo}
