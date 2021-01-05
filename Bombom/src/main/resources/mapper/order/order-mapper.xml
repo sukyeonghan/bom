@@ -126,6 +126,9 @@
 	<delete id="deleteBasketPdt" parameterType="basket">
 		DELETE FROM INBASKET
 		WHERE BASKET_NO = #{basketNo} AND PDT_NO = #{pdtNo}
+		<if test="pdtOptionNo != null and pdtOptionNo != '' "> 
+			AND PDT_OPTION_NO = #{pdtOptionNo}
+		</if>
 	</delete>
 	
 	<delete id="deleteBasketOption" parameterType="string">
