@@ -548,7 +548,7 @@ button:focus {
 				  		url.select(); //해당값 선택되도록 select
 				  		document.execCommand("copy"); //클립보드에 복사
 				  		url.blur(); //선택->선택X
-				  		swal("URL이 클립보드에 복사되었습니다");
+				  		swal({text:"URL이 클립보드에 복사되었습니다",timer:1000}); //자동닫기
 				  	}
 				  	
 				  	//카카오톡 공유하기
