@@ -88,13 +88,13 @@
 						<c:if test="${category eq '전체제품'}">
 							<li>
 								<span class="sort-title">분류</span>
-								<input type="checkbox" class="sort default" name="category" value="전체제품" checked>  전체
-								<input type="checkbox" class="sort" name="category" value="식품">  식품 
-								<input type="checkbox" class="sort" name="category" value="잡화">  잡화
-								<input type="checkbox" class="sort" name="category" value="주방">  주방
-								<input type="checkbox" class="sort" name="category" value="욕실">  욕실
-								<input type="checkbox" class="sort" name="category" value="여성용품">  여성용품
-								<input type="checkbox" class="sort" name="category" value="반려동물">  반려동물
+								<input type="checkbox" class="sort default" id="cate-all" name="category" value="전체제품" checked>  전체
+								<input type="checkbox" class="sort cate" name="category" value="식품">  식품 
+								<input type="checkbox" class="sort cate" name="category" value="잡화">  잡화
+								<input type="checkbox" class="sort cate" name="category" value="주방">  주방
+								<input type="checkbox" class="sort cate" name="category" value="욕실">  욕실
+								<input type="checkbox" class="sort cate" name="category" value="여성용품">  여성용품
+								<input type="checkbox" class="sort cate" name="category" value="반려동물">  반려동물
 							</li>
 						</c:if>
 						<li class="slider">
@@ -109,19 +109,11 @@
 						</li>
 						<li >
 							<span class="sort-title">평점</span>
-							<!-- <input type="text" class="js-range-slider" id="avg-range-slider" name="my_range" value="" 
-							   data-type="double"
-						        data-min="0"
-						        data-max="5"
-						        data-from="0"
-						        data-to="5"
-						        data-grid="true"/> -->
-							
-							<input type="checkbox" class="sort" name="star" value="1">  ★
-							<input type="checkbox" class="sort" name="star" value="2">  ★★
-							<input type="checkbox" class="sort" name="star" value="3">  ★★★
-							<input type="checkbox" class="sort" name="star" value="4">  ★★★★
-							<input type="checkbox" class="sort" name="star" value="5">  ★★★★★ 
+							<input type="checkbox" class="sort" name="star1" value="1">  ★
+							<input type="checkbox" class="sort" name="star2" value="1">  ★★
+							<input type="checkbox" class="sort" name="star3" value="1">  ★★★
+							<input type="checkbox" class="sort" name="star4" value="1">  ★★★★
+							<input type="checkbox" class="sort" name="star5" value="1">  ★★★★★ 
 						</li>
 						<li>
 							<span class="sort-title">품절</span>
@@ -275,7 +267,13 @@
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 <script>
-	//가격 슬라이더
+	//카테고리 선택하면 전체선택 못하게 막기
+	$(".cate").on("change", function () {
+		//$("#cate-all").prop("checked", false);//체크 취소
+		$("#cate-all").prop("disabled", true);//아예 비활성화
+	});
+	
+	//가격 슬라이더 설정
 	$("#price-range-slider").ionRangeSlider({
 		skin: "round",
 	    type: "double",
@@ -287,7 +285,7 @@
 	    grid_num:5,
 	    grid: true
 	});
-	
+	//가격 슬라이더 값 넣기
 	$("#price-range-slider").on("change", function () {
         var $inp = $(this);
         var v = $inp.prop("value");     // input value in format FROM;TO
@@ -296,7 +294,7 @@
     });
 	
 	//별점 슬라이더
-	$("#avg-range-slider").ionRangeSlider({
+/* 	$("#avg-range-slider").ionRangeSlider({
 		skin: "round",
 	    type: "double",
 	    min: 0,
@@ -306,15 +304,25 @@
 	    step:1,
 	    grid_num:5,
 	    grid: true
-	});
+	}); */
 	
-
+	var from;
+	var from2;
+	var max;
 	//분류 초기화 버튼
 	//html 어트리뷰트가 아닌 javascript의 속성변경 위해 prop사용
-	//초기화 되면서 원래 처음 페이지로 되돌아가야할듯
 	$("#reset").on("click",e=>{
 		$(".sort").prop("checked", false);
 		$(".default").prop("checked",true);
+		$("#cate-all").prop("disabled", false);
+		var value=$("#price-range-slider").prop("value");
+		from=$("#price-range-slider").data("from");
+		from2=$("#price-range-slider").prop("from");
+		var to=$("#price-range-slider").data("to");
+		max=$("#price-range-slider").data("max");
+		from2=max;
+		//$("#price-range-slider").prop("value")="0;";
+		console.log(value,from,to,max,from2);
 	});
 	
 	//분류 ajax
