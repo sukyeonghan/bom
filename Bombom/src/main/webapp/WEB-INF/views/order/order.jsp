@@ -14,6 +14,7 @@
 <c:set var="totalPdtPrice" value="0" />
 <c:set var="totalSale" value="0"/>
 <c:set var="totalPrice" value="0"/>
+<c:set var="expectPoint" value="0" />
 <c:forEach items="${blist}" var="l">
 	<c:set var="totalPdtPrice" value="${totalPdtPrice+ (l.inbasQty * l.pdtPrice)}"/>
 	<c:if test="${l.salePer != 0 }">
@@ -27,17 +28,23 @@
 		</c:if>
 	</c:if>
 	
+	
+	
 	<!-- 옵션값 없는 상품값합하기 -->
 	<c:if test="${empty l.pdtOptionNo }">
 		<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * (l.pdtPrice - (l.pdtPrice * l.salePer/100)))}" />
+		<c:set var="expectPoint" value="${expectPoint + (l.pdtPrice * 0.05) }" />
 	</c:if>
 	<!-- 옵션값 있는 상품값합하기 -->
 	<c:if test="${not empty l.pdtOptionNo }">
 		<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * ((l.pdtPrice+ l.pdtOptionAddprice) - ((l.pdtPrice+ l.pdtOptionAddprice) * l.salePer/100)))}" />
+		<c:set var="expectPoint" value="${expectPoint + ((l.pdtPrice+ l.pdtOptionAddprice) * 0.05) }" />
 	</c:if>
 	
-
+	
 	<c:set var="basketNo" value="${l.basketNo }"/>
+	
+	
 </c:forEach>
 
 <!-- 배송비 계산 -->
@@ -271,7 +278,7 @@
     <div class="form-group mb-5">
         <h3>예상적립금</h3>
         <hr>
-        <p><strong><span class="savePoint mr-1">1P</span>적립예정</strong></p>
+        <p><strong><span class="savePoint mr-1"><fmt:formatNumber pattern="#,###,###" value="${expectPoint }" />봄</span>적립예정</strong></p>
 
     </div>
     <!-- 최종 결제금액 -->
