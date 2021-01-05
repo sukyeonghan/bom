@@ -379,6 +379,8 @@
 			totalPrice = (Number(amount) - Number(allPoint)); 
 			$("#ordAmount").text(totalPrice.toLocaleString());
 			
+			
+		//사용가능 포인트 딱 맞게 입력시	
 		}else if(Number(inputPoint) == Number(allPoint)){
 			$("#allPoint").prop("checked",true);
 			$("#ordUsePoint").text(Number(inputPoint));
@@ -386,7 +388,14 @@
 			//합산한 총금액 결과 뿌려주기
 			totalPrice = (Number(amount) - Number(inputPoint));
 			$("#ordAmount").text(totalPrice.toLocaleString());
+		
+		//결제할 금액보다 초과 입력시
+		}else if(Number(amount) < Number(inputPoint)){
 			
+			
+			
+		
+		//사용가능한 포인트 안에서 입력시	
 		}else{
 			$("#allPoint").prop("checked",false);
 			$("#ordUsePoint").text(Number(inputPoint));

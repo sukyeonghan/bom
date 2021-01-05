@@ -140,8 +140,8 @@ public class OrderController {
 
 	// 장바구니에서 상품 하나 삭제하기
 	@RequestMapping("order/deleteBasketOne")
-	public ModelAndView deleteBasketOne(ModelAndView m, String pdtNo, String basketNo, String memNo) {
-		int result = service.deleteBasketOne(Basket.builder().pdtNo(pdtNo).basketNo(basketNo).build());
+	public ModelAndView deleteBasketOne(ModelAndView m, String pdtNo, String basketNo, String memNo, String pdtOptionNo) {
+		int result = service.deleteBasketOne(Basket.builder().pdtNo(pdtNo).basketNo(basketNo).pdtOptionNo(pdtOptionNo).build());
 		List<Basket> list = new ArrayList<Basket>();
 		// 삭제가 성공하면 삭제된 이후 리스트 넘겨주기
 		if (result > 0) {
