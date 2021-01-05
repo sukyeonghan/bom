@@ -66,5 +66,11 @@ public interface OrderDao {
 	int returnRequest(SqlSession session, Order o);
 
 	int returnOrdPoint(SqlSession session, Point p);
+	
+	Basket selectBasketNo(SqlSession session, String memNo);
+	
+	List<Inbasket> selectInbasket(SqlSession session, String basketNo);
+	
+	
 
 }

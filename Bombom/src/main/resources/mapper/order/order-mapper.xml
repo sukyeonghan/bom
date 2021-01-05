@@ -231,7 +231,7 @@
 	
 	<insert id="insertInbasket" parameterType="inbasket">
 		INSERT INTO INBASKET VALUES(
-			#{pdtNo},#{basketNo},#{pdtOptionNo},#{inbasQty})
+			#{pdtNo},#{basketNo},#{pdtOptionNo, jdbcType=VARCHAR},#{inbasQty})
 	</insert>
 	<update id="returnRequest" parameterType="order">
 		UPDATE "ORDER" SET ORD_CANCEL=#{ordCancel}, ORD_STATUS='반품요청' WHERE ORDER_NO=#{orderNo}
@@ -240,4 +240,11 @@
 	<insert id="returnOrdPoint" parameterType="point">
 		 INSERT INTO POINT VALUES(#{memNo},null,SYSDATE,#{pointContent},#{pointChange})
 	</insert>
+	<select id="selectBasketNo" parameterType="string" resultMap="basketMap">
+		SELECT BASKET_NO FROM BASKET WHERE MEM_NO = #{memNo}
+	</select>
+	<select id="selectInbasket" parameterType="string" resultMap="inbasketMap">
+		SELECT PDT_OPTION_NO FROM INBASKET WHERE BASKET_NO = #{basketNo} AND PDT_OPTION_NO IS NOT NULL
+	</select>
+	
 </mapper>

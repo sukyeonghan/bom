@@ -1,5 +1,6 @@
 package com.kh.bom.order.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -24,7 +25,11 @@ public class OrderServiceImpl implements OrderService {
 	// 결제하기
 	@Override
 	public int insertOrder(Order order) {
-		return dao.insertOrder(session, order);
+		int result = dao.insertOrder(session, order);
+		if(result>0) {
+			//insert 성공하면 inorder에도 insert시키기
+		}
+		return result;
 	}
 
 	@Override
@@ -186,5 +191,15 @@ public class OrderServiceImpl implements OrderService {
 		return result;
 
 	}
+	//회원의 장바구니안에 pdt_option_no 가져오기
+	@Override
+	public List<Inbasket> selectInbasket(String memNo) {
+		 Basket b = dao.selectBasketNo(session, memNo);
+		 List<Inbasket> ii = new ArrayList<Inbasket>();
+		 if(b != null) ii = dao.selectInbasket(session, b.getBasketNo());
+		 return ii;
+	}
+	
+	
 
 }

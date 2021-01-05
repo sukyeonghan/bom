@@ -93,8 +93,14 @@
 	<update id="updateCommunity" parameterType="community">
 		UPDATE COMMUNITY SET
 		CM_TITLE=#{cmTitle},CM_CONTENT=#{cmContent},
+		CM_THUMBNAIL=#{cmThumbnail}
 		WHERE CM_NO=#{cmNo}
 	</update>
+	
+	<!-- 
+	<select id="selectThumb" parameterType="string" resultMap="community">
+	SELECT CM_THUMBNAIL FROM COMMUNITY WHERE CM_NO=#{cmNo}
+	</select> -->
    
     <!-- 커뮤 조회수 증가 -->
 	<update id="communityView" parameterType="string">
