@@ -21,7 +21,6 @@
 		<result property="ordOphone" column="ord_ophone" /> 
 		<result property="ordRname" column="ord_rname" />
 		<result property="ordRphone" column="ord_rphone" />
-		<result property="ordRemail" column="pdt_option_addprice" />		
 		<result property="pdtThumbImage" column="thumbs" />
 		<result property="pdtName" column="pdt_name" />
 		<result property="pdtOptionContent" column="pdt_option_content" />
