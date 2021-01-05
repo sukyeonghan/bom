@@ -523,7 +523,7 @@ $("#keyword").on("keyup",e=>{
 			$("#emailText").html(emailText);
 		}
 
-		console.log(emailText);
+		
 		var formData=new FormData($("#emailSendForm")[0]);
 		/*console.log($("input[name=emailFile]").val()); */
 		$.ajax({
