@@ -1,13 +1,19 @@
+	var hostIndex = null;	
+	function getContextPath() {
+		hostIndex = location.href.indexOf( location.host ) + location.host.length;
+		return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
+	};
+	
 	var sock = null;
 	
 	$(document).ready( function(){
 			connectWS();
-			
+			getContextPaht();
 	});
 	
 	function connectWS(){
 		
-		sock = new SockJS('/20PM_BOM_final/replyEcho');
+		sock = new SockJS(hostIndex+'/replyEcho');
 	
 		 sock.onopen = function() {
 		     console.log('open');
@@ -21,7 +27,7 @@
 			   	console.log("ReceivMessage : " + data + "\n");
 		 
 			   	$.ajax({
-					url : '/20PM_BOM_final/member/countAlarm',
+					url : hostIndex+'/member/countAlarm',
 					type : 'POST',
 					dataType: 'json',
 					success : function(data) {

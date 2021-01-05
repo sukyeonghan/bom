@@ -128,7 +128,9 @@ public class EmailController {
 		//받는사람리스트
 		List<String>emailList=Arrays.asList(emailReceiver.split(","));
 		System.out.println("전달받은 이메일전체:"+emailList);
+
 		
+
 		//MimeMessage message = mailSender.createMimeMessage();
 		//MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
 		for(String email: emailList) {
@@ -197,14 +199,12 @@ public class EmailController {
 	                
 	                //파일첨부
 	                String path=session.getServletContext().getRealPath("/resources/upload/email");
-                	Map <String, FileSystemResource>fileMap=new HashMap<String, FileSystemResource>();
-                	
+	                Map <String, FileSystemResource>fileMap=new HashMap<String, FileSystemResource>();
 		    		File dir = new File(path);
 		    		if(!dir.exists())dir.mkdirs();
 		    		for(MultipartFile f:emailFile) {
 		    			if(!f.isEmpty()) {
 		    			
-		    				System.out.println(f);
 		    				//본래 파일이름 가져오기
 		    				String originalName=f.getOriginalFilename();
 		    				System.out.println("파일이름"+originalName);
@@ -239,8 +239,9 @@ public class EmailController {
 		    		}
 				} 
 				
-				
+							
 			}; 
+			
 			mailSender.send(preparator); 
 			
 		}
