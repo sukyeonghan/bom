@@ -57,4 +57,6 @@ public interface OrderService {
 	int returnEndCount(String memNo);
 
 	int returnRequest(Order o, Point p);
+	
+	List<Inbasket> selectInbasket(String memNo);
 }

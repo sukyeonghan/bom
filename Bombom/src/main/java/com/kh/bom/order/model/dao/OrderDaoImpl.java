@@ -200,5 +200,16 @@ public class OrderDaoImpl implements OrderDao {
 		// TODO Auto-generated method stub
 		return session.insert("order.insertInbasket", i);
 	}
+	//장바구니번호 가져오기
+	@Override
+	public Basket selectBasketNo(SqlSession session, String memNo) {
+		return session.selectOne("order.selectBasketNo", memNo);
+	}
+	//장바구니에 담긴 상품목록가져오기
+	@Override
+	public List<Inbasket> selectInbasket(SqlSession session, String basketNo) {
+		return session.selectList("order.selectInbasket", basketNo);
+	}
+	
 
 }

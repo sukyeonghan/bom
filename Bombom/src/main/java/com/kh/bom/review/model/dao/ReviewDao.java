@@ -1,5 +1,6 @@
 package com.kh.bom.review.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -9,7 +10,7 @@ import com.kh.bom.review.model.vo.Review;
 
 public interface ReviewDao {
 	
-	Order selectOrder(SqlSession session, Map map);
+	List<Order> selectOrder(SqlSession session, Map map);
 	
 	int insertReview(SqlSession session, Review r);
 	

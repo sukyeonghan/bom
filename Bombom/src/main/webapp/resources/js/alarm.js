@@ -7,7 +7,7 @@
 	
 	function connectWS(){
 		
-		sock = new SockJS('/bom/replyEcho');
+		sock = new SockJS('/20PM_BOM_final/replyEcho');
 	
 		 sock.onopen = function() {
 		     console.log('open');
@@ -21,7 +21,7 @@
 			   	console.log("ReceivMessage : " + data + "\n");
 		 
 			   	$.ajax({
-					url : '/bom/member/countAlarm',
+					url : '/20PM_BOM_final/member/countAlarm',
 					type : 'POST',
 					dataType: 'json',
 					success : function(data) {

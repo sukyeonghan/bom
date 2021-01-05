@@ -1,5 +1,6 @@
 package com.kh.bom.review.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -12,8 +13,8 @@ import com.kh.bom.review.model.vo.Review;
 public class ReviewDaoImpl implements ReviewDao {
 	
 	@Override
-	public Order selectOrder(SqlSession session, Map map) {
-		return session.selectOne("order.selectOrder", map);
+	public List<Order> selectOrder(SqlSession session, Map map) {
+		return session.selectList("order.selectOrder", map);
 	}
 
 	@Override
@@ -23,7 +24,7 @@ public class ReviewDaoImpl implements ReviewDao {
 
 	@Override
 	public int deleteRevivew(SqlSession session, String revNo) {
-		return session.delete("review.deleteReview", revNo);
+		return session.update("review.deleteReview", revNo);
 	}
 
 	@Override
