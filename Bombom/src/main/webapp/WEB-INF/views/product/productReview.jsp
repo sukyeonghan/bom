@@ -270,7 +270,7 @@ textarea.answer {
 	        <form name="frm_review" action="${path}/review/insertReview" method="post" enctype="multipart/form-data" onsubmit="return fn_reviewCheck()" >
 		        <img id="memProimg">
 		        	<span class="span_textarea" style="margin: 10px 0 0 0;">
-					    <textarea class="revContent" id="review_textarea" name="revContent" placeholder="구매평을 입력해주세요" style="height:50%;" onKeyUp="javascript:fnChkByte3(this,'500')"></textarea>
+					    <textarea class="revContent" id="review_textarea" name="revContent" placeholder="구매평을 입력해주세요" style="height:50%;" onKeyUp="javascript:fnChkByte2(this,'500')"></textarea>
 					    	<div class="imgPreview" style="height:35%;"></div>
 					        <div class="wrap_bottom">
 						        <div style="float:left;left:0;bottom:0;">
@@ -404,47 +404,53 @@ textarea.answer {
 					data:{pdtNo:$("#pdtNo").val(), memNo:"${loginMember.memNo}"},
 					dataType:"json",
 					success:data=>{
-						console.log(data);
 						//구매내역이 있을 경우
 						if(data.length!=0){
-							let table = $("<table id='orderList' class='table table-hover'>");
-							let thead = $("<thead>")
-							let th = $("<tr>").append($("<th>").html("주문번호"))
-								th.append($("<th>").html("상품이름"))
-								if(data.pdtOptionContent!=null){
-									th.append($("<th>").html("옵션")) //옵션이 있을때만 노출
-								}
-								th.append($("<th>").html("주문갯수"))
-								th.append($("<th>").html("구매날짜"))
-								th.append($("<th>").html("작성선택"))
-							table.append(th);
-							table.append(thead);	
-							
-							$.each(data,function(i,v){
-								let tr = $("<tr>").append($("<td id='no'>").html(v.orderNo));
-								tr.append($("<td>").html(v.pdtName));
-								if(v.pdtOptionContent!=null){
-									tr.append($("<td>").html(v.pdtOptionContent)) //옵션이 있을때만 노출
-								}
-								tr.append($("<td>").html(v.inorderQty))
-								tr.append($("<td>").html(v.ordDate))
+							if(data.length>1){
+								let table = $("<table id='orderList' class='table table-hover'>");
+								let thead = $("<thead>")
+								let th = $("<tr>").append($("<th>").html("주문번호"))
+									th.append($("<th>").html("상품이름"))
+									if(data.pdtOptionContent!=null){
+										th.append($("<th>").html("옵션")) //옵션이 있을때만 노출
+									}
+									th.append($("<th>").html("주문갯수"))
+									th.append($("<th>").html("구매날짜"))
+									th.append($("<th>").html("작성선택"))
+								table.append(th);
+								table.append(thead);	
 								
-								let btn = $("<button>").attr({"type":"button","class":"btn btn-outline-success"}).html("선택");
-								//선택한 옵션번호 모달창으로 넘기기
-								btn.click(e=>{
-									let orderNo = $(e.target).parent().parent().children("#no").text();
-									$("#orderNo").val(orderNo);
-									$("#reviewChoice").modal('hide');
-									$("#insertReview").modal('show');
+								$.each(data,function(i,v){
+									let tr = $("<tr>").append($("<td id='no'>").html(v.orderNo));
+									tr.append($("<td>").html(v.pdtName));
+									if(v.pdtOptionContent!=null){
+										tr.append($("<td>").html(v.pdtOptionContent)) //옵션이 있을때만 노출
+									}
+									tr.append($("<td>").html(v.inorderQty))
+									tr.append($("<td>").html(v.ordDate))
+									
+									let btn = $("<button>").attr({"type":"button","class":"btn btn-outline-success"}).html("선택");
+									//선택한 옵션번호 모달창으로 넘기기
+									btn.click(e=>{
+										let orderNo = $(e.target).parent().parent().children("#no").text();
+										$("#orderNo").val(orderNo);
+										$("#reviewChoice").modal('hide');
+										$("#insertReview").modal('show');
+									});
+									let td = $("<td>");
+									tr.append(td.append(btn));
+									table.append(tr);
+									$("#reviewChoice").modal('show');  //구매내역 모달띄우기
 								});
-								let td = $("<td>");
-								tr.append(td.append(btn));
-								table.append(tr);
-								$("#reviewChoice").modal('show');  //모달띄우기
-							});
+								
+								$("#reviewResult").html("");
+								$("#reviewResult").html(table);
 							
-							$("#reviewResult").html("");
-							$("#reviewResult").html(table);
+							//구매내역이 한 개일 경우
+							}else{
+								$("#insertReview").modal('show');  //구매평 모달띄우기
+							}
+							
 						//구매내역이 없을 경우	
 						}else{
 							swal("구매 내역이 없습니다");
@@ -617,7 +623,7 @@ textarea.answer {
 	$("#upload1").change(e => {
 			let reader = new FileReader();
 			reader.onload = e =>{
-				let img = $("<img>").attr({"src":e.target.result,"style":"width:auto;height:80px;"});
+				let img = $("<img>").attr({"src":e.target.result,"style":"width:auto;height:60px;"});
 				
 				$(".imgPreview").html("");
 				$(".imgPreview").append(img);
