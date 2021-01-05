@@ -14,18 +14,49 @@
 <c:set var="totalPdtPrice" value="0" />
 <c:set var="totalSale" value="0"/>
 <c:set var="totalPrice" value="0"/>
+<c:set var="expectPoint" value="0" />
 <c:forEach items="${blist}" var="l">
 	<c:set var="totalPdtPrice" value="${totalPdtPrice+ (l.inbasQty * l.pdtPrice)}"/>
 	<c:if test="${l.salePer != 0 }">
-		<c:set var="totalSale" value="${totalSale+((l.pdtPrice * l.salePer/100))}"/>
+		<!-- 옵션값이 없는경우 -->
+		<c:if test="${empty l.pdtOptionNo }">
+			<c:set var="totalSale" value="${totalSale+((l.pdtPrice * l.salePer/100))}"/>
+		</c:if>
+		<!-- 옵션값이 있는경우 -->
+		<c:if test="${not empty l.pdtOptionNo }">
+			<c:set var="totalSale" value="${totalSale+((l.pdtPrice + l.pdtOptionAddprice) * l.salePer/100)}"/>
+		</c:if>
 	</c:if>
-	<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * (l.pdtPrice - (l.pdtPrice * l.salePer/100)))}" />
-
+	
+	
+	
+	<!-- 옵션값 없는 상품값합하기 -->
+	<c:if test="${empty l.pdtOptionNo }">
+		<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * (l.pdtPrice - (l.pdtPrice * l.salePer/100)))}" />
+		<c:set var="expectPoint" value="${expectPoint + (l.pdtPrice * 0.05) }" />
+	</c:if>
+	<!-- 옵션값 있는 상품값합하기 -->
+	<c:if test="${not empty l.pdtOptionNo }">
+		<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * ((l.pdtPrice+ l.pdtOptionAddprice) - ((l.pdtPrice+ l.pdtOptionAddprice) * l.salePer/100)))}" />
+		<c:set var="expectPoint" value="${expectPoint + ((l.pdtPrice+ l.pdtOptionAddprice) * 0.05) }" />
+	</c:if>
+	
+	
 	<c:set var="basketNo" value="${l.basketNo }"/>
+	
+	
 </c:forEach>
 
-
-
+<!-- 배송비 계산 -->
+<c:set var="deliveryPrice" value="0" />
+<c:if test="${not empty ship}">
+	<c:if test="${fn:contains(ship.shipAddress,'서울') || fn:contains(ship.shipAddress,'경기')}" >
+		<c:set var="deliveryPrice" value="${deliveryPrice + 2500 }" />
+	</c:if>
+	<c:if test="${fn:contains(ship.shipAddress,'강원') || fn:contains(ship.shipAddress,'제주')}" >
+		<c:set var="deliveryPrice" value="${deliveryPrice + 5000 }" />
+	</c:if>
+</c:if >
 
 
 
@@ -47,7 +78,8 @@
 					<th style="width: 20%;"></th>
 					<th style="width: 40%;"></th>
 					<th style="width: 20%;"></th>
-					<th style="width: 20%;"></th>
+					<th style="width: 10%;"></th>
+					<th style="width: 10%;"></th>
 				</tr>
 			</thead>
 	        <c:forEach items="${blist }" var="b">
@@ -66,15 +98,45 @@
 					</div>
                 </td>
                 <!-- 이름 -->
-                <td><c:out value="${b.pdtName }" /></td>
+                <td>
+					<c:if test="${empty b.pdtOptionNo }"> <!-- 옵션 없는경우 -->
+						<c:out value="${b.pdtName }" /><br>
+					</c:if>	
+					
+					<c:if test="${not empty b.pdtOptionNo }"><!-- 옵션 있는경우 -->
+						<c:out value="${b.pdtName }" /><br>
+						<c:out value="${b.pdtOptionContent }" /><br>
+					</c:if>	
+				</td>
                 <!-- 가격 -->
-                <td><fmt:formatNumber pattern="#,###,###" value="${b.pdtPrice }"/>원</td>
+                <td>
+                
+                <c:if test="${empty b.pdtOptionNo }"> <!-- 옵션 없는경우 -->
+					<fmt:formatNumber value="${b.pdtPrice}" pattern="#,###,###" />원
+				</c:if>	
+				
+				<c:if test="${not empty b.pdtOptionNo }"><!-- 옵션 있는경우 -->
+					<fmt:formatNumber value="${b.pdtPrice + b.pdtOptionAddprice}" pattern="#,###,###" />원
+				</c:if>	
+                
+                </td>
                 <!-- 수량 -->
                 <td> <c:out value="${b.inbasQty }" />개 </td>
+                <!-- 할인 -->
+				<td>
+					<c:if test="${not empty b.pdtOptionNo }">
+						<div>(-)<fmt:formatNumber pattern="#,###,###" value="${b.salePer != 0?(b.pdtPrice + b.pdtOptionAddprice)*(b.salePer/100) : 0 }" />원</div>
+					</c:if>
+					<c:if test="${empty b.pdtOptionNo }">
+						<div>(-)<fmt:formatNumber pattern="#,###,###" value="${b.salePer != 0? b.pdtPrice*(b.salePer/100) : 0 }" />원</div>
+					</c:if>
+				</td>
+                
             </tr>
 	        </c:forEach><hr>
         </table>
     </div>
+    <div class="term mb-3 text-size-20 text-center text-freeDeli">5만원 이상 구매시 무료배송</div>
     <!-- 배송지 -->
     <div class="mb-5">
         <h3>배송지</h3>
@@ -92,15 +154,16 @@
         </div>
         <div class="form-group d-flex mb-3">
             <div class="col-3 d-flex"><label for="addr">주소</label></div>
-            <div class="col-9 "><input type="text" class="address-detail form-control" name="ordAddr" id='sample6_address' value="${ship.shipAddress }" placeholder='주소' required><br>
-            <input type="text" class="address-detail form-control" name='ordDetailAddr' id='sample6_detailAddress' value="${ship.shipDetailAddress }" placeholder='상세주소' required>
+            <div class="col-9 "><input type="text" class="address-detail address-f form-control" name="ordAddr" id='sample6_address' value="${ship.shipAddress }" placeholder='주소' required><br>
+            <input type="text" class="address-detail form-control" name='ordDetailAddr' id='sample6_detailAddress' value="${ship.shipDetailAddress }" placeholder='상세주소' required><br>
+            <input type="text" class="address-detail form-control" name='ordExtraAddr' id='sample6_extraAddress' value="${ship.shipExtraAddress }" placeholder='참고주소' required>
         	</div>
         </div>
         <div class="form-group d-flex">
             <div class="col-3"><label for="deli_memo">배송 메모</label></div>
             <div class="col-9">
             <select name="ordMemo" id="deli_memo" class="form-control mb-3" required>
-                <option selected disabled>배송시 요청사항</option>
+                <option value="" selected disabled>배송시 요청사항</option>
                 <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
                 <option value="배송 전,연락주세요.">배송 전,연락주세요.</option>
                 <option value="부재 시,휴대폰으로 연락주세요.">부재 시,휴대폰으로 연락주세요.</option>
@@ -129,14 +192,15 @@
         </div>
         <div class="form-group d-flex mb-3">
             <div class="col-3 d-flex"><label for="addr">주소</label></div>
-            <div class="col-9 "><input type="text" class="address-detail form-control" name="ordAddr" id='sample6_address' placeholder='주소' required><br>
+            <div class="col-9 "><input type="text" class="address-detail address-f form-control" name="ordAddr" id='sample6_address' placeholder='주소' required><br>
             <input type="text" class="address-detail form-control" name='ordDetailAddr' id='sample6_detailAddress' placeholder='상세주소' required>
+            <input type="text" class="address-detail form-control" name='ordExtraAddr' id='sample6_extraAddress' placeholder='참고주소' required>
         	</div>
         </div>
         <div class="form-group d-flex">
             <div class="col-3"><label for="deli_memo">배송 메모</label></div>
             <div class="col-9"><select name="ordMemo" id="deli_memo" class="form-control mb-3" required>
-                <option selected disabled>배송시 요청사항</option>
+                <option value="" selected disabled>배송시 요청사항</option>
                 <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
                 <option value="배송 전,연락주세요.">배송 전,연락주세요.</option>
                 <option value="부재 시,휴대폰으로 연락주세요.">부재 시,휴대폰으로 연락주세요.</option>
@@ -203,7 +267,7 @@
         <h3>적립금</h3>
         <hr>
         <div class="form-group d-flex">
-	        <input type="text" name="" id="point" class="point form-control mr-3" style="width: 100px;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)'>
+	        <input type="text" name="ordUsePoint" id="point" class="point form-control mr-3" style="width: 100px;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)'>
 	        <label for="point">P</label>
         </div>
         <p>사용 가능한 포인트 <span class="savePoint"><fmt:formatNumber pattern="#,###,###" value="${loginMember.memPoint }"/>P</span></p>
@@ -214,7 +278,7 @@
     <div class="form-group mb-5">
         <h3>예상적립금</h3>
         <hr>
-        <p><strong><span class="savePoint mr-1">1P</span>적립예정</strong></p>
+        <p><strong><span class="savePoint mr-1"><fmt:formatNumber pattern="#,###,###" value="${expectPoint }" />봄</span>적립예정</strong></p>
 
     </div>
     <!-- 최종 결제금액 -->
@@ -222,23 +286,22 @@
         <h3>최종 결제금액</h3>
         <hr>
         <div class="d-flex j-between"><h4>총 상품 금액</h4>
-        	<p class="text-size-20"><span class="total-price ">100</span>원</p>
+        	<p class="text-size-20"><span class="total-price "><fmt:formatNumber pattern="#,###,###" value="${totalPrice }"/></span>원</p>
         </div>
         <div class="d-flex j-between"><h4>배송비</h4>
-        	<p class="text-size-20"><span class="ba" id="ordDeliPrice">0</span>원</p>
+        	<p class="text-size-20"><span class="ba" id="ordDeliPrice"><fmt:formatNumber pattern="#,###,###" value="${deliveryPrice }"/></span>원</p>
         </div>
         <div class="d-flex j-between"><h4>적립금 사용</h4>
-        	<p class="text-size-20"><span class="point" id="ordUsePoint">100</span>봄</p>
+        	<p class="text-size-20">-<span class="point" id="ordUsePoint">0</span>봄</p>
         </div>
         <div class="d-flex j-between"><h4></h4>
-        	<p class="text-strong"><span class="total-pay" id="ordAmount">100</span>원</p>
+        	<p class="text-strong"><span class="total-pay" id="ordAmount"><fmt:formatNumber pattern="#,###,###" value="${totalPrice+deliveryPrice }"/></span>원</p>
         </div>
-		<input type="hidden" id="ba" name="ba">
-       	<input type="hidden" id="total" name="total-pay">
+        <input type="hidden" name="ordAmount" value="<fmt:formatNumber pattern="#######" value="${totalPrice+deliveryPrice }"/>">
     </div>
     <!-- 결제버튼 -->
     <div class="mb-5" style="text-align: center;">
-        <button id="payBtn" type="submit" class="payBtn btn btn-outline-success" style="width: 500px;">결제하기</button>
+        <input type="button" id="payBtn" class="payBtn btn btn-outline-success" style="width: 500px;" value="결제하기" />
     </div>
     </form>
     </div>
@@ -248,6 +311,8 @@
 
 
 <script>
+	var amount = $("#ordAmount").text().replace(/,/g, "");//,를 뺀 총금액 가져오기
+
 	$(function(){
 		$("#point").val(0)}
 	);
@@ -276,35 +341,223 @@
         $("#ordererPhone").val(ordererPhone);
     });
 	
-	var allPoint = '<c:out value="${loginMember.memPoint }"/>'; //사용가능한 포인트
+  
+	
+  //사용가능한 포인트
+	var allPoint = '<c:out value="${loginMember.memPoint }"/>'; 
+  //패턴적용하기 위한 변수
 	var allPointPat = '<fmt:formatNumber pattern="#,###,###" value="${loginMember.memPoint }"/>';
-	//사용 가능한 포인트 초과 입력시 alert
-	
-	$("#point").on("change",e =>{
-		var inputPoint = $("#point").val(); //사용자가 입력한 포인트값가져오기
-		if( Number(inputPoint) > Number(allPoint)){
-			alert("사용 가능한 포인트 보다 많은 가격이 입력되었습니다.");
-			alert("포인트를"+allPointPat+"원을 사용하고 0원 남았습니다.");
-			$("#point").val(Number(allPoint));
-		}
-		//포인트 사용하면 총 금액에 정산되도록 만들기
-		
-		
-		
-	});
-	
+	var inputPoint;
+	var totalPrice;
 	//포인트 전액사용 체크박스 체크시 또는 해제시
-	console.log(allPoint);
 	$("#allPoint").change(e =>{
+		inputPoint = $("#point").val(); //입력된 포인트값가져오기
 		if($("#allPoint").is(":checked")){
 			alert("포인트를"+allPoint+"원을 사용하고 0원 남았습니다.");
 			$("#point").val(Number(allPoint));
+			$("#ordUsePoint").text(Number(allPoint));
+			
+			//합산한 총금액 결과 뿌려주기
+			totalPrice = (Number(amount) - Number(allPoint));
+			$("#ordAmount").text(totalPrice.toLocaleString());
+			
+			
 		}else{
 			$("#point").val(0);
+			$("#ordUsePoint").text(0);
+			$("#ordAmount").text(Number(amount).toLocaleString());//합산한 총금액 결과 뿌려주기
 		}
 	});
+	
+  //사용자가 포인트 입력시
+	$("#point").on("change",e =>{
+		inputPoint = $("#point").val(); //입력한 포인트값가져오기
+		console.log(inputPoint);
 
+		//사용 가능한 포인트 초과 입력시 alert
+		if( Number(inputPoint) > Number(allPoint)){
+			alert("사용 가능한 포인트 보다 많은 가격이 입력되었습니다.");
+			alert("포인트를"+allPointPat+"원을 사용하고 0원 남았습니다.");
+			$("#point").val(Number(allPoint));//input id=point 숫자변경하기
+			$("#allPoint").prop("checked",true); //체크박스 체크하기
+			$("#ordUsePoint").text(Number(allPoint)); //사용적립금에 입력한 숫자만큼 출력시키기
+			
+			//합산한 총금액 결과 뿌려주기
+			totalPrice = (Number(amount) - Number(allPoint)); 
+			$("#ordAmount").text(totalPrice.toLocaleString());
+			
+			
+		//사용가능 포인트 딱 맞게 입력시	
+		}else if(Number(inputPoint) == Number(allPoint)){
+			$("#allPoint").prop("checked",true);
+			$("#ordUsePoint").text(Number(inputPoint));
+			
+			//합산한 총금액 결과 뿌려주기
+			totalPrice = (Number(amount) - Number(inputPoint));
+			$("#ordAmount").text(totalPrice.toLocaleString());
+		
+		//결제할 금액보다 초과 입력시
+		}else if(Number(amount) < Number(inputPoint)){
+			
+			
+			
+		
+		//사용가능한 포인트 안에서 입력시	
+		}else{
+			$("#allPoint").prop("checked",false);
+			$("#ordUsePoint").text(Number(inputPoint));
+			
+			//합산한 총금액 결과 뿌려주기
+			totalPrice = (Number(amount) - Number(inputPoint));
+			$("#ordAmount").text(totalPrice.toLocaleString());
+			
+		}
+	});
+  
+
+	//입력한 포인트만큼 -하여 합산시키기
+	
+	
+	
+	
+	console.log("결제할 금액 :"+Number(amount));
 </script>
+
+
+<!-- 배송지/결제 api -->
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+
+<script type="text/javascript">
+
+	//총 결제 금액 가져오기
+	amount = $(".total-pay").text();
+	amount = amount.replace(",","");
+	
+
+
+var ba;
+//주소 api
+function sample6_execDaumPostcode() {
+  new daum.Postcode({
+      oncomplete: function(data) {
+          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+          // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+          // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+          var addr = ''; // 주소 변수
+          var extraAddr = ''; // 참고항목 변수
+
+          //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+          if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+              addr = data.roadAddress;
+          } else { // 사용자가 지번 주소를 선택했을 경우(J)
+              addr = data.jibunAddress;
+          }
+          
+       	  // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+          if(data.userSelectedType === 'R'){
+              // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+              // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+              if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                  extraAddr += data.bname;
+              }
+              // 건물명이 있고, 공동주택일 경우 추가한다.
+              if(data.buildingName !== '' && data.apartment === 'Y'){
+                  extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+              }
+              // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+              if(extraAddr !== ''){
+                  extraAddr = ' (' + extraAddr + ')';
+              }
+              // 조합된 참고항목을 해당 필드에 넣는다.
+              document.getElementById("sample6_extraAddress").value = extraAddr;
+          
+          } else {
+              document.getElementById("sample6_extraAddress").value = '';
+          }
+          
+          // 우편번호와 주소 정보를 해당 필드에 넣는다.
+          document.getElementById('sample6_postcode').value = data.zonecode;
+          document.getElementById("sample6_address").value = addr;
+          // 커서를 상세주소 필드로 이동한다.
+          var address = $(".address-f").val();
+		  if(address.startsWith("서울") || address.startsWith("경기")){
+			  ba = 2500;
+			  $("#ordDeliPrice").html(Number(ba).toLocaleString());
+		  }else if(address.startsWith("제주") || address.startsWith("강원")){
+			  ba = 5000;
+			  $("#ordDeliPrice").html(Number(ba).toLocaleString());
+		  }else{
+			  ba = 2500;
+		      $("#ordDeliPrice").html(Number(ba).toLocaleString());
+		  }
+
+          $(".total-pay").html((parseInt($(".total-price")[0].textContent.replace(/,/g, ""))+ba-mileage)
+        		  .toLocaleString());//상품총가격+배송비 최종가격
+        		  
+          $("#total").val((parseInt($(".total-price")[0].textContent.replace(/,/g, ""))+ba-mileage));
+          //Number(ordAmount)
+          
+          
+          document.getElementById("sample6_detailAddress").focus(); 
+      }
+  }).open();
+}
+
+//결제 API
+$(document).on("click",".payBtn",function(){
+ 	
+	if($(".address-detail")[0].value==""||$(".address-detail")[1].value==""||$(".address-detail")[2].value==""){
+		//0번 우편번호  1번 일반 주소  2번 상세주소
+		alert("주소를 입력해주세요");
+		return;
+	}
+	
+	IMP.init('imp93954987');
+	IMP.request_pay({
+	    //pg : 'inicis', // version 1.1.0부터 지원.
+	    pay_method : 'card',
+	  //가맹점에서 생성/관리하는 고유 주문번호
+	    merchant_uid : 'merchant_' + new Date().getTime(), 
+	  //주문명
+	    name : '카드테스트결제',
+	  //결제할 금액
+	    amount : 100,//Number(amount),
+	  //주문자 Email
+	    buyer_email : $("#ordererEmail").value, 
+	  //주문자명
+	    buyer_name : $("#orderer").value, 
+	  	//주문자 연락처 - 필수항목
+	    buyer_tel : $("#ordererPhone").value, 
+	    //주문자 주소
+	    buyer_addr : $(".address-detail")[0].value+$(".address-detail")[1].value+$(".address-detail")[2].value,
+	   //주문자 우편번호
+	    buyer_postcode : $(".zipCode").value,
+	    //랜딩되는 주소
+	    m_redirect_url : 'https://rclass.iptime.org/mypage/orderStatus'
+	
+	}	, function(rsp) { //callback
+	    if ( rsp.success ) { //결제 성공시
+	        orderInfo.submit();
+	        //var msg = '결제가 완료되었습니다.';
+	        //msg += '고유ID : ' + rsp.imp_uid;
+	        //msg += '상점 거래ID : ' + rsp.merchant_uid;
+	        //msg += '결제 금액 : ' + rsp.paid_amount;
+	        //msg += '카드 승인번호 : ' + rsp.apply_num;
+	        
+	    } else { //결제 실패시
+	        var msg = '결제에 실패하였습니다.';
+	        msg += '에러내용 : ' + rsp.error_msg;
+		    alert(msg);
+	    }
+	});
+
+});
+
+ 	
+</script>
+
 
 <style>
 .order_header>h1 {
@@ -331,105 +584,13 @@ input[type='number'], input[type='text'], input[type='password'], input[type='fi
 	font-weight: bold;
 	font-size: 24px;
 }
+.text-center{
+	text-align: center;
+}
+.text-freeDeli{
+	color: #45A663;
+}
 </style>
 
-<!-- 배송지/결제 api -->
-<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-
-<script type="text/javascript">
-
-//총 결제 금액 가져오기
-var amount = $(".total-pay").text();
-console.log(amount);
-amount = amount.replace("원","");
-console.log(amount);
-
-//결제 API
-$(document).on("click",".payBtn",function(){
- 	
-	if($(".address-detail")[0].value==""||$(".address-detail")[1].value==""||$(".address-detail")[2].value==""){
-		//0번 우편번호  1번 일반 주소  2번 상세주소
-		alert("주소를 입력해주세요");
-		return;
-	}
-	
-	IMP.init('imp93954987');
-	IMP.request_pay({
-	    pg : 'inicis', // version 1.1.0부터 지원.
-	    pay_method : 'card',
-	    merchant_uid : 'merchant_' + new Date().getTime(),
-	    name : '주문명:카드결제',
-	    amount : Number(amount),//여기엔 가격
-	    buyer_email : $("#ordererEmail").value,
-	    buyer_name : $("#orderer").value,
-	    buyer_tel : $("#ordererPhone").value,
-	    buyer_addr : $(".address-detail")[1].value+$(".address-detail")[2].value,
-	    buyer_postcode : $(".zipCode").value,
-	    m_redirect_url : 'https://www.yourdomain.com/payments/complete'
-	}	, function(rsp) { //callback
-	    if ( rsp.success ) { //결제 성공시
-	        var msg = '결제가 완료되었습니다.';
-	        msg += '고유ID : ' + rsp.imp_uid;
-	        msg += '상점 거래ID : ' + rsp.merchant_uid;
-	        msg += '결제 금액 : ' + rsp.paid_amount;
-	        msg += '카드 승인번호 : ' + rsp.apply_num;
-	        orderInfo.submit();
-	    } else { //결제 실패시
-	        var msg = '결제에 실패하였습니다.';
-	        msg += '에러내용 : ' + rsp.error_msg;
-	    }
-	    alert(msg);
-	});
-
-});
-
-var ba;
-//주소 api
-function sample6_execDaumPostcode() {
-  new daum.Postcode({
-      oncomplete: function(data) {
-          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-          // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-          // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-          var addr = ''; // 주소 변수
-          var extraAddr = ''; // 참고항목 변수
-
-          //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-          if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-              addr = data.roadAddress;
-          } else { // 사용자가 지번 주소를 선택했을 경우(J)
-              addr = data.jibunAddress;
-          }
-          // 우편번호와 주소 정보를 해당 필드에 넣는다.
-          document.getElementById('sample6_postcode').value = data.zonecode;
-          document.getElementById("sample6_address").value = addr;
-          // 커서를 상세주소 필드로 이동한다.
-          var address=$(".address-detail").val();
-          
-          if(address.includes("서울")||address.includes("경기")){
-          	ba=2500;
-          }else if(address.includes("제주")||address.includes("강원")){
-          	ba=7000;
-          }else{
-          	ba=5000;
-          }
-
-          var mileage =Number($(".point").val()); //총 할인 금액가져오기
-          $(".ba").html(ba.toLocaleString()); //배송비 가져오기
-          $(".total-pay").html((parseInt($(".total-price")[0].textContent.replace(/,/g, ""))+ba-mileage)
-        		  .toLocaleString());//상품총가격+배송비 최종가격
-          $("#total").val((parseInt($(".total-price")[0].textContent.replace(/,/g, ""))+ba-mileage));
-          $("#ba").val(ba);
-          
-          document.getElementById("sample6_detailAddress").focus(); 
-      }
-  }).open();
-}
-
-	
- 	
-</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

@@ -71,10 +71,10 @@ public class CommunityDaoImpl implements CommunityDao {
 	    }
 	 
 	    @Override
-	public int insertReReply(SqlSession session, BoardReply br) {
+	    public int insertReReply(SqlSession session, BoardReply br) {
 		// TODO Auto-generated method stub
 		return session.insert("community.insertReReply",br);
-	}
+	    }
 
 		@Override
 	    public List<BoardReply> getReplyList(SqlSession session,String cmNo) {

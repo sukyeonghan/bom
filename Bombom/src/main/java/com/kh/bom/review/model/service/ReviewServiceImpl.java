@@ -1,6 +1,7 @@
 package com.kh.bom.review.model.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -27,7 +28,7 @@ public class ReviewServiceImpl implements ReviewService {
 	private ProductDao proDao;
 	
 	@Override
-	public Order selectOrder(Map map) {
+	public List<Order> selectOrder(Map map) {
 		return dao.selectOrder(session, map);
 	}
 	
@@ -39,14 +40,7 @@ public class ReviewServiceImpl implements ReviewService {
 		int result = 0;
 		try {
 			result =  dao.insertReview(session, r);
-			if(result>0) {
-				//product 테이블에 평균평점 계산해서 넣기
-				String avg=proDao.reviewAvg(session,r.getPdtNo());
-				HashMap<String,String> map=new HashMap();
-				map.put("pdtNo", r.getPdtNo());
-				map.put("pdtReviewAvg", avg);
-				proDao.updateReviewAvg(session, map);
-			}
+
 			String msg = "";
 			int plus = 0;
 		

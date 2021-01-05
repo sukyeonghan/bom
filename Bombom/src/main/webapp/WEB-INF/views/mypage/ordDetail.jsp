@@ -226,10 +226,10 @@ textarea.answer {
 										value="${p.inorderQty * p.pdtPrice}" />원</td>
 								<td style="display:none"><c:out value="${p.pdtNo}" /></td>
 								<c:if test="${p.ordStatus =='배송준비' or p.ordStatus =='배송중' or p.ordStatus =='배송완료' }">
-								<c:if test="${p.revContent == null }">					
+								<c:if test="${p.revYn=='N' }">					
 								<td class="btnTd"><input type="button" class="btn btn-outline-success reviewModal" data-toggle="modal" data-target="#reviewView" value="리뷰작성"></td>
 								</c:if>
-								<c:if test="${p.revContent != null}">
+								<c:if test="${p.revYn=='Y'}">
 								<td class="btnTd"><input type="button" class="btn btn-success" disabled  value="작성완료"></td>
 								</c:if>
 								
@@ -273,12 +273,17 @@ textarea.answer {
 
 					<tr>
 						<th>주문금액</th>
-						<td id="total2"></td>
+						<td id="total2">원</td>
+					</tr>
+					<tr>
+						<th>배송료</th>
+						<td><fmt:formatNumber pattern="#,###"
+								value="${order.ordDeliPrice}" />원</td>
 					</tr>
 					<tr>
 						<th>포인트결제액</th>
 						<td><fmt:formatNumber pattern="#,###,###"
-								value="${order.ordUsePoint}" /></td>
+								value="${order.ordUsePoint}" />봄</td>
 					</tr>
 					<tr>
 						<th>결제금액</th>
@@ -342,7 +347,7 @@ textarea.answer {
 					        <div>
 						        <span class="span_textarea review_span">
 							        <textarea name="revContent" id="review_textarea" placeholder="구매평을 입력해주세요" onKeyUp="javascript:fnChkByte2(this,'500')"></textarea>
-							        <div id="uploadPreview" style="height:35%;"><img id="imgPreview" style="height:35%;"></div>
+							        <div class="imgPreview" style="height:35%;"></div>
 							        <div class="wrap_bottom">
 							        <div style="float:left;left:0;bottom:0;">
 							        	<!-- 업로드 사진 -->
@@ -506,7 +511,7 @@ $("#uploadImage1").click(function(){
 $("#upload1").change(e => {
 		let reader = new FileReader();
 		reader.onload = e =>{
-			let img = $("<img>").attr({"src":e.target.result,"style":"width:auto;height:80px;"});
+			let img = $("<img>").attr({"src":e.target.result,"style":"width:auto;height:60px;"});
 			
 			$(".imgPreview").html("");
 			$(".imgPreview").append(img);
