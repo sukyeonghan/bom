@@ -42,7 +42,7 @@
 
 	<!-- 구매평 지우기, 컬럼지우지 않고 rev_delete_yn만 y로 변경 -->
 	<update id="deleteReview" parameterType="string">
-		UPDATE REVIEW SET REV_NO=#{revNo}, REV_DELETE_YN='Y'
+		UPDATE REVIEW SET REV_DELETE_YN='Y' WHERE REV_NO=#{revNo}
 	</update>
 	
 	<!-- 구매평 수정 -->
