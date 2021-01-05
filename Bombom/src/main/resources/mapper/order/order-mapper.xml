@@ -21,7 +21,6 @@
 		<result property="ordOphone" column="ord_ophone" /> 
 		<result property="ordRname" column="ord_rname" />
 		<result property="ordRphone" column="ord_rphone" />
-		<result property="ordRemail" column="pdt_option_addprice" />		
 		<result property="pdtThumbImage" column="thumbs" />
 		<result property="pdtName" column="pdt_name" />
 		<result property="pdtOptionContent" column="pdt_option_content" />
@@ -30,7 +29,7 @@
 		<result property="memEmail" column="mem_email" />
 		<result property="pdtOptionAddprice" column="pdt_option_addprice" />
 		<result property="pdtNo" column="pdt_no"/>
-		<result property="revContent" column="rev_content"/>
+		<result property="revYn" column="rev_yn"/>
 
 	</resultMap>
 	<resultMap type="inorder" id="inorderMap">
@@ -126,6 +125,9 @@
 	<delete id="deleteBasketPdt" parameterType="basket">
 		DELETE FROM INBASKET
 		WHERE BASKET_NO = #{basketNo} AND PDT_NO = #{pdtNo}
+		<if test="pdtOptionNo != null and pdtOptionNo != '' "> 
+			AND PDT_OPTION_NO = #{pdtOptionNo}
+		</if>
 	</delete>
 	
 	<delete id="deleteBasketOption" parameterType="string">
@@ -189,7 +191,7 @@
 	
 
 	<select id="selectOrderDetail" parameterType="string" resultMap="orderMap">
-		 SELECT DISTINCT P.PDT_NO,REV_CONTENT, O.ORD_STATUS, P.PDT_PRICE, P.PDT_NAME,PDT_OPTION_CONTENT, PDT_OPTION_ADDPRICE, INORDER_QTY, O.ORD_TRACK,
+		 SELECT DISTINCT P.PDT_NO,R.REV_YN, O.ORD_STATUS, P.PDT_PRICE, P.PDT_NAME,PDT_OPTION_CONTENT, PDT_OPTION_ADDPRICE, INORDER_QTY, O.ORD_TRACK,
          LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY TH.pdt_no_ref) OVER(PARTITION BY TH.PDT_NO_REF)AS THUMBS
          FROM "ORDER" O
 		 LEFT JOIN MEMBER M ON (M.MEM_NO=O.MEM_NO)
@@ -231,7 +233,7 @@
 	
 	<insert id="insertInbasket" parameterType="inbasket">
 		INSERT INTO INBASKET VALUES(
-			#{pdtNo},#{basketNo},#{pdtOptionNo},#{inbasQty})
+			#{pdtNo},#{basketNo},#{pdtOptionNo, jdbcType=VARCHAR},#{inbasQty})
 	</insert>
 	<update id="returnRequest" parameterType="order">
 		UPDATE "ORDER" SET ORD_CANCEL=#{ordCancel}, ORD_STATUS='반품요청' WHERE ORDER_NO=#{orderNo}
@@ -240,4 +242,11 @@
 	<insert id="returnOrdPoint" parameterType="point">
 		 INSERT INTO POINT VALUES(#{memNo},null,SYSDATE,#{pointContent},#{pointChange})
 	</insert>
+	<select id="selectBasketNo" parameterType="string" resultMap="basketMap">
+		SELECT BASKET_NO FROM BASKET WHERE MEM_NO = #{memNo}
+	</select>
+	<select id="selectInbasket" parameterType="string" resultMap="inbasketMap">
+		SELECT PDT_OPTION_NO FROM INBASKET WHERE BASKET_NO = #{basketNo} AND PDT_OPTION_NO IS NOT NULL
+	</select>
+	
 </mapper>

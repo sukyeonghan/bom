@@ -72,51 +72,19 @@ public class ProductServiceImpl implements ProductService{
 		return dao.slidelist(session);
 	}
 
-	//제품 개수
-	@Override
-	public int productCount(String category,String soldout) {
-		// TODO Auto-generated method stub
-		return dao.productCount(session,category,soldout);
-	}
-	//세일 제품 개수
-	@Override
-	public int countSale(String soldout) {
-		// TODO Auto-generated method stub
-		return dao.countSale(session,soldout);
-	}
-	//전체 제품 출력
-	@Override
-	public List<Product> selectProductList(int cPage,int numPerPage,String sort,String soldout,String category) {
-		// TODO Auto-generated method stub
-	
-		return dao.selectProductList(session,cPage,numPerPage,sort,soldout,category);
-	}
-	//신상품 리스트
-	@Override
-	public List<Product> selectNewCateList(String category) {
-		// TODO Auto-generated method stub
-		return dao.selectNewCateList(session,category);
-	}
 
-	//세일 제품 리스트
-	@Override
-	public List<Product> selectSaleList(int cPage, int numPerPage, String sort, String soldout,String category) {
-		// TODO Auto-generated method stub
-		return dao.selectSaleList(session,cPage,numPerPage,sort,soldout,category);
-	}
-
-
-	//수정한 신상품 리스트
-	@Override
-	public List<Product> selectNewCateListTest(Product p) {
-		// TODO Auto-generated method stub
-		return dao.selectNewCateListTest(session,p);
-	}
 	//수정한 제품 리스트
 	@Override
-	public List<Product> selectProductListTest(int cPage, int numPerPage, Product p) {
+	public List<Product> selectProductList(int cPage, int numPerPage, Product p) {
 		// TODO Auto-generated method stub
-		return dao.selectProductListTest(session,cPage,numPerPage,p);
+		return dao.selectProductList(session,cPage,numPerPage,p);
+	}
+	
+	//가격 슬라이더 최대값
+	@Override
+	public int selectMaxPrice(String category) {
+		// TODO Auto-generated method stub
+		return dao.selectMaxPrice(session,category);
 	}
 	
 	

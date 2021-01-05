@@ -161,7 +161,7 @@
 							<!-- 삭제버튼 -->
 							<td class="carted-product">
 								<button type="button" class="remove carted-product__delete" 
-									onclick="fn_delete('${b.pdtNo}','${b.basketNo }','${b.memNo }');">
+									onclick="fn_delete('${b.pdtNo}','${b.basketNo }','${b.memNo }','${b.pdtOptionNo }');">
                          				<svg fill="currentColor" style="width: 15px;height:15px;"><path fill-rule="nonzero"
 											d="M6 4.6L10.3.3l1.4 1.4L7.4 6l4.3 4.3-1.4 1.4L6 7.4l-4.3 4.3-1.4-1.4L4.6 6 .3 1.7 1.7.3 6 4.6z"></path></svg>
 								</button>
@@ -214,9 +214,9 @@
 	var removes = $(".remove"); //삭제버튼
 	
 	//장바구니 상품삭제하기
-	function fn_delete(pdtNo, basketNo,memNo){
+	function fn_delete(pdtNo, basketNo,memNo,pdtOptionNo){
 		console.log("삭제");
-		var no = {"pdtNo":pdtNo, "basketNo":basketNo,"memNo":memNo};
+		var no = {"pdtNo":pdtNo, "basketNo":basketNo,"memNo":memNo, "pdtOptionNo":pdtOptionNo};
 		var url = "${path}/order/deleteBasketOne";
 		var ck = confirm("삭제하시겠습니까?");
 		if(ck){

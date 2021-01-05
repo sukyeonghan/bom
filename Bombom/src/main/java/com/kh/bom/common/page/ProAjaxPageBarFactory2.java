@@ -1,8 +1,12 @@
 package com.kh.bom.common.page;
 
-public class ProAjaxPageBarFactoryModify {
+import java.util.List;
 
-	public static String getAjaxPageBar(int totalData,int cPage,int numPerpage,String url,String sort,String soldout,String category) {
+import com.kh.bom.product.model.vo.Product;
+
+public class ProAjaxPageBarFactory2 {
+
+	public static String getAjaxPageBar(int totalData,int cPage,int numPerpage,String url,String price,String pdtCategory,String category,String sort,String soldout) {
 
 		String pageBar="";
 		
@@ -24,7 +28,7 @@ public class ProAjaxPageBarFactoryModify {
 		}else {
 			//페이지번호가 1이 아닐경우에는 이전버튼 선택시 (현재페이지-1)한 페이지수로 이동.
 		
-			pageBar+="<a class='w3-button' href=\"javascript:fn_paging("+(pageNo-1)+",\'"+sort+"',\'"+soldout+"',\'"+category+"\')\"> << </a>";
+			pageBar+="<a class='w3-button' href=\"javascript:fn_paging("+(pageNo-1)+",\'"+price+"',\'"+pdtCategory+"',\'"+category+"',\'"+sort+"',\'"+soldout+"\')\"> << </a>";
 			
 		}
 		
@@ -39,7 +43,7 @@ public class ProAjaxPageBarFactoryModify {
 			}else {
 				//현재페이지랑 다른 페이지넘버를 선택할경우 그 페이지넙버로 이동
 				
-				pageBar+="<a class='w3-button' href=\"javascript:fn_paging("+pageNo+",\'"+sort+"',\'"+soldout+"',\'"+category+"\')\">"+pageNo+"</a>";
+				pageBar+="<a class='w3-button' href=\"javascript:fn_paging("+pageNo+",\'"+price+"',\'"+pdtCategory+"',\'"+category+"',\'"+sort+"',\'"+soldout+"\')\">"+pageNo+"</a>";
 				
 			}
 			pageNo++;
@@ -54,26 +58,26 @@ public class ProAjaxPageBarFactoryModify {
 		}else {
 			//아닐경우 다음페이지시 다음페이지로이동(위에서 pageNo++해야지만 넘어오기에 pageNo로 이동하면 됨)
 	
-			pageBar+="<a class='w3-button' href=\"javascript:fn_paging("+pageNo+",\'"+sort+"',\'"+soldout+"',\'"+category+"\')\"> >> </a>";
+			pageBar+="<a class='w3-button' href=\"javascript:fn_paging("+pageNo+",\'"+price+"',\'"+pdtCategory+"',\'"+category+"',\'"+sort+"',\'"+soldout+"\')\"> >> </a>";
 		
 		}
 		
 		
 		
 		pageBar+="<script>";
-
-		pageBar+="function fn_paging(cPage,sort,soldout,category){";
+		pageBar+="var change;";
+		pageBar+="function fn_paging(cPage,price,pdtCategory,category,sort,soldout){";
+		pageBar+="change=category.replace('[','');";
+		pageBar+="change=change.replace(']','');";
 		pageBar+="$.ajax({";
 		pageBar+="url:'"+url+"',";
-		pageBar+="data:{cPage:cPage,numPerpage:8,sort:sort,soldout:soldout,category:category},";
-		pageBar+="type:'get',";
+		pageBar+="data:{cPage:cPage,numPerpage:8,price:price,pdtcategory:pdtCategory,category:change,sort:sort,soldout:soldout},";
+		pageBar+="type:'post',";
 		pageBar+="success:data=>{";
-		pageBar+="console.log(data);";
-					
+		pageBar+="console.log(data);";	
 		pageBar+="document.getElementById('result').innerHTML=data";
 		pageBar+="}";	
 		pageBar+="});";
-		
 		pageBar+="};";
 		pageBar+="</script>";
 		
