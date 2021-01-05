@@ -101,7 +101,7 @@ button:focus {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 400px;
+  width: auto;
   height: auto;
 
   }
@@ -149,7 +149,7 @@ button:focus {
 									<td><fmt:formatDate type="date" timeStyle="short"
 											value="${r.revDate }" /></td>
 									<td><a class="reviewContent" href="${path }/product/productOne?pdtNo=${r.pdtNo}"><c:out value="${r.pdtName}"/></a></td>
-									<td class="textLine"><a class="shortReview" data-toggle="modal" data-target="#fullContent"><c:out value="${r.revContent }"  /></a></td>
+									<td class="textLine"><a class="shortReview" data-toggle="modal" data-target="#fullContent" onclick="modelDetail(event);"><c:out value="${r.revContent }"  /></a></td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -183,6 +183,7 @@ $("#myReview").click(e=>{
 	//console.log($(e.target).html());
 	$.ajax({
 		url:"${path}/mypage/myReview",
+		data:{cPage:"${cPage}",numPerpage:"${numPerpage}"},
 		type:"get",
 		dataType:"html",
 		success:data=>{
@@ -211,11 +212,17 @@ $("#myCommunity").click(e=>{
 });
 
 //글 내용 눌렀을때 
-$(".shortReview").click(function(){
-	let content=$(this).text();
+function modelDetail(e){
+	let content=$(e.target).text();
 	$(".fullReview").text(content);
-})
+}
 
+
+/* $(document).on("click",".shortReview"),e=>{
+	let content=$(e.target).text();
+	$(".fullReview").text(content);
+}
+ */
 	
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
