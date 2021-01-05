@@ -157,13 +157,23 @@
     	border: none;
     	font-size:18px;
 	}
-  /*스와이퍼*/
-  
-  	.mySlides {display:none;}
-	.w3-badge {height:13px;width:13px;padding:0}
-	.w3-left, .w3-right, .w3-badge {cursor:pointer}
-	.swiper{
-		width: 400px;
-		z-index: 9999;
-		position: absolute;
+
+	/*검색필터버튼*/
+	#filter{height:35px;}
+	/*전체*/
+	#form{	
+		border: 1px solid #45A663;
+		border-radius: 10px;
+	    padding: 2%;
+	    font-size: 16px;
 	}
+
+	#form ul{list-style:none;    -webkit-padding-start: 0px;}
+	#form li{border-bottom:0.1px solid lightgray; padding: 5px;}
+	.sort-title{font-weight:bold;margin-left:5px;margin-right:15px;}
+	/*초기화,검색버튼*/
+	#sort-btns{display:flex;justify-content: center;}
+	#search{margin-left:10px; width:63px;}
+	/*슬라이더*/
+	.irs--round.irs-with-grid{width:60%;margin-left: 2%;}
+	.slider{display:flex;}

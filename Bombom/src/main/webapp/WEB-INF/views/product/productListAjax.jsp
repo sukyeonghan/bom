@@ -7,31 +7,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="${path }/resources/css/product/productList.css">
 
-	<div id="result" class="product-container">
-		<!-- 카테고리 및 정렬 -->
-		<div class="category-sort">
-			<div class="item-count">
-				<p class="category"><c:out value="${category}"/> &nbsp </p>
-				<p class="count"><c:out value="${count}"/></p>
-			</div>
-			<div class="select-box">
-				<!-- 품절 포함 선택 -->
-				<select class="sort" id="soldout">
-					<option value="품절포함" ${soldout=='품절포함'?"selected":"" }>품절 포함</option>
-					<option value="품절제외" ${soldout=='품절제외'?"selected":"" }>품절 제외</option>
-				</select>
-				<!-- 분류 필터 -->
-				<select class="sort" id="sort">
-					<option value="등록일순" ${sort=='등록일순'?"selected":"" }>등록일순</option>
-					<option value="인기순" ${sort=='인기순'?"selected":"" }>인기순</option>
-					<option value="리뷰순" ${sort=='리뷰순'?"selected":"" }>리뷰순</option>
-					<option value="할인율순" ${sort=='할인율순'?"selected":"" }>할인율순</option>
-					<option value="낮은가격순" ${sort=='낮은가격순'?"selected":"" }>낮은 가격순</option>
-					<option value="높은가격순" ${sort=='높은가격순'?"selected":"" }>높은 가격순</option>
-				</select>
-			</div>
-		</div>
-			  	
+	  	
 	 	<!-- 상품목록 -->
 	 	<div>
 		 	<div class="all-item-wrap">
@@ -41,6 +17,7 @@
 		 				<img class="noItem" alt="" src="${path }/resources/images/product/noItem.png" >
 		 			</c:when>
 		 			<c:otherwise>
+		 				<input type="hidden" name="count" value="${count}">
 		 				<c:forEach var="p" items="${list }" >
 		 					<div class="item-wrap">
 				                <div>
@@ -99,20 +76,13 @@
 				                    	<!-- 후기 개수 -->
 				                    	<img class="icon" alt="" src="${path}/resources/images/product/message.png">
 				                    	<c:out value="${p.reviewCount }"/>
-				                    	<!-- 미리보기페이지 -->
-				                    	<a>
-				                    		<img class="icon" alt="" src="${path}/resources/images/product/cart.png">
-				                    	</a>
-				                    	
 				                  	</div>
 				                  	
 				                    <div class="item-icon">
 				                    	<!-- 등록한 날짜로 부터 7일 -->
-				                    	<c:forEach var="n" items="${newList }">
-				                    		<c:if test="${n.pdtNo==p.pdtNo }">
-				                    			<div class="new-icon">NEW</div>
-				                    		</c:if>
-				                    	</c:forEach>
+										<c:if test="${p.newYn=='Y' }">
+				                    		<div class="new-icon">NEW</div>
+				                    	</c:if>
 				                        <!-- 세일하면 (이벤트 )-->
 				                        <c:if test="${not empty p.eventNoRef and p.salePer!=0 }">
 				                        	<div class="sale-icon">SALE</div> 
@@ -135,36 +105,8 @@
 		    	${pageBar }
 		    </div>
 	    </div>
-   	</div>
 
-<script>
-	//호버 시 메인 이미지 변경 
-	$(function() { 
-		
-		$(".hover").hover(function(){ 
-			$(this).attr("src", $(this).attr("src").replace($(this).next().val(), $(this).next().next().val())); 
-	
-		}, function(){ 
-			$(this).attr("src", $(this).attr("src").replace($(this).next().next().val(), $(this).next().val())); 
-		}); 
-	});
 
-	//분류 ajax
-	$(".sort").on("change",e=>{
-
-		$.ajax({			
-			url:"${path}/product/productListAjax",
-			data:{"category":"${category}","sort":$("#sort").val(),"soldout":$("#soldout").val()},
-			type:"get",
-			dataType:"html",
-			success:data=>{
-				$("#result").html(data);
-			}
-		});
-		
-	})
-
-</script>
     
 
 	

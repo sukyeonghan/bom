@@ -67,10 +67,6 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public List<Product> selectProductList(SqlSession session, int cPage, int numPerPage, Product p) {
 		// TODO Auto-generated method stub
-		/*
-		 * if(p.getCategory()!=null) { for(String c:p.getCategory()) {
-		 * if(c.equals("전체제품") || c.equals("할인제품")) { p.setCategory(null); } } }
-		 */
 		return session.selectList("product.ModifyProductList",p,new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
 

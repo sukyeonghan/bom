@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.common.page.AjaxPageBarFactory;
-import com.kh.bom.common.page.ProAjaxPageBarFactory2;
+import com.kh.bom.common.page.ProAjaxPageBarFactory;
 import com.kh.bom.common.page.ProPageBarFactory;
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.member.model.vo.Member;
@@ -62,7 +62,7 @@ public class ProductController {
 	}
 
 	//제품 리스트 ajax
-	@RequestMapping("/product/productListAjaxTest")
+	@RequestMapping("/product/productListAjax")
 	@ResponseBody
 	public ModelAndView productListTest(ModelAndView m,Product p,
 			HttpServletRequest request,
@@ -120,10 +120,10 @@ public class ProductController {
 			totalCount=list.get(0).getTotCnt();//제품 개수
 		}
 		m.addObject("list",list);
-		m.addObject("pageBar",ProAjaxPageBarFactory2.getAjaxPageBar(totalCount, cPage, numPerpage, "productListAjaxTest",price,pdtCategory,Arrays.toString(p.getCategory()),p.getSort(),p.getSoldout(),star1,star2,star3,star4,star5));
+		m.addObject("pageBar",ProAjaxPageBarFactory.getAjaxPageBar(totalCount, cPage, numPerpage, "productListAjax",price,pdtCategory,Arrays.toString(p.getCategory()),p.getSort(),p.getSoldout(),star1,star2,star3,star4,star5));
 		m.addObject("cPage",cPage);
 		m.addObject("count",totalCount);
-		m.setViewName("product/productListAjaxTest");
+		m.setViewName("product/productListAjax");
 		return m;
 	}
 	
