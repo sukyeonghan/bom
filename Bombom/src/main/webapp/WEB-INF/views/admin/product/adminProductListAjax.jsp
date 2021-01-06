@@ -112,18 +112,20 @@
 	</div>
 			
 <script>
-	$(".sort").on("change",e=>{
-		console.log($(e.target).val());
-		$.ajax({
-			
-			url:"${path}/admin/productListAjax",
-			data:{"cPage":1,"numPerpage":10,"sort":$(e.target).val()},
-			type:"get",
-			dataType:"html",
-			success:data=>{
-				console.log(data);
-				$("#result").html(data);
-			}
+	$(document).ready(function(){
+		$(".sort").on("change",e=>{
+			console.log("ajax에서"+$(e.target).val());
+			$.ajax({
+				
+				url:"${path}/admin/productListAjax",
+				data:{"cPage":1,"numPerpage":10,"sort":$(e.target).val()},
+				type:"get",
+				dataType:"html",
+				success:data=>{
+					console.log(data);
+					$("#result").html(data);
+				}
+			});
 		});
 	});
 	
