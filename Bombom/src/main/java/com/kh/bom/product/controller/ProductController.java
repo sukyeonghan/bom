@@ -411,6 +411,7 @@ public class ProductController {
 	@ResponseBody
 	public ModelAndView productInquiry(ModelAndView mv,
 			@RequestParam("pdtNo") String pdtNo, 
+			@RequestParam("pdtName") String pdtName, 
 			@RequestParam(value="cPage",defaultValue="1") int cPage,
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage,
 			HttpSession session) {
@@ -445,6 +446,7 @@ public class ProductController {
 		mv.addObject("list", list);
 		mv.addObject("count", totalData);
 		mv.addObject("pdtNo", pdtNo);
+		mv.addObject("pdtName",pdtName);
 		mv.addObject("cPage", cPage);
 		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productInquiryAjax", pdtNo));
 		mv.setViewName("product/productInquiry");

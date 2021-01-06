@@ -193,6 +193,9 @@ textarea.answer {
 													<input type="hidden" name="memNo" value="${loginMember.memNo}">
 													<input type="hidden" name="inqNo" class="inqNo"/>
 													<input type="hidden" name="pdtNo" value="${pdtNo}">
+													<!-- 웹소켓 알림용 -->
+													<input type="hidden" name="pdtName" value="${pdtName}">
+													<input type="hidden" id="memNoAlarm" name="receiver">
 													<input type="submit" class="btn btn-success" value="등록" style="right:0;">
 												</c:if>
 												<c:if test="${loginMember==null }">
@@ -441,6 +444,7 @@ textarea.answer {
 			modal.find(".answerYn").text(answerYn);
 			modal.find(".answer").text(answer);
 			modal.find(".answerDate").text(answerDate);
+			modal.find("#memNoAlarm").val(memNo);//웹소켓알림용
 			
 			
 		});
