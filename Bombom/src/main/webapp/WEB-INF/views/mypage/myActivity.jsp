@@ -101,7 +101,7 @@ button:focus {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: auto;
+  width: 400px;
   height: auto;
 
   }
