@@ -162,7 +162,7 @@
         <div class="form-group d-flex">
             <div class="col-3"><label for="deli_memo">배송 메모</label></div>
             <div class="col-9">
-            <select name="ordMemo" id="deli_memo" class="form-control mb-3" required>
+            <select name="ordMemo" id="deli_memo" class="deli_memo form-control mb-3" required>
                 <option value="" selected disabled>배송시 요청사항</option>
                 <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
                 <option value="배송 전,연락주세요.">배송 전,연락주세요.</option>
@@ -199,7 +199,7 @@
         </div>
         <div class="form-group d-flex">
             <div class="col-3"><label for="deli_memo">배송 메모</label></div>
-            <div class="col-9"><select name="ordMemo" id="deli_memo" class="form-control mb-3" required>
+            <div class="col-9"><select name="ordMemo" id="deli_memo" class="deli_memo form-control mb-3" required>
                 <option value="" selected disabled>배송시 요청사항</option>
                 <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
                 <option value="배송 전,연락주세요.">배송 전,연락주세요.</option>
@@ -505,9 +505,11 @@
 	//결제 API
 	$(document).on("click",".payBtn",function(){
 	 	
-		if($(".address-detail")[0].value==""||$(".address-detail")[1].value==""||$(".address-detail")[2].value==""){
-			//0번 우편번호  1번 일반 주소  2번 상세주소
-			alert("주소를 입력해주세요");
+		if($(".address-detail")[0].value==""||$(".address-detail")[1].value==""||
+				$(".address-detail")[2].value==""||$(".deli_memo").val()==null){
+			//0번 우편번호  1번 일반 주소  2번 상세주소 + 배송메모
+			alert("정보를 정확히 입력해주세요");
+			$(".deli_memo").focus();
 			return;
 		}
 		
