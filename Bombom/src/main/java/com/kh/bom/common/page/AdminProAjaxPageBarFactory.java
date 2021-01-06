@@ -65,7 +65,8 @@ public class AdminProAjaxPageBarFactory {
 		pageBar+="<script>";
 
 		pageBar+="function fn_paging(cPage,category){";
-				
+		pageBar+="console.log('페이징바에서'+category);";	
+		pageBar+="console.log('페이징바에서'+cPage);";
 		pageBar+="$.ajax({";
 		pageBar+="url:'"+url+"',";
 		pageBar+="data:{cPage:cPage,numPerpage:10,sort:category},";
