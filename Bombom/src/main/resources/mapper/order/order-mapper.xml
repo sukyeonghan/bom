@@ -256,7 +256,7 @@
 	</select>
 	<insert id="insertInorder" parameterType="inorder">
 		INSERT INTO INORDER VALUES(
-			#{orderNo}, #{pdtNo}, #{pdtOptionNo},#{inorderQty}
+			#{orderNo}, #{pdtNo}, #{pdtOptionNo, jdbcType=VARCHAR},#{inorderQty}
 		)
 	</insert>
 	

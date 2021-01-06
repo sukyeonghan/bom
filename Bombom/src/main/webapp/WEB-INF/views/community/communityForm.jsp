@@ -45,6 +45,12 @@ font-size: 35px;
     	background:url(${path }/resources/images/stamp/stamp4.png);
     	background-size:50%;
     	background-position:center;
+    	}
+    	
+    	.proImg{
+    	width:850px;
+    	height:300px
+    	}
 </style>
 <!-- CK에디터. CDN -->
 <script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script> 
