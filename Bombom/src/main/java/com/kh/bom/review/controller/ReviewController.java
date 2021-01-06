@@ -18,14 +18,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kh.bom.member.model.vo.Member;
+import com.google.gson.Gson;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.review.model.service.ReviewService;
 import com.kh.bom.review.model.vo.Review;
 
-import net.sf.json.JSON;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
@@ -35,42 +32,20 @@ public class ReviewController {
 	private ReviewService service;
 	
 	//구매평 등록 전 상품구입 확인
-	@RequestMapping("/review/selectOrder")
+	//gson 한글깨짐현상 인코딩처리
+	@RequestMapping(value="/review/selectOrder", produces="text/plain;charset=UTF-8")
 	@ResponseBody //Ajax로 json이나 text로 받을 경우 사용한다
-	public List<Order> selectOrder(String pdtNo, String memNo, HttpSession session) throws JSONException, JsonProcessingException {
+	public String selectOrder(String pdtNo, String memNo) throws JSONException, JsonProcessingException {
 	
 		Map map = new HashMap();
 		map.put("pdtNo", pdtNo);
 		map.put("memNo", memNo);
-		
-		Member m = (Member)session.getAttribute("loginMember");
 		List<Order> orderList = service.selectOrder(map);
-		//JSONObject obj = new JSONObject();
-		//ObjectMapper mapper=new ObjectMapper();
-		//System.out.println("확인 : "+mapper.writeValueAsString(orderList));
-		return orderList;
+		Gson gson = new Gson();
+		String json = gson.toJson(orderList);
+		System.out.println("json확인 : "+json);
 		
-//		JSONArray jArray = new JSONArray();
-//		try {
-//			for(int i=0; i<orderList.size(); i++) {
-//				JSONObject sobj = new JSONObject();
-//				
-//				sobj.put("orderNo", orderList.get(i).getOrderNo());
-//				sobj.put("pdtNo", orderList.get(i).getPdtNo());
-//				sobj.put("pdtOptionNo", orderList.get(i).getPdtOptionNo());
-//				sobj.put("qty", orderList.get(i).getInorderQty());
-//				sobj.put("orderDate", orderList.get(i).getOrdDate());
-//				sobj.put("revYn", orderList.get(i).getRevYn());
-//				jArray.add(sobj);
-//			}
-//			//obj.put("list",jArray);
-//			System.out.println("jArray확인 : "+jArray.toString());
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		//return order!=null?order.getOrderNo():"";
-//		return jArray;
+		return json;
 	}
 	
 	
@@ -179,7 +154,7 @@ public class ReviewController {
 		String icon = "";
 		
 		if(result>0) {
-			msg = "상품평이 수정되었습니다. 적립금을 확인해주세요";
+			msg = "상품평이 수정되었습니다";
 			icon = "success";
 		}else {
 			msg = "상품평을 다시 등록해주세요";

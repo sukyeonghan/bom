@@ -52,8 +52,9 @@ public class EchoHandler extends TextWebSocketHandler{
 		System.out.println("메세지");
 		//session.getId();
 		String memNo=getMemberNo(session);
+		System.out.println("회원번호"+memNo);
 		String msg=message.getPayload();
-		
+		System.out.println("메세지"+msg);
 		//모든 유저에게 보낸다 - 브로드 캐스팅
 //		for (WebSocketSession sess : sessionList) {
 //			sess.sendMessage(new TextMessage(memNo + ": " +  message.getPayload()));
@@ -72,8 +73,9 @@ public class EchoHandler extends TextWebSocketHandler{
 				String bascket = strs[4];//매개변수값
 				
 //				WebSocketSession receiverSession = user.get(memNo);
-				System.out.println(receiverNo);
+				System.out.println("받는회원번호"+receiverNo);
 				WebSocketSession receiverSession = user.get(receiverNo);
+				System.out.println("세션확인"+receiverSession);
 				TextMessage tmpMsg=null;
 				if("adminYn".equals(cmd)&&receiverSession!=null) {
 					//관리자 여부 메세지
