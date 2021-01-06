@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.AdminService;
@@ -22,6 +22,7 @@ import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.order.model.service.OrderService;
 import com.kh.bom.order.model.vo.Basket;
 import com.kh.bom.order.model.vo.Inbasket;
+import com.kh.bom.order.model.vo.Inorder;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.vo.Point;
 import com.kh.bom.product.model.service.ProductService;
@@ -43,17 +44,41 @@ public class OrderController {
 	@Autowired
 	private ProductService productService;
 
+	
+	//장바구니에 이미 담긴 상품인지 확인하기
+	@RequestMapping("/order/checkBasket")
+	@ResponseBody
+	public boolean checkBasket(String pdtOptionNo, HttpSession session) {
+		Member checkM = (Member)session.getAttribute("loginMember");
+		System.out.println("넘어온 옵션번호 : "+pdtOptionNo);
+		boolean result = true;
+		//장바구니번호 가져오기
+		List<Inbasket> ii = service.selectInbasket(checkM.getMemNo());
+		if(pdtOptionNo == null) {
+			result = false;
+		}else if(ii.isEmpty()) { //장바구니가 비어있는 경우
+			result = false; //false반환 => 담긴상품 없음
+		}else {
+			for(Inbasket i : ii) {
+				System.out.println("디비에서 가져온 pdtOptionNo : "+i);
+				if(pdtOptionNo.equals(i.getPdtOptionNo())) result = true;
+				else result = false;
+			}
+		}
+		System.out.println("담긴 상품이니?? "+result);
+		return result; //true => 담긴상품 이미 있음
+	}
+	
 	// 장바구니 담기
 	@RequestMapping("/order/insertBasket")
 	public String insertBasket(Model m, String pdtNo, String pdtOptionNo, int inbasQty, HttpSession session) {
 		Member m1 = (Member) session.getAttribute("loginMember");
-
+		
 		int newBasket = 0;
 		int insertInbas = 0;
 
 		// 회원의 장바구니 불러오기
 		Basket b = (Basket) service.selectBasketOne(m1.getMemNo());
-		System.out.println(b);
 		// 장바구니 번호가 없으면 새로 장바구니 생성해서 insert
 		if (b == null) {
 			newBasket = service.insertBasket(m1.getMemNo());
@@ -64,9 +89,10 @@ public class OrderController {
 			}
 		// 장바구니번호가 있으면 inbasket에 바로 insert
 		} else { 
-			insertInbas = service.insertInbasket(Inbasket.builder().basketNo(b.getBasketNo()).pdtNo(pdtNo)
-					.pdtOptionNo(pdtOptionNo).inbasQty(inbasQty).build());
+				insertInbas = service.insertInbasket(Inbasket.builder().basketNo(b.getBasketNo()).pdtNo(pdtNo)
+						.pdtOptionNo(pdtOptionNo).inbasQty(inbasQty).build());
 		}
+		
 		String msg = "";
 		String loc = "/product/productOne?pdtNo=" + pdtNo;
 		String icon = "";
@@ -115,8 +141,8 @@ public class OrderController {
 
 	// 장바구니에서 상품 하나 삭제하기
 	@RequestMapping("order/deleteBasketOne")
-	public ModelAndView deleteBasketOne(ModelAndView m, String pdtNo, String basketNo, String memNo) {
-		int result = service.deleteBasketOne(Basket.builder().pdtNo(pdtNo).basketNo(basketNo).build());
+	public ModelAndView deleteBasketOne(ModelAndView m, String pdtNo, String basketNo, String memNo, String pdtOptionNo) {
+		int result = service.deleteBasketOne(Basket.builder().pdtNo(pdtNo).basketNo(basketNo).pdtOptionNo(pdtOptionNo).build());
 		List<Basket> list = new ArrayList<Basket>();
 		// 삭제가 성공하면 삭제된 이후 리스트 넘겨주기
 		if (result > 0) {
@@ -139,11 +165,11 @@ public class OrderController {
 		System.out.println("장바구니에서 넘어온 basket : " + b);
 		// basketNo, productNo, inbasQty만 넘어옴.
 		Member m = (Member) session.getAttribute("loginMember");
-		System.out.println("결제하기 - 회원 : " + m);
+//		System.out.println("결제하기 - 회원 : " + m);
 
-		List<Inbasket> qtyList = new ArrayList<Inbasket>();
-		int qty = b.getInbasQty();
-		System.out.println("------수량: " + qty);
+//		List<Inbasket> qtyList = new ArrayList<Inbasket>();
+//		int qty = b.getInbasQty();
+//		System.out.println("------수량: " + qty);
 
 		List<Product> list = new ArrayList<Product>();
 		String[] productNo = b.getPdtNo().split(",");
@@ -159,7 +185,7 @@ public class OrderController {
 
 		mv.addObject("ship", s);
 		mv.addObject("loginMember", m);
-		mv.addObject("qlist", qtyList);
+//		mv.addObject("qlist", qtyList);
 		mv.addObject("blist", blist);
 		mv.addObject("list", list);
 		mv.setViewName("order/order");
@@ -177,11 +203,13 @@ public class OrderController {
 		orderNo = today + "-" + ran;
 		order.setOrderNo(orderNo);
 		order.setMemNo(m1.getMemNo());
-		int result = service.insertOrder(order);
+		
+		//결제 후 inorder에 집어넣고 반환시킴
+		List<Inorder> insertO = service.insertOrder(order,basketNo);
 		String msg = "";
 		String loc = "";
 		String icon = "";
-		if (result > 0) {
+		if (insertO != null) {
 			//결제api에서 결제가 완료되면 장바구니 비우기
 			int deleteB = service.deleteBasket(basketNo);
 			if(deleteB>0) {

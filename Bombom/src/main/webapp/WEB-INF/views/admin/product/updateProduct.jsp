@@ -117,6 +117,7 @@
                         	<input type="button" class="btn btn-success btn-sm" id="add-option" value="옵션 추가">
                         </td>
                     </tr>
+           
                     <c:if test="${not empty option}">
 						<c:forEach var="o" items="${option }">
 							<tr class="trOption" name="trOption">

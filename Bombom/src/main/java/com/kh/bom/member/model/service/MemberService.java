@@ -32,9 +32,12 @@ public interface MemberService {
 	int insertAlarm(Alarm a);
 	//알림삭제
 	int deleteAlarm(String alarmNo);
+	int deleteAlarmAll(String receiverNo);
 
 	//sns로가입되어 있는지 여부
 	Member selectSnsMem(Member snsMem);
 	//접속일
 	int updateMemLastDate(String memNo);
+
+	
 }

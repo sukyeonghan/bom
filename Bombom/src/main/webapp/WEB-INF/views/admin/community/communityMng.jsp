@@ -169,6 +169,7 @@ function listChange(value){
 
 //신고접수 버튼 클릭시
 $(document).on("click",".memWarnYnBtn",e=>{
+<<<<<<< HEAD
 let memWarnYn=$(e.target).text();
 let yn="";
 let msg="";
@@ -242,6 +243,80 @@ swal({
 	    		}
 	    		
 	    	});
+	let memWarnYn=$(e.target).text();
+	let yn="";
+	let msg="";
+	let reply_id=$(e.target).prev().val();
+	let reply_mem_no=$(e.target).prev().prev().val();
+	if(memWarnYn=="신고접수"){
+		yn="Y";
+		msg="댓글 신고를 접수하시겠습니까?";
+	}else{
+		yn="N";
+		msg="댓글 신고를 거절 하시겠습니까?";
+	}
+	swal({
+		text:msg,
+		icon:"info",
+		buttons:["아니오","네"],
+	}).then((yes) => {
+		if(yes){
+			$.ajax({
+				url:"${path }/admin/community/warnMemberYn",
+				data:{com_status:yn,reply_id:reply_id,mem_no:reply_mem_no},
+				dataType:"json",
+				async: false,
+				success:data=>{
+					console.log(data);
+					if(data["result"]===true){
+						if(memWarnYn=="신고접수"){
+							//신고접수 승인시
+							$(e.target).addClass("btn-outline-info");
+							$(e.target).removeClass("btn-info");
+							$(e.target).html("신고거절");
+							$(e.target).prev().prev().html("Y");
+							//경고수가 10개도달시 알림보내기
+							let warnCount=data["replyWriterCount"];
+							let writerNo=data["replyWriterNo"];
+							console.log(warnCount);
+							console.log(writerNo);
+							if(warnCount==10){
+								$.ajax({
+						 	   		type : 'post',
+						 	   		url : '${path}/member/insertAlarm',
+						 	   		data : {receiverNo:writerNo,message:"커뮤니티 권한이 박탈되었습니다."}, 
+						 	   		dataType : 'json',
+						 	   		success : function(data){
+						 	   			console.log(data)
+						 	   			if(data===true){
+						 	   				if(sock){
+						 	   				let socketMsg = "communityOut,관리자,M0,"+writerNo+","+"0";
+						 	   				console.log("알림전송내역 : " + socketMsg);
+						 	   				sock.send(socketMsg);
+						 	   				}
+						 	   			}
+						 	   		},
+						 	   		error : function(err){
+						 	   			console.log(err);
+						 	   		}
+						 	   	});
+							}
+							
+						 }else{
+							//신고접수 거절시
+							$(e.target).removeClass("btn-outline-info");
+							$(e.target).addClass("btn-info");
+							$(e.target).html("신고접수");
+							$(e.target).prev().prev().html("N");
+						}  
+ 	    			}else{
+ 	    				swal("신고 접수 실패");
+ 	    			}
+ 	    		},error:(error)=>{
+ 	    			swal("신고 접수 실패");
+ 	    		}
+ 	    		
+ 	    	});
 
 	     }
 	});

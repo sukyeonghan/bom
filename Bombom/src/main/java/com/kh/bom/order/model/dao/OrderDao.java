@@ -6,9 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.kh.bom.order.model.vo.Basket;
 import com.kh.bom.order.model.vo.Inbasket;
+import com.kh.bom.order.model.vo.Inorder;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.vo.Point;
-import com.kh.bom.product.model.vo.ProductOption;
 
 public interface OrderDao {
 	int insertOrder(SqlSession session, Order order);
@@ -66,5 +66,13 @@ public interface OrderDao {
 	int returnRequest(SqlSession session, Order o);
 
 	int returnOrdPoint(SqlSession session, Point p);
+	
+	Basket selectBasketNo(SqlSession session, String memNo);
+	
+	List<Inbasket> selectInbasket(SqlSession session, String basketNo);
+	
+	List<Inbasket> selectInbasketList(SqlSession session, String basketNo);
+	
+	int insertInorder(SqlSession session, Inorder i);
 
 }

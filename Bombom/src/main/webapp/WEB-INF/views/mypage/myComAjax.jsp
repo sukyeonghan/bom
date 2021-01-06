@@ -10,9 +10,10 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th><input type="checkbox"></th>
-								<th>작성날짜</th>
-								<th>글 제목</th>
+								<th style="width:5%"><input type="checkbox"></th>
+								<th style="width:15%">작성날짜</th>
+								<th style="width:30%">글 제목</th>
+								<th>글 내용</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -25,9 +26,10 @@
 								<c:forEach items="${community }" var="cm">
 									<tr>
 										<td><input type="checkbox"></td>
-										<td><fmt:formatDate type="both" timeStyle="short"
+										<td><fmt:formatDate type="date" timeStyle="short"
 												value="${cm.cmDate }" /></td>
-										<td><a><c:out value="${cm.cmTitle }" /></a></td>
+										<td><a href="${path }/community/communityView.do?cmNo=${cm.cmNo}"><c:out value="${cm.cmTitle }" /></a></td>
+										<td class="textLine"><c:out value="${cm.cmContent}"/></td>
 									</tr>
 								</c:forEach>
 						</tbody>

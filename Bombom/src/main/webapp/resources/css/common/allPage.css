@@ -186,7 +186,7 @@ html {overflow:auto;}
 
 /* header만큼 top 주기 */
 section#container {
-	padding-top: 15%;
+	padding-top: 180px;
 }
 
 div#spring-main-footer {
