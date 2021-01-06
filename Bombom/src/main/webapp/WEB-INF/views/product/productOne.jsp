@@ -1014,7 +1014,8 @@ button:focus {
 	//구매하기,장바구니,찜하기,상품문의 클릭 시 로그인 체크
 	$(function() {
 		$(".loginCheck").click(function() {
-			swal("로그인을 먼저 해주세요");
+			//로그인 모달창 띄우기
+			$("#loginModal").modal('show'); 
 		});
 	});
 	
