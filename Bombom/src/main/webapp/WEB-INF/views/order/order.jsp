@@ -147,16 +147,16 @@
             <div class="col-9"><input type="text" name="ordOname" value="${ship.shipRecipient }"  class="orderer form-control"></div>
         </div>
         <div class="form-group d-flex">
-            <div class="col-3"><label for="sample6_postcode" class=" mr-3">우편번호</label></div>
-            <div class="col-9 d-flex"><input type="text" id='sample6_postcode' name='ordZipcode' value="${ship.shipZipCode }" class="zipCode address-detail form-control" style="width: 150px;"  placeholder='우편번호' readonly >
-            <input type="button" onclick='sample6_execDaumPostcode()' class="changeAddr btn btn-success" value="주소찾기" >
+            <div class="col-3"><label for="postcode" class=" mr-3">우편번호</label></div>
+            <div class="col-9 d-flex"><input type="text" id='postcode' name='ordZipcode' value="${ship.shipZipCode }" class="zipCode address-detail form-control" style="width: 150px;"  placeholder='우편번호' readonly >
+            <input type="button" onclick='execDaumPostcode()' class="changeAddr btn btn-success" value="주소찾기" >
             <input type="button" onclick='' class="btn btn-success" value="배송지변경" ></div>
         </div>
         <div class="form-group d-flex mb-3">
             <div class="col-3 d-flex"><label for="addr">주소</label></div>
-            <div class="col-9 "><input type="text" class="address-detail address-f form-control" name="ordAddr" id='sample6_address' value="${ship.shipAddress }" placeholder='주소' required><br>
-            <input type="text" class="address-detail form-control" name='ordDetailAddr' id='sample6_detailAddress' value="${ship.shipDetailAddress }" placeholder='상세주소' required><br>
-            <input type="text" class="address-detail form-control" name='ordExtraAddr' id='sample6_extraAddress' value="${ship.shipExtraAddress }" placeholder='참고주소' required>
+            <div class="col-9 "><input type="text" class="address-detail address-f form-control" name="ordAddr" id='address' value="${ship.shipAddress }" placeholder='주소' required><br>
+            <input type="text" class="address-detail form-control" name='ordDetailAddr' id='detailAddress' value="${ship.shipDetailAddress }" placeholder='상세주소' required><br>
+            <input type="text" class="address-detail form-control" name='ordExtraAddr' id='extraAddress' value="${ship.shipExtraAddress }" placeholder='참고주소' required>
         	</div>
         </div>
         <div class="form-group d-flex">
@@ -185,16 +185,16 @@
             <div class="col-9"><input type="text" name="ordOname" class="orderer form-control"></div>
         </div>
         <div class="form-group d-flex">
-            <div class="col-3"><label for="sample6_postcode" class=" mr-3">우편번호</label></div>
-            <div class="col-9 d-flex"><input type="text" id='sample6_postcode' name='ordZipcode' class="zipCode address-detail form-control" style="width: 150px;"  placeholder='우편번호' readonly >
-            <input type="button" onclick='sample6_execDaumPostcode()' class="changeAddr btn btn-success" value="주소찾기" >
+            <div class="col-3"><label for="postcode" class=" mr-3">우편번호</label></div>
+            <div class="col-9 d-flex"><input type="text" id='postcode' name='ordZipcode' class="zipCode address-detail form-control" style="width: 150px;"  placeholder='우편번호' readonly >
+            <input type="button" onclick='execDaumPostcode()' class="changeAddr btn btn-success" value="주소찾기" >
             <input type="button" onclick='' class="btn btn-success" value="배송지변경" ></div>
         </div>
         <div class="form-group d-flex mb-3">
             <div class="col-3 d-flex"><label for="addr">주소</label></div>
-            <div class="col-9 "><input type="text" class="address-detail address-f form-control" name="ordAddr" id='sample6_address' placeholder='주소' required><br>
-            <input type="text" class="address-detail form-control" name='ordDetailAddr' id='sample6_detailAddress' placeholder='상세주소' required>
-            <input type="text" class="address-detail form-control" name='ordExtraAddr' id='sample6_extraAddress' placeholder='참고주소' required>
+            <div class="col-9 "><input type="text" class="address-detail address-f form-control" name="ordAddr" id='address' placeholder='주소' required><br>
+            <input type="text" class="address-detail form-control" name='ordDetailAddr' id='detailAddress' placeholder='상세주소' required>
+            <input type="text" class="address-detail form-control" name='ordExtraAddr' id='extraAddress' placeholder='참고주소' required>
         	</div>
         </div>
         <div class="form-group d-flex">
@@ -414,11 +414,6 @@
 		}
 	});
   
-
-	//입력한 포인트만큼 -하여 합산시키기
-	
-	
-	
 	
 	console.log("결제할 금액 :"+Number(amount));
 </script>
@@ -436,124 +431,126 @@
 	
 
 
-var ba;
-//주소 api
-function sample6_execDaumPostcode() {
-  new daum.Postcode({
-      oncomplete: function(data) {
-          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-          // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-          // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-          var addr = ''; // 주소 변수
-          var extraAddr = ''; // 참고항목 변수
-
-          //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-          if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-              addr = data.roadAddress;
-          } else { // 사용자가 지번 주소를 선택했을 경우(J)
-              addr = data.jibunAddress;
-          }
-          
-       	  // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-          if(data.userSelectedType === 'R'){
-              // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-              // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-              if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                  extraAddr += data.bname;
-              }
-              // 건물명이 있고, 공동주택일 경우 추가한다.
-              if(data.buildingName !== '' && data.apartment === 'Y'){
-                  extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-              }
-              // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-              if(extraAddr !== ''){
-                  extraAddr = ' (' + extraAddr + ')';
-              }
-              // 조합된 참고항목을 해당 필드에 넣는다.
-              document.getElementById("sample6_extraAddress").value = extraAddr;
-          
-          } else {
-              document.getElementById("sample6_extraAddress").value = '';
-          }
-          
-          // 우편번호와 주소 정보를 해당 필드에 넣는다.
-          document.getElementById('sample6_postcode').value = data.zonecode;
-          document.getElementById("sample6_address").value = addr;
-          // 커서를 상세주소 필드로 이동한다.
-          var address = $(".address-f").val();
-		  if(address.startsWith("서울") || address.startsWith("경기")){
-			  ba = 2500;
-			  $("#ordDeliPrice").html(Number(ba).toLocaleString());
-		  }else if(address.startsWith("제주") || address.startsWith("강원")){
-			  ba = 5000;
-			  $("#ordDeliPrice").html(Number(ba).toLocaleString());
-		  }else{
-			  ba = 2500;
-		      $("#ordDeliPrice").html(Number(ba).toLocaleString());
-		  }
-
-          $(".total-pay").html((parseInt($(".total-price")[0].textContent.replace(/,/g, ""))+ba-mileage)
-        		  .toLocaleString());//상품총가격+배송비 최종가격
-        		  
-          $("#total").val((parseInt($(".total-price")[0].textContent.replace(/,/g, ""))+ba-mileage));
-          //Number(ordAmount)
-          
-          
-          document.getElementById("sample6_detailAddress").focus(); 
-      }
-  }).open();
-}
-
-//결제 API
-$(document).on("click",".payBtn",function(){
- 	
-	if($(".address-detail")[0].value==""||$(".address-detail")[1].value==""||$(".address-detail")[2].value==""){
-		//0번 우편번호  1번 일반 주소  2번 상세주소
-		alert("주소를 입력해주세요");
-		return;
+	var ba;
+	//주소 api
+	function execDaumPostcode() {
+	  new daum.Postcode({
+	      oncomplete: function(data) {
+	          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+	
+	          // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+	          // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+	          var addr = ''; // 주소 변수
+	          var extraAddr = ''; // 참고항목 변수
+	
+	          //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+	          if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+	              addr = data.roadAddress;
+	          } else { // 사용자가 지번 주소를 선택했을 경우(J)
+	              addr = data.jibunAddress;
+	          }
+	          
+	       	  // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+	          if(data.userSelectedType === 'R'){
+	              // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+	              // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+	              if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+	                  extraAddr += data.bname;
+	              }
+	              // 건물명이 있고, 공동주택일 경우 추가한다.
+	              if(data.buildingName !== '' && data.apartment === 'Y'){
+	                  extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+	              }
+	              // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+	              if(extraAddr !== ''){
+	                  extraAddr = ' (' + extraAddr + ')';
+	              }
+	              // 조합된 참고항목을 해당 필드에 넣는다.
+	              document.getElementById("extraAddress").value = extraAddr;
+	          
+	          } else {
+	              document.getElementById("extraAddress").value = '';
+	          }
+	          
+	          // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	          document.getElementById('postcode').value = data.zonecode;
+	          document.getElementById("address").value = addr;
+	          
+	          // 커서를 상세주소 필드로 이동한다.
+	          var address = $(".address-f").val();
+			  if(address.startsWith("서울") || address.startsWith("경기")){
+				  ba = 2500;
+				  $("#ordDeliPrice").html(Number(ba).toLocaleString());
+			  }else if(address.startsWith("제주") || address.startsWith("강원")){
+				  ba = 5000;
+				  $("#ordDeliPrice").html(Number(ba).toLocaleString());
+			  }else{
+				  ba = 2500;
+			      $("#ordDeliPrice").html(Number(ba).toLocaleString());
+			  }
+	
+	          $(".total-pay").html((parseInt($(".total-price")[0].textContent.replace(/,/g, ""))+ba-mileage)
+	        		  .toLocaleString());//상품총가격+배송비 최종가격
+	        		  
+	          $("#total").val((parseInt($(".total-price")[0].textContent.replace(/,/g, ""))+ba-mileage));
+	          //Number(ordAmount)
+	          
+	          
+	          document.getElementById("detailAddress").focus(); 
+	          //$("#detailAddress").focus();
+	      }
+	  }).open();
 	}
 	
-	IMP.init('imp93954987');
-	IMP.request_pay({
-	    //pg : 'inicis', // version 1.1.0부터 지원.
-	    pay_method : 'card',
-	  //가맹점에서 생성/관리하는 고유 주문번호
-	    merchant_uid : 'merchant_' + new Date().getTime(), 
-	  //주문명
-	    name : '카드테스트결제',
-	  //결제할 금액
-	    amount : 100,//Number(amount),
-	  //주문자 Email
-	    buyer_email : $("#ordererEmail").value, 
-	  //주문자명
-	    buyer_name : $("#orderer").value, 
-	  	//주문자 연락처 - 필수항목
-	    buyer_tel : $("#ordererPhone").value, 
-	    //주문자 주소
-	    buyer_addr : $(".address-detail")[0].value+$(".address-detail")[1].value+$(".address-detail")[2].value,
-	   //주문자 우편번호
-	    buyer_postcode : $(".zipCode").value,
-	    //랜딩되는 주소
-	    m_redirect_url : 'https://rclass.iptime.org/mypage/orderStatus'
+	//결제 API
+	$(document).on("click",".payBtn",function(){
+	 	
+		if($(".address-detail")[0].value==""||$(".address-detail")[1].value==""||$(".address-detail")[2].value==""){
+			//0번 우편번호  1번 일반 주소  2번 상세주소
+			alert("주소를 입력해주세요");
+			return;
+		}
+		
+		IMP.init('imp93954987');
+		IMP.request_pay({
+		    //pg : 'inicis', // version 1.1.0부터 지원.
+		    pay_method : 'card',
+		  //가맹점에서 생성/관리하는 고유 주문번호
+		    merchant_uid : 'merchant_' + new Date().getTime(), 
+		  //주문명
+		    name : '카드테스트결제',
+		  //결제할 금액
+		    amount : 100,//Number($("#ordAmount").text().replace(/,/g, "")),
+		  //주문자 Email
+		    buyer_email : $("#ordererEmail").value, 
+		  //주문자명
+		    buyer_name : $("#orderer").value, 
+		  	//주문자 연락처 - 필수항목
+		    buyer_tel : $("#ordererPhone").value, 
+		    //주문자 주소
+		    buyer_addr : $(".address-detail")[0].value+$(".address-detail")[1].value+$(".address-detail")[2].value,
+		   //주문자 우편번호
+		    buyer_postcode : $(".zipCode").value,
+		    //랜딩되는 주소
+		    m_redirect_url : 'https://rclass.iptime.org/mypage/orderStatus'
+		
+		}	, function(rsp) { //callback
+		    if ( rsp.success ) { //결제 성공시
+		        orderInfo.submit();
+		        //var msg = '결제가 완료되었습니다.';
+		        //msg += '고유ID : ' + rsp.imp_uid;
+		        //msg += '상점 거래ID : ' + rsp.merchant_uid;
+		        //msg += '결제 금액 : ' + rsp.paid_amount;
+		        //msg += '카드 승인번호 : ' + rsp.apply_num;
+		        
+		    } else { //결제 실패시
+		        var msg = '결제에 실패하였습니다.';
+		        msg += '에러내용 : ' + rsp.error_msg;
+			    alert(msg);
+		    }
+		});
 	
-	}	, function(rsp) { //callback
-	    if ( rsp.success ) { //결제 성공시
-	        orderInfo.submit();
-	        //var msg = '결제가 완료되었습니다.';
-	        //msg += '고유ID : ' + rsp.imp_uid;
-	        //msg += '상점 거래ID : ' + rsp.merchant_uid;
-	        //msg += '결제 금액 : ' + rsp.paid_amount;
-	        //msg += '카드 승인번호 : ' + rsp.apply_num;
-	        
-	    } else { //결제 실패시
-	        var msg = '결제에 실패하였습니다.';
-	        msg += '에러내용 : ' + rsp.error_msg;
-		    alert(msg);
-	    }
 	});
-
-});
 
  	
 </script>

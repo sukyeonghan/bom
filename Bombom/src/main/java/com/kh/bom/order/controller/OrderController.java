@@ -165,11 +165,11 @@ public class OrderController {
 		System.out.println("장바구니에서 넘어온 basket : " + b);
 		// basketNo, productNo, inbasQty만 넘어옴.
 		Member m = (Member) session.getAttribute("loginMember");
-		System.out.println("결제하기 - 회원 : " + m);
+//		System.out.println("결제하기 - 회원 : " + m);
 
-		List<Inbasket> qtyList = new ArrayList<Inbasket>();
-		int qty = b.getInbasQty();
-		System.out.println("------수량: " + qty);
+//		List<Inbasket> qtyList = new ArrayList<Inbasket>();
+//		int qty = b.getInbasQty();
+//		System.out.println("------수량: " + qty);
 
 		List<Product> list = new ArrayList<Product>();
 		String[] productNo = b.getPdtNo().split(",");
@@ -185,7 +185,7 @@ public class OrderController {
 
 		mv.addObject("ship", s);
 		mv.addObject("loginMember", m);
-		mv.addObject("qlist", qtyList);
+//		mv.addObject("qlist", qtyList);
 		mv.addObject("blist", blist);
 		mv.addObject("list", list);
 		mv.setViewName("order/order");
@@ -203,21 +203,13 @@ public class OrderController {
 		orderNo = today + "-" + ran;
 		order.setOrderNo(orderNo);
 		order.setMemNo(m1.getMemNo());
-		int result = service.insertOrder(order);
+		
+		//결제 후 inorder에 집어넣고 반환시킴
+		List<Inorder> insertO = service.insertOrder(order,basketNo);
 		String msg = "";
 		String loc = "";
 		String icon = "";
-		if (result > 0) {
-			//결제 완료 후 inorder에 상품 집어넣기
-			//inbasketList를 가져와서 inorder에 넣어주기
-			List<Inbasket> getI = service.selectInbasketList(basketNo);
-			List insertInorder = new ArrayList(); 
-			for(Inbasket i : getI) {
-				//insertInorder = service.insertInorder(Inorder.builder().orderNo(orderNo)
-				//		.pdtNo(i.getPdtNo()).pdtOptionNo(i.getPdtOptionNo()).inorderQty(i.getInbasQty()).build());
-			}
-			//if(insertInorder )
-					
+		if (insertO != null) {
 			//결제api에서 결제가 완료되면 장바구니 비우기
 			int deleteB = service.deleteBasket(basketNo);
 			if(deleteB>0) {
