@@ -406,12 +406,13 @@ textarea.answer {
 					success:data=>{
 						//구매내역이 있을 경우
 						if(data.length!=0){
+							console.log(data);
 							if(data.length>1){
 								let table = $("<table id='orderList' class='table table-hover'>");
 								let thead = $("<thead>")
 								let th = $("<tr>").append($("<th>").html("주문번호"))
 									th.append($("<th>").html("상품이름"))
-									if(data.pdtOptionContent!=null){
+									if(data.pdtOptionContent!=0){
 										th.append($("<th>").html("옵션")) //옵션이 있을때만 노출
 									}
 									th.append($("<th>").html("주문갯수"))
