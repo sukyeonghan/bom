@@ -446,7 +446,7 @@ public class ProductController {
 		mv.addObject("list", list);
 		mv.addObject("count", totalData);
 		mv.addObject("pdtNo", pdtNo);
-		mv.addObject("pdtName",pdtName);
+		mv.addObject("pdtName",pdtName);//웹소켓 알림용
 		mv.addObject("cPage", cPage);
 		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productInquiryAjax", pdtNo));
 		mv.setViewName("product/productInquiry");
