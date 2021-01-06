@@ -25,12 +25,30 @@ public class OrderServiceImpl implements OrderService {
 
 	// 결제하기
 	@Override
-	public int insertOrder(Order order) {
+	public List<Inorder> insertOrder(Order order, String basketNo) {
 		int result = dao.insertOrder(session, order);
+		String orderNo = order.getOrderNo();
+		List<Inbasket> list = dao.selectInbasketList(session, basketNo);
+		List<Inorder> inList = new ArrayList<Inorder>();
 		if (result > 0) {
 			// insert 성공하면 inorder에도 insert시키기
+			for(Inbasket i : list) {
+				Inorder io = new Inorder(orderNo, i.getPdtNo(), i.getPdtOptionNo(),	i.getInbasQty());
+				int insertI = dao.insertInorder(session, io);
+				inList.add(io);
+			}
 		}
-		return result;
+		return inList;
+	}
+	
+	@Override
+	public List<Inbasket> selectInbasketList(String basketNo) {
+		return dao.selectInbasketList(session, basketNo);
+	}
+
+	@Override
+	public int insertInorder(Inorder i) {
+		return dao.insertInorder(session, i);
 	}
 
 	@Override
@@ -202,14 +220,6 @@ public class OrderServiceImpl implements OrderService {
 		return ii;
 	}
 
-	@Override
-	public List<Inbasket> selectInbasketList(String basketNo) {
-		return dao.selectInbasketList(session, basketNo);
-	}
 
-	@Override
-	public int insertInorder(Inorder i) {
-		return dao.insertInorder(session, i);
-	}
 
 }

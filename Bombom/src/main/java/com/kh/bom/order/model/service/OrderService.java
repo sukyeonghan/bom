@@ -10,7 +10,7 @@ import com.kh.bom.point.model.vo.Point;
 
 public interface OrderService {
 	// 결제하기
-	int insertOrder(Order order);
+	List<Inorder> insertOrder(Order order, String basketNo);
 
 	int deleteBasket(String basketNo);
 
@@ -62,7 +62,7 @@ public interface OrderService {
 	
 	List<Inbasket> selectInbasketList(String basketNo);
 	
-	int insertInorder(Inorder i);
+	int insertInorder(Inorder inorder);
 	
 	
 }
