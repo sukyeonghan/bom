@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
+
 <!-- 찜하기 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
@@ -548,7 +549,7 @@ button:focus {
 				  		url.select(); //해당값 선택되도록 select
 				  		document.execCommand("copy"); //클립보드에 복사
 				  		url.blur(); //선택->선택X
-				  		swal("URL이 클립보드에 복사되었습니다");
+				  		swal({text:"URL이 클립보드에 복사되었습니다",timer:1000}); //자동닫기
 				  	}
 				  	
 				  	//카카오톡 공유하기
@@ -600,7 +601,7 @@ button:focus {
                     	</c:if>
                     	<!-- 세일 있을 때 -->
                     	<c:if test="${not empty product.eventNoRef and product.salePer!=0}">
-                    		<select class="form-control" id="optionSelect" onchange="optionChange(this)">
+                    		<select class="form-control" id="optionSelect" onchange="optionChange(this);">
 	                    		<option readonly selected disabled>옵션선택</option>
 	                    		<c:forEach items="${optionlist}" var="opt">
 	                    			<option value="${opt.pdtOptionAddprice*(1-(product.salePer/100))}" value2="${opt.pdtOptionNo}">${opt.pdtOptionContent}&nbsp;&nbsp;+<fmt:formatNumber value="${opt.pdtOptionAddprice*(1-(product.salePer/100))}" pattern="#,###"/></option>
@@ -971,7 +972,7 @@ button:focus {
 		//console.log($(e.target).html());
 		$.ajax({
 			url:"${path}/product/productInquiry",
-			data:{cPage:"${cPage}",numPerpage:"${numPerpage}",pdtNo:$("#pdtNo").val()},
+			data:{cPage:"${cPage}",numPerpage:"${numPerpage}",pdtNo:$("#pdtNo").val(),pdtName:"${product.pdtName }"},
 			type:"get",
 			dataType:"html",
 			success:data=>{
@@ -1013,7 +1014,8 @@ button:focus {
 	//구매하기,장바구니,찜하기,상품문의 클릭 시 로그인 체크
 	$(function() {
 		$(".loginCheck").click(function() {
-			swal("로그인을 먼저 해주세요");
+			//로그인 모달창 띄우기
+			$("#loginModal").modal('show'); 
 		});
 	});
 	
@@ -1167,7 +1169,7 @@ button:focus {
 		//옵션번호
 		let pdtOptionNo = $("#optionNo").val();
 		if(pdtOptionNo == undefined){
-			pdtOptionNo = "null";
+			//pdtOptionNo = "null";
 		}
 		//상품갯수
 		let Qty = $("#count").val();
@@ -1177,21 +1179,29 @@ button:focus {
 							"pdtOptionNo":pdtOptionNo,
 							"inbasQty":Qty};
 		console.log(basket_need);
-		
 		//장바구니 insert용 함수
 		var optionlist = $("#optionlist").val(); //옵션을 hidden으로 넣고 확인
-		
 		if(optionlist!=undefined && $("#optionSelect").val()==null){
 			swal("옵션을 선택해주세요");
 			return;
 		}else{
 			let check = confirm("장바구니에 담으시겠습니까?");
 			if(check){
-				window.location = basUrl+'?'+$.param(basket_need);
+				//장바구니에 이미 담긴 상품인지 체크
+				$.ajax({
+					url : "${path}/order/checkBasket",
+					data : {"pdtOptionNo":pdtOptionNo},
+					type : "post",
+					success : data => {
+						if(data === true ){
+							swal("이미 존재하는 상품입니다.");
+						}else{
+							window.location = basUrl+'?'+$.param(basket_need);
+						}
+					}
+				});
 			}
-			
 		}
-		
 	};
 </script>
     

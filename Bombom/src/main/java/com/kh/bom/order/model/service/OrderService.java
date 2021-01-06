@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.kh.bom.order.model.vo.Basket;
 import com.kh.bom.order.model.vo.Inbasket;
+import com.kh.bom.order.model.vo.Inorder;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.vo.Point;
-import com.kh.bom.product.model.vo.ProductOption;
 
 public interface OrderService {
 	// 결제하기
-	int insertOrder(Order order);
+	List<Inorder> insertOrder(Order order, String basketNo);
 
 	int deleteBasket(String basketNo);
 
@@ -57,4 +57,12 @@ public interface OrderService {
 	int returnEndCount(String memNo);
 
 	int returnRequest(Order o, Point p);
+	
+	List<Inbasket> selectInbasket(String memNo);
+	
+	List<Inbasket> selectInbasketList(String basketNo);
+	
+	int insertInorder(Inorder inorder);
+	
+	
 }

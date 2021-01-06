@@ -17,10 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.bom.member.model.vo.Member;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.gson.Gson;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.review.model.service.ReviewService;
 import com.kh.bom.review.model.vo.Review;
+
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
 
 @Controller
 public class ReviewController {
@@ -28,17 +32,20 @@ public class ReviewController {
 	private ReviewService service;
 	
 	//구매평 등록 전 상품구입 확인
-	@RequestMapping("/review/selectOrder")
+	//gson 한글깨짐현상 인코딩처리
+	@RequestMapping(value="/review/selectOrder", produces="text/plain;charset=UTF-8")
 	@ResponseBody //Ajax로 json이나 text로 받을 경우 사용한다
-	public String selectOrder(String pdtNo, String memNo) {
-		
+	public String selectOrder(String pdtNo, String memNo) throws JSONException, JsonProcessingException {
+	
 		Map map = new HashMap();
 		map.put("pdtNo", pdtNo);
 		map.put("memNo", memNo);
+		List<Order> orderList = service.selectOrder(map);
+		Gson gson = new Gson();
+		String json = gson.toJson(orderList);
+		System.out.println("json확인 : "+json);
 		
-		Order order = service.selectOrder(map);
-		
-		return order!=null?order.getOrderNo():"";
+		return json;
 	}
 	
 	
@@ -147,7 +154,7 @@ public class ReviewController {
 		String icon = "";
 		
 		if(result>0) {
-			msg = "상품평이 수정되었습니다. 적립금을 확인해주세요";
+			msg = "상품평이 수정되었습니다";
 			icon = "success";
 		}else {
 			msg = "상품평을 다시 등록해주세요";

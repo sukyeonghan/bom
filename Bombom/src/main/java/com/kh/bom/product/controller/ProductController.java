@@ -1,7 +1,9 @@
 package com.kh.bom.product.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.common.page.AjaxPageBarFactory;
-import com.kh.bom.common.page.ProAjaxPageBarFactory2;
+import com.kh.bom.common.page.ProAjaxPageBarFactory;
 import com.kh.bom.common.page.ProPageBarFactory;
 import com.kh.bom.inquiry.model.vo.Inquiry;
 import com.kh.bom.member.model.vo.Member;
@@ -26,7 +28,6 @@ import com.kh.bom.zzim.model.service.ZzimService;
 import com.kh.bom.zzim.model.vo.Zzim;
 
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.JSONObject;
 
 @Slf4j
 @Controller
@@ -47,6 +48,8 @@ public class ProductController {
 		
 		String cate="전체제품";
 		p.setPdtCategory(cate);
+		p.setSort("등록일순");
+	
 		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
 		List<Product> list=service.selectProductList(cPage,numPerpage,p);
 		int totalCount=list.get(0).getTotCnt();//제품 개수
@@ -61,20 +64,35 @@ public class ProductController {
 	}
 
 	//제품 리스트 ajax
-	@RequestMapping("/product/productListAjaxTest")
+	@RequestMapping("/product/productListAjax")
 	@ResponseBody
 	public ModelAndView productListTest(ModelAndView m,Product p,
 			HttpServletRequest request,
 			@RequestParam(value="pdtcategory", defaultValue="전체제품") String pdtCategory,
-			@RequestParam(value="category", required = false) String[] category,
+			@RequestParam(value="category", defaultValue="전체제품") String[] category,
 			@RequestParam(value="sort", defaultValue="등록일순") String sort,
-			@RequestParam(value="soldout", required = false) String soldout,
+			@RequestParam(value="soldout", defaultValue="품절포함") String soldout,
+			@RequestParam(value="star1", defaultValue="0") int star1,
+			@RequestParam(value="star2", defaultValue="0") int star2,
+			@RequestParam(value="star3", defaultValue="0") int star3,
+			@RequestParam(value="star4", defaultValue="0") int star4,
+			@RequestParam(value="star5", defaultValue="0") int star5,
 			@RequestParam(value="price") String price,
 			@RequestParam(value="cPage", defaultValue="1") int cPage, 
 			@RequestParam(value="numPerpage", defaultValue="8") int numPerpage) {
 		
 		p.setPdtCategory(pdtCategory);
+	
+		//별점 
+		Map star=new HashMap();
+		star.put("star1", star1);
+		star.put("star2", star2);
+		star.put("star3", star3);
+		star.put("star4", star4);
+		star.put("star5", star5);
+		p.setStar(star);
 
+		
 		//제품 슬라이더 가격
 		int idx=0;
 		if(price!=null) {
@@ -93,8 +111,9 @@ public class ProductController {
 			p.setCategory(category);
 			p.setSoldout(soldout);
 			p.setSort(sort);
+			p.setStar(star);
 		}
-		
+	
 		List<Product> list=service.selectProductList(cPage,numPerpage,p);
 		
 		//검색 결과에 따른 제품 개수
@@ -103,10 +122,10 @@ public class ProductController {
 			totalCount=list.get(0).getTotCnt();//제품 개수
 		}
 		m.addObject("list",list);
-		m.addObject("pageBar",ProAjaxPageBarFactory2.getAjaxPageBar(totalCount, cPage, numPerpage, "productListAjaxTest",price,pdtCategory,Arrays.toString(p.getCategory()),p.getSort(),p.getSoldout()));
+		m.addObject("pageBar",ProAjaxPageBarFactory.getAjaxPageBar(totalCount, cPage, numPerpage, "productListAjax",price,pdtCategory,Arrays.toString(p.getCategory()),p.getSort(),p.getSoldout(),star1,star2,star3,star4,star5));
 		m.addObject("cPage",cPage);
 		m.addObject("count",totalCount);
-		m.setViewName("product/productListAjaxTest");
+		m.setViewName("product/productListAjax");
 		return m;
 	}
 	
@@ -119,6 +138,7 @@ public class ProductController {
 		
 		String cate="식품";
 		p.setPdtCategory(cate);
+		p.setSort("등록일순");
 		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
 		List<Product> list=service.selectProductList(cPage,numPerpage,p);
 		int totalCount=list.get(0).getTotCnt();//제품 개수
@@ -141,6 +161,7 @@ public class ProductController {
 		
 		String cate="잡화";
 		p.setPdtCategory(cate);
+		p.setSort("등록일순");
 		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
 		List<Product> list=service.selectProductList(cPage,numPerpage,p);
 		int totalCount=list.get(0).getTotCnt();//제품 개수
@@ -163,6 +184,7 @@ public class ProductController {
 		
 		String cate="주방";
 		p.setPdtCategory(cate);
+		p.setSort("등록일순");
 		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
 		List<Product> list=service.selectProductList(cPage,numPerpage,p);
 		int totalCount=list.get(0).getTotCnt();//제품 개수
@@ -185,6 +207,7 @@ public class ProductController {
 		
 		String cate="욕실";
 		p.setPdtCategory(cate);
+		p.setSort("등록일순");
 		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
 		List<Product> list=service.selectProductList(cPage,numPerpage,p);
 		int totalCount=list.get(0).getTotCnt();//제품 개수
@@ -207,6 +230,7 @@ public class ProductController {
 		
 		String cate="여성용품";
 		p.setPdtCategory(cate);
+		p.setSort("등록일순");
 		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
 		List<Product> list=service.selectProductList(cPage,numPerpage,p);
 		int totalCount=list.get(0).getTotCnt();//제품 개수
@@ -229,6 +253,7 @@ public class ProductController {
 		
 		String cate="반려동물";
 		p.setPdtCategory(cate);
+		p.setSort("등록일순");
 		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
 		List<Product> list= service.selectProductList(cPage,numPerpage,p);
 		int totalCount=list.get(0).getTotCnt();//제품 개수
@@ -251,6 +276,7 @@ public class ProductController {
 
 		String cate="할인제품";
 		p.setPdtCategory(cate);
+		p.setSort("등록일순");
 		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
 		List<Product> list=service.selectProductList(cPage, numPerpage,p);
 		int totalCount=list.get(0).getTotCnt();//제품 개수
@@ -394,6 +420,7 @@ public class ProductController {
 	@ResponseBody
 	public ModelAndView productInquiry(ModelAndView mv,
 			@RequestParam("pdtNo") String pdtNo, 
+			@RequestParam("pdtName") String pdtName, 
 			@RequestParam(value="cPage",defaultValue="1") int cPage,
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage,
 			HttpSession session) {
@@ -428,6 +455,7 @@ public class ProductController {
 		mv.addObject("list", list);
 		mv.addObject("count", totalData);
 		mv.addObject("pdtNo", pdtNo);
+		mv.addObject("pdtName",pdtName);//웹소켓 알림용
 		mv.addObject("cPage", cPage);
 		mv.addObject("pageBar",AjaxPageBarFactory.getAjaxPageBar(totalData, cPage, numPerpage, "productInquiryAjax", pdtNo));
 		mv.setViewName("product/productInquiry");

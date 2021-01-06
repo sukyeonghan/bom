@@ -226,10 +226,10 @@ textarea.answer {
 										value="${p.inorderQty * p.pdtPrice}" />원</td>
 								<td style="display:none"><c:out value="${p.pdtNo}" /></td>
 								<c:if test="${p.ordStatus =='배송준비' or p.ordStatus =='배송중' or p.ordStatus =='배송완료' }">
-								<c:if test="${p.revContent == null }">					
+								<c:if test="${p.revYn eq null and p.ordConfirmYn=='Y' }">					
 								<td class="btnTd"><input type="button" class="btn btn-outline-success reviewModal" data-toggle="modal" data-target="#reviewView" value="리뷰작성"></td>
 								</c:if>
-								<c:if test="${p.revContent != null}">
+								<c:if test="${p.revYn=='Y'}">
 								<td class="btnTd"><input type="button" class="btn btn-success" disabled  value="작성완료"></td>
 								</c:if>
 								
@@ -273,12 +273,17 @@ textarea.answer {
 
 					<tr>
 						<th>주문금액</th>
-						<td id="total2"></td>
+						<td id="total2">원</td>
+					</tr>
+					<tr>
+						<th>배송료</th>
+						<td><fmt:formatNumber pattern="#,###"
+								value="${order.ordDeliPrice}" />원</td>
 					</tr>
 					<tr>
 						<th>포인트결제액</th>
 						<td><fmt:formatNumber pattern="#,###,###"
-								value="${order.ordUsePoint}" /></td>
+								value="${order.ordUsePoint}" />봄</td>
 					</tr>
 					<tr>
 						<th>결제금액</th>

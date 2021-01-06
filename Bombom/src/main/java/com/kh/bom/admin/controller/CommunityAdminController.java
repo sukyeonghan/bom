@@ -93,14 +93,16 @@ public class CommunityAdminController {
 	@RequestMapping("/admin/community/warnMemberYn")
 	@ResponseBody
 	public JSON warnMemberYn(BoardReply br) {
-		
+		System.out.println("댓글객체:"+br);
 		int result = service.warnMemberYn(br);
 		//json객체로 보내기
 		JSONObject obj=new JSONObject();
 		if(result>0) {
 			obj.put("result", true);
 			Member member=memberService.selectMemberOne(br.getMem_no());
-			obj.put("replyWriter",member);
+			System.out.println("받아온 작성자:"+member);
+			obj.put("replyWriterNo",member.getMemNo());
+			obj.put("replyWriterCount",member.getMemWarnCount());
 		}else {
 			obj.put("result", false);
 		}

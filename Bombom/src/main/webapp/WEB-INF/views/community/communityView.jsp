@@ -301,9 +301,14 @@ table#tbl-comment textarea {
 		</div>
 
 		<br>
-		<textarea id="editor" class="form-control" rows="10" name="cmContent"
-			placeholder="내용을 입력해주세요" required><c:out
-				value="${community.cmContent }" /></textarea>
+		<div id="editor"><c:out value="${community.cmContent }" /></div>
+				
+				<script>
+				var text = $("#editor").val();
+				console.log(text);
+				var tagRemove = text.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
+				console.log(tagRemove);
+				</script>
 		<br>		
 		
 <%-- 		<label> Like </label> <i onclick="myFunction(this)"

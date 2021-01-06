@@ -6,14 +6,21 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
 <style>
+#titleDiv{
+	display:flex;
+	justify-content: space-between;
+	width:80%;
+	margin:0 auto;}
 /*타이틀&개수*/
 #titleWrap{
-	display:flex;
+	display:flex; 
+	width: 500px; 
+	cursor: default;
 }
 /*페이지 타이틀*/
 #title{
 	font-size: 30px;
-    margin: 0 2% 3% 10%;
+    margin: 0 20px 3px 0px
 }
 /*알림 개수*/
 #allCount{
@@ -35,7 +42,7 @@
 }
 /*x버튼*/
 #alarmWrap button{padding: 25px;}
-
+#allAlarmDel{font-size: 19px; margin-top:10px; font-weight:bolder; 	cursor: pointer;}
 </style>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -44,10 +51,14 @@
 
 <section id="container">
 	<!-- 알림메세지 상세화면 -->
-	<div id="titleWrap">
-		<p id="title">알림 메세지</p>
-		<p id="allCount">총 <c:out value="${countAlarm}"/>개</p>
+	<div id="titleDiv">
+		<div id="titleWrap">
+			<p id="title">알림 메세지</p>
+			<p id="allCount">총 <c:out value="${countAlarm}"/>개</p>
+		</div>
+		<div><p id="allAlarmDel" onclick="location.href='${path}/member/deleteAlarmAll?receiverNo=${loginMember.memNo }'">전체삭제</p></div>
 	</div>
+
 	<div id="alarmWrap">
 	<c:forEach var="a" items="${alarmList }">
 		

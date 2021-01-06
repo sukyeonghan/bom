@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org/DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
+	<!-- <settings>
+		mapper입력값에 null값이 들어갈 경우 null처리
+		<setting value="VARCHAR" name="jdbcTypeForNull" />
+ 	</settings> -->
+	
 	<typeAliases>
 		<typeAlias type="com.kh.bom.faq.model.vo.Faq" alias="faq"/>
 		<typeAlias type="com.kh.bom.notice.model.vo.Notice" alias="notice"/>
@@ -28,5 +33,6 @@
 		<typeAlias type="com.kh.bom.member.model.vo.Alarm" alias="alarm"/>
 		<typeAlias type="com.kh.bom.common.typehandler.StringArrayTypeHandler" alias="stringArr"/>
 	</typeAliases>
-
 </configuration>
+	
+

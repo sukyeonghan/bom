@@ -63,7 +63,7 @@
 				,MAX(EVENT_SALE_PER)   AS EVENT_SALE_PER
 				,MAX(THUMBS)		   AS THUMBS
 				,MAX(Z.Z_CNT)		   AS ZZIM_COUNT
-				,MAX(R.R_CNT)		   AS REVIEW
+				,MAX(R.R_CNT)		   AS REVIEW_COUNT
 				,MAX(ROUND((R_AVG),1)) AS AVG
 				,MAX(NEW_YN)           AS NEW_YN
 		FROM (   
@@ -91,7 +91,7 @@
 				AND EVENT_NO_REF IS NOT NULL AND EVENT_SALE_PER > 0
 			</if>
 			
-			<if test="category != null">
+			<if test="category != null and category[0]!='전체제품'">
 				AND PDT_CATEGORY IN
 				<foreach collection="category" item="category" open="(" close=")" separator=",">
 					#{category}
@@ -104,21 +104,23 @@
 				AND PDT_PRICE BETWEEN #{fromPrice} AND #{toPrice} 
 			</if>
 			<if test="star!=null">
-				<if test="star==1">
-					AND R_AVG BETWEEN 0 AND 1
-				</if>
-				<if test="star==2">
-					AND R_AVG BETWEEN 1 AND 2
-				</if>
-				<if test="star==3">
-					AND R_AVG BETWEEN 2 AND 3
-				</if>
-				<if test="star==4">
-					AND R_AVG BETWEEN 3 AND 4
-				</if>
-				<if test="star==5">
-					AND R_AVG BETWEEN 4 AND 5
-				</if>	
+				 <trim prefix="AND (" suffix=")" prefixOverrides="OR">
+					<if test="star.star1==1">
+						OR (R_AVG BETWEEN 0 AND 1)
+					</if>
+					<if test="star.star2==1">
+						OR (R_AVG BETWEEN 1 AND 2)
+					</if>
+					<if test="star.star3==1">
+						OR (R_AVG BETWEEN 2 AND 3)
+					</if>
+					<if test="star.star4==1">
+						 OR (R_AVG BETWEEN 3 AND 4)
+					</if>
+					<if test="star.star5==1">
+						OR (R_AVG BETWEEN 4 AND 5)
+					</if>
+				</trim> 
 			</if>
 		</trim>
 		GROUP BY T1.PDT_NO
@@ -133,7 +135,7 @@
 				ORDER BY REVIEW_COUNT DESC
 			</if>
 			<if test="sort=='할인율순'">
-				ORDER BY CASE WHEN E.EVENT_SALE_PER>0 THEN 0 ELSE 1 END
+				ORDER BY CASE WHEN EVENT_SALE_PER>0 THEN 0 ELSE 1 END
 			</if>
 			<if test="sort == '낮은가격순'">
 				ORDER BY PDT_PRICE

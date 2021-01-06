@@ -193,6 +193,9 @@ textarea.answer {
 													<input type="hidden" name="memNo" value="${loginMember.memNo}">
 													<input type="hidden" name="inqNo" class="inqNo"/>
 													<input type="hidden" name="pdtNo" value="${pdtNo}">
+													<!-- 웹소켓 알림용 -->
+													<input type="hidden" name="pdtName" value="${pdtName}">
+													<input type="hidden" id="memNoAlarm" name="receiver">
 													<input type="submit" class="btn btn-success" value="등록" style="right:0;">
 												</c:if>
 												<c:if test="${loginMember==null }">
@@ -213,15 +216,20 @@ textarea.answer {
 <script>
 	$(function() {
 		$(".showBox").click(function() {
-			//상품문의 클릭 시 박스 보였다가 안보였다가 이벤트
-			if ($(this).next().css("display") == "none") {
-				$(this).next().show(1000);
-			} else {
-				$(this).next().hide(1000);
+			//로그인 했을 경우
+			if(${loginMember!=null}){
+				//상품문의 클릭 시 박스 보였다가 안보였다가 이벤트
+				if ($(this).next().css("display") == "none") {
+					$(this).next().show(1000);
+				} else {
+					$(this).next().hide(1000);
+				}
+			//로그인 안 한 경우 로그인 모달 	
+			}else{
+				$("#loginModal").modal('show');
 			}
 		});
 	});
-			
 	
 	
 	//상품문의 자물쇠그림바꾸기 + 비밀글 파라미터값 넘기기
@@ -278,10 +286,10 @@ textarea.answer {
 	}   
 	
 	
-	//구매하기,장바구니,찜하기,상품문의 클릭 시 로그인 체크
+	//구매하기,장바구니,찜하기 클릭 시 로그인 체크
 	$(function() {
 		$(".loginCheck").click(function() {
-			swal("로그인을 먼저 해주세요");
+			$("#loginModal").modal('show');
 		});
 	});
 	
@@ -441,6 +449,7 @@ textarea.answer {
 			modal.find(".answerYn").text(answerYn);
 			modal.find(".answer").text(answer);
 			modal.find(".answerDate").text(answerDate);
+			modal.find("#memNoAlarm").val(memNo);//웹소켓알림용
 			
 			
 		});
