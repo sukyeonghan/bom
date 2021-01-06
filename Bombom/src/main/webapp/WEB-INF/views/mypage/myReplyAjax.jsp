@@ -5,48 +5,43 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 
-				<div id="result">
+							<!-- 댓글 -->
+	<div id="result">
 					<table class="table">
 						<thead>
 							<tr>
-								<th style="width:5%"><input type="checkbox"></th>
+								<th style="width:5%"><input type="checkbox" id="selectAll" onclick="selectAll();"></th>
 								<th style="width:15%">작성날짜</th>
-								<th style="width:30%">상품명</th>
-								<th>구매평</th>
-
+								<th style="width:30%">댓글 내용</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:if test="${empty review }">
+							<c:if test="${empty reply }">
 								<tr>
 									<td class="noData" colspan="5">등록된 글이 없습니다.</td>
 								</tr>
 							</c:if>
-							<c:forEach items="${review }" var="r">
-								<tr>
-									<td><input type="checkbox"></td>
-									<td><fmt:formatDate type="date" timeStyle="short"
-											value="${r.revDate }" /></td>
-									<td><a class="reviewContent" href="${path }/product/productOne?pdtNo=${r.pdtNo}"><c:out value="${r.pdtName}"/></a></td>
-									<td class="textLine"><a class="shortReview" data-toggle="modal" data-target="#fullContent" onclick="modelDetail(event);"><c:out value="${r.revContent }"  /></a></td>
-								</tr>
-							</c:forEach>
+							<tr>
+								<c:forEach items="${reply }" var="r">
+									<tr>
+										<td>
+										<input type="checkbox" name="check" value="check">
+										<input type="text" name="delNum" value="${r.reply_id }">
+										</td>
+										<td><fmt:formatDate type="date" timeStyle="short"
+												value="${r.register_datetime }" /></td>
+										<td class="textLine"><c:out value="${r.reply_content }" /></td>
+									</tr>
+								</c:forEach>
 						</tbody>
 					</table>
-					<div class="pageBar">${pageBarR }</div>
+					<div class="pageBar">${pageBarP }</div>
 					<div id="btn-container">
-						<button type="button" class="btn btn-success" onclick="deleteMyReview();">선택삭제</button>
+						<button type="button" class="btn btn-outline-success" onclick="deleteMyReply();">선택삭제</button>
 					</div>
-				</div>
+</div>
 		    	
 <script>
-$(".shortReview").click(function(){
-	let content=$(this).text();
-	console.log(content);
-	$(".fullReview").text(content);
-	console.log($(".fullReview"));
-});
-
 //전체선택
 let checkAll = "false";
 let items = document.getElementsByName("check");
@@ -65,7 +60,7 @@ function selectAll() {
 	}
 }
 
-function deleteMyReview(){
+function deleteMyReply(){
 	if(confirm("정말 삭제하시겠습니까?")==true){
 		
 		var list=new Array();   
@@ -79,11 +74,9 @@ function deleteMyReview(){
             }
         }
         
-        location.href='${path}/mypage/deleteMyReview?revNo='+list;
+        location.href='${path}/mypage/deleteMyReply?replyNo='+list;
 	}else{
 		return false;
 	}
-    
-}
-
+}		    
 </script>
