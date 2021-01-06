@@ -418,6 +418,33 @@ public class memberController {
 		return mv;
 	}
 	
-	
+	//알림 전체삭제
+	@RequestMapping("/member/deleteAlarmAll")
+	public ModelAndView deleteAlarmAll(HttpSession session,
+			ModelAndView mv, String receiverNo) {
+		
+		int result=service.deleteAlarmAll(receiverNo);
+		String msg="";
+		String loc="/member/alarmPage";
+		String icon="";
+		if(result>0) {
+			msg="알림이 전체 삭제되었습니다.";
+			icon="success";
+		}else {
+			msg="알림 삭제에 실패하였습니다.";
+			icon="warning";
+		}
+		//변경된 알림 개수 띄우기
+		Member m=(Member)session.getAttribute("loginMember");
+		String memNo=m.getMemNo();
+		int count=service.countAlarm(memNo);
+		
+		session.setAttribute("countAlarm", count);
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
+		mv.addObject("icon",icon);
+		mv.setViewName("common/msg");
+		return mv;
+	}
 	
 }
