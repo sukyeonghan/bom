@@ -112,6 +112,11 @@
    	<delete id="deleteAlarm" parameterType="string">
    		DELETE FROM ALARM WHERE ALARM_NO=#{alarmNo}
    	</delete>
+   	<!-- 알림전체삭제 -->
+   	<delete id="deleteAlarmAll" parameterType="string">
+   		DELETE FROM ALARM WHERE receiver_no=#{receiverNo}
+   	</delete>
+   	
    	
    	<select id="selectSnsMem" parameterType="member" resultMap="memberMap">
    		SELECT * FROM MEMBER WHERE 

@@ -36,8 +36,10 @@ public interface MemberDao {
 	int insertAlarm(SqlSession session,Alarm a);
 	
 	int deleteAlarm(SqlSession session,String alarmNo);
+	int deleteAlarmAll(SqlSession session,String receiverNo);
 
 	Member selectSnsMem(SqlSession session, Member snsMem);
 
 	int updateMemLastDate(SqlSession session, String memNo);
+
 }

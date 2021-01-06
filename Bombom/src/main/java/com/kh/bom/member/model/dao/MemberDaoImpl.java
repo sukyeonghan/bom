@@ -104,6 +104,12 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
+	public int deleteAlarmAll(SqlSession session, String receiverNo) {
+		// TODO Auto-generated method stub
+		return session.delete("member.deleteAlarmAll",receiverNo);
+	}
+
+	@Override
 	public Member selectSnsMem(SqlSession session, Member snsMem) {
 		// TODO Auto-generated method stub
 		return session.selectOne("member.selectSnsMem",snsMem);
