@@ -226,7 +226,7 @@ textarea.answer {
 										value="${p.inorderQty * p.pdtPrice}" />원</td>
 								<td style="display:none"><c:out value="${p.pdtNo}" /></td>
 								<c:if test="${p.ordStatus =='배송준비' or p.ordStatus =='배송중' or p.ordStatus =='배송완료' }">
-								<c:if test="${p.revYn=='N' }">					
+								<c:if test="${p.revYn eq null and p.ordConfirmYn=='Y' }">					
 								<td class="btnTd"><input type="button" class="btn btn-outline-success reviewModal" data-toggle="modal" data-target="#reviewView" value="리뷰작성"></td>
 								</c:if>
 								<c:if test="${p.revYn=='Y'}">
