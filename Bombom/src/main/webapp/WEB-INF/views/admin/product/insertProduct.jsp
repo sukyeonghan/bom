@@ -9,7 +9,7 @@
 	/*사진 미리보기 div*/
     .proDiv{
     	border:1px solid black;
-    	width:100%;
+    	width:150px;
     	height:150px;
     	position:relative;
     	float:left;

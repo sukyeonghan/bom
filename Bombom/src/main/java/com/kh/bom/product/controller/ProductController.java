@@ -48,6 +48,8 @@ public class ProductController {
 		
 		String cate="전체제품";
 		p.setPdtCategory(cate);
+		p.setSort("등록일순");
+	
 		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
 		List<Product> list=service.selectProductList(cPage,numPerpage,p);
 		int totalCount=list.get(0).getTotCnt();//제품 개수
@@ -136,6 +138,7 @@ public class ProductController {
 		
 		String cate="식품";
 		p.setPdtCategory(cate);
+		p.setSort("등록일순");
 		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
 		List<Product> list=service.selectProductList(cPage,numPerpage,p);
 		int totalCount=list.get(0).getTotCnt();//제품 개수
@@ -158,6 +161,7 @@ public class ProductController {
 		
 		String cate="잡화";
 		p.setPdtCategory(cate);
+		p.setSort("등록일순");
 		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
 		List<Product> list=service.selectProductList(cPage,numPerpage,p);
 		int totalCount=list.get(0).getTotCnt();//제품 개수
@@ -180,6 +184,7 @@ public class ProductController {
 		
 		String cate="주방";
 		p.setPdtCategory(cate);
+		p.setSort("등록일순");
 		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
 		List<Product> list=service.selectProductList(cPage,numPerpage,p);
 		int totalCount=list.get(0).getTotCnt();//제품 개수
@@ -202,6 +207,7 @@ public class ProductController {
 		
 		String cate="욕실";
 		p.setPdtCategory(cate);
+		p.setSort("등록일순");
 		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
 		List<Product> list=service.selectProductList(cPage,numPerpage,p);
 		int totalCount=list.get(0).getTotCnt();//제품 개수
@@ -224,6 +230,7 @@ public class ProductController {
 		
 		String cate="여성용품";
 		p.setPdtCategory(cate);
+		p.setSort("등록일순");
 		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
 		List<Product> list=service.selectProductList(cPage,numPerpage,p);
 		int totalCount=list.get(0).getTotCnt();//제품 개수
@@ -246,6 +253,7 @@ public class ProductController {
 		
 		String cate="반려동물";
 		p.setPdtCategory(cate);
+		p.setSort("등록일순");
 		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
 		List<Product> list= service.selectProductList(cPage,numPerpage,p);
 		int totalCount=list.get(0).getTotCnt();//제품 개수
@@ -268,6 +276,7 @@ public class ProductController {
 
 		String cate="할인제품";
 		p.setPdtCategory(cate);
+		p.setSort("등록일순");
 		int maxPrice=service.selectMaxPrice(cate);//가격 슬라이더 최대값 설정
 		List<Product> list=service.selectProductList(cPage, numPerpage,p);
 		int totalCount=list.get(0).getTotCnt();//제품 개수
