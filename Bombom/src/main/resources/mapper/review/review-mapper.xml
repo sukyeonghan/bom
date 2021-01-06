@@ -10,6 +10,8 @@
 		<result property="revContent" column="rev_content"/>
 		<result property="revImage" column="rev_image"/>
 		<result property="revDate" column="rev_date" typeHandler="customStr"/>
+		<result property="revYn" column="rev_yn"/>
+		<result property="revDeleteYn" column="rev_delete_yn"/>
 		<result property="pdtName" column="pdt_name"/>
 	</resultMap>
 	
@@ -18,30 +20,32 @@
 		#{revScore},#{revContent},
 		<if test="revImage!=null">#{revImage},</if>
 		<if test="revImage==null">null,</if>
-		DEFAULT)
+		DEFAULT,'Y',DEFAULT)
 	</insert>
 	
 	<select id="reviewList" parameterType="string" resultMap="reviewMap">
 		SELECT R.*, M.MEM_NICK AS MEMNICK, M.MEM_PRO AS MEMPRO
 		FROM REVIEW R
 		JOIN MEMBER M ON M.MEM_NO=R.MEM_NO
-		WHERE PDT_NO=#{pdtNo}
+		WHERE PDT_NO=#{pdtNo} AND REV_YN='Y' AND REV_DELETE_YN='N' 
 		ORDER BY REV_DATE DESC
 	</select>
 	
 	<select id="reviewCount" parameterType="string" resultType="_int">
-		SELECT COUNT(*) FROM REVIEW WHERE PDT_NO=#{pdtNo}
+		SELECT COUNT(*) FROM REVIEW WHERE PDT_NO=#{pdtNo} AND REV_DELETE_YN='N'
 	</select>
 	
 	<!-- 구매평 평균 -->
 	<select id="reviewAvg" parameterType="string" resultType="string">
-		SELECT ROUND(AVG(REV_SCORE),1) FROM REVIEW WHERE PDT_NO=#{pdtNo}
+		SELECT ROUND(AVG(REV_SCORE),1) FROM REVIEW WHERE PDT_NO=#{pdtNo} AND REV_DELETE_YN='N'
 	</select>
 
-	<delete id="deleteReview" parameterType="string">
-		DELETE FROM REVIEW WHERE REV_NO=#{revNo}
-	</delete>
+	<!-- 구매평 지우기, 컬럼지우지 않고 rev_delete_yn만 y로 변경 -->
+	<update id="deleteReview" parameterType="string">
+		UPDATE REVIEW SET REV_DELETE_YN='Y' WHERE REV_NO=#{revNo}
+	</update>
 	
+	<!-- 구매평 수정 -->
 	<update id="updateReview" parameterType="review">
 		UPDATE REVIEW SET REV_SCORE=#{revScore}, REV_CONTENT=#{revContent}, 
 		<if test="revImage!=null">REV_IMAGE=#{revImage}</if>

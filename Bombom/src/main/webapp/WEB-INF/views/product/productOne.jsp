@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
+
 <!-- 찜하기 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
@@ -548,7 +549,7 @@ button:focus {
 				  		url.select(); //해당값 선택되도록 select
 				  		document.execCommand("copy"); //클립보드에 복사
 				  		url.blur(); //선택->선택X
-				  		swal("URL이 클립보드에 복사되었습니다");
+				  		swal({text:"URL이 클립보드에 복사되었습니다",timer:1000}); //자동닫기
 				  	}
 				  	
 				  	//카카오톡 공유하기
@@ -971,7 +972,7 @@ button:focus {
 		//console.log($(e.target).html());
 		$.ajax({
 			url:"${path}/product/productInquiry",
-			data:{cPage:"${cPage}",numPerpage:"${numPerpage}",pdtNo:$("#pdtNo").val()},
+			data:{cPage:"${cPage}",numPerpage:"${numPerpage}",pdtNo:$("#pdtNo").val(),pdtName:"${product.pdtName }"},
 			type:"get",
 			dataType:"html",
 			success:data=>{
@@ -1013,7 +1014,8 @@ button:focus {
 	//구매하기,장바구니,찜하기,상품문의 클릭 시 로그인 체크
 	$(function() {
 		$(".loginCheck").click(function() {
-			swal("로그인을 먼저 해주세요");
+			//로그인 모달창 띄우기
+			$("#loginModal").modal('show'); 
 		});
 	});
 	

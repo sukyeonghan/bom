@@ -101,7 +101,12 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.deleteAlarm(session,alarmNo);
 	}
-
+	@Override
+	public int deleteAlarmAll(String receiverNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteAlarmAll(session,receiverNo);
+	}
+	
 	@Override
 	public Member selectSnsMem(Member snsMem) {
 		// TODO Auto-generated method stub
@@ -113,6 +118,8 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.updateMemLastDate(session,memNo);
 	}
+
+	
 	
 	
 }

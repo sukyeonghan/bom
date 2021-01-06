@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.bom.order.model.vo.Basket;
 import com.kh.bom.order.model.vo.Inbasket;
+import com.kh.bom.order.model.vo.Inorder;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.vo.Point;
-import com.kh.bom.product.model.vo.ProductOption;
 
 @Repository
 public class OrderDaoImpl implements OrderDao {
@@ -37,7 +37,7 @@ public class OrderDaoImpl implements OrderDao {
 		return session.selectList("order.selectBasket", memNo);
 	}
 
-	//장바구니번호 가져오기
+	// 장바구니번호 가져오기
 	@Override
 	public Basket selectBasketOne(SqlSession session, String memNo) {
 		return session.selectOne("order.selectBasketOne", memNo);
@@ -200,16 +200,28 @@ public class OrderDaoImpl implements OrderDao {
 		// TODO Auto-generated method stub
 		return session.insert("order.insertInbasket", i);
 	}
-	//장바구니번호 가져오기
+
+	// 장바구니번호 가져오기
 	@Override
 	public Basket selectBasketNo(SqlSession session, String memNo) {
 		return session.selectOne("order.selectBasketNo", memNo);
 	}
-	//장바구니에 담긴 상품목록가져오기
+
+	// 장바구니에 담긴 상품 중 옵션있는 목록가져오기
 	@Override
 	public List<Inbasket> selectInbasket(SqlSession session, String basketNo) {
 		return session.selectList("order.selectInbasket", basketNo);
 	}
-	
+	//장바구니 담긴 상품목록 가져오기
+	@Override
+	public List<Inbasket> selectInbasketList(SqlSession session, String basketNo) {
+		return session.selectList("order.selectInbasketList", basketNo);
+	}
+
+	// 장바구니에 담겼던 목록 -> 결제완료 후 -> inorder에 집어넣기
+	@Override
+	public int insertInorder(SqlSession session, Inorder i) {
+		return session.insert("order.insertInorder", i);
+	}
 
 }

@@ -1,6 +1,7 @@
 package com.kh.bom.review.model.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -27,7 +28,7 @@ public class ReviewServiceImpl implements ReviewService {
 	private ProductDao proDao;
 	
 	@Override
-	public Order selectOrder(Map map) {
+	public List<Order> selectOrder(Map map) {
 		return dao.selectOrder(session, map);
 	}
 	

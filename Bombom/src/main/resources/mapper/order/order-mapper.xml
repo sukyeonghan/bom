@@ -89,15 +89,16 @@
 		DELETE FROM BASKET WHERE BASKET_NO = #{basketNo}
 	</delete>
 
+	<!-- 상품상세 - 구매평 작성 시 구매확인 -->
 	<select id="selectOrder" parameterType="map" resultMap="orderMap">
-		SELECT ROWNUM, Q.*
-		FROM(
-		SELECT O.ORDER_NO FROM "ORDER" O
+		SELECT O.ORDER_NO, P.PDT_NAME, PO.PDT_OPTION_CONTENT, INO.INORDER_QTY, O.ORD_DATE
+		FROM "ORDER" O
 		LEFT JOIN INORDER INO ON O.ORDER_NO=INO.ORDER_NO
+		LEFT JOIN PRODUCT P ON P.PDT_NO=INO.PDT_NO
+		LEFT JOIN PRODUCT_OPTION PO ON PO.PDT_NO_REF=P.PDT_NO
 		LEFT JOIN REVIEW R ON O.ORDER_NO=R.ORDER_NO
-		WHERE O.MEM_NO=#{memNo} AND INO.PDT_NO=#{pdtNo} AND R.REV_NO IS NULL
-		ORDER BY O.ORD_DATE DESC) Q
-		WHERE ROWNUM=1
+		WHERE O.MEM_NO=#{memNo} AND INO.PDT_NO=#{pdtNo} AND R.REV_YN IS NULL
+		ORDER BY ORD_DATE DESC
 	</select>
 
 	<select id="selectBasket" parameterType="string" resultMap="basketMap">
@@ -249,5 +250,13 @@
 	<select id="selectInbasket" parameterType="string" resultMap="inbasketMap">
 		SELECT PDT_OPTION_NO FROM INBASKET WHERE BASKET_NO = #{basketNo} AND PDT_OPTION_NO IS NOT NULL
 	</select>
+	<select id="selectInbasketList" parameterType="string" resultMap="inbasketMap">
+		SELECT * FROM INBASKET WHERE BASKET_NO = #{basketNo}
+	</select>
+	<insert id="insertInorder" parameterType="inorder">
+		INSERT INTO INORDER VALUES(
+			#{orderNo}, #{pdtNo}, #{pdtOptionNo},#{inorderQty}
+		)
+	</insert>
 	
 </mapper>

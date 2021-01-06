@@ -194,7 +194,7 @@ $(document).on("click",".memWarnYnBtn",e=>{
 				async: false,
 				success:data=>{
 					console.log(data);
-					if(data.result===true){
+					if(data["result"]===true){
 						if(memWarnYn=="신고접수"){
 							//신고접수 승인시
 							$(e.target).addClass("btn-outline-info");
@@ -202,8 +202,8 @@ $(document).on("click",".memWarnYnBtn",e=>{
 							$(e.target).html("신고거절");
 							$(e.target).prev().prev().html("Y");
 							//경고수가 10개도달시 알림보내기
-							let warnCount=data.replyWriter.memWarnCount;
-							let writerNo=data.replyWriter.memNo;
+							let warnCount=data["replyWriterCount"];
+							let writerNo=data["replyWriterNo"];
 							console.log(warnCount);
 							console.log(writerNo);
 							if(warnCount==10){
@@ -213,6 +213,7 @@ $(document).on("click",".memWarnYnBtn",e=>{
 						 	   		data : {receiverNo:writerNo,message:"커뮤니티 권한이 박탈되었습니다."}, 
 						 	   		dataType : 'json',
 						 	   		success : function(data){
+						 	   			console.log(data)
 						 	   			if(data===true){
 						 	   				if(sock){
 						 	   				let socketMsg = "communityOut,관리자,M0,"+writerNo+","+"0";

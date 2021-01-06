@@ -19,31 +19,8 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
+
 	<script>
-	//알림저장, 소켓전송 함수
-	function sockSend(category, caller, callerNo, message, receiverNo, bascket){
-		$.ajax({
- 	   		type : 'post',
- 	   		url : '${path}/member/insertAlarm',
- 	   		data : {receiverNo:receiverNo,message:message}, 
- 	   		dataType : 'json',
- 	   		success : function(data){
- 	   			console.log("ajax성공"+data);
- 	   			if(data===true){
- 	   				console.log("sock:"+sock);
- 	   				if(sock){
- 	   					if(bascket==""||bascket==null){bascket="0"};
- 	   					let socketMsg = category+","+caller+","+callerNo+","+receiverNo+","+bascket;
- 	   					console.log("msg.jsp알림전송내역 : " + socketMsg);
- 	   					sock.send(socketMsg);
- 	   				}
- 	   			}
- 	   		},
- 	   		error : function(err){
- 	   			console.log(err);
- 	   		}
- 	   	});
-	}	
 	$(function(){
 		let category="${category}";
 		let caller="";
@@ -68,30 +45,7 @@
 			message="1:1문의글에 답변이 등록되었습니다.";
 			receiverNo="${receiverNo}";
 			
-			//sockSend(category,caller, callerNo, message, receiverNo, bascket);
-			//알림 DB저장
-	 	   	// $.ajax({
-	 	   	/* 	type : 'post',
-	 	   		url : '${path}/member/insertAlarm',
-	 	   		data : {receiverNo:"${basket}",message:"1:1문의글에 답변이 등록되었습니다."}, 
-	 	   		dataType : 'json',
-	 	   		success : function(data){
-	 	   			console.log("ajax성공"+data);
-	 	   			if(data===true){
-	 	   				console.log("sock:"+sock);
-	 	   				if(sock){
-	 	   				let socketMsg = "oneQna,관리자,M0,"+"${basket}" +","+"0";
-	 	   				console.log("알림전송내역3 : " + socketMsg);
-	 	   				sock.send(socketMsg);
-	 	   				}
-	 	   			}
-	 	   		},
-	 	   		error : function(err){
-	 	   			console.log(err);
-	 	   		}
-	 	   	});
-		 	 */
-			
+
 		}else if(category=="productQna") {
 			//상품문의 답변완료 메세지
 			caller="관리자";
@@ -115,7 +69,31 @@
 		}
 	});
 		
-
+	//알림저장, 소켓전송 함수
+	function sockSend(category, caller, callerNo, message, receiverNo, bascket){
+		$.ajax({
+ 	   		type : 'post',
+ 	   		url : '${path}/member/insertAlarm',
+ 	   	//url : '${path}/member/insertAlarm',
+ 	   		data : {receiverNo:receiverNo,message:message}, 
+ 	   		dataType : 'json',
+ 	   		success : function(data){
+ 	   			console.log("ajax성공"+data);
+ 	   			if(data===true){
+ 	   				console.log("sock:"+sock);
+ 	   				if(sock){
+ 	   					if(bascket==""||bascket==null){bascket="0"};
+ 	   					let socketMsg = category+","+caller+","+callerNo+","+receiverNo+","+bascket;
+ 	   					console.log("msg.jsp알림전송내역 : " + socketMsg);
+ 	   					sock.send(socketMsg);
+ 	   				}
+ 	   			}
+ 	   		},
+ 	   		error : function(err){
+ 	   			console.log(err);
+ 	   		}
+ 	   	});
+	}	
 		
 		
 	swal({

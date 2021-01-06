@@ -91,7 +91,7 @@
 				AND EVENT_NO_REF IS NOT NULL AND EVENT_SALE_PER > 0
 			</if>
 			
-			<if test="category != null">
+			<if test="category != null and category[0]!='전체제품'">
 				AND PDT_CATEGORY IN
 				<foreach collection="category" item="category" open="(" close=")" separator=",">
 					#{category}
@@ -104,21 +104,23 @@
 				AND PDT_PRICE BETWEEN #{fromPrice} AND #{toPrice} 
 			</if>
 			<if test="star!=null">
-				<if test="star==1">
-					AND R_AVG BETWEEN 0 AND 1
-				</if>
-				<if test="star==2">
-					AND R_AVG BETWEEN 1 AND 2
-				</if>
-				<if test="star==3">
-					AND R_AVG BETWEEN 2 AND 3
-				</if>
-				<if test="star==4">
-					AND R_AVG BETWEEN 3 AND 4
-				</if>
-				<if test="star==5">
-					AND R_AVG BETWEEN 4 AND 5
-				</if>	
+				 <trim prefix="AND (" suffix=")" prefixOverrides="OR">
+					<if test="star.star1==1">
+						OR (R_AVG BETWEEN 0 AND 1)
+					</if>
+					<if test="star.star2==1">
+						OR (R_AVG BETWEEN 1 AND 2)
+					</if>
+					<if test="star.star3==1">
+						OR (R_AVG BETWEEN 2 AND 3)
+					</if>
+					<if test="star.star4==1">
+						 OR (R_AVG BETWEEN 3 AND 4)
+					</if>
+					<if test="star.star5==1">
+						OR (R_AVG BETWEEN 4 AND 5)
+					</if>
+				</trim> 
 			</if>
 		</trim>
 		GROUP BY T1.PDT_NO
