@@ -216,15 +216,20 @@ textarea.answer {
 <script>
 	$(function() {
 		$(".showBox").click(function() {
-			//상품문의 클릭 시 박스 보였다가 안보였다가 이벤트
-			if ($(this).next().css("display") == "none") {
-				$(this).next().show(1000);
-			} else {
-				$(this).next().hide(1000);
+			//로그인 했을 경우
+			if(${loginMember!=null}){
+				//상품문의 클릭 시 박스 보였다가 안보였다가 이벤트
+				if ($(this).next().css("display") == "none") {
+					$(this).next().show(1000);
+				} else {
+					$(this).next().hide(1000);
+				}
+			//로그인 안 한 경우 로그인 모달 	
+			}else{
+				$("#loginModal").modal('show');
 			}
 		});
 	});
-			
 	
 	
 	//상품문의 자물쇠그림바꾸기 + 비밀글 파라미터값 넘기기
@@ -281,10 +286,10 @@ textarea.answer {
 	}   
 	
 	
-	//구매하기,장바구니,찜하기,상품문의 클릭 시 로그인 체크
+	//구매하기,장바구니,찜하기 클릭 시 로그인 체크
 	$(function() {
 		$(".loginCheck").click(function() {
-			$("#loginModal").modal('show'); 
+			$("#loginModal").modal('show');
 		});
 	});
 	
