@@ -209,6 +209,7 @@ $("#add-option").click(function(){
     addOption+='</tr>';
 
     $("#insert-table").append(addOption);
+   
 });
 
 //옵션 삭제 
@@ -252,6 +253,7 @@ $(document).on("focusout","input[name=pdtOptionAddprice]",function(e) {
 //제품 등록하기 버튼 누르면 실행되는 함수
 function insert(){
     
+
     //유효성검사-카테고리 및 판매상태
     if($("#category").val()==null){
         swal("제품카테고리를 선택해주세요.");
@@ -329,15 +331,18 @@ function insert(){
         return false;
     }
 
-    //옵션 등록하기
+	 //옵션 등록하기
     var list=[];
     var items = document.getElementsByName("pdtOptionContent");
     
     for(var i=0; i<items.length; i++){
-        list.push({"pdtOptionContent":$("input[name=pdtOptionContent]").eq(i).trim().val(),
+        list.push({"pdtOptionContent":$("input[name=pdtOptionContent]").eq(i).val(),
             "pdtOptionAddprice":$("input[name=pdtOptionAddprice]").eq(i).val()});    
     }
     $("#test_list").val(JSON.stringify(list));
+    
+    
+   
 }
 
 //이미지 업로드 
