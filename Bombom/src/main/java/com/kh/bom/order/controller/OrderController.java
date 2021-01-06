@@ -22,6 +22,7 @@ import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.order.model.service.OrderService;
 import com.kh.bom.order.model.vo.Basket;
 import com.kh.bom.order.model.vo.Inbasket;
+import com.kh.bom.order.model.vo.Inorder;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.vo.Point;
 import com.kh.bom.product.model.service.ProductService;
@@ -207,6 +208,16 @@ public class OrderController {
 		String loc = "";
 		String icon = "";
 		if (result > 0) {
+			//결제 완료 후 inorder에 상품 집어넣기
+			//inbasketList를 가져와서 inorder에 넣어주기
+			List<Inbasket> getI = service.selectInbasketList(basketNo);
+			List insertInorder = new ArrayList(); 
+			for(Inbasket i : getI) {
+				//insertInorder = service.insertInorder(Inorder.builder().orderNo(orderNo)
+				//		.pdtNo(i.getPdtNo()).pdtOptionNo(i.getPdtOptionNo()).inorderQty(i.getInbasQty()).build());
+			}
+			//if(insertInorder )
+					
 			//결제api에서 결제가 완료되면 장바구니 비우기
 			int deleteB = service.deleteBasket(basketNo);
 			if(deleteB>0) {

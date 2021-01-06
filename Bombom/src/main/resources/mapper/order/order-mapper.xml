@@ -250,5 +250,13 @@
 	<select id="selectInbasket" parameterType="string" resultMap="inbasketMap">
 		SELECT PDT_OPTION_NO FROM INBASKET WHERE BASKET_NO = #{basketNo} AND PDT_OPTION_NO IS NOT NULL
 	</select>
+	<select id="selectInbasketList" parameterType="string" resultMap="inbasketMap">
+		SELECT * FROM INBASKET WHERE BASKET_NO = #{basketNo}
+	</select>
+	<insert id="insertInorder" parameterType="inorder">
+		INSERT INTO INORDER VALUES(
+			#{orderNo}, #{pdtNo}, #{pdtOptionNo},#{inorderQty}
+		)
+	</insert>
 	
 </mapper>

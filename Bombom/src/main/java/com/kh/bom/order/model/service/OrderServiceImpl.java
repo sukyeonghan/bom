@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.bom.order.model.dao.OrderDao;
 import com.kh.bom.order.model.vo.Basket;
 import com.kh.bom.order.model.vo.Inbasket;
+import com.kh.bom.order.model.vo.Inorder;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.vo.Point;
 
@@ -26,18 +27,18 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public int insertOrder(Order order) {
 		int result = dao.insertOrder(session, order);
-		if(result>0) {
-			//insert 성공하면 inorder에도 insert시키기
+		if (result > 0) {
+			// insert 성공하면 inorder에도 insert시키기
 		}
 		return result;
 	}
 
 	@Override
 	public int deleteBasket(String basketNo) {
-		//int result =  dao.deleteInbasket(session, basketNo);
-		//if(result>0) {
-			int result = dao.deleteBasket(session, basketNo);
-		//}
+		// int result = dao.deleteInbasket(session, basketNo);
+		// if(result>0) {
+		int result = dao.deleteBasket(session, basketNo);
+		// }
 		return result;
 	}
 
@@ -45,7 +46,6 @@ public class OrderServiceImpl implements OrderService {
 	public List<Basket> selectBasket(String memNo) {
 		return dao.selectBasket(session, memNo);
 	}
-	
 
 	@Override
 	public Basket selectBasketOne(String memNo) {
@@ -191,15 +191,25 @@ public class OrderServiceImpl implements OrderService {
 		return result;
 
 	}
-	//회원의 장바구니안에 pdt_option_no 가져오기
+
+	// 회원의 장바구니안에 pdt_option_no 가져오기
 	@Override
 	public List<Inbasket> selectInbasket(String memNo) {
-		 Basket b = dao.selectBasketNo(session, memNo);
-		 List<Inbasket> ii = new ArrayList<Inbasket>();
-		 if(b != null) ii = dao.selectInbasket(session, b.getBasketNo());
-		 return ii;
+		Basket b = dao.selectBasketNo(session, memNo);
+		List<Inbasket> ii = new ArrayList<Inbasket>();
+		if (b != null)
+			ii = dao.selectInbasket(session, b.getBasketNo());
+		return ii;
 	}
-	
-	
+
+	@Override
+	public List<Inbasket> selectInbasketList(String basketNo) {
+		return dao.selectInbasketList(session, basketNo);
+	}
+
+	@Override
+	public int insertInorder(Inorder i) {
+		return dao.insertInorder(session, i);
+	}
 
 }
