@@ -5,6 +5,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
 <style>
 /*상품문의 박스 스타일*/
 div.wrap-category {
@@ -411,7 +413,7 @@ textarea.answer {
 								let thead = $("<thead>")
 								let th = $("<tr>").append($("<th>").html("주문번호"))
 									th.append($("<th>").html("상품이름"))
-									if(data.pdtOptionContent!=null){
+									if(data.pdtOptionContent!=0){
 										th.append($("<th>").html("옵션")) //옵션이 있을때만 노출
 									}
 									th.append($("<th>").html("주문갯수"))
@@ -427,7 +429,7 @@ textarea.answer {
 										tr.append($("<td>").html(v.pdtOptionContent)) //옵션이 있을때만 노출
 									}
 									tr.append($("<td>").html(v.inorderQty))
-									tr.append($("<td>").html(v.ordDate))
+									tr.append($("<td>").html(moment(v.ordDate).format("YYYY.MM.DD HH:mm a"))) //json 날짜 형식 변환
 									
 									let btn = $("<button>").attr({"type":"button","class":"btn btn-outline-success"}).html("선택");
 									//선택한 옵션번호 모달창으로 넘기기
