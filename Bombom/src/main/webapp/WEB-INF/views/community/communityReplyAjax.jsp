@@ -101,23 +101,17 @@
 <script>
 //$(document).on("click",".btn-insert2",e=>{
  function rereply(e){
-	 
- 
     console.log("click2");	
     
-    if($("#reply-content").val()==""){
-		 swal("댓글을 입력해주세요");
-		 return false;
-	 }
-    
     var cmNo = $("#cmNo").val();
-    console.log(cmNo);
+    console.log(cmNo);  
     var memNo = "${loginMember.memNo}";
     console.log(memNo);
     var replyId = $(e.target).prev().val();
     var replyContent = $(e.target).prev().prev().val();
     console.log(e.target);
     e.stopPropagation();
+   
     $.ajax({
     	url:"${path}/community/insertReReply",
     	data:{board_id:cmNo,mem_no:memNo,parent_id:replyId,reply_content:replyContent},

@@ -1,6 +1,7 @@
 package com.kh.bom.point.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,9 @@ public class PointServiceImpl implements PointService {
 	private MemberDao memberDao;
 
 	@Override
-	public List<Point> selectPointList(String memNo,int cPage,int numPerpage) {
+	public List<Point> selectPointList(Map<String,String>map,int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return dao.selectPointList(session,memNo,cPage,numPerpage);
+		return dao.selectPointList(session,map,cPage,numPerpage);
 	}
 
 	@Override
@@ -47,9 +48,15 @@ public class PointServiceImpl implements PointService {
 	}
 
 	@Override
-	public int selectCount(String memNo) {
+	public int selectCount(Map<String, String> map) {
 		// TODO Auto-generated method stub
-		return dao.selectCount(session,memNo);
+		return dao.selectCount(session,map);
+	}
+
+	@Override
+	public int selectTotalPoint(String memNo) {
+		// TODO Auto-generated method stub
+		return dao.selectTotalPoint(session,memNo);
 	}
 	
 	

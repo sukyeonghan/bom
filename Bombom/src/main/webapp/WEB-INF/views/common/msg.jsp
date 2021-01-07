@@ -19,95 +19,95 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
+   <script>
 
-	<script>
-	$(function(){
-		let category="${category}";
-		let caller="";
-		let callerNo="";
-		let message="";
-		let receiverNo="";
-		let bascket="";
-		if(category=="delivery") {
-			//배송시작 메세지
-			//tmpMsg=new TextMessage("주문하신 상품이 배송 시작되었습니다.");
-			
-		}else if(category=="review") {
-			//리뷰 작성 촉구 메세지
-			//tmpMsg=new TextMessage("구매확정되었습니다. 리뷰를 작성해주세요.");
-			
-		}else if(category=="oneQna") {
-			//1:1문의 답변완료 메세지
-			console.log("도착");
-			
-			caller="관리자";
-			callerNo="M0";
-			message="1:1문의글에 답변이 등록되었습니다.";
-			receiverNo="${receiverNo}";
-			
-
-		}else if(category=="productQna") {
-			//상품문의 답변완료 메세지
-			caller="관리자";
-			callerNo="M0";
-			receiverNo="${receiverNo}";
-			bascket="${bascket}";
-			message="'"+bascket+"'상품에 대한 상품문의글에 답변이 등록되었습니다.";
-			//tmpMsg=new TextMessage("상품문의글에 답변이 등록되었습니다.");
-		}else if(category=="communityOut") {
-			//커뮤니티 권한 박탈
-			//tmpMsg=new TextMessage("커뮤니티 권한이 박탈되었습니다.");
-		}else if(category=="communityComment"){
-			//커뮤니티 댓글 여부 
-			//tmpMsg=new TextMessage(caller+"님이 회원님의  '"+bascket+"' 글에 댓글을 달았습니다.");
-		}else if(category=="stamp") {
-			//스탬프 10개 달성 여부 
-			//tmpMsg=new TextMessage("스탬프 10개 달성하였습니다. 선물을 받으러 가세요!");
-		}	
-		if(category!="" && message!=""){
-			sockSend(category,caller, callerNo, message, receiverNo, bascket);
-		}
-	});
-		
-	//알림저장, 소켓전송 함수
-	function sockSend(category, caller, callerNo, message, receiverNo, bascket){
-		$.ajax({
- 	   		type : 'post',
- 	   		url : '${path}/member/insertAlarm',
- 	   	//url : '${path}/member/insertAlarm',
- 	   		data : {receiverNo:receiverNo,message:message}, 
- 	   		dataType : 'json',
- 	   		success : function(data){
- 	   			console.log("ajax성공"+data);
- 	   			if(data===true){
- 	   				console.log("sock:"+sock);
- 	   				if(sock){
- 	   					if(bascket==""||bascket==null){bascket="0"};
- 	   					let socketMsg = category+","+caller+","+callerNo+","+receiverNo+","+bascket;
- 	   					console.log("msg.jsp알림전송내역 : " + socketMsg);
- 	   					sock.send(socketMsg);
- 	   				}
- 	   			}
- 	   		},
- 	   		error : function(err){
- 	   			console.log(err);
- 	   		}
- 	   	});
-	}	
-		
-		
-	swal({
-		  title: "${title}",
-		  text: "${msg}",
-		  icon:"${icon}", //icon 종류 : success,error,warning
-		  button:"확인",
-		  closeOnClickOutside: false,
-		}).then(function(){
-			${opener};
-			${script}; 		
-			location.replace("${pageContext.request.contextPath}${loc}");
-		});
-		
-	</script>
+   
+   $(function(){
+      let category="${category}";
+      let caller="";
+      let callerNo="";
+      let message="";
+      let receiverNo="";
+      let bascket="";
+      if(category=="delivery") {
+         //배송시작 메세지
+         //tmpMsg=new TextMessage("주문하신 상품이 배송 시작되었습니다.");
+         
+      }else if(category=="review") {
+         //리뷰 작성 촉구 메세지
+         //tmpMsg=new TextMessage("구매확정되었습니다. 리뷰를 작성해주세요.");
+         
+      }else if(category=="oneQna") {
+         //1:1문의 답변완료 메세지
+         console.log("도착");
+         
+         caller="관리자";
+         callerNo="M0";
+         message="1:1문의글에 답변이 등록되었습니다.";
+         receiverNo="${receiverNo}";
+ 
+      }else if(category=="productQna") {
+         //상품문의 답변완료 메세지
+         caller="관리자";
+         callerNo="M0";
+         receiverNo="${receiverNo}";
+         bascket="${bascket}";
+         message="'"+bascket+"'상품에 대한 상품문의글에 답변이 등록되었습니다.";
+         
+      }else if(category=="communityOut") {
+         //커뮤니티 권한 박탈
+         //tmpMsg=new TextMessage("커뮤니티 권한이 박탈되었습니다.");
+      }else if(category=="communityComment"){
+         //커뮤니티 댓글 여부 
+         //tmpMsg=new TextMessage(caller+"님이 회원님의  '"+bascket+"' 글에 댓글을 달았습니다.");
+      }else if(category=="stamp") {
+         //스탬프 10개 달성 여부 
+         //tmpMsg=new TextMessage("스탬프 10개 달성하였습니다. 선물을 받으러 가세요!");
+      }   
+      if(category!="" && message!=""){
+         sockSend(category,caller, callerNo, message, receiverNo, bascket);
+      }
+   });
+      
+   //알림저장, 소켓전송 함수
+   function sockSend(category, caller, callerNo, message, receiverNo, bascket){
+      $.ajax({
+             type : 'post',
+             url : '${path}/member/insertAlarm',
+             data : {receiverNo:receiverNo,message:message}, 
+             dataType : 'json',
+             success : function(data){
+                console.log("ajax성공"+data);
+                if(data===true){
+                   console.log("sock:"+sock);
+                   if(sock){
+                      if(bascket==""||bascket==null){bascket="0"};
+                      let socketMsg = category+","+caller+","+callerNo+","+receiverNo+","+bascket;
+                      console.log("msg.jsp알림전송내역 : " + socketMsg);
+                      sock.send(socketMsg);
+                   }
+                }
+             },
+             error : function(err){
+                console.log(err);
+             }
+          });
+   }   
+      
+      
+   swal({
+        title: "${title}",
+        text: "${msg}",
+        icon:"${icon}", //icon 종류 : success,error,warning
+        button:"확인",
+        closeOnClickOutside: false,
+      }).then(function(){
+         ${opener};
+         ${script};       
+         location.replace("${pageContext.request.contextPath}${loc}");
+      });
+      
+   </script>
+   
 </body>
 </html>
