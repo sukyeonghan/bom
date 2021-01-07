@@ -301,14 +301,16 @@ table#tbl-comment textarea {
 		</div>
 
 		<br>
-		<div id="editor"><c:out value="${community.cmContent }" /></div>
+		<div class="editor"><c:out value="${community.cmContent }" /></div>
 				
-				<script>
-				var text = $("#editor").val();
-				console.log(text);
-				var tagRemove = text.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
-				console.log(tagRemove);
-				</script>
+				 <script>
+				 $(function(){
+					 var setTag = ${community.cmContent };
+					var newText = $(".editor").text(setTag);
+					 console.log()
+				 })
+				
+				</script> 
 		<br>		
 		
 <%-- 		<label> Like </label> <i onclick="myFunction(this)"

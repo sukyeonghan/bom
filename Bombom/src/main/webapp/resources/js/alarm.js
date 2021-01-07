@@ -1,3 +1,4 @@
+
    
    function getContextPath() {
       var hostIndex = location.href.indexOf( location.host ) + location.host.length;
@@ -55,6 +56,5 @@
    
    }
     
-       
-      
+
       

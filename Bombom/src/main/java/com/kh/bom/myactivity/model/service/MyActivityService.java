@@ -2,6 +2,7 @@ package com.kh.bom.myactivity.model.service;
 
 import java.util.List;
 
+import com.kh.bom.community.model.vo.BoardReply;
 import com.kh.bom.community.model.vo.Community;
 import com.kh.bom.review.model.vo.Review;
 
@@ -15,8 +16,14 @@ public interface MyActivityService {
 
 	int selectComCount(String memNo);
 
-	List<Review> reviewList(String memNo, int cPage, int numPerpage);
+	List<BoardReply> selectReplyList(String memNo, int cPage, int numPerpage);
 
-	int reviewCount(String memNo);
+	int selectReplyCount(String memNo);
+
+	int deleteMyReview(List<String> revNo);
+
+	int deleteMyCommunity(List<String> cmNo);
+
+	int deleteMyReply(List<String> replyNo);
 
 }

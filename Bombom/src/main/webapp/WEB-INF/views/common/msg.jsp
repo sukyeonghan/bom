@@ -45,7 +45,7 @@
          callerNo="M0";
          message="1:1문의글에 답변이 등록되었습니다.";
          receiverNo="${receiverNo}";
-         
+ 
       }else if(category=="productQna") {
          //상품문의 답변완료 메세지
          caller="관리자";
@@ -108,5 +108,6 @@
       });
       
    </script>
+   
 </body>
 </html>
