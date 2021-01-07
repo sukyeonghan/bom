@@ -172,4 +172,9 @@
 			JOIN  PRODUCT_THUMB ON(P.PDT_NO=PDT_NO_REF) 
 			LEFT JOIN EVENT E ON(P.EVENT_NO_REF=E.EVENT_NO)
 	</select>
+	
+	<!-- 찜하기 갯수 -->
+	<select id="zzimCount" parameterType="string" resultType="int">
+		SELECT COUNT(*) FROM ZZIMCONTENT WHERE PDT_NO=#{pdtNo}
+	</select>
 </mapper>

@@ -226,14 +226,15 @@ textarea.answer {
 										value="${p.inorderQty * p.pdtPrice}" />원</td>
 								<td style="display:none"><c:out value="${p.pdtNo}" /></td>
 								<c:if test="${p.ordStatus =='배송준비' or p.ordStatus =='배송중' or p.ordStatus =='배송완료' }">
-								<c:if test="${p.revYn eq null and p.ordConfirmYn=='Y' }">					
+								<c:if test="${p.ordConfirmYn=='Y' && p.revYn == null}">					
 								<td class="btnTd"><input type="button" class="btn btn-outline-success reviewModal" data-toggle="modal" data-target="#reviewView" value="리뷰작성"></td>
 								</c:if>
-								<c:if test="${p.revYn eq 'Y'}">
+								
+								<c:if test="${p.revYn == 'Y'}">
 								<td class="btnTd"><input type="button" class="btn btn-success" disabled  value="작성완료"></td>
 								</c:if>
-								
 								</c:if>
+								
 							</tr>
 							<c:set var="total" value="${p.inorderQty * p.pdtPrice + total}" />
 						</c:forEach>
