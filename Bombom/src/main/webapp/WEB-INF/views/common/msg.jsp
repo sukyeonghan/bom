@@ -64,12 +64,12 @@ function fnAlarm(){
           callerNo="M0";
           receiverNo="${receiverNo}";
           
-          message="회원님, 스탬프 10개 달성되었습니다. <a href='${path }/mypage/myPointList'>선물</a> 받으러 가세요!";
+          message="회원님, 스탬프 10개 달성되었습니다. <a href='${path }/mypage/stamp'>선물</a> 받으러 가세요!";
       }   
       if(category!="" && message!=""){
          sockSend(category,caller, callerNo, message, receiverNo, bascket);
       }
-   });
+   };
       
    //알림저장, 소켓전송 함수
    function sockSend(category, caller, callerNo, message, receiverNo, bascket){

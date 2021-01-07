@@ -210,6 +210,11 @@ public class OrderController {
 		String msg = "";
 		String loc = "";
 		String icon = "";
+		//알림용
+		String category="";
+		String receiverNo="";
+		String bascket="";
+
 		if (insertO != null) {
 			//결제api에서 결제가 완료되면 장바구니 비우기
 			int deleteB = service.deleteBasket(basketNo);
@@ -222,6 +227,13 @@ public class OrderController {
 				loc = "/";
 				icon = "warning";
 			}
+			
+			//알림용
+			int buyCount=mService.selectMemBuyCount(order.getMemNo());
+			if(buyCount==10) { // 구매횟수가 10개달성시에 알림발생
+				category="stamp";
+				receiverNo=order.getMemNo();				
+			}
 		} else {
 			msg = "결제에 실패했어요ㅠㅠ";
 			loc = "/";
@@ -230,6 +242,10 @@ public class OrderController {
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.addObject("icon", icon);
+		//알림용
+		mv.addObject("category", category);
+		mv.addObject("receiverNo",receiverNo);
+		
 		mv.setViewName("common/msg");
 
 		return mv;

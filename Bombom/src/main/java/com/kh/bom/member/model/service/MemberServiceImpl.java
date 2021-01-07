@@ -119,7 +119,13 @@ public class MemberServiceImpl implements MemberService {
 		return dao.updateMemLastDate(session,memNo);
 	}
 
-	
+	//스탬프용 구매횟수 가져오기
+	@Override
+	public int selectMemBuyCount(String memNo) {
+		// TODO Auto-generated method stub
+		return dao.selectMemBuyCount(session,memNo);
+	}
+
 	
 	
 }
