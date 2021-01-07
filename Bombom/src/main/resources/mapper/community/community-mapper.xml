@@ -310,4 +310,29 @@
   	<select id="selectComCount" parameterType="string" resultType="_int">
   		SELECT COUNT(*) FROM COMMUNITY WHERE CM_WRITER=#{memNo}
   	</select>
+  	<!--내가 쓴 댓글  -세민  -->
+  	<select id="selectMyReplyList" parameterType="string" resultMap="boardReplyMap">
+  		SELECT * FROM BOARD_REPLY WHERE MEM_NO=#{memNo}
+  	</select>
+  	<!--내가 쓴 댓글 카운트 -sm  -->
+  	<select id="selectMyReplyCount" parameterType="string" resultType="_int">
+  		SELECT COUNT(*) FROM BOARD_REPLY WHERE MEM_NO=#{memNo}
+  	</select>
+  	<!--나의활동 커뮤글 삭제 sm  -->
+  	<delete id="deleteMyCommunity" parameterType="arrayList">
+		DELETE FROM COMMUNITY
+		WHERE CM_NO IN 
+		<foreach item="cmNo" index="index" collection="list" open="(" separator="," close=")">
+		(#{cmNo})
+		</foreach>
+		
+	</delete>
+	<!--나의활동  댓글 삭제 sm-->
+	<delete id="deleteMyReply" parameterType="arrayList">
+		DELETE FROM BOARD_REPLY 
+		WHERE REPLY_ID IN
+		<foreach item="replyNo" index="index" collection="list" open="(" separator="," close=")">
+		(#{replyNo})
+		</foreach>
+	</delete>
 </mapper>

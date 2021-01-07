@@ -229,7 +229,7 @@ textarea.answer {
 								<c:if test="${p.revYn eq null and p.ordConfirmYn=='Y' }">					
 								<td class="btnTd"><input type="button" class="btn btn-outline-success reviewModal" data-toggle="modal" data-target="#reviewView" value="리뷰작성"></td>
 								</c:if>
-								<c:if test="${p.revYn=='Y'}">
+								<c:if test="${p.revYn eq 'Y'}">
 								<td class="btnTd"><input type="button" class="btn btn-success" disabled  value="작성완료"></td>
 								</c:if>
 								
@@ -281,7 +281,7 @@ textarea.answer {
 								value="${order.ordDeliPrice}" />원</td>
 					</tr>
 					<tr>
-						<th>포인트결제액</th>
+						<th>적립금사용</th>
 						<td><fmt:formatNumber pattern="#,###,###"
 								value="${order.ordUsePoint}" />봄</td>
 					</tr>

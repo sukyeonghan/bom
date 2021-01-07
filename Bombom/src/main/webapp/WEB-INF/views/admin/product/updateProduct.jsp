@@ -9,8 +9,8 @@
 <style>
   	/*사진 미리보기 div*/
     .proDiv{
-    	border:1px solid black;
-    	width:100%;
+    	border:1px solid #ccc;
+    	width:150px;
     	height:150px;
     	position:relative;
     	float:left;
@@ -18,12 +18,7 @@
     	background-size:100% 100%;
     	background-position:center;
     }
-	/*옵션 관련 */
-    .addprice{width:70%}
-    .addprice2{width:80%}
-    .btnCss{margin-left:15px;}
-    /*설명 textarea*/
-    #intro-text{width:100%;}
+
 </style>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -49,7 +44,7 @@
 						<td>
 						<!-- 검색 카테고리 -->
 							<div class="select-box">
-								<select class="sort" id="category" name="pdtCategory">
+								<select class="sort w3-select" id="category" name="pdtCategory">
 									<option value="식품" ${product.pdtCategory=='식품'?"selected":"" }>식품</option>
 									<option value="잡화" ${product.pdtCategory=='잡화'?"selected":"" }>잡화</option>
 									<option value="주방" ${product.pdtCategory=='주방'?"selected":"" }>주방</option>
@@ -63,7 +58,7 @@
 						<td>
 							<!-- 판매상태 카테고리 -->
 							<div class="select-box">
-								<select class="sort" id="status" name="pdtStatus">
+								<select class="sort w3-select" id="status" name="pdtStatus">
 									<option value="Y" ${product.pdtStatus=='Y'?"selected":"" }>Y</option>
 									<option value="N" ${product.pdtStatus=='N'?"selected":"" }>N</option>
 								</select>
@@ -72,16 +67,16 @@
 					</tr>
 					<tr>
 						<th>제품명</th>
-						<td><input type="text" id="name" class="text" name="pdtName" value="${product.pdtName }" ></td>
+						<td><input type="text" id="name" class="text w3-input" name="pdtName" value="${product.pdtName }" ></td>
 						<th>제품기본가격</th>
-						<td><input type="text" id="price" class="text" name="pdtPrice" value="${product.pdtPrice }" ></td>
+						<td><input type="text" id="price" class="text w3-input" name="pdtPrice" value="${product.pdtPrice }" ></td>
 					</tr>
 					<tr>
 						<th>이벤트</th>
 						<td colspan="3">
 						<!-- 이벤트 카테고리 -->
 							<div class="select-box">
-								<select class="sort" id="eventSelect" name="eventNoRef">
+								<select class="sort w3-select" id="eventSelect" name="eventNoRef">
 									<c:choose>
 										<c:when test="${not empty eventList && not empty event.eventNo}">
 										<!-- 이벤트 목록도 있고 이전에 선택한 이벤트가 있는 경우 -->
@@ -123,12 +118,12 @@
 							<tr class="trOption" name="trOption">
 								<th>&nbsp&nbsp옵션 내용</th>
        							<td>
-       								<input type="text" class="content" name="pdtOptionContent" value="${o.pdtOptionContent}">
+       								<input type="text" class="content w3-input" name="pdtOptionContent" value="${o.pdtOptionContent}">
        								<input type="hidden" name="optNo" value="${o.pdtOptionNo}">
        							</td>
         						<th>추가 요금</th>
-        						<td>
-        							<input type="text" class="addprice" name="pdtOptionAddprice" value="${o.pdtOptionAddprice }">
+        						<td class="td-flex">
+        							<input type="text" class="addprice w3-input" name="pdtOptionAddprice" value="${o.pdtOptionAddprice }">
 	        						<c:choose>
 	        							<c:when test="${ o.pdtOptionStatus eq 'Y'}">
 	        								<input type="button" class="btn btn-success btn-sm btnCss" name="optionStatus" value="품절" onclick="">
@@ -149,8 +144,12 @@
 				<!-- 제품 설명 -->
 				<div id="middle-div">
 					<p class="title" id="product-intro">간단한 제품 설명</p>
-					<textarea id="intro-text" rows="5" cols="130" placeholder="65자 이내로 적어주세요" name="pdtIntro" required><c:out value="${product.pdtIntro }"/>
-					</textarea>
+					<span id="text-span">
+						<textarea id="intro-text" rows="5" placeholder="65자 이내로 적어주세요" name="pdtIntro" onKeyUp="javascript:fnChkByte1(this,'200')"></textarea>
+						<div style="float:right;">
+							<span id="byteInfo1">0</span>/200bytes
+						</div>
+					</span>
 				</div>
 				
 				<!-- 제품 썸네일,상세 이미지 등록 -->
@@ -305,9 +304,9 @@
 	    var addOption="";
 	    addOption+='<tr name="trOption">';
 	    addOption+='<th>&nbsp&nbsp옵션 내용</th>';
-	    addOption+='<td><input type="text" class="content" id="content" name="pdtOptionContent"></td>';
-	    addOption+='<th>추가 요금</th>';
-	    addOption+='<td><input type="text" class="addprice2" name="pdtOptionAddprice">';
+	    addOption+='<td><input type="text" class="content w3-input" id="content" name="pdtOptionContent"></td>';
+	    addOption+='<th class="margin">추가 요금</th>';
+	    addOption+='<td class="td-flex"><input type="text" class="addprice2 w3-input" name="pdtOptionAddprice" placeholder="제품기본가격에 추가되는 요금을 적어주세요.">';
 	    addOption+='<input type="button" class="btn btn-success btn-sm btnCss" name="delBtn" value="삭제"></td>';
 	    addOption+='</tr>';
 	
@@ -553,4 +552,34 @@
 			}
 		})
 	})
+	
+	//제품설명 Byte 수 체크 제한
+	function fnChkByte1(obj, maxByte) {
+	  var str = obj.value;
+	  var str_len = str.length;
+	  var rbyte = 0;
+	  var rlen = 0;
+	  var one_char = "";
+	  var str2 = "";
+	  for(var i = 0; i<str_len; i++) {
+	    one_char = str.charAt(i);
+	    if(escape(one_char).length > 4) {
+	      rbyte += 3; //한글2Byte
+	    }else{
+	      rbyte++; //영문 등 나머지 1Byte
+	    }
+	    if(rbyte <= maxByte){
+	      rlen = i + 1; //return할 문자열 갯수
+	    }
+	  }
+	  if(rbyte > maxByte) {
+	    // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
+	    swal("제품설명은 최대 " + maxByte + "byte를 초과할 수 없습니다.");
+	    str2 = str.substr(0, rlen); //문자열 자르기
+	    obj.value = str2;
+	    fnChkByte1(obj, maxByte);
+	  }else{
+	    document.getElementById("byteInfo1").innerText = rbyte;
+	  }
+	}   
 </script>

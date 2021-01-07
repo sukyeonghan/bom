@@ -130,10 +130,10 @@ button:focus {
 					<table class="table">
 						<thead>
 							<tr>
-								<th style="width:5%"><input type="checkbox"></th>
+								<th style="width:5%"><input type="checkbox" id="selectAll" onclick="selectAll();"></th>
 								<th style="width:15%">작성날짜</th>
 								<th style="width:30%">상품명</th>
-								<th>글 내용</th>
+								<th>구매평</th>
 
 							</tr>
 						</thead>
@@ -145,7 +145,10 @@ button:focus {
 							</c:if>
 							<c:forEach items="${review }" var="r">
 								<tr>
-									<td><input type="checkbox"></td>
+									<td>
+										<input type="checkbox" name="check" value="check">
+										<input type="hidden" name="delNum" value="${r.revNo }">
+									</td>
 									<td><fmt:formatDate type="date" timeStyle="short"
 											value="${r.revDate }" /></td>
 									<td><a class="reviewContent" href="${path }/product/productOne?pdtNo=${r.pdtNo}"><c:out value="${r.pdtName}"/></a></td>
@@ -156,7 +159,7 @@ button:focus {
 					</table>
 					<div class="pageBar">${pageBarR }</div>
 					<div id="btn-container">
-						<button type="button" class="btn btn-success">선택삭제</button>
+						<button type="button" class="btn btn-success" onclick="deleteMyReview();">선택삭제</button>
 					</div>
 				</div>	
 				<!--구매평 끝  -->
@@ -203,7 +206,6 @@ $("#myCommunity").click(e=>{
 		type:"get",
 		dataType:"html",
 		success:data=>{
-			console.log('하하');
 			$("#result").html("");
 			$("#result").html(data);
 			
@@ -211,18 +213,112 @@ $("#myCommunity").click(e=>{
 	});
 });
 
+//커뮤니티글 눌렀을 때
+$("#myReply").click(e=>{
+	//console.log($(e.target).html());
+	//$("#review").css("font":"white");
+	$.ajax({
+		url:"${path}/mypage/myReply",
+		type:"get",
+		dataType:"html",
+		success:data=>{
+			$("#result").html("");
+			$("#result").html(data);
+			
+		}
+	});
+});
+/* $(document).on("click",".shortReview"),e=>{
+let content=$(e.target).text();
+$(".fullReview").text(content);
+}*/
 //글 내용 눌렀을때 
 function modelDetail(e){
 	let content=$(e.target).text();
 	$(".fullReview").text(content);
 }
 
+//전체선택
+	let checkAll = "false";
+	let items = document.getElementsByName("check");
+	function selectAll() {
+		
+		if (checkAll == "false") {
+			for (let i = 0; i < items.length; i++) {
+				items[i].checked = true;
+			}
+			checkAll = "true";
+		} else {
+			for (let i = 0; i < items.length; i++) {
+				items[i].checked = false;
+			}
+			checkAll = "false";
+		}
+	}
 
-/* $(document).on("click",".shortReview"),e=>{
-	let content=$(e.target).text();
-	$(".fullReview").text(content);
-}
- */
+//구매평선택 삭제
+	function deleteMyReview(){
+		if(confirm("정말 삭제하시겠습니까?")==true){
+			
+			var list=new Array();   
+	        for (var i=0; i<items.length; i++){
+	        	var check=$("input[name=check]").eq(i);
+	            if(check.is(":checked")){
+	            	//체크 되어있으면 해당 제품번호를 list에 넣기
+	 				check.next().each(function(index,item){
+	    				list.push($(item).val());
+	    			}); 
+	            }
+	        }
+	        
+	        location.href='${path}/mypage/deleteMyReview?revNo='+list;
+		}else{
+			return false;
+		}
+	    
+	}
+//커뮤글 선택삭제
+	function deleteMyCommunity(){
+		if(confirm("정말 삭제하시겠습니까?")==true){
+			
+			var list=new Array();   
+	        for (var i=0; i<items.length; i++){
+	        	var check=$("input[name=check]").eq(i);
+	            if(check.is(":checked")){
+	            	//체크 되어있으면 해당 제품번호를 list에 넣기
+	 				check.next().each(function(index,item){
+	    				list.push($(item).val());
+	    			}); 
+	            }
+	        }
+	        
+	        location.href='${path}/mypage/deleteMyCommunity?cmNo='+list;
+		}else{
+			return false;
+		}
+	}
+
+
+//댓글 선택삭제
+	function deleteMyReply(){
+		if(confirm("정말 삭제하시겠습니까?")==true){
+			
+			var list=new Array();   
+	        for (var i=0; i<items.length; i++){
+	        	var check=$("input[name=check]").eq(i);
+	            if(check.is(":checked")){
+	            	//체크 되어있으면 해당 제품번호를 list에 넣기
+	 				check.next().each(function(index,item){
+	    				list.push($(item).val());
+	    			}); 
+	            }
+	        }
+	        
+	        location.href='${path}/mypage/deleteMyReply?replyNo='+list;
+		}else{
+			return false;
+		}
+	}
 	
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

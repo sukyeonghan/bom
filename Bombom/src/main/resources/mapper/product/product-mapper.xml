@@ -63,7 +63,7 @@
 				,MAX(EVENT_SALE_PER)   AS EVENT_SALE_PER
 				,MAX(THUMBS)		   AS THUMBS
 				,MAX(Z.Z_CNT)		   AS ZZIM_COUNT
-				,MAX(R.R_CNT)		   AS REVIEW
+				,MAX(R.R_CNT)		   AS REVIEW_COUNT
 				,MAX(ROUND((R_AVG),1)) AS AVG
 				,MAX(NEW_YN)           AS NEW_YN
 		FROM (   
@@ -135,7 +135,7 @@
 				ORDER BY REVIEW_COUNT DESC
 			</if>
 			<if test="sort=='할인율순'">
-				ORDER BY CASE WHEN E.EVENT_SALE_PER>0 THEN 0 ELSE 1 END
+				ORDER BY CASE WHEN EVENT_SALE_PER>0 THEN 0 ELSE 1 END
 			</if>
 			<if test="sort == '낮은가격순'">
 				ORDER BY PDT_PRICE

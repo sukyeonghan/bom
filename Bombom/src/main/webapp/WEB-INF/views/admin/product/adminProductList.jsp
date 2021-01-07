@@ -131,11 +131,11 @@
 				</div>
 			</div>		
 			
-			<div id="result">
+			
 			
 				<div class="count-filter">
 					<!-- 카테고리별 개수 -->
-					<p id="count">총  ${count }개</p>
+					<p id="count">총  <span id="countResult">${count }</span>개</p>
 					<!--카테고리 정렬  -->
 					<div class="select-box">
 						<select class="sort" name="filter">
@@ -151,7 +151,8 @@
 				</div>
 				
 			
-			
+			<div id="result">
+			<input type="hidden" name="filterAjax" value="input[name=filter].val()">
 				<!-- 제품관리 테이블 -->
 				<div id="product-table-wrap" >
 					<table id="product-table" class="table table-hover">
@@ -239,7 +240,7 @@
 						</select>
 					</div>
 					<input type="text" id="search-text"  class="form-control"  name="keyword">
-					<button class="btn btn-success" id="search-btn">검색</button>
+					<button class="btn btn-success" id="search-btn" onclick="search();">검색</button>
 				</div>
 				
 			</div><!-- result 끝 -->
@@ -302,46 +303,54 @@
 			type:"get",
 			dataType:"html",
 			success:data=>{
-				console.log(data);
 				$("#result").html(data);
+				let count=$("#result").html(data).find('input[name=count]').val();
+				$("#countResult").text(count);
 			}
 		});
 	});
 	
 	//상품 검색 분류
 	var category=$("select[name=filter]").val().trim();
-	$("#search-btn").on("click",e=>{
-
+	function search(){
 		if($("select[name=searchSort]").val()==""){
 			swal("검색 타입을 설정해주세요.");
+		}else if($("#search-text").val()==""){
+			swal("검색어를 입력해주세요.");
+		}else{
+			//검색 타입과 검색어를 입력했으면
+			$.ajax({
+				
+				url:"${path}/admin/productSearchAjax",
+				data:{"searchType":$("select[name=searchSort]").val(),"keyword":$("#search-text").val().trim(),"sort":category},
+				type:"get",
+				dataType:"html",
+				success:data=>{
+					
+					$("#result").html("");
+					var tbody=$("#result").html(data).find('tbody');
+					var tr=tbody.find('tr');
+					//검색 결과가 없으면
+					if(tr.length==1){
+						let tr=$("<tr>").html();
+						let td=$("<td colspan=9>").html("해당하는 제품이 없습니다.");
+						tbody.append(td);
+						tbody.append(tr);
+						$("#countResult").text('0');
+						
+					} else {
+						$("#result").html(data);
+						let count=$("#result").html(data).find('input[name=count]').val();
+						console.log(count);
+						$("#countResult").text(count);
+					}
+					
+					
+				}
+			});
 		}
 		
-		$.ajax({
-			
-			url:"${path}/admin/productSearchAjax",
-			data:{"searchType":$("select[name=searchSort]").val(),"keyword":$("#search-text").val().trim(),"sort":category},
-			type:"get",
-			dataType:"html",
-			success:data=>{
-				
-				$("#result").html("");
-				var tbody=$("#result").html(data).find('tbody');
-				var tr=tbody.find('tr');
-				//검색 결과가 없으면
-				if(tr.length==1){
-					let tr=$("<tr>").html();
-					let td=$("<td colspan=9>").html("해당하는 제품이 없습니다.");
-					tbody.append(td);
-					tbody.append(tr);
-					
-				} else {
-					$("#result").html(data);
-				}
-				
-				
-			}
-		});
-	});
+	}
 
 </script>
 
