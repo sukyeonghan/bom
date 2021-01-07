@@ -22,7 +22,7 @@
    <script>
 
    
-   $(function(){
+function fnAlarm(){
       let category="${category}";
       let caller="";
       let callerNo="";
@@ -60,6 +60,11 @@
       }else if(category=="stamp") {
          //스탬프 10개 달성 여부 
          //tmpMsg=new TextMessage("스탬프 10개 달성하였습니다. 선물을 받으러 가세요!");
+    	  caller="관리자";
+          callerNo="M0";
+          receiverNo="${receiverNo}";
+          
+          message="회원님, 스탬프 10개 달성되었습니다. <a href='${path }/mypage/myPointList'>선물</a> 받으러 가세요!";
       }   
       if(category!="" && message!=""){
          sockSend(category,caller, callerNo, message, receiverNo, bascket);
