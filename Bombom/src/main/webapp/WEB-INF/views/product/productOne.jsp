@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 <!-- 카카오 공유하기 -->
-<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" >
    <jsp:param name="title" value="" />
@@ -533,7 +533,8 @@ button:focus {
 				        
 				        <!-- Modal body --> 
 				        <div class="modal-body container">
-				        	<a id="kakao-link-btn" href="sendLink()">카카오톡</a>
+				        	<input type="button" onClick="sendLinkCustom();" value="카카오톡"/>
+				        	<input type="button" onClick="sendLinkDefault();" value="카카오톡 테스트"/>
 				        	<br>
 				        	<input type="text" id="shareURL"><span class="showuri"></span><button type="button" class="btn btn-success" onclick="clipboard()">URI 복사</button>
 				        </div>
@@ -553,7 +554,42 @@ button:focus {
 				  	}
 				  	
 				  	//카카오톡 공유하기
+			  	    function sendLinkCustom() {
+				        Kakao.init("4492568a20927e961a8020c6aff51064");
+				        Kakao.Link.sendCustom({
+				            templateId: 44221
+				        });
+				    }
 				  	
+				  	//카카오톡 기본 공유하기
+				  	let pdtNo = $("#pdtNo").val();
+				  	
+				  	try {
+					  function sendLinkDefault() {
+					    Kakao.init('4492568a20927e961a8020c6aff51064')
+					    Kakao.Link.sendDefault({
+					      objectType: 'feed',
+					      content: {
+					        title: '유기농면 프로듀스백(S/M/L)',
+					        description: '#제로웨이스트',
+					        imageUrl:
+					        	'https://rclass.iptime.org/20PM_BOM_final/resources/upload/product/thm20201210_032017496_717.jpg',
+					        link: {
+					          webUrl: 'https://rclass.iptime.org/20PM_BOM_final/product/productOne?pdtNo='+pdtNo,
+					        },
+					      },
+					      buttons: [
+					        {
+					          title: '자세히 보기',
+					          link: {
+					            webUrl: 'https://rclass.iptime.org/20PM_BOM_final/product/productOne?pdtNo='+pdtNo
+					          },
+					        },
+					      ],
+					    })
+					  }
+					; window.kakaoDemoCallback && window.kakaoDemoCallback() }
+					catch(e) { window.kakaoDemoException && window.kakaoDemoException(e) }
 				  </script>
 
                     
