@@ -172,13 +172,17 @@ public class OrderController {
 //		List<Inbasket> qtyList = new ArrayList<Inbasket>();
 //		int qty = b.getInbasQty();
 //		System.out.println("------수량: " + qty);
-
+		
+		//상품담을 리스트
 		List<Product> list = new ArrayList<Product>();
 		String[] productNo = b.getPdtNo().split(",");
 		for (String no : productNo) {
 			Product p = productService.selectProductOne(no);
 			list.add(p);
-		}
+		}//왜쓴거지..?
+		
+		
+		
 		// 장바구니 리스트 가져오기
 		List<Basket> blist = service.selectBasket(m.getMemNo());
 
