@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Basket {
+	private int rn;
 	private String basketNo;
 	private String memNo;
 	private String pdtNo;
