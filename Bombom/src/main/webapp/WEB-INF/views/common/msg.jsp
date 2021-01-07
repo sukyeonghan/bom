@@ -21,8 +21,8 @@
 <body>
    <script>
 
-   
-   $(function(){
+function fnAlarm(){
+	
       let category="${category}";
       let caller="";
       let callerNo="";
@@ -66,8 +66,9 @@
       }   
       if(category!="" && message!=""){
          sockSend(category,caller, callerNo, message, receiverNo, bascket);
+         console.log("보낸다"+category+caller+callerNo+ message+ receiverNo+ bascket);
       }
-   });
+   }
       
    //알림저장, 소켓전송 함수
    function sockSend(category, caller, callerNo, message, receiverNo, bascket){
@@ -108,5 +109,6 @@
       });
       
    </script>
+   
 </body>
 </html>

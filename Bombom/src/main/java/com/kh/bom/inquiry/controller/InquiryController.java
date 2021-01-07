@@ -66,6 +66,7 @@ public class InquiryController {
 			category="productQna";
 			receiverNo=receiver;
 			bascket=pdtName;
+			System.out.println("컨트롤러에서"+msg+receiverNo+bascket);
 		}else {
 			msg = "답변을 다시 등록해주세요";
 			icon = "warning";

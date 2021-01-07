@@ -15,11 +15,15 @@
    
    function connectWS(){
       
-      sock = new SockJS(window.location.origin+getContextPath()+'/replyEcho');
+      sock = new SockJS('http://localhost:9090'+getContextPath()+'/replyEcho');
    
        sock.onopen = function() {
            console.log('open');
            sock.send('test');
+           console.log(typeof fnAlarm);
+           if(typeof fnAlarm=='function'){
+           		fnAlarm();
+           }
        };
        
        sock.onmessage = function(e) {
