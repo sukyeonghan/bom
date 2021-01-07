@@ -171,7 +171,7 @@
                   <td><c:out value="${o.ordOname}"/></td>
                   <td><fmt:formatNumber pattern="#,###" value="${o.ordAmount}"/>원</td>
                   <td>
-                    <select class="form-control status" id="category">
+                    <select class="form-control status" class="category">
 	                    <option value="주문대기" ${o.ordStatus eq "주문대기"? "selected":"" }>주문대기</option>
 	                    <option value="주문완료" ${o.ordStatus eq "주문완료"? "selected":"" }>주문완료</option>
 	                    <option value="주문취소" ${o.ordStatus eq "주문취소"? "selected":"" }>주문취소</option>
@@ -184,7 +184,7 @@
                     </select>
                   </td>
                   <td>
-                    <input type="button" value="적용" id="updateShip" class="btn btn-outline-success updateShip" >
+                    <input type="button" value="적용" class="btn btn-outline-success updateShip" >
 					<%-- <input type="hidden" id= "orderNo" value="${o.orderNo }"/> --%>
                     
                   </td>
@@ -213,7 +213,9 @@
 			console.log(orderNo);
 	 			
 	 		$(".updateShip").on("click",e=>{
+ 					
 	 				location.replace("${path}/admin/orderShipUpdate?orderNo="+orderNo+"&ordStatus="+ordStatus);
+
 	 			});
 		
 	 		
