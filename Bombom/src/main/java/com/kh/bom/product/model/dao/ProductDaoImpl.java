@@ -63,6 +63,10 @@ public class ProductDaoImpl implements ProductDao {
 		return session.selectList("product.slidelist");
 	}
 
+	@Override
+	public int zzimCount(SqlSession session, String pdtNo) {
+		return session.selectOne("product.zzimCount", pdtNo);
+	}
 
 	@Override
 	public List<Product> selectProductList(SqlSession session, int cPage, int numPerPage, Product p) {
@@ -78,6 +82,7 @@ public class ProductDaoImpl implements ProductDao {
 		map.put("category", category);
 		return session.selectOne("product.selectMaxPrice",map);
 	}
+
 
 
 }
