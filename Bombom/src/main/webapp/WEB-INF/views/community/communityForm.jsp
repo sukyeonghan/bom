@@ -59,9 +59,8 @@ $(document).ready(function () {
      CKEDITOR.replace( 'cmContent', {//해당 이름으로 된 textarea에 에디터를 적용
          width:'100%',
          height:'450px',
-         filebrowserImageUploadUrl:'${path}/ckeditor/imageUpload' //여기 경로로 파일을 전달하여 업로드 시킨다.
-      	 
-      });
+         filebrowserImageUploadUrl:'${path}/ckeditor/imageUpload', //여기 경로로 파일을 전달하여 업로드 시킨다.
+     });
        
      CKEDITOR.on('dialogDefinition', function( ev ){
         var dialogName = ev.data.name;
@@ -75,7 +74,8 @@ $(document).ready(function () {
                 break;
         		}
          });  
- 
+     
+    
 
              
 });

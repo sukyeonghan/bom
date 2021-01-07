@@ -141,8 +141,9 @@ public class CommunityController {
 		
 		service.communityView(cmNo); //조횟수
 		
-		mv.addObject("community", service.selectCommunityOne(cmNo));
 		
+		
+		mv.addObject("community", service.selectCommunityOne(cmNo));
 		mv.setViewName("community/communityView");
 
 		return mv;
@@ -232,10 +233,10 @@ public class CommunityController {
 		String icon = "";
 		if (result > 0) {
 			msg = "글 수정 성공";
-			loc = "/community/communityList";
+			loc = "/community/communityView.do?cmNo=" + community.getCmNo();
 		} else {
 			msg = "글 수정 실패";
-			loc = "/community/updateCommunity?cmNo=" + community.getCmNo();
+			loc = "/community/updateCommunityView.do?cmNo=" + community.getCmNo();
 			icon = "warning";
 		}
 		mv.addObject("msg", msg);

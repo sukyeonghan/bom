@@ -276,6 +276,34 @@ table#tbl-comment textarea {
 }
 
 </style>
+<!-- CK에디터. CDN -->
+<script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script> 
+<script>
+$(document).ready(function () {
+     CKEDITOR.replace( 'cmContent', {//해당 이름으로 된 textarea에 에디터를 적용
+         width:'100%',
+         height:'450px',
+         filebrowserImageUploadUrl:'${path}/ckeditor/imageUpload', //여기 경로로 파일을 전달하여 업로드 시킨다.
+     });
+       
+     CKEDITOR.on('dialogDefinition', function( ev ){
+        var dialogName = ev.data.name;
+        var dialogDefinition = ev.data.definition;
+      
+        switch (dialogName) {
+            case 'image': //Image Properties dialog
+                //dialogDefinition.removeContents('info');
+                dialogDefinition.removeContents('Link');
+                dialogDefinition.removeContents('advanced');
+                break;
+        		}
+         });  
+     
+    
+
+             
+});
+</script>
 <section id="content" class="container">
 
 	<!-- 커뮤니티 섹션 시작 -->
@@ -285,11 +313,9 @@ table#tbl-comment textarea {
 				src="${path }/resources/upload/community/${community.cmThumbnail}"
 				width="800" height="300">
 		</div>
-		<input type="hidden" value="${community.cmNo }" name="cmNo" id="cmNo"> <br>
-		<input type="text" class="form-control w3-input title" name="cmTitle"
-			placeholder="제목을 입력해주세요"
-			value='<c:out value="${community.cmTitle }"/>' required><br>
-
+			<input type="hidden" value="${community.cmNo }" name="cmNo" id="cmNo"> <br>
+			<input type="text" class="form-control w3-input title" name="cmTitle" placeholder="제목을 입력해주세요"
+				 value='<c:out value="${community.cmTitle }"/>' required> <br>
 		<div>
 			<fmt:formatDate pattern="yyyy-MM-dd" value="${community.cmDate }" />
 			<p>
@@ -301,16 +327,20 @@ table#tbl-comment textarea {
 		</div>
 
 		<br>
-		<div class="editor"><c:out value="${community.cmContent }" /></div>
+		<textarea name="cmContent" id="cmContent" rows="5" cols="60" readonly><c:out value="${community.cmContent }"/></textarea>
+			<script>
+				//ckeditor 적용
+			  	ClassicEditor
+			  	.create(document.querySelector('#cmContent'))
+			  	.catch(error=>{
+			  		console.error(error);
+			  	});
 				
-				 <script>
-				 $(function(){
-					 var setTag = ${community.cmContent };
-					var newText = $(".editor").text(setTag);
-					 console.log()
-				 })
+	
+			</script>
+	
+		
 				
-				</script> 
 		<br>		
 		
 <%-- 		<label> Like </label> <i onclick="myFunction(this)"
@@ -330,6 +360,27 @@ table#tbl-comment textarea {
 		  </div>
 		</div>
 		<br>
+		
+		<form id="myform">
+	   		<span>
+				<script type="text/javascript" src="https://ssl.pstatic.net/share/js/naver_sharebutton.js"></script>
+				<script type="text/javascript">
+				new ShareNaver.makeButton({"type": "c"});
+				</script>
+			</span>
+  		</form>
+  		<script>
+		    function share() {
+		      var url = encodeURI(encodeURIComponent(myform.url.value));
+		      var title = encodeURI(myform.title.value);
+		      var shareURL = "https://share.naver.com/web/shareView.nhn?url= http%3a%2f%2frclass.iptime.org%3a9999%2f20PM_BOM_final%2f" ;
+		      document.location = shareURL;
+		    }
+ 		 </script>
+ 		 <span>kakao</span>
+ 		 <script>
+ 		 
+ 		 </script>
 
 
 		<!-- 해당 게시글 작성자에게만 수정 / 삭제 버튼 보인다 -->

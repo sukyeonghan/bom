@@ -18,7 +18,7 @@
 				<span class="reply-writer"><strong><c:out value="${reply.mem_nick }" /></strong></span> 
 				<span class="comment-date"><fmt:formatDate pattern="yyyy. MM. dd HH:mm" value="${reply.register_datetime }" /></span>
 				<br> <br>
-				<c:if test="${reply.com_status eq null }">
+				<c:if test="${reply.com_status eq null or reply.com_status == 'N'}">
 				<div> <c:out value="${reply.reply_content }" /> </div>
 				</c:if>
 				<c:if test="${reply.com_status eq 'Y' }">
@@ -41,7 +41,9 @@
 								신고하기 
 								</span>
 								</c:if>&nbsp;&nbsp;
+								<c:if test="${loginMember.memNick eq reply.mem_nick or loginMember.memManagerYn == 'Y' }">
 			       				<span class="reply-btnbox" onclick="fn_deleteReply();">삭제하기</span>
+			       				</c:if>
 						</div>
 					</div>
 					<div class="replyDiv" style="display: none;">
@@ -62,7 +64,12 @@
 							value="${reply.childReply.mem_nick }" /></span> <span><c:out
 							value="${reply.childReply.register_datetime }" /></span> <br>
 					<div>
+					<c:if test="${reply.com_status eq null or reply.com_status == 'N'}">
 						<c:out value="${reply.childReply.reply_content }" />
+					</c:if>
+					<c:if test="${reply.com_status eq 'Y' }">
+						<div style="color:red;"> 부절절한 댓글 입니다. </div>
+					</c:if>
 					</div>
 						<div>
 						<div class="text-right">
@@ -78,7 +85,9 @@
 							    </span>
 								</c:if>
 								  &nbsp;&nbsp;
+								  <c:if test="${loginMember.memNick eq reply.mem_nick or loginMember.memManagerYn == 'Y' }">
 					       		<span class="reply-btnbox" onclick="fn_deleteReply();">삭제하기</span>
+					       		</c:if>
 						</div>
 					</div>
 				<td></td>
