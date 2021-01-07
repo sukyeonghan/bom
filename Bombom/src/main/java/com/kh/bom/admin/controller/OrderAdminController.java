@@ -25,7 +25,7 @@ public class OrderAdminController {
 	@RequestMapping("/admin/order")
 	public ModelAndView orderList(ModelAndView mv,
 			@RequestParam(value = "cPage", defaultValue = "0") int cPage,
-			@RequestParam(value = "numPerpage", defaultValue = "5") int numPerpage) {
+			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage) {
 		
 		Order order=new Order();
 		mv.addObject("list", service.selectOrderList(cPage, numPerpage ));
@@ -92,7 +92,7 @@ public class OrderAdminController {
 			@RequestParam(value = "searchType", defaultValue = "") String searchType, 
 			@RequestParam(value = "keyword", defaultValue ="") String keyword,
 			@RequestParam(value = "cPage", defaultValue = "0") int cPage,
-			@RequestParam(value = "numPerpage", defaultValue = "5") int numPerpage) {		
+			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage) {		
 		System.out.println(searchType);
 		System.out.println(keyword);
 		System.out.println(sort);

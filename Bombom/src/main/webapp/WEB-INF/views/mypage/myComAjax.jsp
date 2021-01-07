@@ -13,7 +13,7 @@
 								<th style="width:5%"><input type="checkbox" id="selectAll" onclick="selectAll();"></th>
 								<th style="width:15%">작성날짜</th>
 								<th style="width:30%">커뮤니티 글 제목</th>
-								<th>내용</th>
+								<th style="width:50%">내용</th>
 							</tr>
 						</thead>
 						<tbody>
