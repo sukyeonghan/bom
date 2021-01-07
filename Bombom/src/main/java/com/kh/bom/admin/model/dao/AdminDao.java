@@ -79,6 +79,9 @@ public interface AdminDao {
 	int selectOrdWaitCount(SqlSession session, Map map);
 	int updateOrder(SqlSession session, Order o);
 	
+	//주문번호로 상품이름 가져오기
+	List<String> selectOrderProductList(SqlSession session,String orderNo);
+	
 
 	
 

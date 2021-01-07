@@ -184,6 +184,7 @@
                     </select>
                   </td>
                   <td>
+					<input type="hidden" class="orderMemNo" name="orderMemNo" value="${o.memNo }"/>
                     <input type="button" value="적용" class="btn btn-outline-success updateShip" >
 					<%-- <input type="hidden" id= "orderNo" value="${o.orderNo }"/> --%>
                     
@@ -211,10 +212,11 @@
 			console.log(ordStatus);
 			let orderNo=$(e.target).parent().prev().prev().prev().children().text();
 			console.log(orderNo);
-	 			
+			
 	 		$(".updateShip").on("click",e=>{
- 					
-	 				location.replace("${path}/admin/orderShipUpdate?orderNo="+orderNo+"&ordStatus="+ordStatus);
+ 					var memNo=$(e.target).prev().val();//알림을 위한 회원번호
+	 				
+	 				location.replace("${path}/admin/orderShipUpdate?orderNo="+orderNo+"&ordStatus="+ordStatus+"&memNo="+memNo);
 
 	 			});
 		

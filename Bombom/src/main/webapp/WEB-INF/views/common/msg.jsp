@@ -30,13 +30,13 @@ function fnAlarm(){
       let receiverNo="";
       let bascket="";
       if(category=="delivery") {
-         //배송시작 메세지
-         //tmpMsg=new TextMessage("주문하신 상품이 배송 시작되었습니다.");
-         
-      }else if(category=="review") {
-         //리뷰 작성 촉구 메세지
-         //tmpMsg=new TextMessage("구매확정되었습니다. 리뷰를 작성해주세요.");
-         
+         //배송도착 - 구매확정 메세지
+    	  caller="관리자";
+          callerNo="M0";
+          message="주문하신 '${bascket}'상품은 잘 받으셨나요? 무사히 받으셨다면 구매를 확정해주세요.";
+          receiverNo="${receiverNo}";
+          bascket="${orderNo}";
+          
       }else if(category=="oneQna") {
          //1:1문의 답변완료 메세지
          console.log("도착");
