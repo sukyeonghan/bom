@@ -89,8 +89,12 @@
 					<div class="show_pdt-wrap">
 						<a href="${path }/product/productOne?pdtNo=${b.pdtNo}" class="d-flex">
 						<!-- 제품썸네일 -->
-						<img src="${path}/resources/upload/product/${b.pdtThumbImage}"
-											class="img-fluid" style="width:80px; height: 80px;">
+						<c:forTokens items="${b.pdtThumbImage}" var="th" delims="," varStatus="vs">
+							<c:if test="${vs.first }">
+								<img src="${path}/resources/upload/product/${th}"
+									class="img-fluid" style="width:80px; height: 80px;">
+							</c:if>
+						</c:forTokens>
 					</div>
                 </td>
                 <!-- 이름 -->
@@ -356,6 +360,8 @@
 			//합산한 총금액 결과 뿌려주기
 			totalPrice = (Number(amount) - Number(allPoint));
 			$("#ordAmount").text(totalPrice.toLocaleString());
+			
+			
 		}else{
 			$("#point").val(0);
 			$("#ordUsePoint").text(0);
@@ -392,10 +398,10 @@
 		
 		//결제할 금액보다 초과 입력시
 		}else if(Number(amount) < Number(inputPoint)){
-			alert("결제 금액보다 초과해서 사용하실 수 없습니다.");
-			$("#point").val(0);
-			$("#ordUsePoint").text(0);
-			$("#ordAmount").text(Number(amount).toLocaleString());//합산한 총금액 결과 뿌려주기
+			
+			
+			
+		
 		//사용가능한 포인트 안에서 입력시	
 		}else{
 			$("#allPoint").prop("checked",false);

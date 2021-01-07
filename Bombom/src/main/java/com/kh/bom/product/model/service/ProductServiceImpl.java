@@ -71,7 +71,12 @@ public class ProductServiceImpl implements ProductService{
 	public List<Product> slidelist() {
 		return dao.slidelist(session);
 	}
-
+	
+	//찜하기 갯수
+	@Override
+	public int zzimCount(String pdtNo) {
+		return dao.zzimCount(session, pdtNo);
+	}
 
 	//수정한 제품 리스트
 	@Override
@@ -86,6 +91,7 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return dao.selectMaxPrice(session,category);
 	}
+
 	
 	
 

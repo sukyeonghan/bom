@@ -81,6 +81,8 @@ public interface AdminService {
 	List<Order> selectOrdWaitList(int cPage, int numPerpage, Map map);
 	int selectOrdWaitCount(Map map);
 	int updateOrder(Order o);
+	//주문번호에 해당하는 제품이름 가져오기
+	List<String> selectOrderProductList(String orderNo);
 	
 
 	

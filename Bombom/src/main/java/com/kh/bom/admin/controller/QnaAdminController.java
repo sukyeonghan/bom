@@ -86,7 +86,7 @@ public class QnaAdminController {
 	
 	@RequestMapping("/admin/qnaWait")
 	public ModelAndView qnaFilter(ModelAndView mv, @RequestParam(value = "cPage", defaultValue = "0") int cPage,
-			@RequestParam(value = "numPerpage", defaultValue = "5") int numPerpage) {
+			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage) {
 
 		mv.addObject("list", service.selectQnaWaitList(cPage, numPerpage));
 		int totalData = service.selectQnaCount();

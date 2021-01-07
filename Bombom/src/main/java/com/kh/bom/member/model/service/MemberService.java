@@ -38,6 +38,8 @@ public interface MemberService {
 	Member selectSnsMem(Member snsMem);
 	//접속일
 	int updateMemLastDate(String memNo);
+	//구매횟수
+	int selectMemBuyCount(String memNo);
 
 	
 }

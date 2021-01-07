@@ -86,8 +86,12 @@
 							<div class="show_pdt-wrap">
 								<a href="${path }/product/productOne?pdtNo=${b.pdtNo}" class="d-flex">
 								<!-- 제품썸네일 -->
-								<img src="${path}/resources/upload/product/${b.pdtThumbImage}"
+								<c:forTokens items="${b.pdtThumbImage}" var="th" delims="," varStatus="vs">
+									<c:if test="${vs.first }">
+										<img src="${path}/resources/upload/product/${th}"
 											class="img-fluid" style="width:80px; height: 80px;">
+									</c:if>
+								</c:forTokens>
 								<!-- 제품명 -->
 								<div class="pdtName_p">
 								<p>

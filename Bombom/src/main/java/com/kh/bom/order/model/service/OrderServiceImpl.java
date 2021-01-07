@@ -37,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
 			for(Inbasket i : list) {
 				Inorder io = new Inorder(orderNo, i.getPdtNo(), i.getPdtOptionNo(),	i.getInbasQty());
 				System.out.println("리스트 포문 :"+io);
-				dao.insertInorder(session, io);
+				int insertI = dao.insertInorder(session, io);
 				inList.add(io);
 			}
 		}
