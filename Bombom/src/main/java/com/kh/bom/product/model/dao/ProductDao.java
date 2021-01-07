@@ -29,6 +29,8 @@ public interface ProductDao {
 	Product selectproductDate(SqlSession session, String pdtNo);
 	
 	List<Product> slidelist(SqlSession session);
+	
+	int zzimCount(SqlSession session, String pdtNo);
 
 
 	List<Product> selectProductList(SqlSession session,int cPage,int numPerPage,Product p);

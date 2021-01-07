@@ -457,6 +457,7 @@ button:focus {
         	<c:forTokens items="${product.thumbs}" var="th" delims="," varStatus="vs">
         	<!-- 큰사진 -->
         	<c:if test="${vs.first }">
+        		<input type="hidden" id="snsImg" value="/resources/upload/product/${th}"/>
             	<img alt="" class="img-fluid" id="main_image" style="padding-bottom:7px;" src="${path}/resources/upload/product/${th}"/>
             </c:if>
             </c:forTokens>
@@ -533,9 +534,8 @@ button:focus {
 				        
 				        <!-- Modal body --> 
 				        <div class="modal-body container">
-				        	<input type="button" onClick="sendLinkCustom();" value="카카오톡"/>
-				        	<input type="button" onClick="sendLinkDefault();" value="카카오톡 테스트"/>
-				        	<br>
+				        	<button type="button" onClick="sendLinkDefault();"><img src="${path }/resources/images/product/kakao.png" width="50px;"></button>
+				        	<br><br>
 				        	<input type="text" id="shareURL"><span class="showuri"></span><button type="button" class="btn btn-success" onclick="clipboard()">URI 복사</button>
 				        </div>
 				      </div>
@@ -553,16 +553,9 @@ button:focus {
 				  		swal({text:"URL이 클립보드에 복사되었습니다",timer:1000}); //자동닫기
 				  	}
 				  	
-				  	//카카오톡 공유하기
-			  	    function sendLinkCustom() {
-				        Kakao.init("4492568a20927e961a8020c6aff51064");
-				        Kakao.Link.sendCustom({
-				            templateId: 44221
-				        });
-				    }
-				  	
 				  	//카카오톡 기본 공유하기
 				  	let pdtNo = $("#pdtNo").val();
+				  	let snsImg = $("#snsImg").val();
 				  	
 				  	try {
 					  function sendLinkDefault() {
@@ -570,14 +563,18 @@ button:focus {
 					    Kakao.Link.sendDefault({
 					      objectType: 'feed',
 					      content: {
-					        title: '유기농면 프로듀스백(S/M/L)',
-					        description: '#제로웨이스트',
+					        title: '${product.pdtName}',
+					        description: '#제로웨이스트, #다시:봄',
 					        imageUrl:
-					        	'https://rclass.iptime.org/20PM_BOM_final/resources/upload/product/thm20201210_032017496_717.jpg',
+					        	'https://rclass.iptime.org/20PM_BOM_final'+snsImg,
 					        link: {
 					          webUrl: 'https://rclass.iptime.org/20PM_BOM_final/product/productOne?pdtNo='+pdtNo,
 					        },
 					      },
+					      social: {
+					          likeCount: ${zzimCount}, //좋아요 수
+					          commentCount: ${reviewCount }, //구매평 수
+					        },
 					      buttons: [
 					        {
 					          title: '자세히 보기',

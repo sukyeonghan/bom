@@ -318,6 +318,9 @@ public class ProductController {
 		//연관상품 슬라이드
 		List<Product> slidelist = service.slidelist();
 		
+		//현재 제품의 총 찜갯수
+		int zzimCount = service.zzimCount(pdtNo);
+		
 		//현재 찜리스트 불러오기
 		Member m = (Member)session.getAttribute("loginMember");
 		String msg = "";
@@ -351,6 +354,7 @@ public class ProductController {
 		mv.addObject("dateResult", deteResult);
 		mv.addObject("slidelist", slidelist);
 		mv.addObject("zzimlist", zzimlist);
+		mv.addObject("zzimCount",zzimCount);
 		mv.addObject("loc",loc);
 		mv.addObject("common/msg");
 		mv.setViewName("product/productOne");
