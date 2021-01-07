@@ -60,6 +60,7 @@ $(document).ready(function () {
          width:'100%',
          height:'450px',
          filebrowserImageUploadUrl:'${path}/ckeditor/imageUpload' //여기 경로로 파일을 전달하여 업로드 시킨다.
+      	 
       });
        
      CKEDITOR.on('dialogDefinition', function( ev ){
@@ -74,15 +75,8 @@ $(document).ready(function () {
                 break;
         		}
          });  
-     
-     CKEDITOR =   CKEDITOR.replace(/<br\/>/ig, "\n");
-     CKEDITOR =   CKEDITOR.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
+ 
 
-
-     CKEDITOR =  CKEDITOR.replace(/(<([^>]+)>)/gi, "");
-     CKEDITOR =   CKEDITOR.replace(/&nbsp;/gi,"");
-
-    return  CKEDITOR;
              
 });
 </script>
@@ -139,6 +133,7 @@ $(document).ready(function () {
 			  	.catch(error=>{
 			  		console.error(error);
 			  	});
+				
 	
 			</script>
 			

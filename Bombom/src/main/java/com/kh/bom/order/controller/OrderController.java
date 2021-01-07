@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.admin.model.service.AdminService;
 import com.kh.bom.common.page.PageBarFactory;
+import com.kh.bom.common.page.ProPageBarFactory;
 import com.kh.bom.member.model.service.MemberService;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.order.model.service.OrderService;
@@ -237,7 +238,7 @@ public class OrderController {
 	// 나의 주문내역
 	@RequestMapping("/mypage/orderStatus")
 	public ModelAndView order(ModelAndView mv, HttpSession session,
-			@RequestParam(value="cPage", defaultValue="0") int cPage,
+			@RequestParam(value="cPage", defaultValue="1") int cPage,
 			@RequestParam(value="numPerpage", defaultValue="5") int numPerpage) {
 		
 		Member login= (Member) session.getAttribute("loginMember");
@@ -265,7 +266,7 @@ public class OrderController {
 		int returnEnd=service.returnEndCount(memNo);
 		
 		mv.addObject("loginMember", login);
-		mv.addObject("pageBar", PageBarFactory.getPageBar(totalData, cPage, numPerpage, "orderStatus"));
+		mv.addObject("pageBar", ProPageBarFactory.getPageBar(totalData, cPage, numPerpage, "orderStatus"));
 		mv.addObject("totalData", totalData);
 		mv.addObject("shipReady", shipReady);
 		mv.addObject("ordWait", ordWait);
@@ -345,7 +346,7 @@ public class OrderController {
 		String loc = "";
 		String icon = "";
 		if (result > 0) {
-			msg = "적립금" + point + "가 적립되었습니다.";
+			msg = "적립금" + point + "봄이 적립되었습니다.💚";
 			loc = "/mypage/orderStatus";
 			icon = "success";
 		} else {

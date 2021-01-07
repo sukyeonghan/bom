@@ -218,7 +218,7 @@ textarea.answer {
 				        	</div>
 				        </c:if>
 				        <br><br>
-				        <c:if test="${r.revImage!=null }"><img src="${path}/resources/upload/review/${r.revImage }" style="max-width:40%; height:auto;min-width:auto;"/></c:if>
+				        <c:if test="${r.revImage!=null }"><img src="${path}/resources/upload/review/${r.revImage }" style="max-width:auto; height:250px;min-width:auto;"/></c:if>
 			      	</div>
 			      </div>
 			    </li>
@@ -451,6 +451,7 @@ textarea.answer {
 							//구매내역이 한 개일 경우
 							}else{
 								$("#insertReview").modal('show');  //구매평 모달띄우기
+								$("#orderNo").val(data[0].orderNo);
 							}
 							
 						//구매내역이 없을 경우	

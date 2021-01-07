@@ -137,11 +137,12 @@ public class CommunityController {
 	
 	//게시글 상세보기 화면 전환
 	@RequestMapping("/community/communityView.do")
-	public ModelAndView communityView(String cmNo,ModelAndView mv) {
+	public ModelAndView communityView(Community community, String cmNo,ModelAndView mv) {
 		
 		service.communityView(cmNo); //조횟수
 		
 		mv.addObject("community", service.selectCommunityOne(cmNo));
+		
 		mv.setViewName("community/communityView");
 
 		return mv;
