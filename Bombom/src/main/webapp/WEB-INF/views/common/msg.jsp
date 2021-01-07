@@ -33,14 +33,11 @@
          //배송도착 - 구매확정 메세지
     	  caller="관리자";
           callerNo="M0";
-          message="주문하신 '${bascket}'상품은 잘 받으셨나요? 무사히 받으셨다면 구매를 확정해주세요.";
+          message="주문하신 <a href='${path }/mypage/orderDetail?orderNo=${orderNo}'>'${bascket}'</a>상품은 잘 받으셨나요? 무사히 받으셨다면  <a href='${path }/mypage/orderStatus'>구매를 확정</a>해주세요.";
           receiverNo="${receiverNo}";
-          bascket="${orderNo}";
           
       }else if(category=="oneQna") {
          //1:1문의 답변완료 메세지
-         console.log("도착");
-         
          caller="관리자";
          callerNo="M0";
          message="1:1문의글에 답변이 등록되었습니다.";

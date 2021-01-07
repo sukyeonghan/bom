@@ -105,7 +105,7 @@ public class OrderAdminController {
 		//알림용
 		mv.addObject("category", category);
 		mv.addObject("receiverNo",receiverNo);
-		mv.addObject("oderNo",orderNo);
+		mv.addObject("orderNo",orderNo);
 		mv.addObject("bascket",bascket);
 		
 		mv.setViewName("common/msg");
