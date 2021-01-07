@@ -108,6 +108,9 @@ public class EchoHandler extends TextWebSocketHandler{
 				}else if("communityComment".equals(cmd)&&receiverSession!=null) {
 					//커뮤니티 댓글 여부 
 					tmpMsg=new TextMessage(caller+"님이 회원님의  '"+bascket+"' 글에 댓글을 달았습니다.");
+				}else if("communityReComment".equals(cmd)&&receiverSession!=null) {
+					//커뮤니티 대댓글 여부 
+					tmpMsg=new TextMessage(caller+"님이 회원님의  '"+bascket+"' 글에 대댓글을 달았습니다.");
 				}else if("stamp".equals(cmd)&&receiverSession!=null) {
 					//스탬프 10개 달성 여부 
 					tmpMsg=new TextMessage("스탬프 10개 달성하였습니다. 선물을 받으러 가세요!");

@@ -13,20 +13,20 @@
 	<c:forEach items="${replyList }" var="reply">
 		<c:if test="${reply.depth == 0}">
 			<tr class="level1">
-				<td><img
-					src="${path}/resources/upload/profile/${reply.mem_pro}"
-					width="30px" height="30px"> <span class="reply-writer"><strong><c:out
-								value="${reply.mem_nick }" /></strong></span> <span class="comment-date"><fmt:formatDate
-							pattern="yyyy. MM. dd HH:mm" value="${reply.register_datetime }" /></span>
-					<br> <br>
-					<div>
-						<c:out value="${reply.reply_content }" />
-					</div>
-
+				<td>
+				<img src="${path}/resources/upload/profile/${reply.mem_pro}" width="30px" height="30px"> 
+				<span class="reply-writer"><strong><c:out value="${reply.mem_nick }" /></strong></span> 
+				<span class="comment-date"><fmt:formatDate pattern="yyyy. MM. dd HH:mm" value="${reply.register_datetime }" /></span>
+				<br> <br>
+				<c:if test="${reply.com_status eq null }">
+				<div> <c:out value="${reply.reply_content }" /> </div>
+				</c:if>
+				<c:if test="${reply.com_status eq 'Y' }">
+				<div style="color:red;"> 부절절한 댓글 입니다. </div>
+				</c:if>
 					<div>
 						<!--  로그인 했을 경우 버튼 활성화 -->
 						<div class="text-right">
-							<c:if test="${loginMember!=null }">
 								<input type="hidden" name="reply_id" id="replyId"
 									value="${reply.reply_id }" />
 								<input type="hidden" id="replyWriter" name="reply_writer"
@@ -36,23 +36,26 @@
 								<c:if test="${reply.childReply eq null }">
 								<span class="reply-btnbox btn-reply">답글달기</span>&nbsp;&nbsp;
 								</c:if> 
-										<span data-toggle="modal" data-target="#reportModal"
-									class="reply-btnbox replyModal">신고하기 </span>&nbsp;&nbsp;
-							       		<span class="reply-btnbox" onclick="fn_deleteReply();">삭제하기</span>
-							</c:if>
-
-						
+								<c:if test="${loginMember.memNick ne reply.mem_nick }">
+								<span data-toggle="modal" data-target="#reportModal" class="reply-btnbox replyModal">
+								신고하기 
+								</span>
+								</c:if>&nbsp;&nbsp;
+			       				<span class="reply-btnbox" onclick="fn_deleteReply();">삭제하기</span>
 						</div>
 					</div>
-
-					
+						<%-- <!-- 웹소켓용 -->
+						<input type="hidden" id="reply_memNo" name="reply_memNo" value="${reply.mem_no}" /> --%>
 					<div class="replyDiv" style="display: none;">
 						<textarea name="reply-content2" class="reply-content2" cols="60"
 							rows="3"></textarea>
 						<input type="hidden" name="reply_id" class="replyId"
 							value="${reply.reply_id}" />
 						<button class="btn-insert2 btn btn-outline-success" onclick="rereply(event);">답글등록</button>
-					</div></td>
+						<!-- 웹소켓용 -->
+						<input type="hidden" id="reply_memNo" name="reply_memNo" value="${reply.mem_no}" />
+					</div>
+					</td>
 			</tr>
 		</c:if>
 		<c:if test="${reply.childReply!=null}">
@@ -66,26 +69,20 @@
 						<c:out value="${reply.childReply.reply_content }" />
 					</div>
 						<div>
-						<!--  로그인 했을 경우 버튼 활성화 -->
 						<div class="text-right">
-							<c:if test="${loginMember!=null }">
 								<input type="hidden" name="reply_id" id="replyId"
 									value="${reply.reply_id }" />
 								<input type="hidden" id="replyWriter" name="reply_writer"
 									value="${reply.reply_writer }" />
 								<input type="hidden" name="memNo" value="${loginMember.memNo}" id="memNo">
 								<input type="hidden" name="cmNo" value="${community.cmNo }" id="cmNo">
-										<span data-toggle="modal" data-target="#reportModal"
-									class="reply-btnbox replyModal">신고하기 </span>&nbsp;&nbsp;
-							       		<span class="reply-btnbox" onclick="fn_deleteReply();">삭제하기</span>
-							</c:if>
-
-							<!--  로그인 하지 않았을 경우 로그인 체크 -->
-							<c:if test="${loginMember==null }">
-								<span class="reply-btnbox btn-reply loginCheck">답글달기</span>&nbsp;&nbsp; <span
-									class="loginCheck">신고하기</span>&nbsp;&nbsp;
-								<span class="loginCheck">삭제하기</span>
-							</c:if>
+									<c:if test="${loginMember.memNick ne reply.mem_nick }">
+								<span data-toggle="modal" data-target="#reportModal"
+									    class="reply-btnbox replyModal">신고하기 
+							    </span>
+								</c:if>
+								  &nbsp;&nbsp;
+					       		<span class="reply-btnbox" onclick="fn_deleteReply();">삭제하기</span>
 						</div>
 					</div>
 				<td></td>
@@ -93,6 +90,9 @@
 		</c:if>
 	</c:forEach>
 </table>
+
+
+  
 				<!-- 페이징바 -->
 				 <div class="pageBar" >	
 					${pageBar }
@@ -111,12 +111,27 @@
     var replyContent = $(e.target).prev().prev().val();
     console.log(e.target);
     e.stopPropagation();
-   
+    //웹소켓용
+    var replyMemNo=$("#reply_memNo").val();
+    //댓글 작성한 사람에게 알림 전송
+    //대댓글 작성한 사람 닉네임
+   	var alarmMsg="${loginMember.memNick}님이 회원님의 <a href='${path }/community/communityView.do?cmNo=${cmNo }'>'${cmTitle}'</a> 댓글에 답글을 달았습니다.";//웹소켓 메세지
     $.ajax({
+    	
+    	
     	url:"${path}/community/insertReReply",
-    	data:{board_id:cmNo,mem_no:memNo,parent_id:replyId,reply_content:replyContent},
+    	data:{board_id:cmNo,mem_no:memNo,parent_id:replyId,reply_content:replyContent,receiverNo:replyMemNo,message:alarmMsg},//웹소켓 알림용 data추가
     	success: data => {
     		if(data>0){
+    			
+    			//알림 보내기
+				if(sock){
+	   				console.log("소켓생성됨:"+sock);
+	   				let socketMsg = "communityReComment,${loginMember.memNick},${loginMember.memNo},"+replyMemNo+",''";
+	   				console.log("알림전송내역 : " + socketMsg);
+	   				sock.send(socketMsg);
+	   			}
+    			
     			location.href="${path}/community/communityView.do?cmNo="+cmNo;
    
     		}
