@@ -385,7 +385,7 @@ table#tbl-comment textarea {
 	</div>
 </section>
 <script>
-
+	let alarmMsg;//웹소켓용
 // 화면이 켜질때 동시에 시작하는 함수
 /* $(document).ready(function(){
 	console.log(document.getElementById("cmNo")); // 아이디 접근하는 스크립트 
@@ -411,13 +411,19 @@ table#tbl-comment textarea {
 	    var memNo = $("#memNo").val();
 	    var replyContent = $("#reply-content").val();
 	    $("#reply-content").val(""); //댓글 등록후 비워줌
-    
+	    alarmMsg="${loginMember.memNick}님이 회원님의 <a href='${path }/community/communityView.do?cmNo=${community.cmNo }'>'${community.cmTitle}'</a> 글에 댓글을 달았습니다.";//웹소켓 메세지
 		 $.ajax({
 			 url:"${path }/community/insertReply",
-			 data: {cmNo:cmNo,memNo:memNo,replyContent:replyContent},
+			 data: {cmNo:cmNo,memNo:memNo,replyContent:replyContent,receiverNo:"${community.cmWriter}",message:alarmMsg},//웹소켓 알림용 data추가
 			 success:data => {
 				 $("#replyAjax").html(data);
-		 
+				//알림 보내기
+				if(sock){
+	   				console.log("소켓생성됨:"+sock);
+	   				let socketMsg = "communityComment,${loginMember.memNick},${loginMember.memNo},${community.cmWriter},''";
+	   				console.log("알림전송내역 : " + socketMsg);
+	   				sock.send(socketMsg);
+	   			}
 			 }
 		 }); 
 		
@@ -449,7 +455,7 @@ table#tbl-comment textarea {
 		//커뮤니티 댓글 띄우기
 		$.ajax({
 			url:"${path }/community/communityReplyList",
-			data:{cmNo:"${community.cmNo }"},
+			data:{cmNo:"${community.cmNo }",cmWriter:"${community.cmWriter}",cmTitle:"${community.cmTitle}"},//알림용 데이터
 			success:data=>{
 				$("#replyAjax").html(data);
 			}
@@ -460,7 +466,7 @@ table#tbl-comment textarea {
 		
 	});
 	//알림 관련 메세지
-	let alarmMsg="${loginMember.memNick}님이 회원님의 '${community.cmTitle}' 글을 좋아합니다.";//좋아요를 누른 사람의 닉네임,글 제목
+	alarmMsg="${loginMember.memNick}님이 회원님의  <a href='${path }/community/communityView.do?cmNo=${community.cmNo }'>'${community.cmTitle}'</a> 글을 좋아합니다.";//좋아요를 누른 사람의 닉네임,글 제목
 	//좋아요 버튼
 	$('.like-wrapper').on('click', function(e) {
 		$(e.target).toggleClass('liked');

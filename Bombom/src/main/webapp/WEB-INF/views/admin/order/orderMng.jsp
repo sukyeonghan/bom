@@ -209,10 +209,11 @@
 			let ordStatus=$(e.target).val();
 			//let status=$("#category").val();
 			//let orderNo=$("#orderNo").val();
-			console.log(ordStatus);
+
 			let orderNo=$(e.target).parent().prev().prev().prev().children().text();
 			console.log(orderNo);
 			
+
 	 		$(".updateShip").on("click",e=>{
  					var memNo=$(e.target).prev().val();//알림을 위한 회원번호
 	 				

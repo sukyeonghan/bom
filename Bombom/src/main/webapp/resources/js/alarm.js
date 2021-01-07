@@ -21,10 +21,6 @@
        sock.onopen = function() {
            console.log('open');
            sock.send('test');
-           console.log(typeof fnAlarm);
-           if(typeof fnAlarm=='function'){
-           		fnAlarm();
-           }
        };
        
        sock.onmessage = function(e) {
@@ -60,4 +56,3 @@
    
    }
     
-       
