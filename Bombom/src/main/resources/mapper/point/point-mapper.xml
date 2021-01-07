@@ -10,8 +10,31 @@
 	</resultMap>
 	
 
-	<select id="selectPointList" parameterType="string" resultMap="pointMap">
-		SELECT MEM_NO,ORDER_NO,TO_CHAR(POINT_DATE,'YYYY-MM-DD HH24:MI:SS') AS POINT_DATE,POINT_CONTENT,POINT_CHANGE FROM POINT P WHERE MEM_NO=#{memNo} ORDER BY POINT_DATE DESC
+	<select id="selectPointList" parameterType="map" resultMap="pointMap">
+		SELECT MEM_NO,ORDER_NO,TO_CHAR(POINT_DATE,'YYYY-MM-DD HH24:MI:SS') AS POINT_DATE,
+		POINT_CONTENT,POINT_CHANGE 
+		FROM POINT P 
+		WHERE MEM_NO=#{memNo} 
+		<if test='start!= "" '>
+			<if test='end!= "" '>
+				and POINT_DATE BETWEEN TO_DATE(#{start},'YYYY-MM-DD') AND TO_DATE(#{end},'YYYY-MM-DD')
+			</if>
+			<if test='end== "" '>
+				and POINT_DATE BETWEEN TO_DATE(#{start},'YYYY-MM-DD') AND SYSDATE
+			</if>
+		</if> 
+		<if test='start== "" '>
+			<if test='end!= "" '>
+				and POINT_DATE <![CDATA[<=]]> TO_DATE(#{end},'YYYY-MM-DD')
+			</if>
+		</if> 
+		<if test='filter!=null and filter=="minus"'>
+			and POINT_CHANGE <![CDATA[<]]> 0
+		</if>
+		<if test='filter!=null and filter=="plus"'>
+			and POINT_CHANGE <![CDATA[>=]]> 0
+		</if> 
+		ORDER BY POINT_DATE DESC
 	</select>
 	
 	<!-- 포인트 적립 , 포인트적립시에 자동으로 트리거 작동 회원의 총적립금에 합계됨-->
@@ -24,6 +47,28 @@
 	
 	<select id="selectCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*) FROM POINT WHERE MEM_NO=#{memNo}
+		<if test='start!= "" '>
+			<if test='end!= "" '>
+				and POINT_DATE BETWEEN TO_DATE(#{start},'YYYY-MM-DD') AND TO_DATE(#{end},'YYYY-MM-DD')
+			</if>
+			<if test='end== "" '>
+				and POINT_DATE BETWEEN TO_DATE(#{start},'YYYY-MM-DD') AND SYSDATE
+			</if>
+		</if> 
+		<if test='start== "" '>
+			<if test='end!= "" '>
+				and POINT_DATE <![CDATA[<=]]> TO_DATE(#{end},'YYYY-MM-DD')
+			</if>
+		</if> 
+		<if test='filter=="plus"'>
+			and POINT_CHANGE <![CDATA[>=]]> 0
+		</if> 
+		<if test='filter=="minus"'>
+			and POINT_CHANGE <![CDATA[<]]> 0
+		</if>
 	</select>
-
+	
+	<select id="selectTotalPoint" parameterType="string" resultType="_int">
+		SELECT MEM_POINT FROM MEMBER WHERE MEM_NO=#{memNo}
+	</select>
 </mapper>

@@ -1,3 +1,4 @@
+
    
    function getContextPath() {
       var hostIndex = location.href.indexOf( location.host ) + location.host.length;
@@ -15,7 +16,7 @@
    
    function connectWS(){
       
-      sock = new SockJS('http://localhost:9090'+getContextPath()+'/replyEcho');
+      sock = new SockJS(window.location.origin+getContextPath()+'/replyEcho');
    
        sock.onopen = function() {
            console.log('open');
@@ -60,5 +61,3 @@
    }
     
        
-      
-      

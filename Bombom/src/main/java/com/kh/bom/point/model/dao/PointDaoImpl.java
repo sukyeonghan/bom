@@ -14,9 +14,10 @@ public class PointDaoImpl implements PointDao{
 
 
 	@Override
-	public List<Point> selectPointList(SqlSession session, String memNo,int cPage,int numPerpage) {
+	public List<Point> selectPointList(SqlSession session,Map<String,String> map,int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return session.selectList("point.selectPointList",memNo,new RowBounds((cPage-1)*numPerpage,numPerpage));
+		System.out.println(map);
+		return session.selectList("point.selectPointList",map,new RowBounds((cPage-1)*numPerpage,numPerpage));
 	}
 
 	@Override
@@ -27,9 +28,15 @@ public class PointDaoImpl implements PointDao{
 	}
 
 	@Override
-	public int selectCount(SqlSession session, String memNo) {
+	public int selectCount(SqlSession session, Map<String, String> map) {
 		// TODO Auto-generated method stub
-		return session.selectOne("point.selectCount",memNo);
+		return session.selectOne("point.selectCount",map);
+	}
+
+	@Override
+	public int selectTotalPoint(SqlSession session, String memNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("point.selectTotalPoint",memNo);
 	}
 
 
