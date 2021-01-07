@@ -22,7 +22,7 @@
 				<div> <c:out value="${reply.reply_content }" /> </div>
 				</c:if>
 				<c:if test="${reply.com_status eq 'Y' }">
-				<div> 부절절한 댓글 입니다. </div>
+				<div style="color:red;"> 부절절한 댓글 입니다. </div>
 				</c:if>
 					<div>
 						<!--  로그인 했을 경우 버튼 활성화 -->
