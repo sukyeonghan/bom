@@ -301,9 +301,16 @@ table#tbl-comment textarea {
 		</div>
 
 		<br>
-		<textarea id="editor" class="form-control" rows="10" name="cmContent"
-			placeholder="내용을 입력해주세요" required><c:out
-				value="${community.cmContent }" /></textarea>
+		<div class="editor"><c:out value="${community.cmContent }" /></div>
+				
+				 <script>
+				 $(function(){
+					 var setTag = ${community.cmContent };
+					var newText = $(".editor").text(setTag);
+					 console.log()
+				 })
+				
+				</script> 
 		<br>		
 		
 <%-- 		<label> Like </label> <i onclick="myFunction(this)"

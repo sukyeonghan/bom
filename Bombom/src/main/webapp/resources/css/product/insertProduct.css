@@ -6,7 +6,7 @@
    	}
    	#admin-container {
     	min-width: 800px;
-      	width: 100%;
+      	width: 80%;
       	padding-right:60px;
    	}
 	
@@ -33,7 +33,7 @@
 	}
 	td,th{padding:1%;}
 	tr{padding:2%;}
-	
+	.margin{margin-left:20px;}
 	
     /*제품 설명*/
      #middle-div{
@@ -43,8 +43,22 @@
     .title{
     	font-weight:bold;
     }
+    /*textarea감싼 span*/
+    #text-span{
+    	position:relative;
+    	border: #ccc 1px solid;
+    	border-radius: 4px;
+    	display: inline-block;
+    	width: 100%;
+    	height: 150px;
+    	padding: 10px;
+    }
+    /*textarea*/
     #intro-text{
+    	width:100%;
     	resize:none;
+    	border:none;
+    	outline: none;
     }
 
    /* 제품 썸네일,상세 이미지 등록*/
@@ -98,7 +112,11 @@
     
     /*옵션*/
     .content{width:100%}
-    .addprice{width:80%;}
+    .td-flex{display:flex;}
+    .addprice{width:70%;}
+    .addprice2{width:80%}
+    .btnCss{margin-left:15px;}
+    
     .delBtn{
     	margin-left:15px;
     }
