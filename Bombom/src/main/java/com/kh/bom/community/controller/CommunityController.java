@@ -36,6 +36,8 @@ public class CommunityController {
 
 	@Autowired
 	private CommunityService service;
+	@Autowired
+	private MemberService mService;//웹소켓에 필요
 	
 	//communityList 화면 전환
 	@RequestMapping("/community/communityList")
@@ -152,10 +154,14 @@ public class CommunityController {
 	//게시글 상세보기 댓글출력
 	@RequestMapping("/community/communityReplyList")
 	@ResponseBody
-    public ModelAndView communityReplyList(String cmNo,ModelAndView mv) {
+    public ModelAndView communityReplyList(String cmNo,String cmWriter,String cmTitle,ModelAndView mv) {
 		System.out.println("야야야"+cmNo);
         mv.addObject("replyList",service.getReplyList(cmNo));
         System.out.println("djdjdjdj"+service.getReplyList(cmNo));
+        //웹소켓 알림용
+        mv.addObject("cmNo",cmNo);
+        mv.addObject("cmWriter",cmWriter);
+        mv.addObject("cmTitle",cmTitle);
 		mv.setViewName("/community/communityReplyAjax");
         return mv;
 	}
@@ -250,7 +256,7 @@ public class CommunityController {
 
 	@RequestMapping(value = "/community/insertReply", produces="text/plain; charset=UTF-8")
 	@ResponseBody
-	public ModelAndView boardReplySave(String cmNo, String memNo, String replyContent,ModelAndView mv) {
+	public ModelAndView boardReplySave(String cmNo, String memNo, String replyContent,ModelAndView mv,Alarm a) {
 
 		System.out.println("댓글" + cmNo + memNo + replyContent);
 		
@@ -268,6 +274,7 @@ public class CommunityController {
 		if(result>0) {
 			
 	    List<BoardReply> bList = service.getReplyList(cmNo);
+	    result=mService.insertAlarm(a);
 	    mv.addObject("replyList",bList);
 	    mv.setViewName("/community/communityReplyAjax");
 			
@@ -292,7 +299,7 @@ public class CommunityController {
 	
 	@RequestMapping(value="/community/insertReReply")
 	@ResponseBody
-	public int insertReReply(ModelAndView mv,String board_id, String mem_no,String parent_id, String reply_content){
+	public int insertReReply(ModelAndView mv,String board_id, String mem_no,String parent_id, String reply_content,Alarm a){
 		
 		System.out.println("대댓글" + board_id + mem_no + parent_id + reply_content);
 		
@@ -303,7 +310,12 @@ public class CommunityController {
 		br.setReply_content(reply_content);
 
 		int result = service.insertReReply(br);
-		
+		System.out.println("대댓글"+result);
+		//알림보내기
+		if(result>0) {
+			result=mService.insertAlarm(a);
+			System.out.println("알림"+result);
+		}
 		return result;
 		
 	}

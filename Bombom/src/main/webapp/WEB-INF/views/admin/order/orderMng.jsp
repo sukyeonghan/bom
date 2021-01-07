@@ -208,9 +208,9 @@
 			let ordStatus=$(e.target).val();
 			//let status=$("#category").val();
 			//let orderNo=$("#orderNo").val();
-			console.log(ordStatus);
+
 			let orderNo=$(e.target).parent().prev().prev().prev().children().text();
-			console.log(orderNo);
+
 	 			
 	 		$(".updateShip").on("click",e=>{
 	 				location.replace("${path}/admin/orderShipUpdate?orderNo="+orderNo+"&ordStatus="+ordStatus);

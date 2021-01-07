@@ -12,7 +12,7 @@
 							<tr>
 								<th style="width:5%"><input type="checkbox" id="selectAll" onclick="selectAll();"></th>
 								<th style="width:15%">작성날짜</th>
-								<th style="width:30%">댓글 내용</th>
+								<th style="width:80%">댓글 내용</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -26,18 +26,18 @@
 									<tr>
 										<td>
 										<input type="checkbox" name="check" value="check">
-										<input type="text" name="delNum" value="${r.reply_id }">
+										<input type="hidden" name="delNum" value="${r.reply_id }">
 										</td>
 										<td><fmt:formatDate type="date" timeStyle="short"
 												value="${r.register_datetime }" /></td>
-										<td class="textLine"><c:out value="${r.reply_content }" /></td>
+										<td class="textShort"><c:out value="${r.reply_content }" /></td>
 									</tr>
 								</c:forEach>
 						</tbody>
 					</table>
 					<div class="pageBar">${pageBarP }</div>
 					<div id="btn-container">
-						<button type="button" class="btn btn-outline-success" onclick="deleteMyReply();">선택삭제</button>
+						<button type="button" class="btn btn-success" onclick="deleteMyReply();">선택삭제</button>
 					</div>
 </div>
 		    	

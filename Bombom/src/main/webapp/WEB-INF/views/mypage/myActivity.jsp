@@ -105,6 +105,16 @@ button:focus {
   height: auto;
 
   }
+/*댓글쪽 말줄임  */
+.textShort {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 530px;
+  height: auto;
+
+  }
 
 </style>
 <section id="container">
