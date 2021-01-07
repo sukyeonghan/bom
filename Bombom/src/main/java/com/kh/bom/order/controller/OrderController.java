@@ -117,6 +117,7 @@ public class OrderController {
 		System.out.println("장바구니 연결 - 회원 : " + login);
 		// 회원이 갖고있는 장바구니 불러오기
 		List<Basket> list = service.selectBasket(memNo);
+		System.out.println(list);
 		// 회원정보 보내주기
 		mv.addObject("loginMember", login);
 
