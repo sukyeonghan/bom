@@ -29,22 +29,22 @@ public class OrderServiceImpl implements OrderService {
 	public List<Inorder> insertOrder(Order order, String basketNo) {
 		int result = dao.insertOrder(session, order);
 		String orderNo = order.getOrderNo();
-		System.out.println("service로 넘어온 오더넘버 : "+orderNo);
+		System.out.println("service로 넘어온 오더넘버 : " + orderNo);
 		List<Inbasket> list = dao.selectInbasketList(session, basketNo);
-		System.out.println("장바구니에 넘어온 리스트 : "+list);
+		System.out.println("장바구니에 넘어온 리스트 : " + list);
 		List<Inorder> inList = new ArrayList<Inorder>();
 		if (result > 0) {
 			// insert 성공하면 inorder에도 insert시키기
-			for(Inbasket i : list) {
-				Inorder io = new Inorder(orderNo, i.getPdtNo(), i.getPdtOptionNo(),	i.getInbasQty(), null);
-				System.out.println("리스트 포문 :"+io);
+			for (Inbasket i : list) {
+				Inorder io = new Inorder(orderNo, i.getPdtNo(), i.getPdtOptionNo(), i.getInbasQty(), null);
+				System.out.println("리스트 포문 :" + io);
 				dao.insertInorder(session, io);
 				inList.add(io);
 			}
 		}
 		return inList;
 	}
-	
+
 	@Override
 	public List<Inbasket> selectInbasketList(String basketNo) {
 		return dao.selectInbasketList(session, basketNo);

@@ -25,6 +25,7 @@ import com.kh.bom.order.model.vo.Basket;
 import com.kh.bom.order.model.vo.Inbasket;
 import com.kh.bom.order.model.vo.Inorder;
 import com.kh.bom.order.model.vo.Order;
+import com.kh.bom.point.model.service.PointService;
 import com.kh.bom.point.model.vo.Point;
 import com.kh.bom.product.model.service.ProductService;
 import com.kh.bom.product.model.vo.Product;
@@ -45,6 +46,8 @@ public class OrderController {
 	private ShipService shipService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private PointService pointService;
 
 	
 	//장바구니에 이미 담긴 상품인지 확인하기
@@ -200,7 +203,7 @@ public class OrderController {
 
 	// 결제하기
 	@RequestMapping("/order/insertOrder")
-	public ModelAndView insertOrder(String basketNo, Order order, ModelAndView mv, HttpSession session) {
+	public ModelAndView insertOrder(String basketNo, Order order, ModelAndView mv, HttpSession session) throws Exception {
 		Member m1 = (Member) session.getAttribute("loginMember");
 		// orderNo만들기
 		String orderNo = "";
@@ -223,6 +226,9 @@ public class OrderController {
 		if (insertO != null) {
 			//결제api에서 결제가 완료되면 장바구니 비우기
 			int deleteB = service.deleteBasket(basketNo);
+			Point p = new Point(m1.getMemNo(), orderNo, null, "상품구매로 인한 차감", -(order.getOrdUsePoint()));
+			int updateP = pointService.insertStampPoint(p);
+			
 			if(deleteB>0) {
 				msg = "주문이 완료되었습니다! 금방 배송해 드릴게요:)";
 				loc = "/mypage/orderStatus";

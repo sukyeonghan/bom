@@ -32,6 +32,7 @@
 		<result property="revYn" column="rev_yn"/>
 		<result property="pdtOptionNo" column="pdt_option_no" />
 
+
 	</resultMap>
 	<resultMap type="inorder" id="inorderMap">
 		<result property="orderNo" column="order_no" />
@@ -93,15 +94,12 @@
 
 	<!-- 상품상세 - 구매평 작성 시 구매확인 -->
 	<select id="selectOrder" parameterType="map" resultMap="orderMap">
-	SELECT *
-	FROM "ORDER" O
-	    LEFT JOIN INORDER I ON (I.ORDER_NO=O.ORDER_NO)
-	    LEFT JOIN REVIEW R ON (R.PDT_NO=I.PDT_NO)     
-	    LEFT JOIN PRODUCT P ON (P.PDT_NO=I.PDT_NO)
-	    LEFT JOIN PRODUCT_OPTION OP ON (OP.PDT_OPTION_NO=I.PDT_OPTION_NO)
-	WHERE O.MEM_NO=#{memNo} AND P.PDT_NO=#{pdtNo} AND ORD_CONFIRM_YN='Y' 
-	    AND R.REV_YN IS NULL
-	ORDER BY ORD_DATE DESC
+		SELECT *
+		FROM INORDER I 
+		    LEFT JOIN "ORDER" O ON (O.ORDER_NO=I.ORDER_NO)
+		    LEFT JOIN PRODUCT P ON (P.PDT_NO=I.PDT_NO)
+		    LEFT JOIN PRODUCT_OPTION OP ON (OP.PDT_OPTION_NO=I.PDT_OPTION_NO)
+		WHERE O.MEM_NO=#{memNo} AND P.PDT_NO=#{pdtNo} AND REV_YN='N'
 	</select>
 
 	<select id="selectBasket" parameterType="string" resultMap="basketMap">
@@ -260,5 +258,10 @@
 			#{orderNo}, #{pdtNo}, #{pdtOptionNo, jdbcType=VARCHAR},#{inorderQty},'N'
 		)
 	</insert>
+	
+	<!-- 리뷰작성 시 revYn='Y'로 변경 -->
+	<update id="updateRevYn" parameterType="map">
+		UPDATE INORDER SET REV_YN='Y' WHERE ORDER_NO=#{orderNo} AND PDT_NO=#{pdtNo} AND PDT_OPTION_NO=#{pdtOptionNo} 
+	</update>
 	
 </mapper>
