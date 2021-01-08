@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.bom.order.model.dao.OrderDao;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.dao.PointDao;
 import com.kh.bom.point.model.vo.Point;
@@ -26,6 +27,8 @@ public class ReviewServiceImpl implements ReviewService {
 	private PointDao pointdao;
 	@Autowired
 	private ProductDao proDao;
+	@Autowired
+	private OrderDao orderdao;
 	
 	@Override
 	public List<Order> selectOrder(Map map) {
@@ -38,12 +41,7 @@ public class ReviewServiceImpl implements ReviewService {
 	public int insertReview(Review r) throws Exception{
 		
 		int result = 0;
-		//INSERT INTO REVIEW VALUES('R'||SEQ_REV_NO.NEXTVAL,'P150','M23','20210108-837430',5,'리뷰작성칸/잠깐 이렇게 되면 PRODUCT_OPTION도 들어가야되나','이미지.JPG',SYSDATE,'N');
-		//리뷰작성 성공
-		/*
-		 * if(result>0) { //UPDATE INORDER SET REV_YN='Y' WHERE
-		 * ORDER_NO='20210108-837430' AND PDT_NO='P150' AND PDT_OPTION_NO='PO120'; }
-		 */
+		int result2 = 0;
 		
 		try {
 			result =  dao.insertReview(session, r);
@@ -65,6 +63,14 @@ public class ReviewServiceImpl implements ReviewService {
 				result = pointdao.insertStampPoint(session, p);
 				
 				//inorder rev_yn='Y'로 변경(구매평작성여부)
+				String orderNo = r.getOrderNo();
+				String pdtNo = r.getPdtNo();
+				String pdtOptionNo = r.getPdtOptionNo();
+				Map map = new HashMap();
+				map.put("orderNo", orderNo);
+				map.put("pdtNo", pdtNo);
+				map.put("pdtOptionNo", pdtOptionNo);
+				result2 = orderdao.updateRevYn(session,map);
 			}
 	
 		} catch (Exception e) {

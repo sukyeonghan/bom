@@ -1,6 +1,7 @@
 package com.kh.bom.order.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -9,7 +10,6 @@ import com.kh.bom.order.model.vo.Inbasket;
 import com.kh.bom.order.model.vo.Inorder;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.vo.Point;
-import com.kh.bom.review.model.vo.Review;
 
 public interface OrderDao {
 	int insertOrder(SqlSession session, Order order);
@@ -75,6 +75,9 @@ public interface OrderDao {
 	List<Inbasket> selectInbasketList(SqlSession session, String basketNo);
 	
 	int insertInorder(SqlSession session, Inorder i);
+	
+	//리뷰작성시 inorder revYn 변경
+	int updateRevYn(SqlSession session, Map map);
 
 
 }

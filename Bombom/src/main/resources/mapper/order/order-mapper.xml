@@ -258,4 +258,9 @@
 		)
 	</insert>
 	
+	<!-- 리뷰작성 시 revYn='Y'로 변경 -->
+	<update id="updateRevYn" parameterType="map">
+		UPDATE INORDER SET REV_YN='Y' WHERE ORDER_NO=#{orderNo} AND PDT_NO=#{pdtNo} AND PDT_OPTION_NO=#{pdtOptionNo} 
+	</update>
+	
 </mapper>
