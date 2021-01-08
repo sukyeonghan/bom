@@ -65,11 +65,17 @@ public class ReviewServiceImpl implements ReviewService {
 				//inorder rev_yn='Y'로 변경(구매평작성여부)
 				String orderNo = r.getOrderNo();
 				String pdtNo = r.getPdtNo();
-				String pdtOptionNo = r.getPdtOptionNo();
+				String pdtOptionNo=null;
 				Map map = new HashMap();
-				map.put("orderNo", orderNo);
-				map.put("pdtNo", pdtNo);
-				map.put("pdtOptionNo", pdtOptionNo);
+				if(r.getPdtOptionNo()!=null || r.getPdtOptionNo()!="") {					
+					map.put("orderNo", orderNo);
+					map.put("pdtNo", pdtNo);
+					map.put("pdtOptionNo", pdtOptionNo);
+				}else {
+					map.put("orderNo", orderNo);
+					map.put("pdtNo", pdtNo);
+				}
+				
 				result2 = orderdao.updateRevYn(session,map);
 			}
 	

@@ -225,8 +225,13 @@ textarea.answer {
 								<td><fmt:formatNumber pattern="#,###,###" value="${p.pdtPrice}" />원</td>
 								<td><fmt:formatNumber pattern="#,###,###"
 										value="${p.inorderQty * p.pdtPrice}" />원</td>
-								<td style="display:none"><c:out value="${p.pdtNo}" /></td>
-								<td style="display:none"><c:out value="${p.pdtOptionNo}" /></td>
+								<td ><c:out value="${p.pdtNo}" /></td>
+								<c:if test="${not empty p.pdtOptionNo}">
+								<td ><c:out value="${p.pdtOptionNo}" /></td>
+								</c:if>
+								<c:if test="${empty p.pdtOptionNo}">
+								<td ><c:out value="null" /></td>
+								</c:if>
 								<c:if test="${p.ordStatus =='배송준비' or p.ordStatus =='배송중' or p.ordStatus =='배송완료' }">
 								<c:if test="${ p.ordConfirmYn=='Y' && p.revYn=='N'}">					
 								<td class="btnTd"><input type="button" class="btn btn-outline-success reviewModal" data-toggle="modal" data-target="#reviewView" value="리뷰작성"></td>
@@ -377,11 +382,11 @@ textarea.answer {
 									<span id="byteInfo2">0</span>/500bytes
 										<!-- 로그인 한 사람 및 구매한 사람만 구매평 등록가능-->
 								        <c:if test="${loginMember!=null }">
-								        	<input type="hidden" name="pdtNo" class="pdtNo-review">
+								        	<input type="text" name="pdtNo" class="pdtNo-review">
 								        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
 								        	<input type="hidden" name="revScore">
 								        	<input type="hidden" name="orderNo" value="${order.orderNo}">
-								        	<input type="hidden" name="pdtOptionNo" class="pdtOpNo-review" >
+								        	<input type="text" name="pdtOptionNo" class="pdtOpNo-review" >
 								        	<input type="submit" class="btn btn-success reviewEnd" value="등록" style="right:0;">
 								        </c:if>
 									
@@ -408,7 +413,7 @@ $(".reviewModal").click(function(){
 	let opName=td.eq(2).text();
 	let pdtNo=td.eq(6).text();
 	let pdtOpNo=td.eq(7).text();
-	console.log(pdtOpNo);
+	console.log(pdtNo);
 	$(".pdtNo-review").val(pdtNo);
 	$(".pdtOpNo-review").val(pdtOpNo);
 	$(".title").text(pdtName+" 제품 구매평");
@@ -421,7 +426,7 @@ $(".reviewModal").click(function(){
 $("#total2").text($("#total").text());
 
 //같은값 데이터가 있을 경우 셀 병합하기 
-$(function(){
+/* $(function(){
 	
 	$(".pdtTd").each(function(){
 		let rows = $(".pdtTd:contains('" + $(this).text()+ "')");
@@ -438,7 +443,7 @@ $(function(){
 			imgTd.not(":eq(0)").remove();
 		}
 	})
-});
+}); */
 
 //구매평 Byte 수 체크 제한
 function fnChkByte2(obj, maxByte) {

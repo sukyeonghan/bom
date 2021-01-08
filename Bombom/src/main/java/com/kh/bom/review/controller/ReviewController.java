@@ -86,6 +86,7 @@ public class ReviewController {
 			
 		}
 		System.out.println("구매평입력 : "+r);
+		
 		int result = service.insertReview(r);
 		
 		String msg = "";
