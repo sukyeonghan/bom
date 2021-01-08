@@ -10,8 +10,8 @@
 		<result property="revContent" column="rev_content"/>
 		<result property="revImage" column="rev_image"/>
 		<result property="revDate" column="rev_date" typeHandler="customStr"/>
-		<result property="revYn" column="rev_yn"/>
 		<result property="revDeleteYn" column="rev_delete_yn"/>
+		<result property="pdtOptionNo" column="pdt_option_no"/>
 		<result property="pdtName" column="pdt_name"/>
 	</resultMap>
 	
@@ -20,14 +20,14 @@
 		#{revScore},#{revContent},
 		<if test="revImage!=null">#{revImage},</if>
 		<if test="revImage==null">null,</if>
-		DEFAULT,'Y',DEFAULT)
+		DEFAULT,DEFAULT,#{pdtOptionNo})
 	</insert>
 	
 	<select id="reviewList" parameterType="string" resultMap="reviewMap">
 		SELECT R.*, M.MEM_NICK AS MEMNICK, M.MEM_PRO AS MEMPRO
 		FROM REVIEW R
 		JOIN MEMBER M ON M.MEM_NO=R.MEM_NO
-		WHERE PDT_NO=#{pdtNo} AND REV_YN='Y' AND REV_DELETE_YN='N' 
+		WHERE PDT_NO=#{pdtNo} AND REV_DELETE_YN='N' 
 		ORDER BY REV_DATE DESC
 	</select>
 	
@@ -68,4 +68,5 @@
   	<update id="deleteMyReview" parameterType="string">
 		UPDATE REVIEW SET REV_DELETE_YN='Y' WHERE REV_NO=#{revNo}
 	</update>
+
 </mapper>

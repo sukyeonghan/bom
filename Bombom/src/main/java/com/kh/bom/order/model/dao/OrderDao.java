@@ -1,6 +1,7 @@
 package com.kh.bom.order.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -75,5 +76,6 @@ public interface OrderDao {
 	
 	int insertInorder(SqlSession session, Inorder i);
 	
-
+	//리뷰작성시 inorder revYn 변경
+	int updateRevYn(SqlSession session, Map map);
 }

@@ -14,6 +14,7 @@ import com.kh.bom.order.model.vo.Inbasket;
 import com.kh.bom.order.model.vo.Inorder;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.vo.Point;
+import com.kh.bom.review.model.vo.Review;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -222,6 +223,5 @@ public class OrderServiceImpl implements OrderService {
 			ii = dao.selectInbasket(session, b.getBasketNo());
 		return ii;
 	}
-
 
 }

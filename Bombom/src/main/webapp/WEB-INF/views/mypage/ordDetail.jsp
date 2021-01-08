@@ -208,6 +208,7 @@ textarea.answer {
 					<tbody>
 						<c:set var="total" value="0" />
 						<c:forEach items="${product}" var="p" varStatus="vs">
+						<c:forEach items="${review}" var="r">
 							<tr>
 								<c:forTokens items="${p.pdtThumbImage}" var="th" delims=","
 									varStatus="vs">
@@ -226,17 +227,19 @@ textarea.answer {
 										value="${p.inorderQty * p.pdtPrice}" />원</td>
 								<td style="display:none"><c:out value="${p.pdtNo}" /></td>
 								<c:if test="${p.ordStatus =='배송준비' or p.ordStatus =='배송중' or p.ordStatus =='배송완료' }">
-								<c:if test="${p.ordConfirmYn=='Y' && p.revYn == null}">					
+								<c:if test="${ p.ordConfirmYn=='Y'}">					
 								<td class="btnTd"><input type="button" class="btn btn-outline-success reviewModal" data-toggle="modal" data-target="#reviewView" value="리뷰작성"></td>
-								</c:if>
+								</c:if> 
 								
-								<c:if test="${p.revYn == 'Y'}">
+								<c:if test="${not empty r.revContent }">
 								<td class="btnTd"><input type="button" class="btn btn-success" disabled  value="작성완료"></td>
+								
 								</c:if>
 								</c:if>
 								
 							</tr>
 							<c:set var="total" value="${p.inorderQty * p.pdtPrice + total}" />
+						</c:forEach>
 						</c:forEach>
 						<tr>
 							<td colspan="5">총 합계</td>

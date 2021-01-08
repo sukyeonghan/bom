@@ -1,6 +1,7 @@
 package com.kh.bom.order.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -11,6 +12,7 @@ import com.kh.bom.order.model.vo.Inbasket;
 import com.kh.bom.order.model.vo.Inorder;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.vo.Point;
+import com.kh.bom.review.model.vo.Review;
 
 @Repository
 public class OrderDaoImpl implements OrderDao {
@@ -225,4 +227,11 @@ public class OrderDaoImpl implements OrderDao {
 		return session.insert("order.insertInorder", i);
 	}
 
+	//리뷰작성시 inorder revYn Y로 변경
+	@Override
+	public int updateRevYn(SqlSession session, Map map) {
+		return session.update("order.updateRevYn", map);
+	}
+
+	
 }
