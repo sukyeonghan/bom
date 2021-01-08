@@ -120,6 +120,13 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return session.update("member.updateMemLastDate", memNo);
 	}
+
+	//스탬프용 구매횟수 가져오기
+	@Override
+	public int selectMemBuyCount(SqlSession session, String memNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.selectMemBuyCount",memNo);
+	}
 	
 	
 	

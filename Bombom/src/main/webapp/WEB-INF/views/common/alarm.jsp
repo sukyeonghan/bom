@@ -41,8 +41,9 @@
     display: flex;
 }
 /*x버튼*/
-#alarmWrap button{padding: 25px;}
+.close{height: 100%;}
 #allAlarmDel{font-size: 19px; margin-top:10px; font-weight:bolder; 	cursor: pointer;}
+
 </style>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">

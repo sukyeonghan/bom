@@ -55,9 +55,9 @@ public class OrderAdminController {
 	//주문내역에서 배송상태 바꾸기
 	@RequestMapping(value="/admin/orderShipUpdate")
 	public ModelAndView orderShipUpdate(ModelAndView mv, 
-			String ordStatus, String orderNo 
+			String ordStatus, String orderNo,String memNo 
 		) {
-	
+		
 		Order o=new Order();
 		o.setOrderNo(orderNo);
 		o.setOrdStatus(ordStatus);
@@ -66,11 +66,33 @@ public class OrderAdminController {
 		String msg = "";
 		String loc = "";
 		String icon = "";
+		//알림용
+		String category="";
+		String receiverNo="";
+		String bascket="";
 		
 		if(result>0) {
 			msg = "배송상태가 수정되었습니다";
 			loc = "/admin/order";
 			icon = "success";
+			//알림용
+			if(ordStatus.equals("배송완료")) {
+				category="delivery";
+				receiverNo=memNo;
+				//장바구니에 담긴 상품이름 가져오기
+				List<String> list=service.selectOrderProductList(orderNo);
+				String v="";
+				for(int i=0;i<list.size();i++) {
+					
+					if(i!=list.size()-1) {
+						v+=list.get(i)+",";
+					}else {
+						v+=list.get(i);
+					}
+				}
+				System.out.println(v);
+				bascket=v.substring(0, 8)+"...";
+			}
 		}else {
 			msg = "다시 시도해주세요";
 			loc = "/admin/order";
@@ -80,8 +102,13 @@ public class OrderAdminController {
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.addObject("icon",icon);
-		mv.setViewName("common/msg");
+		//알림용
+		mv.addObject("category", category);
+		mv.addObject("receiverNo",receiverNo);
+		mv.addObject("orderNo",orderNo);
+		mv.addObject("bascket",bascket);
 		
+		mv.setViewName("common/msg");
 		return mv;
 	
 	}
