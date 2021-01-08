@@ -74,5 +74,6 @@ public interface OrderDao {
 	List<Inbasket> selectInbasketList(SqlSession session, String basketNo);
 	
 	int insertInorder(SqlSession session, Inorder i);
+	
 
 }

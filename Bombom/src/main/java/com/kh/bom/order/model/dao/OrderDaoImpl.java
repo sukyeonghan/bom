@@ -212,7 +212,8 @@ public class OrderDaoImpl implements OrderDao {
 	public List<Inbasket> selectInbasket(SqlSession session, String basketNo) {
 		return session.selectList("order.selectInbasket", basketNo);
 	}
-	//장바구니 담긴 상품목록 가져오기
+
+	// 장바구니 담긴 상품목록 가져오기
 	@Override
 	public List<Inbasket> selectInbasketList(SqlSession session, String basketNo) {
 		return session.selectList("order.selectInbasketList", basketNo);

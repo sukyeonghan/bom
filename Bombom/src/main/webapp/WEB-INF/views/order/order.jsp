@@ -313,7 +313,6 @@
 
 <script>
 
-	var amount = $("#ordAmount").text().replace(/,/g, "");//,를 뺀 총금액 가져오기
 
 	$(function(){
 		$("#point").val(0)}
@@ -345,22 +344,27 @@
 	
   
 	
+	var amount = $("#ordAmount").text().replace(/,/g, "");//,를 뺀 총금액 가져오기
   //사용가능한 포인트
 	var allPoint = '<c:out value="${loginMember.memPoint }"/>'; 
-  //패턴적용하기 위한 변수
 	var allPointPat = '<fmt:formatNumber pattern="#,###,###" value="${loginMember.memPoint }"/>';
+  //패턴적용하기 위한 변수
 	var inputPoint;
+  	var deliveryPrice;
 	var totalPrice;
 	//포인트 전액사용 체크박스 체크시 또는 해제시
 	$("#allPoint").change(e =>{
 		inputPoint = $("#point").val(); //입력된 포인트값가져오기
+		deliveryPrice = $("#ordDeliPrice").text().replace(",","");//출력된 배송비 가져오기
+		
+		console.log(deliveryPrice);
 		if($("#allPoint").is(":checked")){
 			alert("포인트를"+allPoint+"원을 사용하고 0원 남았습니다.");
 			$("#point").val(Number(allPoint));
 			$("#ordUsePoint").text(Number(allPoint));
 			
 			//합산한 총금액 결과 뿌려주기
-			totalPrice = (Number(amount) - Number(allPoint));
+			totalPrice = ((Number(amount)) - Number(allPoint));
 			$("#ordAmount").text(totalPrice.toLocaleString());
 			
 			$("input[name=ordAmount]").val(totalPrice);
@@ -369,7 +373,7 @@
 		}else{
 			$("#point").val(0);
 			$("#ordUsePoint").text(0);
-			$("#ordAmount").text(Number(amount).toLocaleString());//합산한 총금액 결과 뿌려주기
+			$("#ordAmount").text((Number(amount)).toLocaleString());//합산한 총금액 결과 뿌려주기
 			$("input[name=ordAmount]").val(amount);
 		
 			
@@ -379,6 +383,7 @@
   //사용자가 포인트 입력시
 	$("#point").on("change",e =>{
 		inputPoint = $("#point").val(); //입력한 포인트값가져오기
+		deliveryPrice = $("#ordDeliPrice").text().replace(",","");//출력된 배송비 가져오기
 		//사용 가능한 포인트 초과 입력시 alert
 		if( Number(inputPoint) > Number(allPoint)){
 			alert("사용 가능한 포인트 보다 많은 가격이 입력되었습니다.");
@@ -388,7 +393,7 @@
 			$("#ordUsePoint").text(Number(allPoint)); //사용적립금에 입력한 숫자만큼 출력시키기
 			
 			//합산한 총금액 결과 뿌려주기
-			totalPrice = (Number(amount) - Number(allPoint)); 
+			totalPrice = ((Number(amount)) - Number(allPoint)); 
 			$("#ordAmount").text(totalPrice.toLocaleString());
 			$("input[name=ordAmount]").val(totalPrice);
 			
@@ -399,16 +404,9 @@
 			$("#ordUsePoint").text(Number(inputPoint));
 			
 			//합산한 총금액 결과 뿌려주기
-			totalPrice = (Number(amount) - Number(inputPoint));
+			totalPrice = ((Number(amount)) - Number(inputPoint));
 			$("#ordAmount").text(totalPrice.toLocaleString());
 			$("input[name=ordAmount]").val(totalPrice);
-			
-		
-		//결제할 금액보다 초과 입력시
-		}else if(Number(amount) < Number(inputPoint)){
-			
-			
-			
 		
 		//사용가능한 포인트 안에서 입력시	
 		}else{
@@ -416,7 +414,7 @@
 			$("#ordUsePoint").text(Number(inputPoint));
 			
 			//합산한 총금액 결과 뿌려주기
-			totalPrice = (Number(amount) - Number(inputPoint));
+			totalPrice = ((Number(amount)) - Number(inputPoint));
 			$("#ordAmount").text(totalPrice.toLocaleString());
 			$("input[name=ordAmount]").val(totalPrice);
 			
@@ -435,9 +433,9 @@
 	amount = $(".total-pay").text();
 	amount = amount.replace(",","");
 	
-	console.log($("input[name=ordDeliPrice]").val());
-
-
+	var mileage = $("#point").val();
+	
+	
 	var ba;
 	//주소 api
 	function execDaumPostcode() {
