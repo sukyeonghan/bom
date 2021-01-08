@@ -128,4 +128,8 @@
    	<update id="updateMemLastDate" parameterType="String">
    		UPDATE MEMBER SET MEM_LASTDATE=SYSDATE WHERE MEM_NO=#{memNo}
    	</update>
+   	
+   	<select id="selectMemBuyCount" parameterType="string" resultType="_int">
+   		SELECT mem_buy_count FROM MEMBER WHERE MEM_NO=#{memNo}
+   	</select>
 </mapper>

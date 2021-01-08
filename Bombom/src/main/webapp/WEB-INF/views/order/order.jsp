@@ -290,6 +290,7 @@
         </div>
         <div class="d-flex j-between"><h4>배송비</h4>
         	<p class="text-size-20"><span class="ba" id="ordDeliPrice"><fmt:formatNumber pattern="#,###,###" value="${deliveryPrice }"/></span>원</p>
+        	<input type="hidden" name="ordDeliPrice" value="${deliveryPrice }">
         </div>
         <div class="d-flex j-between"><h4>적립금 사용</h4>
         	<p class="text-size-20">-<span class="point" id="ordUsePoint">0</span>봄</p>
@@ -311,6 +312,7 @@
 
 
 <script>
+
 	var amount = $("#ordAmount").text().replace(/,/g, "");//,를 뺀 총금액 가져오기
 
 	$(function(){
@@ -361,19 +363,22 @@
 			totalPrice = (Number(amount) - Number(allPoint));
 			$("#ordAmount").text(totalPrice.toLocaleString());
 			
+			$("input[name=ordAmount]").val(totalPrice);
+			
 			
 		}else{
 			$("#point").val(0);
 			$("#ordUsePoint").text(0);
 			$("#ordAmount").text(Number(amount).toLocaleString());//합산한 총금액 결과 뿌려주기
+			$("input[name=ordAmount]").val(amount);
+		
+			
 		}
 	});
 	
   //사용자가 포인트 입력시
 	$("#point").on("change",e =>{
 		inputPoint = $("#point").val(); //입력한 포인트값가져오기
-		console.log(inputPoint);
-
 		//사용 가능한 포인트 초과 입력시 alert
 		if( Number(inputPoint) > Number(allPoint)){
 			alert("사용 가능한 포인트 보다 많은 가격이 입력되었습니다.");
@@ -385,6 +390,7 @@
 			//합산한 총금액 결과 뿌려주기
 			totalPrice = (Number(amount) - Number(allPoint)); 
 			$("#ordAmount").text(totalPrice.toLocaleString());
+			$("input[name=ordAmount]").val(totalPrice);
 			
 			
 		//사용가능 포인트 딱 맞게 입력시	
@@ -395,6 +401,8 @@
 			//합산한 총금액 결과 뿌려주기
 			totalPrice = (Number(amount) - Number(inputPoint));
 			$("#ordAmount").text(totalPrice.toLocaleString());
+			$("input[name=ordAmount]").val(totalPrice);
+			
 		
 		//결제할 금액보다 초과 입력시
 		}else if(Number(amount) < Number(inputPoint)){
@@ -410,12 +418,10 @@
 			//합산한 총금액 결과 뿌려주기
 			totalPrice = (Number(amount) - Number(inputPoint));
 			$("#ordAmount").text(totalPrice.toLocaleString());
+			$("input[name=ordAmount]").val(totalPrice);
 			
 		}
 	});
-  
-	
-	console.log("결제할 금액 :"+Number(amount));
 </script>
 
 
@@ -429,6 +435,7 @@
 	amount = $(".total-pay").text();
 	amount = amount.replace(",","");
 	
+	console.log($("input[name=ordDeliPrice]").val());
 
 
 	var ba;
@@ -481,12 +488,15 @@
 			  if(address.startsWith("서울") || address.startsWith("경기")){
 				  ba = 2500;
 				  $("#ordDeliPrice").html(Number(ba).toLocaleString());
+				  $("input[name=ordDeliPrice]").val(ba);
 			  }else if(address.startsWith("제주") || address.startsWith("강원")){
 				  ba = 5000;
 				  $("#ordDeliPrice").html(Number(ba).toLocaleString());
+				  $("input[name=ordDeliPrice]").val(ba);
 			  }else{
 				  ba = 2500;
 			      $("#ordDeliPrice").html(Number(ba).toLocaleString());
+			      $("input[name=ordDeliPrice]").val(ba);
 			  }
 	
 	          $(".total-pay").html((parseInt($(".total-price")[0].textContent.replace(/,/g, ""))+ba-mileage)
