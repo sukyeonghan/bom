@@ -134,14 +134,14 @@
 							<td>
 								<div class="pdtOnePrice">
 									<c:if test="${not empty b.pdtOptionNo }">
-										<fmt:formatNumber 
+										<i class="sumPrice"><fmt:formatNumber 
 											value="${b.salePer != 0? b.inbasQty* ((b.pdtPrice + b.pdtOptionAddprice)-((b.pdtPrice+b.pdtOptionAddprice)*(b.salePer/100))) : b.inbasQty*(b.pdtPrice + b.pdtOptionAddprice)}" 
-											pattern="#,###,###" />원
+											pattern="#,###,###" /></i>원
 									</c:if>
 									<c:if test="${empty b.pdtOptionNo }">
-										<fmt:formatNumber 
+										<i class="sumPrice"><fmt:formatNumber 
 											value="${b.salePer != 0? b.inbasQty*( b.pdtPrice-(b.pdtPrice*(b.salePer/100)) ): b.inbasQty*b.pdtPrice}" 
-											pattern="#,###,###" />원
+											pattern="#,###,###" /></i>원
 									</c:if>
 								</div>
 							</td>
@@ -222,22 +222,10 @@
 			window.location = url + "?" + $.param(no);
 		}
 	}
-	var qtys = $(".qty");
-	var pluss = $(".plus");
-	var minuss = $(".minus");
-	
-	//수량 컨트롤함수
-	$(function(){
-		for(var i = 0; i<pNos.length; i++){
-			if($(".minus").on("click")){
-				fn_minus(qtys[i]);
-			}else if($(".plus").on("click")){
-				fn_plus(qtys[i]);
-			}
-		}
-		
-	});
-	
+	var qtys = $(".qty"); //수량
+	var pluss = $(".plus"); //+버튼
+	var minuss = $(".minus"); //-버튼
+	var sums = $(".sumPrice"); //가격
 	//수량 +
 	$(".plus").click( e=>{
 		for(var i = 0; i<qtys.length; i++){
