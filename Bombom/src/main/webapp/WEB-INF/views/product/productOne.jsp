@@ -679,7 +679,7 @@ button:focus {
                     <!-- 버튼 3개,로그인 안 할 경우 클릭 못하게 방지 -->    
                     <div>
                     	<c:if test="${loginMember!=null and product.pdtStatus=='Y'}">
-		                    <button type="button" href="#" class="btn btn-success custom">구매하기</button>
+		                    <button type="button" onclick="fn_goOrder();" class="btn btn-success custom">구매하기</button>
 		                    <button type="button" onclick="fn_goBasket();" class="btn btn-outline-success custom">장바구니</button>
 		                    <button type="button" href="#" data-toggle="modal" data-target="#zzimView" class="btn btn-outline-success custom">찜하기<div class="zzimCheck ib"></div></button>
 	                    </c:if>
@@ -1236,6 +1236,11 @@ button:focus {
 			}
 		}
 	};
+	
+	function fn_goOrder(){
+		//...구현어렵다..
+		swal("장바구니를 이용하심이 어떨런지..?ㅎㅎㅎㅎㅎ");
+	}
 </script>
     
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

@@ -28,6 +28,7 @@ import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.vo.Point;
 import com.kh.bom.product.model.service.ProductService;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.review.model.vo.Review;
 import com.kh.bom.ship.model.Service.ShipService;
 import com.kh.bom.ship.model.vo.Ship;
 
@@ -171,13 +172,17 @@ public class OrderController {
 //		List<Inbasket> qtyList = new ArrayList<Inbasket>();
 //		int qty = b.getInbasQty();
 //		System.out.println("------수량: " + qty);
-
+		
+		//상품담을 리스트
 		List<Product> list = new ArrayList<Product>();
 		String[] productNo = b.getPdtNo().split(",");
 		for (String no : productNo) {
 			Product p = productService.selectProductOne(no);
 			list.add(p);
-		}
+		}//왜쓴거지..?
+		
+		
+		
 		// 장바구니 리스트 가져오기
 		List<Basket> blist = service.selectBasket(m.getMemNo());
 
@@ -210,6 +215,11 @@ public class OrderController {
 		String msg = "";
 		String loc = "";
 		String icon = "";
+		//알림용
+		String category="";
+		String receiverNo="";
+		String bascket="";
+
 		if (insertO != null) {
 			//결제api에서 결제가 완료되면 장바구니 비우기
 			int deleteB = service.deleteBasket(basketNo);
@@ -222,6 +232,13 @@ public class OrderController {
 				loc = "/";
 				icon = "warning";
 			}
+			
+			//알림용
+			int buyCount=mService.selectMemBuyCount(order.getMemNo());
+			if(buyCount==10) { // 구매횟수가 10개달성시에 알림발생
+				category="stamp";
+				receiverNo=order.getMemNo();				
+			}
 		} else {
 			msg = "결제에 실패했어요ㅠㅠ";
 			loc = "/";
@@ -230,6 +247,10 @@ public class OrderController {
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.addObject("icon", icon);
+		//알림용
+		mv.addObject("category", category);
+		mv.addObject("receiverNo",receiverNo);
+		
 		mv.setViewName("common/msg");
 
 		return mv;
@@ -286,11 +307,12 @@ public class OrderController {
 	@RequestMapping("/mypage/orderDetail")
 	public ModelAndView orderDetail(ModelAndView mv, String orderNo) {
 
-		System.out.println(orderNo);
+		
 		// 상품명, 상품가격, 옵션명, 옵션가격, 수량, 썸네일 뽑아오는것
 		mv.addObject("product", service.selectOrderDetail(orderNo));
 		// 기본주문 정보 불러오기
 		mv.addObject("order", service.selectOrderOne(orderNo));
+
 		mv.setViewName("mypage/ordDetail");
 
 		return mv;

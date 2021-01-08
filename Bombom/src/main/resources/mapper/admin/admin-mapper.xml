@@ -532,5 +532,11 @@
 		WHERE ORDER_NO=#{orderNo}
 	</update>
 	
+	<select id="selectOrderProductList" parameterType="string" resultType="string">
+		SELECT DISTINCT P.PDT_NAME FROM "ORDER" O
+		LEFT JOIN INORDER IO ON O.ORDER_NO=IO.ORDER_NO
+		LEFT JOIN PRODUCT P ON IO.PDT_NO =P.PDT_NO
+		WHERE O.ORDER_NO=#{orderNo}
+	</select>
 	
 </mapper>

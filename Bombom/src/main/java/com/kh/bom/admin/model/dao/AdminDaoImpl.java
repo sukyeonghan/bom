@@ -336,6 +336,13 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.update("admin.updateOrder", o);
 	}
+
+	//주문번호로 상품이름 가져오기
+	@Override
+	public List<String> selectOrderProductList(SqlSession session,String orderNo) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectOrderProductList",orderNo);
+	}
 	
 	
 	

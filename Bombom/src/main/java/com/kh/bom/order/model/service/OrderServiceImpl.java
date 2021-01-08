@@ -14,6 +14,7 @@ import com.kh.bom.order.model.vo.Inbasket;
 import com.kh.bom.order.model.vo.Inorder;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.vo.Point;
+import com.kh.bom.review.model.vo.Review;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -35,9 +36,9 @@ public class OrderServiceImpl implements OrderService {
 		if (result > 0) {
 			// insert 성공하면 inorder에도 insert시키기
 			for(Inbasket i : list) {
-				Inorder io = new Inorder(orderNo, i.getPdtNo(), i.getPdtOptionNo(),	i.getInbasQty());
+				Inorder io = new Inorder(orderNo, i.getPdtNo(), i.getPdtOptionNo(),	i.getInbasQty(), null);
 				System.out.println("리스트 포문 :"+io);
-				int insertI = dao.insertInorder(session, io);
+				dao.insertInorder(session, io);
 				inList.add(io);
 			}
 		}
@@ -222,7 +223,5 @@ public class OrderServiceImpl implements OrderService {
 			ii = dao.selectInbasket(session, b.getBasketNo());
 		return ii;
 	}
-
-
 
 }
