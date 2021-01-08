@@ -208,7 +208,7 @@ textarea.answer {
 					<tbody>
 						<c:set var="total" value="0" />
 						<c:forEach items="${product}" var="p" varStatus="vs">
-						<c:forEach items="${review}" var="r">
+						
 							<tr>
 								<c:forTokens items="${p.pdtThumbImage}" var="th" delims=","
 									varStatus="vs">
@@ -226,12 +226,13 @@ textarea.answer {
 								<td><fmt:formatNumber pattern="#,###,###"
 										value="${p.inorderQty * p.pdtPrice}" />원</td>
 								<td style="display:none"><c:out value="${p.pdtNo}" /></td>
+								<td style="display:none"><c:out value="${p.pdtOptionNo}" /></td>
 								<c:if test="${p.ordStatus =='배송준비' or p.ordStatus =='배송중' or p.ordStatus =='배송완료' }">
-								<c:if test="${ p.ordConfirmYn=='Y'}">					
+								<c:if test="${ p.ordConfirmYn=='Y' && p.revYn=='N'}">					
 								<td class="btnTd"><input type="button" class="btn btn-outline-success reviewModal" data-toggle="modal" data-target="#reviewView" value="리뷰작성"></td>
 								</c:if> 
 								
-								<c:if test="${not empty r.revContent }">
+								<c:if test="${p.revYn=='Y'}">
 								<td class="btnTd"><input type="button" class="btn btn-success" disabled  value="작성완료"></td>
 								
 								</c:if>
@@ -240,7 +241,7 @@ textarea.answer {
 							</tr>
 							<c:set var="total" value="${p.inorderQty * p.pdtPrice + total}" />
 						</c:forEach>
-						</c:forEach>
+				
 						<tr>
 							<td colspan="5">총 합계</td>
 							<td id="total"><b><fmt:formatNumber pattern="#,###,###"
@@ -380,6 +381,7 @@ textarea.answer {
 								        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
 								        	<input type="hidden" name="revScore">
 								        	<input type="hidden" name="orderNo" value="${order.orderNo}">
+								        	<input type="hidden" name="pdtOptionNo" class="pdtOpNo-review" >
 								        	<input type="submit" class="btn btn-success reviewEnd" value="등록" style="right:0;">
 								        </c:if>
 									
@@ -405,8 +407,10 @@ $(".reviewModal").click(function(){
 	let pdtName=td.eq(1).text();
 	let opName=td.eq(2).text();
 	let pdtNo=td.eq(6).text();
-	console.log(pdtNo)
+	let pdtOpNo=td.eq(7).text();
+	console.log(pdtOpNo);
 	$(".pdtNo-review").val(pdtNo);
+	$(".pdtOpNo-review").val(pdtOpNo);
 	$(".title").text(pdtName+" 제품 구매평");
 	
 })
@@ -422,15 +426,15 @@ $(function(){
 	$(".pdtTd").each(function(){
 		let rows = $(".pdtTd:contains('" + $(this).text()+ "')");
 		console.log(rows);
-		let btnTd=rows.siblings(".btnTd");
+		//let btnTd=rows.siblings(".btnTd");
 		let imgTd=rows.siblings(".imgTd");
 		if (rows.length > 1) {
 			rows.eq(0).attr("rowspan", rows.length);
-			btnTd.eq(0).attr("rowspan", btnTd.length);
+	
 			imgTd.eq(0).attr("rowspan", imgTd.length);
 			
 			rows.not(":eq(0)").remove();
-			btnTd.not(":eq(0)").remove();
+		
 			imgTd.not(":eq(0)").remove();
 		}
 	})
