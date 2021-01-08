@@ -225,12 +225,12 @@ textarea.answer {
 								<td><fmt:formatNumber pattern="#,###,###" value="${p.pdtPrice}" />원</td>
 								<td><fmt:formatNumber pattern="#,###,###"
 										value="${p.inorderQty * p.pdtPrice}" />원</td>
-								<td ><c:out value="${p.pdtNo}" /></td>
+								<td  style="display: none"><c:out value="${p.pdtNo}" /></td>
 								<c:if test="${not empty p.pdtOptionNo}">
-								<td ><c:out value="${p.pdtOptionNo}" /></td>
+								<td style="display: none"><c:out value="${p.pdtOptionNo}" /></td>
 								</c:if>
 								<c:if test="${empty p.pdtOptionNo}">
-								<td ><c:out value="null" /></td>
+								<td  style="display: none"><c:out value="null" /></td>
 								</c:if>
 								<c:if test="${p.ordStatus =='배송준비' or p.ordStatus =='배송중' or p.ordStatus =='배송완료' }">
 								<c:if test="${ p.ordConfirmYn=='Y' && p.revYn=='N'}">					
