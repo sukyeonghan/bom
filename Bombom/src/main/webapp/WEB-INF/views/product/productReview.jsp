@@ -463,6 +463,8 @@ textarea.answer {
 							}else{
 								$("#insertReview").modal('show');  //구매평 모달띄우기
 								$("#orderNo").val(data[0].orderNo);
+								console.log(data[0].pdtOptionNo);
+								$("#pdtOptionNo").val(data[0].pdtOptionNo); 
 							}
 							
 						//구매내역이 없을 경우	
