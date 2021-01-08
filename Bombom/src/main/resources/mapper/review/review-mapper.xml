@@ -68,4 +68,5 @@
   	<update id="deleteMyReview" parameterType="string">
 		UPDATE REVIEW SET REV_DELETE_YN='Y' WHERE REV_NO=#{revNo}
 	</update>
+
 </mapper>

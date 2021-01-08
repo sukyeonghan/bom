@@ -9,6 +9,7 @@ import com.kh.bom.order.model.vo.Inbasket;
 import com.kh.bom.order.model.vo.Inorder;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.vo.Point;
+import com.kh.bom.review.model.vo.Review;
 
 public interface OrderDao {
 	int insertOrder(SqlSession session, Order order);
@@ -74,5 +75,6 @@ public interface OrderDao {
 	List<Inbasket> selectInbasketList(SqlSession session, String basketNo);
 	
 	int insertInorder(SqlSession session, Inorder i);
+
 
 }

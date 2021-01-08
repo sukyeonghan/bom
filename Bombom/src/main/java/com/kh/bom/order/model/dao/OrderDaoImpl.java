@@ -11,6 +11,7 @@ import com.kh.bom.order.model.vo.Inbasket;
 import com.kh.bom.order.model.vo.Inorder;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.vo.Point;
+import com.kh.bom.review.model.vo.Review;
 
 @Repository
 public class OrderDaoImpl implements OrderDao {
@@ -224,4 +225,5 @@ public class OrderDaoImpl implements OrderDao {
 		return session.insert("order.insertInorder", i);
 	}
 
+	
 }

@@ -7,6 +7,7 @@ import com.kh.bom.order.model.vo.Inbasket;
 import com.kh.bom.order.model.vo.Inorder;
 import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.vo.Point;
+import com.kh.bom.review.model.vo.Review;
 
 public interface OrderService {
 	// 결제하기
@@ -63,6 +64,7 @@ public interface OrderService {
 	List<Inbasket> selectInbasketList(String basketNo);
 	
 	int insertInorder(Inorder inorder);
+
 	
 	
 }

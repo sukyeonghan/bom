@@ -28,6 +28,7 @@ import com.kh.bom.order.model.vo.Order;
 import com.kh.bom.point.model.vo.Point;
 import com.kh.bom.product.model.service.ProductService;
 import com.kh.bom.product.model.vo.Product;
+import com.kh.bom.review.model.vo.Review;
 import com.kh.bom.ship.model.Service.ShipService;
 import com.kh.bom.ship.model.vo.Ship;
 
@@ -286,11 +287,12 @@ public class OrderController {
 	@RequestMapping("/mypage/orderDetail")
 	public ModelAndView orderDetail(ModelAndView mv, String orderNo) {
 
-		System.out.println(orderNo);
+		
 		// 상품명, 상품가격, 옵션명, 옵션가격, 수량, 썸네일 뽑아오는것
 		mv.addObject("product", service.selectOrderDetail(orderNo));
 		// 기본주문 정보 불러오기
 		mv.addObject("order", service.selectOrderOne(orderNo));
+
 		mv.setViewName("mypage/ordDetail");
 
 		return mv;
