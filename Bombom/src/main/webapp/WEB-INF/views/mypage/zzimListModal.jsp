@@ -46,6 +46,8 @@
    	<!-- 찜 콘텐츠가 이동할 폴더 정보 전달 form -->
    	<form name="updateZzimNoFrm" action="${path }/zzim/updateZzimNo">   		
 	<c:forEach items="${zzimList }" var="zzim">
+		<!-- 현재 폴더 제외 -->
+		<c:if test="${zzim.zzimNo != currZzim}">
 		<li class="zzimFolderLi">
 			<!-- 실제로 선택받는 radio버튼 : 가려두기  -->
 			<input type="radio" name="updateZzimNo" class="updateZzimNo" value="${zzim.zzimNo }"> 
@@ -66,6 +68,8 @@
     	   		</div>
 			</div>
 		</li>
+		</c:if>
+	
 	</c:forEach>
 	<!-- 모달 열 때 받아온 선택한 찜 콘텐츠 고유번호 -->
 	<c:forEach items="${zcNoList }" var="zcNo">
