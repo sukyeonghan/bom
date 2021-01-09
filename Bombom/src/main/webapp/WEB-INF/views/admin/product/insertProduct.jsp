@@ -209,7 +209,7 @@
 	    addOption+='<th>&nbsp&nbsp옵션 내용</th>';
 	    addOption+='<td><input type="text" class="content w3-input" name="pdtOptionContent"></td>';
 	    addOption+='<th class="margin">추가 요금</th>';
-	    addOption+='<td class="td-flex"><input type="text" class="addprice w3-input" placeholder="제품기본가격에 추가되는 요금을 적어주세요.">';
+	    addOption+='<td class="td-flex"><input type="text" class="addprice w3-input" name="pdtOptionAddprice" placeholder="제품기본가격에 추가되는 요금을 적어주세요.">';
 	    addOption+='<input type="button" class="btn btn-success btn-sm delBtn" name="delBtn" value="삭제"></td>';
 	    addOption+='</tr>';
 	
@@ -345,6 +345,7 @@
 	        list.push({"pdtOptionContent":$("input[name=pdtOptionContent]").eq(i).val(),
 	            "pdtOptionAddprice":$("input[name=pdtOptionAddprice]").eq(i).val()});    
 	    }
+	    alert(list);
 	    $("#test_list").val(JSON.stringify(list));
 	    
 	    

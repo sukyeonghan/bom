@@ -145,9 +145,10 @@
 				<div id="middle-div">
 					<p class="title" id="product-intro">간단한 제품 설명</p>
 					<span id="text-span">
-						<textarea id="intro-text" rows="5" placeholder="65자 이내로 적어주세요" name="pdtIntro" onKeyUp="javascript:fnChkByte1(this,'200')"></textarea>
+						<textarea id="intro-text" rows="5" placeholder="65자 이내로 적어주세요" name="pdtIntro" onKeyUp="javascript:fnChkByte1(this,'200')"><c:out value="${product.pdtIntro }"/></textarea>
 						<div style="float:right;">
-							<span id="byteInfo1">0</span>/200bytes
+							<span id="byteInfo1"><c:out value="${fn:length(product.pdtIntro)}"/></span>/200bytes
+								
 						</div>
 					</span>
 				</div>

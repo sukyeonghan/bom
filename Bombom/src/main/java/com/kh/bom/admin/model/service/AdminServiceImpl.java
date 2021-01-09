@@ -168,6 +168,7 @@ public class AdminServiceImpl implements AdminService {
 		int result = dao.insertProduct(session, p);
 		if (result > 0) {
 			if(options!=null) {
+				System.out.println("컨트롤러 옵션"+options);
 				for (int i = 0; i < options.size(); i++) {
 					o.setPdtNo(p.getPdtNo());
 					o.setPdtOptionContent((String) (options.get(i).get("pdtOptionContent")));
