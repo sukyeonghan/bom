@@ -30,9 +30,12 @@ public class CommunityAdminController {
 
 
 	 //관리자 댓글 페이지 매핑 주소
-	 @RequestMapping("/admin/community/communityMng") public String replyList() {
+	 @RequestMapping("/admin/community/communityMng")
+	 public String replyList() {
+		 
+	 return "/admin/community/communityMng"; 
 	 
-	 return "/admin/community/communityMng"; }
+	 }
 	 
 	//관리자 댓글 첫 페이지
 	@RequestMapping("/admin/community/communityMngAjax") //페이지 매핑 주소

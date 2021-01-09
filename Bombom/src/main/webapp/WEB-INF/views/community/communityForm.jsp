@@ -40,10 +40,10 @@ font-size: 35px;
     .proDiv{
     	border:1px solid black;
     	width:850px;
-    	height:300px;
+    	height:600px;
     	position:relative;
-    	background:url(${path }/resources/images/stamp/stamp4.png);
-    	background-size:50%;
+    	background:url(${path }/resources/images/photo.png);
+    	background-size:100% 100%;
     	background-position:center;
     	}
     	
@@ -110,7 +110,7 @@ $(document).ready(function () {
 		<img class="proImg" src="${path }/resources/upload/community/${community.cmThumbnail}">
 		<input type="hidden" name="firstImg" value="${community.cmThumbnail}">
 		</c:if>
-			 <input type="file" class="proPic" name="upFile" id="input1" accept="image/gif, image/jpeg, image/png" style="display:none;">
+			 <input type="file" class="proPic" name="upFile" id="input1" accept="image/gif, image/jpeg, image/png" style="display:none;" required>
 			 <input type="button" class="close" value="x">
 		 </div>
 	 </div>
@@ -125,7 +125,7 @@ $(document).ready(function () {
 			<br>
 			<p>다시봄 내용</p>
 			<br>
-			<textarea name="cmContent" id="cmContent" rows="5" cols="60" ><c:out value="${community.cmContent }"/></textarea>
+			<textarea name="cmContent" id="cmContent" rows="5" cols="60" required><c:out value="${community.cmContent }"/></textarea>
 			<script>
 				//ckeditor 적용
 			  	ClassicEditor
@@ -177,7 +177,7 @@ $(document).ready(function () {
 	            $(e.target).prev().remove();
 
 	             reader.onload=e=>{
-	              let img=$("<img>",{"src":e.target.result,width:"850px",height:"300px",onclick:"fn_upload(this);"});
+	              let img=$("<img>",{"src":e.target.result,width:"850px",height:"600px",onclick:"fn_upload(this);"});
 	              img.addClass("proImg");
 	              div.prepend(img); 
 

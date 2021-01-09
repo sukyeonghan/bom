@@ -86,6 +86,14 @@ public class CommunityServiceImpl implements CommunityService {
 		// TODO Auto-generated method stub
 		return dao.deleteReply(session, br);
 	}
+	
+	
+
+	@Override
+	public int deleteReply2(BoardReply br) {
+		// TODO Auto-generated method stub
+		return dao.deleteReply2(session,br);
+	}
 
 	@Override
 	public String selectSeqReply() {

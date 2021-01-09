@@ -276,43 +276,16 @@ table#tbl-comment textarea {
 }
 
 </style>
-<!-- CK에디터. CDN -->
-<script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script> 
-<script>
-$(document).ready(function () {
-     CKEDITOR.replace( 'cmContent', {//해당 이름으로 된 textarea에 에디터를 적용
-         width:'100%',
-         height:'450px',
-         filebrowserImageUploadUrl:'${path}/ckeditor/imageUpload', //여기 경로로 파일을 전달하여 업로드 시킨다.
-     });
-       
-     CKEDITOR.on('dialogDefinition', function( ev ){
-        var dialogName = ev.data.name;
-        var dialogDefinition = ev.data.definition;
-      
-        switch (dialogName) {
-            case 'image': //Image Properties dialog
-                //dialogDefinition.removeContents('info');
-                dialogDefinition.removeContents('Link');
-                dialogDefinition.removeContents('advanced');
-                break;
-        		}
-         });  
-     
-    
-
-             
-});
-</script>
+<script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <section id="content" class="container">
 
 	<!-- 커뮤니티 섹션 시작 -->
 	<div id="community-container">
-		<div class="thumbnail">
+		<%-- <div class="thumbnail">
 			<img
 				src="${path }/resources/upload/community/${community.cmThumbnail}"
-				width="800" height="300">
-		</div>
+				width="700px" height="auto">
+		</div> --%>
 			<input type="hidden" value="${community.cmNo }" name="cmNo" id="cmNo"> <br>
 			<input type="text" class="form-control w3-input title" name="cmTitle" placeholder="제목을 입력해주세요"
 				 value='<c:out value="${community.cmTitle }"/>' required> <br>
@@ -327,20 +300,13 @@ $(document).ready(function () {
 		</div>
 
 		<br>
-		<textarea name="cmContent" id="cmContent" rows="5" cols="60" readonly><c:out value="${community.cmContent }"/></textarea>
-			<script>
-				//ckeditor 적용
-			  	ClassicEditor
-			  	.create(document.querySelector('#cmContent'))
-			  	.catch(error=>{
-			  		console.error(error);
-			  	});
-				
-	
-			</script>
-	
-		
-				
+		<div class="editor" id="cmContentView">
+         <c:out escapeXml="false" value="${community.cmContent }"/>
+         <img
+				src="${path }/resources/upload/community/${community.cmThumbnail}"
+				width="700px" height="auto">
+      </div>
+
 		<br>		
 		
 <%-- 		<label> Like </label> <i onclick="myFunction(this)"
@@ -360,14 +326,19 @@ $(document).ready(function () {
 		  </div>
 		</div>
 		<br>
-		
+	   <!-- 네이버 공유하기 -->
+	   <div id="social">
 		<form id="myform">
 	   		<span>
 				<script type="text/javascript" src="https://ssl.pstatic.net/share/js/naver_sharebutton.js"></script>
-				<script type="text/javascript">
-				new ShareNaver.makeButton({"type": "c"});
-				</script>
+	<script type="text/javascript">
+	new ShareNaver.makeButton({"type": "f"});
+	</script>
 			</span>
+				<!--  카카오 공유하기 -->
+ 		 <span> 
+ 		 	<img src="${path }/resources/images/kakao.png" width="50px;" height="50px;"onClick="sendLinkCustom();"/>
+   		</span>
   		</form>
   		<script>
 		    function share() {
@@ -377,11 +348,49 @@ $(document).ready(function () {
 		      document.location = shareURL;
 		    }
  		 </script>
- 		 <span>kakao</span>
- 		 <script>
  		 
- 		 </script>
+ 		<script type="text/javascript">
+    	function sendLinkCustom() {
+        Kakao.init("299148e7a2857d08c72dc299affbfcb9");
+        Kakao.Link.sendCustom({
+            templateId: 44219
+        });
+    }
+</script>
 
+<script>
+
+let cmNo=$("#cmNo").val();
+console.log(cmNo);
+
+try {
+  function sendLinkDefault() {
+    Kakao.init('299148e7a2857d08c72dc299affbfcb9');
+    Kakao.Link.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: '${community.cmTitle}',
+        description: '#제로웨이스 #함께실천해요 #다시:봄',
+        imageUrl:'${path }/images/stamp/stamp3.png' ,
+        link: {
+          webUrl: 'https://rclass.iptime.org/20PM_BOM_final/CommunityView.do?cmNo='+cmNo,
+        },
+      },
+      buttons: [ 
+        {
+          title: '앱으로 보기',
+          link: { 
+            webUrl:  'https://rclass.iptime.org/20PM_BOM_final/community/communityView.do?cmNo='+cmNo,
+          },
+        },
+      ],
+    })
+  }
+; 
+window.kakaoDemoCallback && window.kakaoDemoCallback() }
+catch(e) { window.kakaoDemoException && window.kakaoDemoException(e) }
+</script>
+</div>
 
 		<!-- 해당 게시글 작성자에게만 수정 / 삭제 버튼 보인다 -->
 

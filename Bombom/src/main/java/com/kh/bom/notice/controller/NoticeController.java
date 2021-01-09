@@ -4,8 +4,10 @@ package com.kh.bom.notice.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.bom.common.page.PageBarFactory;
 import com.kh.bom.notice.model.service.NoticeService;
 import com.kh.bom.notice.model.vo.Notice;
 
@@ -19,25 +21,19 @@ public class NoticeController {
 	
     //NoticeList	
 	@RequestMapping("/notice/noticeList")
-	public ModelAndView selectnoticeList(ModelAndView mv)
+	public ModelAndView selectnoticeList(ModelAndView mv,
+			@RequestParam(value="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage)
 	{
 		
-		mv.addObject("list",service.selectNoticeList());
+		mv.addObject("list",service.selectNoticeList(cPage,numPerpage));
+		int totalData = service.selectCount();
+		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "noticeNoticeList"));
 		mv.setViewName("notice/noticeList");
 		
 		return mv;
 	}
 	
-	//NoticeListMember
-	@RequestMapping("/notice/noticeListMember")
-	public ModelAndView selectnoticeList2(ModelAndView mv)
-	{
-		
-		mv.addObject("list",service.selectNoticeList());
-		mv.setViewName("notice/noticeListMember");
-		
-		return mv;
-	}
 	
 	//게시글 상세보기
 	@RequestMapping("/notice/noticeView.do")

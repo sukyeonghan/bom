@@ -37,7 +37,8 @@ public interface CommunityDao {
 	int insertReReply(SqlSession session,BoardReply br);
 
 	int deleteReply(SqlSession session,BoardReply br);
-
+	
+    int deleteReply2(SqlSession session, BoardReply br);
 
 	String selectSeqReply(SqlSession session);
 

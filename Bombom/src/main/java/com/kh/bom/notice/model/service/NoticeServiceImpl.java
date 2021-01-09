@@ -19,16 +19,20 @@ public class NoticeServiceImpl implements NoticeService {
 	private SqlSession session;
 	
 	@Override
-	public List<Notice> selectNoticeList() {
+	public List<Notice> selectNoticeList(int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return dao.selectNoticeList(session);
+		return dao.selectNoticeList(session,cPage,numPerpage);
 	}
 	
+		
+
 	@Override
-	public List<Notice> selectNoticeList2() {
+	public int selectCount() {
 		// TODO Auto-generated method stub
-		return dao.selectNoticeList2(session);
+		return dao.selectCount(session);
 	}
+
+
 
 	@Override
 	public int insertNotice(Notice notice) {

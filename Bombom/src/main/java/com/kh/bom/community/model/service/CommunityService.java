@@ -35,6 +35,8 @@ public interface CommunityService{
 
 	int deleteReply(BoardReply br);
 	
+    int deleteReply2(BoardReply br);
+	
 	String selectSeqReply();
 
 	BoardReply selectBoardReplyOne(String number);

@@ -8,9 +8,9 @@ import com.kh.bom.notice.model.vo.Notice;
 
 public interface NoticeDao {
 	
-	List<Notice> selectNoticeList(SqlSession session);
+	List<Notice> selectNoticeList(SqlSession session,int cPage,int numPerpage);
 	
-	List<Notice> selectNoticeList2(SqlSession session);
+	int selectCount(SqlSession session);
 	
 	Notice selectNoticeOne(SqlSession session,String noticeNo);
 	

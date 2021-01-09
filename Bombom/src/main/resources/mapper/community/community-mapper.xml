@@ -175,6 +175,7 @@
 		board_id = #{cmNo}
 		order by register_datetime desc 
 	</select>
+	
 	<select id="selectChildBoardReplyList" parameterType="string" resultType="boardReply">
 		select
 		reply_id,
@@ -225,6 +226,18 @@
 		OR parent_id = #{reply_id}
 		</if>
 	</delete>
+	
+	<!-- 대댓글 삭제 -->
+	<!-- <delete id="deleteReply2" parameterType="string">
+	delete
+	from
+	board_reply
+	where
+	reply_id=#{reply_id}
+	<if test="depth == 1 "></if>
+	</delete> -->
+	
+	
 
 	<!-- 댓글 신고하기 -->
 	<update id="reportReply" parameterType="boardReply">
