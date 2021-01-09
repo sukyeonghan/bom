@@ -124,7 +124,7 @@
 									
 									<input type="text" name="inbasQty" class="qty form-control " value="${b.inbasQty }" style="width: 80px; text-align: center;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' />
 									
-									<button class="plus form-number_control" type="button">
+									<button  class="plus form-number_control" type="button" onclick="plus(event);">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 11.5 11.5 V 6 h 1 v 5.5 H 18 v 1 h -5.5 V 18 h -1 v -5.5 H 6 v -1 h 5.5 Z"></path></svg>
 									</button>
 								</div>
@@ -227,13 +227,13 @@
 	var minuss = $(".minus"); //-버튼
 	var sums = $(".sumPrice"); //가격
 	//수량 +
-	$(".plus").on("click", function(e){
-		for(var i = 0; i<sums.length; i++){
-			if(e.target == pluss[i]){
+	function plus(e){
+		for(var i = 0; i<qtys.length; i++){
+			if(e.target == qtys[i]){
 				console.log("이거 클릭했음");
 			}
 		}
-	});
+	}
 	
 	//수량 - 
 	
