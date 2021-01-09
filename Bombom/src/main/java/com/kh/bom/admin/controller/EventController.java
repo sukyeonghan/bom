@@ -69,6 +69,30 @@ public class EventController {
 		mv.setViewName("common/msg");
 		return mv;
 	}
+	
+	@RequestMapping("/admin/eventDeleteList")
+	public ModelAndView eventDeleteList(ModelAndView mv, @RequestParam() List<String> eventNo) {
+		
+		int result = service.eventDeleteList(eventNo);
+		
+		String msg = "";
+		String loc = "";
+		String icon = "";
+		if (result >0) {
+			msg = "삭제가 완료되었습니다!";
+			loc = "/admin/moveEvent";
+			icon = "success";
+		} else {
+			msg = "삭제가 실패했어요:(";
+			loc = "/admin/moveEvent";
+			icon = "error";
+		}
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.addObject("icon", icon);
+		mv.setViewName("common/msg");
+		return mv;
+	}
 
 	// 이벤트등록페이지로 이동
 	@RequestMapping("/admin/moveInsertEvent")
