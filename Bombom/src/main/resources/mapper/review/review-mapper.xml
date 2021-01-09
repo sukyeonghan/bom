@@ -58,7 +58,7 @@
       SELECT * FROM REVIEW R
       JOIN PRODUCT P ON P.PDT_NO=R.PDT_NO
       WHERE MEM_NO=#{memNo}
-      ORDER BY REV_DATE DESC
+      ORDER BY REV_DATE ASC
     </select>
 	<!--나의활동 구매평 카운트(페이징처리) by.sm  -->
     <select id="selectReviewCount" resultType="_int">
