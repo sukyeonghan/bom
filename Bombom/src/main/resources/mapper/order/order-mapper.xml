@@ -21,7 +21,7 @@
 		<result property="ordOphone" column="ord_ophone" /> 
 		<result property="ordRname" column="ord_rname" />
 		<result property="ordRphone" column="ord_rphone" />
-		<result property="pdtThumbImage" column="pdt_Thumb_Image" />
+		<result property="pdtThumbImage" column="thumbs" />
 		<result property="pdtName" column="pdt_name" />
 		<result property="pdtOptionContent" column="pdt_option_content" />
 		<result property="inorderQty" column="inorder_qty" />
@@ -30,6 +30,8 @@
 		<result property="pdtOptionAddprice" column="pdt_option_addprice" />
 		<result property="pdtNo" column="pdt_no"/>
 		<result property="revYn" column="rev_yn"/>
+		<result property="pdtOptionNo" column="pdt_option_no" />
+
 
 	</resultMap>
 	<resultMap type="inorder" id="inorderMap">
@@ -37,18 +39,20 @@
 		<result property="pdtNo" column="pdt_no" />
 		<result property="pdtOptionNo" column="pdt_option_no" />
 		<result property="inorderQty" column="inorder_qty" />
+		<result property="revYn" column="rev_yn" />
 	</resultMap>
 	<resultMap type="basket" id="basketMap">
 		<result property="basketNo" column="basket_no" />
 		<result property="memNo" column="mem_no" />
 		<result property="pdtNo" column="pdt_no" />
-		<result property="pdtName" column="pdt_name" />
 		<result property="pdtOptionNo" column="pdt_option_no" />
-		<result property="pdtPrice" column="pdt_price" />
-		<result property="pdtThumbImage" column="pdt_Thumb_Image" />
-		<result property="pdtOptionContent" column="pdt_option_content" />
-		<result property="pdtOptionAddprice" column="pdt_option_addprice" />
 		<result property="inbasQty" column="inbas_qty" />
+		<result property="pdtName" column="pdt_name" />
+		<result property="pdtThumbImage" column="thumbs" />
+		<result property="pdtOptionContent" column="pdt_option_content" />
+		<result property="pdtPrice" column="pdt_price" />
+		<result property="pdtOptionAddprice"
+			column="pdt_option_addprice" />
 		<result property="salePer" column="event_sale_per" />
 	</resultMap>
 	<resultMap type="inbasket" id="inbasketMap">
@@ -90,42 +94,32 @@
 
 	<!-- 상품상세 - 구매평 작성 시 구매확인 -->
 	<select id="selectOrder" parameterType="map" resultMap="orderMap">
-	SELECT DISTINCT O.ORDER_NO, PDT_OPTION_CONTENT, O.ORD_CONFIRM_YN, O.ORD_DATE, O.ORDER_NO,I.INORDER_QTY,P.PDT_PRICE,P.PDT_NAME, P.PDT_NO
-	FROM "ORDER" O
-	    LEFT JOIN MEMBER M ON (M.MEM_NO=O.MEM_NO)
-	    LEFT JOIN INORDER I ON (I.ORDER_NO=O.ORDER_NO)
-	    LEFT JOIN PRODUCT P ON (P.PDT_NO=I.PDT_NO)
-	    LEFT JOIN PRODUCT_OPTION OP ON (OP.PDT_OPTION_NO=I.PDT_OPTION_NO)
-	    LEFT JOIN REVIEW R ON (R.ORDER_NO=O.ORDER_NO)
-	WHERE M.MEM_NO=#{memNo} AND P.PDT_NO=#{pdtNo} AND ORD_CONFIRM_YN='Y' AND R.REV_YN IS NULL 
-	ORDER BY ORD_DATE DESC
+		SELECT *
+		FROM INORDER I 
+		    LEFT JOIN "ORDER" O ON (O.ORDER_NO=I.ORDER_NO)
+		    LEFT JOIN PRODUCT P ON (P.PDT_NO=I.PDT_NO)
+		    LEFT JOIN PRODUCT_OPTION OP ON (OP.PDT_OPTION_NO=I.PDT_OPTION_NO)
+		WHERE O.MEM_NO=#{memNo} AND P.PDT_NO=#{pdtNo} AND REV_YN='N'
 	</select>
 
 	<select id="selectBasket" parameterType="string" resultMap="basketMap">
-		SELECT MEM_NO, BASKET_NO, PDT_NO, PDT_THUMB_IMAGE, PDT_NAME, PDT_PRICE,
-    		INBAS_QTY, PDT_OPTION_NO, PDT_OPTION_CONTENT, PDT_OPTION_ADDPRICE, EVENT_SALE_PER
-		FROM   (
-	        SELECT  
-	                ROW_NUMBER() OVER(PARTITION BY PT.PDT_NO_REF ORDER BY PT.PDT_THUMB_NO) AS RN
-	               ,B.MEM_NO
-	               ,B.BASKET_NO
-	               ,I.PDT_NO
-	               ,PT.PDT_THUMB_IMAGE
-	               ,P.PDT_NAME
-	               ,P.PDT_PRICE
-	               ,I.INBAS_QTY
-	               ,I.PDT_OPTION_NO
-	               ,PO.PDT_OPTION_CONTENT
-	               ,PO.PDT_OPTION_ADDPRICE
-	               ,E.EVENT_SALE_PER
-	        FROM   BASKET B
-	               INNER JOIN INBASKET I ON  I.BASKET_NO = B.BASKET_NO
-	               INNER JOIN PRODUCT P ON  P.PDT_NO = I.PDT_NO
-	               INNER JOIN PRODUCT_THUMB PT ON  PT.PDT_NO_REF = P.PDT_NO
-	               LEFT OUTER JOIN PRODUCT_OPTION PO ON  PO.PDT_NO_REF = P.PDT_NO AND PO.PDT_OPTION_NO = I.PDT_OPTION_NO
-	               LEFT OUTER JOIN EVENT E ON (E.EVENT_NO = P.EVENT_NO_REF)
-		) T1
-		WHERE T1.RN = 1 AND   T1.MEM_NO = #{memNo}
+		SELECT DISTINCT
+			P.PDT_PRICE,P.PDT_NO,
+			P.PDT_NAME,OP.PDT_OPTION_CONTENT,OP.PDT_OPTION_NO,
+			OP.PDT_OPTION_ADDPRICE, I.INBAS_QTY, B.MEM_NO,B.BASKET_NO,
+			E.EVENT_SALE_PER,
+			LISTAGG(PDT_THUMB_IMAGE,',') 
+			WITHIN GROUP(ORDER BY TH.pdt_no_ref)
+			OVER(PARTITION BY TH.PDT_NO_REF)AS THUMBS
+		FROM BASKET B
+			LEFT JOIN MEMBER M ON (M.MEM_NO=B.MEM_NO)
+			LEFT JOIN INBASKET I ON
+			(I.BASKET_NO=B.BASKET_NO)
+			LEFT JOIN PRODUCT P ON (P.PDT_NO=I.PDT_NO)
+			LEFT JOIN PRODUCT_OPTION OP ON (OP.PDT_OPTION_NO=I.PDT_OPTION_NO)
+			LEFT JOIN PRODUCT_THUMB TH ON (TH.PDT_NO_REF=I.PDT_NO)
+			LEFT JOIN EVENT E ON(P.EVENT_NO_REF=E.EVENT_NO)
+		WHERE B.MEM_NO=#{memNo}
 	</select>
 	<select id="selectBasketOne" parameterType="string" resultMap="basketMap">
 		SELECT * FROM BASKET WHERE MEM_NO = #{memNo}
@@ -200,15 +194,14 @@
 	
 
 	<select id="selectOrderDetail" parameterType="string" resultMap="orderMap">
-		 SELECT DISTINCT P.PDT_NO,O.ORD_CONFIRM_YN,R.REV_YN, O.ORD_STATUS, P.PDT_PRICE, P.PDT_NAME,PDT_OPTION_CONTENT, PDT_OPTION_ADDPRICE, INORDER_QTY, O.ORD_TRACK,
+		 SELECT DISTINCT I.REV_YN,OP.PDT_OPTION_NO,P.PDT_NO,O.ORD_CONFIRM_YN,O.ORD_STATUS, P.PDT_PRICE, P.PDT_NAME,PDT_OPTION_CONTENT, PDT_OPTION_ADDPRICE, INORDER_QTY, O.ORD_TRACK,
          LISTAGG(PDT_THUMB_IMAGE,',') WITHIN GROUP(ORDER BY TH.pdt_no_ref) OVER(PARTITION BY TH.PDT_NO_REF)AS THUMBS
          FROM "ORDER" O
-		 LEFT JOIN MEMBER M ON (M.MEM_NO=O.MEM_NO)
 		 LEFT JOIN INORDER I ON (I.ORDER_NO=O.ORDER_NO)
          LEFT JOIN PRODUCT P ON (P.PDT_NO=I.PDT_NO)
          LEFT JOIN PRODUCT_OPTION OP ON (OP.PDT_OPTION_NO=I.PDT_OPTION_NO)
          LEFT JOIN PRODUCT_THUMB TH ON (TH.PDT_NO_REF=I.PDT_NO)
-         LEFT JOIN REVIEW R ON (P.PDT_NO=R.PDT_NO)
+	 
          WHERE O.ORDER_NO=#{ordNo}
          ORDER BY P.PDT_NO
 	</select>
@@ -262,8 +255,16 @@
 	</select>
 	<insert id="insertInorder" parameterType="inorder">
 		INSERT INTO INORDER VALUES(
-			#{orderNo}, #{pdtNo}, #{pdtOptionNo, jdbcType=VARCHAR},#{inorderQty}
+			#{orderNo}, #{pdtNo}, #{pdtOptionNo, jdbcType=VARCHAR},#{inorderQty},'N'
 		)
 	</insert>
+	
+	<!-- 리뷰작성 시 revYn='Y'로 변경 -->
+	<update id="updateRevYn" parameterType="map">
+		UPDATE INORDER SET REV_YN='Y' WHERE ORDER_NO=#{orderNo} AND PDT_NO=#{pdtNo} 
+		<if test="pdtOptionNo!=null">
+		AND PDT_OPTION_NO=#{pdtOptionNo}
+		</if> 
+	</update>
 	
 </mapper>

@@ -208,6 +208,7 @@ textarea.answer {
 					<tbody>
 						<c:set var="total" value="0" />
 						<c:forEach items="${product}" var="p" varStatus="vs">
+						
 							<tr>
 								<c:forTokens items="${p.pdtThumbImage}" var="th" delims=","
 									varStatus="vs">
@@ -224,19 +225,28 @@ textarea.answer {
 								<td><fmt:formatNumber pattern="#,###,###" value="${p.pdtPrice}" />원</td>
 								<td><fmt:formatNumber pattern="#,###,###"
 										value="${p.inorderQty * p.pdtPrice}" />원</td>
-								<td style="display:none"><c:out value="${p.pdtNo}" /></td>
+								<td  style="display: none"><c:out value="${p.pdtNo}" /></td>
+								<c:if test="${not empty p.pdtOptionNo}">
+								<td style="display: none"><c:out value="${p.pdtOptionNo}" /></td>
+								</c:if>
+								<c:if test="${empty p.pdtOptionNo}">
+								<td  style="display: none"><c:out value="null" /></td>
+								</c:if>
 								<c:if test="${p.ordStatus =='배송준비' or p.ordStatus =='배송중' or p.ordStatus =='배송완료' }">
-								<c:if test="${p.revYn eq null and p.ordConfirmYn=='Y' }">					
+								<c:if test="${ p.ordConfirmYn=='Y' && p.revYn=='N'}">					
 								<td class="btnTd"><input type="button" class="btn btn-outline-success reviewModal" data-toggle="modal" data-target="#reviewView" value="리뷰작성"></td>
-								</c:if>
-								<c:if test="${p.revYn eq 'Y'}">
+								</c:if> 
+								
+								<c:if test="${p.revYn=='Y'}">
 								<td class="btnTd"><input type="button" class="btn btn-success" disabled  value="작성완료"></td>
-								</c:if>
 								
 								</c:if>
+								</c:if>
+								
 							</tr>
 							<c:set var="total" value="${p.inorderQty * p.pdtPrice + total}" />
 						</c:forEach>
+				
 						<tr>
 							<td colspan="5">총 합계</td>
 							<td id="total"><b><fmt:formatNumber pattern="#,###,###"
@@ -372,10 +382,11 @@ textarea.answer {
 									<span id="byteInfo2">0</span>/500bytes
 										<!-- 로그인 한 사람 및 구매한 사람만 구매평 등록가능-->
 								        <c:if test="${loginMember!=null }">
-								        	<input type="hidden" name="pdtNo" class="pdtNo-review">
+								        	<input type="text" name="pdtNo" class="pdtNo-review">
 								        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
 								        	<input type="hidden" name="revScore">
 								        	<input type="hidden" name="orderNo" value="${order.orderNo}">
+								        	<input type="text" name="pdtOptionNo" class="pdtOpNo-review" >
 								        	<input type="submit" class="btn btn-success reviewEnd" value="등록" style="right:0;">
 								        </c:if>
 									
@@ -401,8 +412,10 @@ $(".reviewModal").click(function(){
 	let pdtName=td.eq(1).text();
 	let opName=td.eq(2).text();
 	let pdtNo=td.eq(6).text();
-	console.log(pdtNo)
+	let pdtOpNo=td.eq(7).text();
+	console.log(pdtNo);
 	$(".pdtNo-review").val(pdtNo);
+	$(".pdtOpNo-review").val(pdtOpNo);
 	$(".title").text(pdtName+" 제품 구매평");
 	
 })
@@ -413,24 +426,24 @@ $(".reviewModal").click(function(){
 $("#total2").text($("#total").text());
 
 //같은값 데이터가 있을 경우 셀 병합하기 
-$(function(){
+/* $(function(){
 	
 	$(".pdtTd").each(function(){
 		let rows = $(".pdtTd:contains('" + $(this).text()+ "')");
 		console.log(rows);
-		let btnTd=rows.siblings(".btnTd");
+		//let btnTd=rows.siblings(".btnTd");
 		let imgTd=rows.siblings(".imgTd");
 		if (rows.length > 1) {
 			rows.eq(0).attr("rowspan", rows.length);
-			btnTd.eq(0).attr("rowspan", btnTd.length);
+	
 			imgTd.eq(0).attr("rowspan", imgTd.length);
 			
 			rows.not(":eq(0)").remove();
-			btnTd.not(":eq(0)").remove();
+		
 			imgTd.not(":eq(0)").remove();
 		}
 	})
-});
+}); */
 
 //구매평 Byte 수 체크 제한
 function fnChkByte2(obj, maxByte) {

@@ -50,6 +50,19 @@ public class AdminServiceImpl implements AdminService {
 	public int eventDelete(String eventNo) {
 		return dao.eventDelete(session, eventNo);
 	}
+	
+	//이벤트 선택삭제
+	@Override
+	public int eventDeleteList(List<String> eventNo) {
+		String no = null;
+		int result = 0;
+		for(String e : eventNo) {
+			System.out.println(e);
+			no = e;
+			result = dao.eventDelete(session, no);
+		}
+		return result;
+	}
 
 	@Override
 	public int insertEvent(Event e) {
@@ -432,9 +445,15 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.updateOrder(session,o);
 	}
+	//주문번호로 상품이름리스트 가져오기
+	@Override
+	public List<String> selectOrderProductList(String orderNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOrderProductList(session,orderNo);
+	}
 	
 	
-
+	
 	
 	
 }

@@ -62,6 +62,7 @@
 		<result property="qnaAnswer" column="qna_answer" />
 		<result property="qnaAnswerDate" column="qna_answer_date" />
 		<result property="rownum" column="ROWNUM" />
+		<result property="memNick" column="mem_nick" />
 	</resultMap>
 	<resultMap type="mainBanner" id="bannerMap">
 		<result property="bannerNo" column="banner_no" />
@@ -392,7 +393,9 @@
 
 	<select id="selectQnaList" resultMap="qnaMap">
 		SELECT ROWNUM, Q.*FROM
-		(SELECT * FROM QNA ORDER BY QNA_DATE ASC) Q ORDER BY ROWNUM DESC
+		(SELECT * FROM QNA QQ
+		 LEFT JOIN MEMBER M ON (M.MEM_NO=QQ.QNA_WRITER)
+		ORDER BY QNA_DATE ASC) Q ORDER BY ROWNUM DESC
 	</select>
 
 	<select id="selectQnaCount" resultType="_int">
@@ -532,5 +535,11 @@
 		WHERE ORDER_NO=#{orderNo}
 	</update>
 	
+	<select id="selectOrderProductList" parameterType="string" resultType="string">
+		SELECT DISTINCT P.PDT_NAME FROM "ORDER" O
+		LEFT JOIN INORDER IO ON O.ORDER_NO=IO.ORDER_NO
+		LEFT JOIN PRODUCT P ON IO.PDT_NO =P.PDT_NO
+		WHERE O.ORDER_NO=#{orderNo}
+	</select>
 	
 </mapper>

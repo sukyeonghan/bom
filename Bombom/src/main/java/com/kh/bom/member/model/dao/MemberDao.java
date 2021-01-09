@@ -42,4 +42,6 @@ public interface MemberDao {
 
 	int updateMemLastDate(SqlSession session, String memNo);
 
+	int selectMemBuyCount(SqlSession session, String memNo);
+
 }

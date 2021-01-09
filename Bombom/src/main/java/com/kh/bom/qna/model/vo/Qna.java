@@ -21,4 +21,5 @@ public class Qna {
 	private String qnaAnswer;
 	private Date qnaAnswerDate;
 	private int rownum;
+	private String memNick;
 }

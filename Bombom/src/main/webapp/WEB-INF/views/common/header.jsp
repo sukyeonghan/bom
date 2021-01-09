@@ -37,11 +37,7 @@
 <!-- 부트스트랩 -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<!-- swiper -->
-<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
-<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-<script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
     
 <script	src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <link rel="stylesheet"
@@ -214,7 +210,7 @@ p.p-info {
 				<ul class="nav">
 					<c:if test="${loginMember == null }">
 						<li class="nav-item"><a class="nav-link" data-toggle="modal"
-							data-target="#loginModal">로그인</a></li>
+							data-target="#loginModal" >로그인</a></li>
 						<li class="nav-item"><a class="nav-link" data-toggle="modal"
 							data-target="#myModal">회원가입</a></li>
 					</c:if>
@@ -478,7 +474,7 @@ p.p-info {
 					<form action="${path}/member/loginMember" method="post">
 						<div class="modal-body">
 							<div class="form-group">
-
+								<input type="hidden" id="currentUrl" name="currentUrl">
 								<input type="email" class="form-control" placeholder="이메일주소"
 									name="email" id="loginEmail" required
 									value="${cookie.saveId.value }" /> <label
@@ -498,7 +494,7 @@ p.p-info {
 									<c:if test="${cookie.saveId.value ne null}">checked</c:if> />
 								ID저장
 							</div>
-							<button type="submit" class="btn btn-success btn-block">
+							<button type="submit" class="btn btn-success btn-block" onclick="fn_currentUrl();">
 								로그인</button>
 						</div>
 
@@ -1062,7 +1058,15 @@ function fn_signUp(){
 		
 	}); */
 	
-	
+	//주소값 가져와서 현재페이지에서 로그인
+	function fn_currentUrl(){
+		let oriUrl=window.location.origin+"${path}";
+		let	url=window.document.location.href;
+		let num=0;
+		num=oriUrl.length;
+		console.log(url.substring(num));
+		$("#currentUrl").val(url.substring(num));
+	}
 
 
  </script>

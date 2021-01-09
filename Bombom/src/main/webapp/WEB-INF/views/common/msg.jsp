@@ -21,8 +21,8 @@
 <body>
    <script>
 
+   
 function fnAlarm(){
-	
       let category="${category}";
       let caller="";
       let callerNo="";
@@ -30,17 +30,14 @@ function fnAlarm(){
       let receiverNo="";
       let bascket="";
       if(category=="delivery") {
-         //배송시작 메세지
-         //tmpMsg=new TextMessage("주문하신 상품이 배송 시작되었습니다.");
-         
-      }else if(category=="review") {
-         //리뷰 작성 촉구 메세지
-         //tmpMsg=new TextMessage("구매확정되었습니다. 리뷰를 작성해주세요.");
-         
+         //배송도착 - 구매확정 메세지
+    	  caller="관리자";
+          callerNo="M0";
+          message="주문하신 <a href='${path }/mypage/orderDetail?orderNo=${orderNo}'>'${bascket}'</a>상품은 잘 받으셨나요? 무사히 받으셨다면  <a href='${path }/mypage/orderStatus'>구매를 확정</a>해주세요.";
+          receiverNo="${receiverNo}";
+          
       }else if(category=="oneQna") {
          //1:1문의 답변완료 메세지
-         console.log("도착");
-         
          caller="관리자";
          callerNo="M0";
          message="1:1문의글에 답변이 등록되었습니다.";
@@ -63,12 +60,16 @@ function fnAlarm(){
       }else if(category=="stamp") {
          //스탬프 10개 달성 여부 
          //tmpMsg=new TextMessage("스탬프 10개 달성하였습니다. 선물을 받으러 가세요!");
+    	  caller="관리자";
+          callerNo="M0";
+          receiverNo="${receiverNo}";
+          
+          message="회원님, 스탬프 10개 달성되었습니다. <a href='${path }/mypage/stamp'>선물</a> 받으러 가세요!";
       }   
       if(category!="" && message!=""){
          sockSend(category,caller, callerNo, message, receiverNo, bascket);
-         console.log("보낸다"+category+caller+callerNo+ message+ receiverNo+ bascket);
       }
-   }
+   };
       
    //알림저장, 소켓전송 함수
    function sockSend(category, caller, callerNo, message, receiverNo, bascket){

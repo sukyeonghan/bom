@@ -18,7 +18,7 @@
 				<span class="reply-writer"><strong><c:out value="${reply.mem_nick }" /></strong></span> 
 				<span class="comment-date"><fmt:formatDate pattern="yyyy. MM. dd " value="${reply.register_datetime }" /></span>
 				<br> <br>
-				<c:if test="${reply.com_status eq null or reply.com_status == 'N'}">
+				<c:if test="${reply.com_status eq null }">
 				<div> <c:out value="${reply.reply_content }" /> </div>
 				</c:if>
 				<c:if test="${reply.com_status eq 'Y' }">
@@ -41,17 +41,19 @@
 								</span>
 								</c:if>
 								</c:if>&nbsp;&nbsp;
-								<c:if test="${loginMember.memNick eq reply.mem_nick or loginMember.memManagerYn == 'Y' }">
 			       				<span class="reply-btnbox" onclick="fn_deleteReply();">삭제하기</span>
-			       				</c:if>
 						</div>
 					</div>
+						<%-- <!-- 웹소켓용 -->
+						<input type="hidden" id="reply_memNo" name="reply_memNo" value="${reply.mem_no}" /> --%>
 					<div class="replyDiv" style="display: none;">
 						<textarea name="reply-content2" class="reply-content2" cols="60"
 							rows="3"></textarea>
 						<input type="hidden" name="reply_id" class="replyId"
 							value="${reply.reply_id}" />
 						<button class="btn-insert2 btn btn-outline-success" onclick="rereply(event);">답글등록</button>
+						<!-- 웹소켓용 -->
+						<input type="hidden" id="reply_memNo" name="reply_memNo" value="${reply.mem_no}" />
 					</div>
 					</td>
 			</tr>
@@ -65,6 +67,7 @@
 							value="${reply.childReply.register_datetime }" /></span> <br>
 					<div>
 					<c:if test="${reply.childReply.com_status eq null or reply.childReply.com_status == 'N'}">
+
 						<c:out value="${reply.childReply.reply_content }" />
 					</c:if>
 					<c:if test="${reply.childReply.com_status eq 'Y' }">
@@ -84,9 +87,13 @@
 								신고하기 
 							    </span>
 								</c:if>
+
 						  	<c:if test="${loginMember.memNick eq reply.childReply.mem_nick or loginMember.memManagerYn == 'Y' }">
 					       		<span class="reply-btnbox" onclick="fn_deleteReply2();">삭제하기</span>
 				       		</c:if>
+
+								  &nbsp;&nbsp;
+					       		<span class="reply-btnbox" onclick="fn_deleteReply();">삭제하기</span>
 						</div>
 					</c:if>
 				<td></td>
@@ -115,12 +122,27 @@
     var replyContent = $(e.target).prev().prev().val();
     console.log(e.target);
     e.stopPropagation();
-   
+    //웹소켓용
+    var replyMemNo=$("#reply_memNo").val();
+    //댓글 작성한 사람에게 알림 전송
+    //대댓글 작성한 사람 닉네임
+   	var alarmMsg="${loginMember.memNick}님이 회원님의 <a href='${path }/community/communityView.do?cmNo=${cmNo }'>'${cmTitle}'</a> 댓글에 답글을 달았습니다.";//웹소켓 메세지
     $.ajax({
+    	
+    	
     	url:"${path}/community/insertReReply",
-    	data:{board_id:cmNo,mem_no:memNo,parent_id:replyId,reply_content:replyContent},
+    	data:{board_id:cmNo,mem_no:memNo,parent_id:replyId,reply_content:replyContent,receiverNo:replyMemNo,message:alarmMsg},//웹소켓 알림용 data추가
     	success: data => {
     		if(data>0){
+    			
+    			//알림 보내기
+				if(sock){
+	   				console.log("소켓생성됨:"+sock);
+	   				let socketMsg = "communityReComment,${loginMember.memNick},${loginMember.memNo},"+replyMemNo+",''";
+	   				console.log("알림전송내역 : " + socketMsg);
+	   				sock.send(socketMsg);
+	   			}
+    			
     			location.href="${path}/community/communityView.do?cmNo="+cmNo;
    
     		}
