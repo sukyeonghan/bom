@@ -281,9 +281,6 @@ table#tbl-comment textarea {
 	<!-- 커뮤니티 섹션 시작 -->
 	<div id="community-container">
 		<div class="thumbnail">
-			<img
-				src="${path }/resources/upload/community/${community.cmThumbnail}"
-				width="800" height="300">
 		</div>
 		<input type="hidden" value="${community.cmNo }" name="cmNo" id="cmNo"> <br>
 		<input type="text" class="form-control w3-input title" name="cmTitle"
@@ -391,9 +388,6 @@ window.kakaoDemoCallback && window.kakaoDemoCallback() }
 catch(e) { window.kakaoDemoException && window.kakaoDemoException(e) }
 </script>
 </div>
-=======
->>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
-
 		<!-- 해당 게시글 작성자에게만 수정 / 삭제 버튼 보인다 -->
 
 		<div id="btn-box">
@@ -444,6 +438,7 @@ catch(e) { window.kakaoDemoException && window.kakaoDemoException(e) }
 	<div id="btn-box">
 		<input type="button" class="btn btn-outline-success" value="목록으로"
 			onclick="location.replace('${path }/community/communityList')">
+	</div>
 	</div>
 </section>
 <script>
