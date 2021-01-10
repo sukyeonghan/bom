@@ -281,9 +281,6 @@ table#tbl-comment textarea {
 	<!-- 커뮤니티 섹션 시작 -->
 	<div id="community-container">
 		<div class="thumbnail">
-			<img
-				src="${path }/resources/upload/community/${community.cmThumbnail}"
-				width="800" height="300">
 		</div>
 		<input type="hidden" value="${community.cmNo }" name="cmNo" id="cmNo"> <br>
 		<input type="text" class="form-control w3-input title" name="cmTitle"
@@ -299,19 +296,14 @@ table#tbl-comment textarea {
 				<c:out value="${community.memNick}" />
 			</p>
 		</div>
-
 		<br>
-		<div class="editor"><c:out value="${community.cmContent }" /></div>
-				
-				 <script>
-				 $(function(){
-					 var setTag = ${community.cmContent };
-					var newText = $(".editor").text(setTag);
-					 console.log()
-				 })
-				
-				</script> 
-		<br>		
+		<div class="editor" id="cmContentView">
+         <c:out escapeXml="false" value="${community.cmContent }"/>
+         <img
+				src="${path }/resources/upload/community/${community.cmThumbnail}"
+				width="700px" height="auto">
+      </div>
+
 		
 <%-- 		<label> Like </label> <i onclick="myFunction(this)"
 				value="${community.cmContent }" /></textarea><br> --%>
@@ -331,7 +323,71 @@ table#tbl-comment textarea {
 		</div>
 		<br>
 
+	   <!-- 네이버 공유하기 -->
+	   <div id="social">
+		<form id="myform">
+	   		<span>
+		<script type="text/javascript" src="https://ssl.pstatic.net/share/js/naver_sharebutton.js"></script>
+				<script type="text/javascript">
+				new ShareNaver.makeButton({"type": "f"});
+			</script>
+			</span>
+				<!--  카카오 공유하기 -->
+ 		 <span> 
+ 		 	<img src="${path }/resources/images/kakao.png" width="50px;" height="50px;"onClick="sendLinkCustom();"/>
+   		</span>
+  		</form>
+  		<script>
+		    function share() {
+		      var url = encodeURI(encodeURIComponent(myform.url.value));
+		      var title = encodeURI(myform.title.value);
+		      var shareURL = "https://share.naver.com/web/shareView.nhn?url= http%3a%2f%2frclass.iptime.org%3a9999%2f20PM_BOM_final%2f" ;
+		      document.location = shareURL;
+		    }
+ 		 </script>
+ 		 
+ 		<script type="text/javascript">
+    	function sendLinkCustom() {
+        Kakao.init("299148e7a2857d08c72dc299affbfcb9");
+        Kakao.Link.sendCustom({
+            templateId: 44219
+        });
+    }
+</script>
 
+<script>
+
+let cmNo=$("#cmNo").val();
+console.log(cmNo);
+
+try {
+  function sendLinkDefault() {
+    Kakao.init('299148e7a2857d08c72dc299affbfcb9');
+    Kakao.Link.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: '${community.cmTitle}',
+        description: '#제로웨이스 #함께실천해요 #다시:봄',
+        imageUrl:'${path }/images/stamp/stamp3.png' ,
+        link: {
+          webUrl: 'https://rclass.iptime.org/20PM_BOM_final/CommunityView.do?cmNo='+cmNo,
+        },
+      },
+      buttons: [ 
+        {
+          title: '앱으로 보기',
+          link: { 
+            webUrl:  'https://rclass.iptime.org/20PM_BOM_final/community/communityView.do?cmNo='+cmNo,
+          },
+        },
+      ],
+    })
+  }
+; 
+window.kakaoDemoCallback && window.kakaoDemoCallback() }
+catch(e) { window.kakaoDemoException && window.kakaoDemoException(e) }
+</script>
+</div>
 		<!-- 해당 게시글 작성자에게만 수정 / 삭제 버튼 보인다 -->
 
 		<div id="btn-box">
@@ -382,6 +438,7 @@ table#tbl-comment textarea {
 	<div id="btn-box">
 		<input type="button" class="btn btn-outline-success" value="목록으로"
 			onclick="location.replace('${path }/community/communityList')">
+	</div>
 	</div>
 </section>
 <script>

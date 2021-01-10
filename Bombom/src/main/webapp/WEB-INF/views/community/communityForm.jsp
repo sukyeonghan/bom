@@ -40,16 +40,16 @@ font-size: 35px;
     .proDiv{
     	border:1px solid black;
     	width:850px;
-    	height:300px;
+    	height:500px;
     	position:relative;
-    	background:url(${path }/resources/images/stamp/stamp4.png);
-    	background-size:50%;
+    	background:url(${path }/resources/images/photo.png);
+    	background-size:100% 100%;
     	background-position:center;
     	}
     	
     	.proImg{
     	width:850px;
-    	height:300px
+    	height:500px
     	}
 </style>
 <!-- CK에디터. CDN -->
@@ -177,7 +177,7 @@ $(document).ready(function () {
 	            $(e.target).prev().remove();
 
 	             reader.onload=e=>{
-	              let img=$("<img>",{"src":e.target.result,width:"850px",height:"300px",onclick:"fn_upload(this);"});
+	              let img=$("<img>",{"src":e.target.result,width:"850px",height:"500px",onclick:"fn_upload(this);"});
 	              img.addClass("proImg");
 	              div.prepend(img); 
 
