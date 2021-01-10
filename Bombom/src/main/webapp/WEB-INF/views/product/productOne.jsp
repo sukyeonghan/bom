@@ -462,7 +462,7 @@ button:focus {
             </c:if>
             </c:forTokens>
             <!-- 작은사진 여러개 -->
-            <div class="goods_thumbs_image">
+            <div class="goods_thumbs_image col-12">
                 <ul class="clearfix">
                 <c:forTokens items="${product.thumbs}" var="th" delims="," varStatus="vs">
 	                <li class="col-2 small_image"><a href="${path }/resources/upload/product/${th}"><img src="${path }/resources/upload/product/${th}"></a></li>
@@ -542,54 +542,7 @@ button:focus {
 				    </div>
 				  </div><!-- sns 공유하기 모달창 끝! -->
 				  
-				  <script>
-				   //클립보드에 복사하기
-			  		var url = document.getElementById("shareURL"); 
-				  	url.value = window.document.location.href; //현재 URL을 shareURL에 넣기
-				  	function clipboard(){
-				  		url.select(); //해당값 선택되도록 select
-				  		document.execCommand("copy"); //클립보드에 복사
-				  		url.blur(); //선택->선택X
-				  		swal({text:"URL이 클립보드에 복사되었습니다",timer:1000}); //자동닫기
-				  	}
-				  	
-				  	//카카오톡 기본 공유하기
-				  	let pdtNo = $("#pdtNo").val();
-				  	let snsImg = $("#snsImg").val();
-				  	
-				  	try {
-					  function sendLinkDefault() {
-					    Kakao.init('4492568a20927e961a8020c6aff51064')
-					    Kakao.Link.sendDefault({
-					      objectType: 'feed',
-					      content: {
-					        title: '${product.pdtName}',
-					        description: '#제로웨이스트, #다시:봄',
-					        imageUrl:
-					        	'https://rclass.iptime.org/20PM_BOM_final'+snsImg,
-					        link: {
-					          webUrl: 'https://rclass.iptime.org/20PM_BOM_final/product/productOne?pdtNo='+pdtNo,
-					        },
-					      },
-					      social: {
-					          likeCount: ${zzimCount}, //좋아요 수
-					          commentCount: ${reviewCount }, //구매평 수
-					        },
-					      buttons: [
-					        {
-					          title: '자세히 보기',
-					          link: {
-					            webUrl: 'https://rclass.iptime.org/20PM_BOM_final/product/productOne?pdtNo='+pdtNo
-					          },
-					        },
-					      ],
-					    })
-					  }
-					; window.kakaoDemoCallback && window.kakaoDemoCallback() }
-					catch(e) { window.kakaoDemoException && window.kakaoDemoException(e) }
-				  </script>
-
-                    
+  
                     <!-- 1.기본선택창:옵션이 없을 경우 나올 화면 -->
                     <c:if test="${empty optionlist}">
 	                   <div class="" style="padding-bottom:10px;">
@@ -679,7 +632,7 @@ button:focus {
                     <!-- 버튼 3개,로그인 안 할 경우 클릭 못하게 방지 -->    
                     <div>
                     	<c:if test="${loginMember!=null and product.pdtStatus=='Y'}">
-		                    <button type="button" href="#" class="btn btn-success custom">구매하기</button>
+		                    <button type="button" onclick="fn_goOrder();" class="btn btn-success custom">구매하기</button>
 		                    <button type="button" onclick="fn_goBasket();" class="btn btn-outline-success custom">장바구니</button>
 		                    <button type="button" href="#" data-toggle="modal" data-target="#zzimView" class="btn btn-outline-success custom">찜하기<div class="zzimCheck ib"></div></button>
 	                    </c:if>
@@ -899,6 +852,52 @@ button:focus {
 			return false;
 		});
 	});
+	
+	
+	//클립보드에 복사하기
+	var url = document.getElementById("shareURL"); 
+  	url.value = window.document.location.href; //현재 URL을 shareURL에 넣기
+  	function clipboard(){
+  		url.select(); //해당값 선택되도록 select
+  		document.execCommand("copy"); //클립보드에 복사
+  		url.blur(); //선택->선택X
+  		swal({text:"URL이 클립보드에 복사되었습니다",timer:1000}); //자동닫기
+  	}
+  	
+  	//카카오톡 기본 공유하기
+  	let pdtNo = $("#pdtNo").val();
+  	let snsImg = $("#snsImg").val();
+  	
+  	try {
+	  function sendLinkDefault() {
+	    Kakao.init('4492568a20927e961a8020c6aff51064')
+	    Kakao.Link.sendDefault({
+	      objectType: 'feed',
+	      content: {
+	        title: '${product.pdtName}',
+	        description: '#제로웨이스트, #다시:봄',
+	        imageUrl:
+	        	'https://rclass.iptime.org/20PM_BOM_final'+snsImg,
+	        link: {
+	          webUrl: 'https://rclass.iptime.org/20PM_BOM_final/product/productOne?pdtNo='+pdtNo,
+	        },
+	      },
+	      social: {
+	          likeCount: ${zzimCount}, //좋아요 수
+	          commentCount: ${reviewCount }, //구매평 수
+	        },
+	      buttons: [
+	        {
+	          title: '자세히 보기',
+	          link: {
+	            webUrl: 'https://rclass.iptime.org/20PM_BOM_final/product/productOne?pdtNo='+pdtNo
+	          },
+	        },
+	      ],
+	    })
+	  }
+	; window.kakaoDemoCallback && window.kakaoDemoCallback() }
+	catch(e) { window.kakaoDemoException && window.kakaoDemoException(e) }
 	
 	//수량계산
    	var optionPrice = 0;
@@ -1236,6 +1235,11 @@ button:focus {
 			}
 		}
 	};
+	
+	function fn_goOrder(){
+		//...구현어렵다..
+		swal("장바구니를 이용하심이 어떨런지..?ㅎㅎㅎㅎㅎ");
+	}
 </script>
     
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

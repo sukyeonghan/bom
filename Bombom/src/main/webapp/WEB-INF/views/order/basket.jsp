@@ -112,7 +112,7 @@
 							</div>
 							<input type="hidden" class="pNo" name="pdtNo" value="${b.pdtNo }" > 
 							<input type="hidden" class="bNo" name="basketNo" value="${b.basketNo }">
-							<input type="hidden" name="inbasQty" value="${b.inbasQty }">
+							<input type="hidden" value="${b.inbasQty }">
 							</td>
 							
 							<!-- 수량 -->
@@ -122,7 +122,7 @@
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 7 11.5 h 10 v 1 H 7 Z"></path></svg>
 									</button>
 									
-									<input type="text" 	class="qty form-control " value="${b.inbasQty }" style="width: 80px; text-align: center;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' />
+									<input type="text" name="inbasQty" class="qty form-control " value="${b.inbasQty }" style="width: 80px; text-align: center;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' />
 									
 									<button  class="plus form-number_control" type="button">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 11.5 11.5 V 6 h 1 v 5.5 H 18 v 1 h -5.5 V 18 h -1 v -5.5 H 6 v -1 h 5.5 Z"></path></svg>
@@ -134,14 +134,14 @@
 							<td>
 								<div class="pdtOnePrice">
 									<c:if test="${not empty b.pdtOptionNo }">
-										<fmt:formatNumber 
-											value="${b.salePer != 0? (b.pdtPrice + b.pdtOptionAddprice)-((b.pdtPrice+b.pdtOptionAddprice)*(b.salePer/100)) : b.inbasQty*(b.pdtPrice + b.pdtOptionAddprice)}" 
-											pattern="#,###,###" />원
+										<i class="sumPrice"><fmt:formatNumber 
+											value="${b.salePer != 0? b.inbasQty* ((b.pdtPrice + b.pdtOptionAddprice)-((b.pdtPrice+b.pdtOptionAddprice)*(b.salePer/100))) : b.inbasQty*(b.pdtPrice + b.pdtOptionAddprice)}" 
+											pattern="#,###,###" /></i>원
 									</c:if>
 									<c:if test="${empty b.pdtOptionNo }">
-										<fmt:formatNumber 
-											value="${b.salePer != 0? b.pdtPrice-(b.pdtPrice*(b.salePer/100)) : b.inbasQty*b.pdtPrice}" 
-											pattern="#,###,###" />원
+										<i class="sumPrice"><fmt:formatNumber 
+											value="${b.salePer != 0? b.inbasQty*( b.pdtPrice-(b.pdtPrice*(b.salePer/100)) ): b.inbasQty*b.pdtPrice}" 
+											pattern="#,###,###" /></i>원
 									</c:if>
 								</div>
 							</td>
@@ -215,7 +215,6 @@
 	
 	//장바구니 상품삭제하기
 	function fn_delete(pdtNo, basketNo,memNo,pdtOptionNo){
-		console.log("삭제");
 		var no = {"pdtNo":pdtNo, "basketNo":basketNo,"memNo":memNo, "pdtOptionNo":pdtOptionNo};
 		var url = "${path}/order/deleteBasketOne";
 		var ck = confirm("삭제하시겠습니까?");
@@ -223,43 +222,26 @@
 			window.location = url + "?" + $.param(no);
 		}
 	}
-	
-	//수량 컨트롤함수
-	console.log(pNos.length);
-	var qtys = $(".qty").val();
-	$(function(){
-		for(var i = 0; i<pNos.length; i++){
-			if($(".minus").on("click")){
-				fn_minus(qtys[i]);
-			}else if($(".plus").on("click")){
-				fn_plus(qtys[i]);
+	var qtys = $(".qty"); //수량
+	var pluss = $(".plus"); //+버튼
+	var minuss = $(".minus"); //-버튼
+	var sums = $(".sumPrice"); //가격
+	//수량 +
+	$(".plus").click( e=>{
+		for(var i = 0; i<qtys.length; i++){
+			if(e.target == pluss[i]){
+				pp = qtys[i];
+				pp.value++;
+				
 			}
 		}
-		
-	})
+	});
 	
-
+	
 	//수량 - 
-	function fn_minus(qty){
-		console.log("-");
-		console.log("바꾸기전"+qty);
-		qty = Number(qty-1);
-		console.log("바꾸기후"+qty);
-		var qtyC = {"inbasQty":qty};
-		var url = "${path}/order/minusQty";
-		//window.location = url + "?" + $.param(qtyC);
-	}
 	
-	//수량 +
-	function fn_plus(qty){
-		console.log("+");
-		console.log("바꾸기전"+qty);
-		qty = Number(qty+1);
-		console.log("바꾸기후"+qty);
-		var qtyC = {"inbasQty":qty};
-		var url = "${path}/order/plusQty";
-		//window.location = url + "?" + $.param(qtyC);
-	}
+	
+	
 	
 	
 	
