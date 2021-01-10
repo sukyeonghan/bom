@@ -13,7 +13,6 @@
 		<result property="qnaAnswer" column="qna_answer"/>
 		<result property="qnaAnswerDate" column="qna_answer_date"/>
 		<result property="rownum" column="ROWNUM" />
-		<result property="memNick" column="mem_nick"/>
 	</resultMap>
 	
 	<insert id="insertQna" parameterType="qna">
@@ -21,9 +20,7 @@
 	</insert>
 	
 	<select id="selectQnaList" resultMap="qnaMap" parameterType="string">
-		  SELECT ROWNUM,Q.*FROM 
-		  (SELECT * FROM QNA  WHERE QNA_WRITER=#{memNo} ORDER BY QNA_DATE ASC) Q 
-		  ORDER BY ROWNUM DESC
+		  SELECT ROWNUM,Q.*FROM (SELECT * FROM QNA WHERE QNA_WRITER=#{memNo} ORDER BY QNA_DATE ASC) Q ORDER BY ROWNUM DESC
 	</select>
 	
 	<select id="selectCount" resultType="_int" parameterType="string">

@@ -37,12 +37,14 @@ div#notice-container input {
 		<br>
 			<table id="notice-container" class="table table-hover">
 				<tr>
+					<th>번호</th>
 					<th>제목</th>
 					<th>작성일</th>
 					<th><c:if test="${loginMember.memManagerYn == 'Y' }">관리자권한</c:if></th>
 				</tr>
 				<c:forEach items="${list }" var="n">
 					<tr>
+						<td><c:out value="${n.NOTICE_NO }" /></td>
 						<td><a
 							href="${path }/notice/noticeView.do?noticeNo=${n.NOTICE_NO}">
 								<c:out value="${n.NOTICE_TITLE }" />
@@ -60,7 +62,6 @@ div#notice-container input {
 					</tr>
 				</c:forEach>
 			</table>
-			<div id="pageBar">${pageBar }</div>
 		</div>
 	</div>
 </section>

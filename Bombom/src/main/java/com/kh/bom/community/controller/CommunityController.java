@@ -341,7 +341,7 @@ public class CommunityController {
 			loc = "/community/communityView.do?cmNo="+cmNo;
 		} else {
 			msg = " 삭제 실패";
-			loc = "/community/communityView.do?cmNo="+cmNo;
+			loc = "/community/communityList";
 			icon = "warning";
 		}
 		mv.addObject("msg", msg);
@@ -351,36 +351,6 @@ public class CommunityController {
 
 		return mv;
 	}
-	
-	// 댓글 삭제
-		@RequestMapping("/community/deleteReply2")
-		public ModelAndView deleteReply2(String cmNo,String reply_id, ModelAndView mv) {
-			
-			BoardReply br = new BoardReply();
-			
-			br.setBoard_id(cmNo);
-			br.setReply_id(reply_id);
-			
-			int result = service.deleteReply2(br);
-
-			String msg = "";
-			String loc = "";
-			String icon = "";
-			if (result > 0) {
-				msg = "댓글 삭제 성공";
-				loc = "/community/communityView.do?cmNo="+cmNo;
-			} else {
-				msg = " 삭제 실패";
-				loc = "/community/communityView.do?cmNo="+cmNo;
-				icon = "warning";
-			}
-			mv.addObject("msg", msg);
-			mv.addObject("loc", loc);
-			mv.addObject("icon", icon);
-			mv.setViewName("common/msg");
-
-			return mv;
-		}
 
 	// 댓글 신고
 	@RequestMapping("/community/reportReply")

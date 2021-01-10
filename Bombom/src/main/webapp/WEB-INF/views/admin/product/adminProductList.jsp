@@ -274,6 +274,7 @@
 	//선택 삭제
 	function deletePro(){
 		if(confirm("정말 삭제하시겠습니까?")==true){
+			
 			var list=new Array();   
 	        for (var i=0; i<items.length; i++){
 	        	var check=$("input[name=check]").eq(i);

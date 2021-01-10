@@ -11,9 +11,8 @@
 	SELECT * FROM NOTICE 
 	</select>
 	
-	<select id="selectCount" resultType="_int">   <!-- select일때 select에서 가져오는 자료형  -->
-		SELECT COUNT(*) FROM
-		NOTICE
+	<select id="selectNoticeList2" resultType="map">
+	SELECT * FROM NOTICE 
 	</select>
 	
 	<insert id="insertNotice" parameterType="notice">

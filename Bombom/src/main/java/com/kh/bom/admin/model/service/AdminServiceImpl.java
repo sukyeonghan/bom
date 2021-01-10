@@ -50,19 +50,6 @@ public class AdminServiceImpl implements AdminService {
 	public int eventDelete(String eventNo) {
 		return dao.eventDelete(session, eventNo);
 	}
-	
-	//이벤트 선택삭제
-	@Override
-	public int eventDeleteList(List<String> eventNo) {
-		String no = null;
-		int result = 0;
-		for(String e : eventNo) {
-			System.out.println(e);
-			no = e;
-			result = dao.eventDelete(session, no);
-		}
-		return result;
-	}
 
 	@Override
 	public int insertEvent(Event e) {

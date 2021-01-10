@@ -2,7 +2,6 @@ package com.kh.bom.notice.model.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -12,20 +11,16 @@ import com.kh.bom.notice.model.vo.Notice;
 public class NoticeDaoImpl implements NoticeDao {
 
 	@Override
-	public List<Notice> selectNoticeList(SqlSession session,int cPage,int numPerpage) {
+	public List<Notice> selectNoticeList(SqlSession session) {
 		
-		return session.selectList("notice.selectNoticeList",new RowBounds((cPage-1)*numPerpage,numPerpage));
+		return session.selectList("notice.selectNoticeList");
 	}
-	
-	
 	
 	@Override
-	public int selectCount(SqlSession session) {
-		// TODO Auto-generated method stub
-		return session.selectOne("notice.selectCount");
+	public List<Notice> selectNoticeList2(SqlSession session) {
+		
+		return session.selectList("notice.selectNoticeList2");
 	}
-
-
 
 	@Override
 	public int insertNotice(SqlSession session, Notice notice) {

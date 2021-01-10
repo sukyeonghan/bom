@@ -276,16 +276,21 @@ table#tbl-comment textarea {
 }
 
 </style>
-
-<script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-
-
-<section id="content" class="container" >
+<section id="content" class="container">
 
 	<!-- 커뮤니티 섹션 시작 -->
 	<div id="community-container">
+		<div class="thumbnail">
+			<img
+				src="${path }/resources/upload/community/${community.cmThumbnail}"
+				width="800" height="300">
+		</div>
 		<input type="hidden" value="${community.cmNo }" name="cmNo" id="cmNo"> <br>
-		<h1><c:out value="${ community.cmTitle}"/></h1><br>
+		<input type="text" class="form-control w3-input title" name="cmTitle"
+			placeholder="제목을 입력해주세요"
+			value='<c:out value="${community.cmTitle }"/>' required><br>
+
+		<div>
 			<fmt:formatDate pattern="yyyy-MM-dd" value="${community.cmDate }" />
 			<p>
 				<img src="${path }/resources/upload/profile/${community.memPro}"
@@ -293,9 +298,8 @@ table#tbl-comment textarea {
 					height="50">
 				<c:out value="${community.memNick}" />
 			</p>
-		
+		</div>
 		<br>
-
 		<div class="editor" id="cmContentView">
          <c:out escapeXml="false" value="${community.cmContent }"/>
          <img
@@ -303,9 +307,6 @@ table#tbl-comment textarea {
 				width="700px" height="auto">
       </div>
 
-
-				
-		<br>		
 		
 <%-- 		<label> Like </label> <i onclick="myFunction(this)"
 				value="${community.cmContent }" /></textarea><br> --%>
@@ -390,6 +391,8 @@ window.kakaoDemoCallback && window.kakaoDemoCallback() }
 catch(e) { window.kakaoDemoException && window.kakaoDemoException(e) }
 </script>
 </div>
+=======
+>>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
 
 		<!-- 해당 게시글 작성자에게만 수정 / 삭제 버튼 보인다 -->
 
@@ -434,13 +437,13 @@ catch(e) { window.kakaoDemoException && window.kakaoDemoException(e) }
 			</div>
 		</div>
 		
+
     <div id="replyAjax">   </div>
-    		
+    
+		
 	<div id="btn-box">
 		<input type="button" class="btn btn-outline-success" value="목록으로"
 			onclick="location.replace('${path }/community/communityList')">
-	</div>
-	
 	</div>
 </section>
 <script>

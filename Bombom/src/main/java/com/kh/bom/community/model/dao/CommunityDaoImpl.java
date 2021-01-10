@@ -86,8 +86,6 @@ public class CommunityDaoImpl implements CommunityDao {
 		public BoardReply getChildReplyList(SqlSession session, String reply_id) {
 			return session.selectOne("community.selectChildBoardReplyList", reply_id);
 		}
-		
-		
 
 		@Override
 		public String selectSeqReply(SqlSession session) {
@@ -105,13 +103,6 @@ public class CommunityDaoImpl implements CommunityDao {
 		public int deleteReply(SqlSession session,BoardReply br) {
 			// TODO Auto-generated method stub
 			return session.delete("community.deleteReply",br);
-		}
-
-		
-		@Override
-		public int deleteReply2(SqlSession session, BoardReply br) {
-			// TODO Auto-generated method stub
-			return session.delete("community.deleteReply2",br);
 		}
 
 		@Override

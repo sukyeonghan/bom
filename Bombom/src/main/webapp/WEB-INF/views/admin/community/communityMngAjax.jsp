@@ -22,13 +22,11 @@
      <tr>
      <td><c:out value="${b.mem_nick}"/></td>
      <td><c:out value="${b.com_reason }"/></td>
-     <td>
-     <span class="ellipsis"><c:out value="${b.reply_content }"/></span>
-     </td>
+     <td><c:out value="${b.reply_content }"/></td>
      <td><fmt:formatDate value="${b.com_date}" pattern="yyyy-MM-dd"/></td>
       <td> <span><c:out value="${b.com_status }"/></span>
-       <input type="hidden" value="${b.mem_no }" name="reply_id"/> 
-      <input type="hidden" value="${b.reply_id }" name="reply_id"/> 
+      <input type="hidden" value="${b.mem_no }" name="reply_id"/>
+      <input type="hidden" value="${b.reply_id }" name="reply_id"/>
       <c:if test="${b.com_status eq 'N' }">
       <button class="btn btn-info memWarnYnBtn">신고접수</button>
       </c:if>

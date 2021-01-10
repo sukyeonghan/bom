@@ -6,9 +6,9 @@ import com.kh.bom.notice.model.vo.Notice;
 
 public interface NoticeService {
 	
-	List<Notice> selectNoticeList(int cPage,int numPerpage);
+	List<Notice> selectNoticeList();
 	
-	int selectCount();
+	List<Notice> selectNoticeList2();
 	
 	Notice selectNoticeOne(String noticeNo);
 	

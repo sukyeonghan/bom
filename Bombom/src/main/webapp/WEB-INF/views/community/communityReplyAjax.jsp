@@ -16,7 +16,7 @@
 				<td>
 				<img src="${path}/resources/upload/profile/${reply.mem_pro}" width="30px" height="30px"> 
 				<span class="reply-writer"><strong><c:out value="${reply.mem_nick }" /></strong></span> 
-				<span class="comment-date"><fmt:formatDate pattern="yyyy. MM. dd " value="${reply.register_datetime }" /></span>
+				<span class="comment-date"><fmt:formatDate pattern="yyyy. MM. dd HH:mm" value="${reply.register_datetime }" /></span>
 				<br> <br>
 				<c:if test="${reply.com_status eq null }">
 				<div> <c:out value="${reply.reply_content }" /> </div>
@@ -24,25 +24,24 @@
 				<c:if test="${reply.com_status eq 'Y' }">
 				<div style="color:red;"> 부절절한 댓글 입니다. </div>
 				</c:if>
-					<div>
 						<!--  로그인 했을 경우 버튼 활성화 -->
-						<div class="text-right">
-								<input type="hidden" name="reply_id" id="replyId"
-									value="${reply.reply_id }" />
-								<input type="hidden" id="replyWriter" name="reply_writer"
-									value="${reply.reply_writer }" />
-								<input type="hidden" name="memNo" value="${loginMember.memNo}">
-								<input type="hidden" name="cmNo" value="${community.cmNo }" id="cmNo">
-							<c:if test="${reply.childReply eq null and reply.com_status eq null or reply.com_status == 'N'}">
+					<div class="text-right">
+							<input type="hidden" name="reply_id" id="replyId" value="${reply.reply_id }" />
+							<input type="hidden" id="replyWriter" name="reply_writer" value="${reply.reply_writer }" />
+							<input type="hidden" name="memNo" value="${loginMember.memNo}">
+							<input type="hidden" name="cmNo" value="${community.cmNo }" id="cmNo">
+						<c:if test="${reply.childReply eq null }">
 								<span class="reply-btnbox btn-reply">답글달기</span>&nbsp;&nbsp;
- 							</c:if>&nbsp;&nbsp;
- 							<c:if test="${loginMember.memNick ne reply.mem_nick and reply.com_status eq null or reply.com_status == 'N'}">
- 							<span data-toggle="modal" data-target="#reportModal" class="reply-btnbox replyModal">
-								신고하기 
-							    </span>
-			       			</c:if>
+						</c:if>&nbsp;&nbsp;
+						
+						<c:if test="${loginMember.memNick ne reply.mem_nick and reply.com_status eq null or reply.com_status == 'N'}">
+ 							<span data-toggle="modal" data-target="#reportModal" class="reply-btnbox replyModal"> 
+ 							신고하기 
+ 							</span>
+						</c:if> 
+						<c:if test="${loginMember.memNick eq reply.childReply.mem_nick or loginMember.memManagerYn == 'Y' }">
 			       			<span class="reply-btnbox" onclick="fn_deleteReply();">삭제하기</span>
-						</div>
+						</c:if>&nbsp;&nbsp;
 					</div>
 						<%-- <!-- 웹소켓용 -->
 						<input type="hidden" id="reply_memNo" name="reply_memNo" value="${reply.mem_no}" /> --%>
@@ -66,35 +65,27 @@
 							value="${reply.childReply.mem_nick }" /></span> <span><c:out
 							value="${reply.childReply.register_datetime }" /></span> <br>
 					<div>
-
-					<c:if test="${reply.childReply.com_status eq null or reply.childReply.com_status == 'N'}">
-
 						<c:out value="${reply.childReply.reply_content }" />
-
-					</c:if>
-					<c:if test="${reply.childReply.com_status eq 'Y' }">
-						<div style="color:red;"> 부절절한 댓글 입니다. </div>
-					</c:if>
-
-
 					</div>
-					<c:if test="${reply.com_status eq null or reply.com_status == 'N'}">
+						<div>
 						<div class="text-right">
 								<input type="hidden" name="reply_id" id="replyId"
-									value="${reply.childReply.reply_id }" />
+									value="${reply.reply_id }" />
 								<input type="hidden" id="replyWriter" name="reply_writer"
-									value="$oginMember.memNo}" id="memNo">
+									value="${reply.reply_writer }" />
+								<input type="hidden" name="memNo" value="${loginMember.memNo}" id="memNo">
 								<input type="hidden" name="cmNo" value="${community.cmNo }" id="cmNo">
-									<c:if test="${loginMember.memNick ne reply.childReply.mem_nick and reply.childReply.com_status eq null or reply.childReply.com_status == 'N' }">
-								<span data-toggle="modal" data-target="#reportModal" class="reply-btnbox replyModal">
-								신고하기 
+									<c:if test="${loginMember.memNick ne reply.mem_nick }">
+								<span data-toggle="modal" data-target="#reportModal"
+									    class="reply-btnbox replyModal">신고하기 
 							    </span>
 								</c:if>
 						  	<c:if test="${loginMember.memNick eq reply.childReply.mem_nick or loginMember.memManagerYn == 'Y' }">
+								  &nbsp;&nbsp;
 					       		<span class="reply-btnbox" onclick="fn_deleteReply();">삭제하기</span>
 				       		</c:if>
 						</div>
-					</c:if>
+					</div>
 				<td></td>
 			</tr>
 		</c:if>
@@ -208,27 +199,27 @@
 
 <script>
 							
-		//댓글 로그인 체크
-          	$(function() {
-          		$(".loginCheck").click(function() {
-          			swal("로그인을 먼저 해주세요");
-          		});
-          	});
-          	
-		 //모달에 고유값을 클릭했을 때 
-	     $(".replyModal").click(function(){
-	    	 let replyId = $(this).parent().children('input[name="reply_id"]').val(); //변수에 답글번호를 가져온다.
-	    	 let replyWriter = $(this).parent().children('input[name="reply_writer"]').val();
-	    	 console.log(replyId);
-	    	 let cmNo = $("#cmNo").val();
-	    	 console.log(cmNo);
-	    	 
-	    	 $(".cmNo").val(cmNo);
-	    	 $(".replyId").val(replyId); //모달창에 답글 번호 쏴주기 
-	    	 $(".replyWriter").val(replyWriter)
-	    	 
-	     })
-	     
+							//댓글 로그인 체크
+				           	$(function() {
+				           		$(".loginCheck").click(function() {
+				           			swal("로그인을 먼저 해주세요");
+				           		});
+				           	});
+				           	
+							 //모달에 고유값을 클릭했을 때 
+						     $(".replyModal").click(function(){
+						    	 let replyId = $(this).parent().children('input[name="reply_id"]').val(); //변수에 답글번호를 가져온다.
+						    	 let replyWriter = $(this).parent().children('input[name="reply_writer"]').val();
+						    	 console.log(replyId);
+						    	 let cmNo = $("#cmNo").val();
+						    	 console.log(cmNo);
+						    	 
+						    	 $(".cmNo").val(cmNo);
+						    	 $(".replyId").val(replyId); //모달창에 답글 번호 쏴주기 
+						    	 $(".replyWriter").val(replyWriter)
+						    	 
+						     })
+						     
       	function fn_deleteReply(){
     	var msg = confirm("댓글을 삭제합니다"); //댓글 삭제 메세지
     	if(msg == true){ //확인을 누 경우
@@ -236,21 +227,6 @@
     	    console.log(cmNo);
     		let reply_id = $(event.target).parent().children('input[name=reply_id]').val();
         	location.replace("${path}/community/deleteReply?cmNo="+cmNo+"&reply_id=" + reply_id); 
-    	}
-    	else{
-    		return false; //삭제 취소
-    	}
-    	
-    };
-    
-	function fn_deleteReply2(){
-    	var msg = confirm("댓글을 삭제합니다"); //댓글 삭제 메세지
-    	if(msg == true){ //확인을 누 경우
-    		var cmNo = $("#cmNo").val();
-    	    console.log(cmNo);
-    		let reply_id = $(event.target).parent().children('input[name=reply_id]').val();
-    		console.log(reply_id);
-        	location.replace("${path}/community/deleteReply2?cmNo="+cmNo+"&reply_id=" + reply_id); 
     	}
     	else{
     		return false; //삭제 취소
