@@ -304,17 +304,7 @@ table#tbl-comment textarea {
       </div>
 
 
-
 				
-				 <script>
-				 $(function(){
-					 var setTag = ${community.cmContent };
-					var newText = $(".editor").text(setTag);
-					 console.log()
-				 })
-				
-				</script> 
-
 		<br>		
 		
 <%-- 		<label> Like </label> <i onclick="myFunction(this)"
@@ -339,10 +329,10 @@ table#tbl-comment textarea {
 	   <div id="social">
 		<form id="myform">
 	   		<span>
-				<script type="text/javascript" src="https://ssl.pstatic.net/share/js/naver_sharebutton.js"></script>
-	<script type="text/javascript">
-	new ShareNaver.makeButton({"type": "f"});
-	</script>
+		<script type="text/javascript" src="https://ssl.pstatic.net/share/js/naver_sharebutton.js"></script>
+				<script type="text/javascript">
+				new ShareNaver.makeButton({"type": "f"});
+			</script>
 			</span>
 				<!--  카카오 공유하기 -->
  		 <span> 
