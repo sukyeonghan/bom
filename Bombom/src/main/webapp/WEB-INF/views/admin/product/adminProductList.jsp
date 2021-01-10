@@ -117,8 +117,8 @@
 		
 		<div id="admin-container">
 			<!-- 페이지 타이틀 -->
-			<h3 class="page-title">제품목록</h3> 
-		
+			<h3 class="page-title">제품 관리</h3> 
+			
 			<div class="btns">
 				<!-- 전체 선택, 선택 삭제 버튼 -->
 				<div class="buttons">
@@ -138,7 +138,7 @@
 					<p id="count">총  <span id="countResult">${count }</span>개</p>
 					<!--카테고리 정렬  -->
 					<div class="select-box">
-						<select class="sort" name="filter">
+						<select class="sort form-control" name="filter">
 							<option value="전체">전체보기</option>
 							<option value="식품">식품</option>
 							<option value="잡화">잡화</option>
@@ -234,7 +234,7 @@
 					<!-- 검색 카테고리 -->
 					<div class="select-box">
 						<select class="searchSort form-control" name="searchSort">
-							<option value="">검색타입</option>
+							<option value="" hidden>검색타입</option>
 							<option value="pdtName">상품명</option>
 							<option value="eventNo">이벤트명</option>
 						</select>
@@ -274,7 +274,6 @@
 	//선택 삭제
 	function deletePro(){
 		if(confirm("정말 삭제하시겠습니까?")==true){
-			
 			var list=new Array();   
 	        for (var i=0; i<items.length; i++){
 	        	var check=$("input[name=check]").eq(i);
@@ -285,12 +284,10 @@
 	    			}); 
 	            }
 	        }
-	        
 	        location.href='${path}/admin/deleteSelect?pdtNo='+list;
 		}else{
 			return false;
 		}
-	    
 	}
 	
 	//상품 목록 분류
