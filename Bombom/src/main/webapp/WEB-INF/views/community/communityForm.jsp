@@ -99,7 +99,7 @@ $(document).ready(function () {
 	<br>
 	<div id="community-container" class="media-body">
 			<br> 
-			<input type="text" class="form-control w3-input title" name="cmTitle" placeholder="제목을 입력해주세요" maxlength="50" value='<c:out value="${community.cmTitle }"/>' required>
+			<input type="text" class="form-control w3-input title" name="cmTitle" placeholder="제목을 입력해주세요" maxlength="100" value='<c:out value="${community.cmTitle }"/>' required>
 			  <br>
 				
 			 <!-- 게시글 썸네일 등록 -->
