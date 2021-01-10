@@ -10,6 +10,8 @@
  <link rel="stylesheet" href="${path }/resources/css/community/likeBtn.css"> 
 <c:set var="path" value="${pageContext.request.contextPath }" />
 
+<!-- 카카오 공유하기 -->
+<script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="notice" value="커뮤니티 상세보기" />
 </jsp:include>
@@ -278,35 +280,27 @@ table#tbl-comment textarea {
 </style>
 <section id="content" class="container">
 
-	<!-- 커뮤니티 섹션 시작 -->
-	<div id="community-container">
-		<div class="thumbnail">
-		</div>
-		<input type="hidden" value="${community.cmNo }" name="cmNo" id="cmNo"> <br>
-		<input type="text" class="form-control w3-input title" name="cmTitle"
-			placeholder="제목을 입력해주세요"
-			value='<c:out value="${community.cmTitle }"/>' required><br>
-
-		<div>
-			<fmt:formatDate pattern="yyyy-MM-dd" value="${community.cmDate }" />
-			<p>
-				<img src="${path }/resources/upload/profile/${community.memPro}"
-					class="rounded-circle" id="profileImg" alt="기본프로필" width="50"
-					height="50">
-				<c:out value="${community.memNick}" />
-			</p>
-		</div>
-		<br>
-		<div class="editor" id="cmContentView">
-         <c:out escapeXml="false" value="${community.cmContent }"/>
-         <img
-				src="${path }/resources/upload/community/${community.cmThumbnail}"
-				width="700px" height="auto">
-      </div>
+				<!-- 커뮤니티 섹션 시작 -->
+				<div id="community-container">
+					<input type="hidden" value="${community.cmNo }" name="cmNo" id="cmNo"><br>
+					<input type="text" class="form-control w3-input title" name="cmTitle" placeholder="제목을 입력해주세요" 
+					value='<c:out value="${community.cmTitle }"/>' required><br>
+					<div>
+						<fmt:formatDate pattern="yyyy-MM-dd" value="${community.cmDate }" />
+						<p><img src="${path }/resources/upload/profile/${community.memPro}"
+							class="rounded-circle" id="profileImg" alt="기본프로필" width="50"
+							height="50"><c:out value="${community.memNick}" /></p>
+					</div>
+					<br>
+					<div class="editor" id="cmContentView">
+			         <c:out escapeXml="false" value="${community.cmContent }"/>
+			         <img
+							src="${path }/resources/upload/community/${community.cmThumbnail}"
+							width="700px" height="auto">
+			      </div>
 
 		
-<%-- 		<label> Like </label> <i onclick="myFunction(this)"
-				value="${community.cmContent }" /></textarea><br> --%>
+
 
 		<!-- 좋아요 -->
 		<label> Like </label>
@@ -332,12 +326,8 @@ table#tbl-comment textarea {
 				new ShareNaver.makeButton({"type": "f"});
 			</script>
 			</span>
-				<!--  카카오 공유하기 -->
  		 <span> 
- 		 	<img src="${path }/resources/images/kakao.png" width="50px;" height="50px;"onClick="sendLinkCustom();"/>
-   		</span>
-  		</form>
-  		<script>
+ 		 <script>
 		    function share() {
 		      var url = encodeURI(encodeURIComponent(myform.url.value));
 		      var title = encodeURI(myform.title.value);
@@ -345,16 +335,11 @@ table#tbl-comment textarea {
 		      document.location = shareURL;
 		    }
  		 </script>
- 		 
- 		<script type="text/javascript">
-    	function sendLinkCustom() {
-        Kakao.init("299148e7a2857d08c72dc299affbfcb9");
-        Kakao.Link.sendCustom({
-            templateId: 44219
-        });
-    }
-</script>
-
+ 		 <!--  카카오 공유하기 -->
+ 		 <img src="${path }/resources/images/community/kakao.png" width="50px;"  onClick="sendLinkDefault();">
+   		</span>
+  		</form> 		 
+ 	
 <script>
 
 let cmNo=$("#cmNo").val();
@@ -375,7 +360,7 @@ try {
       },
       buttons: [ 
         {
-          title: '앱으로 보기',
+          title: '자세히보기',
           link: { 
             webUrl:  'https://rclass.iptime.org/20PM_BOM_final/community/communityView.do?cmNo='+cmNo,
           },
@@ -386,7 +371,7 @@ try {
 ; 
 window.kakaoDemoCallback && window.kakaoDemoCallback() }
 catch(e) { window.kakaoDemoException && window.kakaoDemoException(e) }
-</script>
+</script> 
 </div>
 		<!-- 해당 게시글 작성자에게만 수정 / 삭제 버튼 보인다 -->
 
