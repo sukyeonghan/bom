@@ -280,22 +280,12 @@ table#tbl-comment textarea {
 <script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 
 
-<section id="content" class="container">
+<section id="content" class="container" >
 
 	<!-- 커뮤니티 섹션 시작 -->
 	<div id="community-container">
-	
-			<input type="hidden" value="${community.cmNo }" name="cmNo" id="cmNo"> <br>
-			<input type="text" class="form-control w3-input title" name="cmTitle" placeholder="제목을 입력해주세요"
-				 value='<c:out value="${community.cmTitle }"/>' required> <br>
-			
-		</div>
 		<input type="hidden" value="${community.cmNo }" name="cmNo" id="cmNo"> <br>
-		<input type="text" class="form-control w3-input title" name="cmTitle"
-			placeholder="제목을 입력해주세요"
-			value='<c:out value="${community.cmTitle }"/>' required><br>
-
-		<div>
+		<h1><c:out value="${ community.cmTitle}"/></h1><br>
 			<fmt:formatDate pattern="yyyy-MM-dd" value="${community.cmDate }" />
 			<p>
 				<img src="${path }/resources/upload/profile/${community.memPro}"
@@ -303,8 +293,7 @@ table#tbl-comment textarea {
 					height="50">
 				<c:out value="${community.memNick}" />
 			</p>
-		</div>
-
+		
 		<br>
 
 		<div class="editor" id="cmContentView">
@@ -315,7 +304,17 @@ table#tbl-comment textarea {
       </div>
 
 
-		
+
+				
+				 <script>
+				 $(function(){
+					 var setTag = ${community.cmContent };
+					var newText = $(".editor").text(setTag);
+					 console.log()
+				 })
+				
+				</script> 
+
 		<br>		
 		
 <%-- 		<label> Like </label> <i onclick="myFunction(this)"
@@ -341,9 +340,9 @@ table#tbl-comment textarea {
 		<form id="myform">
 	   		<span>
 				<script type="text/javascript" src="https://ssl.pstatic.net/share/js/naver_sharebutton.js"></script>
-				<script type="text/javascript">
-					new ShareNaver.makeButton({"type": "f"});
-				</script>
+	<script type="text/javascript">
+	new ShareNaver.makeButton({"type": "f"});
+	</script>
 			</span>
 				<!--  카카오 공유하기 -->
  		 <span> 
@@ -367,7 +366,7 @@ table#tbl-comment textarea {
         });
     }
 </script>
-a
+
 <script>
 
 let cmNo=$("#cmNo").val();
@@ -445,13 +444,13 @@ catch(e) { window.kakaoDemoException && window.kakaoDemoException(e) }
 			</div>
 		</div>
 		
-
     <div id="replyAjax">   </div>
-    
-		
+    		
 	<div id="btn-box">
 		<input type="button" class="btn btn-outline-success" value="목록으로"
 			onclick="location.replace('${path }/community/communityList')">
+	</div>
+	
 	</div>
 </section>
 <script>

@@ -36,7 +36,7 @@
 								<c:if test="${reply.childReply eq null and reply.com_status eq null or reply.com_status == 'N'}">
 								<span class="reply-btnbox btn-reply">답글달기</span>&nbsp;&nbsp;
 								<c:if test="${loginMember.memNick ne reply.mem_nick and reply.com_status eq null or reply.com_status == 'N'}">
-								<span data-toggle="modal" data-target="#reportModal" class="reply-btnbox replyModal">
+								
 								신고하기 
 								</span>
 								</c:if>
@@ -66,21 +66,24 @@
 							value="${reply.childReply.mem_nick }" /></span> <span><c:out
 							value="${reply.childReply.register_datetime }" /></span> <br>
 					<div>
+
 					<c:if test="${reply.childReply.com_status eq null or reply.childReply.com_status == 'N'}">
 
 						<c:out value="${reply.childReply.reply_content }" />
+
 					</c:if>
 					<c:if test="${reply.childReply.com_status eq 'Y' }">
 						<div style="color:red;"> 부절절한 댓글 입니다. </div>
 					</c:if>
+
+
 					</div>
 					<c:if test="${reply.com_status eq null or reply.com_status == 'N'}">
 						<div class="text-right">
 								<input type="hidden" name="reply_id" id="replyId"
 									value="${reply.childReply.reply_id }" />
 								<input type="hidden" id="replyWriter" name="reply_writer"
-									value="${reply.reply_writer }" />
-								<input type="hidden" name="memNo" value="${loginMember.memNo}" id="memNo">
+									value="$oginMember.memNo}" id="memNo">
 								<input type="hidden" name="cmNo" value="${community.cmNo }" id="cmNo">
 									<c:if test="${loginMember.memNick ne reply.childReply.mem_nick and reply.childReply.com_status eq null or reply.childReply.com_status == 'N' }">
 								<span data-toggle="modal" data-target="#reportModal" class="reply-btnbox replyModal">
@@ -94,6 +97,7 @@
 
 								  &nbsp;&nbsp;
 					       		<span class="reply-btnbox" onclick="fn_deleteReply();">삭제하기</span>
+ 
 						</div>
 					</c:if>
 				<td></td>
