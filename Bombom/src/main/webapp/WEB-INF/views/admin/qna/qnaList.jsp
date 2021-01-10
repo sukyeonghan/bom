@@ -132,7 +132,7 @@ td>a:hover {
 							<td><a href="" data-toggle="modal" data-target="#qnaView"
 								class="qnaTitle" onclick="fn_qnaDetail();"><c:out
 										value="${q.qnaTitle}" /></a></td>
-							<td><c:out value="${q.memNick }" /></td>
+							<td><c:out value="${q.qnaWriter }" /></td>
 							<td><fmt:formatDate type="both" timeStyle="short"
 									value="${q.qnaDate }" /></td>
 							<td><c:out value="${q.qnaYn}" /></td>

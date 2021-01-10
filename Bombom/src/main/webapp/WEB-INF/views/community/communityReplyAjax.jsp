@@ -24,25 +24,24 @@
 				<c:if test="${reply.com_status eq 'Y' }">
 				<div style="color:red;"> 부절절한 댓글 입니다. </div>
 				</c:if>
-					<div>
 						<!--  로그인 했을 경우 버튼 활성화 -->
-						<div class="text-right">
-								<input type="hidden" name="reply_id" id="replyId"
-									value="${reply.reply_id }" />
-								<input type="hidden" id="replyWriter" name="reply_writer"
-									value="${reply.reply_writer }" />
-								<input type="hidden" name="memNo" value="${loginMember.memNo}">
-								<input type="hidden" name="cmNo" value="${community.cmNo }" id="cmNo">
-								<c:if test="${reply.childReply eq null }">
+					<div class="text-right">
+							<input type="hidden" name="reply_id" id="replyId" value="${reply.reply_id }" />
+							<input type="hidden" id="replyWriter" name="reply_writer" value="${reply.reply_writer }" />
+							<input type="hidden" name="memNo" value="${loginMember.memNo}">
+							<input type="hidden" name="cmNo" value="${community.cmNo }" id="cmNo">
+						<c:if test="${reply.childReply eq null }">
 								<span class="reply-btnbox btn-reply">답글달기</span>&nbsp;&nbsp;
-								</c:if> 
-								<c:if test="${loginMember.memNick ne reply.mem_nick }">
-								<span data-toggle="modal" data-target="#reportModal" class="reply-btnbox replyModal">
-								신고하기 
-								</span>
-								</c:if>&nbsp;&nbsp;
-			       				<span class="reply-btnbox" onclick="fn_deleteReply();">삭제하기</span>
-						</div>
+						</c:if>&nbsp;&nbsp;
+						
+						<c:if test="${loginMember.memNick ne reply.mem_nick and reply.com_status eq null or reply.com_status == 'N'}">
+ 							<span data-toggle="modal" data-target="#reportModal" class="reply-btnbox replyModal"> 
+ 							신고하기 
+ 							</span>
+						</c:if> 
+						<c:if test="${loginMember.memNick eq reply.childReply.mem_nick or loginMember.memManagerYn == 'Y' }">
+			       			<span class="reply-btnbox" onclick="fn_deleteReply();">삭제하기</span>
+						</c:if>&nbsp;&nbsp;
 					</div>
 						<%-- <!-- 웹소켓용 -->
 						<input type="hidden" id="reply_memNo" name="reply_memNo" value="${reply.mem_no}" /> --%>
@@ -81,8 +80,10 @@
 									    class="reply-btnbox replyModal">신고하기 
 							    </span>
 								</c:if>
+						  	<c:if test="${loginMember.memNick eq reply.childReply.mem_nick or loginMember.memManagerYn == 'Y' }">
 								  &nbsp;&nbsp;
 					       		<span class="reply-btnbox" onclick="fn_deleteReply();">삭제하기</span>
+				       		</c:if>
 						</div>
 					</div>
 				<td></td>

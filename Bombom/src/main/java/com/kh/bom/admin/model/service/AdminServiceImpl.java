@@ -50,19 +50,6 @@ public class AdminServiceImpl implements AdminService {
 	public int eventDelete(String eventNo) {
 		return dao.eventDelete(session, eventNo);
 	}
-	
-	//이벤트 선택삭제
-	@Override
-	public int eventDeleteList(List<String> eventNo) {
-		String no = null;
-		int result = 0;
-		for(String e : eventNo) {
-			System.out.println(e);
-			no = e;
-			result = dao.eventDelete(session, no);
-		}
-		return result;
-	}
 
 	@Override
 	public int insertEvent(Event e) {
@@ -181,6 +168,7 @@ public class AdminServiceImpl implements AdminService {
 		int result = dao.insertProduct(session, p);
 		if (result > 0) {
 			if(options!=null) {
+				System.out.println("컨트롤러 옵션"+options);
 				for (int i = 0; i < options.size(); i++) {
 					o.setPdtNo(p.getPdtNo());
 					o.setPdtOptionContent((String) (options.get(i).get("pdtOptionContent")));

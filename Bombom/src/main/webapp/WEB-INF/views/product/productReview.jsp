@@ -415,10 +415,10 @@ textarea.answer {
 								let thead = $("<thead>")
 								let th = $("<tr>").append($("<th>").html("주문번호"))
 									th.append($("<th>").html("상품이름"))
-									if(data.pdtOptionNo!=0){
+									if(data.pdtOptionNo!=null){
 										th.append($("<th style='hidden'>").html("옵션명"))
 									}
-									if(data.pdtOptionContent!=0){
+									if(data.pdtOptionContent!=null){
 										th.append($("<th>").html("옵션이름")) //옵션이 있을때만 노출
 									}
 									th.append($("<th>").html("주문갯수"))

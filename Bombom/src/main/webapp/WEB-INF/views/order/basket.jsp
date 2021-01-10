@@ -234,12 +234,25 @@
 	
 	
 	//수량 +
+<<<<<<< HEAD
 	function fn_plus(qty,basketNo,pdtNo,pdtOptionNo){
 		var inbasQty = {"inbasQty": qty, "calc":"+","basketNo":basketNo,
 				"pdtNo":pdtNo,"pdtOptionNo":pdtOptionNo };	
 		var url = "${path}/order/updateQty";
 		window.location = url + "?" + $.param(inbasQty);
 	}
+=======
+	$(".plus").click( e=>{
+		for(var i = 0; i<qtys.length; i++){
+			if(e.target == pluss[i]){
+				pp = qtys[i];
+				pp.value++;
+				
+			}
+		}
+	});
+	
+>>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
 	
 	//수량 - 
 	function fn_minus(qty,basketNo,pdtNo,pdtOptionNo){
