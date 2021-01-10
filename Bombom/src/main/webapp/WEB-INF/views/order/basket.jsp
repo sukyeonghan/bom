@@ -20,17 +20,15 @@
 			<c:set var="totalSale" value="${totalSale+((l.pdtPrice + l.pdtOptionAddprice) * l.salePer/100)}"/>
 		</c:if>
 	</c:if>
-	
 	<!-- 옵션값 없는 상품값합하기 -->
 	<c:if test="${empty l.pdtOptionNo }">
 		<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * (l.pdtPrice - (l.pdtPrice * l.salePer/100)))}" />
 	</c:if>
 	<!-- 옵션값 있는 상품값합하기 -->
 	<c:if test="${not empty l.pdtOptionNo }">
-		<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * ((l.pdtPrice+ l.pdtOptionAddprice) - ((l.pdtPrice+ l.pdtOptionAddprice) * l.salePer/100)))}" />
+		<c:set var="totalPrice" value="${totalPrice + (l.inbasQty * ((l.pdtPrice+ l.pdtOptionAddprice)
+							 - ((l.pdtPrice+ l.pdtOptionAddprice) * l.salePer/100)))}" />
 	</c:if>
-	
-
 	<c:set var="basketNo" value="${l.basketNo }"/>
 </c:forEach>
 
@@ -71,9 +69,9 @@
 					<thead>
 						<tr>
 							<th style="width: 40%;">선택한 상품</th>
-							<th style="width: 25%;">수량</th>
+							<th style="width: 20%;">수량</th>
 							<th style="width: 20%;">가격</th>
-							<th style="width: 10%;">할인</th>
+							<th style="width: 15%;">할인</th>
 							<th style="width: 5%;"></th><!-- 삭제 -->
 						</tr>
 					</thead>
@@ -89,21 +87,21 @@
 								<c:forTokens items="${b.pdtThumbImage}" var="th" delims="," varStatus="vs">
 									<c:if test="${vs.first }">
 										<img src="${path}/resources/upload/product/${th}"
-											class="img-fluid" style="width:80px; height: 80px;">
+											class="img-fluid" style="width:80px; height: 80px; margin: 0 15px 0 0;">
 									</c:if>
 								</c:forTokens>
 								<!-- 제품명 -->
 								<div class="pdtName_p">
 								<p>
 									<c:if test="${empty b.pdtOptionNo }"> <!-- 옵션 없는경우 -->
-										<c:out value="${b.pdtName }" /><br>
-										<fmt:formatNumber value="${b.pdtPrice}" pattern="#,###,###" />원
+										<div class="pName"><c:out value="${b.pdtName }" /></div>
+										<div class="pPrice"><fmt:formatNumber value="${b.pdtPrice}" pattern="#,###,###" />원</div>
 									</c:if>	
 									
 									<c:if test="${not empty b.pdtOptionNo }"><!-- 옵션 있는경우 -->
-										<c:out value="${b.pdtName }" /><br>
-										<c:out value="${b.pdtOptionContent }" /><br>
-										<fmt:formatNumber value="${b.pdtPrice + b.pdtOptionAddprice}" pattern="#,###,###" />원
+										<div class="pName"><c:out value="${b.pdtName }" /></div>
+										<div><c:out value="${b.pdtOptionContent }" /></div>
+										<div class="pPrice"><fmt:formatNumber value="${b.pdtPrice + b.pdtOptionAddprice}" pattern="#,###,###" />원</div>
 									</c:if>	
 									
 								</p>
@@ -116,7 +114,7 @@
 							
 							<!-- 수량 -->
 							<td>
-								<div class="input_number_wrap option-count-input form-number">
+								<div class="input_number_wrap option-count-input form-number show_pdt-wrap">
 									<button  class="minus form-number_control" type="button" onclick="fn_minus('${b.inbasQty}','${b.basketNo }','${b.pdtNo}','${b.pdtOptionNo }');"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 7 11.5 h 10 v 1 H 7 Z"></path></svg></button>
 									
 									<input type="text" name="inbasQty" class="qty form-control " value="${b.inbasQty }" style="width: 80px; text-align: center;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' />
@@ -127,7 +125,7 @@
 							
 							<!-- 가격 -->
 							<td>
-								<div class="pdtOnePrice">
+								<div class="pdtOnePrice show_pdt-wrap">
 									<c:if test="${not empty b.pdtOptionNo }">
 										<i class="sumPrice"><fmt:formatNumber 
 											value="${b.salePer != 0? b.inbasQty* ((b.pdtPrice + b.pdtOptionAddprice)-((b.pdtPrice+b.pdtOptionAddprice)*(b.salePer/100))) : b.inbasQty*(b.pdtPrice + b.pdtOptionAddprice)}" 
@@ -143,14 +141,14 @@
 							
 							
 							<!-- 할인 -->
-							<td>
+							<td><div class="show_pdt-wrap">
 								<c:if test="${not empty b.pdtOptionNo }">
 									<div>(-)<fmt:formatNumber pattern="#,###,###" value="${b.salePer != 0?(b.pdtPrice + b.pdtOptionAddprice)*(b.salePer/100) : 0 }" />원</div>
 								</c:if>
 								<c:if test="${empty b.pdtOptionNo }">
 									<div>(-)<fmt:formatNumber pattern="#,###,###" value="${b.salePer != 0? b.pdtPrice*(b.salePer/100) : 0 }" />원</div>
 								</c:if>
-							</td>
+							</div></td>
 							
 							
 							<!-- 삭제버튼 -->
@@ -208,6 +206,8 @@
 	var opNos = $(".opNo"); //상품옵션번호
 	var removes = $(".remove"); //삭제버튼
 	
+	
+	
 	//장바구니 상품삭제하기
 	function fn_delete(pdtNo, basketNo,memNo,pdtOptionNo){
 		var no = {"pdtNo":pdtNo, "basketNo":basketNo,"memNo":memNo, "pdtOptionNo":pdtOptionNo};
@@ -217,10 +217,21 @@
 			window.location = url + "?" + $.param(no);
 		}
 	}
+	
+	
+	
+	
 	var qtys = $(".qty"); //수량
 	var pluss = $(".plus"); //+버튼
 	var minuss = $(".minus"); //-버튼
 	var sums = $(".sumPrice"); //가격
+	
+	
+	
+	
+	
+	
+	
 	
 	//수량 +
 	function fn_plus(qty,basketNo,pdtNo,pdtOptionNo){
