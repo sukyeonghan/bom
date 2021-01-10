@@ -56,16 +56,10 @@ public class InquiryController {
 		String msg = "";
 		String loc = "/product/productOne?pdtNo="+pdtNo;
 		String icon = "";
-		String category="";
-		String receiverNo="";
-		String bascket="";
 		
 		if(result>0) {
 			msg = "답변이 등록되었습니다";
 			icon = "success";
-			category="productQna";
-			receiverNo=receiver;
-			bascket=pdtName;
 		}else {
 			msg = "답변을 다시 등록해주세요";
 			icon = "warning";
@@ -74,9 +68,10 @@ public class InquiryController {
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.addObject("icon",icon);
-		mv.addObject("category",category);
-		mv.addObject("receiverNo",receiverNo);
-		mv.addObject("bascket",bascket);
+		mv.addObject("category","productQna");
+		mv.addObject("receiverNo",receiver);
+		mv.addObject("pdtName",pdtName);
+		mv.addObject("pdtNo",pdtNo);
 		mv.setViewName("common/msg");
 		return mv;		
 		

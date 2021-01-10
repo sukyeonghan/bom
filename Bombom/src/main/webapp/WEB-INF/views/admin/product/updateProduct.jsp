@@ -40,7 +40,7 @@
 			<form action="${path }/admin/updateProductEnd" method="post" enctype="multipart/form-data">
 				<table id="insert-table">
 					<tr>
-						<th>카테고리</th>
+						<th>카테고리<span class="nesse"> *</span></th>
 						<td>
 						<!-- 검색 카테고리 -->
 							<div class="select-box">
@@ -54,7 +54,7 @@
 								</select>
 							</div>
 						</td>
-						<th>판매 상태</th>
+						<th>판매 상태<span class="nesse"> *</span></th>
 						<td>
 							<!-- 판매상태 카테고리 -->
 							<div class="select-box">
@@ -66,9 +66,9 @@
 						</td>
 					</tr>
 					<tr>
-						<th>제품명</th>
+						<th>제품명<span class="nesse"> *</span></th>
 						<td><input type="text" id="name" class="text w3-input" name="pdtName" value="${product.pdtName }" ></td>
-						<th>제품기본가격</th>
+						<th>제품기본가격<span class="nesse"> *</span></th>
 						<td><input type="text" id="price" class="text w3-input" name="pdtPrice" value="${product.pdtPrice }" ></td>
 					</tr>
 					<tr>
@@ -145,16 +145,17 @@
 				<div id="middle-div">
 					<p class="title" id="product-intro">간단한 제품 설명</p>
 					<span id="text-span">
-						<textarea id="intro-text" rows="5" placeholder="65자 이내로 적어주세요" name="pdtIntro" onKeyUp="javascript:fnChkByte1(this,'200')"></textarea>
+						<textarea id="intro-text" rows="5" placeholder="65자 이내로 적어주세요" name="pdtIntro" onKeyUp="javascript:fnChkByte1(this,'200')"><c:out value="${product.pdtIntro }"/></textarea>
 						<div style="float:right;">
-							<span id="byteInfo1">0</span>/200bytes
+							<span id="byteInfo1"><c:out value="${fn:length(product.pdtIntro)}"/></span>/200bytes
+								
 						</div>
 					</span>
 				</div>
 				
 				<!-- 제품 썸네일,상세 이미지 등록 -->
 				<div id="bottom-div">
-					<p class="title">제품 썸네일 이미지(최대 6장)</p>
+					<p class="title">제품 썸네일 이미지(최대 6장)<span class="nesse"> *</span></p>
 					<div id="thumbContainer">
 					<c:forEach var="th" items="${thumb }"></c:forEach>
 						<div class="thumbWrap" > 
@@ -260,7 +261,7 @@
 					</div> 
 					
 		      		<div id="detail-image">
-			      		<p class="title">제품 상세 이미지(총 1장)</p>
+			      		<p class="title">제품 상세 이미지(총 1장)<span class="nesse"> *</span></p>
 			      		
 			      		<input type="button" id="fileBtn" class="fileBtn" value="파일선택" >
 			      		<input type=hidden name="pdtDetailImage" value="${product.pdtDetailImage}">

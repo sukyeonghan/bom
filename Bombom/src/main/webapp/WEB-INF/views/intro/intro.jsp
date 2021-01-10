@@ -17,7 +17,7 @@
 	#top-intro{margin: 0 0 10% 5%;}
 	
 	.first-intro {
-		margin-top:25%;
+		margin-top:20%;
 		line-height: 1.8;}
 	
 	.sub-content{

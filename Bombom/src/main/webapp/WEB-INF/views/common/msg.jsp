@@ -33,7 +33,7 @@ function fnAlarm(){
          //배송도착 - 구매확정 메세지
     	  caller="관리자";
           callerNo="M0";
-          message="주문하신 <a href='${path }/mypage/orderDetail?orderNo=${orderNo}'>'${bascket}'</a>상품은 잘 받으셨나요? 무사히 받으셨다면  <a href='${path }/mypage/orderStatus'>구매를 확정</a>해주세요.";
+          message="주문하신 <a href='${path }/mypage/orderDetail?orderNo=${orderNo}'>'${bascket}'</a>제품은 잘 받으셨나요? 무사히 받으셨다면  <a href='${path }/mypage/orderStatus'>구매를 확정</a>해주세요.";
           receiverNo="${receiverNo}";
           
       }else if(category=="oneQna") {
@@ -49,7 +49,7 @@ function fnAlarm(){
          callerNo="M0";
          receiverNo="${receiverNo}";
          bascket="${bascket}";
-         message="'"+bascket+"'상품에 대한 상품문의글에 답변이 등록되었습니다.";
+         message="<a href='${path }/product/productOne?pdtNo=${pdtNo}'>'${pdtName}'</a> 제품문의글에 답변이 등록되었습니다.";
          
       }else if(category=="communityOut") {
          //커뮤니티 권한 박탈
