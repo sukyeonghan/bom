@@ -212,7 +212,7 @@ p.p-info {
 						<li class="nav-item"><a class="nav-link" data-toggle="modal"
 							data-target="#loginModal" >로그인</a></li>
 						<li class="nav-item"><a class="nav-link" data-toggle="modal"
-							data-target="#myModal">회원가입</a></li>
+							data-target="#myModal" onclick="fn_currentUrl();">회원가입</a></li>
 					</c:if>
 
 					<c:if test="${loginMember!=null }">
@@ -388,6 +388,7 @@ p.p-info {
 					<form action="${path}/member/enrollMember" method="post">
 						<div class="modal-body">
 							<div class="form-group">
+							<input type="hidden" class="currentUrl" name="currentUrl">
 								<input type="text" class="form-control" placeholder="닉네임"
 									name="nick" id="memNick" required /> <label
 									class="guide nickOk">멋진 닉네임이네요.</label> <label
@@ -474,7 +475,7 @@ p.p-info {
 					<form action="${path}/member/loginMember" method="post">
 						<div class="modal-body">
 							<div class="form-group">
-								<input type="hidden" id="currentUrl" name="currentUrl">
+								<input type="hidden" class="currentUrl" name="currentUrl">
 								<input type="email" class="form-control" placeholder="이메일주소"
 									name="email" id="loginEmail" required
 									value="${cookie.saveId.value }" /> <label
@@ -833,7 +834,6 @@ function fn_signUp(){
 	    return flag;
 	}
 
- 
 }
  
  //이메일 전송
@@ -1065,7 +1065,8 @@ function fn_signUp(){
 		let num=0;
 		num=oriUrl.length;
 		console.log(url.substring(num));
-		$("#currentUrl").val(url.substring(num));
+		$(".currentUrl").val(url.substring(num));
+	
 	}
 
 
