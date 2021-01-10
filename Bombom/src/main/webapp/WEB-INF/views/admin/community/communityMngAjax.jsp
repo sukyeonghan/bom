@@ -22,7 +22,9 @@
      <tr>
      <td><c:out value="${b.mem_nick}"/></td>
      <td><c:out value="${b.com_reason }"/></td>
-     <td><c:out value="${b.reply_content }"/></td>
+     <td>
+     <span class="ellipsis"><c:out value="${b.reply_content }"/></span>
+     </td>
      <td><fmt:formatDate value="${b.com_date}" pattern="yyyy-MM-dd"/></td>
       <td> <span><c:out value="${b.com_status }"/></span>
       <input type="hidden" value="${b.mem_no }" name="reply_id"/>
