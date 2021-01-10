@@ -150,7 +150,11 @@
             <div class="col-3"><label for="postcode" class=" mr-3">우편번호<i class="essential">*</i></label></div>
             <div class="col-9 d-flex"><input type="text" id='postcode' name='ordZipcode' value="${ship.shipZipCode }" class="zipCode address-detail form-control" style="width: 150px;"  placeholder='우편번호' readonly >
             <input type="button" onclick='execDaumPostcode()' class="changeAddr btn btn-success" value="주소찾기" >
-            <input type="button" onclick='' class="btn btn-success" value="배송지변경" ></div>
+            
+            <!-- 
+            <input type="button" onclick='' class="btn btn-success" value="배송지변경" >-->
+            
+            </div> 
         </div>
         <div class="form-group d-flex mb-3">
             <div class="col-3 d-flex"><label for="addr">주소<i class="essential">*</i></label></div>
@@ -188,7 +192,11 @@
             <div class="col-3"><label for="postcode" class=" mr-3">우편번호<i class="essential">*</i></label></div>
             <div class="col-9 d-flex"><input type="text" id='postcode' name='ordZipcode' class="zipCode address-detail form-control" style="width: 150px;"  placeholder='우편번호' readonly >
             <input type="button" onclick='execDaumPostcode()' class="changeAddr btn btn-success" value="주소찾기" >
-            <input type="button" onclick='' class="btn btn-success" value="배송지변경" ></div>
+            
+            <!-- 
+            <input type="button" onclick='' class="btn btn-success" value="배송지변경" >
+            -->
+            </div>
         </div>
         <div class="form-group d-flex mb-3">
             <div class="col-3 d-flex"><label for="addr">주소<i class="essential">*</i></label></div>
@@ -368,15 +376,11 @@
 			$("#ordAmount").text(totalPrice.toLocaleString());
 			
 			$("input[name=ordAmount]").val(totalPrice);
-			
-			
 		}else{
 			$("#point").val(0);
 			$("#ordUsePoint").text(0);
 			$("#ordAmount").text((Number(amount)).toLocaleString());//합산한 총금액 결과 뿌려주기
 			$("input[name=ordAmount]").val(amount);
-		
-			
 		}
 	});
 	
@@ -417,7 +421,6 @@
 			totalPrice = ((Number(amount)) - Number(inputPoint));
 			$("#ordAmount").text(totalPrice.toLocaleString());
 			$("input[name=ordAmount]").val(totalPrice);
-			
 		}
 	});
 </script>

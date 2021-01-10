@@ -148,7 +148,6 @@ th, td {
 						<th>번호</th>
 						<th>카테고리</th>
 						<th>제목</th>
-						<th>할인품목</th>
 						<th>할인율</th>
 						<th>이벤트기간</th>
 						<th></th> <!-- 삭제버튼용 -->
@@ -221,6 +220,25 @@ th, td {
 			}
 			checkAll = "false";
 		}
+	}
+	
+	function selectOne(){
+		//체크한 리스트 가져오기
+		if(confirm("정말로 삭제하시겠습니까?")==true){
+			var cList = new Array();
+			for(var i = 0; i<items.length; i++){
+				var check = $("input[name=check]").eq(i);
+				if(check.is(":checked")){
+					check.next().each(function(index,item){
+						cList.push($(item).val());
+					});
+				}
+			}
+			location.href = '${path}/admin/eventDeleteList?eventNo='+cList;
+		}else{
+			return false;
+		}
+	
 	}
 	
 	//삭제버튼 구현

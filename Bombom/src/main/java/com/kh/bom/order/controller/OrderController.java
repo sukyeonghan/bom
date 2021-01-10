@@ -247,7 +247,8 @@ public class OrderController {
 		if (insertO != null) {
 			//결제api에서 결제가 완료되면 장바구니 비우기
 			int deleteB = service.deleteBasket(basketNo);
-			Point p = new Point(m1.getMemNo(), orderNo, null, "상품구매로 인한 차감", -(order.getOrdUsePoint()));
+			Point p = new Point(m1.getMemNo(), orderNo, null, 
+						"상품구매로 인한 차감", -(order.getOrdUsePoint()));
 			int updateP = pointService.insertStampPoint(p);
 			
 			if(deleteB>0) {
