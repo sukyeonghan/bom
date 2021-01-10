@@ -210,9 +210,9 @@ p.p-info {
 				<ul class="nav">
 					<c:if test="${loginMember == null }">
 						<li class="nav-item"><a class="nav-link" data-toggle="modal"
-							data-target="#loginModal">로그인</a></li>
+							data-target="#loginModal" >로그인</a></li>
 						<li class="nav-item"><a class="nav-link" data-toggle="modal"
-							data-target="#myModal">회원가입</a></li>
+							data-target="#myModal" onclick="fn_currentUrl();">회원가입</a></li>
 					</c:if>
 
 					<c:if test="${loginMember!=null }">
@@ -388,6 +388,7 @@ p.p-info {
 					<form action="${path}/member/enrollMember" method="post">
 						<div class="modal-body">
 							<div class="form-group">
+							<input type="hidden" class="currentUrl" name="currentUrl">
 								<input type="text" class="form-control" placeholder="닉네임"
 									name="nick" id="memNick" required /> <label
 									class="guide nickOk">멋진 닉네임이네요.</label> <label
@@ -474,7 +475,7 @@ p.p-info {
 					<form action="${path}/member/loginMember" method="post">
 						<div class="modal-body">
 							<div class="form-group">
-
+								<input type="hidden" class="currentUrl" name="currentUrl">
 								<input type="email" class="form-control" placeholder="이메일주소"
 									name="email" id="loginEmail" required
 									value="${cookie.saveId.value }" /> <label
@@ -494,7 +495,7 @@ p.p-info {
 									<c:if test="${cookie.saveId.value ne null}">checked</c:if> />
 								ID저장
 							</div>
-							<button type="submit" class="btn btn-success btn-block">
+							<button type="submit" class="btn btn-success btn-block" onclick="fn_currentUrl();">
 								로그인</button>
 						</div>
 
@@ -833,7 +834,6 @@ function fn_signUp(){
 	    return flag;
 	}
 
- 
 }
  
  //이메일 전송
@@ -1058,7 +1058,16 @@ function fn_signUp(){
 		
 	}); */
 	
+	//주소값 가져와서 현재페이지에서 로그인
+	function fn_currentUrl(){
+		let oriUrl=window.location.origin+"${path}";
+		let	url=window.document.location.href;
+		let num=0;
+		num=oriUrl.length;
+		console.log(url.substring(num));
+		$(".currentUrl").val(url.substring(num));
 	
+	}
 
 
  </script>
