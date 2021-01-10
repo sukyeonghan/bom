@@ -221,4 +221,9 @@ public class OrderServiceImpl implements OrderService {
 		return ii;
 	}
 
+	@Override
+	public int updateQty(Inbasket i) {
+		return dao.updateQty(session, i);
+	}
+
 }

@@ -227,11 +227,16 @@ public class OrderDaoImpl implements OrderDao {
 		return session.insert("order.insertInorder", i);
 	}
 
-	//리뷰작성시 inorder revYn Y로 변경
+	// 리뷰작성시 inorder revYn Y로 변경
 	@Override
 	public int updateRevYn(SqlSession session, Map map) {
 		return session.update("order.updateRevYn", map);
 	}
 
-	
+	//장바구니 수량 변경
+	@Override
+	public int updateQty(SqlSession session, Inbasket i) {
+		return session.update("order.updateQty", i);
+	}
+
 }

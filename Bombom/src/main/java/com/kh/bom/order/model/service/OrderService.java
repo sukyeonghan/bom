@@ -65,6 +65,7 @@ public interface OrderService {
 	
 	int insertInorder(Inorder inorder);
 
+	int updateQty(Inbasket i);
 	
 	
 }

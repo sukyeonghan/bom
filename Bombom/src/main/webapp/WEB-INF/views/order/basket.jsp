@@ -112,21 +112,16 @@
 							</div>
 							<input type="hidden" class="pNo" name="pdtNo" value="${b.pdtNo }" > 
 							<input type="hidden" class="bNo" name="basketNo" value="${b.basketNo }">
-							<input type="hidden" value="${b.inbasQty }">
 							</td>
 							
 							<!-- 수량 -->
 							<td>
 								<div class="input_number_wrap option-count-input form-number">
-									<button  class="minus form-number_control" type="button" >
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 7 11.5 h 10 v 1 H 7 Z"></path></svg>
-									</button>
+									<button  class="minus form-number_control" type="button" onclick="fn_minus('${b.inbasQty}','${b.basketNo }','${b.pdtNo}','${b.pdtOptionNo }');"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 7 11.5 h 10 v 1 H 7 Z"></path></svg></button>
 									
 									<input type="text" name="inbasQty" class="qty form-control " value="${b.inbasQty }" style="width: 80px; text-align: center;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' />
 									
-									<button  class="plus form-number_control" type="button" onclick="plus(event);">
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 11.5 11.5 V 6 h 1 v 5.5 H 18 v 1 h -5.5 V 18 h -1 v -5.5 H 6 v -1 h 5.5 Z"></path></svg>
-									</button>
+									<button  class="plus form-number_control" type="button" onclick="fn_plus('${b.inbasQty}','${b.basketNo }','${b.pdtNo}','${b.pdtOptionNo }');"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 11.5 11.5 V 6 h 1 v 5.5 H 18 v 1 h -5.5 V 18 h -1 v -5.5 H 6 v -1 h 5.5 Z"></path></svg></button>
 								</div>
 							</td>
 							
@@ -226,21 +221,27 @@
 	var pluss = $(".plus"); //+버튼
 	var minuss = $(".minus"); //-버튼
 	var sums = $(".sumPrice"); //가격
+	
 	//수량 +
-	function plus(e){
-		for(var i = 0; i<qtys.length; i++){
-			if(e.target == qtys[i]){
-				console.log("이거 클릭했음");
-			}
-		}
+	function fn_plus(qty,basketNo,pdtNo,pdtOptionNo){
+		var inbasQty = {"inbasQty": qty, "calc":"+","basketNo":basketNo,
+				"pdtNo":pdtNo,"pdtOptionNo":pdtOptionNo };	
+		var url = "${path}/order/updateQty";
+		window.location = url + "?" + $.param(inbasQty);
 	}
 	
 	//수량 - 
-	
-	
-	
-	
-	
+	function fn_minus(qty,basketNo,pdtNo,pdtOptionNo){
+		if(qty < 1){
+			alert("1개 이상의 갯수를 선택하셔야 합니다.");
+			//return;
+		}else{
+			var inbasQty = {"inbasQty": qty, "calc":"-","basketNo":basketNo,
+					"pdtNo":pdtNo,"pdtOptionNo":pdtOptionNo};	
+			var url = "${path}/order/updateQty";
+			window.location = url + "?" + $.param(inbasQty);
+		}
+	}
 	
 	
 	

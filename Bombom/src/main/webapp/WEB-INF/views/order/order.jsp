@@ -143,24 +143,24 @@
         <hr>
     <c:if test="${not empty ship}">
         <div class="form-group d-flex mb-3">
-            <div class="col-3"><span>받는분</span></div>
+            <div class="col-3"><span>받는분<i class="essential">*</i></span></div>
             <div class="col-9"><input type="text" name="ordOname" value="${ship.shipRecipient }"  class="orderer form-control"></div>
         </div>
         <div class="form-group d-flex">
-            <div class="col-3"><label for="postcode" class=" mr-3">우편번호</label></div>
+            <div class="col-3"><label for="postcode" class=" mr-3">우편번호<i class="essential">*</i></label></div>
             <div class="col-9 d-flex"><input type="text" id='postcode' name='ordZipcode' value="${ship.shipZipCode }" class="zipCode address-detail form-control" style="width: 150px;"  placeholder='우편번호' readonly >
             <input type="button" onclick='execDaumPostcode()' class="changeAddr btn btn-success" value="주소찾기" >
             <!-- <input type="button" onclick='' class="btn btn-success" value="배송지변경" > --></div>
         </div>
         <div class="form-group d-flex mb-3">
-            <div class="col-3 d-flex"><label for="addr">주소</label></div>
+            <div class="col-3 d-flex"><label for="addr">주소<i class="essential">*</i></label></div>
             <div class="col-9 "><input type="text" class="address-detail address-f form-control" name="ordAddr" id='address' value="${ship.shipAddress }" placeholder='주소' required><br>
             <input type="text" class="address-detail form-control" name='ordDetailAddr' id='detailAddress' value="${ship.shipDetailAddress }" placeholder='상세주소' required><br>
             <input type="text" class="address-detail form-control" name='ordExtraAddr' id='extraAddress' value="${ship.shipExtraAddress }" placeholder='참고주소' required>
         	</div>
         </div>
         <div class="form-group d-flex">
-            <div class="col-3"><label for="deli_memo">배송 메모</label></div>
+            <div class="col-3"><label for="deli_memo">배송 메모<i class="essential">*</i></label></div>
             <div class="col-9">
             <select name="ordMemo" id="deli_memo" class="deli_memo form-control mb-3" required>
                 <option value="" selected disabled>배송시 요청사항</option>
@@ -175,30 +175,30 @@
             <div id="direct_input"></div></div>
         </div>
         <div class="form-group d-flex">
-            <div class="col-3"><label for="phone">휴대전화</label></div>
+            <div class="col-3"><label for="phone">휴대전화<i class="essential">*</i></label></div>
             <div class="col-9"><input type="tel" name="ordOphone" id="phone" value="${ship.shipPhone }" class="ordererPhone form-control" required></div>
         </div>
     </c:if>
     <c:if test="${empty ship }">
     	<div class="form-group d-flex mb-3">
-            <div class="col-3"><span>받는분</span></div>
+            <div class="col-3"><span>받는분<i class="essential">*</i></span></div>
             <div class="col-9"><input type="text" name="ordOname" class="orderer form-control"></div>
         </div>
         <div class="form-group d-flex">
-            <div class="col-3"><label for="postcode" class=" mr-3">우편번호</label></div>
+            <div class="col-3"><label for="postcode" class=" mr-3">우편번호<i class="essential">*</i></label></div>
             <div class="col-9 d-flex"><input type="text" id='postcode' name='ordZipcode' class="zipCode address-detail form-control" style="width: 150px;"  placeholder='우편번호' readonly >
             <input type="button" onclick='execDaumPostcode()' class="changeAddr btn btn-success" value="주소찾기" >
             <!-- <input type="button" onclick='' class="btn btn-success" value="배송지변경" > --></div>
         </div>
         <div class="form-group d-flex mb-3">
-            <div class="col-3 d-flex"><label for="addr">주소</label></div>
+            <div class="col-3 d-flex"><label for="addr">주소<i class="essential">*</i></label></div>
             <div class="col-9 "><input type="text" class="address-detail address-f form-control" name="ordAddr" id='address' placeholder='주소' required><br>
             <input type="text" class="address-detail form-control" name='ordDetailAddr' id='detailAddress' placeholder='상세주소' required>
             <input type="text" class="address-detail form-control" name='ordExtraAddr' id='extraAddress' placeholder='참고주소' required>
         	</div>
         </div>
         <div class="form-group d-flex">
-            <div class="col-3"><label for="deli_memo">배송 메모</label></div>
+            <div class="col-3"><label for="deli_memo">배송 메모<i class="essential">*</i></label></div>
             <div class="col-9"><select name="ordMemo" id="deli_memo" class="deli_memo form-control mb-3" required>
                 <option value="" selected disabled>배송시 요청사항</option>
                 <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
@@ -212,7 +212,7 @@
             <div id="direct_input"></div></div>
         </div>
         <div class="form-group d-flex">
-            <div class="col-3"><label for="phone">휴대전화</label></div>
+            <div class="col-3"><label for="phone">휴대전화<i class="essential">*</i></label></div>
             <div class="col-9"><input type="tel" name="ordOphone" id="phone" class="ordererPhone form-control" required></div>
         </div>
     </c:if>
@@ -228,7 +228,7 @@
         </div>
         <hr>
         <div class="form-group d-flex">
-            <div class="col-3"><span>이름</span></div>
+            <div class="col-3"><span>이름<i class="essential">*</i></span></div>
             <div class="col-9"><input type="text" name="ordRname" id="orderer" value="${ship.shipRecipient }" class="form-control" required></div>
         </div>
         <div class="form-group d-flex">
@@ -236,7 +236,7 @@
             <div class="col-9"><input type="email" name="ordRemail" id="ordererEmail" value="${loginMember.memEmail }" class="form-control"></div>
         </div>
         <div class="form-group d-flex">
-            <div class="col-3"><span>휴대전화</span></div>
+            <div class="col-3"><span>휴대전화<i class="essential">*</i></span></div>
             <div class="col-9"><input type="text" name="ordRphone" id="ordererPhone" value="${ship.shipPhone }" class="form-control" required></div>
         </div>
         </c:if>
@@ -249,7 +249,7 @@
         </div>
         <hr>
         <div class="form-group d-flex">
-            <div class="col-3"><span>이름</span></div>
+            <div class="col-3"><span>이름<i class="essential">*</i></span></div>
             <div class="col-9"><input type="text" name="ordRname" id="orderer" class="form-control" required></div>
         </div>
         <div class="form-group d-flex">
@@ -257,7 +257,7 @@
             <div class="col-9"><input type="email" name="ordRemail" id="ordererEmail" class="form-control"></div>
         </div>
         <div class="form-group d-flex">
-            <div class="col-3"><span>휴대전화</span></div>
+            <div class="col-3"><span>휴대전화<i class="essential">*</i></span></div>
             <div class="col-9"><input type="text" name="ordRphone" id="ordererPhone" class="form-control" required></div>
         </div>
         </c:if>
@@ -596,6 +596,9 @@ input[type='number'], input[type='text'], input[type='password'], input[type='fi
 }
 .text-freeDeli{
 	color: #45A663;
+}
+.essential{
+	color: red;
 }
 </style>
 

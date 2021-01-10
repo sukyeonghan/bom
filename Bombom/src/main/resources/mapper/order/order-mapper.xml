@@ -120,6 +120,7 @@
 			LEFT JOIN PRODUCT_THUMB TH ON (TH.PDT_NO_REF=I.PDT_NO)
 			LEFT JOIN EVENT E ON(P.EVENT_NO_REF=E.EVENT_NO)
 		WHERE B.MEM_NO=#{memNo}
+		ORDER BY PDT_NAME
 	</select>
 	<select id="selectBasketOne" parameterType="string" resultMap="basketMap">
 		SELECT * FROM BASKET WHERE MEM_NO = #{memNo}
@@ -267,4 +268,11 @@
 		</if> 
 	</update>
 	
+	<!-- 장바구니 수량 변경 -->
+	<update id="updateQty" parameterType="inbasket">
+		UPDATE INBASKET SET INBAS_QTY = #{inbasQty} WHERE BASKET_NO = #{basketNo} AND PDT_NO = #{pdtNo}
+		<if test="pdtOptionNo != null and pdtOptionNo != '' "> 
+			AND PDT_OPTION_NO = #{pdtOptionNo}
+		</if>
+	</update>
 </mapper>
