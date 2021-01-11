@@ -150,7 +150,7 @@
 						</tr>
 					</thead>
 					<tbody>
-
+					
 						<c:forEach items="${list}" var="o">
 							<tr>
 								<td class="ordTd"><fmt:formatDate type="date" 
@@ -175,23 +175,29 @@
 								<td><c:out value="${o.inorderQty}" /></td>
 								<td><fmt:formatNumber pattern="#,###,###"
 										value="${o.pdtPrice}" />원</td>
-								<td class="statusTd"><c:out value="${o.ordStatus}" /></td>
+								<td class="statusTd"><c:out value="${o.ordStatus}" />
+
+								</td>
 								<td style="display: none"><c:out value="${o.orderNo}" /></td>
 								<td style="display: none"><c:out value="${o.ordUsePoint}" /></td>
 								<td style="display: none"><c:out value="${o.ordAmount}" /></td>
 								<td style="display: none"><c:out value="${o.pdtNo}" /></td>
 								<td style="display: none"><c:out value="${o.pdtName}" /></td>
+								<td style="display: none"><c:out value="${o.ordDeliPrice}" /></td>
 								<c:if test="${o.ordCancel ==null }">
-									<td class="btnTd"><c:if
+									<td class="btnTd">
+										<c:if
 											test="${o.ordStatus =='주문대기'or o.ordStatus=='주문완료'}">
 											<button type="button"
 												class="btn btn-outline-success cancelModal"
 												data-toggle="modal" data-target="#cancelView">주문취소</button>
-										</c:if> <c:if test="${o.ordConfirmYn =='N' }">
+										</c:if> 
+									<c:if test="${o.ordConfirmYn =='N' }">
 											<c:if test="${o.ordStatus =='배송준비'or o.ordStatus=='배송중'or o.ordStatus=='배송완료'}">
 												<button type="button"
 													class="btn btn-outline-success confirmModal"
-													data-toggle="modal" data-target="#confirmView">구매확정</button>
+													data-toggle="modal" data-target="#confirmView">
+													구매확정</button>
 												<button type="button"
 													class="btn btn-outline-success returnModal"
 													data-toggle="modal" data-target="#returnView">반품요청</button>
@@ -208,7 +214,7 @@
 							</tr>
 
 						</c:forEach>
-
+							
 					</tbody>
 				</table>
 				<div class="pagebar">${pageBar }</div>
@@ -310,7 +316,7 @@
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
-
+			
 				<!-- Modal Header -->
 				<div class="modal-header">
 					<h5 class="modal-title">구매확정 진행</h5>
@@ -329,6 +335,10 @@
 
 
 					<div class="btnBox">
+					<input
+							type="hidden" class="ordUsePoint" readonly>
+					<input
+							type="hidden" class="deliPrice" readonly>
 						<input type="hidden" class="confirmNo" readonly> <input
 							type="hidden" class="confirmAmount" readonly> <input
 							type="button" class="btn btn-outline-success btn-sm confirmBtn "
@@ -336,7 +346,7 @@
 					</div>
 
 				</div>
-
+				
 			</div>
 		</div>
 	</div>
@@ -347,17 +357,24 @@
 	$(".confirmModal").click(function() {
 		let td = $(this).parent().parent().children();
 		let orderNo = td.eq(7).text();
+		let ordUsePoint = td.eq(8).text();
 		let ordAmount = td.eq(9).text();
+		let deliPrice = td.eq(12).text();
+		console.log(ordUsePoint);
+		console.log(deliPrice);
+		console.log(ordAmount);
 		$(".confirmNo").val(orderNo);
 		$(".confirmAmount").val(ordAmount);
+		$(".deliPrice").val(deliPrice);
+		$(".ordUsePoint").val(ordUsePoint);
+
 
 	})
 	//주문취소 모달창으로 
 	$(".cancelModal").click(function() {
 		let td = $(this).parent().parent().children();
 		let orderNo = td.eq(7).text();
-		let ordUsePoint = td.eq(8).text();
-		$(".cancelPoint").val(ordUsePoint);
+		console.log(orderNo);
 		$(".cancelNo").val(orderNo);
 	})
 
@@ -391,8 +408,10 @@
 				let orderNo = $(this).parent().children(".confirmNo").val();
 				let ordAmount = $(this).parent().children(".confirmAmount")
 						.val();
+				let ordUsePoint = $(this).parent().children(".ordUsePoint").val();
+				let deliPrice=$(this).parent().children(".deliPrice").val();
 				location.replace("${path}/mypage/buyConfirm?ordAmount="
-						+ ordAmount + "&orderNo=" + orderNo);
+						+ ordAmount + "&orderNo=" + orderNo+"&ordUsePoint="+ordUsePoint+"&deliPrice="+deliPrice);
 				$(".confirmModal").attr('type', 'hidden');
 
 			})
@@ -402,13 +421,10 @@
 			function() {
 				let cancel = $('input[name=reason]:checked').val();
 				let orderNo = $(this).parent().children(".cancelNo").val();
-				let ordUsePoint = $(this).parent().children(".cancelPoint")
-						.val();
 				console.log(ordUsePoint);
 				if (cancel != null) {
 					location.replace("${path}/mypage/orderCancel?cancel="
-							+ cancel + "&orderNo=" + orderNo + "&ordUsePoint="
-							+ ordUsePoint);
+							+ cancel + "&orderNo=" + orderNo);
 				}
 			})		
 
@@ -419,6 +435,7 @@
 			let rows = $(".ordTd:contains('" + $(this).text() + "')");
 			let statusTd = rows.siblings(".statusTd");
 			let btnTd = rows.siblings(".btnTd");
+			
 			if (rows.length > 1) {
 				rows.eq(0).attr("rowspan", rows.length);
 				statusTd.eq(0).attr("rowspan", statusTd.length);
@@ -427,8 +444,13 @@
 				rows.not(":eq(0)").remove();
 				statusTd.not(":eq(0)").remove();
 				btnTd.not(":eq(0)").remove();
-			}
+				
+				}
+			
+		
 		});
+		
+		
 
 		//주문대기일때 
 		if ($(".statusTd").text().match("주문대기")) {

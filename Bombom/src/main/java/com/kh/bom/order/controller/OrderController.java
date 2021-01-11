@@ -251,7 +251,7 @@ public class OrderController {
 			if(order.getOrdUsePoint() >0) {
 				Point p = new Point(m1.getMemNo(), orderNo, null, 
 						"상품구매로 인한 차감", -(order.getOrdUsePoint()));
-				pointService.insertStampPoint(p);
+				pointService.updatePoint(p);
 			}
 			
 			if(deleteB>0) {
@@ -385,14 +385,14 @@ public class OrderController {
 
 	// 구매확정
 	@RequestMapping("/mypage/buyConfirm")
-	public ModelAndView orderCancel(HttpSession session, ModelAndView mv, String orderNo, int ordAmount) {
+	public ModelAndView orderCancel(HttpSession session, ModelAndView mv, String orderNo, int ordAmount, int ordUsePoint, int deliPrice) {
 		Member login = (Member) session.getAttribute("loginMember");
 		String memNo = login.getMemNo();
 
 		Point p = new Point();
 		p.setMemNo(memNo);
 		p.setPointContent("구매확정 (주문번호:" + orderNo + ")");
-		int point = (int) (ordAmount * 0.05);
+		int point = (int) ((ordAmount+ordUsePoint-deliPrice) * 0.05);
 		p.setPointChange(point);
 		int result = service.buyConfirm(orderNo, p);
 		String msg = "";
@@ -416,19 +416,16 @@ public class OrderController {
 	
 	//주문취소(요청)
 	@RequestMapping("/mypage/orderCancel")
-	public ModelAndView orderCancel(HttpSession session, ModelAndView mv, String orderNo, String cancel, int ordUsePoint) {
+	public ModelAndView orderCancel(HttpSession session, ModelAndView mv, String orderNo, String cancel) {
 		Member login= (Member) session.getAttribute("loginMember");
 		String memNo=login.getMemNo();
 		
 		Order o=new Order();
 		o.setOrderNo(orderNo);
 		o.setOrdCancel(cancel);
-		Point p=new Point();
-		p.setMemNo(memNo);
-		p.setPointContent("주문취소 (주문번호:"+orderNo+")");
-		p.setPointChange(ordUsePoint);
 		
-		int result = service.cancelOrder(o,p);
+		
+		int result = service.cancelOrder(o);
 		String msg = "";
 		String loc = "";
 		String icon = "";
