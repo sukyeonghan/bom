@@ -225,7 +225,7 @@ textarea.answer {
 								<td><fmt:formatNumber pattern="#,###,###" value="${p.pdtPrice}" />원</td>
 								<td><fmt:formatNumber pattern="#,###,###"
 										value="${p.inorderQty * p.pdtPrice}" />원</td>
-								<td ><c:out value="${p.pdtNo}" /></td>
+								<td style="display:none"><c:out value="${p.pdtNo}" /></td>
 								<c:if test="${not empty p.pdtOptionNo}">
 								<td style="display:none"><c:out value="${p.pdtOptionNo}" /></td>
 								</c:if>
