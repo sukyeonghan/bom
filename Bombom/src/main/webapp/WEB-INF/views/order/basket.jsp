@@ -117,7 +117,7 @@
 								<div class="input_number_wrap option-count-input form-number show_pdt-wrap">
 									<button  class="minus form-number_control" type="button" onclick="fn_minus('${b.inbasQty}','${b.basketNo }','${b.pdtNo}','${b.pdtOptionNo }');"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 7 11.5 h 10 v 1 H 7 Z"></path></svg></button>
 									
-									<input type="text" name="inbasQty" class="qty form-control " value="${b.inbasQty }" style="width: 80px; text-align: center;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' />
+									<input type="text" name="inbasQty" min="1"class="qty form-control " value="${b.inbasQty }" style="width: 80px; text-align: center;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' />
 									
 									<button  class="plus form-number_control" type="button" onclick="fn_plus('${b.inbasQty}','${b.basketNo }','${b.pdtNo}','${b.pdtOptionNo }');"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 11.5 11.5 V 6 h 1 v 5.5 H 18 v 1 h -5.5 V 18 h -1 v -5.5 H 6 v -1 h 5.5 Z"></path></svg></button>
 								</div>
@@ -226,36 +226,29 @@
 	var minuss = $(".minus"); //-버튼
 	var sums = $(".sumPrice"); //가격
 	
-	
-	
+	$(document).on("keyup",".qty",e=>{
+		
+		
+		
+		
+		
+	});
 	
 	
 	
 	
 	
 	//수량 +
-<<<<<<< HEAD
 	function fn_plus(qty,basketNo,pdtNo,pdtOptionNo){
 		var inbasQty = {"inbasQty": qty, "calc":"+","basketNo":basketNo,
 				"pdtNo":pdtNo,"pdtOptionNo":pdtOptionNo };	
 		var url = "${path}/order/updateQty";
 		window.location = url + "?" + $.param(inbasQty);
 	}
-=======
-	$(".plus").click( e=>{
-		for(var i = 0; i<qtys.length; i++){
-			if(e.target == pluss[i]){
-				pp = qtys[i];
-				pp.value++;
-				
-			}
-		}
-	});
-	
->>>>>>> branch 'develop' of https://github.com/sukyeonghan/bom.git
 	
 	//수량 - 
 	function fn_minus(qty,basketNo,pdtNo,pdtOptionNo){
+		//1개 이하로 내려가면 경고 //...왜 0개도 되지..ㅠㅠ
 		if(qty < 1){
 			alert("1개 이상의 갯수를 선택하셔야 합니다.");
 			//return;
