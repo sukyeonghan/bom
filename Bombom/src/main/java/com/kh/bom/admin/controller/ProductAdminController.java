@@ -268,6 +268,13 @@ public class ProductAdminController {
 		int result=service.updateOptStatus(status,optNo);
 		return result > 0?true:false;
 	}
+	//썸네일 삭제
+	@ResponseBody
+	@RequestMapping("/admin/deleteThumb")
+	public boolean deleteThumb(String thumbNo) {
+		int result=service.deleteThumb(thumbNo);
+		return result > 0?true:false;
+	}
 	
 	//제품 수정
 	@RequestMapping("/admin/updateProductEnd")

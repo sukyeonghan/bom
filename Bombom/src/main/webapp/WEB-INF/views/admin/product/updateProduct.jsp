@@ -166,7 +166,7 @@
 							<div class="proDiv" id="1"> 
 								<c:forEach var="th" items="${thumb }" begin="0" end="0">
 									<c:if test="${not empty th.pdtThumbImage  }">
-										<input type="hidden" name="firstImg" value="${th.pdtThumbImage}">
+										<input type="hidden" name="oriImg" value="${th.pdtThumbNo}">
 										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}" onclick="fn_upload(this);">
 										
 									</c:if>
@@ -184,7 +184,7 @@
 			     				
 				     			<c:forEach var="th" items="${thumb }" begin="1" end="1">
 				     				<c:if test="${not empty th.pdtThumbImage }">
-				     					<input type="hidden" name="firstImg" value="${th.pdtThumbImage}">
+				     					<input type="hidden" name="oriImg" value="${th.pdtThumbNo}">
 				     					<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}" onclick="fn_upload(this);">
 				     				</c:if>
 								</c:forEach>
@@ -202,7 +202,7 @@
 				     			
 								 <c:forEach var="th" items="${thumb }" begin="2" end="2">
 									<c:if test="${not empty th.pdtThumbImage }">
-										<input type="hidden" name="firstImg" value="${th.pdtThumbImage}">
+										<input type="hidden" name="oriImg" value="${th.pdtThumbNo}">
 										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}" onclick="fn_upload(this);">
 									</c:if>
 								</c:forEach>
@@ -221,7 +221,7 @@
 								
 								 <c:forEach var="th" items="${thumb }" begin="3" end="3">
 									<c:if test="${not empty th.pdtThumbImage }">
-										<input type="hidden" name="firstImg" value="${th.pdtThumbImage}">
+										<input type="hidden" name="oriImg" value="${th.pdtThumbNo}">
 										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}" onclick="fn_upload(this);">
 									</c:if>
 								</c:forEach>
@@ -238,7 +238,7 @@
 								
 								 <c:forEach var="th" items="${thumb }" begin="4" end="4">
 									<c:if test="${not empty th.pdtThumbImage }">
-										<input type="hidden" name="firstImg" value="${th.pdtThumbImage}">
+										<input type="hidden" name="oriImg" value="${th.pdtThumbNo}">
 										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}" onclick="fn_upload(this);">
 									</c:if>
 								</c:forEach>
@@ -255,7 +255,7 @@
 								
 								 <c:forEach var="th" items="${thumb }" begin="5" end="5">
 									<c:if test="${not empty th.pdtThumbImage }">
-										<input type="hidden" name="firstImg" value="${th.pdtThumbImage}">
+										<input type="hidden" name="oriImg" value="${th.pdtThumbNo}">
 										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}" onclick="fn_upload(this);">
 									</c:if>
 								</c:forEach>
@@ -396,38 +396,32 @@
 		$("#detail").click();
 	});
 
-	let re
+	
 	//이미지 업로드 
 	$(function(){
 	       //div 클릭시 파일업로드
 	       $(".proDiv").on("click",e=>{
 
 	           //input file 실행
-	           //var file=$(e.target).children().first();
-	           //file.click();
 	           $(e.target).children(".proPic").click();
-	          
 	    
 	       });
 	     	
 	       //파일 업로드시 이미지 체인지
 	       $(".proPic").on("change",e =>{ 
-	         
-	            //let reader=new FileReader();
-	              let div=$(e.target).parent();
+	         	
+	    	    var reader=new FileReader();
+	            let div=$(e.target).parent();
 	            //이전 사진 미리보기 삭제
 	            $(e.target).prev().remove();
-				//이전에 저장된 값 삭제-사실 이건 의미없는 듯
-				//change안했으면 이전 값 저장해야함
-				$(e.target).prev().prev().remove();
-	             reader.onload=e=>{
+
+	            reader.onload=e=>{
 	              let img=$("<img>",{"src":e.target.result,width:"150px",height:"150px",onclick:"fn_upload(this);"});
 	              img.addClass("proImg");
 	              div.prepend(img); 
 
-	          }
-	          reader.readAsDataURL($(e.target)[0].files[0]);
-	          //console.log($(e.target)[0].files[0]);
+	          	}
+	         	reader.readAsDataURL($(e.target)[0].files[0]);
 	       }); 
 	    
 	});
@@ -444,26 +438,25 @@
 	        //이미지 삭제
 	        $(e.target).prev().prev().remove();
 	        //input file value삭제
-	        console.log($(e.target).prev());
 	        $(e.target).prev().val("");
-	       });
+		    
+	        console.log($(e.target).prev().prev().val())
+	        //DB에서 삭제
+	        $.ajax({
+			    url:"${path}/admin/deleteThumb",
+			    data:{thumbNo:$(e.target).prev().prev().val()},
+			    success:data=>{
+			    	console.log("삭제성공");
+			    }
+		    })
+		    
+	    });
 	});
 	
 	//제품 수정
 	function updatePro(){
 		
 		if(confirm("정말 수정하시겠습니까?")==true){  
-			
-			//썸네일 이미지 저장
-			let reader=new FileReader();
-            /* let div=$(e.target).parent();
-             reader.onload=e=>{
-              let img=$("<img>",{"src":e.target.result,width:"150px",height:"150px",onclick:"fn_upload(this);"});
-              img.addClass("proImg");
-              div.prepend(img); 
-
-         	 } */
-          	reader.readAsDataURL($(".proPic")[0].files[0]);
 			
 			//옵션 값 넣기
 			var list=[];
@@ -535,15 +528,11 @@
 		        return false;
 		    }
 		    
-	
-	
-		    
-		  	//제품 썸네일 사진
- 		    //if($("input[name=firstImg]").val()==""){
- 		   /*  if($("#firstImg").val()==""){
-		    	swal("대표이미지를 등록해주세요.");
-		    	return false;
-		    } */ 
+		  	//제품 썸네일 사진-메인 사진 등록 유효성검사
+ 		    if($("#1").children().is("img")==false){
+ 		    	swal("대표이미지를 등록해주세요.");
+ 			    return false;
+		    }  
 		    
 		    //상세 사진 파일 검사
 		    if($(".fileBtn").val()==""){
@@ -555,6 +544,7 @@
 		} else {
 			//정말 수정하시겠습니까에서 취소선택
 			return false;
+			
 		}    
 	}
 

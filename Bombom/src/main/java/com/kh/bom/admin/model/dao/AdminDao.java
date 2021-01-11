@@ -40,6 +40,7 @@ public interface AdminDao {
 	int selectPdtName(SqlSession session,String pdtName,String pdtNo);
 	int updateOptStatus(SqlSession session,String status,String pdtNo);
 	int deleteThumb(SqlSession session,String pdtNo);
+	int deleteThumbOne(SqlSession session,String thumbNo);
 	int deleteOption(SqlSession session,String pdtNo);
 	
 	//회원관리
