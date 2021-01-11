@@ -233,6 +233,7 @@ public class OrderController {
 		orderNo = today + "-" + ran;
 		order.setOrderNo(orderNo);
 		order.setMemNo(m1.getMemNo());
+//		System.out.println(order);
 		
 		//결제 후 inorder에 집어넣고 반환시킴
 		List<Inorder> insertO = service.insertOrder(order,basketNo);

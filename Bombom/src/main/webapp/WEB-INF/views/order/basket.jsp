@@ -9,7 +9,11 @@
 <c:set var="totalSale" value="0"/>
 <c:set var="totalPrice" value="0"/>
 <c:forEach items="${list}" var="l">
+	
+	
 	<c:set var="totalPdtPrice" value="${totalPdtPrice+ (l.inbasQty * l.pdtPrice)}"/>
+	
+	
 	<c:if test="${l.salePer != 0 }">
 		<!-- 옵션값이 없는경우 -->
 		<c:if test="${empty l.pdtOptionNo }">
