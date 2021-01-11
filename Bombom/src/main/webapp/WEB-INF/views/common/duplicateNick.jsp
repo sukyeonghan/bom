@@ -34,6 +34,7 @@
 				<input type="hidden" name="kakaoId" value="${insertMember.kakaoId}"/>
 				<input type="hidden" name="pro" value="${insertMember.memPro }"/>
 				<input type="hidden" name="password" value="${insertMember.memPwd }"/>
+				<input type="hidden" name="currentUrl" value="${oldUrl }"/>
 				<input type="submit" id="nickBtn" class="btn btn-success"  value="완료">
 			</form>
 		</div>

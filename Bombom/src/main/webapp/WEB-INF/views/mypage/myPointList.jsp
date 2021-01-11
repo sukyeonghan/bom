@@ -36,8 +36,6 @@
 					<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />
 					<fmt:formatDate value="${now}" pattern="MM" var="nowMonth" />
 					
-					<fmt:formatDate value="${now}" pattern="yyyy-MM-01" var="MonStart" />
-					<fmt:formatDate value="${now}" pattern="yyyy-MM-30" var="MonEnd" />
 					<div>
 					<div class="btn-group">
 						<c:forEach begin="1" end="5" varStatus="vs" step="1">
@@ -147,17 +145,14 @@
 		var yyyy = date.getFullYear();
 		var mm = date.getMonth()+1; 
 		var dd = date.getDate();
-	
-		if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm}
-		
+		if(dd<10){dd='0'+dd};
+		if(mm<10){mm='0'+mm};
 		yyyy = yyyy.toString();
 		mm = mm.toString();
 		dd = dd.toString();
-	
 		return yyyy+"-"+mm+"-"+dd;
 	}
 	$(".monthBtn").click(e=>{
-		
 		var mon=$(e.target).text().trim();//버튼에 해당하는 달		
 		var idx=mon.indexOf("월");
 		mon=Number(mon.substring(0,idx));//숫자만
@@ -167,7 +162,6 @@
 	    var nowMonth = now.getMonth()+1;
 	    var firstDate;
 	    var lastDate;
-	    
 		if(nowMonth>0 && nowMonth<5 && mon<13 && mon>8 ){
 			firstDate = new Date(nowYear-1 ,mon-1, 1);
     		lastDate = new Date(nowYear-1 ,mon, 0);

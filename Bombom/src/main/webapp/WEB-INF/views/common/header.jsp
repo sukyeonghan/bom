@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ page import="org.springframework.web.util.UrlPathHelper" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -204,6 +206,7 @@ p.p-info {
 <body style="height: 100%;">
 	<header id="spring-main-header" class="fixed-top"
 		style="min-width: 1000px;">
+
 		<!-- header -->
 		<div id="header-container">
 			<div id="loginJoin" class="d-flex flex-row-reverse">
@@ -367,7 +370,7 @@ p.p-info {
 
 	<!--모달 회원가입 -->
 	<div class="springHeader">
-
+				
 		<!-- The Modal -->
 		<div class="modal fade" id="myModal">
 			<div class="modal-dialog modal-dialog-centered">
@@ -423,26 +426,20 @@ p.p-info {
 							<p>소셜 계정으로 간편하게 로그인 하세요 !</p>
 							<div class="row">
 								<div class="col">
-									<a href="${google_url }"> <img
-										src="${path }/resources/images/login/google.png" alt="구글로그인"
-										class="sns-icon" />
-									</a>
+									<img src="${path }/resources/images/login/google.png" alt="구글로그인"
+									class="sns-icon"  onclick="fn_snsLogin('google');"/>
 								</div>
 								<div class="col">
-									<!--<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=http://localhost:9090/bom/auth/kakao/callback&response_type=code">-->
-									<a href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback&response_type=code">
-										<img src="${path }/resources/images/login/kakao.png"
-										alt="카카오로그인" class="sns-icon" />
-									</a>
+									<img src="${path }/resources/images/login/kakao.png"
+									alt="카카오로그인" class="sns-icon"  onclick="fn_snsLogin('kakao');"/>
 								</div>
 								<div class="col">
-									<a href="${naver_url }"> <img
-										src="${path }/resources/images/login/naver.png" alt="네이버로그인"
-										class="sns-icon" />
-									</a>
+									<img src="${path }/resources/images/login/naver.png" alt="네이버로그인"
+										class="sns-icon"  onclick="fn_snsLogin('naver');"/>
 								</div>
 							</div>
 							<br />
+							
 							<p class="p-class">이미 회원이신가요?</p>
 							<a class="login-link" data-toggle="modal"
 								data-target="#loginModal" data-dismiss="modal"> 로그인 하기</a>
@@ -503,23 +500,16 @@ p.p-info {
 							<p>소셜 계정으로 간편하게 로그인 하세요 !</p>
 							<div class="row">
 								<div class="col">
-									<a href="${google_url }"> <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
-										<img src="${path }/resources/images/login/google.png"
-										alt="구글로그인" class="sns-icon" />
-									</a>
+									<img src="${path }/resources/images/login/google.png" alt="구글로그인"
+									class="sns-icon"  onclick="fn_snsLogin('google');"/>
 								</div>
 								<div class="col">
-									<a
-										href="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback&response_type=code">
-										<img src="${path }/resources/images/login/kakao.png"
-										alt="카카오로그인" class="sns-icon" />
-									</a>
+									<img src="${path }/resources/images/login/kakao.png"
+									alt="카카오로그인" class="sns-icon"  onclick="fn_snsLogin('kakao');"/>
 								</div>
 								<div class="col">
-									<a href="${naver_url }"> <img
-										src="${path }/resources/images/login/naver.png" alt="네이버로그인"
-										class="sns-icon" />
-									</a>
+									<img src="${path }/resources/images/login/naver.png" alt="네이버로그인"
+										class="sns-icon"  onclick="fn_snsLogin('naver');"/>
 								</div>
 							</div>
 							<br /> <a class="lostPwd" data-toggle="modal"
@@ -656,7 +646,8 @@ p.p-info {
 	</div>
 	<!-- 검색모달 종료  -->
 
-	<script type="text/javascript">
+	<input type="hidden" name="oldPath" id="oldPath"/>
+<script type="text/javascript">
 
  
  $(function(){
@@ -986,79 +977,52 @@ function fn_signUp(){
 		  
 	    	$(".listPop").toggleClass("listDisNone");
 	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
 	 	});
-/* 	  $("#alarm-div").on("click",function(e){
-	      $(".listPop").addClass("listDisNone");
-	    });   */ 		    		 		    		    
+		    		 		    		    
   	});
 	
-	
-/* 	
-	//웹소켓 관련 스크립트
-	var sock = null;
-	var countResult="${countAlarm}";	
-	$(document).ready( function(){
-		connectWS();
-		
-	});
-	
-	function connectWS(){
-		
-		sock = new SockJS('${path}/replyEcho');
-		
-		 sock.onopen = function() {
-		     console.log('open');
-		     sock.send('test');
-		 };
-		 
-		 sock.onmessage = function(e) {
-			 
-		     console.log('message', e.data);
-		     var data = e.data;
-			   	console.log("ReceivMessage : " + data + "\n");
-		 
-			   	$.ajax({
-					url : '${path}/member/countAlarm',
-					type : 'POST',
-					dataType: 'json',
-					success : function(data) {
-						if(data >0){
-							$('#alarm-countbox').show();
-							$('#alarm-countbox').html(data);
-							
-						}else{
-							$('#alarm-countbox').hide();
-						}
-					},
-					error : function(err){
-						alert('err');
-					}
-			   	});
-		 };
-		 
-		 sock.onclose = function() {
-		     console.log('close');
-		 };
-		 
-	
-	} */
 
-	
 	//웹소켓 관련 스크립트
 	var countResult="${countAlarm}";
 	
-	/* $(document).ready( function(){
-		connectWS();
+	//주소값 가져와서 현재페이지에서 로그인
+	function fn_currentUrl(){
+		let oriUrl=window.location.origin+"${path}";
+		let	url=window.document.location.href;
+		let num=0;
+		num=oriUrl.length;
+		console.log(url.substring(num));
+		$("#currentUrl").val(url.substring(num));
+	}
+	
+	var setCookie = function(name, value, exp) {
+	var date = new Date();
+	date.setTime(date.getTime() + exp*24*60*60*1000);
+	document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+	};
+	
+	//소셜 로그인 
+ 	function fn_snsLogin(sns){
+		let oriUrl=window.location.origin+"${path}";
+		let	url=window.document.location.href;
+		let num=oriUrl.length;
+		let oldUrl="";
+		oldUrl=url.substring(num+1);		
 		
-	}); */
-	
-	
+		// setCookie(변수이름, 변수값, 기간);
+		setCookie("oldUrl", oldUrl, 1);
 
+		let sendUrl=""; 
+		console.log(sns);
+		if(sns=="naver"){
+			sendUrl="${naver_url }";		
+		}else if(sns=="kakao"){
+			sendUrl="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback&response_type=code&oldUrl="+oldUrl;
+			//sendUrl="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=http://localhost:9090/bom/auth/kakao/callback&response_type=code";
+		}else if(sns=="google"){
+			sendUrl= googleUrl="${google_url}";	
+		}
+		location.replace(sendUrl);
+	}
 
  </script>

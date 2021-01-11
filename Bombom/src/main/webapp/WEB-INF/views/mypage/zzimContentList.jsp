@@ -327,11 +327,12 @@ $(function(){
 		  swal("이동할 상품을 선택해주세요.");
 		  return;
 	  }
+	  var currZzim="${zzimNo}";
 	  //모달창에 현재 폴더리스트 정보 ajax로 전달
 	  $.ajax({
           type : 'POST',
           url : "${path}/zzim/zzimListModal",
-          data: {zzimContentNoList:zzimContentNoList},
+          data: {zzimContentNoList:zzimContentNoList,currZzim:currZzim},
           dataType:"html",
           success : function(data) {
 			$("#zzimListBody").html("");
