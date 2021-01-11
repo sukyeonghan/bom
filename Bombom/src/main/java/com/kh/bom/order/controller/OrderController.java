@@ -251,7 +251,7 @@ public class OrderController {
 			if(order.getOrdUsePoint() >0) {
 				Point p = new Point(m1.getMemNo(), orderNo, null, 
 						"상품구매로 인한 차감", -(order.getOrdUsePoint()));
-				pointService.insertStampPoint(p);
+				pointService.updatePoint(p);
 			}
 			
 			if(deleteB>0) {
