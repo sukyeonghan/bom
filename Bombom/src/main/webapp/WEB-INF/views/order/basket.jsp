@@ -226,16 +226,10 @@
 	var minuss = $(".minus"); //-버튼
 	var sums = $(".sumPrice"); //가격
 	
+	//input text에서 수량조절했을때
 	$(document).on("keyup",".qty",e=>{
 		
-		
-		
-		
-		
 	});
-	
-	
-	
 	
 	
 	//수량 +
