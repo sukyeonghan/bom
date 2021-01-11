@@ -134,13 +134,6 @@ public class OrderDaoImpl implements OrderDao {
 		return session.delete("order.cancelOrder", o);
 	}
 
-	// 주문취소시 적립금 환급
-	@Override
-	public int cancelOrdPoint(SqlSession session, Point p) {
-		// TODO Auto-generated method stub
-		return session.update("order.cancelOrdPoint", p);
-	}
-
 	// 구매확정
 	@Override
 	public int buyConfirm(SqlSession session, String orderNo) {

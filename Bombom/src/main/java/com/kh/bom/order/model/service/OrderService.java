@@ -43,7 +43,7 @@ public interface OrderService {
 
 	Order selectOrderOne(String orderNo);
 
-	int cancelOrder(Order o, Point p);
+	int cancelOrder(Order o);
 
 	int buyConfirm(String orderNo, Point p);
 
