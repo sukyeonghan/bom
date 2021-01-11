@@ -204,6 +204,7 @@ public class memberController {
 			@RequestParam(value="nick") String nick,
 			@RequestParam(value="email") String email,
 			@RequestParam(value="password") String password,
+			@RequestParam(value="currentUrl") String currentUrl,
 			@RequestParam(value="pro", defaultValue = "basic.png") String pro,
 			@RequestParam(value="kakaoId",required = false) String kakaoId,
 			@RequestParam(value="googleId",required = false) String googleId,
@@ -228,7 +229,7 @@ public class memberController {
 		
 		int result=service.insertMember(mem,p);
 		m.addAttribute("msg",result>0?"다시:봄 회원이 되셨습니다.":"회원가입 실패!!!!!!");
-		m.addAttribute("loc","/");
+		m.addAttribute("loc",currentUrl);
 		if(result>0) {//회원가입성공시 로그인
 			Member login=service.selectOneMember(email);
 			m.addAttribute("loginMember",login);
