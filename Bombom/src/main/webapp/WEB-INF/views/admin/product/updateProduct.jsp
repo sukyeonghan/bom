@@ -166,8 +166,9 @@
 							<div class="proDiv" id="1"> 
 								<c:forEach var="th" items="${thumb }" begin="0" end="0">
 									<c:if test="${not empty th.pdtThumbImage  }">
+										<%-- <input type="hidden" name="firstImg" value="${th.pdtThumbImage}"> --%>
 										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
-										<input type="hidden" name="firstImg" value="${th.pdtThumbImage}">
+										
 									</c:if>
 								</c:forEach>
 								<input type="file" class="proPic" name="thumbImgs" id="input1"  accept="image/gif, image/jpeg, image/png" style="display:none;">
@@ -416,12 +417,14 @@
 
 	          }
 	          reader.readAsDataURL($(e.target)[0].files[0]);
+	          console.log($(e.target)[0].files[0]);
 	       }); 
 	    
 	});
 
 	//사진 눌렀을 때 다시 파일 업로드
 	  function fn_upload(e){
+		console.log("다시"+e);
 	    $(e).next().click();
 	}  
 
@@ -508,10 +511,11 @@
 	
 		    
 		  	//제품 썸네일 사진
- 		    if($("input[name=firstImg]").val()==""){
+ 		    //if($("input[name=firstImg]").val()==""){
+ 		   /*  if($("#firstImg").val()==""){
 		    	swal("대표이미지를 등록해주세요.");
 		    	return false;
-		    } 
+		    } */ 
 		    
 		    //상세 사진 파일 검사
 		    if($(".fileBtn").val()==""){

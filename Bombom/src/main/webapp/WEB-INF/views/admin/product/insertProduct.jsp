@@ -337,17 +337,27 @@
 	        return false;
 	    }
 	
-		 //옵션 등록하기
+		//옵션 등록하기
 	    var list=[];
-	    var items = document.getElementsByName("pdtOptionContent");
-	    
-	    for(var i=0; i<items.length; i++){
-	        list.push({"pdtOptionContent":$("input[name=pdtOptionContent]").eq(i).val(),
-	            "pdtOptionAddprice":$("input[name=pdtOptionAddprice]").eq(i).val()});    
+	    var contents = document.getElementsByName("pdtOptionContent");
+	    	
+	 	var content;
+	 	var price;
+	 	
+	    for(var i=0; i<contents.length; i++){
+	    	content=$("input[name=pdtOptionContent]").eq(i).val();
+	    	price=$("input[name=pdtOptionAddprice]").eq(i).val();
+	    	
+	    	if(content!=''&price!=''){
+	    		list.push({"pdtOptionContent":content,
+	            "pdtOptionAddprice":price});
+	    	}else{
+	    		swal("옵션 내용과 가격을 등록해주세요.");
+	    		return false;
+	    	}
 	    }
 	    $("#test_list").val(JSON.stringify(list));
-	    
-	    
+	 
 	   
 	}
 	
