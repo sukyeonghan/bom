@@ -48,7 +48,7 @@
 						<td><img class="stamp up" alt="엣헴이도장" src="${path }/resources/images/stamp/stamp${vs.index}.png"></td>
 					</c:forEach>
 				</c:when>
-				<c:when test="${loginMember.memBuyCount == 0}">
+				<c:when test="${loginMember.memBuyCount <= 0}">
 					<c:forEach begin="1" end="10" step="1">
 						<td><img class="stamp" alt="잠금도장" src="${path }/resources/images/stamp/stamp0.png"></td>
 					</c:forEach>
