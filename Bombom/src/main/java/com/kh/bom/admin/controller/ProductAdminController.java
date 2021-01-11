@@ -136,7 +136,7 @@ public class ProductAdminController {
 	//제품 등록
 	@RequestMapping("/admin/productInsertEnd")
 	public ModelAndView insertProduct(Product p,ProductOption o,ModelAndView m,
-			@RequestParam(value="test",required = false) String options,
+			@RequestParam(value="optionList",required = false) String options,
 			@RequestParam(value="thumbImgs",required=false) MultipartFile[] thumbImgs,
 			@RequestParam(value="detailImg",required=false) MultipartFile detailImg,
 			HttpSession session) {
@@ -273,7 +273,7 @@ public class ProductAdminController {
 	@RequestMapping("/admin/updateProductEnd")
 	public ModelAndView updateProduct(Product p,ProductOption o,ModelAndView m,
 			@RequestParam(value="pdtNo") String pdtNo,
-			@RequestParam(value="test",required = false) String options,
+			@RequestParam(value="optionList",required = false) String options,
 			@RequestParam(value="thumbImgs",required=false) MultipartFile[] thumbImgs,
 			@RequestParam(value="detailImg",required=false) MultipartFile detailImg,
 			HttpSession session) {
