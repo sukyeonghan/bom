@@ -116,27 +116,23 @@
 			  						<!-- 썸네일 사진 -->
 					                <div>
 					                    <a href="${path }/product/productOne?pdtNo=${p.pdtNo}">
-					                    	
 					                    	<c:choose>
 					                    		<c:when test="${fn:contains(p.thumbs,',') }">
 					                    			<c:set var="thumbs" value="${fn:split(p.thumbs,',') }"/> 
 					                    			<c:forEach begin="0" end="0" var="th" items="${thumbs }" varStatus="v">
-								                    	<img alt="" src="${path}/resources/upload/product/<c:if test='${v.count==1 }'>${th }</c:if>" class="item-img hover" style="display: inline;"
-								                         >
+								                    	<img alt="" src="${path}/resources/upload/product/<c:if test='${v.count==1 }'>${th }</c:if>" class="item-img hover">
 								                         <input type="hidden" class="firstPic" value="<c:if test='${v.count==1 }'>${th }</c:if>">
 								                    </c:forEach>
 								                    <c:forEach begin="1" end="1" var="th" items="${thumbs }" varStatus="v">
 								                         <input type="hidden" class="secondPic" value="<c:if test='${v.count==1 }'>${th }</c:if>">
 								                    </c:forEach>
-								                  	
 					                    		</c:when>
 					                    		<c:otherwise>
 					                    			<c:forEach begin="0" end="0" var="th" items="${p.thumbs }" varStatus="v">
-								                    	<img alt="" src="${path}/resources/upload/product/${th }" class="item-img" style="display: inline;">
+								                    	<img alt="" src="${path}/resources/upload/product/${th }" class="item-img">
 								                    </c:forEach>
 					                    		</c:otherwise>
 					                    	</c:choose>
-						                    
 					                   	</a>
 					                </div>
 					                <!-- 사진 밑에 부가 사항들 -->
@@ -166,7 +162,7 @@
 					                    		</c:otherwise>
 					                        </c:choose>			
 					                    </div>
-					                    <!-- 찜횟수,후기 개수,미리보기 페이지 -->
+					                    <!-- 찜횟수,후기 개수 -->
 					                    <div>
 					                    	<!-- 찜횟수 -->
 					                    	<img class="icon" alt="" src="${path}/resources/images/product/heart.png">
@@ -179,11 +175,9 @@
 					                    <!-- 조건에 따라 뜨는 아이콘들 -->
 					                    <div class="item-icon">
 					                    	<!-- 등록한 날짜로 부터 7일 -->
-					                   
 				                    		<c:if test="${p.newYn=='Y' }">
 				                    			<div class="new-icon">NEW</div>
 				                    		</c:if>
-					                    	
 					                        <!-- 세일하면 (이벤트 )-->
 					                        <c:if test="${not empty p.eventNoRef and p.salePer!=0 }">
 					                        	<div class="sale-icon">SALE</div> 
@@ -193,7 +187,6 @@
 					                        	<div class="soldout-icon">SOLDOUT</div>
 					                        </c:if>			
 					                    </div>
-					                    
 					                </div>
 	           					 </div>
 			  				</c:forEach>

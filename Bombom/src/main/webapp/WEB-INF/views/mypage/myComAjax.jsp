@@ -12,8 +12,8 @@
 							<tr>
 								<th style="width:5%"><input type="checkbox" id="selectAll" onclick="selectAll();"></th>
 								<th style="width:15%">작성날짜</th>
-								<th style="width:80%">커뮤니티 글 제목</th>
-								
+								<th style="width:30%">커뮤니티 글 제목</th>
+								<th style="width:50%">내용</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -32,7 +32,7 @@
 										<td><fmt:formatDate type="date" timeStyle="short"
 												value="${cm.cmDate }" /></td>
 										<td><a href="${path }/community/communityView.do?cmNo=${cm.cmNo}"><c:out value="${cm.cmTitle }" /></a></td>
-										<%-- <td class="textLine"><c:out value="${cm.cmContent}"/></td> --%>
+										<td class="textLine"><c:out value="${cm.cmContent}"/></td>
 									</tr>
 								</c:forEach>
 						</tbody>

@@ -240,7 +240,7 @@ public class memberController {
 	
 	//로그인
 	@RequestMapping("/member/loginMember")
-	public String loginMember(String email, String password, String currentUrl,
+	public String loginMember(String email, String password, 
 							Model m, String saveId, HttpServletResponse response) {
 		
 		if(saveId!=null){
@@ -276,7 +276,7 @@ public class memberController {
 		return "common/msg";
 		}
 		
-		return "redirect:"+currentUrl;
+		return "redirect:/";
 				
 	}
 	

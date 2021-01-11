@@ -21,7 +21,8 @@ public interface AdminService {
 
 	// 이벤트 한개 삭제
 	int eventDelete(String eventNo);
-	//이벤트 선택 삭제(여러개)
+
+	// 이벤트 선택 삭제(여러개)
 	int eventDeleteList(List<String> eventNo);
 
 	// 이벤트 등록

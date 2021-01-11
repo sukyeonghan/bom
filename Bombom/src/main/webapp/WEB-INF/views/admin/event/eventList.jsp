@@ -127,7 +127,7 @@ th, td {
 				<!-- 전체 선택, 선택 삭제 버튼 -->
 				<div class="buttons">
 					<button class="btn btn-success" id="selectAll" onclick="selectAll();">전체 선택</button>
-					<button class="btn btn-success" id="selectDel" onclick="selectOne();">선택 삭제</button>
+					<button class="btn btn-success" id="selectDel" onclick="">선택 삭제</button>
 				</div>
 				<!--카테고리 정렬  -->
 				<div class="select-box">
@@ -148,7 +148,6 @@ th, td {
 						<th>번호</th>
 						<th>카테고리</th>
 						<th>제목</th>
-						<th>할인품목</th>
 						<th>할인율</th>
 						<th>이벤트기간</th>
 						<th></th> <!-- 삭제버튼용 -->
@@ -156,8 +155,7 @@ th, td {
 					</tr>
 					<c:forEach items="${list }" var="e">
 					<tr>
-						<td><input type="checkbox" name="check" value="check">
-							<input type="hidden" name="eventNo" value="${e.eventNo }"> </td>
+						<td><input type="checkbox" name="check" value="check"></td>
 						<td><p class="eventNo"><c:out value="${e.eventNo}"/></p></td>
 						<td><p class="eventCategory"><c:out value="${e.eventCategory}"/></p></td>
 						<td><c:out value="${e.eventTitle }" /></td>
@@ -204,10 +202,13 @@ th, td {
 
 <script>
 
-	var checkAll = 'false';
-	var items = document.getElementsByName("check");
 	
+
+	var checkAll = 'false';
+
 	function selectAll() {
+		let items = document.getElementsByName("check");
+	
 		if (checkAll == 'false') {
 			for (let i = 0; i < items.length; i++) {
 				items[i].checked = true;

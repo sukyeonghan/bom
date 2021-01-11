@@ -117,9 +117,7 @@ public class OrderController {
 	// 헤더에서 장바구니 화면으로 전환
 	@RequestMapping("/order/basket")
 	public ModelAndView goBasket(ModelAndView mv, String memNo, HttpSession session) {
-		System.out.println(memNo);
 		Member login = (Member) mService.selectMemberOne(memNo);
-		System.out.println("장바구니 연결 - 회원 : " + login);
 		// 회원이 갖고있는 장바구니 불러오기
 		List<Basket> list = service.selectBasket(memNo);
 		// 회원정보 보내주기
@@ -164,6 +162,29 @@ public class OrderController {
 		return m;
 	}
 
+	
+	//장바구니 수량 조절하기
+	@RequestMapping("/order/updateQty")
+	public ModelAndView updateQty(ModelAndView mv, int inbasQty, String calc,String basketNo, String pdtNo, String pdtOptionNo, HttpSession session) {
+		Member m1 = (Member) session.getAttribute("loginMember");
+		System.out.println("원래 수량 : "+inbasQty );
+		System.out.println("누른 버튼 : "+calc);
+		if(calc.equals("+")) {
+			inbasQty = inbasQty +1;
+			service.updateQty(Inbasket.builder().basketNo(basketNo).pdtNo(pdtNo).pdtOptionNo(pdtOptionNo).inbasQty(inbasQty).build());
+		}else if(calc.equals("-")) {
+			inbasQty = inbasQty -1;
+			service.updateQty(Inbasket.builder().basketNo(basketNo).pdtNo(pdtNo).pdtOptionNo(pdtOptionNo).inbasQty(inbasQty).build());
+		}
+		// 회원이 갖고있는 장바구니 불러오기
+		List<Basket> list = service.selectBasket(m1.getMemNo());
+		// 회원정보 보내주기
+		mv.addObject("loginMember", m1);
+		mv.addObject("list", list);
+		mv.setViewName("order/basket");
+		return mv;
+	}
+	
 	// 결제화면으로 전환
 	@RequestMapping("/order/doOrder")
 	public ModelAndView doOrder(ModelAndView mv, Basket b, HttpSession session) {
@@ -226,7 +247,8 @@ public class OrderController {
 		if (insertO != null) {
 			//결제api에서 결제가 완료되면 장바구니 비우기
 			int deleteB = service.deleteBasket(basketNo);
-			Point p = new Point(m1.getMemNo(), orderNo, null, "상품구매로 인한 차감", -(order.getOrdUsePoint()));
+			Point p = new Point(m1.getMemNo(), orderNo, null, 
+						"상품구매로 인한 차감", -(order.getOrdUsePoint()));
 			int updateP = pointService.insertStampPoint(p);
 			
 			if(deleteB>0) {

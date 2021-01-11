@@ -25,6 +25,7 @@ public class EventController {
 	@Autowired
 	private AdminService service;
 
+	//이벤트관리로 이동
 	@RequestMapping("/admin/moveEvent")
 	public ModelAndView moveEventList(ModelAndView m) {
 		m.addObject("list", service.selectEvent());
@@ -47,7 +48,7 @@ public class EventController {
 		return m;
 	}
 
-	// 이벤트 한개row삭제
+	// 이벤트삭제
 	@RequestMapping("/admin/eventDelete")
 	public ModelAndView eventDelete(ModelAndView mv, String eventNo) {
 		int result = service.eventDelete(eventNo);

@@ -28,12 +28,34 @@
 	<jsp:param name="title" value="이벤트" />
 </jsp:include>
 
-<section id="container">
-	<div id="flexDiv">
-      <!-- 좌측 메뉴 -->
-      <jsp:include page="/WEB-INF/views/common/adminMenu.jsp" />
-      <!-- 우측 메뉴내용 -->
-      <div id="admin-container">
+<section id="container" class="container">
+	<div class="media">
+	
+		<!--관리자 내비게이션바 -->
+		<div id="" class=" mr-3 admin-nav">
+		  <ul class="nav flex-column">
+		    <li class="nav-item">
+      			<a class="nav-link non-select" href="path/admin/memberList">회원관리</a>
+		    </li>
+		    <li class="nav-item">
+		      	<a class="nav-link select" href="path/admin/moveProduct">제품관리</a>
+		    </li>
+		    <li class="nav-item">
+		     	 <a class="nav-link non-select" href="path/">주문관리</a>
+		    </li>
+		    <li class="nav-item">
+		     	 <a class="nav-link non-select" href="path/">1:1문의관리</a>
+		    </li>
+		    <li class="nav-item">
+		      	<a class="nav-link non-select" href="path/admin/moveEvent">이벤트관리</a>
+		    </li>
+		    <li class="nav-item">
+		      	<a class="nav-link non-select" href="path/">커뮤니티관리</a>
+		    </li>
+		  </ul>
+		</div>
+		
+		<div id="-container" class="media-body">
 			<!-- 페이지 타이틀 -->
 			<h3 class="page-title">이벤트 수정</h3><hr>
 			
@@ -105,4 +127,14 @@
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
+<script type="text/javascript">
+	//수정할때 날짜 뿌려주기
+
+
+
+
+
+
+
+</script>
 
