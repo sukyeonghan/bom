@@ -1018,7 +1018,7 @@ function fn_signUp(){
 		if(sns=="naver"){
 			sendUrl="${naver_url }";		
 		}else if(sns=="kakao"){
-			sendUrl="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback&response_type=code&oldUrl="+oldUrl;
+			sendUrl="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=https://rclass.iptime.org/20PM_BOM_final/auth/kakao/callback&response_type=code";
 			//sendUrl="https://kauth.kakao.com/oauth/authorize?client_id=a91b8caf81f73042dbfd9fc0a1552e66&redirect_uri=http://localhost:9090/bom/auth/kakao/callback&response_type=code";
 		}else if(sns=="google"){
 			sendUrl= googleUrl="${google_url}";	
