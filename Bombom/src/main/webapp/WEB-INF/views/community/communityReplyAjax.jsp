@@ -39,7 +39,7 @@
  							신고하기 
  							</span>
 						</c:if> 
-						<c:if test="${loginMember.memNick eq reply.childReply.mem_nick or loginMember.memManagerYn == 'Y' }">
+						<c:if test="${loginMember.memNick eq reply.mem_nick or loginMember.memManagerYn == 'Y' }">
 			       			<span class="reply-btnbox" onclick="fn_deleteReply();">삭제하기</span>
 						</c:if>&nbsp;&nbsp;
 					</div>
@@ -73,7 +73,7 @@
 									value="${reply.reply_writer }" />
 								<input type="hidden" name="memNo" value="${loginMember.memNo}" id="memNo">
 								<input type="hidden" name="cmNo" value="${community.cmNo }" id="cmNo">
-									<c:if test="${loginMember.memNick ne reply.mem_nick }">
+									<c:if test="${loginMember.memNick ne reply.childReply.mem_nick }">
 								<span data-toggle="modal" data-target="#reportModal"
 									    class="reply-btnbox replyModal">신고하기 
 							    </span>
@@ -233,16 +233,17 @@
     };
 						
   	
-  	//대댓글 등록창
+  //대댓글 등록창
   	$(".btn-reply").click(function(){
-  	
   		if($(this).parent().next(".replyDiv").css('display')=='none'){
-  			$(this).parent().parent().next(".replyDiv").css('display','block');
+  			$(this).parent().next(".replyDiv").css('display','block');
   		}else{
   			$(this).parent().next(".replyDiv").css('display','none');
   		}
-  		}); 
- 
+  		});
+  	
+  	
+    
     
 	</script>
 

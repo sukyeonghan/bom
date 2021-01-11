@@ -127,4 +127,14 @@
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
+<script type="text/javascript">
+	//수정할때 날짜 뿌려주기
+
+
+
+
+
+
+
+</script>
 

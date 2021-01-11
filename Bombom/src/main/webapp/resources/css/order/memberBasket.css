@@ -51,6 +51,9 @@ table td, table th {
 .basket_header>h1 {
 	margin: 50px 0;
 }
+#basket-container table thead{
+	text-align: center;
+}
 
 .show_pdt-wrap {
 	padding: 15px 0 15px 10px;
@@ -128,6 +131,17 @@ table td, table th {
 .pdtName_p {
 	font-size: 16px;
 	text-align: center;
+}
+
+.pdtName_p div {
+	margin-bottom: 5px;
+	
+}
+.pName{
+	font-weight: bold;
+}
+.pPrice{
+	color: #6c757d;
 }
 
 .form-number>.form-number_control {
