@@ -533,7 +533,7 @@
 		  //주문명
 		    name : '카드테스트결제',
 		  //결제할 금액
-		    amount : Number($("#ordAmount").text().replace(/,/g, "")),
+		    amount : 100,//Number($("#ordAmount").text().replace(/,/g, "")),
 		  //주문자 Email
 		    buyer_email : $("#ordererEmail").value, 
 		  //주문자명
