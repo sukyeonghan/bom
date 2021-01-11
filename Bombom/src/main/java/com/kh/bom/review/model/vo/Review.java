@@ -19,9 +19,11 @@ public class Review {
 	private String revContent;
 	private String revImage;
 	private Date revDate;
+	private String revDeleteYn;
+	private String pdtOptionNo;
+	/* 추가 시작 */
 	private String memNick;
 	private String memPro;
 	private String pdtName;
-	private String revYn;
-	private String revDeleteYn;
+	
 }

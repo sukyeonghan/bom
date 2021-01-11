@@ -82,6 +82,16 @@
 .btnBox{
 	text-align:center;
 }
+/*글자 말줄임  */
+.textLine {
+  vertical-align: middle;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 170px;
+  height: 63px;
+}
 </style>
 <section id="container">
 	<div id="flexDiv">
@@ -128,12 +138,12 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th>주문일자<br>[주문번호]
+							<th class="th">주문일자<br>[주문번호]
 							</th>
-							<th class="th">이미지</th>
-							<th class="th">상품정보</th>
+							<th class="th" >이미지</th>
+							<th class="th" style="width:170px">상품명</th>
 							<th class="th">옵션</th>
-							<th class="th">수량</th>
+							<th class="th" >수량</th>
 							<th class="th">상품금액</th>
 							<th class="th">주문상태</th>
 							<th></th>
@@ -143,8 +153,8 @@
 
 						<c:forEach items="${list}" var="o">
 							<tr>
-								<td class="ordTd"><fmt:formatDate type="date"
-										dateStyle="short" value="${o.ordDate}" /> <br>
+								<td class="ordTd"><fmt:formatDate type="date" 
+										 value="${o.ordDate}" /> <br>
 								<a name="orderNo"
 									href="${path }/mypage/orderDetail?orderNo=${o.orderNo}"> [<c:out
 											value="${o.orderNo }" />]
@@ -158,7 +168,7 @@
 									</c:if>
 								</c:forTokens>
 
-								<td><a name="pdtNo"
+								<td class="textLine"><a name="pdtNo" 
 									href="${path }/product/productOne?pdtNo=${o.pdtNo}"><c:out
 											value="${o.pdtName}" /></a></td>
 								<td><c:out value="${o.pdtOptionContent}" /></td>
@@ -191,6 +201,10 @@
 												disabled value="적립완료">
 										</c:if></td>
 								</c:if>
+								<c:if test="${o.ordCancel !=null }">
+								<td class="btnTd">
+								</td>
+								</c:if>
 							</tr>
 
 						</c:forEach>
@@ -198,9 +212,7 @@
 					</tbody>
 				</table>
 				<div class="pagebar">${pageBar }</div>
-				<div id="order-notice">• 주문상태에 따른 버튼 변경 -주문취소(주문대기/주문완료), 배송
-					준비중이면 주문 취소 불가함 - 고객센터에 문의하세요 -구매확정(배송준비/배송중/배송완료) -리뷰작성(배송완료 시
-					리뷰작성 버튼으로 바꾸기)</div>
+				<div id="order-notice"></div>
 			</div>
 		</div>
 	</div>

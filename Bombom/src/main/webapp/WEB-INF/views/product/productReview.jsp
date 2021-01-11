@@ -5,6 +5,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
 <style>
 /*상품문의 박스 스타일*/
 div.wrap-category {
@@ -216,7 +218,7 @@ textarea.answer {
 				        	</div>
 				        </c:if>
 				        <br><br>
-				        <c:if test="${r.revImage!=null }"><img src="${path}/resources/upload/review/${r.revImage }" style="max-width:40%; height:auto;min-width:auto;"/></c:if>
+				        <c:if test="${r.revImage!=null }"><img src="${path}/resources/upload/review/${r.revImage }" style="max-width:auto; height:250px;min-width:auto;"/></c:if>
 			      	</div>
 			      </div>
 			    </li>
@@ -297,6 +299,7 @@ textarea.answer {
 									<!-- 로그인 한 사람 및 구매한 사람만 구매평 등록가능-->
 							        <c:if test="${loginMember!=null }">
 							        	<input type="hidden" name="pdtNo" value="${pdtNo}">
+							        	<input type="hidden" name="pdtOptionNo" id="pdtOptionNo"/>
 							        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
 							        	<input type="hidden" name="revScore">
 							        	<input type="hidden" name="orderNo" id="orderNo">
@@ -406,13 +409,17 @@ textarea.answer {
 					success:data=>{
 						//구매내역이 있을 경우
 						if(data.length!=0){
+							console.log(data);
 							if(data.length>1){
 								let table = $("<table id='orderList' class='table table-hover'>");
 								let thead = $("<thead>")
 								let th = $("<tr>").append($("<th>").html("주문번호"))
 									th.append($("<th>").html("상품이름"))
+									if(data.pdtOptionNo!=null){
+										th.append($("<th style='hidden'>").html("옵션명"))
+									}
 									if(data.pdtOptionContent!=null){
-										th.append($("<th>").html("옵션")) //옵션이 있을때만 노출
+										th.append($("<th>").html("옵션이름")) //옵션이 있을때만 노출
 									}
 									th.append($("<th>").html("주문갯수"))
 									th.append($("<th>").html("구매날짜"))
@@ -423,17 +430,23 @@ textarea.answer {
 								$.each(data,function(i,v){
 									let tr = $("<tr>").append($("<td id='no'>").html(v.orderNo));
 									tr.append($("<td>").html(v.pdtName));
+									if(v.pdtOptionNo!=null){
+										tr.append($("<td id='optionNo' style='hidden'>").html(v.pdtOptionNo)) //옵션명
+									}
 									if(v.pdtOptionContent!=null){
 										tr.append($("<td>").html(v.pdtOptionContent)) //옵션이 있을때만 노출
 									}
 									tr.append($("<td>").html(v.inorderQty))
-									tr.append($("<td>").html(v.ordDate))
+									tr.append($("<td>").html(moment(v.ordDate).format("YYYY.MM.DD HH:mm a"))) //json 날짜 형식 변환
 									
 									let btn = $("<button>").attr({"type":"button","class":"btn btn-outline-success"}).html("선택");
 									//선택한 옵션번호 모달창으로 넘기기
 									btn.click(e=>{
 										let orderNo = $(e.target).parent().parent().children("#no").text();
+										let pdtOptionNo = $(e.target).parent().parent().children("#optionNo").text();
+										
 										$("#orderNo").val(orderNo);
+										$("#pdtOptionNo").val(pdtOptionNo);
 										$("#reviewChoice").modal('hide');
 										$("#insertReview").modal('show');
 									});
@@ -449,6 +462,9 @@ textarea.answer {
 							//구매내역이 한 개일 경우
 							}else{
 								$("#insertReview").modal('show');  //구매평 모달띄우기
+								$("#orderNo").val(data[0].orderNo);
+								console.log(data[0].pdtOptionNo);
+								$("#pdtOptionNo").val(data[0].pdtOptionNo); 
 							}
 							
 						//구매내역이 없을 경우	

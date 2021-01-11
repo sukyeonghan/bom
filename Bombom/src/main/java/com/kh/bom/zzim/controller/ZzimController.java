@@ -145,12 +145,14 @@ public class ZzimController {
 	@RequestMapping("/zzim/zzimListModal")
 	public ModelAndView zzimListModal(ModelAndView mv,
 			@RequestParam(value="zzimContentNoList[]") List<String>zcNoList,
+			@RequestParam(value="currZzim") String currZzim,
 			HttpSession session) {
 		Member m=(Member)session.getAttribute("loginMember");
 		List<Zzim> zzimList=service.selectZzimList(m.getMemNo());
 		System.out.println(zcNoList);
 		mv.addObject("zcNoList",zcNoList);
 		mv.addObject("zzimList",zzimList);
+		mv.addObject("currZzim",currZzim);
 		mv.setViewName("mypage/zzimListModal");
 		return mv; 
 	}

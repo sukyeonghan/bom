@@ -2,17 +2,13 @@ package com.kh.bom.member.controller;
 
 import java.util.HashMap;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.social.google.api.plus.PlusOperations;
-import org.springframework.social.google.connect.GoogleConnectionFactory;
-import org.springframework.social.oauth2.AccessGrant;
-import org.springframework.social.oauth2.OAuth2Operations;
-import org.springframework.social.oauth2.OAuth2Parameters;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bom.member.model.service.KakaoService;
 import com.kh.bom.member.model.service.MemberService;
@@ -48,8 +43,21 @@ public class SnsController {
 	@RequestMapping("/auth/kakao/callback")
     public String kakaoLogin(Model model, 
     		@RequestParam(value = "code", required = false) String code, 
-    		HttpSession session) throws Exception{
+    		HttpServletRequest request) throws Exception{
         System.out.println("#code#" + code);
+        String oldUrl="";
+       // 쿠키값 가져오기
+        Cookie[] cookies = request.getCookies() ;
+        if(cookies != null){
+            for(int i=0; i < cookies.length; i++){
+                Cookie c = cookies[i] ;
+                if(cookies[i].getName().equals("oldUrl")) {
+                	oldUrl=cookies[i].getValue();
+                }
+            }
+        }
+       
+        System.out.println("#oldUrl#" + oldUrl);
         //access_token 받아오기
         String access_Token=kakaoService.getAccessToken(code); 
         //access_token으로 로그인정보 가져오기
@@ -87,7 +95,7 @@ public class SnsController {
     			//해당소셜로그인ID로 가입한 회원이 검색될경우 해당 아이디 회원 로그인처리
     			memberService.updateMemLastDate(member.getMemNo());//최근 접속일
     			model.addAttribute("loginMember",member);
-        		viewName="redirect:/";
+    			return "redirect:/"+oldUrl;
         		
     		}else {
     			if(kakaoEmail==null){
@@ -120,10 +128,11 @@ public class SnsController {
         					memberService.updateMemLastDate(basicMem.getMemNo());
                     		model.addAttribute("loginMember",basicMem);
                     		model.addAttribute("access_Tocken", access_Token);
-                    		viewName="redirect:/";
+                    		System.out.println("redirect:/"+oldUrl);
+                    		return "redirect:/"+oldUrl;
         				}else {
         					msg="소셜 회원정보와 기존회원정보 연동 실패 : 반복될 경우 관리자에게 문의 바랍니다.";
-                    		loc="/";
+                    		loc="/"+oldUrl;
                     		viewName="common/msg";
         				}
 
@@ -149,10 +158,10 @@ public class SnsController {
         	            		snsMem=memberService.selectOneMember(kakaoId);
         	            		model.addAttribute("loginMember",snsMem);
         	            		model.addAttribute("access_Tocken", access_Token);
-        	            		viewName="redirect:/";
+        	            		return "redirect:/"+oldUrl;
         	            	}else {
         	            		msg="소셜 회원정보로 회원가입실패 -소셜로그인 실패: 반복될 경우 관리자에게 문의 바랍니다.";
-        	            		loc="/";
+        	            		loc="/"+oldUrl;
         	            		viewName="common/msg";
         	            	}
         	        	}
@@ -167,13 +176,14 @@ public class SnsController {
     		
         }else {
         	msg="카카오 정보 못불러옴 - 소셜로그인 실패";
-    		loc="/";
+    		loc="/"+oldUrl;
     		viewName="common/msg";
 	    }
         model.addAttribute("nickYn",nickYn);
     	model.addAttribute("emailYn",emailYn);
         model.addAttribute("loc",loc);
 		model.addAttribute("msg",msg);
+		model.addAttribute("currentUrl",oldUrl);
         return viewName;
         	
         
@@ -183,9 +193,23 @@ public class SnsController {
 	
 	//구글.네이버용
 	@RequestMapping(value = "/auth/{snsService}/callback", method = { RequestMethod.GET, RequestMethod.POST})
-	public String snsLoginCallback(@PathVariable String snsService,
-			Model model, @RequestParam String code, HttpSession session) throws Exception {
-		
+	public String snsLoginCallback(@PathVariable String snsService,Model model, 
+			@RequestParam String code,
+			HttpServletRequest request) throws Exception {
+		String oldUrl="";
+       // 쿠키값 가져오기
+        Cookie[] cookies = request.getCookies() ;
+         
+        if(cookies != null){
+             
+            for(int i=0; i < cookies.length; i++){
+                Cookie c = cookies[i] ;
+                if(cookies[i].getName().equals("oldUrl")) {
+                	oldUrl=cookies[i].getValue();
+                }
+            }
+        }
+		System.out.println("#oldUrl#" + oldUrl);
 		log.info("snsLoginCallback: service={}", snsService);
 		SnsValue sns = null;
 		if (StringUtils.equals("naver", snsService)) {
@@ -218,7 +242,7 @@ public class SnsController {
 			
 			//해당소셜로그인ID로 가입한 회원이 검색될경우 해당 아이디 회원 로그인처리
 			model.addAttribute("loginMember",member);
-    		viewName="redirect:/";
+			return "redirect:/"+oldUrl;
     		
 		}else {
 			//존재하지 않을경우 
@@ -241,10 +265,10 @@ public class SnsController {
 				if(result>0) {
 					memberService.updateMemLastDate(basicMem.getMemNo());//최근접속일
             		model.addAttribute("loginMember",basicMem);
-            		viewName="redirect:/";
+            		return "redirect:/"+oldUrl;
 				}else {
 					msg="소셜 회원정보와 기존회원정보 연동 실패 : 반복될 경우 관리자에게 문의 바랍니다.";
-            		loc="/";
+            		loc="/"+oldUrl;
             		viewName="common/msg";
 				}
 				
@@ -270,10 +294,10 @@ public class SnsController {
 	            		//가입한 회원정보 불러와서 로그인진행
 	            		snsMem=memberService.selectOneMember(snsEmail);
 	            		model.addAttribute("loginMember",snsMem);
-	            		viewName="redirect:/";
+	            		return "redirect:/"+oldUrl;
 	            	}else {
 	            		msg="소셜 회원정보로 회원가입실패 -소셜로그인 실패: 반복될 경우 관리자에게 문의 바랍니다.";
-	            		loc="/";
+	            		loc="/"+oldUrl;
 	            		viewName="common/msg";
 	            	}
 	        	}
@@ -285,6 +309,7 @@ public class SnsController {
     	model.addAttribute("emailYn",emailYn);
 		model.addAttribute("loc",loc);
 		model.addAttribute("msg",msg);
+		model.addAttribute("currentUrl",oldUrl);
 		return viewName;
 	}
 }

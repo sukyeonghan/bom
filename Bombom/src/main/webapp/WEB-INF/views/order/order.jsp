@@ -143,24 +143,28 @@
         <hr>
     <c:if test="${not empty ship}">
         <div class="form-group d-flex mb-3">
-            <div class="col-3"><span>받는분</span></div>
+            <div class="col-3"><span>받는분<i class="essential">*</i></span></div>
             <div class="col-9"><input type="text" name="ordOname" value="${ship.shipRecipient }"  class="orderer form-control"></div>
         </div>
         <div class="form-group d-flex">
-            <div class="col-3"><label for="postcode" class=" mr-3">우편번호</label></div>
+            <div class="col-3"><label for="postcode" class=" mr-3">우편번호<i class="essential">*</i></label></div>
             <div class="col-9 d-flex"><input type="text" id='postcode' name='ordZipcode' value="${ship.shipZipCode }" class="zipCode address-detail form-control" style="width: 150px;"  placeholder='우편번호' readonly >
             <input type="button" onclick='execDaumPostcode()' class="changeAddr btn btn-success" value="주소찾기" >
-            <input type="button" onclick='' class="btn btn-success" value="배송지변경" ></div>
+            
+            <!-- 
+            <input type="button" onclick='' class="btn btn-success" value="배송지변경" >-->
+            
+            </div> 
         </div>
         <div class="form-group d-flex mb-3">
-            <div class="col-3 d-flex"><label for="addr">주소</label></div>
+            <div class="col-3 d-flex"><label for="addr">주소<i class="essential">*</i></label></div>
             <div class="col-9 "><input type="text" class="address-detail address-f form-control" name="ordAddr" id='address' value="${ship.shipAddress }" placeholder='주소' required><br>
             <input type="text" class="address-detail form-control" name='ordDetailAddr' id='detailAddress' value="${ship.shipDetailAddress }" placeholder='상세주소' required><br>
             <input type="text" class="address-detail form-control" name='ordExtraAddr' id='extraAddress' value="${ship.shipExtraAddress }" placeholder='참고주소' required>
         	</div>
         </div>
         <div class="form-group d-flex">
-            <div class="col-3"><label for="deli_memo">배송 메모</label></div>
+            <div class="col-3"><label for="deli_memo">배송 메모<i class="essential">*</i></label></div>
             <div class="col-9">
             <select name="ordMemo" id="deli_memo" class="deli_memo form-control mb-3" required>
                 <option value="" selected disabled>배송시 요청사항</option>
@@ -175,30 +179,34 @@
             <div id="direct_input"></div></div>
         </div>
         <div class="form-group d-flex">
-            <div class="col-3"><label for="phone">휴대전화</label></div>
+            <div class="col-3"><label for="phone">휴대전화<i class="essential">*</i></label></div>
             <div class="col-9"><input type="tel" name="ordOphone" id="phone" value="${ship.shipPhone }" class="ordererPhone form-control" required></div>
         </div>
     </c:if>
     <c:if test="${empty ship }">
     	<div class="form-group d-flex mb-3">
-            <div class="col-3"><span>받는분</span></div>
+            <div class="col-3"><span>받는분<i class="essential">*</i></span></div>
             <div class="col-9"><input type="text" name="ordOname" class="orderer form-control"></div>
         </div>
         <div class="form-group d-flex">
-            <div class="col-3"><label for="postcode" class=" mr-3">우편번호</label></div>
+            <div class="col-3"><label for="postcode" class=" mr-3">우편번호<i class="essential">*</i></label></div>
             <div class="col-9 d-flex"><input type="text" id='postcode' name='ordZipcode' class="zipCode address-detail form-control" style="width: 150px;"  placeholder='우편번호' readonly >
             <input type="button" onclick='execDaumPostcode()' class="changeAddr btn btn-success" value="주소찾기" >
-            <input type="button" onclick='' class="btn btn-success" value="배송지변경" ></div>
+            
+            <!-- 
+            <input type="button" onclick='' class="btn btn-success" value="배송지변경" >
+            -->
+            </div>
         </div>
         <div class="form-group d-flex mb-3">
-            <div class="col-3 d-flex"><label for="addr">주소</label></div>
+            <div class="col-3 d-flex"><label for="addr">주소<i class="essential">*</i></label></div>
             <div class="col-9 "><input type="text" class="address-detail address-f form-control" name="ordAddr" id='address' placeholder='주소' required><br>
             <input type="text" class="address-detail form-control" name='ordDetailAddr' id='detailAddress' placeholder='상세주소' required>
             <input type="text" class="address-detail form-control" name='ordExtraAddr' id='extraAddress' placeholder='참고주소' required>
         	</div>
         </div>
         <div class="form-group d-flex">
-            <div class="col-3"><label for="deli_memo">배송 메모</label></div>
+            <div class="col-3"><label for="deli_memo">배송 메모<i class="essential">*</i></label></div>
             <div class="col-9"><select name="ordMemo" id="deli_memo" class="deli_memo form-control mb-3" required>
                 <option value="" selected disabled>배송시 요청사항</option>
                 <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
@@ -212,7 +220,7 @@
             <div id="direct_input"></div></div>
         </div>
         <div class="form-group d-flex">
-            <div class="col-3"><label for="phone">휴대전화</label></div>
+            <div class="col-3"><label for="phone">휴대전화<i class="essential">*</i></label></div>
             <div class="col-9"><input type="tel" name="ordOphone" id="phone" class="ordererPhone form-control" required></div>
         </div>
     </c:if>
@@ -228,7 +236,7 @@
         </div>
         <hr>
         <div class="form-group d-flex">
-            <div class="col-3"><span>이름</span></div>
+            <div class="col-3"><span>이름<i class="essential">*</i></span></div>
             <div class="col-9"><input type="text" name="ordRname" id="orderer" value="${ship.shipRecipient }" class="form-control" required></div>
         </div>
         <div class="form-group d-flex">
@@ -236,7 +244,7 @@
             <div class="col-9"><input type="email" name="ordRemail" id="ordererEmail" value="${loginMember.memEmail }" class="form-control"></div>
         </div>
         <div class="form-group d-flex">
-            <div class="col-3"><span>휴대전화</span></div>
+            <div class="col-3"><span>휴대전화<i class="essential">*</i></span></div>
             <div class="col-9"><input type="text" name="ordRphone" id="ordererPhone" value="${ship.shipPhone }" class="form-control" required></div>
         </div>
         </c:if>
@@ -249,7 +257,7 @@
         </div>
         <hr>
         <div class="form-group d-flex">
-            <div class="col-3"><span>이름</span></div>
+            <div class="col-3"><span>이름<i class="essential">*</i></span></div>
             <div class="col-9"><input type="text" name="ordRname" id="orderer" class="form-control" required></div>
         </div>
         <div class="form-group d-flex">
@@ -257,7 +265,7 @@
             <div class="col-9"><input type="email" name="ordRemail" id="ordererEmail" class="form-control"></div>
         </div>
         <div class="form-group d-flex">
-            <div class="col-3"><span>휴대전화</span></div>
+            <div class="col-3"><span>휴대전화<i class="essential">*</i></span></div>
             <div class="col-9"><input type="text" name="ordRphone" id="ordererPhone" class="form-control" required></div>
         </div>
         </c:if>
@@ -290,6 +298,7 @@
         </div>
         <div class="d-flex j-between"><h4>배송비</h4>
         	<p class="text-size-20"><span class="ba" id="ordDeliPrice"><fmt:formatNumber pattern="#,###,###" value="${deliveryPrice }"/></span>원</p>
+        	<input type="hidden" name="ordDeliPrice" value="${deliveryPrice }">
         </div>
         <div class="d-flex j-between"><h4>적립금 사용</h4>
         	<p class="text-size-20">-<span class="point" id="ordUsePoint">0</span>봄</p>
@@ -311,7 +320,7 @@
 
 
 <script>
-	var amount = $("#ordAmount").text().replace(/,/g, "");//,를 뺀 총금액 가져오기
+
 
 	$(function(){
 		$("#point").val(0)}
@@ -343,37 +352,42 @@
 	
   
 	
+	var amount = $("#ordAmount").text().replace(/,/g, "");//,를 뺀 총금액 가져오기
   //사용가능한 포인트
 	var allPoint = '<c:out value="${loginMember.memPoint }"/>'; 
-  //패턴적용하기 위한 변수
 	var allPointPat = '<fmt:formatNumber pattern="#,###,###" value="${loginMember.memPoint }"/>';
+  //패턴적용하기 위한 변수
 	var inputPoint;
+  	var deliveryPrice;
 	var totalPrice;
 	//포인트 전액사용 체크박스 체크시 또는 해제시
 	$("#allPoint").change(e =>{
 		inputPoint = $("#point").val(); //입력된 포인트값가져오기
+		deliveryPrice = $("#ordDeliPrice").text().replace(",","");//출력된 배송비 가져오기
+		
+		console.log(deliveryPrice);
 		if($("#allPoint").is(":checked")){
 			alert("포인트를"+allPoint+"원을 사용하고 0원 남았습니다.");
 			$("#point").val(Number(allPoint));
 			$("#ordUsePoint").text(Number(allPoint));
 			
 			//합산한 총금액 결과 뿌려주기
-			totalPrice = (Number(amount) - Number(allPoint));
+			totalPrice = ((Number(amount)) - Number(allPoint));
 			$("#ordAmount").text(totalPrice.toLocaleString());
 			
-			
+			$("input[name=ordAmount]").val(totalPrice);
 		}else{
 			$("#point").val(0);
 			$("#ordUsePoint").text(0);
-			$("#ordAmount").text(Number(amount).toLocaleString());//합산한 총금액 결과 뿌려주기
+			$("#ordAmount").text((Number(amount)).toLocaleString());//합산한 총금액 결과 뿌려주기
+			$("input[name=ordAmount]").val(amount);
 		}
 	});
 	
   //사용자가 포인트 입력시
 	$("#point").on("change",e =>{
 		inputPoint = $("#point").val(); //입력한 포인트값가져오기
-		console.log(inputPoint);
-
+		deliveryPrice = $("#ordDeliPrice").text().replace(",","");//출력된 배송비 가져오기
 		//사용 가능한 포인트 초과 입력시 alert
 		if( Number(inputPoint) > Number(allPoint)){
 			alert("사용 가능한 포인트 보다 많은 가격이 입력되었습니다.");
@@ -383,8 +397,9 @@
 			$("#ordUsePoint").text(Number(allPoint)); //사용적립금에 입력한 숫자만큼 출력시키기
 			
 			//합산한 총금액 결과 뿌려주기
-			totalPrice = (Number(amount) - Number(allPoint)); 
+			totalPrice = ((Number(amount)) - Number(allPoint)); 
 			$("#ordAmount").text(totalPrice.toLocaleString());
+			$("input[name=ordAmount]").val(totalPrice);
 			
 			
 		//사용가능 포인트 딱 맞게 입력시	
@@ -393,14 +408,9 @@
 			$("#ordUsePoint").text(Number(inputPoint));
 			
 			//합산한 총금액 결과 뿌려주기
-			totalPrice = (Number(amount) - Number(inputPoint));
+			totalPrice = ((Number(amount)) - Number(inputPoint));
 			$("#ordAmount").text(totalPrice.toLocaleString());
-		
-		//결제할 금액보다 초과 입력시
-		}else if(Number(amount) < Number(inputPoint)){
-			
-			
-			
+			$("input[name=ordAmount]").val(totalPrice);
 		
 		//사용가능한 포인트 안에서 입력시	
 		}else{
@@ -408,14 +418,11 @@
 			$("#ordUsePoint").text(Number(inputPoint));
 			
 			//합산한 총금액 결과 뿌려주기
-			totalPrice = (Number(amount) - Number(inputPoint));
+			totalPrice = ((Number(amount)) - Number(inputPoint));
 			$("#ordAmount").text(totalPrice.toLocaleString());
-			
+			$("input[name=ordAmount]").val(totalPrice);
 		}
 	});
-  
-	
-	console.log("결제할 금액 :"+Number(amount));
 </script>
 
 
@@ -429,8 +436,9 @@
 	amount = $(".total-pay").text();
 	amount = amount.replace(",","");
 	
-
-
+	var mileage = $("#point").val();
+	
+	
 	var ba;
 	//주소 api
 	function execDaumPostcode() {
@@ -481,12 +489,15 @@
 			  if(address.startsWith("서울") || address.startsWith("경기")){
 				  ba = 2500;
 				  $("#ordDeliPrice").html(Number(ba).toLocaleString());
+				  $("input[name=ordDeliPrice]").val(ba);
 			  }else if(address.startsWith("제주") || address.startsWith("강원")){
 				  ba = 5000;
 				  $("#ordDeliPrice").html(Number(ba).toLocaleString());
+				  $("input[name=ordDeliPrice]").val(ba);
 			  }else{
 				  ba = 2500;
 			      $("#ordDeliPrice").html(Number(ba).toLocaleString());
+			      $("input[name=ordDeliPrice]").val(ba);
 			  }
 	
 	          $(".total-pay").html((parseInt($(".total-price")[0].textContent.replace(/,/g, ""))+ba-mileage)
@@ -588,6 +599,9 @@ input[type='number'], input[type='text'], input[type='password'], input[type='fi
 }
 .text-freeDeli{
 	color: #45A663;
+}
+.essential{
+	color: red;
 }
 </style>
 

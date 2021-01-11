@@ -12,7 +12,7 @@
 								<th style="width:5%"><input type="checkbox"></th>
 								<th style="width:15%">작성날짜</th>
 								<th style="width:30%">상품명</th>
-								<th>글 내용</th>
+								<th>구매평</th>
 
 							</tr>
 						</thead>
@@ -35,7 +35,7 @@
 					</table>
 					<div class="pageBar">${pageBarR }</div>
 					<div id="btn-container">
-						<button type="button" class="btn btn-success">선택삭제</button>
+						<button type="button" class="btn btn-success" onclick="deleteMyReview();">선택삭제</button>
 					</div>
 				</div>
 		    	
@@ -46,5 +46,44 @@ $(".shortReview").click(function(){
 	$(".fullReview").text(content);
 	console.log($(".fullReview"));
 });
+
+//전체선택
+let checkAll = "false";
+let items = document.getElementsByName("check");
+function selectAll() {
+	
+	if (checkAll == "false") {
+		for (let i = 0; i < items.length; i++) {
+			items[i].checked = true;
+		}
+		checkAll = "true";
+	} else {
+		for (let i = 0; i < items.length; i++) {
+			items[i].checked = false;
+		}
+		checkAll = "false";
+	}
+}
+
+function deleteMyReview(){
+	if(confirm("정말 삭제하시겠습니까?")==true){
+		
+		var list=new Array();   
+        for (var i=0; i<items.length; i++){
+        	var check=$("input[name=check]").eq(i);
+            if(check.is(":checked")){
+            	//체크 되어있으면 해당 제품번호를 list에 넣기
+ 				check.next().each(function(index,item){
+    				list.push($(item).val());
+    			}); 
+            }
+        }
+        
+        location.href='${path}/mypage/deleteMyReview?revNo='+list;
+	}else{
+		return false;
+	}
+    
+}
 
 </script>

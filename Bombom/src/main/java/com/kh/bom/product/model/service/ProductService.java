@@ -35,6 +35,9 @@ public interface ProductService {
 	
 	//연관상품
 	List<Product> slidelist();
+	
+	//찜하기 갯수
+	int zzimCount(String pdtNo);
 
 	//수정-제품리스트 출력
 	List<Product> selectProductList(int cPage,int numPerPage,Product p);

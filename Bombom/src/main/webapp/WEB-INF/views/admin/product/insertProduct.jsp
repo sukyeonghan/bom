@@ -36,7 +36,7 @@
 			<form action="${path }/admin/productInsertEnd" method="post" enctype="multipart/form-data">
 				<table id="insert-table">
 					<tr>
-						<th>카테고리</th>
+						<th>카테고리<span class="nesse"> *</span></th>
 						<td>
 						<!-- 검색 카테고리 -->
 							<div class="select-box">
@@ -51,7 +51,7 @@
 								</select>
 							</div>
 						</td>
-						<th class="margin">판매 상태</th>
+						<th class="margin">판매 상태<span class="nesse"> *</span></th>
 						<td>
 							<!-- 판매상태 카테고리 -->
 							<div class="select-box">
@@ -64,9 +64,9 @@
 						</td>
 					</tr>
 					<tr>
-						<th>제품명</th>
-						<td><input type="text" id="name" class="text w3-input" name="pdtName"></td>
-						<th class="margin">제품기본가격</th>
+						<th>제품명<span class="nesse"> *</span></th>
+						<td><input type="text" id="name" class="text w3-input" name="pdtName" placeholder="%()-_,/ 외 특수문자 입력 불가"></td>
+						<th class="margin">기본가격(숫자)<span class="nesse"> *</span></th>
 						<td><input type="text" id="price" class="text w3-input" name="pdtPrice"></td>
 					</tr>
 					<tr>
@@ -102,7 +102,7 @@
 				<div id="middle-div">
 					<p class="title" id="product-intro">간단한 제품 설명</p>
 					<span id="text-span">
-						<textarea id="intro-text" rows="5" placeholder="65자 이내로 적어주세요" name="pdtIntro" onKeyUp="javascript:fnChkByte1(this,'200')"></textarea>
+						<textarea id="intro-text" rows="5" placeholder="65자(200bytes)이내로 적어주세요" name="pdtIntro" onKeyUp="javascript:fnChkByte1(this,'200')"></textarea>
 						<div style="float:right;">
 							<span id="byteInfo1">0</span>/200bytes
 						</div>
@@ -112,7 +112,7 @@
 				
 				<!-- 제품 썸네일,상세 이미지 등록 -->
 				<div id="bottom-div">
-					<p class="title">제품 썸네일 이미지(최대 6장)</p>
+					<p class="title">제품 썸네일 이미지(최대 6장)<span class="nesse"> *</span></p>
 					<div id="thumbContainer">
 						<div class="thumbWrap" > 
 			     			<div>
@@ -182,7 +182,7 @@
 					</div>
 					
 		      		<div id="detail-image">
-			      		<p class="title">제품 상세 이미지(총 1장)</p>
+			      		<p class="title">제품 상세 이미지(총 1장)<span class="nesse"> *</span></p>
 			      		<input type="file" id="tests" class="form-control-file border" name="detailImg" accept="image/gif, image/jpeg, image/png">
 		      		</div>
 				</div>
@@ -207,9 +207,9 @@
 	    var addOption="";
 	    addOption+='<tr name="trOption">';
 	    addOption+='<th>&nbsp&nbsp옵션 내용</th>';
-	    addOption+='<td><input type="text" class="content w3-input" name="pdtOptionContent"></td>';
-	    addOption+='<th class="margin">추가 요금</th>';
-	    addOption+='<td class="td-flex"><input type="text" class="addprice w3-input" placeholder="제품기본가격에 추가되는 요금을 적어주세요.">';
+	    addOption+='<td><input type="text" class="content w3-input" name="pdtOptionContent" placeholder="%()-_,/ 외 특수문자 입력 불가"></td>';
+	    addOption+='<th class="margin">추가 요금(숫자)</th>';
+	    addOption+='<td class="td-flex"><input type="text" class="addprice w3-input" name="pdtOptionAddprice" placeholder="기본가격에 추가되는 요금을 적어주세요.">';
 	    addOption+='<input type="button" class="btn btn-success btn-sm delBtn" name="delBtn" value="삭제"></td>';
 	    addOption+='</tr>';
 	
@@ -355,30 +355,24 @@
 	$(function(){
 	       //div 클릭시 파일업로드
 	       $(".proDiv").on("click",e=>{
-	
 	           //input file만 선택
 	           var file=$(e.target).children().first();
 	           file.click();
-	    
 	       });
-	     
 	       //파일 업로드시 이미지 체인지
 	       $(".proPic").on("change",e =>{ 
 	         
 	            let reader=new FileReader();
-	              let div=$(e.target).parent();
+	            let div=$(e.target).parent();
 	              //이전 사진 삭제
 	            $(e.target).prev().remove();
-	
-	             reader.onload=e=>{
+	            reader.onload=e=>{
 	              let img=$("<img>",{"src":e.target.result,width:"150px",height:"150px",onclick:"fn_upload(this);"});
 	              img.addClass("proImg");
 	              div.prepend(img); 
-	
-	          }
-	          reader.readAsDataURL($(e.target)[0].files[0]);
+	          	}
+	          	reader.readAsDataURL($(e.target)[0].files[0]);
 	       }); 
-	    
 	});
 	
 	//사진 눌렀을 때 다시 파일 업로드

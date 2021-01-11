@@ -1,3 +1,4 @@
+
    
    function getContextPath() {
       var hostIndex = location.href.indexOf( location.host ) + location.host.length;
@@ -20,6 +21,10 @@
        sock.onopen = function() {
            console.log('open');
            sock.send('test');
+           console.log(typeof fnAlarm);
+           if(typeof fnAlarm=='function'){
+           		fnAlarm();
+           }
        };
        
        sock.onmessage = function(e) {
@@ -55,6 +60,3 @@
    
    }
     
-       
-      
-      

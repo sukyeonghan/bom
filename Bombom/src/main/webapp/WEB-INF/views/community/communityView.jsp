@@ -10,6 +10,8 @@
  <link rel="stylesheet" href="${path }/resources/css/community/likeBtn.css"> 
 <c:set var="path" value="${pageContext.request.contextPath }" />
 
+<!-- 카카오 공유하기 -->
+<script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="notice" value="커뮤니티 상세보기" />
 </jsp:include>
@@ -278,41 +280,27 @@ table#tbl-comment textarea {
 </style>
 <section id="content" class="container">
 
-	<!-- 커뮤니티 섹션 시작 -->
-	<div id="community-container">
-		<div class="thumbnail">
-			<img
-				src="${path }/resources/upload/community/${community.cmThumbnail}"
-				width="800" height="300">
-		</div>
-		<input type="hidden" value="${community.cmNo }" name="cmNo" id="cmNo"> <br>
-		<input type="text" class="form-control w3-input title" name="cmTitle"
-			placeholder="제목을 입력해주세요"
-			value='<c:out value="${community.cmTitle }"/>' required><br>
+				<!-- 커뮤니티 섹션 시작 -->
+				<div id="community-container">
+					<input type="hidden" value="${community.cmNo }" name="cmNo" id="cmNo"><br>
+					<input type="text" class="form-control w3-input title" name="cmTitle" placeholder="제목을 입력해주세요" 
+					value='<c:out value="${community.cmTitle }"/>' required><br>
+					<div>
+						<fmt:formatDate pattern="yyyy-MM-dd" value="${community.cmDate }" />
+						<p><img src="${path }/resources/upload/profile/${community.memPro}"
+							class="rounded-circle" id="profileImg" alt="기본프로필" width="50"
+							height="50"><c:out value="${community.memNick}" /></p>
+					</div>
+					<br>
+					<div class="editor" id="cmContentView">
+			         <c:out escapeXml="false" value="${community.cmContent }"/>
+			         <img
+							src="${path }/resources/upload/community/${community.cmThumbnail}"
+							width="700px" height="auto">
+			      </div>
 
-		<div>
-			<fmt:formatDate pattern="yyyy-MM-dd" value="${community.cmDate }" />
-			<p>
-				<img src="${path }/resources/upload/profile/${community.memPro}"
-					class="rounded-circle" id="profileImg" alt="기본프로필" width="50"
-					height="50">
-				<c:out value="${community.memNick}" />
-			</p>
-		</div>
-
-		<br>
-		<div id="editor"><c:out value="${community.cmContent }" /></div>
-				
-				<script>
-				var text = $("#editor").val();
-				console.log(text);
-				var tagRemove = text.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
-				console.log(tagRemove);
-				</script>
-		<br>		
 		
-<%-- 		<label> Like </label> <i onclick="myFunction(this)"
-				value="${community.cmContent }" /></textarea><br> --%>
+
 
 		<!-- 좋아요 -->
 		<label> Like </label>
@@ -329,7 +317,62 @@ table#tbl-comment textarea {
 		</div>
 		<br>
 
+	   <!-- 네이버 공유하기 -->
+	   <div id="social">
+		<form id="myform">
+	   		<span>
+		<script type="text/javascript" src="https://ssl.pstatic.net/share/js/naver_sharebutton.js"></script>
+				<script type="text/javascript">
+				new ShareNaver.makeButton({"type": "f"});
+			</script>
+			</span>
+ 		 <span> 
+ 		 <script>
+		    function share() {
+		      var url = encodeURI(encodeURIComponent(myform.url.value));
+		      var title = encodeURI(myform.title.value);
+		      var shareURL = "https://share.naver.com/web/shareView.nhn?url= http%3a%2f%2frclass.iptime.org%3a9999%2f20PM_BOM_final%2f" ;
+		      document.location = shareURL;
+		    }
+ 		 </script>
+ 		 <!--  카카오 공유하기 -->
+ 		 <img src="${path }/resources/images/community/kakao.png" width="50px;"  onClick="sendLinkDefault();">
+   		</span>
+  		</form> 		 
+ 	
+<script>
 
+let cmNo=$("#cmNo").val();
+console.log(cmNo);
+
+try {
+  function sendLinkDefault() {
+    Kakao.init('299148e7a2857d08c72dc299affbfcb9');
+    Kakao.Link.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: '${community.cmTitle}',
+        description: '#제로웨이스 #함께실천해요 #다시:봄',
+        imageUrl:'${path }/images/stamp/stamp3.png' ,
+        link: {
+          webUrl: 'https://rclass.iptime.org/20PM_BOM_final/CommunityView.do?cmNo='+cmNo,
+        },
+      },
+      buttons: [ 
+        {
+          title: '자세히보기',
+          link: { 
+            webUrl:  'https://rclass.iptime.org/20PM_BOM_final/community/communityView.do?cmNo='+cmNo,
+          },
+        },
+      ],
+    })
+  }
+; 
+window.kakaoDemoCallback && window.kakaoDemoCallback() }
+catch(e) { window.kakaoDemoException && window.kakaoDemoException(e) }
+</script> 
+</div>
 		<!-- 해당 게시글 작성자에게만 수정 / 삭제 버튼 보인다 -->
 
 		<div id="btn-box">
@@ -381,9 +424,10 @@ table#tbl-comment textarea {
 		<input type="button" class="btn btn-outline-success" value="목록으로"
 			onclick="location.replace('${path }/community/communityList')">
 	</div>
+	</div>
 </section>
 <script>
-
+	let alarmMsg;//웹소켓용
 // 화면이 켜질때 동시에 시작하는 함수
 /* $(document).ready(function(){
 	console.log(document.getElementById("cmNo")); // 아이디 접근하는 스크립트 
@@ -409,13 +453,19 @@ table#tbl-comment textarea {
 	    var memNo = $("#memNo").val();
 	    var replyContent = $("#reply-content").val();
 	    $("#reply-content").val(""); //댓글 등록후 비워줌
-    
+	    alarmMsg="${loginMember.memNick}님이 회원님의 <a href='${path }/community/communityView.do?cmNo=${community.cmNo }'>'${community.cmTitle}'</a> 글에 댓글을 달았습니다.";//웹소켓 메세지
 		 $.ajax({
 			 url:"${path }/community/insertReply",
-			 data: {cmNo:cmNo,memNo:memNo,replyContent:replyContent},
+			 data: {cmNo:cmNo,memNo:memNo,replyContent:replyContent,receiverNo:"${community.cmWriter}",message:alarmMsg},//웹소켓 알림용 data추가
 			 success:data => {
 				 $("#replyAjax").html(data);
-		 
+				//알림 보내기
+				if(sock){
+	   				console.log("소켓생성됨:"+sock);
+	   				let socketMsg = "communityComment,${loginMember.memNick},${loginMember.memNo},${community.cmWriter},''";
+	   				console.log("알림전송내역 : " + socketMsg);
+	   				sock.send(socketMsg);
+	   			}
 			 }
 		 }); 
 		
@@ -447,7 +497,7 @@ table#tbl-comment textarea {
 		//커뮤니티 댓글 띄우기
 		$.ajax({
 			url:"${path }/community/communityReplyList",
-			data:{cmNo:"${community.cmNo }"},
+			data:{cmNo:"${community.cmNo }",cmWriter:"${community.cmWriter}",cmTitle:"${community.cmTitle}"},//알림용 데이터
 			success:data=>{
 				$("#replyAjax").html(data);
 			}
@@ -458,7 +508,7 @@ table#tbl-comment textarea {
 		
 	});
 	//알림 관련 메세지
-	let alarmMsg="${loginMember.memNick}님이 회원님의 '${community.cmTitle}' 글을 좋아합니다.";//좋아요를 누른 사람의 닉네임,글 제목
+	alarmMsg="${loginMember.memNick}님이 회원님의  <a href='${path }/community/communityView.do?cmNo=${community.cmNo }'>'${community.cmTitle}'</a> 글을 좋아합니다.";//좋아요를 누른 사람의 닉네임,글 제목
 	//좋아요 버튼
 	$('.like-wrapper').on('click', function(e) {
 		$(e.target).toggleClass('liked');

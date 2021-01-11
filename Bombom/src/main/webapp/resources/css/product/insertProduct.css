@@ -34,6 +34,10 @@
 	td,th{padding:1%;}
 	tr{padding:2%;}
 	.margin{margin-left:20px;}
+	/*필수입력사항*/
+	.nesse{
+		color:red;
+	}
 	
     /*제품 설명*/
      #middle-div{

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.kh.bom.community.model.vo.BoardReply;
 import com.kh.bom.community.model.vo.Community;
 import com.kh.bom.review.model.vo.Review;
 
@@ -37,15 +38,33 @@ public class MyActivityDaoImpl implements MyActivityDao {
 	}
 
 	@Override
-	public List<Review> reviewList(SqlSession session, String memNo) {
+	public List<BoardReply> selectReplyList(SqlSession session, String memNo, int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
-		return session.selectList("review.myReviewList",memNo);
+		return session.selectList("community.selectMyReplyList",memNo,new RowBounds((cPage-1)*numPerpage,numPerpage));
 	}
 
 	@Override
-	public int reviewCount(SqlSession session, String memNo) {
+	public int selectReplyCount(SqlSession session, String memNo) {
 		// TODO Auto-generated method stub
-		return session.selectOne("review.myReviewCount",memNo);
+		return session.selectOne("community.selectMyReplyCount",memNo);
+	}
+
+	@Override
+	public int deleteMyReview(SqlSession session, List<String> revNo) {
+		// TODO Auto-generated method stub
+		return session.update("review.deleteMyReview",revNo);
+	}
+
+	@Override
+	public int deleteMyCommunity(SqlSession session, List<String> cmNo) {
+		// TODO Auto-generated method stub
+		return session.delete("community.deleteMyCommunity",cmNo);
+	}
+
+	@Override
+	public int deleteMyReply(SqlSession session, List<String> replyNo) {
+		// TODO Auto-generated method stub
+		return session.delete("community.deleteMyReply",replyNo);
 	}
 	
 	

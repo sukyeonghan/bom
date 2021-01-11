@@ -1,6 +1,12 @@
 package com.kh.bom.point.controller;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -8,9 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.bom.common.page.PageBarFactory;
+import com.kh.bom.common.page.PointAjaxPageBarFactory;
 import com.kh.bom.member.model.service.MemberService;
 import com.kh.bom.member.model.vo.Member;
 import com.kh.bom.point.model.service.PointService;
@@ -46,6 +53,7 @@ public class PointController {
 		mv.addObject("icon",icon);
 		return mv;
 	}
+	
 	//포인트 내역 가져오기
 	@RequestMapping("/mypage/myPointList")
 	public ModelAndView selectPointList(ModelAndView mv,HttpSession session,
@@ -53,12 +61,57 @@ public class PointController {
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage) {
 		Member m=(Member)session.getAttribute("loginMember");
 		String memNo=m.getMemNo();
-		List<Point> list=service.selectPointList(memNo,cPage,numPerpage);
-		int totalData=service.selectCount(memNo);
-		mv.addObject("loginMember",m);
+		
+		String start="";
+		String end="";
+		String filter="";
+		
+		Map<String, String> map = new HashMap();
+		map.put("memNo", memNo);
+		map.put("start", start);
+		map.put("end", end);
+		map.put("filter", filter);		
+		List<Point> list=service.selectPointList(map,cPage,numPerpage);
+		int totalData=service.selectCount(map);
+		int totalPoint=service.selectTotalPoint(memNo);
+		mv.addObject("totalPoint",totalPoint);
 		mv.addObject("list",list);
-		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerpage, "myPointList"));
+		mv.addObject("start",start);
+		mv.addObject("end",end);
+		mv.addObject("filter",filter);
+		mv.addObject("cPage", cPage);
+		mv.addObject("pageBar",PointAjaxPageBarFactory.getPageBar(totalData, cPage, numPerpage, "myPointListAjax",start,end,filter));
 		mv.setViewName("mypage/myPointList");
+		return mv;
+	}
+	
+	//포인트 내역 가져오기
+	@RequestMapping("/mypage/myPointListAjax")
+	@ResponseBody
+	public ModelAndView selectPointListAjax(ModelAndView mv,HttpSession session,
+			@RequestParam(value="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage,
+			@RequestParam(value="start") String start,
+			@RequestParam(value="end") String end,
+			@RequestParam(value="filter",defaultValue="all") String filter) {
+		Member m=(Member)session.getAttribute("loginMember");
+		String memNo=m.getMemNo();
+		Map<String, String> map = new HashMap();
+		map.put("memNo", memNo);
+		map.put("start", start);
+		map.put("end", end);
+		map.put("filter", filter);		
+		List<Point> list=service.selectPointList(map,cPage,numPerpage);
+		int totalData=service.selectCount(map);
+		int totalPoint=service.selectTotalPoint(memNo);
+		mv.addObject("totalPoint",totalPoint);
+		mv.addObject("list",list);
+		mv.addObject("start",start);
+		mv.addObject("end",end);
+		mv.addObject("filter",filter);
+		mv.addObject("cPage", cPage);
+		mv.addObject("pageBar",PointAjaxPageBarFactory.getPageBar(totalData, cPage, numPerpage, "myPointListAjax",start,end,filter));
+		mv.setViewName("mypage/myPointListAjax");
 		return mv;
 	}
 	
