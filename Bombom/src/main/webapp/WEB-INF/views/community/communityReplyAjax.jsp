@@ -43,8 +43,6 @@
 			       			<span class="reply-btnbox" onclick="fn_deleteReply();">삭제하기</span>
 						</c:if>&nbsp;&nbsp;
 					</div>
-						<%-- <!-- 웹소켓용 -->
-						<input type="hidden" id="reply_memNo" name="reply_memNo" value="${reply.mem_no}" /> --%>
 					<div class="replyDiv" style="display: none;">
 						<textarea name="reply-content2" class="reply-content2" cols="60"
 							rows="3"></textarea>
@@ -235,7 +233,7 @@
     };
 						
   	
-  	//대댓글 등록창
+  //대댓글 등록창
   	$(".btn-reply").click(function(){
   		if($(this).parent().next(".replyDiv").css('display')=='none'){
   			$(this).parent().next(".replyDiv").css('display','block');
