@@ -199,6 +199,7 @@ div#spring-main-footer {
     padding: 30px; 
     display:flex;
     justify-content :space-between;
+    margin-top: 200px;
 }
 
 .a-link{text-decoration: none; color:white;}
