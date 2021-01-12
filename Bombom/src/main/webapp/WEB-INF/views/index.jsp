@@ -255,7 +255,7 @@
 								<a href="${path }/product/productOne?pdtNo=P94"><img class="BestProductAd"
 									src="${path }/resources/images/main/bestProduct/middle_cotton4.jpg"
 									alt=""></a>
-								<div id="BestProduct-text">
+								<div class="BestProduct-text">
 									<h4>유기농 면생리대</h4>
 									<a href="${path }/product/productOne?pdtNo=P94">GO</a>
 								</div>
