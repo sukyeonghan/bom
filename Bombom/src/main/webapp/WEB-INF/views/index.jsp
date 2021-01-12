@@ -205,53 +205,54 @@
                 <!-- Swiper -->
 				<div class="swiper-container">
 					<div class="swiper-wrapper">
+					
 						<div class="swiper-slide">
-							<div class="col-md-4">
-								<a href="${path }/product/productOne?pdtNo=P152"><img class="productAd"
+							<div class="BsetProductDiv">
+								<a href="${path }/product/productOne?pdtNo=P152"><img class="BestProductAd" 
 									src="${path }/resources/images/main/bestProduct/soapnut1.jpg"
 									alt=""></a>
-								<div id="BestProduct-text">
+								<div class="BestProduct-text" >
 									<h4>유기농 소프넛</h4>
 									<a href="${path }/product/productOne?pdtNo=P152">GO</a>
 								</div>
 							</div>
 						</div>
 						<div class="swiper-slide">
-							<div class="col-md-4">
-								<a href="${path }/product/productOne?pdtNo=P109"><img class="productAd"
+							<div class="BsetProductDiv">
+								<a href="${path }/product/productOne?pdtNo=P109"><img class="BestProductAd"
 									src="${path }/resources/images/main/bestProduct/jigu_soap1.jpg"
 									alt=""></a>
-								<div id="BestProduct-text">
+								<div class="BestProduct-text">
 									<h4>지구샵 주방비누</h4>
 									<a href="${path }/product/productOne?pdtNo=P109">GO</a>
 								</div>
 							</div>
 						</div>
 						<div class="swiper-slide">
-							<div class="col-md-4">
-								<a href="${path }/product/productOne?pdtNo=P20"><img class="productAd"
+							<div class="BsetProductDiv">
+								<a href="${path }/product/productOne?pdtNo=P20"><img class="BestProductAd"
 									src="${path }/resources/images/main/bestProduct/filter1.jpg"
 									alt=""></a>
-								<div id="BestProduct-text">
+								<div class="BestProduct-text";>
 									<h4>유기농 커피필터</h4>
 									<a href="${path }/product/productOne?pdtNo=P20">GO</a>
 								</div>
 							</div>
 						</div>
 						<div class="swiper-slide">
-							<div class="col-md-4">
-								<a href="${path }/product/productOne?pdtNo=P71"><img class="productAd"
+							<div class="BsetProductDiv">
+								<a href="${path }/product/productOne?pdtNo=P71"><img class="BestProductAd"
 									src="${path }/resources/images/main/bestProduct/body_soap1.jpg"
 									alt=""></a>
-								<div id="BestProduct-text">
+								<div class="BestProduct-text">
 									<h4>올라이트 바디솝</h4>
 									<a href="${path }/product/productOne?pdtNo=P71">GO</a>
 								</div>
 							</div>
 						</div>
 						<div class="swiper-slide">
-							<div class="col-md-4">
-								<a href="${path }/product/productOne?pdtNo=P94"><img class="productAd"
+							<div class="BsetProductDiv" >
+								<a href="${path }/product/productOne?pdtNo=P94"><img class="BestProductAd"
 									src="${path }/resources/images/main/bestProduct/middle_cotton4.jpg"
 									alt=""></a>
 								<div id="BestProduct-text">
@@ -261,11 +262,11 @@
 							</div>
 						</div>
 						<div class="swiper-slide">
-							<div class="col-md-4">
-								<a href="${path }/product/productOne?pdtNo=P111"><img class="productAd"
+							<div class="BsetProductDiv" >
+								<a href="${path }/product/productOne?pdtNo=P111"><img class="BestProductAd"
 									src="${path }/resources/images/main/bestProduct/oops_bag1.jpg"
 									alt=""></a>
-								<div id="BestProduct-text">
+								<div class="BestProduct-text">
 									<h4>웁스백 배변봉투</h4>
 									<a href="${path }/product/productOne?pdtNo=P111">GO</a>
 								</div>
