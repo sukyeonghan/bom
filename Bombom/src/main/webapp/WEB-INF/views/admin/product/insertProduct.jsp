@@ -96,7 +96,7 @@
                     </tr>
                     
 				</table>
-				<input type="hidden" name="test" id="test_list">
+				<input type="hidden" name="optionList" id="option_list">
 				
 				<!-- 제품 설명 -->
 				<div id="middle-div">
@@ -255,15 +255,6 @@
 	    
 	});
 	
-	//간단한 설명 - 글자 수 제한
-	/* $(document).ready(function(){
-	  	$("#intro-text").on('keyup',function(){
-	        if($(this).val().length>65){
-	            $(this).val($(this).val().substring(0,65));
-	            swal("65자를 초과하였습니다.");
-	        }
-	    });
-	}); */
 		
 	//제품 등록하기 버튼 누르면 실행되는 함수
 	function insert(){
@@ -337,17 +328,29 @@
 	        return false;
 	    }
 	
-		 //옵션 등록하기
+		//옵션 등록하기
 	    var list=[];
-	    var items = document.getElementsByName("pdtOptionContent");
-	    
-	    for(var i=0; i<items.length; i++){
-	        list.push({"pdtOptionContent":$("input[name=pdtOptionContent]").eq(i).val(),
-	            "pdtOptionAddprice":$("input[name=pdtOptionAddprice]").eq(i).val()});    
+	    var contents = document.getElementsByName("pdtOptionContent");
+	    	
+	 	var content;
+	 	var price;
+	 	
+	 	//옵션 행 개수만큼 검사
+	    for(var i=0; i<contents.length; i++){
+	    	content=$("input[name=pdtOptionContent]").eq(i).val();
+	    	price=$("input[name=pdtOptionAddprice]").eq(i).val();
+	    	
+	    	if(content!=''&price!=''){
+	    		//옵션 내용과 가격을 입력 했으면
+	    		list.push({"pdtOptionContent":content,
+	            "pdtOptionAddprice":price});
+	    	}else{
+	    		//옵션 내용과 가격을 입력 안했으면 
+	    		swal("옵션 내용과 가격을 등록해주세요.");
+	    		return false;
+	    	}
 	    }
-	    $("#test_list").val(JSON.stringify(list));
-	    
-	    
+	    $("#option_list").val(JSON.stringify(list));
 	   
 	}
 	
@@ -376,7 +379,7 @@
 	});
 	
 	//사진 눌렀을 때 다시 파일 업로드
-	  function fn_upload(e){
+	function fn_upload(e){
 	    $(e).next().click();
 	
 	}  

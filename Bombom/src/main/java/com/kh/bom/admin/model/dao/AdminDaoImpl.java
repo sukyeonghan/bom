@@ -180,7 +180,12 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.delete("admin.deleteThumb", pdtNo);
 	}
-
+	//썸네일 하나 삭제
+	@Override
+	public int deleteThumbOne(SqlSession session, String thumbNo) {
+		// TODO Auto-generated method stub
+		return session.delete("admin.deleteThumbOne",thumbNo);
+	}
 	// 옵션 삭제
 	@Override
 	public int deleteOption(SqlSession session, String pdtNo) {

@@ -139,7 +139,7 @@
 					</c:if>	
                     
 				</table>
-				<input type="hidden" name="test" id="test_list">
+				<input type="hidden" name="optionList" id="option_list">
 				
 				<!-- 제품 설명 -->
 				<div id="middle-div">
@@ -166,8 +166,9 @@
 							<div class="proDiv" id="1"> 
 								<c:forEach var="th" items="${thumb }" begin="0" end="0">
 									<c:if test="${not empty th.pdtThumbImage  }">
-										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
-										<input type="hidden" name="firstImg" value="${th.pdtThumbImage}">
+										<input type="hidden" name="oriImg" value="${th.pdtThumbNo}">
+										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}" onclick="fn_upload(this);">
+										
 									</c:if>
 								</c:forEach>
 								<input type="file" class="proPic" name="thumbImgs" id="input1"  accept="image/gif, image/jpeg, image/png" style="display:none;">
@@ -183,7 +184,8 @@
 			     				
 				     			<c:forEach var="th" items="${thumb }" begin="1" end="1">
 				     				<c:if test="${not empty th.pdtThumbImage }">
-				     					<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
+				     					<input type="hidden" name="oriImg" value="${th.pdtThumbNo}">
+				     					<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}" onclick="fn_upload(this);">
 				     				</c:if>
 								</c:forEach>
 								
@@ -200,7 +202,8 @@
 				     			
 								 <c:forEach var="th" items="${thumb }" begin="2" end="2">
 									<c:if test="${not empty th.pdtThumbImage }">
-										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
+										<input type="hidden" name="oriImg" value="${th.pdtThumbNo}">
+										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}" onclick="fn_upload(this);">
 									</c:if>
 								</c:forEach>
 							
@@ -218,7 +221,8 @@
 								
 								 <c:forEach var="th" items="${thumb }" begin="3" end="3">
 									<c:if test="${not empty th.pdtThumbImage }">
-										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
+										<input type="hidden" name="oriImg" value="${th.pdtThumbNo}">
+										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}" onclick="fn_upload(this);">
 									</c:if>
 								</c:forEach>
 								<input type="file"  class="proPic" name="thumbImgs" id="input4"  accept="image/gif, image/jpeg, image/png" style="display:none;">
@@ -234,7 +238,8 @@
 								
 								 <c:forEach var="th" items="${thumb }" begin="4" end="4">
 									<c:if test="${not empty th.pdtThumbImage }">
-										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
+										<input type="hidden" name="oriImg" value="${th.pdtThumbNo}">
+										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}" onclick="fn_upload(this);">
 									</c:if>
 								</c:forEach>
 								<input type="file"  class="proPic" name="thumbImgs" id="input5"  accept="image/gif, image/jpeg, image/png" style="display:none;">
@@ -250,7 +255,8 @@
 								
 								 <c:forEach var="th" items="${thumb }" begin="5" end="5">
 									<c:if test="${not empty th.pdtThumbImage }">
-										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}">
+										<input type="hidden" name="oriImg" value="${th.pdtThumbNo}">
+										<img class="proImg" src="${path }/resources/upload/product/${th.pdtThumbImage}" onclick="fn_upload(this);">
 									</c:if>
 								</c:forEach>
 								<input type="file"  class="proPic" name="thumbImgs" id="input6"  accept="image/gif, image/jpeg, image/png" style="display:none;">
@@ -390,38 +396,39 @@
 		$("#detail").click();
 	});
 
+	
 	//이미지 업로드 
 	$(function(){
 	       //div 클릭시 파일업로드
 	       $(".proDiv").on("click",e=>{
 
-	           //input file만 선택
-	           var file=$(e.target).children().first();
-	           file.click();
+	           //input file 실행
+	           $(e.target).children(".proPic").click();
 	    
 	       });
-	     
+	     	
 	       //파일 업로드시 이미지 체인지
 	       $(".proPic").on("change",e =>{ 
-	         
-	            let reader=new FileReader();
-	              let div=$(e.target).parent();
-	              //이전 사진 삭제
+	         	
+	    	    var reader=new FileReader();
+	            let div=$(e.target).parent();
+	            //이전 사진 미리보기 삭제
 	            $(e.target).prev().remove();
 
-	             reader.onload=e=>{
+	            reader.onload=e=>{
 	              let img=$("<img>",{"src":e.target.result,width:"150px",height:"150px",onclick:"fn_upload(this);"});
 	              img.addClass("proImg");
 	              div.prepend(img); 
 
-	          }
-	          reader.readAsDataURL($(e.target)[0].files[0]);
+	          	}
+	         	reader.readAsDataURL($(e.target)[0].files[0]);
 	       }); 
 	    
 	});
 
 	//사진 눌렀을 때 다시 파일 업로드
 	  function fn_upload(e){
+		console.log("다시"+e);
 	    $(e).next().click();
 	}  
 
@@ -431,25 +438,50 @@
 	        //이미지 삭제
 	        $(e.target).prev().prev().remove();
 	        //input file value삭제
-	        console.log($(e.target).prev());
 	        $(e.target).prev().val("");
-	       });
+		    
+	        console.log($(e.target).prev().prev().val())
+	        //DB에서 삭제
+	        $.ajax({
+			    url:"${path}/admin/deleteThumb",
+			    data:{thumbNo:$(e.target).prev().prev().val()},
+			    success:data=>{
+			    	console.log("삭제성공");
+			    }
+		    })
+		    
+	    });
 	});
 	
 	//제품 수정
 	function updatePro(){
 		
 		if(confirm("정말 수정하시겠습니까?")==true){  
-					
+			
 			//옵션 값 넣기
 			var list=[];
 		    var items = document.getElementsByName("pdtOptionContent");
-		    
+		 	
+		    var content;
+		 	var price;
+		 	
+		 	//옵션 행 개수만큼 검사
 		    for(var i=0; i<items.length; i++){
-		        list.push({"pdtOptionContent":$("input[name=pdtOptionContent]").eq(i).val(),
-		        	"pdtOptionAddprice":$("input[name=pdtOptionAddprice]").eq(i).val()});    
+		    	
+		    	content=$("input[name=pdtOptionContent]").eq(i).val();
+		    	price=$("input[name=pdtOptionAddprice]").eq(i).val();
+		    	
+		    	if(content!=''&price!=''){
+		    		//옵션 내용과 가격을 입력 했으면
+		    		list.push({"pdtOptionContent":content,
+		            "pdtOptionAddprice":price});
+		    	}else{
+		    		//옵션 내용과 가격을 입력 안했으면 
+		    		swal("옵션 내용과 가격을 등록해주세요.");
+		    		return false;
+		    	}
 		    }
-		    var i=$("#test_list").val(JSON.stringify(list));
+		    var i=$("#option_list").val(JSON.stringify(list));
 		    
 		  	//제품명 유효성 검사
 		  	var val=$("#name").val();
@@ -496,22 +528,11 @@
 		        return false;
 		    }
 		    
-		  	//간단한 설명 - 글자 수 제한
-		    $(document).ready(function(){
-		        $("#intro-text").on('keyup',function(){
-		            if($(this).val().length>65){
-		                $(this).val($(this).val().substring(0,65));
-		                swal("65자를 초과하였습니다.");
-		            }
-		        });
-		    });
-	
-		    
-		  	//제품 썸네일 사진
- 		    if($("input[name=firstImg]").val()==""){
-		    	swal("대표이미지를 등록해주세요.");
-		    	return false;
-		    } 
+		  	//제품 썸네일 사진-메인 사진 등록 유효성검사
+ 		    if($("#1").children().is("img")==false){
+ 		    	swal("대표이미지를 등록해주세요.");
+ 			    return false;
+		    }  
 		    
 		    //상세 사진 파일 검사
 		    if($(".fileBtn").val()==""){
@@ -521,7 +542,9 @@
 	    
 	    
 		} else {
+			//정말 수정하시겠습니까에서 취소선택
 			return false;
+			
 		}    
 	}
 
