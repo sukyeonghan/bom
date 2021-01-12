@@ -194,17 +194,21 @@ section#container {
 
 div#spring-main-footer {
 	bottom: 0;
-	height: 150px;
-	background-color: #45A663;
+    height: 150px;
+    background-color: #45A663;
+    padding: 30px; 
+    display:flex;
+    justify-content :space-between;
 }
 
-div#spring-main-footer>p {
-	padding: 50px;
-	margin: 10px;
-	text-align: center;
-	font-size: 20px;
+.a-link{text-decoration: none; color:white;}
+#site-info>p {
+    margin: 5px;
+    color: #ffffff;
+}
+#site-phone{
 	color: #ffffff;
-	margin-top: 200px;
+	margin-right: 50px;
 }
 /* 검색 모달창 */
 .search_input {
