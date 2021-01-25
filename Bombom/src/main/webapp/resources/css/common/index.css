@@ -101,23 +101,32 @@ img.productAd {
 	font-weight: 800;
 }
 
-#BestProduct-text {
+.BestProduct-text {
 	display: flex;
-	justify-content: space-between;
-	padding: 10px 0 0 15px;
+	width:100%;
+    justify-content: space-between;
 }
 
-#BestProduct-text>h4 {
+.BestProduct-text>h4 {
 	font-size: 20px;
 }
 
-#BestProduct-text>a {
+.BestProduct-text>a {
 	font-size: 20px;
 }
 
-#BestProduct-text>a:hover {
+.BestProduct-text>a:hover {
 	color: #45A663;
 	text-decoration: none;
+}
+
+div.BsetProductDiv{
+	width:100%; height: auto;
+}
+img.BestProductAd {
+	height: auto;
+	width: 100%;
+	overflow: hidden;
 }
 
 /* 제품추천 css 끝 */

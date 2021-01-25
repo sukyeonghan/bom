@@ -245,6 +245,10 @@
 		DELETE FROM PRODUCT_THUMB
 		WHERE PDT_NO_REF=#{pdtNo}
 	</delete>
+	<delete id="deleteThumbOne" parameterType="string">
+		DELETE FROM PRODUCT_THUMB
+		WHERE PDT_THUMB_NO=#{pdtThumbNo}
+	</delete>
 	<!-- 옵션 삭제 -->
 	<delete id="deleteOption" parameterType="string">
 		DELETE FROM

@@ -58,6 +58,11 @@ public class PointServiceImpl implements PointService {
 		// TODO Auto-generated method stub
 		return dao.selectTotalPoint(session,memNo);
 	}
+
+	@Override
+	public int updatePoint(Point p) {
+		return dao.insertStampPoint(session, p);
+	}
 	
 	
 	

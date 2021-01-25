@@ -45,4 +45,13 @@
 	<div id="pageBar">
 		${pageBar }
     </div> 
-    
+    <script>
+	    function fn_updateFaq(){
+			let faqNo=$(event.target).parent().children('input[name=faqNo]').val();		
+			location.replace("${path}/faq/updateFaq?faqNo="+faqNo);
+		}; 
+		function fn_deleteFaq(){
+			let faqNo=$(event.target).parent().children('input[name=faqNo]').val();
+			location.replace("${path}/faq/deleteFaq?faqNo="+faqNo);
+		}; 
+    </script>

@@ -148,14 +148,10 @@ public class OrderServiceImpl implements OrderService {
 	// 주문취소
 	@Override
 	@Transactional
-	public int cancelOrder(Order o, Point p) {
+	public int cancelOrder(Order o) {
 
-		int result = dao.cancelOrder(session, o);
-		if (result > 0) {
-			p.setOrderNo(o.getOrderNo());
-			result = dao.cancelOrdPoint(session, p);
-		}
-		return result;
+		return dao.cancelOrder(session, o);
+
 	}
 
 	// 구매확정

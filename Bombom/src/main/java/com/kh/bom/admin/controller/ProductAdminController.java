@@ -136,7 +136,7 @@ public class ProductAdminController {
 	//제품 등록
 	@RequestMapping("/admin/productInsertEnd")
 	public ModelAndView insertProduct(Product p,ProductOption o,ModelAndView m,
-			@RequestParam(value="test",required = false) String options,
+			@RequestParam(value="optionList",required = false) String options,
 			@RequestParam(value="thumbImgs",required=false) MultipartFile[] thumbImgs,
 			@RequestParam(value="detailImg",required=false) MultipartFile detailImg,
 			HttpSession session) {
@@ -268,12 +268,19 @@ public class ProductAdminController {
 		int result=service.updateOptStatus(status,optNo);
 		return result > 0?true:false;
 	}
+	//썸네일 삭제
+	@ResponseBody
+	@RequestMapping("/admin/deleteThumb")
+	public boolean deleteThumb(String thumbNo) {
+		int result=service.deleteThumb(thumbNo);
+		return result > 0?true:false;
+	}
 	
 	//제품 수정
 	@RequestMapping("/admin/updateProductEnd")
 	public ModelAndView updateProduct(Product p,ProductOption o,ModelAndView m,
 			@RequestParam(value="pdtNo") String pdtNo,
-			@RequestParam(value="test",required = false) String options,
+			@RequestParam(value="optionList",required = false) String options,
 			@RequestParam(value="thumbImgs",required=false) MultipartFile[] thumbImgs,
 			@RequestParam(value="detailImg",required=false) MultipartFile detailImg,
 			HttpSession session) {

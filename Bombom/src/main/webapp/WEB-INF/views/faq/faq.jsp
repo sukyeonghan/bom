@@ -49,7 +49,7 @@
 			
 
 			<select id="cate" name="faqCategory" class="form-control"  required> 
-					<option value=" " disabled selected>카테고리선택</option>
+					<option value=" " ${empty faq.faqCategory?"selected":""} disabled >카테고리선택</option>
 					<option value="주문/결제" ${faq.faqCategory eq "주문결제"?"selected":""} >주문/결제</option>
 					<option value="배송" ${faq.faqCategory eq "배송"?"selected":""}>배송</option>
 					<option value="취소/환불" ${faq.faqCategory eq "취소/환불"?"selected":""}>취소/환불</option>

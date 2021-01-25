@@ -48,7 +48,7 @@ public interface OrderDao {
 
 	int cancelOrder(SqlSession session, Order o);
 
-	int cancelOrdPoint(SqlSession session, Point p);
+
 
 	int buyConfirm(SqlSession session, String orderNo);
 

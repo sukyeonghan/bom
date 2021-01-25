@@ -129,13 +129,13 @@
 				ORDER BY PDT_DATE DESC
 			</if>
 			<if test="sort=='인기순'">
-				ORDER BY ZZIM_COUNT DESC
+				ORDER BY ZZIM_COUNT DESC NULLS LAST
 			</if>
 			<if test="sort=='리뷰순'">
-				ORDER BY REVIEW_COUNT DESC
+				ORDER BY REVIEW_COUNT DESC NULLS LAST
 			</if>
 			<if test="sort=='할인율순'">
-				ORDER BY CASE WHEN EVENT_SALE_PER>0 THEN 0 ELSE 1 END
+				ORDER BY EVENT_SALE_PER DESC NULLS LAST
 			</if>
 			<if test="sort == '낮은가격순'">
 				ORDER BY PDT_PRICE
@@ -144,7 +144,7 @@
 				ORDER BY PDT_PRICE DESC
 			</if>
 			<if test="sort == '평점순'">
-				ORDER BY CASE WHEN AVG IS NOT NULL THEN 0 ELSE 1 END
+				ORDER BY AVG DESC NULLS LAST
 			</if>
 		</if>
 	</select>

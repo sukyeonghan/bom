@@ -225,12 +225,12 @@ textarea.answer {
 								<td><fmt:formatNumber pattern="#,###,###" value="${p.pdtPrice}" />원</td>
 								<td><fmt:formatNumber pattern="#,###,###"
 										value="${p.inorderQty * p.pdtPrice}" />원</td>
-								<td ><c:out value="${p.pdtNo}" /></td>
+								<td style="display:none"><c:out value="${p.pdtNo}" /></td>
 								<c:if test="${not empty p.pdtOptionNo}">
-								<td ><c:out value="${p.pdtOptionNo}" /></td>
+								<td style="display:none"><c:out value="${p.pdtOptionNo}" /></td>
 								</c:if>
 								<c:if test="${empty p.pdtOptionNo}">
-								<td ><c:out value="null" /></td>
+								<td style="display:none"><c:out value="null" /></td>
 								</c:if>
 								<c:if test="${p.ordStatus =='배송준비' or p.ordStatus =='배송중' or p.ordStatus =='배송완료' }">
 								<c:if test="${ p.ordConfirmYn=='Y' && p.revYn=='N'}">					
@@ -382,11 +382,11 @@ textarea.answer {
 									<span id="byteInfo2">0</span>/500bytes
 										<!-- 로그인 한 사람 및 구매한 사람만 구매평 등록가능-->
 								        <c:if test="${loginMember!=null }">
-								        	<input type="text" name="pdtNo" class="pdtNo-review">
+								        	<input type="hidden" name="pdtNo" class="pdtNo-review">
 								        	<input type="hidden" name="memNo" value="${loginMember.memNo}">
 								        	<input type="hidden" name="revScore">
 								        	<input type="hidden" name="orderNo" value="${order.orderNo}">
-								        	<input type="text" name="pdtOptionNo" class="pdtOpNo-review" >
+								        	<input type="hidden" name="pdtOptionNo" class="pdtOpNo-review" >
 								        	<input type="submit" class="btn btn-success reviewEnd" value="등록" style="right:0;">
 								        </c:if>
 									

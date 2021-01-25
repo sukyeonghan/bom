@@ -15,6 +15,8 @@ public interface PointService {
 	int selectCount(Map<String, String> map);
 
 	int selectTotalPoint(String memNo);
+	
+	int updatePoint(Point p);
 
 
 }
