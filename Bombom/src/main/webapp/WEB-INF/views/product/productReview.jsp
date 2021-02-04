@@ -196,7 +196,7 @@ textarea.answer {
 				     	<span><strong><c:out value="${r.memNick}" /></strong></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><fmt:formatDate type="both" timeStyle="short" value="${r.revDate }"/></span><br>
 					    <c:out value="${r.revContent}"/>
 			      	</div>
-			      	<div class="col-2"><c:if test="${r.revImage!=null }"><img src="${path}/resources/upload/review/${r.revImage }" style="height:100%;"/></c:if></div>
+			      	<div class="col-2"><c:if test="${r.revImage!=null }"><img src="${path}/resources/upload/review/${r.revImage }" style="width:100%;"/></c:if></div>
 			      	<div class="col-1 plusminus"></div>
 			      </div>
 			      <!-- 상세보기 -->
